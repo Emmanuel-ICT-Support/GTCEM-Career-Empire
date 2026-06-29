@@ -1465,6 +1465,87 @@ h1 {
   border-radius: 12px;
 }
 
+.diagnostic-beta-dropdown {
+  border: 1px solid rgba(136, 173, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(5, 13, 26, 0.38);
+}
+
+.diagnostic-beta-dropdown summary {
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 0.44fr) minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.diagnostic-beta-dropdown summary::marker {
+  color: var(--accent);
+}
+
+.diagnostic-beta-label {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 28px;
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 209, 102, 0.32);
+  border-radius: 999px;
+  background: rgba(255, 209, 102, 0.11);
+  color: #ffe3a1;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.diagnostic-beta-dropdown strong {
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.diagnostic-beta-dropdown small,
+.diagnostic-beta-dropdown p {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.diagnostic-beta-dropdown small {
+  font-size: 12px;
+}
+
+.diagnostic-beta-dropdown-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 0 12px 12px;
+}
+
+.diagnostic-beta-dropdown-content p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.diagnostic-beta-dropdown-content a {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px;
+  border: 1px solid rgba(104, 210, 255, 0.28);
+  border-radius: 8px;
+  background: rgba(104, 210, 255, 0.1);
+  color: #dff5ff;
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
 .dashboard-focus-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(170px, 0.72fr);
@@ -4727,6 +4808,15 @@ textarea {
   .teacher-dashboard-page .dashboard-dropdown-summary,
   .teacher-dashboard-page .dashboard-dropdown-content {
     padding: 16px;
+  }
+
+  .diagnostic-beta-dropdown summary,
+  .diagnostic-beta-dropdown-content {
+    grid-template-columns: 1fr;
+  }
+
+  .diagnostic-beta-dropdown-content a {
+    width: 100%;
   }
 
   .teacher-dashboard-page .dashboard-dropdown-summary {

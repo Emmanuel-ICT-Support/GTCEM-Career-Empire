@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./dashboard.css?v=20260522-student-hub-layout-v1">
+  <link rel="stylesheet" href="./dashboard.css?v=20260629-diagnostic-beta-link-v1">
 </head>
 <body class="teacher-dashboard-page" data-teacher-nav-active="teacher-dashboard">
   <main class="page-shell">
@@ -85,6 +85,19 @@
         <p>Show the module data you care about now</p>
       </div>
       <div id="teacher-dashboard-focus-strip" class="dashboard-focus-strip" role="group" aria-label="Dashboard module focus"></div>
+      <details class="diagnostic-beta-dropdown" id="teacher-diagnostic-beta-link" hidden>
+        <summary>
+          <span class="diagnostic-beta-label">In development</span>
+          <strong>Learner Needs Diagnostic mockup</strong>
+          <small>Beta view using idealised sample data. The current dashboard remains the main live view.</small>
+        </summary>
+        <div class="diagnostic-beta-dropdown-content">
+          <p>
+            Preview the possible Challenge, Confidence, Purpose, Ownership, and Connection lens before it is wired into live class data.
+          </p>
+          <a href="./teacher-diagnostic-mockup.html">Open beta mockup</a>
+        </div>
+      </details>
     </section>
 
     <section class="metrics-grid teacher-kpi-strip">

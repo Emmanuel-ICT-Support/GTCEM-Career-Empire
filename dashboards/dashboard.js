@@ -471,6 +471,20 @@ function getTeacherSession() {
   return readJsonStorage("career-empire-teacher-session", null);
 }
 
+function hasActiveTeacherLogin(authState = getAuthPrototypeState()) {
+  return Boolean(
+    authState?.teacherLogin?.email
+    || authState?.teacher?.email
+    || authState?.teacher?.id
+  );
+}
+
+function revealTeacherDiagnosticBetaLink(authState = getAuthPrototypeState()) {
+  const linkPanel = document.getElementById("teacher-diagnostic-beta-link");
+  if (!linkPanel) return;
+  linkPanel.hidden = !hasActiveTeacherLogin(authState);
+}
+
 let hasTeacherDashboardFilterInteraction = false;
 
 function getTeacherDashboardFilter() {
@@ -6769,6 +6783,7 @@ async function initDashboards() {
   let players = [];
   const isTeacherDashboardPage = Boolean(document.getElementById("teacher-module-health"));
   const authState = getAuthPrototypeState();
+  revealTeacherDiagnosticBetaLink(authState);
   const session = getCurrentPlayerSession();
   const studentLogin = authState?.studentLogin || {};
   const isUntrackedStudentPreview = Boolean(
