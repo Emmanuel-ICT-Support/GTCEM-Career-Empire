@@ -1,0 +1,164 @@
+{
+  "version": "1.0.0",
+  "categories": [
+    {
+      "id": "communication",
+      "title": "Communication",
+      "description": "Convey information clearly and effectively using written, verbal, and non-verbal communication.",
+      "iconLabel": "Communication",
+      "logoPath": "../Assets/employability-logos/main/communication.png",
+      "subskills": [
+        {
+          "id": "terminology-spelling-grammar",
+          "title": "Terminology, Spelling and Grammar",
+          "description": "Use appropriate terminology, spelling, and grammar to communicate clearly."
+        },
+        {
+          "id": "purpose-audience-format",
+          "title": "Purpose, Audience and Format",
+          "description": "Choose the right message, structure, and format for the intended audience and purpose."
+        },
+        {
+          "id": "non-verbal-communication",
+          "title": "Non-verbal Communication",
+          "description": "Use body language, facial expression, and tone to support meaning and connection."
+        },
+        {
+          "id": "active-listening",
+          "title": "Active Listening",
+          "description": "Listen with focus, ask questions, and respond thoughtfully."
+        }
+      ]
+    },
+    {
+      "id": "digital-literacy",
+      "title": "Digital Literacy",
+      "description": "Use digital tools safely, effectively, and responsibly for research, communication, and work.",
+      "iconLabel": "Digital Literacy",
+      "logoPath": "../Assets/employability-logos/main/digital-literacy.png",
+      "subskills": [
+        {
+          "id": "reliable-online-research",
+          "title": "Reliable Online Research",
+          "description": "Locate trustworthy information and assess source reliability."
+        },
+        {
+          "id": "online-safety",
+          "title": "Online Safety",
+          "description": "Use online safety processes to reduce risk and protect digital identity."
+        },
+        {
+          "id": "electronic-communication",
+          "title": "Electronic Communication",
+          "description": "Communicate effectively using email, text, video calls, and related media."
+        },
+        {
+          "id": "work-related-software",
+          "title": "Work-related Software",
+          "description": "Use documents, presentations, spreadsheets, and multimedia tools in work contexts."
+        }
+      ]
+    },
+    {
+      "id": "teamwork",
+      "title": "Teamwork",
+      "description": "Work effectively with others by contributing reliably and building strong working relationships.",
+      "iconLabel": "Teamwork",
+      "logoPath": "../Assets/employability-logos/main/teamwork.png",
+      "subskills": [
+        {
+          "id": "build-rapport",
+          "title": "Build Rapport",
+          "description": "Develop positive relationships and trust with team members."
+        },
+        {
+          "id": "team-roles-and-responsibilities",
+          "title": "Team Roles and Responsibilities",
+          "description": "Perform agreed team roles and meet responsibilities."
+        },
+        {
+          "id": "reliability-and-task-completion",
+          "title": "Reliability and Task Completion",
+          "description": "Complete tasks on time and to the expected standard."
+        },
+        {
+          "id": "consensus-building",
+          "title": "Consensus Building",
+          "description": "Consider other viewpoints and work toward shared decisions."
+        }
+      ]
+    },
+    {
+      "id": "time-management",
+      "title": "Time Management",
+      "description": "Plan, prioritise, and adapt time and tasks to meet deadlines effectively.",
+      "iconLabel": "Time Management",
+      "logoPath": "../Assets/employability-logos/main/time-management.png",
+      "subskills": [
+        {
+          "id": "plan-and-prioritise",
+          "title": "Plan and Prioritise",
+          "description": "Organise tasks and priorities to meet deadlines."
+        },
+        {
+          "id": "productivity-tools",
+          "title": "Productivity Tools",
+          "description": "Use planning and productivity tools to manage tasks and workflow."
+        },
+        {
+          "id": "track-and-reassess",
+          "title": "Track and Reassess",
+          "description": "Monitor progress and adjust priorities when circumstances change."
+        }
+      ]
+    },
+    {
+      "id": "critical-thinking",
+      "title": "Critical Thinking",
+      "description": "Use evidence, analysis, and reflection to make informed judgments and decisions.",
+      "iconLabel": "Critical Thinking",
+      "logoPath": "../Assets/employability-logos/main/critical-thinking.png",
+      "subskills": [
+        {
+          "id": "research-and-information-gathering",
+          "title": "Research and Information Gathering",
+          "description": "Collect reliable information relevant to a task."
+        },
+        {
+          "id": "analysis-and-evaluation",
+          "title": "Analysis and Evaluation",
+          "description": "Compare, analyse, and evaluate information to develop a solution."
+        },
+        {
+          "id": "bias-reflection",
+          "title": "Bias Reflection",
+          "description": "Recognise and reflect on bias that may affect decisions."
+        }
+      ]
+    },
+    {
+      "id": "problem-solving",
+      "title": "Problem-Solving",
+      "description": "Identify issues, generate options, and apply structured decision-making to resolve problems.",
+      "iconLabel": "Problem-Solving",
+      "logoPath": "../Assets/employability-logos/main/problem-solving.png",
+      "subskills": [
+        {
+          "id": "questioning-techniques",
+          "title": "Questioning Techniques",
+          "description": "Use open and closed questions to understand situations and issues."
+        },
+        {
+          "id": "generate-solutions",
+          "title": "Generate Solutions",
+          "description": "Develop a range of possible solutions."
+        },
+        {
+          "id": "decision-making-models",
+          "title": "Decision-making Models",
+          "description": "Use a decision-making model to plan, implement, and evaluate solutions."
+        }
+      ]
+    }
+  ]
+}

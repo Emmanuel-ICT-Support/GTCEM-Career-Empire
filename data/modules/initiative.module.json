@@ -1,0 +1,170 @@
+{
+  "id": "initiative",
+  "title": "Initiative",
+  "curriculumArea": "Careers and Employability",
+  "theme": "Enterprising behaviours, proactive workplace action, teamwork, and responsibility",
+  "status": "prototype",
+  "overview": {
+    "tagline": "Scan the five initiative signals, clear the gate, then prove them through a chosen applied mission.",
+    "playerFantasy": "Enter a workplace mission reactor where initiative must be recognised, applied, and proven before rewards unlock.",
+    "teacherValue": "Separates active time from learning impact by gating choice behind the Unlock Gate, tracking applied mission proof, and requiring a Memory Vault recall check."
+  },
+  "gameplayIdentity": {
+    "moduleFantasy": "mission reactor",
+    "playStyle": "intel scan followed by structured student agency",
+    "repeatableWorkflow": [
+      "Intel Scan",
+      "Unlock Gate",
+      "Mission Choice",
+      "Proof Drop",
+      "Memory Vault",
+      "Teacher dashboard signal"
+    ],
+    "futurePlugAndPlayTopics": [
+      "Interview skills",
+      "Communication",
+      "Time management",
+      "Cover letters and STAR",
+      "Personal finance"
+    ]
+  },
+  "learningObjectives": [
+    "Define initiative as proactive action that contributes positively to the workplace.",
+    "Identify five ways workers show initiative: being proactive, improving work practices, vocalising opinions, helping fellow workers, and seeking more responsibilities.",
+    "Classify workplace examples and non-examples of initiative.",
+    "Apply initiative to a chosen creative, interview, journal, scenario, or occupation-based pathway.",
+    "Produce teacher-visible evidence that explains why an example shows initiative and how it helps the workplace or team."
+  ],
+  "sharedStatEffects": [
+    {
+      "stat": "career_success",
+      "description": "Initiative supports workplace contribution, promotion readiness, and employability."
+    },
+    {
+      "stat": "job_security",
+      "description": "Workers who act early, solve problems, and support others become more valuable in workplaces."
+    },
+    {
+      "stat": "salary",
+      "description": "Strong initiative can contribute to promotion, responsibility, and future earning potential."
+    },
+    {
+      "stat": "community_tax",
+      "description": "Applied evidence contributes to the wider class learning economy once completion is proven."
+    }
+  ],
+  "employabilityFocus": [
+    {
+      "categoryId": "communication",
+      "subskillIds": [
+        "purpose-audience-format",
+        "active-listening",
+        "verbal-communication"
+      ],
+      "whyItFits": "Students must vocalise ideas, explain evidence, and communicate initiative examples clearly."
+    },
+    {
+      "categoryId": "teamwork",
+      "subskillIds": [
+        "reliability-and-task-completion",
+        "team-roles-and-responsibilities",
+        "build-rapport"
+      ],
+      "whyItFits": "Initiative is strongest when it supports team goals, safety, and shared workplace productivity."
+    },
+    {
+      "categoryId": "problem-solving",
+      "subskillIds": [
+        "questioning-techniques",
+        "generate-solutions",
+        "decision-making-models"
+      ],
+      "whyItFits": "Being proactive and improving work practices require noticing problems and proposing practical responses."
+    }
+  ],
+  "activities": [
+    {
+      "id": "initiative-core-briefing",
+      "type": "intro",
+      "title": "Intel Scan",
+      "purpose": "Introduce the definition and five behaviours using the one-page summary and mini video.",
+      "awards": [
+        { "kind": "module-xp", "target": "initiative", "amount": 5 }
+      ]
+    },
+    {
+      "id": "initiative-core-checkpoint",
+      "type": "quiz",
+      "title": "Unlock Gate",
+      "purpose": "Gate applied learning until the student can identify the five behaviours and definition.",
+      "awards": [
+        { "kind": "module-xp", "target": "initiative", "amount": 10 },
+        { "kind": "employability-xp", "target": "critical-thinking", "amount": 4 }
+      ]
+    },
+    {
+      "id": "initiative-scenario-judge",
+      "type": "classification",
+      "title": "Scenario Judge",
+      "purpose": "Classify examples of initiative and explain the workplace effect.",
+      "awards": [
+        { "kind": "employability-xp", "target": "problem-solving", "amount": 5 }
+      ]
+    },
+    {
+      "id": "initiative-song-remix",
+      "type": "mini-game",
+      "title": "Song Remix",
+      "purpose": "Use creative repetition while protecting accurate curriculum language.",
+      "awards": [
+        { "kind": "employability-xp", "target": "communication", "amount": 5 }
+      ]
+    },
+    {
+      "id": "initiative-applied-evidence",
+      "type": "assessment",
+      "title": "Proof Drop",
+      "purpose": "Require every pathway to produce the same curriculum evidence before completion.",
+      "awards": [
+        { "kind": "shared-stat", "target": "career_success", "amount": 1 },
+        { "kind": "shared-stat", "target": "job_security", "amount": 1 }
+      ]
+    }
+  ],
+  "assessmentEvidence": [
+    {
+      "id": "initiative-core-score",
+      "type": "quiz",
+      "prompt": "Identify the definition and five ways workers can show initiative.",
+      "teacherVisible": true
+    },
+    {
+      "id": "initiative-pathway-evidence",
+      "type": "justification",
+      "prompt": "Use a chosen pathway to apply initiative accurately.",
+      "teacherVisible": true
+    },
+    {
+      "id": "initiative-common-evidence",
+      "type": "short-response",
+      "prompt": "Define initiative, identify a behaviour, explain why it is initiative, and describe the workplace or team effect.",
+      "teacherVisible": true
+    },
+    {
+      "id": "initiative-retention-check",
+      "type": "quiz",
+      "prompt": "Complete a post-pathway retention check on the five initiative behaviours.",
+      "teacherVisible": true
+    }
+  ],
+  "teacherSignals": [
+    "active time by phase",
+    "idle time",
+    "core checkpoint attempts and best score",
+    "chosen pathway",
+    "pathway evidence score",
+    "common evidence score",
+    "retention score",
+    "support signal: mastery, performance-driven, low self-efficacy, overwhelmed, avoidant, or hopelessness"
+  ]
+}

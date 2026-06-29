@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avatar Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="data:,">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../dashboards/dashboard.css">
+  <link rel="stylesheet" href="./avatar.css?v=avatar-no-hair-v1">
+</head>
+<body class="avatar-page">
+  <main class="avatar-shell">
+    <nav class="dashboard-nav">
+      <a class="dashboard-nav-link" href="../../dashboards/student.html">Student Hub</a>
+      <a class="dashboard-nav-link" href="../../dashboards/leaderboard.html">Leaderboard</a>
+      <a class="dashboard-nav-link" href="../../dashboards/community.html">Community</a>
+      <a class="dashboard-nav-link" href="../../dashboards/global.html">Global Index</a>
+      <a class="dashboard-nav-link" href="../../shop/index.html">Shop</a>
+    </nav>
+
+    <header class="avatar-topbar">
+      <div class="brand">
+        <div class="brand-mark">CE</div>
+        <div>Avatar Studio</div>
+      </div>
+      <a class="module-link" href="../../shop/index.html">Open Shop</a>
+    </header>
+
+    <section class="avatar-workbench" aria-labelledby="avatar-title">
+      <article class="avatar-preview-panel">
+        <div class="avatar-preview-copy">
+          <span class="eyebrow">Identity Module</span>
+          <h1 id="avatar-title">Build your future self.</h1>
+          <p class="subtitle">
+            Create the avatar that will follow your Career Empire profile through modules, shop unlocks, interview practice, and career planning.
+          </p>
+          <div id="avatar-profile-badges" class="badge-row">
+            <span class="badge">Loading profile...</span>
+          </div>
+        </div>
+
+        <div class="avatar-stage" aria-label="Current avatar preview">
+          <div id="avatar-render" class="avatar-render"></div>
+          <div class="avatar-nameplate">
+            <strong id="avatar-name">Future Me</strong>
+            <span id="avatar-occupation">Occupation still loading</span>
+          </div>
+        </div>
+
+        <div class="avatar-progress-card">
+          <div>
+            <span class="kicker">Profile progress</span>
+            <strong id="avatar-progress-label">0% complete</strong>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div id="avatar-progress-fill" class="progress-fill green" style="width: 0%"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="avatar-builder-panel">
+        <div class="section-title">
+          <h2>Creator</h2>
+          <p>Personal style plus career intent</p>
+        </div>
+
+        <div class="avatar-tabs" role="tablist" aria-label="Avatar builder sections">
+          <button class="avatar-tab is-active" type="button" data-avatar-tab="looks" role="tab" aria-selected="true">Looks</button>
+          <button class="avatar-tab" type="button" data-avatar-tab="hair" role="tab" aria-selected="false">Hair</button>
+          <button class="avatar-tab" type="button" data-avatar-tab="outfit" role="tab" aria-selected="false">Outfit</button>
+          <button class="avatar-tab" type="button" data-avatar-tab="future" role="tab" aria-selected="false">Future</button>
+        </div>
+
+        <div class="avatar-tab-panel is-active" id="avatar-panel-looks" role="tabpanel">
+          <div class="avatar-control-block">
+            <h3>Preset</h3>
+            <div id="character-base-options" class="option-grid character-base-grid"></div>
+          </div>
+          <div class="avatar-control-block">
+            <h3>Skin tone</h3>
+            <div id="skin-tone-options" class="swatch-grid"></div>
+          </div>
+          <div class="avatar-control-block">
+            <h3>Face style</h3>
+            <div id="face-options" class="option-grid"></div>
+          </div>
+          <div class="avatar-control-block">
+            <h3>Eye colour</h3>
+            <div id="eye-color-options" class="swatch-grid"></div>
+          </div>
+        </div>
+
+        <div class="avatar-tab-panel" id="avatar-panel-hair" role="tabpanel" hidden>
+          <div class="avatar-control-block">
+            <h3>Hair style</h3>
+            <div id="hair-options" class="option-grid"></div>
+          </div>
+          <div class="avatar-control-block">
+            <h3>Hair colour</h3>
+            <div id="hair-color-options" class="swatch-grid"></div>
+          </div>
+        </div>
+
+        <div class="avatar-tab-panel" id="avatar-panel-outfit" role="tabpanel" hidden>
+          <div class="avatar-control-block">
+            <h3>Shirt and tie</h3>
+            <div id="shirt-options" class="option-grid"></div>
+          </div>
+          <div class="avatar-control-block">
+            <h3>Pants</h3>
+            <div id="pants-options" class="option-grid"></div>
+          </div>
+          <div class="avatar-control-block">
+            <h3>Shoes</h3>
+            <div id="shoe-options" class="swatch-grid"></div>
+          </div>
+          <div class="avatar-control-block">
+            <h3>Outer layer</h3>
+            <div id="blazer-options" class="option-grid"></div>
+          </div>
+          <div class="avatar-control-block">
+            <h3>Accessory</h3>
+            <div id="accessory-options" class="option-grid"></div>
+          </div>
+        </div>
+
+        <div class="avatar-tab-panel" id="avatar-panel-future" role="tabpanel" hidden>
+          <div class="future-form-grid">
+            <label>
+              <span>Occupation I am curious about</span>
+              <input id="avatar-future-occupation" type="text" maxlength="70" placeholder="Example: nurse, electrician, designer">
+            </label>
+            <label>
+              <span>Training or skills I may need</span>
+              <input id="avatar-future-training" type="text" maxlength="110" placeholder="Example: TAFE, university, apprenticeship, practice">
+            </label>
+            <label>
+              <span>A strength I want this avatar to show</span>
+              <input id="avatar-future-strength" type="text" maxlength="90" placeholder="Example: reliable, creative, organised">
+            </label>
+          </div>
+        </div>
+
+        <div class="avatar-actions">
+          <button id="avatar-save" class="module-link primary" type="button">Save Avatar</button>
+          <button id="avatar-randomise" class="module-link" type="button">Randomise</button>
+          <button id="avatar-reset" class="module-link ghost-action" type="button">Reset</button>
+        </div>
+        <div id="avatar-save-status" class="avatar-save-status" aria-live="polite"></div>
+      </article>
+    </section>
+
+    <section class="avatar-shop-strip panel" aria-labelledby="avatar-shop-title">
+      <div class="section-title">
+        <h2 id="avatar-shop-title">Future Unlocks</h2>
+        <p>Starter wardrobe now, shop economy later</p>
+      </div>
+      <div id="avatar-unlock-grid" class="avatar-unlock-grid"></div>
+    </section>
+  </main>
+
+  <script src="../../config/supabase-config.js"></script>
+  <script src="../../src/services/supabase-browser.js"></script>
+  <script src="./avatar-parts.js?v=avatar-workgear-labcoat-v1"></script>
+  <script src="./avatar.js?v=avatar-no-hair-v1"></script>
+  <script src="../../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Empire Student Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./dashboard.css?v=20260522-student-hub-layout-v1">
+</head>
+<body class="student-dashboard-page">
+  <main class="page-shell">
+    <nav class="dashboard-nav">
+      <a class="dashboard-nav-link active" href="./student.html">Student Hub</a>
+      <a class="dashboard-nav-link" href="./leaderboard.html">Leaderboard</a>
+      <a class="dashboard-nav-link" href="./community.html">Community</a>
+      <a class="dashboard-nav-link" href="./global.html">Global Index</a>
+      <a class="dashboard-nav-link" href="../shop/index.html">Shop</a>
+    </nav>
+
+    <section class="student-command-hero">
+      <article class="student-hero-card">
+        <div class="student-hero-copy">
+          <span class="eyebrow">Student Dashboard</span>
+          <h1 id="student-hero-title">Build your future, not just your score.</h1>
+          <p id="student-hero-subtitle" class="subtitle">
+            This shell is the shared player home for all curriculum modules. It connects module mastery, employability skills,
+            class impact, and personal career progression into one long-term game profile.
+          </p>
+          <div class="student-primary-actions">
+            <a id="student-hub-est-link" class="module-link primary" href="../modules/est-prep/index.html">Open EST Prep</a>
+            <a id="student-hub-initiative-link" class="module-link" href="../modules/initiative/index.html">Initiative</a>
+            <a id="student-hub-avatar-link" class="module-link" href="../modules/avatar/index.html">Avatar Studio</a>
+            <a id="student-hub-megatrends-link" class="module-link" href="../index.html?screen=megatrends">Play Megatrends</a>
+            <a id="student-hub-lifelong-link" class="module-link" href="../modules/lifelong-learning/index.html">Lifelong Learning</a>
+            <button id="student-hub-portfolio-button" class="module-link" type="button">View Portfolio</button>
+            <a class="module-link" href="../shop/index.html">Shop</a>
+          </div>
+          <div id="student-badge-stack" class="badge-stack student-identity-strip">
+            <span class="badge">Loading player profile...</span>
+          </div>
+        </div>
+        <div class="student-hero-visual">
+          <div class="student-visual-card current-mission-card">
+            <div class="kicker">Current mission</div>
+            <h2 id="student-current-mission-title">Start your first move</h2>
+            <p id="student-focus-text">Time Management is your weakest employability area right now. Use STAR reflections to build evidence against the skills your teacher has active.</p>
+            <div class="pill-row">
+              <span class="pill">Recommended next module</span>
+              <span class="pill">Teacher-visible growth area</span>
+            </div>
+          </div>
+          <img
+            class="student-guide-character"
+            src="../Assets/Images and Animations/Student Hub/student-hub-guide.gif"
+            alt=""
+          >
+          <div class="student-visual-card class-impact-card">
+            <div class="kicker">Class impact</div>
+            <p>Your play feeds class taxes, leaderboard movement, and the Global Index.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="metrics-grid student-status-strip">
+      <article class="metric metric-card--art" style="--metric-art: url('../Assets/Images and Animations/Celebration Reward Icons/Chamber complete.png')">
+        <div class="metric-topline">
+          <div class="metric-label">Overall Module Completion</div>
+        </div>
+        <div id="student-overall-completion" class="metric-value">0%</div>
+        <div id="student-overall-completion-note" class="metric-note">Across the full Year 12 game ecosystem</div>
+      </article>
+      <article class="metric metric-card--art" style="--metric-art: url('../Assets/Images and Animations/Celebration Reward Icons/Signal restored.png')">
+        <div class="metric-topline">
+          <div class="metric-label">Employability Score</div>
+        </div>
+        <div id="student-employability-score" class="metric-value">0%</div>
+        <div class="metric-note">Combined skill growth across all categories</div>
+      </article>
+      <article class="metric metric-card--art" style="--metric-art: url('../Assets/Images and Animations/Student Hub/empire-status-community-tax.png')">
+        <div class="metric-topline">
+          <div class="metric-label">Community Tax Paid</div>
+        </div>
+        <div id="student-tax-paid" class="metric-value">$0</div>
+        <div class="metric-note">Contributing to your class fund and projects</div>
+      </article>
+      <article class="metric metric-card--art" style="--metric-art: url('../Assets/Images and Animations/Student Hub/empire-status-assets-owned.png')">
+        <div class="metric-topline">
+          <div class="metric-label">Assets Owned</div>
+        </div>
+        <div id="student-assets-owned" class="metric-value">0</div>
+        <div class="metric-note">Cars, furniture, housing, and upgrades</div>
+      </article>
+    </section>
+
+    <section class="student-hub-main">
+      <article class="panel module-map-panel">
+        <div class="section-title">
+          <h2>Module Map</h2>
+          <p>One connected curriculum journey</p>
+        </div>
+        <div id="student-module-grid" class="module-grid"></div>
+      </article>
+
+      <details class="panel dashboard-dropdown student-activity-dropdown" open>
+        <summary class="section-title dashboard-dropdown-summary">
+          <span>
+            <h2>Recent Activity</h2>
+            <p>Rewards, tax, spending, and mission updates</p>
+          </span>
+          <span class="dashboard-dropdown-action" aria-hidden="true">
+            <span class="dashboard-action-open">Open</span>
+            <span class="dashboard-action-close">Close</span>
+          </span>
+        </summary>
+        <div class="dashboard-dropdown-content">
+          <div id="student-timeline" class="list"></div>
+        </div>
+      </details>
+
+      <details class="panel dashboard-dropdown student-shop-dropdown">
+        <summary class="section-title dashboard-dropdown-summary">
+          <span>
+            <h2>Global Shop</h2>
+            <p>Shared across all modules</p>
+          </span>
+          <span class="dashboard-dropdown-action" aria-hidden="true">
+            <span class="dashboard-action-open">Open</span>
+            <span class="dashboard-action-close">Close</span>
+          </span>
+        </summary>
+        <div class="dashboard-dropdown-content">
+          <div id="student-shop-preview" class="module-grid shop-preview-grid"></div>
+        </div>
+      </details>
+    </section>
+
+    <details class="panel dashboard-dropdown">
+      <summary class="section-title dashboard-dropdown-summary">
+        <span>
+          <h2>Community Board</h2>
+          <p>Where your class contribution is flowing</p>
+        </span>
+        <span class="dashboard-dropdown-action" aria-hidden="true">
+          <span class="dashboard-action-open">Open</span>
+          <span class="dashboard-action-close">Close</span>
+        </span>
+      </summary>
+      <div class="dashboard-dropdown-content">
+        <div id="student-community-board" class="community-board"></div>
+      </div>
+    </details>
+
+    <details id="student-review-notices-panel" class="panel dashboard-dropdown student-review-notices-panel" hidden>
+      <summary class="section-title dashboard-dropdown-summary">
+        <span>
+          <h2>Teacher Review Checks</h2>
+          <p>Returned and approved STAR evidence</p>
+        </span>
+        <span class="dashboard-dropdown-action" aria-hidden="true">
+          <span class="dashboard-action-open">Open</span>
+          <span class="dashboard-action-close">Close</span>
+        </span>
+      </summary>
+      <div class="dashboard-dropdown-content">
+        <div id="student-review-notices" class="student-review-notices"></div>
+      </div>
+    </details>
+
+    <details class="panel dashboard-dropdown" open>
+      <summary class="section-title dashboard-dropdown-summary">
+        <span>
+          <h2>SCSA Careers and Employability Skills</h2>
+          <p>Tracked across all modules</p>
+        </span>
+        <span class="dashboard-dropdown-action" aria-hidden="true">
+          <span class="dashboard-action-open">Open</span>
+          <span class="dashboard-action-close">Close</span>
+        </span>
+      </summary>
+      <div class="dashboard-dropdown-content">
+        <div id="student-skill-grid" class="skill-grid"></div>
+      </div>
+    </details>
+  </main>
+
+  <script src="../config/supabase-config.js"></script>
+  <script src="../src/services/supabase-browser.js"></script>
+  <script src="../src/services/response-moderation.js?v=teacher-written-filter-v5"></script>
+  <script src="./dashboard.js?v=20260602-avatar-studio-live-custom-v1"></script>
+  <script src="../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

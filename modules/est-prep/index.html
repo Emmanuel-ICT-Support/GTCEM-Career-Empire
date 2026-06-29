@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EST Prep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="data:,">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../dashboards/dashboard.css">
+  <link rel="stylesheet" href="./est-prep.css?v=vault-bridge-layering-v2">
+</head>
+<body>
+  <main class="module-shell">
+    <nav class="dashboard-nav">
+      <a class="dashboard-nav-link" href="../../dashboards/student.html">Student Hub</a>
+      <a class="dashboard-nav-link" href="../../dashboards/leaderboard.html">Leaderboard</a>
+      <a class="dashboard-nav-link" href="../../dashboards/community.html">Community</a>
+      <a class="dashboard-nav-link" href="../../dashboards/global.html">Global Index</a>
+      <a class="dashboard-nav-link" href="../../shop/index.html">Shop</a>
+    </nav>
+    <div class="module-topbar">
+      <div class="brand">
+        <div class="brand-mark">CE</div>
+        <div>EST Prep</div>
+      </div>
+    </div>
+
+    <section id="hero-section" class="hero">
+      <article class="hero-card hero-card--cinema">
+        <div class="hero-copy">
+          <span class="eyebrow">Module 3</span>
+          <h1>Enter the EST Lab.</h1>
+          <p class="subtitle">
+            Train the four exam skills in one clear track: CORE for what to say, TERM for the right language, VTCS for
+            what the question wants, and BOSS for the final response.
+          </p>
+          <details class="profile-disclosure">
+            <summary>Student profile</summary>
+            <div id="hero-badges" class="badge-row">
+              <span class="badge">Loading exam profile...</span>
+            </div>
+          </details>
+        </div>
+        <div class="hero-video-shell hero-video-shell--chaptered" data-hero-video-chapters aria-label="Chaptered EST Lab briefing video">
+          <div class="hero-video-stage">
+            <video
+              class="hero-video hero-video--chaptered"
+              data-hero-video
+              src="../../Assets/EST Preparation/est-lab-systems.mp4"
+              poster="../../Assets/EST Preparation/est-lab-systems-poster.png"
+              muted
+              playsinline
+              preload="auto"
+              aria-label="EST Lab briefing video split into student-controlled chapters"
+            ></video>
+            <div class="hero-video-badge" aria-live="polite">
+              <span data-hero-chapter-count>01 / 06</span>
+              <strong data-hero-chapter-label>Intro</strong>
+            </div>
+          </div>
+          <div class="hero-video-chapter-panel">
+            <div>
+              <span class="hero-video-kicker" data-hero-chapter-kicker>EST Lab briefing</span>
+              <strong data-hero-chapter-title>Four systems offline</strong>
+              <p data-hero-chapter-detail>Your EST prep is a training sequence. Watch each system, pause, then move on when you are ready.</p>
+            </div>
+            <div class="hero-video-controls" aria-label="EST Lab video chapter controls">
+              <button type="button" data-hero-prev onclick="window.ESTPrep.prevHeroChapter()" aria-label="Previous video chapter">Previous</button>
+              <button type="button" class="primary" data-hero-play onclick="window.ESTPrep.playHeroChapter()" aria-label="Play current video chapter">Play section</button>
+              <button type="button" data-hero-next onclick="window.ESTPrep.nextHeroChapter()" aria-label="Next video chapter">Next</button>
+            </div>
+          </div>
+          <div class="hero-video-chapter-pips" role="tablist" aria-label="Jump to a video chapter">
+            <button type="button" role="tab" class="is-active" aria-selected="true" data-hero-chapter-jump="0" onclick="window.ESTPrep.setHeroChapter(0)">Intro</button>
+            <button type="button" role="tab" aria-selected="false" data-hero-chapter-jump="1" onclick="window.ESTPrep.setHeroChapter(1)">CORE</button>
+            <button type="button" role="tab" aria-selected="false" data-hero-chapter-jump="2" onclick="window.ESTPrep.setHeroChapter(2)">TERM</button>
+            <button type="button" role="tab" aria-selected="false" data-hero-chapter-jump="3" onclick="window.ESTPrep.setHeroChapter(3)">VTCS</button>
+            <button type="button" role="tab" aria-selected="false" data-hero-chapter-jump="4" onclick="window.ESTPrep.setHeroChapter(4)">BOSS</button>
+            <button type="button" role="tab" aria-selected="false" data-hero-chapter-jump="5" onclick="window.ESTPrep.setHeroChapter(5)">Beat the Paper</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="track-section" class="lab-primary">
+      <article class="panel lab-track-panel">
+        <div class="section-title">
+          <h2>Exam Lab Track</h2>
+          <p>Four linked challenge stages</p>
+        </div>
+        <div id="challenge-map" class="chapter-grid"></div>
+      </article>
+    </section>
+
+    <section id="logs-section" class="panel is-hidden">
+      <div class="section-title">
+        <h2>Debrief And Teacher Evidence</h2>
+        <p>Saved feedback and written artifacts</p>
+      </div>
+      <div class="two-column">
+        <article>
+          <div class="section-title">
+            <h2>Round Debrief</h2>
+            <p>What changed after your last move</p>
+          </div>
+          <div id="debrief-log" class="list"></div>
+        </article>
+        <article>
+          <div class="section-title">
+            <h2>Teacher-Visible Evidence</h2>
+            <p>Saved from your EST prep</p>
+          </div>
+          <div id="evidence-log" class="list"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="stage-section" class="panel is-hidden">
+      <div id="focus-nav" class="focus-nav"></div>
+      <div class="section-title">
+        <h2 id="stage-title">Choose your first challenge</h2>
+        <p id="stage-subtitle">Move through the EST Lab in order to build marks, confidence, and answer quality.</p>
+      </div>
+      <div id="stage-pulse" class="stage-pulse">
+        <div class="pulse-card">
+          <strong>Mission pulse</strong>
+          <p>Your choices should trigger visible marks, readiness, salary, and community gains here.</p>
+        </div>
+      </div>
+      <div id="stage-root" class="stage-root">
+        <div class="empty-state">
+          <p>Select a stage above to begin the prototype.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../config/supabase-config.js"></script>
+  <script src="../../src/services/economy-ledger.js"></script>
+  <script src="../../src/services/supabase-browser.js"></script>
+  <script src="../../src/services/response-moderation.js?v=teacher-written-filter-v5"></script>
+  <script src="./est-prep-data.js?v=core-topic-scoring-v1"></script>
+  <script src="./est-prep-state.js?v=active-task-timers-v1"></script>
+  <script src="./est-prep-render.js?v=core-briefing-controls-v1"></script>
+  <script src="./est-prep-supabase.js?v=teacher-written-v1"></script>
+  <script src="./est-prep-content.js?v=core-briefing-controls-v1"></script>
+  <script src="./est-prep-glossary.js?v=vault-bridge-result-animations-v4"></script>
+  <script src="./est-prep-boss.js?v=teacher-written-v1"></script>
+  <script src="./est-prep.js?v=glossary-entry-termfall-v1"></script>
+  <script src="../../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

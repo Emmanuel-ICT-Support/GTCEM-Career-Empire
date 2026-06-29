@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Glossary corruption sweep chamber</title>
+  <desc id="desc">A scanner beam clearing corrupted term fragments.</desc>
+  <defs>
+    <radialGradient id="bg" cx="48%" cy="44%" r="70%">
+      <stop offset="0" stop-color="#1c255f"/>
+      <stop offset=".62" stop-color="#0a1534"/>
+      <stop offset="1" stop-color="#050714"/>
+    </radialGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff6b6b" stop-opacity="0"/>
+      <stop offset=".42" stop-color="#ffd86c" stop-opacity=".9"/>
+      <stop offset=".62" stop-color="#72f7b8" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#62f0ff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="640" height="420" rx="42" fill="url(#bg)"/>
+  <g opacity=".2" stroke="#445aa6" stroke-width="1">
+    <path d="M68 92h504M68 328h504"/>
+    <path d="M116 62v296M220 62v296M420 62v296M524 62v296"/>
+  </g>
+  <g font-family="Outfit, Arial, sans-serif" font-weight="800" font-size="24">
+    <text x="104" y="150" fill="#ff8a5b" opacity=".72">???</text>
+    <text x="470" y="150" fill="#ff8a5b" opacity=".72">NOISE</text>
+    <text x="126" y="294" fill="#ff8a5b" opacity=".58">ERROR</text>
+    <text x="424" y="294" fill="#ff8a5b" opacity=".58">MISMATCH</text>
+  </g>
+  <g filter="url(#glow)">
+    <path d="M100 210h440" stroke="url(#beam)" stroke-width="54" stroke-linecap="round"/>
+    <path d="M110 210h420" stroke="#dffcff" stroke-width="3" stroke-linecap="round" opacity=".84"/>
+    <rect x="206" y="168" width="230" height="84" rx="28" fill="#0d2b47" stroke="#72f7b8" stroke-width="3"/>
+  </g>
+  <text x="238" y="220" fill="#ffffff" font-family="Outfit, Arial, sans-serif" font-weight="900" font-size="28">TERM LOCKED</text>
+</svg>

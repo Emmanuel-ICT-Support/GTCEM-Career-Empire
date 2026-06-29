@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Jobs Market | Career Empire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="data:,">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./jobs.css?v=jobs-market-v3">
+</head>
+<body class="jobs-market-page">
+  <main class="jobs-shell">
+    <header class="jobs-hero">
+      <nav class="jobs-nav" aria-label="Jobs pages">
+        <a href="./teacher-job-submit.html">Teacher Job Builder</a>
+        <a href="#open-jobs">Open Jobs</a>
+        <a href="#teacher-setup-needed">Submit Work</a>
+      </nav>
+      <section class="jobs-hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Career Empire</p>
+          <h1>Student Jobs Market</h1>
+          <p>
+            A shopfront of real classroom production briefs. Choose a job, read what is needed,
+            download starter files, morph existing pieces if useful, and submit finished work
+            through the teacher's link.
+          </p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="primary-button link-button" href="#open-jobs">Browse Open Jobs</a>
+            <a class="secondary-button link-button" href="./teacher-job-submit.html">Teacher Job Builder</a>
+          </div>
+        </div>
+
+        <aside class="market-hero-preview" aria-label="Featured Avatar Studio job preview">
+          <div class="market-preview-stage">
+            <img src="../../Assets/Images%20and%20Animations/Avatar%20Studio/student-handoff/current-live-stack-preview.png" alt="Current Avatar Studio layer stack preview">
+          </div>
+          <div class="featured-job-copy">
+            <span class="status-pill">Featured Job</span>
+            <h2>Avatar Studio Art Parts</h2>
+            <p>Students can download the real pieces that already exist, then recolour, redraw, or build new matching parts.</p>
+          </div>
+        </aside>
+      </section>
+    </header>
+
+    <section class="market-controls" aria-labelledby="market-title">
+      <div>
+        <p class="eyebrow">Jobs Board</p>
+        <h2 id="market-title">Open jobs</h2>
+      </div>
+      <div class="control-row">
+        <label>
+          <span>Search jobs</span>
+          <input id="job-search" type="search" placeholder="Search title, type, skills, or summary">
+        </label>
+        <label>
+          <span>Filter type</span>
+          <select id="type-filter">
+            <option value="">All job types</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section id="open-jobs" class="market-section" aria-live="polite">
+      <div id="market-list" class="market-grid"></div>
+    </section>
+
+    <section id="local-drafts-section" class="market-section local-drafts" hidden>
+      <div class="section-heading">
+        <p class="eyebrow">Drafts On This Browser</p>
+        <h2>Teacher preview drafts</h2>
+        <p>
+          These drafts are only visible on this device. They are useful for testing, but they are
+          not published to the live market until added to the market data file.
+        </p>
+      </div>
+      <div id="local-drafts-list" class="market-grid"></div>
+    </section>
+
+    <section class="notice-panel" id="teacher-setup-needed">
+      <div>
+        <p class="eyebrow">Submit Work</p>
+        <h2>Avatar submissions are connected</h2>
+      </div>
+      <p>
+        Students can submit Avatar Studio work through the connected Microsoft Form. For future
+        jobs, teachers can still add a Google Form, Drive folder, Microsoft Form, Teams assignment,
+        LMS upload link, or other class submission link.
+      </p>
+      <div class="notice-actions">
+        <a class="primary-button link-button" href="https://forms.office.com/r/hn9grqUCjg" target="_blank" rel="noopener">Open Submission Form</a>
+        <a class="resource-link" href="./teacher-job-submit.html">Create Or Edit A Job Brief</a>
+      </div>
+    </section>
+  </main>
+
+  <template id="job-card-template">
+    <article class="market-card">
+      <header>
+        <div>
+          <span class="status-pill"></span>
+          <span class="type-pill"></span>
+        </div>
+        <h3></h3>
+        <p class="job-summary"></p>
+      </header>
+      <dl class="job-meta"></dl>
+      <details>
+        <summary>Open full brief</summary>
+        <div class="job-detail"></div>
+      </details>
+    </article>
+  </template>
+
+  <script src="./jobs-market.js?v=jobs-market-v3"></script>
+</body>
+</html>

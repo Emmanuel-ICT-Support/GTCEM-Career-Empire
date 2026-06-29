@@ -1,0 +1,185 @@
+/* Decoder, boss round, feedback, sample review, and empty states. */
+.forensics-grid,
+.builder-grid,
+.builder-actions {
+  display: grid;
+  gap: 14px;
+}
+
+.forensics-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.decoder-progress-strip {
+  margin: 0 0 14px;
+}
+
+.decoder-transition-feedback {
+  margin-bottom: 6px;
+}
+
+.decoder-progress-badge {
+  border-radius: 14px;
+}
+
+.decoder-progress-badge.active {
+  color: #eff8ff;
+  border-color: rgba(97, 240, 255, 0.46);
+  background: rgba(46, 87, 163, 0.46);
+}
+
+.decoder-progress-badge.complete {
+  color: #e8fff4;
+  border-color: rgba(114, 247, 184, 0.46);
+  background: rgba(38, 117, 90, 0.34);
+}
+
+.forensics-slot {
+  min-height: 128px;
+  background: rgba(12, 19, 43, 0.88);
+}
+
+.forensics-slot.pending {
+  border-color: rgba(129, 166, 255, 0.16);
+  box-shadow: none;
+}
+
+.forensics-slot.pending p {
+  min-height: 1.4em;
+}
+
+.forensics-slot.filled {
+  border-color: rgba(114, 247, 184, 0.72);
+  box-shadow:
+    0 0 24px rgba(114, 247, 184, 0.2),
+    inset 0 0 0 1px rgba(114, 247, 184, 0.18);
+}
+
+.builder-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
+.builder-actions {
+  margin-top: 14px;
+}
+
+.list {
+  min-height: 92px;
+}
+
+.resource-item,
+.evidence-item {
+  line-height: 1.6;
+}
+
+.resource-item strong,
+.evidence-item strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.feedback-box {
+  padding: 16px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(129, 166, 255, 0.2);
+  background: rgba(11, 21, 47, 0.72);
+}
+
+.feedback-box.good {
+  border-color: rgba(114, 247, 184, 0.44);
+}
+
+.feedback-box.warn {
+  border-color: rgba(255, 216, 108, 0.48);
+}
+
+.feedback-box.bad {
+  border-color: rgba(255, 125, 139, 0.52);
+}
+
+.feedback-box p + p {
+  margin-top: 10px;
+}
+
+.feedback-list {
+  margin: 12px 0 18px;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.feedback-list li + li {
+  margin-top: 8px;
+}
+
+.sample-review {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(129, 166, 255, 0.2);
+}
+
+.sample-review h3 {
+  margin: 0 0 10px;
+}
+
+.sample-grid,
+.rubric-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.sample-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 14px;
+}
+
+.sample-card,
+.rubric-chip {
+  background: rgba(25, 37, 72, 0.72);
+  border: 1px solid rgba(129, 166, 255, 0.2);
+  border-radius: 18px;
+  padding: 14px 16px;
+}
+
+.sample-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.sample-commentary {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.rubric-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  margin-top: 14px;
+}
+
+.rubric-chip {
+  display: grid;
+  gap: 6px;
+}
+
+.rubric-chip.pass {
+  border-color: rgba(114, 247, 184, 0.4);
+  background: rgba(18, 61, 52, 0.55);
+}
+
+.rubric-chip.fail {
+  border-color: rgba(255, 125, 139, 0.4);
+  background: rgba(73, 28, 43, 0.58);
+}
+
+.empty-state {
+  padding: 32px 22px;
+  border: 1px dashed rgba(129, 166, 255, 0.26);
+  border-radius: 22px;
+  text-align: center;
+  color: var(--muted);
+}

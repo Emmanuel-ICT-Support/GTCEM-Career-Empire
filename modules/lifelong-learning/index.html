@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lifelong Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../dashboards/dashboard.css">
+  <link rel="stylesheet" href="./lifelong-learning.css?v=free-text-privacy-v1">
+</head>
+<body>
+  <main class="module-shell">
+    <nav class="dashboard-nav">
+      <a class="dashboard-nav-link" href="../../dashboards/student.html">Student Hub</a>
+      <a class="dashboard-nav-link" href="../../dashboards/leaderboard.html">Leaderboard</a>
+      <a class="dashboard-nav-link" href="../../dashboards/community.html">Community</a>
+      <a class="dashboard-nav-link" href="../../dashboards/global.html">Global Index</a>
+      <a class="dashboard-nav-link" href="../../shop/index.html">Shop</a>
+    </nav>
+    <div class="module-topbar">
+      <div class="brand">
+        <div class="brand-mark">CE</div>
+        <div>Lifelong Learning</div>
+      </div>
+    </div>
+
+    <section class="hero">
+      <article class="hero-card">
+        <span class="eyebrow">Module 2</span>
+        <h1>Pathways of Growth</h1>
+        <p class="subtitle">
+          Build a future that can adapt. Lifelong Learning helps you respond to barriers, choose better training options,
+          and keep growing long after school finishes.
+        </p>
+        <div class="badge-row" id="hero-badges">
+          <span class="badge">Loading student context...</span>
+        </div>
+      </article>
+      <article class="hero-side panel">
+        <div class="section-title">
+          <h2>Focus Skills</h2>
+          <p class="status-good">Platform-linked</p>
+        </div>
+        <div class="focus-skill-grid">
+          <div class="focus-skill">
+            <img src="../../Assets/employability-logos/main/time-management.png" alt="Time Management logo">
+            <div>
+              <strong>Time Management</strong>
+              <p>Plan, prioritise, and adapt.</p>
+            </div>
+          </div>
+          <div class="focus-skill">
+            <img src="../../Assets/employability-logos/main/critical-thinking.png" alt="Critical Thinking logo">
+            <div>
+              <strong>Critical Thinking</strong>
+              <p>Judge pathways and training choices well.</p>
+            </div>
+          </div>
+          <div class="focus-skill">
+            <img src="../../Assets/employability-logos/main/communication.png" alt="Communication logo">
+            <div>
+              <strong>Communication</strong>
+              <p>Explain plans, reflections, and next steps.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="metrics-grid">
+      <article class="metric">
+        <div class="metric-label">Rounds Cleared</div>
+        <div id="metric-rounds" class="metric-value">0/3</div>
+        <div class="metric-note">Progress through the current simulation arc</div>
+      </article>
+      <article class="metric">
+        <div class="metric-label">Money Left</div>
+        <div id="metric-money" class="metric-value">$0</div>
+        <div class="metric-note">Budget available for your next learning move</div>
+      </article>
+      <article class="metric">
+        <div class="metric-label">Salary Potential</div>
+        <div id="metric-salary" class="metric-value">$0</div>
+        <div class="metric-note">Future earning power shaped by your choices</div>
+      </article>
+      <article class="metric">
+        <div class="metric-label">Momentum</div>
+        <div id="metric-momentum" class="metric-value">0</div>
+        <div class="metric-note">How strongly your pathway is moving forward</div>
+      </article>
+    </section>
+
+    <section id="reward-strip" class="reward-strip">
+      <div class="reward-banner">
+        <strong>Career momentum starts here</strong>
+        <p>Your next round will shift salary potential, pathway access, and future job security.</p>
+      </div>
+    </section>
+
+    <section class="two-column">
+      <article class="panel">
+        <div class="section-title">
+          <h2>Round Map</h2>
+          <p>Three-round simulation prototype</p>
+        </div>
+        <div id="chapter-map" class="chapter-grid"></div>
+      </article>
+
+      <article class="panel">
+        <div class="section-title">
+          <h2>Career Board</h2>
+          <p>Live resources and pathway unlocks</p>
+        </div>
+        <div id="resource-board" class="list"></div>
+        <div id="upgrade-effects" class="badge-row" style="margin-top: 14px;"></div>
+      </article>
+    </section>
+
+    <section class="two-column">
+      <article class="panel">
+        <div class="section-title">
+          <h2>Recent Career Outcomes</h2>
+          <p>Consequences from each round</p>
+        </div>
+        <div id="outcome-log" class="list"></div>
+      </article>
+
+      <article class="panel">
+        <div class="section-title">
+          <h2>Teacher-Visible Evidence</h2>
+          <p>Saved after each round</p>
+        </div>
+        <div id="evidence-log" class="list"></div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">
+        <h2 id="chapter-title">Choose a round</h2>
+        <p id="chapter-subtitle">Start with any round below.</p>
+      </div>
+      <div id="chapter-stage" class="chapter-stage">
+        <div class="empty-state">
+          <p>Select a round from the map to begin the simulation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="two-column">
+      <article class="panel">
+        <div class="section-title">
+          <h2>End Of Round Summary</h2>
+          <p>What just changed in your life build</p>
+        </div>
+        <div id="round-summary" class="list">
+          <div class="evidence-item">
+            <strong>No round summary yet</strong>
+            <p class="small-note">Clear one round and your reward breakdown will appear here.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="section-title">
+          <h2>Next Target</h2>
+          <p>What to chase next</p>
+        </div>
+        <div id="next-target" class="list">
+          <div class="evidence-item">
+            <strong>Select a round</strong>
+            <p class="small-note">The next target card updates to show the strongest next move.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="two-column">
+      <article class="panel">
+        <div class="section-title">
+          <h2>Life Upgrades</h2>
+          <p>Spend gains on tools, transport, and stability</p>
+        </div>
+        <div id="asset-shop" class="chapter-grid"></div>
+      </article>
+
+      <article class="panel">
+        <div class="section-title">
+          <h2>Owned Upgrades</h2>
+          <p>Tangible progress in the wider ecosystem</p>
+        </div>
+        <div id="owned-assets" class="list">
+          <div class="evidence-item">
+            <strong>No upgrades bought yet</strong>
+            <p class="small-note">Use round rewards to invest in your study setup, transport, and life quality.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="../../config/supabase-config.js"></script>
+  <script src="../../src/services/economy-ledger.js"></script>
+  <script src="../../src/services/supabase-browser.js"></script>
+  <script src="../../src/services/response-moderation.js?v=teacher-written-filter-v5"></script>
+  <script src="./lifelong-learning.js?v=free-text-privacy-v1"></script>
+  <script src="../../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

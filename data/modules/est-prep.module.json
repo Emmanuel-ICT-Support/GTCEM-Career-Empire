@@ -1,0 +1,265 @@
+{
+  "id": "est-prep",
+  "title": "EST Prep: Decode, Recall, Respond",
+  "curriculumArea": "Careers and Employability",
+  "theme": "Assessment literacy, content revision, command verbs, and structured response building",
+  "status": "prototype-live",
+  "overview": {
+    "tagline": "Train for the EST by decoding the question, recalling the right content, and building mark-worthy answers under pressure.",
+    "playerFantasy": "Enter an exam-prep simulator where smart decoding, strong recall, and well-structured answers increase readiness, confidence, and rewards.",
+    "teacherValue": "Turns revision and exam technique into visible, evidence-rich gameplay aligned to EST question patterns and marking expectations."
+  },
+  "gameplayIdentity": {
+    "moduleFantasy": "exam-training simulator",
+    "playStyle": "high-pressure strategy and response building",
+    "whyItDiffersFromMegatrends": "Megatrends focuses on future-of-work scenarios. EST Prep focuses on decoding assessment questions, structuring responses, and applying syllabus knowledge for marks.",
+    "funDrivers": [
+      "beat-the-paper tension",
+      "streaks for accurate decoding",
+      "visible marks and readiness gains",
+      "answer rescue and rewrite moments",
+      "class readiness competition"
+    ]
+  },
+  "learningObjectives": [
+    "Identify command verbs and choose an appropriate answer structure.",
+    "Decode EST questions using verb, topic, context, and structure.",
+    "Recall the assessed content from the current EST revision topics.",
+    "Apply glossary terms accurately within responses.",
+    "Construct concise, mark-worthy answers for different EST question types."
+  ],
+  "sharedStatEffects": [
+    {
+      "stat": "career_success",
+      "description": "Strong assessment literacy improves confidence and strategic decision-making."
+    },
+    {
+      "stat": "salary",
+      "description": "High performance rewards the player financially within the wider game ecosystem."
+    },
+    {
+      "stat": "work_life_balance",
+      "description": "Efficient answering and planning protect time and reduce stress."
+    },
+    {
+      "stat": "job_security",
+      "description": "Students who communicate clearly and think strategically strengthen employability."
+    }
+  ],
+  "moduleStats": [
+    "exam_readiness",
+    "accuracy",
+    "time_control",
+    "confidence",
+    "command_verb_mastery"
+  ],
+  "gameplayLoop": [
+    {
+      "step": 1,
+      "label": "CORE: what to say",
+      "description": "Pull the right curriculum knowledge from the current EST revision topics."
+    },
+    {
+      "step": 2,
+      "label": "TERM: the right language",
+      "description": "Lock in exact glossary language and definitions."
+    },
+    {
+      "step": 3,
+      "label": "VTCS: what the question wants",
+      "description": "Identify the command verb, topic, context term, and required structure."
+    },
+    {
+      "step": 4,
+      "label": "BOSS: final response",
+      "description": "Produce a short response under light pressure."
+    },
+    {
+      "step": 5,
+      "label": "Check against marking logic",
+      "description": "Review what would earn marks and improve the answer if needed."
+    },
+    {
+      "step": 6,
+      "label": "Bank rewards",
+      "description": "Gain readiness, confidence, salary, and class contribution."
+    }
+  ],
+  "vtcsModel": {
+    "name": "VTCS",
+    "parts": [
+      {
+        "id": "verb",
+        "label": "Verb",
+        "description": "What does the question want you to do?"
+      },
+      {
+        "id": "topic",
+        "label": "Topic",
+        "description": "What concept are you writing about?"
+      },
+      {
+        "id": "context",
+        "label": "Context",
+        "description": "What situation or glossary term narrows the response?"
+      },
+      {
+        "id": "structure",
+        "label": "Structure",
+        "description": "What answer pattern should you use to earn marks?"
+      }
+    ]
+  },
+  "commandVerbFocus": [
+    {
+      "verb": "identify",
+      "marksHint": "usually one point",
+      "structure": "name the correct item"
+    },
+    {
+      "verb": "outline",
+      "marksHint": "brief explanation in two parts",
+      "structure": "what it is plus one key feature"
+    },
+    {
+      "verb": "describe",
+      "marksHint": "features or characteristics",
+      "structure": "feature plus detail"
+    },
+    {
+      "verb": "explain",
+      "marksHint": "show cause and effect",
+      "structure": "point plus because/how plus result"
+    },
+    {
+      "verb": "discuss",
+      "marksHint": "develop the idea with support",
+      "structure": "point plus explanation plus example plus result"
+    },
+    {
+      "verb": "compare",
+      "marksHint": "similarities and differences",
+      "structure": "both... however..."
+    },
+    {
+      "verb": "analyse",
+      "marksHint": "interpret evidence and conclude",
+      "structure": "evidence plus meaning plus conclusion"
+    }
+  ],
+  "currentRevisionTopics": [
+    "communication skills",
+    "time management skills",
+    "unexpected life events and career planning",
+    "strategies to manage personal finance",
+    "labour market information",
+    "growth industries",
+    "initiative",
+    "purpose of a cover letter",
+    "selection criteria response techniques",
+    "megatrends and the future of work"
+  ],
+  "activities": [
+    {
+      "id": "content-check",
+      "type": "revision",
+      "title": "CORE",
+      "purpose": "Rehearse what to say from the current revision sheet using rapid topic-based checks.",
+      "awards": [
+        { "kind": "module-xp", "target": "est-prep", "amount": 10 },
+        { "kind": "shared-stat", "target": "salary", "amount": 1 }
+      ]
+    },
+    {
+      "id": "glossary-lock-in",
+      "type": "glossary",
+      "title": "TERM",
+      "purpose": "Strengthen the right language by practising glossary terms used as the context of EST questions.",
+      "awards": [
+        { "kind": "module-xp", "target": "est-prep", "amount": 8 },
+        { "kind": "employability-xp", "target": "communication", "amount": 4 }
+      ]
+    },
+    {
+      "id": "decoder-drill",
+      "type": "question-decoder",
+      "title": "VTCS",
+      "purpose": "Train students to isolate the verb, topic, context, and structure in EST-style questions.",
+      "awards": [
+        { "kind": "module-xp", "target": "est-prep", "amount": 8 },
+        { "kind": "shared-stat", "target": "career_success", "amount": 1 }
+      ]
+    },
+    {
+      "id": "marking-key-challenge",
+      "type": "comparison",
+      "title": "BOSS",
+      "purpose": "Combine CORE content, TERM precision, VTCS decoding, and short-answer structure in one exam-style response.",
+      "awards": [
+        { "kind": "module-xp", "target": "est-prep", "amount": 12 },
+        { "kind": "shared-stat", "target": "job_security", "amount": 1 }
+      ]
+    }
+  ],
+  "employabilityFocus": [
+    {
+      "categoryId": "communication",
+      "subskillIds": [
+        "terminology-spelling-grammar",
+        "purpose-audience-format",
+        "verbal-communication"
+      ],
+      "whyItFits": "Students need concise, accurate written responses using correct terms and structures."
+    },
+    {
+      "categoryId": "critical-thinking",
+      "subskillIds": [
+        "research-and-information-gathering",
+        "analysis-and-evaluation"
+      ],
+      "whyItFits": "Students interpret question wording, marks, and evidence before answering."
+    },
+    {
+      "categoryId": "time-management",
+      "subskillIds": [
+        "plan-and-prioritise",
+        "track-and-reassess"
+      ],
+      "whyItFits": "Students must allocate effort efficiently under assessment pressure."
+    }
+  ],
+  "chapters": [
+    {
+      "id": "chapter-1",
+      "title": "Decode the Question",
+      "hook": "Find the verb, topic, context, and answer structure before time runs out."
+    },
+    {
+      "id": "chapter-2",
+      "title": "Lock In the Glossary",
+      "hook": "Match the right glossary concept to the right assessment context."
+    },
+    {
+      "id": "chapter-3",
+      "title": "Revision Arena",
+      "hook": "Survive quick-fire questions on the actual assessed content for this EST."
+    },
+    {
+      "id": "chapter-4",
+      "title": "Build the Answer",
+      "hook": "Turn decoded questions into concise mark-worthy responses."
+    },
+    {
+      "id": "chapter-5",
+      "title": "Beat the Marking Key",
+      "hook": "Improve weak responses and learn what earns marks."
+    }
+  ],
+  "teacherSignals": [
+    "most-missed command verbs",
+    "weakest glossary terms",
+    "lowest-confidence EST topics",
+    "students who decode correctly but lack content recall",
+    "students who know content but misuse the command verb"
+  ]
+}

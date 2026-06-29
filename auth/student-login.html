@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./auth.css?v=20260513-auth-simplify">
+</head>
+<body>
+  <main class="auth-shell">
+    <div class="auth-topbar">
+      <div class="brand"><div class="brand-mark">CE</div><div>Student Login</div></div>
+      <div class="top-links">
+        <a class="ghost-link" href="./index.html">Auth Home</a>
+        <a class="ghost-link" href="../shop/index.html">Global Shop</a>
+      </div>
+    </div>
+
+    <section class="auth-layout">
+      <article class="form-card">
+        <span class="eyebrow">Student Access</span>
+        <h1>Log in with the username your teacher created for you.</h1>
+        <p class="lead">Students do not use email addresses in this system. Use the exact username your teacher created for you.</p>
+
+        <form id="student-login-form">
+          <div class="field">
+            <label for="student-username">Username</label>
+            <input id="student-username" type="text" placeholder="e.g. DiegoF or MarkTh1" required>
+            <div id="student-username-feedback" class="feedback"></div>
+          </div>
+          <div class="field">
+            <label for="student-password">Password</label>
+            <input id="student-password" type="password" placeholder="Enter your password" required>
+          </div>
+          <div class="button-row">
+            <button class="button-primary" type="submit">Student Log In</button>
+          </div>
+        </form>
+      </article>
+
+      <div class="stack">
+        <article class="info-card">
+          <h2>Username rules</h2>
+          <div class="list-box">
+            <p><strong>Use:</strong> the exact teacher-issued username</p>
+            <p><strong>Examples:</strong> DiegoF, CarysMJ, MarkT, MarkTh1</p>
+            <p><strong>Not allowed:</strong> student email addresses or full email-style usernames</p>
+          </div>
+        </article>
+        <article class="info-card">
+          <h2>Why no student email?</h2>
+          <p class="muted">Teachers control class setup and student accounts. This keeps the platform simpler, safer, and more classroom-friendly.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="../config/supabase-config.js"></script>
+  <script src="../src/services/supabase-browser.js"></script>
+  <script src="./auth.js?v=20260513-auth-simplify"></script>
+  <script src="../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

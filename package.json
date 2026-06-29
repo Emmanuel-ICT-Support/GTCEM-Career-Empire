@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "check": "node scripts/dev-check.mjs",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "ci": "npm run check && npm run coverage && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "vitest": "^3.2.0"
+  }
+}

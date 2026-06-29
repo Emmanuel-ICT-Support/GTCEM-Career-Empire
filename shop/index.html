@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Empire Global Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dashboards/dashboard.css">
+  <style>
+    .shop-secondary-button {
+      border: 1px solid rgba(125, 211, 252, 0.28);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+      padding: 12px 18px;
+      font: 700 14px "Outfit", "Segoe UI", sans-serif;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .shop-secondary-button:hover {
+      background: rgba(59, 130, 246, 0.16);
+      border-color: rgba(125, 211, 252, 0.48);
+    }
+    .shop-request-panel {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 18px;
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(104, 210, 255, 0.22);
+      background: linear-gradient(145deg, rgba(16, 34, 58, 0.92), rgba(11, 23, 39, 0.92));
+    }
+    .shop-request-panel p {
+      margin: 0;
+    }
+    .shop-request-panel .shop-secondary-button {
+      justify-self: start;
+    }
+    .shop-category-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 18px 0 24px;
+    }
+    .shop-category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 64px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 22px;
+      padding: 8px 18px 8px 8px;
+      background:
+        linear-gradient(145deg, rgba(18, 34, 58, 0.82), rgba(10, 22, 39, 0.94));
+      color: #d5e1f4;
+      font: 800 15px "Outfit", "Segoe UI", sans-serif;
+      cursor: pointer;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+    .shop-category-pill:hover {
+      transform: translateY(-1px);
+      border-color: rgba(125, 211, 252, 0.38);
+    }
+    .shop-category-pill.active {
+      background:
+        linear-gradient(145deg, rgba(56, 189, 248, 0.22), rgba(128, 237, 153, 0.1)),
+        rgba(13, 25, 45, 0.96);
+      border-color: rgba(104, 210, 255, 0.58);
+      color: #eff6ff;
+    }
+    .shop-category-icon {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      overflow: hidden;
+      flex: 0 0 auto;
+      border-radius: 16px;
+      border: 1px solid rgba(206, 224, 255, 0.18);
+      background: rgba(4, 12, 26, 0.72);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
+    .shop-category-icon::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 38%),
+        radial-gradient(circle at 50% 45%, transparent 32%, rgba(4, 12, 26, 0.28));
+      pointer-events: none;
+    }
+    .shop-category-icon img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transform: scale(1.22);
+    }
+    .shop-category-icon > span {
+      font-size: 26px;
+      line-height: 1;
+    }
+    .shop-category-label {
+      white-space: nowrap;
+    }
+    .shop-request-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 8, 18, 0.76);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 20px;
+    }
+    .shop-request-backdrop.open {
+      display: flex;
+    }
+    .shop-request-card {
+      width: min(100%, 640px);
+      background: linear-gradient(145deg, rgba(10, 22, 38, 0.98), rgba(18, 36, 61, 0.98));
+      border: 1px solid rgba(126, 168, 255, 0.24);
+      border-radius: 24px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.35);
+      padding: 22px;
+      color: #e9f1ff;
+    }
+    .shop-request-card h3,
+    .shop-request-card p {
+      margin-top: 0;
+    }
+    .shop-request-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .shop-request-card label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .shop-request-card input,
+    .shop-request-card select,
+    .shop-request-card textarea {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(126, 168, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: #e9f1ff;
+      padding: 12px 14px;
+      font: inherit;
+      box-sizing: border-box;
+    }
+    .shop-request-card textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    .shop-request-privacy-note {
+      display: grid;
+      gap: 6px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(251, 191, 36, 0.34);
+      background: rgba(251, 191, 36, 0.1);
+      color: #fde68a;
+      line-height: 1.4;
+    }
+    .shop-request-privacy-note strong {
+      color: #fef3c7;
+    }
+    .shop-request-privacy-note span {
+      color: #f8e7b2;
+    }
+    .shop-request-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .shop-request-actions button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font: 700 14px "Outfit", "Segoe UI", sans-serif;
+      cursor: pointer;
+    }
+    .shop-request-primary {
+      background: linear-gradient(145deg, #1f8ef1, #1667d8);
+      color: white;
+    }
+    .shop-request-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #e9f1ff;
+      border: 1px solid rgba(126, 168, 255, 0.2);
+    }
+    .shop-request-status {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+    .shop-request-note {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 8px;
+    }
+    .shop-page .hero {
+      display: block;
+      margin-bottom: 14px;
+    }
+    .shop-page .shop-hero-card {
+      position: relative;
+      overflow: hidden;
+      min-height: clamp(250px, 27vw, 330px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(22px, 3vw, 32px);
+      background:
+        linear-gradient(90deg, rgba(5, 13, 26, 0.95), rgba(5, 13, 26, 0.7) 47%, rgba(5, 13, 26, 0.2)),
+        linear-gradient(180deg, rgba(5, 13, 26, 0.1), rgba(5, 13, 26, 0.82)),
+        var(--shop-hero-image) center center / cover no-repeat;
+    }
+    .shop-page .shop-hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 68% 24%, rgba(104, 210, 255, 0.2), transparent 32%),
+        linear-gradient(180deg, transparent 38%, rgba(5, 13, 26, 0.38));
+      pointer-events: none;
+    }
+    .shop-page .shop-hero-card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .shop-hero-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(230px, 320px);
+      gap: clamp(20px, 3vw, 34px);
+      align-items: end;
+      width: 100%;
+    }
+    .shop-hero-copy {
+      min-width: 0;
+    }
+    .shop-page .shop-hero-card .subtitle {
+      max-width: 52ch;
+      color: #d8e7ff;
+    }
+    .shop-page .shop-hero-card h1 {
+      max-width: none;
+      font-size: 60px;
+      line-height: 0.98;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+    .shop-hero-meta {
+      justify-self: end;
+      width: min(100%, 320px);
+      padding: 12px;
+      border: 1px solid rgba(206, 224, 255, 0.16);
+      border-radius: 18px;
+      background: rgba(5, 13, 26, 0.56);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(10px);
+    }
+    .shop-hero-meta .badge-stack {
+      display: grid;
+      gap: 8px;
+      margin-top: 0;
+    }
+    .shop-hero-meta .badge {
+      display: block;
+      min-width: 0;
+      padding: 9px 11px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.055);
+      color: #e8f0ff;
+      font-size: 13px;
+      line-height: 1.2;
+    }
+    .shop-page .metrics-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+    .shop-page .metrics-grid .metric-card--art {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      isolation: isolate;
+      padding: 0;
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(13, 28, 50, 0.96), rgba(7, 17, 31, 0.96));
+    }
+    .shop-page .metrics-grid .metric-card--art::before {
+      content: "";
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 8;
+      flex: 0 0 auto;
+      z-index: 0;
+      background:
+        linear-gradient(180deg, rgba(4, 12, 26, 0.02), rgba(4, 12, 26, 0.34)),
+        var(--metric-art) center center / cover no-repeat;
+      border-bottom: 1px solid rgba(136, 173, 255, 0.18);
+      pointer-events: none;
+    }
+    .shop-page .metrics-grid .metric-card--art > * {
+      position: relative;
+      z-index: 1;
+      margin-right: 16px;
+      margin-left: 16px;
+    }
+    .shop-page .metrics-grid .metric-card--art .metric-label {
+      max-width: 15ch;
+      margin-top: 16px;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+    .shop-page .metrics-grid .metric-card--art .metric-value {
+      margin-bottom: 8px;
+      font-size: clamp(30px, 3.1vw, 42px);
+      line-height: 1;
+    }
+    .shop-page .metrics-grid .metric-card--art .metric-note {
+      max-width: 24ch;
+      margin-bottom: 18px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    .shop-info-disclosure {
+      margin-bottom: 18px;
+      border: 1px solid rgba(136, 173, 255, 0.2);
+      border-radius: 20px;
+      background: rgba(13, 25, 45, 0.7);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .shop-info-disclosure summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 18px;
+      color: #e8f0ff;
+      cursor: pointer;
+      list-style: none;
+    }
+    .shop-info-disclosure summary::-webkit-details-marker {
+      display: none;
+    }
+    .shop-info-summary-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .shop-info-summary-note {
+      color: #a7b7d9;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: right;
+    }
+    .shop-info-disclosure summary::after {
+      content: "+";
+      flex: 0 0 auto;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(104, 210, 255, 0.28);
+      color: var(--accent);
+      font-size: 20px;
+      line-height: 1;
+    }
+    .shop-info-disclosure[open] summary::after {
+      content: "-";
+    }
+    .shop-info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      padding: 0 18px 18px;
+    }
+    .shop-info-card {
+      padding: 16px;
+      border: 1px solid rgba(136, 173, 255, 0.18);
+      border-radius: 16px;
+      background: rgba(7, 17, 31, 0.62);
+    }
+    .shop-info-card h2 {
+      margin-bottom: 8px;
+      font-size: 22px;
+    }
+    .shop-info-card p {
+      margin-bottom: 0;
+      color: #c7d7f5;
+      line-height: 1.48;
+    }
+    .shop-page .shop-request-panel {
+      border-radius: 18px;
+    }
+    .shop-page .module-grid {
+      gap: 18px;
+    }
+    .shop-item-card {
+      min-height: 520px;
+      display: flex;
+      overflow: hidden;
+      flex-direction: column;
+      padding: 0;
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(13, 28, 50, 0.96), rgba(7, 17, 31, 0.96));
+    }
+    .shop-item-art {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      min-height: 0;
+      border-bottom: 1px solid rgba(136, 173, 255, 0.18);
+      background: #0b1930;
+    }
+    .shop-item-art img,
+    .inventory-art img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .shop-item-art::after,
+    .inventory-art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(4, 12, 26, 0.02), rgba(4, 12, 26, 0.2));
+      pointer-events: none;
+    }
+    .shop-art-chip {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      z-index: 1;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(206, 224, 255, 0.26);
+      background: rgba(7, 16, 31, 0.74);
+      color: #eef5ff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+    .shop-item-art--fallback {
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(104, 210, 255, 0.22), transparent 42%),
+        linear-gradient(145deg, rgba(15, 34, 58, 0.96), rgba(7, 17, 31, 0.96));
+    }
+    .shop-item-art--fallback span {
+      font-size: 54px;
+      filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.32));
+    }
+    .shop-item-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 18px;
+    }
+    .shop-item-topline {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .shop-item-topline h3 {
+      margin: 4px 0 0;
+      font-size: clamp(22px, 2.2vw, 28px);
+      line-height: 1.04;
+    }
+    .shop-item-price {
+      flex: 0 0 auto;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(128, 237, 153, 0.24);
+      background: rgba(128, 237, 153, 0.1);
+      color: #d9ffe4;
+      font-weight: 800;
+    }
+    .shop-item-body > p {
+      color: #c7d7f5;
+      line-height: 1.48;
+    }
+    .shop-item-card .module-actions {
+      margin-top: auto;
+    }
+    .shop-item-card .module-link[disabled] {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+    .owned-inventory-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .inventory-card {
+      display: grid;
+      grid-template-columns: 116px minmax(0, 1fr);
+      gap: 14px;
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(136, 173, 255, 0.2);
+      background:
+        linear-gradient(145deg, rgba(16, 34, 58, 0.82), rgba(8, 18, 34, 0.92));
+    }
+    .inventory-art {
+      position: relative;
+      min-height: 116px;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid rgba(206, 224, 255, 0.16);
+      background: #0b1930;
+    }
+    .inventory-art .shop-art-chip {
+      display: none;
+    }
+    .inventory-card-body {
+      min-width: 0;
+      padding: 3px 4px 3px 0;
+    }
+    .inventory-card-body h3 {
+      margin: 4px 0 10px;
+      font-size: 22px;
+      line-height: 1.08;
+    }
+    .inventory-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .inventory-stat-grid span {
+      padding: 9px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(136, 173, 255, 0.16);
+      background: rgba(255, 255, 255, 0.04);
+      color: #c7d7f5;
+      font-size: 12px;
+    }
+    .inventory-stat-grid strong {
+      display: block;
+      color: #f2f7ff;
+      font-size: 18px;
+      line-height: 1.1;
+    }
+    .inventory-card-body p {
+      margin-bottom: 0;
+      color: #9fb1d6;
+      line-height: 1.4;
+    }
+    .inventory-empty-state {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(136, 173, 255, 0.2);
+      background: linear-gradient(145deg, rgba(16, 34, 58, 0.82), rgba(8, 18, 34, 0.92));
+    }
+    .inventory-empty-state img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid rgba(206, 224, 255, 0.16);
+    }
+    .inventory-empty-state p {
+      margin-bottom: 0;
+      color: #a7b7d9;
+    }
+    @media (max-width: 1280px) {
+      .shop-hero-content {
+        grid-template-columns: 1fr;
+      }
+      .shop-page .shop-hero-card h1 {
+        font-size: 52px;
+        white-space: normal;
+      }
+      .shop-hero-meta {
+        justify-self: start;
+        width: min(100%, 680px);
+      }
+      .shop-hero-meta .badge-stack {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 900px) {
+      .shop-page .metrics-grid {
+        gap: 12px;
+      }
+      .shop-page .metrics-grid .metric-card--art .metric-value {
+        font-size: 30px;
+      }
+      .shop-page .metrics-grid .metric-card--art .metric-note {
+        font-size: 11px;
+      }
+    }
+    @media (max-width: 680px) {
+      .shop-page .shop-hero-card {
+        min-height: 330px;
+        background-position: 58% center;
+      }
+      .shop-page .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .shop-hero-content {
+        grid-template-columns: 1fr;
+      }
+      .shop-page .shop-hero-card h1 {
+        font-size: 38px;
+        white-space: normal;
+      }
+      .shop-hero-meta {
+        justify-self: stretch;
+        padding: 10px;
+      }
+      .shop-hero-meta .badge-stack {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .shop-hero-meta .badge {
+        padding: 8px 9px;
+        font-size: 12px;
+      }
+      .shop-page .metrics-grid .metric-card--art .metric-value {
+        font-size: 34px;
+      }
+      .shop-info-disclosure summary {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .shop-info-disclosure summary::after {
+        position: absolute;
+        right: 16px;
+      }
+      .shop-info-summary-note {
+        max-width: calc(100% - 40px);
+        text-align: left;
+      }
+      .shop-info-grid {
+        grid-template-columns: 1fr;
+      }
+      .shop-category-bar {
+        gap: 9px;
+      }
+      .shop-category-pill {
+        min-height: 56px;
+        padding: 7px 13px 7px 7px;
+        border-radius: 18px;
+        font-size: 13px;
+      }
+      .shop-category-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 13px;
+      }
+      .inventory-card {
+        grid-template-columns: 94px minmax(0, 1fr);
+      }
+      .inventory-art {
+        min-height: 94px;
+      }
+      .inventory-stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 520px) {
+      .shop-hero-meta .badge-stack {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 420px) {
+      .shop-page .metrics-grid .metric-card--art > * {
+        margin-right: 12px;
+        margin-left: 12px;
+      }
+      .shop-page .metrics-grid .metric-card--art .metric-label {
+        margin-top: 12px;
+        font-size: 10px;
+      }
+      .shop-page .metrics-grid .metric-card--art .metric-value {
+        font-size: 29px;
+      }
+      .shop-page .metrics-grid .metric-card--art .metric-note {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body class="shop-page">
+  <main class="page-shell">
+    <nav class="dashboard-nav">
+      <a class="dashboard-nav-link" href="../dashboards/student.html">Student Hub</a>
+      <a class="dashboard-nav-link" href="../dashboards/leaderboard.html">Leaderboard</a>
+      <a class="dashboard-nav-link" href="../dashboards/community.html">Community</a>
+      <a class="dashboard-nav-link" href="../dashboards/global.html">Global Index</a>
+      <a class="dashboard-nav-link active" href="./index.html">Shop</a>
+    </nav>
+
+    <section class="hero">
+      <article class="hero-card shop-hero-card" style="--shop-hero-image: url('../Assets/Images and Animations/Global Shop/global-shop-student-hub.png')">
+        <div class="shop-hero-content">
+          <div class="shop-hero-copy">
+            <span class="eyebrow">Global Shop</span>
+            <h1 id="shop-hero-title">Spend your gains on the life you are building.</h1>
+            <p id="shop-hero-subtitle" class="subtitle">
+              This is the shared shop for Career Empire. Assets bought here are meant to matter across modules, not just inside one game.
+            </p>
+          </div>
+          <aside class="shop-hero-meta" aria-label="Current shop account">
+            <div id="shop-badge-stack" class="badge-stack">
+              <span class="badge">Loading student account...</span>
+            </div>
+          </aside>
+        </div>
+      </article>
+    </section>
+
+    <details class="shop-info-disclosure">
+      <summary>
+        <span class="shop-info-summary-title">Shop guidance</span>
+        <span class="shop-info-summary-note">Buy once, keep across modules. Open for the short version.</span>
+      </summary>
+      <div class="shop-info-grid">
+        <article class="shop-info-card">
+          <h2>How It Works</h2>
+          <p>Buy assets once and keep them as part of your wider Career Empire build. Over time these can affect multiple modules, not just one.</p>
+        </article>
+        <article class="shop-info-card">
+          <h2>Current Build</h2>
+          <p id="shop-build-note">The first wave of upgrades supports study, tools, transport, wellbeing, and home stability.</p>
+        </article>
+      </div>
+    </details>
+
+    <section class="metrics-grid">
+      <article class="metric metric-card--art" style="--metric-art: url('../Assets/Images and Animations/Student Hub/empire-status-net-worth.png')">
+        <div class="metric-label">Spendable Wealth</div>
+        <div id="shop-spendable" class="metric-value">$0</div>
+        <div class="metric-note">Current budget for upgrades</div>
+      </article>
+      <article class="metric metric-card--art" style="--metric-art: url('../Assets/Images and Animations/Student Hub/empire-status-assets-owned.png')">
+        <div class="metric-label">Assets Owned</div>
+        <div id="shop-assets-owned" class="metric-value">0</div>
+        <div class="metric-note">Persistent across the platform</div>
+      </article>
+      <article class="metric metric-card--art" style="--metric-art: url('../Assets/Images and Animations/Student Hub/empire-status-salary.png')">
+        <div class="metric-label">Salary</div>
+        <div id="shop-salary" class="metric-value">$0</div>
+        <div class="metric-note">Current player profile salary</div>
+      </article>
+      <article class="metric metric-card--art" style="--metric-art: url('../Assets/Images and Animations/Student Hub/empire-status-community-tax.png')">
+        <div class="metric-label">Net Worth</div>
+        <div id="shop-net-worth" class="metric-value">$0</div>
+        <div class="metric-note">Live profile snapshot</div>
+      </article>
+    </section>
+
+    <section class="two-column">
+      <article class="panel">
+        <div class="section-title">
+          <h2>Available Upgrades</h2>
+          <p>Buy once, keep across modules</p>
+        </div>
+        <div class="shop-request-panel">
+          <p class="eyebrow">Student Ownership</p>
+          <p><strong>Want something new in the shop?</strong> Suggest an item, choose its category, and optionally upload a photo so your teacher can review it and publish it.</p>
+          <button class="shop-secondary-button" type="button" data-open-store-request="true">Suggest a New Store Item</button>
+        </div>
+        <div id="shop-category-bar" class="shop-category-bar"></div>
+        <div id="shop-grid" class="module-grid"></div>
+      </article>
+
+      <article class="panel">
+        <div class="section-title">
+          <h2>Owned Inventory</h2>
+          <p>Your current life build</p>
+        </div>
+        <div id="owned-shop-items" class="list"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="../config/supabase-config.js"></script>
+  <script src="../src/services/economy-ledger.js"></script>
+  <script src="../src/services/supabase-browser.js"></script>
+  <script src="../src/services/response-moderation.js?v=teacher-written-filter-v1"></script>
+  <script src="./shop.js?v=20260513-free-text-privacy"></script>
+  <script src="../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

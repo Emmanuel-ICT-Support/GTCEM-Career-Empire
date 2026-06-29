@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Empire Auth</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./auth.css?v=20260513-auth-simplify">
+</head>
+<body>
+  <main class="auth-shell">
+    <div class="auth-topbar">
+      <div class="brand">
+        <div class="brand-mark">CE</div>
+        <div>Career Empire Authentication</div>
+      </div>
+      <div class="top-links">
+        <a class="ghost-link" href="../index.html">Main Game</a>
+        <a class="ghost-link" href="../dashboards/student.html">Student Dashboard</a>
+        <a class="ghost-link" href="../dashboards/teacher.html">Teacher Dashboard</a>
+      </div>
+    </div>
+
+    <section class="auth-layout">
+      <article class="panel">
+        <span class="eyebrow">Platform Entry</span>
+        <h1>One front door for teachers, students, classes, and the whole game ecosystem.</h1>
+        <p class="lead">
+          These auth screens are the first concrete step toward real role-based access. Teachers register with approved school
+          emails, create classes, issue student usernames, and students log in without using email addresses.
+        </p>
+
+        <div class="tile-grid">
+          <article class="tile tile-demo">
+            <h3>Try Demo Student</h3>
+            <p>Jump into the full student experience with a local-only demo account. No setup, no login, no live student data touched.</p>
+            <button class="button-primary" type="button" data-demo-student-launch="true" data-demo-student-target="../dashboards/student.html">Open demo student hub</button>
+          </article>
+          <article class="tile">
+            <h3>Teacher Sign Up</h3>
+            <p>Restricted to `cewa.edu.au` and domains ending in `.wa.edu.au`.</p>
+            <a class="primary-link" href="./teacher-signup.html">Open screen</a>
+          </article>
+          <article class="tile">
+            <h3>Teacher Login</h3>
+            <p>For returning staff accounts after registration and class creation.</p>
+            <a class="primary-link" href="./teacher-login.html">Open screen</a>
+          </article>
+          <article class="tile">
+            <h3>Student Login</h3>
+            <p>Students use teacher-issued usernames only. No student email addresses are entered.</p>
+            <a class="primary-link" href="./student-login.html">Open screen</a>
+          </article>
+          <article class="tile">
+            <h3>Class Setup</h3>
+            <p>Teachers create classes and generate the identity structure the whole platform depends on.</p>
+            <a class="primary-link" href="./create-class.html">Open screen</a>
+          </article>
+          <article class="tile">
+            <h3>Manage Students</h3>
+            <p>Review student accounts, class rosters, and reset passwords when needed.</p>
+            <a class="primary-link" href="./manage-students.html">Open screen</a>
+          </article>
+          <article class="tile">
+            <h3>Lifelong Learning</h3>
+            <p>Open the first playable prototype of Module 2 inside the shared Career Empire platform.</p>
+            <a class="primary-link" href="../modules/lifelong-learning/index.html">Open module</a>
+          </article>
+        </div>
+      </article>
+
+      <div class="stack">
+        <article class="info-card">
+          <h2>Current Prototype Context</h2>
+          <div class="code-box">
+            <p><strong>Teacher:</strong> <span id="teacher-name-preview">No teacher saved yet</span></p>
+            <p><strong>School:</strong> <span id="teacher-school-preview">School not set yet</span></p>
+            <p><strong>Class:</strong> <span id="class-preview">No class created yet</span></p>
+            <p><strong>Class code:</strong> <span id="class-code-preview">Pending</span></p>
+          </div>
+        </article>
+        <article class="info-card">
+          <h2>Rules Locked In</h2>
+          <div class="pill-row">
+            <span class="pill">Teachers only via approved school domains</span>
+            <span class="pill">Students cannot self-register</span>
+            <span class="pill">No student emails</span>
+            <span class="pill">Teacher-issued usernames</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="../config/supabase-config.js"></script>
+  <script src="../src/services/supabase-browser.js"></script>
+  <script src="./auth.js?v=20260513-auth-simplify"></script>
+  <script src="../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

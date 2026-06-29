@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Job Builder | Student Jobs Market</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="data:,">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./jobs.css?v=teacher-builder-v2">
+</head>
+<body class="job-builder-page">
+  <main class="jobs-shell">
+    <header class="jobs-hero">
+      <nav class="jobs-nav" aria-label="Jobs pages">
+        <a href="./jobs-market.html">Jobs Market</a>
+        <a href="#job-form">Create Job</a>
+        <a href="#publish-note">How Publishing Works</a>
+      </nav>
+      <div class="hero-copy teacher-builder-hero">
+        <p class="eyebrow">Teacher Job Shop</p>
+        <h1>Submit a student job brief</h1>
+        <p>
+          Turn classroom needs into clear student-facing production jobs. Build the brief here,
+          preview it, then copy or download it so it can be published to the Jobs Market.
+        </p>
+      </div>
+    </header>
+
+    <section class="notice-panel" id="publish-note">
+      <div>
+        <p class="eyebrow">Important</p>
+        <h2>GitHub Pages cannot collect uploads by itself</h2>
+      </div>
+      <p>
+        This form can create a job brief, save it as a browser draft, copy it, download it as JSON,
+        and open an email draft. To make a job visible to everyone, the job needs to be added to
+        the published market data file or connected to a real form service such as Google Forms,
+        Microsoft Forms, Google Drive, Teams, or your LMS.
+      </p>
+    </section>
+
+    <section class="builder-layout" id="job-form">
+      <form class="job-form" id="teacher-job-form">
+        <div class="form-toolbar">
+          <div>
+            <p class="eyebrow">Brief Builder</p>
+            <h2>Create the job</h2>
+          </div>
+          <div class="toolbar-actions">
+            <button class="secondary-button" type="button" id="clear-builder">Clear Form</button>
+            <button class="secondary-button" type="button" id="load-avatar-example">Load Avatar Example</button>
+          </div>
+        </div>
+
+        <fieldset>
+          <legend>1. Project Snapshot</legend>
+          <div class="field-grid two">
+            <label>
+              <span>Job title</span>
+              <input name="title" required placeholder="Example: Avatar Studio Hair Pack">
+            </label>
+            <label>
+              <span>Job type</span>
+              <select name="jobType">
+                <option>Design and asset production</option>
+                <option>Research and evidence gathering</option>
+                <option>Writing and editing</option>
+                <option>Testing and feedback</option>
+                <option>Video, audio, or media production</option>
+                <option>Data, spreadsheet, or dashboard work</option>
+                <option>Event, display, or classroom resource</option>
+              </select>
+            </label>
+            <label>
+              <span>Teacher or client</span>
+              <input name="teacher" placeholder="Example: Year 12 Careers">
+            </label>
+            <label>
+              <span>Subject or course</span>
+              <input name="subjectArea" placeholder="Example: Careers, Media, Design">
+            </label>
+            <label>
+              <span>Audience</span>
+              <input name="audience" placeholder="Example: Students interested in digital design">
+            </label>
+            <label>
+              <span>Due date</span>
+              <input name="dueDateLabel" placeholder="Example: Friday Week 8">
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. Goal And Why It Matters</legend>
+          <label>
+            <span>Student mission</span>
+            <textarea name="studentMission" rows="3" placeholder="Write this as the student call to action."></textarea>
+          </label>
+          <label>
+            <span>Why this job matters</span>
+            <textarea name="whyItMatters" rows="4" placeholder="What real classroom, client, game, community, or production need does it solve?"></textarea>
+          </label>
+          <label>
+            <span>Short market summary</span>
+            <textarea name="summary" rows="3" placeholder="One or two sentences shown on the Jobs Market card."></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. What Exists And What Is Needed</legend>
+          <div class="field-grid two">
+            <label>
+              <span>What already exists</span>
+              <textarea name="alreadyHave" rows="7" placeholder="One item per line"></textarea>
+            </label>
+            <label>
+              <span>What still needs doing</span>
+              <textarea name="needed" rows="7" placeholder="One item per line"></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>4. Work Sections</legend>
+          <p class="field-help">
+            Use these for sections like Face Pack, Hair Pack, Research Pack, Testing Pack, or Poster Pack.
+            Leave unused sections blank.
+          </p>
+
+          <div class="work-section-grid">
+            <article class="work-section-form">
+              <h3>Section 1</h3>
+              <label><span>Section title</span><input name="pack1Name" placeholder="Example: Face Pack"></label>
+              <label><span>What I need</span><textarea name="pack1Need" rows="5" placeholder="One item per line"></textarea></label>
+              <label><span>What I already have</span><textarea name="pack1Have" rows="5" placeholder="One item per line"></textarea></label>
+              <label><span>Student submission link for this section</span><input name="pack1SubmitUrl" placeholder="Optional Google Form, Drive, Teams, or LMS link"></label>
+            </article>
+
+            <article class="work-section-form">
+              <h3>Section 2</h3>
+              <label><span>Section title</span><input name="pack2Name" placeholder="Example: Hair Pack"></label>
+              <label><span>What I need</span><textarea name="pack2Need" rows="5" placeholder="One item per line"></textarea></label>
+              <label><span>What I already have</span><textarea name="pack2Have" rows="5" placeholder="One item per line"></textarea></label>
+              <label><span>Student submission link for this section</span><input name="pack2SubmitUrl" placeholder="Optional Google Form, Drive, Teams, or LMS link"></label>
+            </article>
+
+            <article class="work-section-form">
+              <h3>Section 3</h3>
+              <label><span>Section title</span><input name="pack3Name" placeholder="Example: Testing Pack"></label>
+              <label><span>What I need</span><textarea name="pack3Need" rows="5" placeholder="One item per line"></textarea></label>
+              <label><span>What I already have</span><textarea name="pack3Have" rows="5" placeholder="One item per line"></textarea></label>
+              <label><span>Student submission link for this section</span><input name="pack3SubmitUrl" placeholder="Optional Google Form, Drive, Teams, or LMS link"></label>
+            </article>
+
+            <article class="work-section-form">
+              <h3>Section 4</h3>
+              <label><span>Section title</span><input name="pack4Name" placeholder="Example: Media Pack"></label>
+              <label><span>What I need</span><textarea name="pack4Need" rows="5" placeholder="One item per line"></textarea></label>
+              <label><span>What I already have</span><textarea name="pack4Have" rows="5" placeholder="One item per line"></textarea></label>
+              <label><span>Student submission link for this section</span><input name="pack4SubmitUrl" placeholder="Optional Google Form, Drive, Teams, or LMS link"></label>
+            </article>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>5. Deliverables, Resources, And Success Criteria</legend>
+          <div class="field-grid two">
+            <label>
+              <span>Deliverables</span>
+              <textarea name="deliverables" rows="7" placeholder="One item per line"></textarea>
+            </label>
+            <label>
+              <span>Acceptance criteria</span>
+              <textarea name="acceptanceCriteria" rows="7" placeholder="One item per line"></textarea>
+            </label>
+            <label>
+              <span>Resources or handover links</span>
+              <textarea name="resources" rows="6" placeholder="Label | URL | Type&#10;Example: Starter ZIP | https://... | Download"></textarea>
+            </label>
+            <label>
+              <span>Skills students can develop</span>
+              <textarea name="skills" rows="6" placeholder="One skill per line"></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>6. Scope Boundaries And Submission</legend>
+          <div class="field-grid two">
+            <label>
+              <span>In scope</span>
+              <textarea name="inScope" rows="6" placeholder="One item per line"></textarea>
+            </label>
+            <label>
+              <span>Out of scope</span>
+              <textarea name="outOfScope" rows="6" placeholder="One item per line"></textarea>
+            </label>
+            <label>
+              <span>Main student submission link</span>
+              <input name="submissionUrl" placeholder="Google Form, Drive folder, Teams assignment, LMS link, or mailto link">
+            </label>
+            <label>
+              <span>Submission label</span>
+              <input name="submissionLabel" placeholder="Example: Submit through the class Google Form">
+            </label>
+            <label class="full-row">
+              <span>Submission instructions</span>
+              <textarea name="submissionDetails" rows="4" placeholder="Explain exactly how students should name and upload their files."></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button class="primary-button" type="button" id="save-draft">Save Draft To This Browser</button>
+          <button class="secondary-button" type="button" id="copy-brief">Copy Brief</button>
+          <button class="secondary-button" type="button" id="download-json">Download JSON</button>
+          <button class="secondary-button" type="button" id="email-brief">Open Email Draft</button>
+          <a class="secondary-button link-button" href="./jobs-market.html">Open Jobs Market</a>
+        </div>
+        <p class="status-line" id="builder-status" aria-live="polite"></p>
+      </form>
+
+      <aside class="preview-panel">
+        <p class="eyebrow">Live Preview</p>
+        <h2>Job card preview</h2>
+        <div id="job-preview" class="market-card preview-card"></div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="./teacher-job-submit.js?v=teacher-builder-v2"></script>
+</body>
+</html>

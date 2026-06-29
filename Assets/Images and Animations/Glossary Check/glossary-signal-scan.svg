@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Glossary signal scan chamber</title>
+  <desc id="desc">A glowing sci-fi scanner ring with floating glossary tokens.</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="46%" r="66%">
+      <stop offset="0" stop-color="#163e6d"/>
+      <stop offset="0.55" stop-color="#0b1837"/>
+      <stop offset="1" stop-color="#050916"/>
+    </radialGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#62f0ff"/>
+      <stop offset="1" stop-color="#72f7b8"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="640" height="420" rx="42" fill="url(#bg)"/>
+  <path d="M64 70h512v280H64z" fill="none" stroke="#223b78" stroke-width="2"/>
+  <path d="M94 98h452v224H94z" fill="none" stroke="#295399" stroke-width="1" opacity=".72"/>
+  <g opacity=".35" stroke="#62f0ff" stroke-width="1">
+    <path d="M98 160h444M98 210h444M98 260h444"/>
+    <path d="M170 98v224M260 98v224M350 98v224M440 98v224"/>
+  </g>
+  <g filter="url(#glow)">
+    <circle cx="320" cy="210" r="96" fill="none" stroke="url(#cyan)" stroke-width="6"/>
+    <circle cx="320" cy="210" r="132" fill="none" stroke="#62f0ff" stroke-width="2" opacity=".45"/>
+    <circle cx="320" cy="210" r="166" fill="none" stroke="#72f7b8" stroke-width="1" opacity=".28"/>
+    <path d="M320 114v192M224 210h192" stroke="#ffd86c" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+    <circle cx="320" cy="210" r="20" fill="#ffd86c"/>
+  </g>
+  <g font-family="Outfit, Arial, sans-serif" font-weight="800" font-size="20" fill="#dffcff">
+    <rect x="116" y="118" width="118" height="46" rx="23" fill="#102a59" stroke="#62f0ff" opacity=".9"/>
+    <text x="145" y="148">TERM</text>
+    <rect x="420" y="122" width="112" height="44" rx="22" fill="#102a59" stroke="#72f7b8" opacity=".86"/>
+    <text x="447" y="151">CLUE</text>
+    <rect x="96" y="278" width="150" height="44" rx="22" fill="#102a59" stroke="#ffd86c" opacity=".86"/>
+    <text x="124" y="307">SIGNAL</text>
+    <rect x="406" y="274" width="138" height="48" rx="24" fill="#102a59" stroke="#c48bff" opacity=".86"/>
+    <text x="436" y="306">MATCH</text>
+  </g>
+  <path d="M78 352c74-16 126-14 198 2 80 18 164 18 286-6" fill="none" stroke="#62f0ff" stroke-width="2" opacity=".55"/>
+</svg>

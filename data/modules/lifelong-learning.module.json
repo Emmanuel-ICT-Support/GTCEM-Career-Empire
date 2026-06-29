@@ -1,0 +1,367 @@
+{
+  "id": "lifelong-learning",
+  "title": "Lifelong Learning",
+  "curriculumArea": "Careers and Employability",
+  "theme": "Growth mindset, reflection, adaptation, and future learning habits",
+  "status": "draft",
+  "overview": {
+    "tagline": "Invest in your future through smart learning, flexible pathways, and recovery after setbacks.",
+    "playerFantasy": "Build a future career by spending time, money, and energy on the learning choices that unlock stronger pathways over time.",
+    "teacherValue": "Targets planning, reflection, resilience, and self-management through evidence-rich gameplay where students justify real pathway and training decisions."
+  },
+  "gameplayIdentity": {
+    "moduleFantasy": "career-learning simulator",
+    "playStyle": "strategic progression",
+    "whyItDiffersFromMegatrends": "Megatrends is built around future-of-work scenarios. Lifelong Learning should revolve around investment, adaptation, barriers, and long-term pathway growth.",
+    "funDrivers": [
+      "trade-offs between short-term comfort and long-term growth",
+      "unlocking alternate routes and better jobs",
+      "recovering from blocked pathways",
+      "resource pressure across money, time, and energy",
+      "visible life and career upgrades"
+    ]
+  },
+  "learningObjectives": [
+    "Explain why lifelong learning matters for career adaptability and future opportunities.",
+    "Identify learning habits, mindsets, and behaviours that support long-term employability.",
+    "Reflect on strengths, gaps, and next steps in personal learning growth.",
+    "Apply planning and self-management strategies to future study, work, and training pathways."
+  ],
+  "sharedStatEffects": [
+    {
+      "stat": "career_success",
+      "description": "Consistent learning habits improve long-term progression and future opportunity."
+    },
+    {
+      "stat": "resilience",
+      "description": "Students practise adapting to setbacks and continuing forward with a growth mindset."
+    },
+    {
+      "stat": "work_life_balance",
+      "description": "Planning and self-management help students balance learning demands with wellbeing."
+    },
+    {
+      "stat": "salary",
+      "description": "Smart upskilling decisions can improve future income potential."
+    },
+    {
+      "stat": "job_security",
+      "description": "Ongoing learning helps students stay employable when pathways or workplaces change."
+    },
+    {
+      "stat": "net_worth",
+      "description": "Income grows over time when students invest well in future opportunities."
+    }
+  ],
+  "gameplayLoop": [
+    {
+      "step": 1,
+      "label": "Receive a goal",
+      "description": "The student starts a round with a pathway target, learning need, or career milestone."
+    },
+    {
+      "step": 2,
+      "label": "Face a barrier",
+      "description": "A roadblock, pressure, or industry change makes the easy route unavailable."
+    },
+    {
+      "step": 3,
+      "label": "Choose a learning response",
+      "description": "The student selects from training, mentoring, practice, research, or other growth options."
+    },
+    {
+      "step": 4,
+      "label": "Pay the cost",
+      "description": "Choices consume time, money, and energy."
+    },
+    {
+      "step": 5,
+      "label": "Play a challenge",
+      "description": "A short interactive task determines how well the choice is applied."
+    },
+    {
+      "step": 6,
+      "label": "Bank consequences",
+      "description": "The player gains or loses salary growth, pathway access, skill XP, resilience, and balance."
+    },
+    {
+      "step": 7,
+      "label": "Capture evidence",
+      "description": "A short reflection or justification is saved for the teacher dashboard."
+    }
+  ],
+  "resourceModel": {
+    "currencies": [
+      {
+        "id": "money",
+        "description": "Used for courses, transport, tools, and training fees."
+      },
+      {
+        "id": "time",
+        "description": "Spent across study, work, family responsibilities, and recovery."
+      },
+      {
+        "id": "energy",
+        "description": "Represents capacity and wellbeing. Low energy raises burnout risk."
+      },
+      {
+        "id": "momentum",
+        "description": "Shows how strongly the player is moving toward a pathway goal."
+      }
+    ],
+    "incomeModel": {
+      "baseIncomeSource": "current pathway stage",
+      "progressionRule": "Learning decisions do not pay cash directly, but they improve future salary, job security, and promotion access.",
+      "exampleTradeOffs": [
+        "short course costs money now but unlocks stronger pay later",
+        "mentor support costs time but improves communication and confidence",
+        "ignoring a skill gap protects cash now but blocks future growth"
+      ]
+    }
+  },
+  "eventDeck": [
+    {
+      "type": "skill-gap",
+      "description": "A new skill is required quickly for a job, placement, or study opportunity."
+    },
+    {
+      "type": "blocked-pathway",
+      "description": "The direct route is unavailable, so the player must find an alternative."
+    },
+    {
+      "type": "opportunity-window",
+      "description": "A mentor, scholarship, traineeship, or workplace opening appears for a short time."
+    },
+    {
+      "type": "life-pressure",
+      "description": "Money, wellbeing, or family pressure reduces the player's available capacity."
+    },
+    {
+      "type": "industry-change",
+      "description": "Technology or employer expectations shift, forcing adaptation."
+    }
+  ],
+  "employabilityFocus": [
+    {
+      "categoryId": "time-management",
+      "subskillIds": [
+        "plan-and-prioritise",
+        "productivity-tools",
+        "track-and-reassess"
+      ],
+      "whyItFits": "Lifelong Learning depends on planning, prioritising, and adjusting learning goals over time."
+    },
+    {
+      "categoryId": "critical-thinking",
+      "subskillIds": [
+        "research-and-information-gathering",
+        "analysis-and-evaluation",
+        "bias-reflection"
+      ],
+      "whyItFits": "Students evaluate pathways, learning options, and evidence about their future choices."
+    },
+    {
+      "categoryId": "communication",
+      "subskillIds": [
+        "purpose-audience-format",
+        "active-listening"
+      ],
+      "whyItFits": "Reflection, goal-setting, and learning conversations all require clear communication."
+    }
+  ],
+  "activities": [
+    {
+      "id": "what-is-lifelong-learning",
+      "type": "intro",
+      "title": "What Is Lifelong Learning?",
+      "purpose": "Introduce lifelong learning as a non-linear, career-building idea connected to changing pathways.",
+      "awards": [
+        { "kind": "module-xp", "target": "lifelong-learning", "amount": 5 }
+      ]
+    },
+    {
+      "id": "learning-to-learn-lab",
+      "type": "scenario",
+      "title": "Learning to Learn Lab",
+      "purpose": "Ask students to select the strongest learning strategy for different situations and explain their reasoning.",
+      "awards": [
+        { "kind": "employability-xp", "target": "time-management", "amount": 6 },
+        { "kind": "employability-xp", "target": "critical-thinking", "amount": 5 }
+      ]
+    },
+    {
+      "id": "training-and-development-sort",
+      "type": "classification",
+      "title": "Training and Development Sort",
+      "purpose": "Require students to classify learning and training as formal, informal, on-the-job, or off-the-job.",
+      "awards": [
+        { "kind": "module-xp", "target": "lifelong-learning", "amount": 10 },
+        { "kind": "employability-xp", "target": "critical-thinking", "amount": 6 }
+      ]
+    },
+    {
+      "id": "pathways-to-success",
+      "type": "scenario",
+      "title": "Pathways to Success",
+      "purpose": "Challenge students to respond to blocked pathways and build alternative routes to the same goal.",
+      "awards": [
+        { "kind": "shared-stat", "target": "resilience", "amount": 2 },
+        { "kind": "shared-stat", "target": "career_success", "amount": 1 }
+      ]
+    },
+    {
+      "id": "continuing-professional-development",
+      "type": "assessment",
+      "title": "Continuing Professional Development",
+      "purpose": "Show how workers keep their skills current long after entering an occupation.",
+      "awards": [
+        { "kind": "shared-stat", "target": "job_security", "amount": 2 },
+        { "kind": "shared-stat", "target": "salary", "amount": 1 }
+      ]
+    },
+    {
+      "id": "goal-planning-task",
+      "type": "reflection",
+      "title": "Goal Planning Task",
+      "purpose": "Capture evidence of planning, prioritising, and identifying next learning steps.",
+      "awards": [
+        { "kind": "employability-xp", "target": "time-management", "amount": 8 }
+      ]
+    },
+    {
+      "id": "setback-recovery-mini-game",
+      "type": "mini-game",
+      "title": "Setback Recovery Challenge",
+      "purpose": "Turn resilience and adjustment into a short, rewarding practice loop.",
+      "awards": [
+        { "kind": "shared-stat", "target": "resilience", "amount": 1 },
+        { "kind": "module-xp", "target": "lifelong-learning", "amount": 8 }
+      ]
+    }
+  ],
+  "rounds": [
+    {
+      "id": "round-1",
+      "title": "Your Career Is Not One Straight Line",
+      "gameplayHook": "Choose a destination and compare several valid routes to get there.",
+      "primaryTension": "fastest route vs most resilient route",
+      "mainReward": "pathway confidence and early momentum"
+    },
+    {
+      "id": "round-2",
+      "title": "Learn How You Learn",
+      "gameplayHook": "Solve a skill gap before a deadline using limited time and energy.",
+      "primaryTension": "quick fix vs effective strategy",
+      "mainReward": "stronger learning habits and better future readiness"
+    },
+    {
+      "id": "round-3",
+      "title": "Invest In Training",
+      "gameplayHook": "Buy or choose learning opportunities with different cost, speed, and quality.",
+      "primaryTension": "cheap now vs strong later",
+      "mainReward": "salary potential and pathway unlocks"
+    },
+    {
+      "id": "round-4",
+      "title": "Survive A Roadblock",
+      "gameplayHook": "Recover from a setback by building Plan B and Plan C.",
+      "primaryTension": "freeze vs adapt",
+      "mainReward": "resilience and alternate route access"
+    },
+    {
+      "id": "round-5",
+      "title": "Stay Employable Over Time",
+      "gameplayHook": "Keep a career current through changing industry expectations and CPD choices.",
+      "primaryTension": "save resources now vs fall behind later",
+      "mainReward": "job security and long-term salary growth"
+    }
+  ],
+  "assessmentEvidence": [
+    {
+      "id": "lifelong-learning-definition",
+      "type": "short-response",
+      "prompt": "What is lifelong learning and why is it important for career development?",
+      "teacherVisible": true
+    },
+    {
+      "id": "lifelong-learning-strategy-justification",
+      "type": "justification",
+      "prompt": "Which learning strategy is best for the scenario, and why?",
+      "teacherVisible": true
+    },
+    {
+      "id": "lifelong-learning-pathway-plan",
+      "type": "justification",
+      "prompt": "Create a pathway plan with at least two alternatives if your first route is blocked.",
+      "teacherVisible": true
+    },
+    {
+      "id": "lifelong-learning-goal-reflection",
+      "type": "short-response",
+      "prompt": "Explain one learning goal you need for your future pathway and how you will work toward it.",
+      "teacherVisible": true
+    },
+    {
+      "id": "lifelong-learning-cpd-explanation",
+      "type": "justification",
+      "prompt": "Explain how a worker in a chosen occupation would continue professional development throughout their career.",
+      "teacherVisible": true
+    }
+  ],
+  "chapters": [
+    {
+      "id": "chapter-1",
+      "title": "What Is Lifelong Learning?",
+      "primarySkillId": "communication",
+      "activities": [
+        "what-is-lifelong-learning",
+        "goal-planning-task"
+      ]
+    },
+    {
+      "id": "chapter-2",
+      "title": "Learning to Learn",
+      "primarySkillId": "time-management",
+      "activities": [
+        "learning-to-learn-lab",
+        "setback-recovery-mini-game"
+      ]
+    },
+    {
+      "id": "chapter-3",
+      "title": "Training and Development",
+      "primarySkillId": "critical-thinking",
+      "activities": [
+        "training-and-development-sort"
+      ]
+    },
+    {
+      "id": "chapter-4",
+      "title": "Pathways to Success",
+      "primarySkillId": "problem-solving",
+      "activities": [
+        "pathways-to-success"
+      ]
+    },
+    {
+      "id": "chapter-5",
+      "title": "Continuing Professional Development",
+      "primarySkillId": "critical-thinking",
+      "activities": [
+        "continuing-professional-development"
+      ]
+    }
+  ],
+  "visualLanguage": {
+    "primaryEmployabilitySkillId": "time-management",
+    "secondaryEmployabilitySkillIds": [
+      "critical-thinking",
+      "communication"
+    ],
+    "logoPaths": [
+      "../Assets/employability-logos/main/time-management.png",
+      "../Assets/employability-logos/main/critical-thinking.png",
+      "../Assets/employability-logos/main/communication.png"
+    ]
+  }
+}

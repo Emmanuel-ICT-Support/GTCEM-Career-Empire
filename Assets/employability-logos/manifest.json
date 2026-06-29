@@ -1,0 +1,48 @@
+{
+  "sourceDocument": "/Users/tania.byrnes/Downloads/Copy of Employability Skills Icons.docx",
+  "generatedAt": "2026-03-23",
+  "categories": [
+    {
+      "id": "communication",
+      "title": "Communication",
+      "logoPath": "./main/communication.png",
+      "sourceImage": "./raw/image1.png",
+      "note": "Mapped from the first Communication category icon in the source document."
+    },
+    {
+      "id": "digital-literacy",
+      "title": "Digital Literacy",
+      "logoPath": "./main/digital-literacy.png",
+      "sourceImage": "./raw/image7.png",
+      "note": "Mapped from the Digital Literacy category icon in the source document."
+    },
+    {
+      "id": "teamwork",
+      "title": "Teamwork",
+      "logoPath": "./main/teamwork.png",
+      "sourceImage": "./raw/image13.png",
+      "note": "Selected as the clearest Teamwork category icon from the source set."
+    },
+    {
+      "id": "time-management",
+      "title": "Time Management",
+      "logoPath": "./main/time-management.png",
+      "sourceImage": "./raw/image16.png",
+      "note": "Mapped from the Time Management category icon in the source document."
+    },
+    {
+      "id": "critical-thinking",
+      "title": "Critical Thinking",
+      "logoPath": "./main/critical-thinking.png",
+      "sourceImage": "./raw/image20.png",
+      "note": "Mapped from the Critical Thinking category icon in the source document."
+    },
+    {
+      "id": "problem-solving",
+      "title": "Problem-Solving",
+      "logoPath": "./main/problem-solving.png",
+      "sourceImage": "./raw/image24.png",
+      "note": "Mapped from the Problem Solving category icon in the source document."
+    }
+  ]
+}

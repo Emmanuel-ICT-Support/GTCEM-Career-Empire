@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 320" role="img" aria-labelledby="title desc">
+  <title id="title">Vault Bridge runner character</title>
+  <desc id="desc">A stylized student runner in a futuristic recall suit.</desc>
+  <defs>
+    <linearGradient id="suit" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#71f4ff"/>
+      <stop offset="0.48" stop-color="#6a6dff"/>
+      <stop offset="1" stop-color="#17285f"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffd1ad"/>
+      <stop offset="1" stop-color="#b96e4a"/>
+    </linearGradient>
+    <filter id="runner-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <ellipse cx="150" cy="286" rx="82" ry="17" fill="#64f4ff" opacity="0.18"/>
+  <g filter="url(#runner-glow)">
+    <path d="M116 145 C88 166 72 193 67 225" fill="none" stroke="#84ffd1" stroke-width="22" stroke-linecap="round"/>
+    <path d="M184 145 C216 166 231 194 235 226" fill="none" stroke="#ffd86c" stroke-width="22" stroke-linecap="round"/>
+    <path d="M105 244 C92 264 77 280 56 292" fill="none" stroke="#66f4ff" stroke-width="21" stroke-linecap="round"/>
+    <path d="M190 244 C207 260 221 278 231 300" fill="none" stroke="#66f4ff" stroke-width="21" stroke-linecap="round"/>
+    <path d="M94 126 C100 88 124 66 150 66 C176 66 201 88 206 126 L218 220 C222 255 194 276 150 276 C106 276 78 255 82 220 Z" fill="url(#suit)" stroke="#dffcff" stroke-width="5"/>
+    <circle cx="150" cy="83" r="56" fill="#091633" stroke="#64f4ff" stroke-width="6"/>
+    <circle cx="150" cy="86" r="41" fill="url(#skin)"/>
+    <path d="M107 76 C126 44 174 43 196 78 C181 63 128 62 107 76 Z" fill="#1b2444"/>
+    <path d="M126 97 C136 105 164 105 174 97" fill="none" stroke="#5e352b" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="132" cy="84" r="5" fill="#11172a"/>
+    <circle cx="168" cy="84" r="5" fill="#11172a"/>
+    <rect x="116" y="154" width="68" height="58" rx="18" fill="#071227" stroke="#84ffd1" stroke-width="4"/>
+    <text x="150" y="192" text-anchor="middle" font-family="Outfit, Arial, sans-serif" font-size="30" font-weight="900" fill="#84ffd1">EST</text>
+    <path d="M92 123 C111 144 188 144 208 123" fill="none" stroke="#64f4ff" stroke-width="5" opacity="0.7"/>
+    <path d="M96 216 C118 232 184 232 207 216" fill="none" stroke="#ffffff" stroke-width="4" opacity="0.32"/>
+  </g>
+</svg>

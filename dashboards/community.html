@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Empire Community Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./dashboard.css">
+</head>
+<body class="community-dashboard-page">
+  <main class="page-shell">
+    <nav class="dashboard-nav">
+      <a class="dashboard-nav-link" href="./student.html">Student Hub</a>
+      <a class="dashboard-nav-link" href="./leaderboard.html">Leaderboard</a>
+      <a class="dashboard-nav-link active" href="./community.html">Community</a>
+      <a class="dashboard-nav-link" href="./global.html">Global Index</a>
+      <a class="dashboard-nav-link" href="../shop/index.html">Shop</a>
+    </nav>
+
+    <section class="hero community-hero">
+      <article class="hero-card">
+        <span class="eyebrow">Community Board</span>
+        <h1>See where the class is investing its impact.</h1>
+        <p class="subtitle">Every module feeds a community vote and fund. This is the live class picture, not just one game screen.</p>
+      </article>
+      <article class="community-hero-art">
+        <img src="../Assets/Images and Animations/Student Hub/community-impact-banner.png" alt="">
+        <div class="community-hero-stat">
+          <span>Class fund signal</span>
+          <strong>Live impact map</strong>
+        </div>
+      </article>
+    </section>
+
+    <section class="community-pathway-grid" aria-label="Community impact pathways">
+      <article class="impact-path-card">
+        <img src="../Assets/Images and Animations/Community Page/community-path-green-futures.png" alt="">
+        <div class="kicker">Climate and Sustainability</div>
+        <h3>Green futures</h3>
+        <p>Class contributions can back cleaner systems, resilient industries, and sustainable work choices.</p>
+      </article>
+      <article class="impact-path-card">
+        <img src="../Assets/Images and Animations/Community Page/community-path-digital-access.png" alt="">
+        <div class="kicker">Tech Education and Inclusion</div>
+        <h3>Digital access</h3>
+        <p>Votes can strengthen learning tools, future skills, and access to high-opportunity technology pathways.</p>
+      </article>
+      <article class="impact-path-card">
+        <img src="../Assets/Images and Animations/Community Page/community-path-fairer-starts.png" alt="">
+        <div class="kicker">Diversity and Economic Equity</div>
+        <h3>Fairer starts</h3>
+        <p>The community fund can support inclusion, belonging, and practical bridges into stable careers.</p>
+      </article>
+      <article class="impact-path-card">
+        <img src="../Assets/Images and Animations/Community Page/community-path-wider-horizons.png" alt="">
+        <div class="kicker">Global Opportunity Access</div>
+        <h3>Wider horizons</h3>
+        <p>Students can direct impact toward international awareness, mobility, and globally connected careers.</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">
+        <h2>Community Vote</h2>
+        <p>Built from recorded player contributions at your school</p>
+      </div>
+      <div id="community-page-board" class="community-board"></div>
+    </section>
+  </main>
+
+  <script src="../config/supabase-config.js"></script>
+  <script src="../src/services/supabase-browser.js"></script>
+  <script src="./dashboard.js"></script>
+  <script src="../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

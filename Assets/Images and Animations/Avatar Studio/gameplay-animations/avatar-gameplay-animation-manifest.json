@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Reusable transparent gameplay sprite sheets generated from Avatar Studio production rigs.",
+  "sourceCanvas": {
+    "width": 1024,
+    "height": 1536
+  },
+  "frame": {
+    "width": 256,
+    "height": 384
+  },
+  "format": "single-row PNG sprite sheets, transparent background",
+  "cssUsage": "Animate background-position-x from 0 to -(frameWidth * frames) with steps(frames).",
+  "rigs": {
+    "ecc-boy-base-neutral": {
+      "id": "ecc-boy-base-neutral",
+      "label": "ECC boy base neutral",
+      "sourceLayerRoot": "../layers/ecc-boy-base-neutral/",
+      "animations": {
+        "idle": {
+          "id": "idle",
+          "label": "Idle",
+          "description": "Soft breathing loop for menus and dashboards.",
+          "sheet": "ecc-boy-base-neutral/idle.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 12,
+          "fps": 12,
+          "loop": true,
+          "durationMs": 1000
+        },
+        "walk": {
+          "id": "walk",
+          "label": "Walk",
+          "description": "In-place walk loop for map movement and scene entrances.",
+          "sheet": "ecc-boy-base-neutral/walk.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 12,
+          "fps": 12,
+          "loop": true,
+          "durationMs": 1000
+        },
+        "run": {
+          "id": "run",
+          "label": "Run",
+          "description": "Faster in-place loop for arcade and urgency moments.",
+          "sheet": "ecc-boy-base-neutral/run.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 10,
+          "fps": 15,
+          "loop": true,
+          "durationMs": 667
+        },
+        "jump": {
+          "id": "jump",
+          "label": "Jump",
+          "description": "Single jump with lift, hang time, and landing squash.",
+          "sheet": "ecc-boy-base-neutral/jump.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 14,
+          "fps": 14,
+          "loop": false,
+          "durationMs": 1000
+        },
+        "wave": {
+          "id": "wave",
+          "label": "Wave",
+          "description": "Friendly greeting loop for onboarding and help moments.",
+          "sheet": "ecc-boy-base-neutral/wave.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 16,
+          "fps": 12,
+          "loop": true,
+          "durationMs": 1333
+        },
+        "point": {
+          "id": "point",
+          "label": "Point",
+          "description": "Right-arm point for prompts, feedback, and callouts.",
+          "sheet": "ecc-boy-base-neutral/point.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 12,
+          "fps": 12,
+          "loop": false,
+          "durationMs": 1000
+        },
+        "think": {
+          "id": "think",
+          "label": "Think",
+          "description": "Head tilt and arm lift for decision/question moments.",
+          "sheet": "ecc-boy-base-neutral/think.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 12,
+          "fps": 12,
+          "loop": true,
+          "durationMs": 1000
+        },
+        "celebrate": {
+          "id": "celebrate",
+          "label": "Celebrate",
+          "description": "Two-arm celebration for success and rewards.",
+          "sheet": "ecc-boy-base-neutral/celebrate.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 16,
+          "fps": 12,
+          "loop": true,
+          "durationMs": 1333
+        }
+      }
+    },
+    "ecc-girl-base-neutral": {
+      "id": "ecc-girl-base-neutral",
+      "label": "ECC girl base neutral",
+      "sourceLayerRoot": "../layers/ecc-girl-base-neutral/",
+      "animations": {
+        "idle": {
+          "id": "idle",
+          "label": "Idle",
+          "description": "Soft breathing loop for menus and dashboards.",
+          "sheet": "ecc-girl-base-neutral/idle.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 12,
+          "fps": 12,
+          "loop": true,
+          "durationMs": 1000
+        },
+        "walk": {
+          "id": "walk",
+          "label": "Walk",
+          "description": "In-place walk loop for map movement and scene entrances.",
+          "sheet": "ecc-girl-base-neutral/walk.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 12,
+          "fps": 12,
+          "loop": true,
+          "durationMs": 1000
+        },
+        "run": {
+          "id": "run",
+          "label": "Run",
+          "description": "Faster in-place loop for arcade and urgency moments.",
+          "sheet": "ecc-girl-base-neutral/run.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 10,
+          "fps": 15,
+          "loop": true,
+          "durationMs": 667
+        },
+        "jump": {
+          "id": "jump",
+          "label": "Jump",
+          "description": "Single jump with lift, hang time, and landing squash.",
+          "sheet": "ecc-girl-base-neutral/jump.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 14,
+          "fps": 14,
+          "loop": false,
+          "durationMs": 1000
+        },
+        "wave": {
+          "id": "wave",
+          "label": "Wave",
+          "description": "Friendly greeting loop for onboarding and help moments.",
+          "sheet": "ecc-girl-base-neutral/wave.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 16,
+          "fps": 12,
+          "loop": true,
+          "durationMs": 1333
+        },
+        "point": {
+          "id": "point",
+          "label": "Point",
+          "description": "Right-arm point for prompts, feedback, and callouts.",
+          "sheet": "ecc-girl-base-neutral/point.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 12,
+          "fps": 12,
+          "loop": false,
+          "durationMs": 1000
+        },
+        "think": {
+          "id": "think",
+          "label": "Think",
+          "description": "Head tilt and arm lift for decision/question moments.",
+          "sheet": "ecc-girl-base-neutral/think.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 12,
+          "fps": 12,
+          "loop": true,
+          "durationMs": 1000
+        },
+        "celebrate": {
+          "id": "celebrate",
+          "label": "Celebrate",
+          "description": "Two-arm celebration for success and rewards.",
+          "sheet": "ecc-girl-base-neutral/celebrate.png",
+          "frameWidth": 256,
+          "frameHeight": 384,
+          "frames": 16,
+          "fps": 12,
+          "loop": true,
+          "durationMs": 1333
+        }
+      }
+    }
+  },
+  "notes": [
+    "These exports use first-pass visible-surface rig layers.",
+    "Use idle, wave, think, point, and celebrate freely in UI/gameplay.",
+    "Walk, run, and jump are suitable for prototypes but need hidden-joint redraw polish for close-up use."
+  ]
+}

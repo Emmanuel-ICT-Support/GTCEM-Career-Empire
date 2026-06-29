@@ -1,0 +1,161 @@
+{
+  "id": "megatrends",
+  "title": "Megatrends",
+  "curriculumArea": "Careers and Employability",
+  "theme": "Future of work and career adaptation",
+  "status": "prototype",
+  "overview": {
+    "tagline": "Navigate the big forces shaping the future of work.",
+    "playerFantasy": "Build a future-ready career by responding to major social, technological, environmental, and economic change.",
+    "teacherValue": "Introduces key megatrend concepts through scenarios, checks for understanding, typed evidence, and persistent career consequences."
+  },
+  "learningObjectives": [
+    "Explain how megatrends influence jobs, workplaces, and career opportunities.",
+    "Recognise how major forces can create both emerging and declining jobs.",
+    "Apply future-focused thinking to career decisions.",
+    "Connect learning to broader life outcomes such as income, balance, and security."
+  ],
+  "sharedStatEffects": [
+    {
+      "stat": "salary",
+      "description": "Scenario choices and mini-game rewards can raise salary."
+    },
+    {
+      "stat": "net_worth",
+      "description": "Scenario decisions accumulate earnings and influence long-term financial growth."
+    },
+    {
+      "stat": "job_security",
+      "description": "Future-ready decisions can improve security while risky choices can reduce it."
+    },
+    {
+      "stat": "work_life_balance",
+      "description": "Trade-offs between ambition and wellbeing are represented directly."
+    },
+    {
+      "stat": "community_tax",
+      "description": "A portion of student earnings contributes to the class community fund."
+    }
+  ],
+  "employabilityFocus": [
+    {
+      "categoryId": "critical-thinking",
+      "subskillIds": [
+        "research-and-information-gathering",
+        "analysis-and-evaluation",
+        "bias-reflection"
+      ],
+      "whyItFits": "Students weigh options, analyse consequences, and reflect on future-facing career choices."
+    },
+    {
+      "categoryId": "problem-solving",
+      "subskillIds": [
+        "questioning-techniques",
+        "generate-solutions",
+        "decision-making-models"
+      ],
+      "whyItFits": "Branching scenarios require students to solve changing career and life problems."
+    },
+    {
+      "categoryId": "communication",
+      "subskillIds": [
+        "terminology-spelling-grammar",
+        "purpose-audience-format"
+      ],
+      "whyItFits": "Typed concept lock-in tasks can be used as evidence of terminology and meaning."
+    }
+  ],
+  "activities": [
+    {
+      "id": "intro-screen",
+      "type": "intro",
+      "title": "The Four Megatrends",
+      "purpose": "Orient students to the four major forces shaping future work.",
+      "awards": []
+    },
+    {
+      "id": "scenario-choice",
+      "type": "scenario",
+      "title": "Career Decision Scenario",
+      "purpose": "Present a meaningful choice that links megatrend knowledge to career outcomes.",
+      "awards": [
+        { "kind": "shared-stat", "target": "salary", "amount": 1 },
+        { "kind": "shared-stat", "target": "job_security", "amount": 1 },
+        { "kind": "shared-stat", "target": "work_life_balance", "amount": 1 }
+      ]
+    },
+    {
+      "id": "concept-quiz",
+      "type": "quiz",
+      "title": "Concept Lock-In Quiz",
+      "purpose": "Require students to identify the key concept correctly before progressing.",
+      "awards": [
+        { "kind": "module-xp", "target": "megatrends", "amount": 10 }
+      ]
+    },
+    {
+      "id": "typed-lock-in",
+      "type": "reflection",
+      "title": "Typed Concept Sentence",
+      "purpose": "Capture explicit evidence that the student can state the concept accurately.",
+      "awards": [
+        { "kind": "employability-xp", "target": "communication", "amount": 5 }
+      ]
+    },
+    {
+      "id": "arcade-break",
+      "type": "mini-game",
+      "title": "Arcade Reward Game",
+      "purpose": "Provide a short reward loop that feeds back into mastery and motivation.",
+      "awards": [
+        { "kind": "module-xp", "target": "megatrends", "amount": 10 },
+        { "kind": "shared-stat", "target": "salary", "amount": 1 }
+      ]
+    },
+    {
+      "id": "community-vote",
+      "type": "decision",
+      "title": "Community Contribution Vote",
+      "purpose": "Connect individual play to collective class impact.",
+      "awards": [
+        { "kind": "community-impact", "target": "class-fund", "amount": 1 }
+      ]
+    }
+  ],
+  "assessmentEvidence": [
+    {
+      "id": "megatrends-quiz-evidence",
+      "type": "quiz",
+      "prompt": "Answer the concept question correctly to show understanding of the megatrend.",
+      "teacherVisible": true
+    },
+    {
+      "id": "megatrends-typed-sentence",
+      "type": "typed-sentence",
+      "prompt": "Type the exact sentence that explains how the megatrend affects work.",
+      "teacherVisible": true
+    }
+  ],
+  "subModules": [
+    {
+      "id": "impactful-technology",
+      "title": "Impactful Technology",
+      "masteryStat": "tech_mastery"
+    },
+    {
+      "id": "climate-change",
+      "title": "Climate Change",
+      "masteryStat": "climate_mastery"
+    },
+    {
+      "id": "demographic-shifts",
+      "title": "Demographic Shifts",
+      "masteryStat": "demo_mastery"
+    },
+    {
+      "id": "economic-power-shifts",
+      "title": "Economic Power Shifts",
+      "masteryStat": "economic_mastery"
+    }
+  ]
+}

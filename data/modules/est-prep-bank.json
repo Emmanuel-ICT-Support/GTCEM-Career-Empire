@@ -1,0 +1,780 @@
+{
+  "contentRounds": [
+    {
+      "topic": "Initiative",
+      "question": "Which statement best explains the concept of initiative?",
+      "correct": "Initiative means proactively taking action without being told while also identifying opportunities, suggesting improvements, helping others, and taking on responsibility.",
+      "options": [
+        "Initiative means proactively taking action without being told while also identifying opportunities, suggesting improvements, helping others, and taking on responsibility.",
+        "Initiative means waiting for exact instructions before starting any task.",
+        "Initiative only matters for managers and not for entry-level workers."
+      ]
+    },
+    {
+      "topic": "Being proactive",
+      "question": "Which example best shows a worker being proactive?",
+      "correct": "A worker anticipates a problem or opportunity and acts early before being asked.",
+      "options": [
+        "A worker anticipates a problem or opportunity and acts early before being asked.",
+        "A worker ignores obvious issues until a supervisor notices them.",
+        "A worker refuses to ask questions or seek advice when uncertain."
+      ]
+    },
+    {
+      "topic": "Improving work practices",
+      "question": "Which answer best shows initiative through improving work practices?",
+      "correct": "A worker suggests safer, easier, or more efficient ways to complete tasks and improve outcomes.",
+      "options": [
+        "A worker suggests safer, easier, or more efficient ways to complete tasks and improve outcomes.",
+        "A worker keeps following an inefficient process because change is risky.",
+        "A worker avoids sharing ideas so nobody can criticise them."
+      ]
+    },
+    {
+      "topic": "Helping fellow workers",
+      "question": "Which statement best explains how helping fellow workers shows initiative?",
+      "correct": "Helping colleagues during busy or difficult moments supports teamwork and productivity without waiting to be told.",
+      "options": [
+        "Helping colleagues during busy or difficult moments supports teamwork and productivity without waiting to be told.",
+        "Helping fellow workers means doing their entire job so they become dependent on you.",
+        "Helping fellow workers has no connection to initiative because it is only about teamwork."
+      ]
+    },
+    {
+      "topic": "Seeking more responsibilities",
+      "question": "Which action is the clearest example of seeking more responsibilities?",
+      "correct": "Volunteering to learn new tasks, support stocktakes, supervise shifts, or take on extra duties is a sign of initiative.",
+      "options": [
+        "Volunteering to learn new tasks, support stocktakes, supervise shifts, or take on extra duties is a sign of initiative.",
+        "Avoiding all extra duties because they might involve effort is the strongest example.",
+        "Only accepting additional work after repeated complaints from a supervisor shows initiative."
+      ]
+    },
+    {
+      "topic": "Time management",
+      "question": "Which statement best explains time-management skills?",
+      "correct": "Time management involves planning, organising, and prioritising tasks so work is completed efficiently and by required deadlines.",
+      "options": [
+        "Time management involves planning, organising, and prioritising tasks so work is completed efficiently and by required deadlines.",
+        "Time management mainly means doing whichever task feels easiest first.",
+        "Time management is only relevant for school, not for workplaces."
+      ]
+    },
+    {
+      "topic": "Time-management tools",
+      "question": "Which list best identifies useful time-management tools?",
+      "correct": "Diaries, calendars, to-do lists, reminder apps, spreadsheets, checklists, and rostering systems can all support time management.",
+      "options": [
+        "Diaries, calendars, to-do lists, reminder apps, spreadsheets, checklists, and rostering systems can all support time management.",
+        "Only sticky notes can be used to manage time effectively in modern workplaces.",
+        "Time-management tools are unnecessary if a person has a good memory."
+      ]
+    },
+    {
+      "topic": "Managing multiple tasks",
+      "question": "Which answer best explains how a worker manages several tasks with deadlines?",
+      "correct": "A worker should plan, organise resources, prioritise urgent jobs, monitor progress, and adjust when delays occur.",
+      "options": [
+        "A worker should plan, organise resources, prioritise urgent jobs, monitor progress, and adjust when delays occur.",
+        "A worker should start every task at once and hope that deadlines sort themselves out.",
+        "A worker should ignore changes to traffic, priorities, or emergencies once the day has begun."
+      ]
+    },
+    {
+      "topic": "Budgeting",
+      "question": "Which statement best explains budgeting as a strategy to manage personal finance?",
+      "correct": "Budgeting involves balancing income and expenses over time so a person can meet obligations, control spending, and plan for goals.",
+      "options": [
+        "Budgeting involves balancing income and expenses over time so a person can meet obligations, control spending, and plan for goals.",
+        "Budgeting means writing down income only and ignoring expenses until bills arrive.",
+        "Budgeting is only useful for people with very high incomes."
+      ]
+    },
+    {
+      "topic": "Tracking money in and out",
+      "question": "Which statement best explains why tracking money in and money out matters?",
+      "correct": "Tracking income and expenses helps a person see where money is going, identify unnecessary spending, and respond to changes quickly.",
+      "options": [
+        "Tracking income and expenses helps a person see where money is going, identify unnecessary spending, and respond to changes quickly.",
+        "Tracking money is unnecessary if a person feels confident about their finances.",
+        "Tracking money only matters when someone is already in debt."
+      ]
+    },
+    {
+      "topic": "Seeking assistance",
+      "question": "Which answer best explains why seeking assistance can support personal financial management?",
+      "correct": "Seeking assistance gives access to reliable advice, tools, and support that can help a person avoid mistakes and make informed financial decisions.",
+      "options": [
+        "Seeking assistance gives access to reliable advice, tools, and support that can help a person avoid mistakes and make informed financial decisions.",
+        "Seeking assistance shows financial weakness and should usually be avoided.",
+        "Seeking assistance only means borrowing money from friends."
+      ]
+    },
+    {
+      "topic": "Unexpected life events",
+      "question": "Which list best identifies unexpected life events that may affect finances and career planning?",
+      "correct": "Job loss, reduced hours, illness, injury, family responsibilities, relationship changes, relocation, and unexpected expenses can all affect planning.",
+      "options": [
+        "Job loss, reduced hours, illness, injury, family responsibilities, relationship changes, relocation, and unexpected expenses can all affect planning.",
+        "Unexpected life events are limited to positive events like promotions and holidays.",
+        "Unexpected life events are mostly small daily inconveniences with no long-term impact."
+      ]
+    },
+    {
+      "topic": "Responding to changed financial circumstances",
+      "question": "Which answer best describes a strong response to changed financial circumstances?",
+      "correct": "A person can review the budget, prioritise essentials, reduce non-essential spending, seek assistance, and look for extra income or support.",
+      "options": [
+        "A person can review the budget, prioritise essentials, reduce non-essential spending, seek assistance, and look for extra income or support.",
+        "The best response is to ignore the change and hope it resolves on its own.",
+        "A person should increase non-essential spending to reduce stress and avoid thinking about the problem."
+      ]
+    },
+    {
+      "topic": "Labour market information",
+      "question": "Which statement best explains labour market information?",
+      "correct": "Labour market information includes data about job demand, wages, growth areas, skills needs, and future opportunities.",
+      "options": [
+        "Labour market information includes data about job demand, wages, growth areas, skills needs, and future opportunities.",
+        "Labour market information is only the physical place where people work.",
+        "Labour market information is mainly a list of school subjects."
+      ]
+    },
+    {
+      "topic": "Growth industry",
+      "question": "Which answer best explains a growth industry?",
+      "correct": "A growth industry is an industry experiencing a higher-than-average growth rate and creating more future job opportunities.",
+      "options": [
+        "A growth industry is an industry experiencing a higher-than-average growth rate and creating more future job opportunities.",
+        "A growth industry is simply any industry that has existed for many years.",
+        "A growth industry is an industry where workers never need new skills."
+      ]
+    },
+    {
+      "topic": "Emerging industry",
+      "question": "Which statement best explains an emerging industry?",
+      "correct": "An emerging industry is in the early stages of creating or transforming products and services through innovation or technology.",
+      "options": [
+        "An emerging industry is in the early stages of creating or transforming products and services through innovation or technology.",
+        "An emerging industry is any industry that is currently shrinking.",
+        "An emerging industry is only related to entertainment jobs."
+      ]
+    },
+    {
+      "topic": "Green industry",
+      "question": "Which answer best explains a green industry?",
+      "correct": "A green industry actively protects or improves the environment by reducing waste or pollution or by producing sustainable products and services.",
+      "options": [
+        "A green industry actively protects or improves the environment by reducing waste or pollution or by producing sustainable products and services.",
+        "A green industry is any industry located outside a city.",
+        "A green industry is mainly about painting workplaces green."
+      ]
+    },
+    {
+      "topic": "Cover letter purpose",
+      "question": "Which statement best explains the purpose of a cover letter?",
+      "correct": "A cover letter introduces the applicant, responds to a specific job advertisement, highlights suitability, and encourages the employer to consider an interview.",
+      "options": [
+        "A cover letter introduces the applicant, responds to a specific job advertisement, highlights suitability, and encourages the employer to consider an interview.",
+        "A cover letter is a legal contract that replaces a resume.",
+        "A cover letter should avoid mentioning the job advertisement so the employer can guess the applicant’s purpose."
+      ]
+    },
+    {
+      "topic": "Selection criteria",
+      "question": "Which answer best explains selection criteria?",
+      "correct": "Selection criteria are the specific skills, experience, and attributes an employer uses to assess an applicant’s suitability for a role.",
+      "options": [
+        "Selection criteria are the specific skills, experience, and attributes an employer uses to assess an applicant’s suitability for a role.",
+        "Selection criteria are only the tasks listed on a roster after a person gets the job.",
+        "Selection criteria are irrelevant once a cover letter has been submitted."
+      ]
+    },
+    {
+      "topic": "STAR method",
+      "question": "Which statement best explains the STAR technique for addressing selection criteria?",
+      "correct": "STAR stands for Situation, Task, Action, and Result and helps applicants structure examples clearly and logically.",
+      "options": [
+        "STAR stands for Situation, Task, Action, and Result and helps applicants structure examples clearly and logically.",
+        "STAR stands for Summary, Title, Answer, and Review and is mainly used for budgeting.",
+        "STAR is used to avoid giving specific examples in job applications."
+      ]
+    },
+    {
+      "topic": "Communication skills",
+      "question": "Which statement best explains communication skills in the EST curriculum?",
+      "correct": "Communication skills involve sharing and receiving information clearly while adapting language, tone, audience, purpose, and format to suit the situation.",
+      "options": [
+        "Communication skills involve sharing and receiving information clearly while adapting language, tone, audience, purpose, and format to suit the situation.",
+        "Communication skills are only about talking confidently, even if the message does not suit the audience or task.",
+        "Communication skills are mainly fixed personality traits and do not change across contexts."
+      ]
+    },
+    {
+      "topic": "Non-verbal communication",
+      "question": "Which answer best explains non-verbal communication in a workplace or interview?",
+      "correct": "Non-verbal communication uses body language, facial expressions, eye contact, posture, and tone of voice to reinforce meaning and build connection.",
+      "options": [
+        "Non-verbal communication uses body language, facial expressions, eye contact, posture, and tone of voice to reinforce meaning and build connection.",
+        "Non-verbal communication only refers to written messages such as emails and text messages.",
+        "Non-verbal communication is unimportant because employers only assess the words a person says."
+      ]
+    },
+    {
+      "topic": "Active listening",
+      "question": "Which statement best explains active listening?",
+      "correct": "Active listening means focusing fully on the speaker, checking understanding through questions or paraphrasing, and responding thoughtfully.",
+      "options": [
+        "Active listening means focusing fully on the speaker, checking understanding through questions or paraphrasing, and responding thoughtfully.",
+        "Active listening means staying silent without asking clarifying questions or responding.",
+        "Active listening mainly means waiting for your turn to speak while planning your own answer."
+      ]
+    },
+    {
+      "topic": "Megatrends",
+      "question": "Which statement best explains a megatrend?",
+      "correct": "A megatrend is a significant and long-lasting development that transforms the way we live, work, and do business.",
+      "options": [
+        "A megatrend is a significant and long-lasting development that transforms the way we live, work, and do business.",
+        "A megatrend is a short-term fad that disappears quickly.",
+        "A megatrend only affects technology companies and not society more broadly."
+      ]
+    }
+  ],
+  "glossaryTerms": [
+    {
+      "term": "Initiative",
+      "definition": "Taking a proactive approach to completing work tasks, overcoming challenges, and dealing with unexpected events.",
+      "scenario": "A worker identifies a problem, suggests an improvement, helps others, and takes action before being asked."
+    },
+    {
+      "term": "Proactive",
+      "definition": "Anticipating problems or opportunities and acting instead of waiting to be asked.",
+      "scenario": "A worker notices a likely issue and solves it early so work is not disrupted."
+    },
+    {
+      "term": "Time management",
+      "definition": "Planning, organising, and prioritising tasks so work is completed efficiently and by required deadlines.",
+      "scenario": "A student or worker uses schedules, priorities, and progress checks to meet several deadlines."
+    },
+    {
+      "term": "Budget",
+      "definition": "A plan for balancing income and expenses over time.",
+      "scenario": "A young worker compares wages with transport, food, subscriptions, and other weekly costs."
+    },
+    {
+      "term": "Seeking assistance",
+      "definition": "Accessing reliable advice, tools, and support to make informed financial decisions.",
+      "scenario": "A person uses trusted websites, counsellors, banks, or support services to manage financial pressure."
+    },
+    {
+      "term": "Labour market information",
+      "definition": "Information about job demand, wages, industry trends, and future opportunities.",
+      "scenario": "A student researches growth areas, wages, and demand before choosing a pathway."
+    },
+    {
+      "term": "Growth industry",
+      "definition": "An industry experiencing a higher-than-average growth rate compared to others.",
+      "scenario": "A sector is expected to expand and create more future jobs than many other industries."
+    },
+    {
+      "term": "Emerging industry",
+      "definition": "An industry in the early stages of creating or transforming products and services through innovation or technology.",
+      "scenario": "A new industry develops around innovative technology or new services that are still growing."
+    },
+    {
+      "term": "Green industry",
+      "definition": "An industry that protects or improves the environment through sustainable processes, products, or pollution reduction.",
+      "scenario": "An organisation uses environmentally friendly materials or reduces waste as part of production."
+    },
+    {
+      "term": "Cover letter",
+      "definition": "A document accompanying a resume that communicates interest in a job and highlights suitability.",
+      "scenario": "A job applicant introduces themselves and links key strengths to a specific advertisement."
+    },
+    {
+      "term": "Selection criteria",
+      "definition": "The skills, experience, and attributes used by an employer to judge suitability for a role.",
+      "scenario": "An applicant provides examples showing teamwork, initiative, communication, and reliability."
+    },
+    {
+      "term": "STAR",
+      "definition": "A response technique using Situation, Task, Action, and Result.",
+      "scenario": "A student structures an example clearly so an employer can see what happened, what they did, and what outcome they achieved."
+    },
+    {
+      "term": "Megatrend",
+      "definition": "A significant and long-lasting development that transforms the way we live, work, and do business.",
+      "scenario": "A class studies large-scale changes affecting jobs, workplaces, and industries over time."
+    },
+    {
+      "term": "Demographic shift",
+      "definition": "The change in the size and nature of a population due to migration and changes in birth and death rates.",
+      "scenario": "Population changes alter workforce needs, employment patterns, and service demand."
+    },
+    {
+      "term": "Economic power shift",
+      "definition": "The long-term global shift away from established advanced economies to emerging market countries.",
+      "scenario": "Global markets and job opportunities change as economic influence moves between regions."
+    },
+    {
+      "term": "Impactful technologies",
+      "definition": "Technologies that improve products, services, and processes but may also cause disruption and uncertainty.",
+      "scenario": "Workers need new skills because digital systems and automation change how work is done."
+    },
+    {
+      "term": "Career planning",
+      "definition": "The ongoing process of setting goals, making decisions, and reviewing pathways related to study, training, and work.",
+      "scenario": "A person adjusts goals and timelines after financial or personal changes."
+    },
+    {
+      "term": "Communication skills",
+      "definition": "Written, verbal, non-verbal, and active-listening skills used to communicate effectively with different audiences.",
+      "scenario": "A worker or student adapts their message, listens carefully, and uses an appropriate format for the audience."
+    },
+    {
+      "term": "Non-verbal communication",
+      "definition": "Using body language, facial expressions, eye contact, posture, and tone of voice to support or influence a message.",
+      "scenario": "An applicant maintains eye contact, sits upright, and uses a calm, respectful tone during an interview."
+    },
+    {
+      "term": "Active listening",
+      "definition": "Focusing on the speaker, checking understanding with questions or paraphrasing, and responding appropriately.",
+      "scenario": "A worker listens carefully to a supervisor, asks clarifying questions, and repeats key instructions before starting."
+    },
+    {
+      "term": "Unexpected life event",
+      "definition": "An unplanned event that can affect finances, responsibilities, or career plans.",
+      "scenario": "Illness, job loss, reduced work hours, relocation, or family responsibilities force a change in plans."
+    }
+  ],
+  "decoderRounds": [
+    {
+      "question": "Identify one element of a cover letter.",
+      "verbOptions": ["Identify", "Discuss", "Compare", "Analyse"],
+      "correctVerb": "Identify",
+      "topicOptions": ["Cover letter", "Budget", "Growth industry", "Teamwork"],
+      "correctTopic": "Cover letter",
+      "contextOptions": ["Job application", "Personal finance", "Workplace roster", "Megatrends"],
+      "correctContext": "Job application",
+      "structureOptions": [
+        "Name the correct item",
+        "Point + because/how + result",
+        "Both... however...",
+        "Evidence + meaning + conclusion"
+      ],
+      "correctStructure": "Name the correct item",
+      "feedback": "An identify question usually wants one correct item, not a developed explanation."
+    },
+    {
+      "question": "Outline the concept of a megatrend.",
+      "verbOptions": ["Outline", "Describe", "Compare", "Analyse"],
+      "correctVerb": "Outline",
+      "topicOptions": ["Megatrend", "Selection criteria", "Budget", "Initiative"],
+      "correctTopic": "Megatrend",
+      "contextOptions": ["Future of work", "Financial hardship", "Job interview", "Roster management"],
+      "correctContext": "Future of work",
+      "structureOptions": [
+        "What it is + one key feature",
+        "Name one item only",
+        "Similarity + difference",
+        "Evidence + conclusion"
+      ],
+      "correctStructure": "What it is + one key feature",
+      "feedback": "Outline questions need a brief explanation of the concept, not a full analysis."
+    },
+    {
+      "question": "Describe two ways to show initiative in a work environment.",
+      "verbOptions": ["Describe", "Explain", "Compare", "Identify"],
+      "correctVerb": "Describe",
+      "topicOptions": ["Initiative", "Work environment", "Cover letter", "Growth industry"],
+      "correctTopic": "Initiative",
+      "contextOptions": ["Work environment", "Budgeting", "Labour market", "Megatrends"],
+      "correctContext": "Work environment",
+      "structureOptions": [
+        "Feature + detail",
+        "Point + because/how + result",
+        "Evidence + meaning + conclusion",
+        "Name the correct item"
+      ],
+      "correctStructure": "Feature + detail",
+      "feedback": "Describe questions want characteristics or features, so students should name each way and add detail."
+    },
+    {
+      "question": "Explain one impact of megatrends on career development.",
+      "verbOptions": ["Identify", "Explain", "Discuss", "Compare"],
+      "correctVerb": "Explain",
+      "topicOptions": ["Megatrends", "Career development", "Communication skills", "Selection criteria"],
+      "correctTopic": "Megatrends",
+      "contextOptions": ["Career development", "Budgeting", "Retail display", "Time blocking"],
+      "correctContext": "Career development",
+      "structureOptions": [
+        "Point + because/how + result",
+        "Feature + detail",
+        "Both... however...",
+        "Definition only"
+      ],
+      "correctStructure": "Point + because/how + result",
+      "feedback": "Explain means cause and effect. The response should show the impact, why it happens, and what follows."
+    },
+    {
+      "question": "Discuss the influence of impactful technology on the future of work.",
+      "verbOptions": ["Discuss", "Identify", "Outline", "Compare"],
+      "correctVerb": "Discuss",
+      "topicOptions": ["Impactful technology", "Future of work", "Cover letters", "Personal finance"],
+      "correctTopic": "Impactful technology",
+      "contextOptions": ["Future of work", "Selection criteria", "Budget planning", "Workplace roster"],
+      "correctContext": "Future of work",
+      "structureOptions": [
+        "Point + explanation + example + result",
+        "Name one item only",
+        "Feature + detail",
+        "Evidence + meaning + conclusion"
+      ],
+      "correctStructure": "Point + explanation + example + result",
+      "feedback": "Discuss questions need a developed explanation and usually benefit from an example before the result."
+    },
+    {
+      "question": "Compare communication skills and time-management skills in the workplace.",
+      "verbOptions": ["Compare", "Describe", "Explain", "Identify"],
+      "correctVerb": "Compare",
+      "topicOptions": ["Communication skills", "Workplace skills", "Megatrends", "Budgeting"],
+      "correctTopic": "Workplace skills",
+      "contextOptions": ["In the workplace", "In a budget", "At interview only", "After retirement"],
+      "correctContext": "In the workplace",
+      "structureOptions": [
+        "Both... however...",
+        "Point + because/how + result",
+        "Definition only",
+        "Evidence + meaning + conclusion"
+      ],
+      "correctStructure": "Both... however...",
+      "feedback": "Compare means finding similarities and differences, not giving two separate descriptions."
+    },
+    {
+      "question": "Analyse labour market information to determine the most secure career pathway.",
+      "verbOptions": ["Analyse", "Describe", "Identify", "Outline"],
+      "correctVerb": "Analyse",
+      "topicOptions": ["Labour market information", "Career pathway", "Time management", "Cover letter"],
+      "correctTopic": "Labour market information",
+      "contextOptions": ["Career pathway", "Budget deficit", "Workplace conflict", "Interview greeting"],
+      "correctContext": "Career pathway",
+      "structureOptions": [
+        "Evidence + meaning + conclusion",
+        "Feature + detail",
+        "Both... however...",
+        "Name the correct item"
+      ],
+      "correctStructure": "Evidence + meaning + conclusion",
+      "feedback": "Analyse questions need interpretation. Use the evidence, explain what it shows, then reach a conclusion."
+    }
+  ],
+  "bossRounds": [
+    {
+      "question": "Describe three workplace situations where workers demonstrated initiative.",
+      "help": "Use real workplace-style examples and show how the action demonstrated initiative.",
+      "scaffold": "Situation 1: ...\nSituation 2: ...\nSituation 3: ...\nLink: These examples show initiative because...",
+      "strongAnswer": "Workers can demonstrate initiative in many workplace situations. For example, a retail worker can restock shelves before products run out and clean hazards immediately. A team member can suggest clearer shelf labels when customers struggle to find items. A worker can also volunteer for extra tasks such as stocktakes or learning a new register system. These examples show initiative because the worker takes useful action, improves work practices, and contributes without waiting to be told.",
+      "conceptTags": ["Initiative", "Workplace examples", "Describe"],
+      "commandOptions": ["Describe", "Explain", "Compare", "Identify"],
+      "correctCommand": "Describe",
+      "contentOptions": [
+        "Initiative can be shown by being proactive, improving work practices, helping fellow workers, vocalising opinions, or seeking more responsibilities.",
+        "Initiative is only shown when a person works completely alone.",
+        "Initiative means refusing to ask for advice or help."
+      ],
+      "correctContent": "Initiative can be shown by being proactive, improving work practices, helping fellow workers, vocalising opinions, or seeking more responsibilities.",
+      "glossaryOptions": ["Initiative", "Communication skills", "Growth industry", "Budget"],
+      "correctGlossary": "Initiative",
+      "requiredKeywords": {
+        "point": ["initiative", "workplace", "proactive", "improve", "help"],
+        "because": ["because", "shows", "without being told", "contribute", "responsibility"],
+        "result": ["as a result", "therefore", "improves", "productive", "efficient", "safer"],
+        "glossary": ["initiative"]
+      },
+      "sampleResponses": [
+        {
+          "label": "High sample",
+          "band": "Strong",
+          "response": "A retail worker shows initiative by restocking shelves before products run out, reporting damaged goods, and helping new staff during busy periods. Another example is suggesting clearer signs when customers struggle to find products. A worker may also volunteer to learn new systems or take on stocktakes. These actions show initiative because the worker acts usefully without waiting to be told and helps improve productivity.",
+          "commentary": "This response uses several clear workplace examples and links them back to the concept of initiative."
+        },
+        {
+          "label": "Mid sample",
+          "band": "Developing",
+          "response": "Initiative is when workers do helpful things and work hard in the workplace.",
+          "commentary": "This is relevant but too general. It needs clearer workplace situations and more detail."
+        },
+        {
+          "label": "Low sample",
+          "band": "Needs work",
+          "response": "Initiative is good.",
+          "commentary": "This is far too brief and does not describe workplace situations."
+        }
+      ]
+    },
+    {
+      "question": "Describe three key pieces of advice to help a friend manage time more effectively so as to balance life and work responsibilities.",
+      "help": "This is a practical time-management response. Explain the advice and the tools or techniques that would help.",
+      "scaffold": "Advice 1: ...\nAdvice 2: ...\nAdvice 3: ...\nTools/techniques: ...",
+      "strongAnswer": "One key piece of advice is to plan the week in advance using a diary or calendar app so school, work, sport, and family commitments are visible. A second piece of advice is to prioritise urgent tasks first and break larger tasks into smaller steps. A third is to review the plan regularly and adjust when shifts or deadlines change. Tools such as planners, reminders, to-do lists, and calendars can help balance responsibilities more effectively.",
+      "conceptTags": ["Time management", "Advice", "Describe"],
+      "commandOptions": ["Describe", "Explain", "Discuss", "Identify"],
+      "correctCommand": "Describe",
+      "contentOptions": [
+        "Strong advice includes planning ahead, prioritising urgent tasks, reviewing schedules, and using tools such as calendars, lists, or reminders.",
+        "The best advice is to avoid planning because plans usually change.",
+        "A student should focus only on work hours and ignore school, family, and personal responsibilities."
+      ],
+      "correctContent": "Strong advice includes planning ahead, prioritising urgent tasks, reviewing schedules, and using tools such as calendars, lists, or reminders.",
+      "glossaryOptions": ["Time management", "Initiative", "Megatrend", "Selection criteria"],
+      "correctGlossary": "Time management",
+      "requiredKeywords": {
+        "point": ["time management", "plan", "prioritise", "calendar", "schedule"],
+        "because": ["because", "deadline", "balance", "review", "adjust", "tool"],
+        "result": ["as a result", "on time", "balanced", "manageable", "more effectively"],
+        "glossary": ["time management"]
+      },
+      "sampleResponses": [
+        {
+          "label": "High sample",
+          "band": "Strong",
+          "response": "A student should plan each week in advance using a diary or calendar app, prioritise urgent tasks before less important ones, and review commitments regularly when shifts or deadlines change. These strategies support time management because they make responsibilities visible and easier to organise. As a result, the student is more likely to balance work, school, family, and personal time effectively.",
+          "commentary": "This response gives clear advice, explains the tools, and links the strategy to balanced responsibilities."
+        },
+        {
+          "label": "Mid sample",
+          "band": "Developing",
+          "response": "My advice is to be organised and try hard so everything gets done.",
+          "commentary": "This has the right direction but needs specific advice and named tools or techniques."
+        },
+        {
+          "label": "Low sample",
+          "band": "Needs work",
+          "response": "Just work faster.",
+          "commentary": "This is too vague and does not show understanding of time-management strategies."
+        }
+      ]
+    },
+    {
+      "question": "Describe how two different sources of advice can help a young person with the process of budgeting as part of financial management.",
+      "help": "Use actual assistance sources from the course content and explain how they support budgeting.",
+      "scaffold": "Source 1: ... helps by...\nSource 2: ... helps by...\nLink: This supports budgeting because...",
+      "strongAnswer": "Two useful sources of advice are MoneySmart and a financial counsellor. MoneySmart can provide online tools, calculators, and budgeting guidance to help a young person track income and expenses. A financial counsellor can give independent advice about debt, budgeting, and financial stress. These sources support budgeting because they help a person make informed decisions, avoid mistakes, and manage money more effectively.",
+      "conceptTags": ["Budgeting", "Seeking assistance", "Describe"],
+      "commandOptions": ["Describe", "Explain", "Compare", "Identify"],
+      "correctCommand": "Describe",
+      "contentOptions": [
+        "Sources such as MoneySmart, financial counsellors, trusted adults, banks, or support services can help a person budget more effectively.",
+        "No outside advice should ever be used for budgeting because personal finance must always stay private.",
+        "Seeking assistance is only relevant after a person has already lost all of their money."
+      ],
+      "correctContent": "Sources such as MoneySmart, financial counsellors, trusted adults, banks, or support services can help a person budget more effectively.",
+      "glossaryOptions": ["Seeking assistance", "Budget", "Cover letter", "Impactful technologies"],
+      "correctGlossary": "Seeking assistance",
+      "requiredKeywords": {
+        "point": ["budget", "budgeting", "advice", "assistance", "financial"],
+        "because": ["because", "tools", "support", "informed", "avoid mistakes", "guidance"],
+        "result": ["as a result", "manage money", "more effectively", "confidence", "better decisions"],
+        "glossary": ["seeking assistance", "budget"]
+      },
+      "sampleResponses": [
+        {
+          "label": "High sample",
+          "band": "Strong",
+          "response": "MoneySmart can help a young person with budgeting by providing calculators, online guidance, and tools for tracking income and expenses. A financial counsellor can also help by giving independent advice about debt, spending, and financial stress. This support improves budgeting because it gives the person reliable information to make better financial decisions and avoid mistakes.",
+          "commentary": "This response names two different advice sources and explains how each one helps budgeting."
+        },
+        {
+          "label": "Mid sample",
+          "band": "Developing",
+          "response": "People can ask for help from adults and websites. This can help with money.",
+          "commentary": "This has the basic idea but needs named sources and clearer explanation."
+        },
+        {
+          "label": "Low sample",
+          "band": "Needs work",
+          "response": "Budgeting is important.",
+          "commentary": "This does not answer the question about two advice sources."
+        }
+      ]
+    },
+    {
+      "question": "Describe two responses to the selection criteria of effective communication skills and initiative and problem-solving using the STAR method.",
+      "help": "This question wants applied examples. Use Situation, Task, Action, and Result clearly for each criterion.",
+      "scaffold": "Criterion 1: Situation... Task... Action... Result...\nCriterion 2: Situation... Task... Action... Result...",
+      "strongAnswer": "For effective communication skills, a student might describe a fundraising stall where they organised roles, spoke clearly with customers, and managed the queue calmly so the event ran smoothly. For initiative and problem-solving, the student might explain how they identified a display or stock issue in retail, acted early, and improved the opening process. Using the STAR structure makes each example specific, relevant, and clearly linked to the criterion.",
+      "conceptTags": ["Selection criteria", "STAR", "Communication", "Initiative"],
+      "commandOptions": ["Describe", "Explain", "Discuss", "Compare"],
+      "correctCommand": "Describe",
+      "contentOptions": [
+        "A strong STAR response explains the situation, task, action, and result for a specific example linked to each criterion.",
+        "Selection criteria should be answered with one vague sentence so the employer can interpret it freely.",
+        "STAR responses should avoid mentioning outcomes because results are not important."
+      ],
+      "correctContent": "A strong STAR response explains the situation, task, action, and result for a specific example linked to each criterion.",
+      "glossaryOptions": ["STAR", "Selection criteria", "Budget", "Growth industry"],
+      "correctGlossary": "STAR",
+      "requiredKeywords": {
+        "point": ["situation", "task", "action", "result", "selection criteria", "star"],
+        "because": ["because", "example", "criterion", "specific", "linked"],
+        "result": ["as a result", "outcome", "employer", "suitability", "achieved"],
+        "glossary": ["star", "selection criteria"]
+      },
+      "sampleResponses": [
+        {
+          "label": "High sample",
+          "band": "Strong",
+          "response": "A strong response to selection criteria uses STAR. For example, in the situation a student explains the context, in the task they explain what needed to be done, in the action they explain what they did, and in the result they show the outcome. This works because the employer can clearly see the skill in action. As a result, the applicant’s suitability is easier to judge.",
+          "commentary": "This response clearly explains how STAR works and why it strengthens a selection-criteria answer."
+        },
+        {
+          "label": "Mid sample",
+          "band": "Developing",
+          "response": "STAR is useful because it helps with selection criteria and job applications.",
+          "commentary": "Relevant, but too brief. It needs the actual structure and clearer explanation."
+        },
+        {
+          "label": "Low sample",
+          "band": "Needs work",
+          "response": "The answer is STAR.",
+          "commentary": "This identifies the method but does not explain or apply it."
+        }
+      ]
+    },
+    {
+      "question": "List three time-management tools that could help a young person manage school, work, and personal responsibilities.",
+      "help": "List means give the required items clearly. Short phrases are fine because the question does not ask for explanation.",
+      "scaffold": "Tool 1: ...\nTool 2: ...\nTool 3: ...",
+      "strongAnswer": "Useful time-management tools include a weekly planner, a phone calendar with reminders, and a prioritised to-do list.",
+      "conceptTags": ["Time management", "Tools", "List"],
+      "commandOptions": ["List", "Describe", "Explain", "Discuss"],
+      "correctCommand": "List",
+      "contentOptions": [
+        "Useful tools include planners, calendars, reminders, to-do lists, timetables, checklists, and scheduling apps.",
+        "The best tool is to guess what needs to be done each day.",
+        "Time-management tools are only useful after a deadline has already been missed."
+      ],
+      "correctContent": "Useful tools include planners, calendars, reminders, to-do lists, timetables, checklists, and scheduling apps.",
+      "glossaryOptions": ["Time management", "Initiative", "Megatrend", "Budget"],
+      "correctGlossary": "Time management",
+      "requiredKeywords": {
+        "point": ["planner", "calendar", "reminder", "to-do list", "schedule"],
+        "because": ["planner", "calendar", "reminder", "to-do list", "checklist"],
+        "result": ["school", "work", "personal", "responsibilities"],
+        "glossary": ["time management", "planner", "calendar", "reminder", "to-do list", "schedule"]
+      },
+      "writingChecks": [
+        {
+          "id": "list-items",
+          "label": "Three relevant items listed",
+          "keywords": ["planner", "calendar", "reminder", "to-do list", "checklist", "timetable", "schedule"],
+          "minimumMatches": 3,
+          "detail": "List three relevant time-management tools."
+        },
+        {
+          "id": "list-control",
+          "label": "Brief list format",
+          "keywords": ["1.", "2.", "3.", "first", "second", "third", ",", " and "],
+          "detail": "Keep List responses brief, clear, and itemised."
+        }
+      ],
+      "minimumWordCount": 8,
+      "controlLabel": "Enough items for marks",
+      "controlDetail": "List responses still need the requested number of relevant items.",
+      "reviewSummary": "BOSS checked command decoding, relevant list items, topic vocabulary, and concise list control.",
+      "sampleResponses": [
+        {
+          "label": "High sample",
+          "band": "Strong",
+          "response": "Useful time-management tools include a weekly planner, a phone calendar with reminders, and a prioritised to-do list.",
+          "commentary": "This response correctly lists three relevant tools and stays concise, which suits the List command verb."
+        },
+        {
+          "label": "Mid sample",
+          "band": "Developing",
+          "response": "A calendar and reminders.",
+          "commentary": "This is relevant but only lists two tools, so it does not fully meet the question."
+        },
+        {
+          "label": "Low sample",
+          "band": "Needs work",
+          "response": "Be organised.",
+          "commentary": "This gives general advice rather than listing three specific time-management tools."
+        }
+      ]
+    },
+    {
+      "question": "Explain how one megatrend could affect career development for young people.",
+      "help": "Explain means show cause and effect. Name the impact, show how or why it happens, then state the result for career development.",
+      "scaffold": "Megatrend or impact: ...\nHow/why it affects careers: ...\nResult for young people: ...",
+      "strongAnswer": "Automation and impactful technology can affect career development because some routine tasks may be completed by software or machines. This means young people may need to build digital literacy and keep updating skills through training. As a result, they are more prepared for changing jobs and can target pathways in growth areas.",
+      "conceptTags": ["Megatrends", "Career development", "Explain"],
+      "commandOptions": ["Explain", "Describe", "List", "Identify"],
+      "correctCommand": "Explain",
+      "contentOptions": [
+        "A strong explanation links a megatrend to a career impact, shows how or why it affects workers, and states a likely result.",
+        "A strong explanation only defines the word megatrend and stops there.",
+        "Megatrends do not affect career development because jobs never change."
+      ],
+      "correctContent": "A strong explanation links a megatrend to a career impact, shows how or why it affects workers, and states a likely result.",
+      "glossaryOptions": ["Megatrend", "Digital literacy", "Budget", "Selection criteria"],
+      "correctGlossary": "Megatrend",
+      "requiredKeywords": {
+        "point": ["megatrend", "automation", "technology", "career", "jobs"],
+        "because": ["because", "this means", "how", "why", "due to"],
+        "result": ["as a result", "therefore", "prepared", "training", "skills", "pathway"],
+        "glossary": ["megatrend", "automation", "technology", "career development"]
+      },
+      "writingChecks": [
+        {
+          "id": "impact",
+          "label": "Clear impact named",
+          "keywords": ["megatrend", "automation", "technology", "career", "jobs"],
+          "minimumMatches": 2,
+          "detail": "Name the megatrend or career impact clearly."
+        },
+        {
+          "id": "because",
+          "label": "How or why reasoning included",
+          "keywords": ["because", "this means", "how", "why", "due to"],
+          "detail": "Explain how or why the megatrend affects career development."
+        },
+        {
+          "id": "result",
+          "label": "Result or consequence included",
+          "keywords": ["as a result", "therefore", "prepared", "training", "skills", "pathway"],
+          "detail": "State what follows for young people, their skills, or their pathway."
+        }
+      ],
+      "minimumWordCount": 30,
+      "reviewSummary": "BOSS checked decoding, glossary control, cause-and-effect reasoning, and result language.",
+      "sampleResponses": [
+        {
+          "label": "High sample",
+          "band": "Strong",
+          "response": "Automation is a megatrend that could affect career development because routine tasks may be completed by technology. This means young people may need stronger digital skills and ongoing training. As a result, they can adapt to changing jobs and choose pathways with better future opportunities.",
+          "commentary": "This response explains the cause, the effect on skills, and the likely result for career pathways."
+        },
+        {
+          "label": "Mid sample",
+          "band": "Developing",
+          "response": "Megatrends can change jobs because people need new skills for the future.",
+          "commentary": "This has a basic cause-and-effect idea but needs a clearer example and a stronger result."
+        },
+        {
+          "label": "Low sample",
+          "band": "Needs work",
+          "response": "Megatrends are important.",
+          "commentary": "This is relevant but does not explain how or why career development is affected."
+        }
+      ]
+    }
+  ],
+  "communityOptions": [
+    { "id": "climate", "label": "Climate and Sustainability" },
+    { "id": "tech", "label": "Tech Education and Inclusion" },
+    { "id": "diversity", "label": "Diversity and Economic Equity" },
+    { "id": "global", "label": "Global Opportunity Access" }
+  ]
+}

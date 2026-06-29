@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Accepted avatar video moments for gameplay feedback, reward beats, UI polish, and light engagement easter eggs. These are not modular rigs or Avatar Studio builder assets.",
+  "source": "User-generated ElevenLabs/Kling clips copied into project assets.",
+  "clipCount": 13,
+  "recommendedUse": {
+    "best": "Short website/game feedback video moments.",
+    "notRecommended": "Do not treat these as true avatar-builder rig animations or clean locomotion sprite sources."
+  },
+  "clips": [
+    {
+      "id": "ecc-girl-idle",
+      "character": "girl",
+      "motion": "idle",
+      "status": "keeper",
+      "quality": "good",
+      "dest": "girl/ecc-girl-idle.mp4",
+      "notes": "Clean full-body idle-style clip; stable outfit and framing."
+    },
+    {
+      "id": "ecc-girl-wave",
+      "character": "girl",
+      "motion": "wave",
+      "status": "keeper",
+      "quality": "good",
+      "dest": "girl/ecc-girl-wave.mp4",
+      "notes": "Clear friendly wave; slightly closer framing than idle."
+    },
+    {
+      "id": "ecc-girl-point",
+      "character": "girl",
+      "motion": "point",
+      "status": "keeper",
+      "quality": "good",
+      "dest": "girl/ecc-girl-point.mp4",
+      "notes": "Best girl pointing version; clean enough for UI/tutorial use."
+    },
+    {
+      "id": "ecc-girl-run",
+      "character": "girl",
+      "motion": "run",
+      "status": "keeper",
+      "quality": "good",
+      "dest": "girl/ecc-girl-run.mp4",
+      "notes": "Readable in-place run/action motion."
+    },
+    {
+      "id": "ecc-girl-celebrate",
+      "character": "girl",
+      "motion": "celebrate",
+      "status": "keeper",
+      "quality": "good",
+      "dest": "girl/ecc-girl-celebrate.mp4",
+      "notes": "Clear success/reward celebration; returns to neutral."
+    },
+    {
+      "id": "ecc-girl-point-soft-a",
+      "character": "girl",
+      "motion": "point",
+      "status": "alternate",
+      "quality": "usable",
+      "dest": "girl/alternates/ecc-girl-point-soft-a.mp4",
+      "notes": "Usable alternate point; softer hand/face than primary."
+    },
+    {
+      "id": "ecc-girl-point-soft-b",
+      "character": "girl",
+      "motion": "point",
+      "status": "alternate",
+      "quality": "usable",
+      "dest": "girl/alternates/ecc-girl-point-soft-b.mp4",
+      "notes": "Second alternate point; similar to soft-a."
+    },
+    {
+      "id": "ecc-girl-standby-alt",
+      "character": "girl",
+      "motion": "standby",
+      "status": "alternate",
+      "quality": "limited",
+      "dest": "girl/alternates/ecc-girl-standby-alt.mp4",
+      "notes": "Mostly standing with mild motion; use only as filler/standby."
+    },
+    {
+      "id": "ecc-boy-wave",
+      "character": "boy",
+      "motion": "wave",
+      "status": "keeper",
+      "quality": "good",
+      "dest": "boy/ecc-boy-wave.mp4",
+      "notes": "Clean readable wave, good framing."
+    },
+    {
+      "id": "ecc-boy-celebrate",
+      "character": "boy",
+      "motion": "celebrate",
+      "status": "keeper",
+      "quality": "good",
+      "dest": "boy/ecc-boy-celebrate.mp4",
+      "notes": "Good success/reward celebration; full body visible."
+    },
+    {
+      "id": "ecc-boy-think",
+      "character": "boy",
+      "motion": "think",
+      "status": "keeper",
+      "quality": "good",
+      "dest": "boy/ecc-boy-think.mp4",
+      "notes": "Clear thoughtful pose; useful for decision/EST moments."
+    },
+    {
+      "id": "ecc-boy-action-run-borderline",
+      "character": "boy",
+      "motion": "action-run",
+      "status": "keeper",
+      "quality": "limited",
+      "dest": "boy/ecc-boy-action-run-borderline.mp4",
+      "notes": "Borderline as run; reads as action step/fist-pump. Use for energetic moments, not clean locomotion."
+    },
+    {
+      "id": "ecc-boy-point-with-text-artifact",
+      "character": "boy",
+      "motion": "point",
+      "status": "keeper",
+      "quality": "compromised",
+      "dest": "boy/ecc-boy-point-with-text-artifact.mp4",
+      "notes": "Has a generated yellow text artifact; keep only because credits are exhausted. Avoid prominent UI use unless cropped/masked."
+    }
+  ]
+}

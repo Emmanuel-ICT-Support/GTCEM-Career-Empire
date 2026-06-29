@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Class</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./auth.css?v=20260513-auth-simplify">
+</head>
+<body data-teacher-nav-active="create-class">
+  <main class="auth-shell">
+    <div class="auth-topbar">
+      <div class="brand"><div class="brand-mark">CE</div><div>Create Class</div></div>
+      <div class="top-links">
+        <a class="ghost-link" href="./index.html">Auth Home</a>
+        <a class="ghost-link" href="./add-students.html">Add Students</a>
+      </div>
+    </div>
+
+    <section class="workflow-strip">
+      <div class="workflow-title">Teacher tools</div>
+      <div class="workflow-links">
+        <a class="workflow-link" href="./teacher-login.html">Teacher Login</a>
+        <a class="workflow-link active" href="./create-class.html">Create Class</a>
+        <a class="workflow-link" href="./add-students.html">Add Students</a>
+        <a class="workflow-link" href="./manage-students.html">Manage Students</a>
+        <a class="workflow-link" href="../dashboards/teacher.html">Teacher Dashboard</a>
+      </div>
+      <div class="context-strip">
+        <div class="context-card">
+          <div class="context-label">Teacher</div>
+          <div id="teacher-name-preview" class="context-value">No teacher saved yet</div>
+        </div>
+        <div class="context-card">
+          <div class="context-label">School</div>
+          <div id="teacher-school-preview" class="context-value">School not set yet</div>
+        </div>
+        <div class="context-card">
+          <div class="context-label">Current Class</div>
+          <div id="class-preview" class="context-value">No class created yet</div>
+        </div>
+        <div class="context-card">
+          <div class="context-label">Class Code</div>
+          <div id="class-code-preview" class="context-value">Pending</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-layout">
+      <article class="form-card">
+        <span class="eyebrow">Teacher Setup</span>
+        <h1>Create the class structure that modules, dashboards, and analytics will use.</h1>
+        <p class="lead">Classes belong to one teacher and one school. Students are then added inside that class.</p>
+
+        <form id="create-class-form">
+          <div class="field">
+            <label for="class-name">Class name</label>
+            <input id="class-name" type="text" placeholder="e.g. Year 12 Careers A" required>
+          </div>
+          <div class="field">
+            <label for="year-level">Year level</label>
+            <select id="year-level" required>
+              <option value="">Select year</option>
+              <option value="12">Year 12</option>
+              <option value="11">Year 11</option>
+              <option value="10">Year 10</option>
+            </select>
+          </div>
+          <div class="button-row">
+            <button class="button-primary" type="submit">Generate Class</button>
+            <a class="button button-secondary" href="./add-students.html">Next: Add Students</a>
+            <a class="button button-secondary" href="./manage-students.html">Manage Students</a>
+          </div>
+          <div id="create-class-feedback" class="feedback"></div>
+        </form>
+      </article>
+
+      <div class="stack">
+        <article class="info-card">
+          <h2>Generated class code</h2>
+          <div class="code-box">
+            <p id="generated-class-code">Pending</p>
+          </div>
+        </article>
+        <article class="info-card">
+          <h2>Class ownership</h2>
+          <p class="muted">Each class should belong to one teacher and one school so reporting, permissions, and student grouping stay clean.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="../config/supabase-config.js"></script>
+  <script src="../src/services/supabase-browser.js"></script>
+  <script src="./auth.js?v=20260513-auth-simplify"></script>
+  <script src="../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>
