@@ -1,0 +1,427 @@
+{
+  "version": 1,
+  "purpose": "Transparent animation sprites extracted from ECC avatar model sheets.",
+  "poseCanvas": {
+    "width": 1024,
+    "height": 1536,
+    "baselineY": 1470
+  },
+  "expressionCanvas": {
+    "width": 512,
+    "height": 512
+  },
+  "characters": {
+    "ecc-boy-v1": {
+      "label": "ECC boy base v1",
+      "sourceFile": "ecc-avatar-model-sheet-v1.png",
+      "poses": {
+        "neutral": {
+          "file": "ecc-boy-v1/poses/pose-neutral.png",
+          "sourceCrop": {
+            "x": 44,
+            "y": 20,
+            "width": 226,
+            "height": 682
+          },
+          "placement": {
+            "left": 292,
+            "top": 122,
+            "width": 441,
+            "height": 1348,
+            "baselineY": 1470,
+            "centerX": 512,
+            "centerY": 796
+          }
+        },
+        "side": {
+          "file": "ecc-boy-v1/poses/pose-side.png",
+          "sourceCrop": {
+            "x": 326,
+            "y": 20,
+            "width": 242,
+            "height": 682
+          },
+          "placement": {
+            "left": 278,
+            "top": 122,
+            "width": 469,
+            "height": 1348,
+            "baselineY": 1470,
+            "centerX": 512,
+            "centerY": 796
+          }
+        },
+        "walk": {
+          "file": "ecc-boy-v1/poses/pose-walk.png",
+          "sourceCrop": {
+            "x": 610,
+            "y": 20,
+            "width": 244,
+            "height": 682
+          },
+          "placement": {
+            "left": 268,
+            "top": 122,
+            "width": 487,
+            "height": 1348,
+            "baselineY": 1470,
+            "centerX": 512,
+            "centerY": 796
+          }
+        },
+        "point": {
+          "file": "ecc-boy-v1/poses/pose-point.png",
+          "sourceCrop": {
+            "x": 874,
+            "y": 20,
+            "width": 322,
+            "height": 682
+          },
+          "placement": {
+            "left": 214,
+            "top": 122,
+            "width": 596,
+            "height": 1348,
+            "baselineY": 1470,
+            "centerX": 512,
+            "centerY": 796
+          }
+        },
+        "celebrate": {
+          "file": "ecc-boy-v1/poses/pose-celebrate.png",
+          "sourceCrop": {
+            "x": 1206,
+            "y": 20,
+            "width": 300,
+            "height": 682
+          },
+          "placement": {
+            "left": 213,
+            "top": 122,
+            "width": 598,
+            "height": 1348,
+            "baselineY": 1470,
+            "centerX": 512,
+            "centerY": 796
+          }
+        }
+      },
+      "expressions": {
+        "neutral": {
+          "file": "ecc-boy-v1/expressions/expression-neutral.png",
+          "sourceCrop": {
+            "x": 58,
+            "y": 724,
+            "width": 196,
+            "height": 268
+          },
+          "placement": {
+            "left": 102,
+            "top": 46,
+            "width": 308,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        },
+        "smile": {
+          "file": "ecc-boy-v1/expressions/expression-smile.png",
+          "sourceCrop": {
+            "x": 324,
+            "y": 724,
+            "width": 204,
+            "height": 268
+          },
+          "placement": {
+            "left": 104,
+            "top": 46,
+            "width": 305,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        },
+        "thinking": {
+          "file": "ecc-boy-v1/expressions/expression-thinking.png",
+          "sourceCrop": {
+            "x": 570,
+            "y": 724,
+            "width": 222,
+            "height": 268
+          },
+          "placement": {
+            "left": 102,
+            "top": 46,
+            "width": 308,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        },
+        "surprised": {
+          "file": "ecc-boy-v1/expressions/expression-surprised.png",
+          "sourceCrop": {
+            "x": 822,
+            "y": 724,
+            "width": 220,
+            "height": 268
+          },
+          "placement": {
+            "left": 113,
+            "top": 46,
+            "width": 286,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        },
+        "talk": {
+          "file": "ecc-boy-v1/expressions/expression-talk.png",
+          "sourceCrop": {
+            "x": 1086,
+            "y": 724,
+            "width": 194,
+            "height": 268
+          },
+          "placement": {
+            "left": 130,
+            "top": 46,
+            "width": 253,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        },
+        "blink": {
+          "file": "ecc-boy-v1/expressions/expression-blink.png",
+          "sourceCrop": {
+            "x": 1322,
+            "y": 724,
+            "width": 200,
+            "height": 268
+          },
+          "placement": {
+            "left": 130,
+            "top": 46,
+            "width": 253,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        }
+      }
+    },
+    "ecc-girl-v1": {
+      "label": "ECC girl base v1",
+      "sourceFile": "ecc-avatar-model-sheet-v2-female.png",
+      "poses": {
+        "neutral": {
+          "file": "ecc-girl-v1/poses/pose-neutral.png",
+          "sourceCrop": {
+            "x": 42,
+            "y": 20,
+            "width": 234,
+            "height": 676
+          },
+          "placement": {
+            "left": 286,
+            "top": 122,
+            "width": 451,
+            "height": 1348,
+            "baselineY": 1470,
+            "centerX": 512,
+            "centerY": 796
+          }
+        },
+        "side": {
+          "file": "ecc-girl-v1/poses/pose-side.png",
+          "sourceCrop": {
+            "x": 330,
+            "y": 20,
+            "width": 250,
+            "height": 676
+          },
+          "placement": {
+            "left": 288,
+            "top": 122,
+            "width": 448,
+            "height": 1348,
+            "baselineY": 1470,
+            "centerX": 512,
+            "centerY": 796
+          }
+        },
+        "walk": {
+          "file": "ecc-girl-v1/poses/pose-walk.png",
+          "sourceCrop": {
+            "x": 612,
+            "y": 20,
+            "width": 246,
+            "height": 676
+          },
+          "placement": {
+            "left": 259,
+            "top": 122,
+            "width": 506,
+            "height": 1348,
+            "baselineY": 1470,
+            "centerX": 512,
+            "centerY": 796
+          }
+        },
+        "point": {
+          "file": "ecc-girl-v1/poses/pose-point.png",
+          "sourceCrop": {
+            "x": 880,
+            "y": 20,
+            "width": 330,
+            "height": 676
+          },
+          "placement": {
+            "left": 178,
+            "top": 122,
+            "width": 667,
+            "height": 1348,
+            "baselineY": 1470,
+            "centerX": 512,
+            "centerY": 796
+          }
+        },
+        "celebrate": {
+          "file": "ecc-girl-v1/poses/pose-celebrate.png",
+          "sourceCrop": {
+            "x": 1210,
+            "y": 20,
+            "width": 300,
+            "height": 676
+          },
+          "placement": {
+            "left": 196,
+            "top": 122,
+            "width": 631,
+            "height": 1348,
+            "baselineY": 1470,
+            "centerX": 512,
+            "centerY": 796
+          }
+        }
+      },
+      "expressions": {
+        "neutral": {
+          "file": "ecc-girl-v1/expressions/expression-neutral.png",
+          "sourceCrop": {
+            "x": 58,
+            "y": 724,
+            "width": 194,
+            "height": 268
+          },
+          "placement": {
+            "left": 78,
+            "top": 46,
+            "width": 356,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        },
+        "smile": {
+          "file": "ecc-girl-v1/expressions/expression-smile.png",
+          "sourceCrop": {
+            "x": 320,
+            "y": 724,
+            "width": 212,
+            "height": 268
+          },
+          "placement": {
+            "left": 84,
+            "top": 46,
+            "width": 345,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        },
+        "thinking": {
+          "file": "ecc-girl-v1/expressions/expression-thinking.png",
+          "sourceCrop": {
+            "x": 568,
+            "y": 724,
+            "width": 226,
+            "height": 268
+          },
+          "placement": {
+            "left": 79,
+            "top": 46,
+            "width": 354,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        },
+        "surprised": {
+          "file": "ecc-girl-v1/expressions/expression-surprised.png",
+          "sourceCrop": {
+            "x": 814,
+            "y": 724,
+            "width": 220,
+            "height": 268
+          },
+          "placement": {
+            "left": 74,
+            "top": 46,
+            "width": 365,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        },
+        "talk": {
+          "file": "ecc-girl-v1/expressions/expression-talk.png",
+          "sourceCrop": {
+            "x": 1088,
+            "y": 724,
+            "width": 192,
+            "height": 268
+          },
+          "placement": {
+            "left": 111,
+            "top": 46,
+            "width": 290,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        },
+        "blink": {
+          "file": "ecc-girl-v1/expressions/expression-blink.png",
+          "sourceCrop": {
+            "x": 1322,
+            "y": 724,
+            "width": 202,
+            "height": 268
+          },
+          "placement": {
+            "left": 115,
+            "top": 46,
+            "width": 282,
+            "height": 420,
+            "baselineY": 466,
+            "centerX": 256,
+            "centerY": 256
+          }
+        }
+      }
+    }
+  }
+}

@@ -122,48 +122,87 @@ const HERO_VIDEO_CHAPTERS = [
     kicker: "EST Lab briefing",
     title: "Four systems offline",
     detail: "Your EST prep is a training sequence. Watch each system, pause, then move on when you are ready.",
+    transcript: "Welcome to the EST Lab. This is not four random revision jobs. It is a training run for the moment you open the paper and need a plan.",
+    slidePoints: [
+      "The EST Lab is a training sequence, not a worksheet stack.",
+      "Each system solves one part of the exam problem.",
+      "Students can watch the briefing first, then review the deck at their own pace."
+    ],
     start: 0,
-    end: 5.6
+    end: 7
   },
   {
     label: "CORE",
     kicker: "System 01 of 04",
     title: "CORE shows what to say",
     detail: "This is the content layer: topics, examples, facts, and syllabus points.",
-    start: 5.6,
-    end: 14.3
+    transcript: "System one: CORE. This is what to say. CORE starts with the curriculum authority, then loads the assessed content: Initiative, Time Management, Finance, Applications, Communication, and Megatrends.",
+    slidePoints: [
+      "Start from the curriculum authority source.",
+      "Load the six assessed content strands.",
+      "Use examples, facts, syllabus points, and class resources.",
+      "Practise turning content into stronger answer sentences."
+    ],
+    start: 7,
+    end: 17
   },
   {
     label: "TERM",
     kicker: "System 02 of 04",
     title: "TERM gives the right language",
     detail: "This is the vocabulary layer: precise terms, definitions, and marker-friendly wording.",
-    start: 14.3,
-    end: 21.5
+    transcript: "System two: TERM. This is the right language. The glossary document turns loose wording into Careers vocabulary, so the marker hears the terms they are listening for.",
+    slidePoints: [
+      "Use the glossary document as the source.",
+      "Replace vague wording with precise Careers language.",
+      "Match terms to definitions until recall feels quick.",
+      "Bank stronger wording before exam pressure hits."
+    ],
+    start: 17,
+    end: 27
   },
   {
     label: "VTCS",
     kicker: "System 03 of 04",
     title: "VTCS shows what the question wants",
     detail: "This is the decoding layer: verb, topic, context, and structure before answering.",
-    start: 21.5,
-    end: 30.2
+    transcript: "System three: VTCS. Start with SCSA key words. Find the verb, topic, context, and structure before you write. Decode first. Answer second.",
+    slidePoints: [
+      "Use the SCSA key-words document as the source.",
+      "V is the command verb.",
+      "T is the topic being tested.",
+      "C is the context, and S is the response structure."
+    ],
+    start: 27,
+    end: 37
   },
   {
     label: "BOSS",
     kicker: "System 04 of 04",
     title: "BOSS proves the final response",
     detail: "This is the exam layer: combine CORE, TERM, and VTCS into one stronger response.",
-    start: 30.2,
-    end: 36.2
+    transcript: "System four: BOSS. Now the systems combine. Use content, precise terms, and the question decode to build an answer that can earn marks.",
+    slidePoints: [
+      "Build one exam-style response from the three earlier systems.",
+      "Use the scaffold to strengthen the answer before submitting.",
+      "Save teacher-visible evidence from the final response."
+    ],
+    start: 37,
+    end: 47
   },
   {
     label: "Beat the Paper",
     kicker: "Assessment portal restored",
     title: "Put the systems together",
     detail: "CORE gives what to say, TERM gives exact language, VTCS shows what the question wants, and BOSS pulls it together.",
-    start: 36.2,
-    end: 44.7
+    transcript: "That is the loop: CORE, TERM, VTCS, BOSS. Train the systems, bank the evidence, lift your readiness, then beat the paper.",
+    slidePoints: [
+      "CORE gives the content.",
+      "TERM sharpens the language.",
+      "VTCS decodes the task, and BOSS proves the response."
+    ],
+    start: 47,
+    end: 59.6
   }
 ];
 
@@ -175,9 +214,94 @@ function getHeroVideoPlayer() {
   return document.querySelector("[data-hero-video]");
 }
 
+function getHeroFinalChapter() {
+  return HERO_VIDEO_CHAPTERS[HERO_VIDEO_CHAPTERS.length - 1];
+}
+
+function getHeroChapterIndexForTime(time) {
+  const currentTime = Math.max(0, Number(time) || 0);
+  const foundIndex = HERO_VIDEO_CHAPTERS.findIndex(chapter => currentTime >= chapter.start && currentTime < chapter.end);
+  if (foundIndex >= 0) return foundIndex;
+  const finalChapter = getHeroFinalChapter();
+  return currentTime >= finalChapter.start ? HERO_VIDEO_CHAPTERS.length - 1 : 0;
+}
+
+function formatHeroTimestamp(seconds) {
+  const rounded = Math.max(0, Math.round(Number(seconds) || 0));
+  const minutes = Math.floor(rounded / 60);
+  const remainingSeconds = rounded % 60;
+  return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+}
+
 function playHeroVideo(video) {
   const playback = video.play?.();
   if (playback && typeof playback.catch === "function") playback.catch(() => {});
+}
+
+function renderHeroSlideDeck() {
+  const root = document.querySelector("[data-hero-slide-deck]");
+  if (!root || root.dataset.rendered === "true") return;
+
+  root.innerHTML = `
+    <div class="hero-slide-deck-inner">
+      ${HERO_VIDEO_CHAPTERS.map((chapter, index) => `
+        <article class="hero-slide-card" data-hero-slide-card="${index}">
+          <div class="hero-slide-card-topline">
+            <span>${escapeHtml(chapter.kicker)}</span>
+            <strong>${escapeHtml(formatHeroTimestamp(chapter.start))}-${escapeHtml(formatHeroTimestamp(chapter.end))}</strong>
+          </div>
+          <h3>${escapeHtml(chapter.title)}</h3>
+          <p>${escapeHtml(chapter.transcript)}</p>
+          <ul>
+            ${chapter.slidePoints.map(point => `<li>${escapeHtml(point)}</li>`).join("")}
+          </ul>
+          <button type="button" onclick="window.ESTPrep.setHeroChapter(${index}, { play: true })">Replay this section</button>
+        </article>
+      `).join("")}
+    </div>
+  `;
+  root.dataset.rendered = "true";
+}
+
+function syncHeroSlideDeckActive(index) {
+  const root = document.querySelector("[data-hero-slide-deck]");
+  if (!root) return;
+  root.querySelectorAll("[data-hero-slide-card]").forEach(card => {
+    card.classList.toggle("is-active", Number(card.dataset.heroSlideCard) === index);
+  });
+}
+
+function updateHeroCompleteActions() {
+  const deck = getHeroVideoDeck();
+  const actions = deck?.querySelector("[data-hero-complete-actions]");
+  if (!deck || !actions) return;
+  const isComplete = deck.dataset.sequenceComplete === "true";
+  actions.classList.toggle("is-hidden", !isComplete);
+  actions.toggleAttribute("hidden", !isComplete);
+}
+
+function setHeroExplainerView(view = "video") {
+  const deck = getHeroVideoDeck();
+  const video = getHeroVideoPlayer();
+  if (!deck) return;
+
+  const nextView = view === "deck" ? "deck" : "video";
+  if (nextView === "deck") {
+    renderHeroSlideDeck();
+    video?.pause?.();
+  }
+
+  deck.dataset.heroView = nextView;
+  deck.querySelectorAll("[data-hero-view-panel]").forEach(panel => {
+    const isActive = panel.dataset.heroViewPanel === nextView;
+    panel.classList.toggle("is-hidden", !isActive);
+    panel.toggleAttribute("hidden", !isActive);
+  });
+  deck.querySelectorAll("[data-hero-view-button]").forEach(button => {
+    const isActive = button.dataset.heroViewButton === nextView;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
 }
 
 function seekHeroVideo(video, time, playAfterSeek = false) {
@@ -216,6 +340,7 @@ function updateHeroChapterUI(index) {
   const previous = deck.querySelector("[data-hero-prev]");
   const next = deck.querySelector("[data-hero-next]");
   const play = deck.querySelector("[data-hero-play]");
+  const playFull = deck.querySelector("[data-hero-full]");
 
   if (count) count.textContent = `${String(index + 1).padStart(2, "0")} / ${String(HERO_VIDEO_CHAPTERS.length).padStart(2, "0")}`;
   if (label) label.textContent = chapter.label;
@@ -225,6 +350,7 @@ function updateHeroChapterUI(index) {
   if (previous) previous.disabled = index === 0;
   if (next) next.textContent = index === HERO_VIDEO_CHAPTERS.length - 1 ? "Restart" : "Next";
   if (play) play.textContent = deck.dataset.chapterComplete === "true" ? "Replay section" : "Play section";
+  if (playFull) playFull.textContent = deck.dataset.sequenceComplete === "true" ? "Replay video" : "Play full video";
 
   deck.querySelectorAll("[data-hero-chapter-jump]").forEach(button => {
     const isActive = Number(button.dataset.heroChapterJump) === index;
@@ -232,6 +358,8 @@ function updateHeroChapterUI(index) {
     button.setAttribute("aria-selected", String(isActive));
     button.tabIndex = isActive ? 0 : -1;
   });
+  syncHeroSlideDeckActive(index);
+  updateHeroCompleteActions();
 }
 
 function setHeroChapter(index = 0, options = {}) {
@@ -241,8 +369,11 @@ function setHeroChapter(index = 0, options = {}) {
 
   const nextIndex = ((Number(index) || 0) % HERO_VIDEO_CHAPTERS.length + HERO_VIDEO_CHAPTERS.length) % HERO_VIDEO_CHAPTERS.length;
   const chapter = HERO_VIDEO_CHAPTERS[nextIndex];
+  deck.dataset.playMode = "section";
   deck.dataset.currentChapter = String(nextIndex);
   deck.dataset.chapterComplete = "false";
+  deck.dataset.sequenceComplete = "false";
+  setHeroExplainerView("video");
   updateHeroChapterUI(nextIndex);
 
   const setStart = () => seekHeroVideo(video, chapter.start + 0.02, Boolean(options.play));
@@ -263,13 +394,38 @@ function playHeroChapter() {
   const chapter = HERO_VIDEO_CHAPTERS[index];
   if (!chapter) return;
 
+  deck.dataset.playMode = "section";
+  deck.dataset.chapterComplete = "false";
+  deck.dataset.sequenceComplete = "false";
+  setHeroExplainerView("video");
   if (video.currentTime < chapter.start || video.currentTime >= chapter.end - 0.15) {
+    updateHeroChapterUI(index);
     seekHeroVideo(video, chapter.start + 0.02, true);
     return;
   }
-  deck.dataset.chapterComplete = "false";
   updateHeroChapterUI(index);
   playHeroVideo(video);
+}
+
+function playHeroFullVideo() {
+  const deck = getHeroVideoDeck();
+  const video = getHeroVideoPlayer();
+  if (!deck || !video) return;
+
+  deck.dataset.playMode = "full";
+  deck.dataset.currentChapter = "0";
+  deck.dataset.chapterComplete = "false";
+  deck.dataset.sequenceComplete = "false";
+  setHeroExplainerView("video");
+  updateHeroChapterUI(0);
+
+  const setStart = () => seekHeroVideo(video, HERO_VIDEO_CHAPTERS[0].start + 0.02, true);
+  if (Number.isFinite(video.duration) && video.duration > 0) {
+    setStart();
+  } else {
+    video.addEventListener("loadedmetadata", setStart, { once: true });
+    video.load();
+  }
 }
 
 function nextHeroChapter() {
@@ -306,6 +462,24 @@ function initialiseHeroVideoChapters() {
     const index = Number(deck.dataset.currentChapter || 0);
     const chapter = HERO_VIDEO_CHAPTERS[index];
     if (!chapter || video.paused) return;
+    if (deck.dataset.playMode === "full") {
+      const activeIndex = getHeroChapterIndexForTime(video.currentTime);
+      if (activeIndex !== index) {
+        deck.dataset.currentChapter = String(activeIndex);
+        deck.dataset.chapterComplete = "false";
+        updateHeroChapterUI(activeIndex);
+      }
+      const finalChapter = getHeroFinalChapter();
+      if (video.currentTime >= finalChapter.end) {
+        video.pause();
+        deck.dataset.playMode = "section";
+        deck.dataset.currentChapter = String(HERO_VIDEO_CHAPTERS.length - 1);
+        deck.dataset.chapterComplete = "true";
+        deck.dataset.sequenceComplete = "true";
+        updateHeroChapterUI(HERO_VIDEO_CHAPTERS.length - 1);
+      }
+      return;
+    }
     if (video.currentTime >= chapter.end) {
       video.pause();
       deck.dataset.chapterComplete = "true";
@@ -315,9 +489,12 @@ function initialiseHeroVideoChapters() {
 
   video.addEventListener("ended", () => {
     deck.dataset.chapterComplete = "true";
+    deck.dataset.sequenceComplete = "true";
     updateHeroChapterUI(Number(deck.dataset.currentChapter || 0));
   });
 
+  renderHeroSlideDeck();
+  setHeroExplainerView("video");
   setHeroChapter(0);
 }
 
@@ -368,8 +545,10 @@ async function init() {
 
 window.ESTPrep = {
   openStage,
+  setHeroExplainerView,
   setHeroChapter,
   playHeroChapter,
+  playHeroFullVideo,
   nextHeroChapter,
   prevHeroChapter,
   setCoreBriefingScene,

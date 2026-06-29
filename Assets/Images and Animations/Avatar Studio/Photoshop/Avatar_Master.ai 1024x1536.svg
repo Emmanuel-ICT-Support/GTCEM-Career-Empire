@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1536">
+  <!-- Generator: Adobe Illustrator 30.4.0, SVG Export Plug-In . SVG Version: 2.1.4 Build 226)  -->
+  <defs>
+    <style>
+      .st0, .st1, .st2 {
+        fill: none;
+      }
+
+      .st1, .st3, .st4 {
+        stroke: #333;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 6px;
+      }
+
+      .st3 {
+        fill: #e8c4a7;
+      }
+
+      .st5 {
+        font-family: ArialMT, Arial;
+        font-size: 26px;
+      }
+
+      .st5, .st2, .st6 {
+        isolation: isolate;
+      }
+
+      .st2 {
+        opacity: .3;
+        stroke: #6dccdd;
+        stroke-miterlimit: 10;
+      }
+
+      .st6, .st7 {
+        display: none;
+      }
+
+      .st8 {
+        fill: #333;
+      }
+
+      .st4 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="HEAD">
+    <path id="Head_Base" class="st3" d="M481.65,216.12c-189.48,14.07-288.07,171.8-268.83,431.08,18.51,249.31,159.99,399.25,329.53,386.67,169.53-12.58,287.33-181.77,268.83-431.08-19.25-259.29-140.05-400.73-329.53-386.67h0Z"/>
+    <g id="Neck">
+      <rect class="st3" x="412" y="975" width="200" height="180" rx="40" ry="40"/>
+    </g>
+    <g id="Ears">
+      <ellipse class="st3" cx="792" cy="655" rx="55" ry="90"/>
+      <ellipse class="st3" cx="232" cy="655" rx="55" ry="90"/>
+    </g>
+  </g>
+  <g id="Face">
+    <g id="Eyes">
+      <ellipse id="Right_Eye" class="st4" cx="612" cy="595" rx="55" ry="42"/>
+      <circle id="Right_Pupil" class="st8" cx="612" cy="600" r="18"/>
+      <ellipse id="Left_eye" class="st4" cx="412" cy="595" rx="55" ry="42"/>
+      <circle id="Left_Pupil" class="st8" cx="412" cy="600" r="18"/>
+    </g>
+    <g id="Brows">
+      <path class="st1" d="M557,515c30-20,80-20,110,0"/>
+      <path class="st1" d="M357,515c30-20,80-20,110,0"/>
+    </g>
+    <g id="Nose">
+      <path class="st1" d="M512,655c10,50,10,90-5,115"/>
+    </g>
+    <g id="Mouth">
+      <path class="st1" d="M442,840c40,35,100,35,140,0"/>
+    </g>
+  </g>
+  <g id="Guides" class="st7">
+    <g class="st6">
+      <text class="st5" transform="translate(842 778)"><tspan x="0" y="0">Neck Anchor</tspan></text>
+    </g>
+    <g class="st6">
+      <text class="st5" transform="translate(882 -262)"><tspan x="0" y="0">Hair Zone</tspan></text>
+    </g>
+    <ellipse id="Right_Eye_GUide" class="st2" cx="612" cy="218" rx="55" ry="42"/>
+    <ellipse id="Left_eye_guide" class="st0" cx="412" cy="218" rx="55" ry="42"/>
+  </g>
+</svg>

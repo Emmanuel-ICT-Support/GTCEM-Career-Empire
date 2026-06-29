@@ -111,6 +111,49 @@
       isolation: isolate;
     }
 
+    .game-frame::before,
+    .game-frame::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    .game-frame::before {
+      inset: 0;
+      background:
+        repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 6px),
+        linear-gradient(90deg, transparent, rgba(97, 240, 255, 0.06), transparent);
+      mix-blend-mode: screen;
+      opacity: 0.22;
+      animation: filmGrain 1.4s steps(2, end) infinite;
+    }
+
+    .game-frame::after {
+      top: 0;
+      bottom: 0;
+      box-shadow: inset 0 38px 0 rgba(2, 5, 14, 0.52), inset 0 -38px 0 rgba(2, 5, 14, 0.52);
+      opacity: 0.56;
+    }
+
+    .game-frame.is-crossing .game-bg {
+      animation: cameraPush 780ms ease-out;
+    }
+
+    .game-frame.is-correct .game-vignette {
+      animation: successBloom 720ms ease-out;
+    }
+
+    .game-frame.is-wrong {
+      animation: cameraShake 520ms ease-in-out;
+    }
+
+    .game-frame.is-portal .game-bg {
+      animation: portalPush 1.4s ease-in-out;
+    }
+
     .game-bg {
       position: absolute;
       inset: 0;
@@ -131,6 +174,48 @@
       z-index: -3;
     }
 
+    .cinematic-scan {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -18%;
+      z-index: 1;
+      height: 28%;
+      background: linear-gradient(180deg, transparent, rgba(97, 240, 255, 0.22), transparent);
+      opacity: 0.5;
+      pointer-events: none;
+      animation: cinematicScan 4.8s linear infinite;
+    }
+
+    .scene-caption {
+      position: absolute;
+      left: 28px;
+      top: 236px;
+      z-index: 11;
+      display: grid;
+      gap: 4px;
+      width: min(260px, calc(100% - 56px));
+      padding: 10px 12px;
+      border-left: 3px solid var(--gold);
+      color: var(--text);
+      background: linear-gradient(90deg, rgba(5, 12, 30, 0.76), rgba(5, 12, 30, 0));
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.74);
+      pointer-events: none;
+    }
+
+    .scene-caption span {
+      color: var(--gold);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .scene-caption strong {
+      font-size: clamp(0.95rem, 1.45vw, 1.18rem);
+      line-height: 1.02;
+    }
+
     .hud {
       position: absolute;
       top: 18px;
@@ -139,7 +224,7 @@
       display: grid;
       grid-template-columns: 148px minmax(0, 1fr) 180px;
       gap: 14px;
-      z-index: 8;
+      z-index: 12;
     }
 
     .hud-card {
@@ -170,7 +255,7 @@
       position: absolute;
       top: 100px;
       left: 50%;
-      z-index: 9;
+      z-index: 12;
       width: min(1080px, calc(100% - 64px));
       transform: translateX(-50%);
       padding: 18px 24px;
@@ -199,7 +284,7 @@
     .bridge-pieces {
       position: absolute;
       inset: 0;
-      z-index: 5;
+      z-index: 8;
       pointer-events: none;
     }
 
@@ -339,10 +424,11 @@
       position: absolute;
       left: 50%;
       top: 91%;
-      z-index: 7;
+      z-index: 10;
       width: clamp(170px, 17vw, 260px);
       transform: translate(-50%, -100%);
       filter: drop-shadow(0 22px 24px rgba(0, 0, 0, 0.5));
+      pointer-events: none;
       transition:
         left 720ms cubic-bezier(0.18, 0.88, 0.24, 1),
         top 720ms cubic-bezier(0.18, 0.88, 0.24, 1),
@@ -351,23 +437,165 @@
       will-change: left, top, transform;
     }
 
+    .player.is-idle {
+      animation: characterIdle 3.2s ease-in-out infinite;
+    }
+
     .player.is-hopping {
+      z-index: 14;
       animation: characterHop 720ms ease-in-out;
     }
 
     .player.is-celebrating {
-      animation: celebrateBob 760ms ease-in-out 3;
+      z-index: 14;
+      animation: celebrateDance 1180ms ease-in-out;
     }
 
     .player.is-resetting {
+      z-index: 14;
       animation: resetDrop 760ms ease-in-out;
     }
 
+    .player.is-sad {
+      z-index: 14;
+      filter: grayscale(0.24) drop-shadow(0 22px 24px rgba(0, 0, 0, 0.5));
+      animation: sadMistake 1320ms ease-in-out;
+    }
+
     .player.is-exiting {
+      z-index: 14;
       width: clamp(120px, 10vw, 170px);
       opacity: 0;
       animation: portalExit 880ms ease-in-out forwards;
     }
+
+    .player-ghost {
+      position: absolute;
+      z-index: 9;
+      width: clamp(170px, 17vw, 260px);
+      transform: translate(-50%, -100%);
+      filter: drop-shadow(0 22px 24px rgba(0, 0, 0, 0.34));
+      opacity: 0.34;
+      pointer-events: none;
+      animation: ghostFade 620ms ease-out forwards;
+    }
+
+    .motion-ribbon {
+      position: absolute;
+      z-index: 4;
+      height: 9px;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.88), var(--cyan), var(--mint), transparent);
+      box-shadow: 0 0 28px rgba(97, 240, 255, 0.48);
+      opacity: 0;
+      transform-origin: left center;
+      pointer-events: none;
+    }
+
+    .motion-ribbon.is-active {
+      animation: motionRibbon 720ms ease-out;
+    }
+
+    .character-emote {
+      position: absolute;
+      left: var(--emote-x, 50%);
+      top: var(--emote-y, 60%);
+      z-index: 15;
+      width: clamp(180px, 18vw, 290px);
+      aspect-ratio: 1;
+      opacity: 0;
+      transform: translate(-50%, -70%);
+      pointer-events: none;
+    }
+
+    .character-emote i {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      background: var(--gold);
+      box-shadow: 0 0 18px rgba(255, 216, 108, 0.5);
+    }
+
+    .character-emote.is-celebration {
+      opacity: 1;
+      animation: emotePop 1180ms ease-out;
+    }
+
+    .character-emote.is-celebration::before,
+    .character-emote.is-celebration::after {
+      content: "";
+      position: absolute;
+      inset: 16%;
+      border-radius: 999px;
+      border: 2px solid rgba(132, 255, 209, 0.72);
+      opacity: 0;
+      animation: celebrationRing 1180ms ease-out;
+    }
+
+    .character-emote.is-celebration::after {
+      inset: 28%;
+      border-color: rgba(255, 216, 108, 0.68);
+      animation-delay: 120ms;
+    }
+
+    .character-emote.is-celebration i {
+      animation: confettiLaunch 1080ms ease-out forwards;
+    }
+
+    .character-emote.is-sad {
+      opacity: 1;
+      width: clamp(150px, 15vw, 235px);
+      transform: translate(-50%, -78%);
+      animation: sadCloud 1320ms ease-in-out;
+    }
+
+    .character-emote.is-sad::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 40%;
+      width: 44%;
+      height: 26%;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 28% 44%, rgba(185, 200, 223, 0.92) 0 28%, transparent 30%),
+        radial-gradient(circle at 52% 36%, rgba(147, 164, 190, 0.88) 0 34%, transparent 36%),
+        radial-gradient(circle at 72% 48%, rgba(185, 200, 223, 0.78) 0 26%, transparent 28%),
+        linear-gradient(180deg, rgba(147, 164, 190, 0.72), rgba(74, 91, 121, 0.48));
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      animation: sadCloudPuff 1320ms ease-in-out;
+    }
+
+    .character-emote.is-sad i {
+      width: 7px;
+      height: 16px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #dffaff, #61f0ff);
+      box-shadow: 0 0 16px rgba(97, 240, 255, 0.42);
+      animation: sadDrop 940ms ease-in forwards;
+    }
+
+    .character-emote i:nth-child(1) { --x: -72px; --y: -86px; --r: -24deg; animation-delay: 0ms; }
+    .character-emote i:nth-child(2) { --x: -26px; --y: -110px; --r: 18deg; animation-delay: 70ms; background: var(--mint); }
+    .character-emote i:nth-child(3) { --x: 36px; --y: -104px; --r: 34deg; animation-delay: 120ms; background: var(--cyan); }
+    .character-emote i:nth-child(4) { --x: 84px; --y: -74px; --r: -18deg; animation-delay: 40ms; }
+    .character-emote i:nth-child(5) { --x: -92px; --y: -30px; --r: 52deg; animation-delay: 160ms; background: #ff8b7b; }
+    .character-emote i:nth-child(6) { --x: 104px; --y: -22px; --r: -42deg; animation-delay: 190ms; background: var(--mint); }
+    .character-emote i:nth-child(7) { --x: -46px; --y: 12px; --r: 28deg; animation-delay: 220ms; background: var(--cyan); }
+    .character-emote i:nth-child(8) { --x: 52px; --y: 8px; --r: -16deg; animation-delay: 260ms; background: #ff8b7b; }
+
+    .character-emote.is-sad i:nth-child(1) { --x: -20px; --y: 58px; animation-delay: 250ms; }
+    .character-emote.is-sad i:nth-child(2) { --x: 10px; --y: 64px; animation-delay: 360ms; }
+    .character-emote.is-sad i:nth-child(3) { --x: 34px; --y: 50px; animation-delay: 470ms; }
+    .character-emote.is-sad i:nth-child(n+4) { display: none; }
 
     .path-pulse {
       position: absolute;
@@ -389,7 +617,7 @@
       position: absolute;
       left: 24px;
       bottom: 22px;
-      z-index: 8;
+      z-index: 12;
       width: min(520px, calc(100% - 48px));
       border: 1px solid var(--line);
       border-radius: 22px;
@@ -418,7 +646,7 @@
       position: absolute;
       right: 24px;
       bottom: 22px;
-      z-index: 8;
+      z-index: 12;
       width: min(390px, calc(100% - 48px));
       border: 1px solid var(--line);
       border-radius: 22px;
@@ -679,6 +907,96 @@
       border-color: rgba(255, 216, 108, 0.75);
     }
 
+    @keyframes filmGrain {
+      0%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      50% {
+        transform: translate3d(0, 4px, 0);
+      }
+    }
+
+    @keyframes cameraPush {
+      0% {
+        transform: scale(1.01) translate3d(0, 0, 0);
+        filter: saturate(1.08) contrast(1.02);
+      }
+      46% {
+        transform: scale(1.055) translate3d(-0.6%, -0.4%, 0);
+        filter: saturate(1.22) contrast(1.08);
+      }
+      100% {
+        transform: scale(1.01) translate3d(0, 0, 0);
+        filter: saturate(1.08) contrast(1.02);
+      }
+    }
+
+    @keyframes portalPush {
+      0% {
+        transform: scale(1.01);
+        filter: saturate(1.08) contrast(1.02);
+      }
+      60% {
+        transform: scale(1.07) translate3d(-1.2%, -0.8%, 0);
+        filter: saturate(1.28) contrast(1.08) brightness(1.08);
+      }
+      100% {
+        transform: scale(1.01);
+        filter: saturate(1.08) contrast(1.02);
+      }
+    }
+
+    @keyframes cameraShake {
+      0%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      20% {
+        transform: translate3d(-8px, 3px, 0);
+      }
+      42% {
+        transform: translate3d(7px, -2px, 0);
+      }
+      64% {
+        transform: translate3d(-4px, 2px, 0);
+      }
+      82% {
+        transform: translate3d(3px, 0, 0);
+      }
+    }
+
+    @keyframes successBloom {
+      0% {
+        opacity: 1;
+        filter: brightness(1);
+      }
+      42% {
+        opacity: 0.68;
+        filter: brightness(1.28);
+      }
+      100% {
+        opacity: 1;
+        filter: brightness(1);
+      }
+    }
+
+    @keyframes cinematicScan {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(520%);
+      }
+    }
+
+    @keyframes characterIdle {
+      0%, 100% {
+        transform: translate(-50%, -100%) scale(1);
+      }
+      50% {
+        transform: translate(-50%, -104%) scale(1.012);
+      }
+    }
+
     @keyframes characterHop {
       0% {
         transform: translate(-50%, -100%) scale(1) rotate(0deg);
@@ -691,12 +1009,182 @@
       }
     }
 
+    @keyframes ghostFade {
+      0% {
+        opacity: 0.36;
+        transform: translate(-50%, -100%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -111%) scale(0.92);
+      }
+    }
+
+    @keyframes motionRibbon {
+      0% {
+        opacity: 0;
+        clip-path: inset(0 100% 0 0);
+      }
+      18% {
+        opacity: 0.9;
+      }
+      72% {
+        clip-path: inset(0 0 0 0);
+      }
+      100% {
+        opacity: 0;
+        clip-path: inset(0 0 0 100%);
+      }
+    }
+
     @keyframes celebrateBob {
       0%, 100% {
         transform: translate(-50%, -100%) scale(1);
       }
       50% {
         transform: translate(-50%, -106%) scale(1.03);
+      }
+    }
+
+    @keyframes celebrateDance {
+      0%, 100% {
+        transform: translate(-50%, -100%) scale(1) rotate(0deg);
+      }
+      16% {
+        transform: translate(-52%, -116%) scale(1.06) rotate(-8deg);
+      }
+      32% {
+        transform: translate(-48%, -106%) scale(1.03) rotate(7deg);
+      }
+      48% {
+        transform: translate(-50%, -122%) scale(1.08) rotate(-4deg);
+      }
+      66% {
+        transform: translate(-54%, -104%) scale(1.04) rotate(6deg);
+      }
+      84% {
+        transform: translate(-46%, -112%) scale(1.06) rotate(-5deg);
+      }
+    }
+
+    @keyframes sadMistake {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -100%) scale(1) rotate(0deg);
+      }
+      18% {
+        opacity: 0.95;
+        transform: translate(-52%, -94%) scale(0.98) rotate(-4deg);
+      }
+      42% {
+        opacity: 0.82;
+        transform: translate(-48%, -86%) scale(0.94) rotate(6deg);
+      }
+      68% {
+        opacity: 0.88;
+        transform: translate(-51%, -91%) scale(0.96) rotate(-5deg);
+      }
+      100% {
+        opacity: 0.78;
+        transform: translate(-50%, -88%) scale(0.94) rotate(-3deg);
+      }
+    }
+
+    @keyframes emotePop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -70%) scale(0.72);
+      }
+      14% {
+        opacity: 1;
+        transform: translate(-50%, -70%) scale(1.06);
+      }
+      72% {
+        opacity: 1;
+        transform: translate(-50%, -70%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -70%) scale(0.92);
+      }
+    }
+
+    @keyframes celebrationRing {
+      0% {
+        opacity: 0;
+        transform: scale(0.34);
+      }
+      18% {
+        opacity: 0.96;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.26);
+      }
+    }
+
+    @keyframes confettiLaunch {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.38) rotate(0deg);
+      }
+      18% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0.82) rotate(var(--r));
+      }
+    }
+
+    @keyframes sadCloud {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -74%) scale(0.82);
+      }
+      18% {
+        opacity: 1;
+        transform: translate(-50%, -82%) scale(1.02);
+      }
+      72% {
+        opacity: 1;
+        transform: translate(-50%, -78%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -88%) scale(0.9);
+      }
+    }
+
+    @keyframes sadCloudPuff {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.72);
+      }
+      18% {
+        opacity: 0.96;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      70% {
+        opacity: 0.9;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -54%) scale(0.96);
+      }
+    }
+
+    @keyframes sadDrop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.42);
+      }
+      24% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0.9);
       }
     }
 
@@ -858,6 +1346,11 @@
         top: 250px;
       }
 
+      .scene-caption {
+        top: 178px;
+        left: 18px;
+      }
+
       .tile {
         width: clamp(112px, 28vw, 190px);
         min-height: 72px;
@@ -884,6 +1377,28 @@
         bottom: 18px;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .game-frame::before,
+      .cinematic-scan,
+      .player,
+      .player-ghost,
+      .character-emote,
+      .character-emote i,
+      .motion-ribbon,
+      .path-pulse,
+      .reward-burst,
+      .splash,
+      .portal-ring,
+      .portal-core,
+      .portal-spark {
+        animation: none !important;
+      }
+
+      .player {
+        transition: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -903,9 +1418,14 @@
       </div>
     </header>
 
-    <section class="game-frame" aria-label="Vault Bridge interactive prototype">
+    <section id="game-frame" class="game-frame" aria-label="Vault Bridge interactive prototype">
       <img class="game-bg" src="../../Assets/Images%20and%20Animations/Glossary%20Check/Vault%20Bridge/vault-bridge-backdrop.png" alt="">
       <div class="game-vignette" aria-hidden="true"></div>
+      <div class="cinematic-scan" aria-hidden="true"></div>
+      <div class="scene-caption" aria-live="polite">
+        <span id="scene-label">Scene 01</span>
+        <strong id="scene-title">Bridge loaded</strong>
+      </div>
 
       <div class="hud" aria-label="Game status">
         <div class="hud-card"><span>Secured</span><b id="round-step">0/5</b></div>
@@ -927,7 +1447,18 @@
       </div>
 
       <div class="path-pulse" aria-hidden="true"></div>
+      <div id="motion-ribbon" class="motion-ribbon" aria-hidden="true"></div>
       <img id="player" class="player" src="../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png" alt="MacKillop student character">
+      <div id="character-emote" class="character-emote" aria-hidden="true">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+      </div>
       <div id="reward-burst" class="reward-burst" aria-hidden="true"></div>
       <div id="splash" class="splash" aria-hidden="true"></div>
 
@@ -962,6 +1493,7 @@
   </main>
 
   <script>
+    const gameFrame = document.getElementById("game-frame");
     const player = document.getElementById("player");
     const bridgePieces = document.getElementById("bridge-pieces");
     const questionText = document.getElementById("question-text");
@@ -976,12 +1508,16 @@
     const portalEffect = document.getElementById("portal-effect");
     const stepDots = document.getElementById("step-dots");
     const roundComplete = document.getElementById("round-complete");
+    const characterEmote = document.getElementById("character-emote");
     const roundCompleteTitle = document.getElementById("round-complete-title");
     const roundCompleteCopy = document.getElementById("round-complete-copy");
     const rewardLevel = document.getElementById("reward-level");
     const rewardTerms = document.getElementById("reward-terms");
     const rewardSalary = document.getElementById("reward-salary");
     const keepPlaying = document.getElementById("keep-playing");
+    const sceneLabel = document.getElementById("scene-label");
+    const sceneTitle = document.getElementById("scene-title");
+    const motionRibbon = document.getElementById("motion-ribbon");
     const characterButtons = Array.from(document.querySelectorAll("[data-character]"));
 
     const TERMS_PER_LEVEL = 5;
@@ -1046,27 +1582,105 @@
       mackillop: {
         name: "MacKillop",
         ready: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png",
+        welcome: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Welcome.png",
         action: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Pointing.png",
-        success: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Celebrating.png",
-        reset: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Encouraging.png"
+        success: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/Mackillop%20Celebrating.png",
+        reset: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20encouraging.png",
+        frames: {
+          idle: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Welcome.png"
+          ],
+          action: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Welcome.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Pointing.png"
+          ],
+          success: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Pointing.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/Mackillop%20Celebrating.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Welcome.png"
+          ],
+          reset: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20encouraging.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png"
+          ],
+          sad: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20encouraging.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png"
+          ]
+        }
       },
       romero: {
         name: "Romero",
         ready: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Thinking.png",
+        welcome: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Welcoming.png",
         action: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Pointing.png",
         success: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Celebrating.png",
-        reset: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Encouraging.png"
+        reset: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Encouraging.png",
+        frames: {
+          idle: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Thinking.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Welcoming.png"
+          ],
+          action: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Welcoming.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Pointing.png"
+          ],
+          success: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Pointing.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Celebrating.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Welcoming.png"
+          ],
+          reset: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Encouraging.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Thinking.png"
+          ],
+          sad: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Thinking.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Encouraging.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Thinking.png"
+          ]
+        }
       },
       guide: {
         name: "Guide",
         ready: "../../Assets/EST%20Preparation/guide-character/guide-thinking-bottom.png",
+        welcome: "../../Assets/EST%20Preparation/guide-character/guide-thinking-top.png",
         action: "../../Assets/EST%20Preparation/guide-character/guide-pointing.png",
         success: "../../Assets/EST%20Preparation/guide-character/guide-celebration.png",
-        reset: "../../Assets/EST%20Preparation/guide-character/guide-thumbs-up.png"
+        reset: "../../Assets/EST%20Preparation/guide-character/guide-thumbs-up.png",
+        frames: {
+          idle: [
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-bottom.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-top.png"
+          ],
+          action: [
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-top.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-pointing.png"
+          ],
+          success: [
+            "../../Assets/EST%20Preparation/guide-character/guide-pointing.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-celebration.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-thumbs-up.png"
+          ],
+          reset: [
+            "../../Assets/EST%20Preparation/guide-character/guide-thumbs-up.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-bottom.png"
+          ],
+          sad: [
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-bottom.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-top.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-bottom.png"
+          ]
+        }
       }
     };
 
     let activeCharacter = "mackillop";
+    let characterFrameTimer = null;
+    let frameClassTimer = null;
+    let emoteTimer = null;
     let busy = false;
     let activeLevel = 0;
     let roundQuestions = buildLevelQuestions(activeLevel);
@@ -1137,10 +1751,121 @@
       feedbackCopy.textContent = copy;
     }
 
+    function stopCharacterAnimation() {
+      if (characterFrameTimer) {
+        window.clearTimeout(characterFrameTimer);
+        characterFrameTimer = null;
+      }
+    }
+
+    function setPlayerImage(src) {
+      const character = characters[activeCharacter];
+      player.src = src;
+      player.alt = `${character.name} student character`;
+    }
+
     function setCharacterPose(pose) {
       const character = characters[activeCharacter];
-      player.src = character[pose];
-      player.alt = `${character.name} student character`;
+      stopCharacterAnimation();
+      setPlayerImage(character[pose] || character.ready);
+    }
+
+    function getCharacterFrames(pose) {
+      const character = characters[activeCharacter];
+      const frames = character.frames?.[pose] || [character[pose] || character.ready];
+      return frames.filter(Boolean);
+    }
+
+    function animateCharacter(pose, options = {}) {
+      const frames = getCharacterFrames(pose);
+      const frameMs = options.frameMs || 420;
+      const loop = Boolean(options.loop);
+      let frameIndex = 0;
+
+      stopCharacterAnimation();
+      if (!frames.length) return;
+
+      function showNextFrame() {
+        setPlayerImage(frames[frameIndex % frames.length]);
+        frameIndex += 1;
+        if (loop || frameIndex < frames.length) {
+          characterFrameTimer = window.setTimeout(showNextFrame, frameMs);
+        }
+      }
+
+      showNextFrame();
+    }
+
+    function startIdleAnimation() {
+      player.classList.add("is-idle");
+      animateCharacter("idle", { loop: true, frameMs: 1500 });
+    }
+
+    function stopIdleAnimation() {
+      player.classList.remove("is-idle");
+      stopCharacterAnimation();
+    }
+
+    function setScene(label, title) {
+      sceneLabel.textContent = label;
+      sceneTitle.textContent = title;
+    }
+
+    function flashFrameClass(className, duration = 900) {
+      if (frameClassTimer) {
+        window.clearTimeout(frameClassTimer);
+      }
+      gameFrame.classList.remove("is-crossing", "is-correct", "is-wrong", "is-portal");
+      gameFrame.classList.add(className);
+      frameClassTimer = window.setTimeout(() => {
+        gameFrame.classList.remove(className);
+      }, duration);
+    }
+
+    function showMotionRibbon(from, to) {
+      const frameBox = gameFrame.getBoundingClientRect();
+      const fromX = frameBox.width * (from.x / 100);
+      const fromY = frameBox.height * (from.y / 100);
+      const toX = frameBox.width * (to.x / 100);
+      const toY = frameBox.height * (to.y / 100);
+      const deltaX = toX - fromX;
+      const deltaY = toY - fromY;
+      const length = Math.hypot(deltaX, deltaY);
+      const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+
+      motionRibbon.style.left = `${fromX}px`;
+      motionRibbon.style.top = `${fromY}px`;
+      motionRibbon.style.width = `${length}px`;
+      motionRibbon.style.transform = `rotate(${angle}deg)`;
+      motionRibbon.classList.remove("is-active");
+      void motionRibbon.offsetWidth;
+      motionRibbon.classList.add("is-active");
+    }
+
+    function showCharacterEmote(type, position, duration = 1100) {
+      if (emoteTimer) {
+        window.clearTimeout(emoteTimer);
+      }
+      characterEmote.style.setProperty("--emote-x", `${position.x}%`);
+      characterEmote.style.setProperty("--emote-y", `${position.y}%`);
+      characterEmote.classList.remove("is-celebration", "is-sad");
+      void characterEmote.offsetWidth;
+      characterEmote.classList.add(type === "sad" ? "is-sad" : "is-celebration");
+      emoteTimer = window.setTimeout(() => {
+        characterEmote.classList.remove("is-celebration", "is-sad");
+      }, duration);
+    }
+
+    function spawnPlayerGhost() {
+      const ghost = player.cloneNode(false);
+      ghost.removeAttribute("id");
+      ghost.className = "player-ghost";
+      ghost.src = player.src;
+      ghost.alt = "";
+      ghost.style.left = player.style.left || "50%";
+      ghost.style.top = player.style.top || "91%";
+      gameFrame.append(ghost);
+      window.setTimeout(() => ghost.remove(), 680);
     }
 
     function createBridgePieces() {
@@ -1272,10 +1997,17 @@
     function beginMove(tile) {
       busy = true;
       setTilesDisabled(true);
-      setCharacterPose("action");
-      player.classList.remove("is-celebrating", "is-resetting", "is-exiting");
+      stopIdleAnimation();
+      animateCharacter("action", { loop: true, frameMs: 250 });
+      player.classList.remove("is-celebrating", "is-resetting", "is-sad", "is-exiting", "is-idle");
       player.classList.add("is-hopping");
-      moveTo(landingPositionFor(tile));
+      const from = currentSafePosition();
+      const landing = landingPositionFor(tile);
+      spawnPlayerGhost();
+      showMotionRibbon(from, landing);
+      flashFrameClass("is-crossing", 820);
+      moveTo(landing);
+      setScene(`Scene ${activeLevel + 1}.${secured + 1}`, "Crossing to answer");
       setFeedback("Crossing", "The character jumps to the selected bridge piece before the answer is judged.");
     }
 
@@ -1288,9 +2020,12 @@
           rowTile.classList.add("is-dropped");
         }
       });
-      setCharacterPose("success");
+      animateCharacter("success", { loop: true, frameMs: 340 });
       player.classList.remove("is-hopping");
       player.classList.add("is-celebrating");
+      showCharacterEmote("celebration", landing, 1180);
+      flashFrameClass("is-correct", 760);
+      setScene(`Scene ${activeLevel + 1}.${secured + 1}`, "Bridge piece locked");
       burst.classList.remove("is-active");
       void burst.offsetWidth;
       burst.classList.add("is-active");
@@ -1304,9 +2039,10 @@
           return;
         }
         renderQuestion();
-        setCharacterPose("ready");
+        startIdleAnimation();
         player.classList.remove("is-celebrating");
         moveTo(landing);
+        setScene(`Scene ${activeLevel + 1}.${secured + 1}`, "Next row live");
         setFeedback("Next row", `Level ${activeLevel + 1}: the wrong pieces dropped away. New options have appeared on the next bridge row.`);
         setTilesDisabled(false);
         busy = false;
@@ -1320,9 +2056,14 @@
           rowTile.classList.add("is-dropped");
         }
       });
-      setCharacterPose("reset");
+      animateCharacter("sad", { loop: true, frameMs: 420 });
       player.classList.remove("is-hopping");
-      player.classList.add("is-resetting");
+      player.classList.add("is-resetting", "is-sad");
+      const landing = landingPositionFor(tile);
+      showCharacterEmote("sad", landing, 1320);
+      showMotionRibbon(landing, homePosition);
+      flashFrameClass("is-wrong", 620);
+      setScene(`Scene ${activeLevel + 1}.${secured + 1}`, "Bridge collapses");
       const tileBox = tile.getBoundingClientRect();
       const frameBox = tile.closest(".game-frame").getBoundingClientRect();
       splash.style.left = `${tileBox.left - frameBox.left + tileBox.width / 2 - 85}px`;
@@ -1337,8 +2078,9 @@
         updateProgress();
         renderQuestion();
         moveTo(homePosition);
-        setCharacterPose("ready");
-        player.classList.remove("is-resetting");
+        player.classList.remove("is-resetting", "is-sad");
+        startIdleAnimation();
+        setScene(`Scene ${activeLevel + 1}.1`, "Entrance rebuilt");
         setFeedback("Try again", `The ${getLevelName()} bridge has rebuilt. Start from row one and keep the streak clean.`);
         setTilesDisabled(false);
         busy = false;
@@ -1363,9 +2105,13 @@
       setFeedback(final ? "Vault unlock" : "Portal unlock", final
         ? "All glossary levels secured. The final salary portal is opening now."
         : `Level ${activeLevel + 1} clear. Moving through the salary portal now.`);
-      setCharacterPose("success");
+      stopIdleAnimation();
+      animateCharacter("success", { loop: true, frameMs: 320 });
       player.classList.remove("is-celebrating");
       player.classList.add("is-hopping");
+      showMotionRibbon(currentSafePosition(), portalPosition);
+      flashFrameClass("is-portal", 1500);
+      setScene(final ? "Final scene" : `Scene ${activeLevel + 1}.6`, "Salary portal opens");
       moveTo(portalPosition);
       portalEffect.classList.toggle("is-final", final);
       portalEffect.classList.remove("is-active");
@@ -1393,11 +2139,12 @@
       busy = false;
       roundComplete.classList.remove("is-visible");
       portalEffect.classList.remove("is-active", "is-final");
-      player.classList.remove("is-hopping", "is-celebrating", "is-resetting", "is-exiting");
-      setCharacterPose("ready");
+      player.classList.remove("is-hopping", "is-celebrating", "is-resetting", "is-sad", "is-exiting", "is-idle");
       moveTo(homePosition);
       renderQuestion();
       updateProgress();
+      startIdleAnimation();
+      setScene(`Scene ${activeLevel + 1}.1`, "Bridge loaded");
       setFeedback(`Level ${activeLevel + 1}: ${getLevelName()}`, "Start from the arrow runway. Secure five glossary rows to open this portal.");
       setTilesDisabled(false);
     }
@@ -1424,9 +2171,10 @@
         if (busy) return;
         activeCharacter = button.dataset.character;
         characterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-        setCharacterPose("ready");
         moveTo(currentSafePosition());
         renderQuestion();
+        startIdleAnimation();
+        setScene(`Scene ${activeLevel + 1}.${Math.max(1, secured + 1)}`, `${characters[activeCharacter].name} loaded`);
         setFeedback("Ready", `${characters[activeCharacter].name} is loaded. Choose the active answer piece to test the movement.`);
       });
     });

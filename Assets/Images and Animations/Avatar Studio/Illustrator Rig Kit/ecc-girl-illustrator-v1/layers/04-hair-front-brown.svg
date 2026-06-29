@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1024" height="1536" viewBox="0 0 1024 1536" role="img" aria-label="ECC Girl Illustrator Rig v1 04-hair-front-brown.svg">
+  <title>ECC Girl Illustrator Rig v1 04-hair-front-brown.svg</title>
+  <defs>
+    <linearGradient id="skinSoft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4cda6"/>
+      <stop offset="0.55" stop-color="#e7b98e"/>
+      <stop offset="1" stop-color="#cc966f"/>
+    </linearGradient>
+    <linearGradient id="navyCloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#213b63"/>
+      <stop offset="0.45" stop-color="#142947"/>
+      <stop offset="1" stop-color="#0d1a2f"/>
+    </linearGradient>
+    <linearGradient id="tealCloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d8da0"/>
+      <stop offset="1" stop-color="#004b5c"/>
+    </linearGradient>
+    <linearGradient id="blackShoe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#343b47"/>
+      <stop offset="1" stop-color="#10141d"/>
+    </linearGradient>
+    <style>
+      .outline { stroke: #2d3340; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { stroke: #2d3340; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .stitch { stroke: rgba(255,255,255,.42); stroke-width: 3; stroke-linecap: round; }
+      .guide-line { stroke: #23b8d4; stroke-width: 2; stroke-dasharray: 10 8; opacity: .65; }
+      .guide-dot { fill: #ffcc33; stroke: #152238; stroke-width: 3; }
+      .guide-label { fill: #102033; font-family: Arial, sans-serif; font-size: 19px; font-weight: 700; }
+    </style>
+    
+  </defs>
+<g id="04-hair-front-brown">
+      <path class="outline" d="M392 284 C400 174, 494 132, 574 157 C631 175, 656 229, 639 304 C598 252, 551 231, 498 238 C454 244, 421 261, 392 284 Z" fill="#3b2317"/>
+      <path d="M423 258 C454 222, 506 203, 565 216 C518 236, 478 260, 448 298 Z" fill="#ffffff" opacity=".08"/>
+      <path class="thin" d="M438 244 C472 222, 512 213, 562 224" fill="none" opacity=".35"/>
+      <path class="thin" d="M414 295 C450 260, 486 241, 526 235" fill="none" opacity=".3"/>
+    </g>
+</svg>

@@ -7,10 +7,18 @@
   },
   "starterPack": {
     "id": "ecc-standard-starter-v1",
-    "status": "starter-stack-active",
-    "rule": "Use one perfect boy rig and one perfect girl rig before expanding optional face/body variants.",
-    "warning": "Some first-pass PNGs in the rig folders are reference extractions, not accepted isolated layers. Validate each file before using stacked rendering.",
-    "acceptedLayers": [
+    "status": "neutral-base-active",
+    "rule": "Use one shared neutral student body rig first; build boy/girl presentation through hair, wardrobe, shoes, and accessories.",
+    "activeRuntimeLayers": [
+      "base/neutral-body.png",
+      "face/eye-colour-brown.png",
+      "face/eye-colour-amber.png",
+      "face/eye-colour-green.png",
+      "face/eye-colour-blue.png",
+      "face/eye-colour-grey.png"
+    ],
+    "warning": "The browser currently renders the shared neutral body base and measured iris-mask eye colour overlays. Skin recolours, accessories, and wardrobe PNGs are candidate/reference extractions until each one passes visual alignment.",
+    "candidateLayers": [
       "hair/back.png",
       "legs/left-upper.png",
       "legs/right-upper.png",
@@ -32,7 +40,6 @@
       "hair/front.png",
       "accessories/crest-badge.png",
       "skin/mask.png",
-      "accessories/small-earrings.png",
       "face/eye-colour-brown.png",
       "face/eye-colour-amber.png",
       "face/eye-colour-green.png",
@@ -153,16 +160,16 @@
           "ny": 0.2122
         },
         "leftEye": {
-          "x": 454,
-          "y": 309,
-          "nx": 0.4434,
-          "ny": 0.2012
+          "x": 483,
+          "y": 322,
+          "nx": 0.4717,
+          "ny": 0.2096
         },
         "rightEye": {
-          "x": 544,
-          "y": 309,
-          "nx": 0.5313,
-          "ny": 0.2012
+          "x": 567,
+          "y": 322,
+          "nx": 0.5537,
+          "ny": 0.2096
         },
         "browLine": {
           "x": 512,
@@ -507,16 +514,16 @@
           "ny": 0.1921
         },
         "leftEye": {
-          "x": 454,
-          "y": 282,
-          "nx": 0.4434,
-          "ny": 0.1836
+          "x": 458,
+          "y": 310,
+          "nx": 0.4473,
+          "ny": 0.2018
         },
         "rightEye": {
-          "x": 544,
-          "y": 282,
-          "nx": 0.5313,
-          "ny": 0.1836
+          "x": 547,
+          "y": 309,
+          "nx": 0.5342,
+          "ny": 0.2012
         },
         "browLine": {
           "x": 512,

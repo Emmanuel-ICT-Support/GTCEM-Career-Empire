@@ -1,6 +1,6 @@
 // EST Prep content bundle. Loaded as a classic browser script.
 const DECODER_ROUND_COUNT = 4;
-const INITIATIVE_ONE_PAGE_SUMMARY = "../../Assets/EST Preparation/initiative-one-page-summary.png";
+const INITIATIVE_ONE_PAGE_SUMMARY = "../../Assets/EST Preparation/initiative-one-page-summary.png?v=initiative-summary-v2";
 const CONTENT_GUIDE_PLACEHOLDERS = {
   "time-management": {
     label: "Time management one-page guide",

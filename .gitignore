@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
+exports/
 remotion-est-scenes/out/
 playwright-report/
 test-results/

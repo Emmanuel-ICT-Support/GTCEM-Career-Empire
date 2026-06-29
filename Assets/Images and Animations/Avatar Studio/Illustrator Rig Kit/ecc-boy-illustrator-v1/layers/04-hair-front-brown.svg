@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1024" height="1536" viewBox="0 0 1024 1536" role="img" aria-label="ECC Boy Illustrator Rig v1 04-hair-front-brown.svg">
+  <title>ECC Boy Illustrator Rig v1 04-hair-front-brown.svg</title>
+  <defs>
+    <linearGradient id="skinSoft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4cda6"/>
+      <stop offset="0.55" stop-color="#e7b98e"/>
+      <stop offset="1" stop-color="#cc966f"/>
+    </linearGradient>
+    <linearGradient id="navyCloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#213b63"/>
+      <stop offset="0.45" stop-color="#142947"/>
+      <stop offset="1" stop-color="#0d1a2f"/>
+    </linearGradient>
+    <linearGradient id="tealCloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d8da0"/>
+      <stop offset="1" stop-color="#004b5c"/>
+    </linearGradient>
+    <linearGradient id="blackShoe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#343b47"/>
+      <stop offset="1" stop-color="#10141d"/>
+    </linearGradient>
+    <style>
+      .outline { stroke: #2d3340; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { stroke: #2d3340; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .stitch { stroke: rgba(255,255,255,.42); stroke-width: 3; stroke-linecap: round; }
+      .guide-line { stroke: #23b8d4; stroke-width: 2; stroke-dasharray: 10 8; opacity: .65; }
+      .guide-dot { fill: #ffcc33; stroke: #152238; stroke-width: 3; }
+      .guide-label { fill: #102033; font-family: Arial, sans-serif; font-size: 19px; font-weight: 700; }
+    </style>
+    
+  </defs>
+<g id="04-hair-front-brown">
+    <path class="outline" d="M390 288 C386 222, 426 164, 500 150 C565 138, 632 168, 652 236 C628 218, 599 214, 572 226 C582 204, 542 188, 514 207 C500 182, 451 196, 444 230 C421 224, 397 246, 390 288 Z" fill="#3b2317"/>
+    <path class="outline" d="M394 300 C435 238, 507 218, 591 231 C550 245, 518 275, 498 326 C472 284, 431 290, 394 300 Z" fill="#3b2317"/>
+    <path d="M435 220 C472 192, 550 181, 608 222 C546 205, 493 214, 452 248 Z" fill="#ffffff" opacity=".09"/>
+    <path class="thin" d="M429 250 C470 221, 526 210, 590 226" fill="none" opacity=".3"/>
+    <path class="thin" d="M477 212 C508 199, 544 201, 584 222" fill="none" opacity=".25"/>
+  </g>
+</svg>

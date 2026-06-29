@@ -1788,8 +1788,10 @@ function renderStudentModules(modules) {
   const container = document.getElementById("student-module-grid");
   if (!container) return;
 
-  container.innerHTML = modules.map(module => `
-    <article class="module-card ${module.imagePath ? "module-card--image-bg" : ""} ${module.action === "portfolio" ? "module-card--portfolio" : ""} ${module.spotlight ? "spotlight" : ""} ${module.available === false ? "module-card--unavailable" : ""}"${getModuleImageStyle(module.imagePath)}>
+  const orderedModules = [...modules].sort((a, b) => (b.startHere ? 1 : 0) - (a.startHere ? 1 : 0));
+
+  container.innerHTML = orderedModules.map(module => `
+    <article class="module-card ${module.imagePath ? "module-card--image-bg" : ""} ${module.action === "portfolio" ? "module-card--portfolio" : ""} ${module.spotlight ? "spotlight" : ""} ${module.startHere ? "module-card--start-here" : ""} ${module.available === false ? "module-card--unavailable" : ""}"${getModuleImageStyle(module.imagePath)}>
       <div class="module-visual-badge">
         ${module.logoHtml || (module.logoPath ? `<img class="module-logo" src="${module.logoPath}" alt="${escapeHtml(module.logoLabel || module.title)} logo">` : "")}
         <span>${escapeHtml(module.badgeLabel || module.title)}</span>
@@ -1811,7 +1813,7 @@ function renderStudentModules(modules) {
           : module.action === "portfolio"
             ? `<div class="module-actions"><button class="module-link" type="button" data-open-student-portfolio data-portfolio-label="${escapeHtml(module.launchLabel || "Open Portfolio")}">${escapeHtml(module.launchLabel || "Open Portfolio")}</button></div>`
           : module.launchPath
-            ? `<div class="module-actions"><a class="module-link" href="${module.launchPath}">${module.launchLabel || "Open Module"}</a></div>`
+            ? `<div class="module-actions"><a class="module-link ${module.startHere ? "start-here-link" : ""}" href="${module.launchPath}">${module.launchLabel || "Open Module"}</a></div>`
             : ""}
       </div>
     </article>
@@ -5837,7 +5839,7 @@ async function renderStudentLiveData(players, skillsData) {
   }
 
   setText("student-current-mission-title", hasAnySavedProgress ? "Continue your next move" : "Start your first move");
-  setText("student-hub-est-link", hasESTProgress ? "Continue EST Prep" : "Open EST Prep");
+  setText("student-hub-est-link", hasESTProgress ? "Start here: Continue EST" : "Start here: EST Prep");
   setText("student-hub-avatar-link", hasAvatarProgress ? "Edit Avatar" : "Create Avatar");
   setText("student-focus-text", moduleStatuses.initiative === "active"
     ? "Initiative is active. Clear the Unlock Gate, choose an applied mission, and bank proof that shows understanding rather than time spent only."
@@ -5972,14 +5974,15 @@ async function renderStudentLiveData(players, skillsData) {
       mastery: estMastery,
       variant: "",
       spotlight: moduleStatuses["est-prep"] === "active",
+      startHere: true,
       logoPath: skillsData.categories.find(category => category.id === "critical-thinking")?.logoPath,
       logoLabel: "Critical Thinking",
       imagePath: "../Assets/Images and Animations/Student Hub/module-est-prep-thumb.png",
       launchPath: "../modules/est-prep/index.html",
-      launchLabel: hasESTProgress ? "Continue EST Prep" : "Open EST Prep",
+      launchLabel: hasESTProgress ? "Continue EST Prep" : "Start here: EST Prep",
       available: moduleStatuses["est-prep"] === "active",
       unavailableLabel: moduleStatuses["est-prep"] === "archived" ? "Archived" : "Not assigned",
-      tags: [getModuleStatusLabel(moduleStatuses["est-prep"]), "Command verbs", "Short answer"]
+      tags: ["Start here", getModuleStatusLabel(moduleStatuses["est-prep"]), "Command verbs", "Short answer"]
     },
     {
       id: EMPLOYABILITY_PORTFOLIO_MODULE_ID,

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1024" height="1536" viewBox="0 0 1024 1536" role="img" aria-label="ECC Girl Illustrator Rig v1 09-skirt-tights.svg">
+  <title>ECC Girl Illustrator Rig v1 09-skirt-tights.svg</title>
+  <defs>
+    <linearGradient id="skinSoft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4cda6"/>
+      <stop offset="0.55" stop-color="#e7b98e"/>
+      <stop offset="1" stop-color="#cc966f"/>
+    </linearGradient>
+    <linearGradient id="navyCloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#213b63"/>
+      <stop offset="0.45" stop-color="#142947"/>
+      <stop offset="1" stop-color="#0d1a2f"/>
+    </linearGradient>
+    <linearGradient id="tealCloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d8da0"/>
+      <stop offset="1" stop-color="#004b5c"/>
+    </linearGradient>
+    <linearGradient id="blackShoe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#343b47"/>
+      <stop offset="1" stop-color="#10141d"/>
+    </linearGradient>
+    <style>
+      .outline { stroke: #2d3340; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { stroke: #2d3340; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .stitch { stroke: rgba(255,255,255,.42); stroke-width: 3; stroke-linecap: round; }
+      .guide-line { stroke: #23b8d4; stroke-width: 2; stroke-dasharray: 10 8; opacity: .65; }
+      .guide-dot { fill: #ffcc33; stroke: #152238; stroke-width: 3; }
+      .guide-label { fill: #102033; font-family: Arial, sans-serif; font-size: 19px; font-weight: 700; }
+    </style>
+    
+  </defs>
+<g id="09-skirt-tights">
+    <path class="outline" d="M420 812 L604 812 L650 980 C594 1010, 430 1010, 374 980 Z" fill="#142947"/>
+    <path d="M394 842 L630 842 M384 890 L640 890 M392 938 L632 938" stroke="#1f8296" stroke-width="8" opacity=".72"/>
+    <path d="M440 818 L420 990 M500 814 L492 1006 M560 814 L584 990" stroke="#f8fafc" stroke-width="6" opacity=".75"/>
+    <path class="outline" d="M430 970 C414 1060, 414 1168, 430 1244 L486 1244 C492 1140, 494 1048, 490 970 Z" fill="#0d1a2f"/>
+    <path class="outline" d="M594 970 C610 1060, 610 1168, 594 1244 L538 1244 C532 1140, 530 1048, 534 970 Z" fill="#0d1a2f"/>
+  </g>
+</svg>

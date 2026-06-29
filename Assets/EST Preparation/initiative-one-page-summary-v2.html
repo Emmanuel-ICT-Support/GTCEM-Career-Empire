@@ -1,0 +1,1382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Initiative One Page Summary V2</title>
+  <style>
+    :root {
+      --navy: #06182e;
+      --navy-2: #082845;
+      --panel: rgba(8, 35, 61, 0.9);
+      --panel-2: rgba(6, 25, 47, 0.92);
+      --cyan: #44e7ff;
+      --cyan-soft: rgba(68, 231, 255, 0.16);
+      --gold: #ffc83d;
+      --gold-soft: rgba(255, 200, 61, 0.16);
+      --jade: #52f0bd;
+      --violet: #b887ff;
+      --ink: #f4fbff;
+      --muted: #b9d0df;
+      --line: rgba(92, 217, 255, 0.4);
+      --shadow: 0 16px 34px rgba(0, 0, 0, 0.34);
+      font-family: Inter, "Aptos", "Segoe UI", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #041226;
+      color: var(--ink);
+    }
+
+    .page {
+      position: relative;
+      width: 1024px;
+      height: 1536px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(68, 231, 255, 0.18), transparent 26%),
+        radial-gradient(circle at 87% 37%, rgba(255, 200, 61, 0.12), transparent 24%),
+        linear-gradient(180deg, #071a32 0%, #031020 100%);
+      padding: 28px;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(89, 202, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(89, 202, 255, 0.06) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.75), transparent 66%);
+      pointer-events: none;
+    }
+
+    .page > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 20px;
+      min-height: 244px;
+      overflow: hidden;
+      border: 1px solid rgba(68, 231, 255, 0.38);
+      border-radius: 18px;
+      background:
+        linear-gradient(90deg, rgba(2, 13, 31, 0.92) 0%, rgba(4, 24, 48, 0.78) 56%, rgba(4, 20, 42, 0.3) 100%),
+        url("../landing-screenshots/ecc-future-campus-hero.png") center / cover;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 30px 28px 20px 30px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--gold);
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 70px;
+      line-height: 0.9;
+      font-weight: 950;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+    }
+
+    .tagline {
+      margin: 8px 0 16px;
+      color: var(--cyan);
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .definition {
+      max-width: 618px;
+      margin: 0;
+      color: #e9f8ff;
+      font-size: 16px;
+      line-height: 1.52;
+    }
+
+    .hero-art {
+      position: relative;
+      min-height: 244px;
+    }
+
+    .student {
+      position: absolute;
+      right: 18px;
+      bottom: -6px;
+      width: 252px;
+      height: 216px;
+      object-fit: cover;
+      object-position: 46% 38%;
+      filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.45));
+      border-radius: 0 0 14px 14px;
+    }
+
+    .crest {
+      position: absolute;
+      right: 16px;
+      top: 14px;
+      width: 62px;
+      height: 86px;
+      object-fit: contain;
+      opacity: 0.92;
+      filter: drop-shadow(0 0 18px rgba(68, 231, 255, 0.55));
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 370px 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 34px;
+      padding: 12px 14px 4px;
+      color: var(--gold);
+      font-size: 20px;
+      line-height: 1.05;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .card-title span {
+      color: var(--cyan);
+    }
+
+    .card-body {
+      padding: 10px 14px 14px;
+    }
+
+    .mini-icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(68, 231, 255, 0.62);
+      background:
+        radial-gradient(circle, rgba(68, 231, 255, 0.28), rgba(68, 231, 255, 0.02) 64%),
+        linear-gradient(135deg, rgba(255, 200, 61, 0.85), rgba(255, 200, 61, 0.12));
+      color: #021425;
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .ways {
+      display: grid;
+      gap: 8px;
+    }
+
+    .way {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 9px;
+      align-items: start;
+      padding: 9px;
+      border: 1px solid rgba(68, 231, 255, 0.26);
+      border-radius: 9px;
+      background: rgba(2, 19, 37, 0.58);
+    }
+
+    .way-num {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      color: var(--gold);
+      font-size: 20px;
+      font-weight: 950;
+      background: rgba(255, 200, 61, 0.12);
+      border: 1px solid rgba(255, 200, 61, 0.45);
+    }
+
+    .way h3,
+    .example h3,
+    .trail-step h3,
+    .skill h3 {
+      margin: 0;
+      color: var(--cyan);
+      font-size: 15px;
+      line-height: 1.1;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .way p,
+    .example p,
+    .team-row p,
+    .trail-step p,
+    .skill p,
+    .answer-step p,
+    .value p {
+      margin: 4px 0 0;
+      color: #e8f5fb;
+      font-size: 13px;
+      line-height: 1.32;
+    }
+
+    .note {
+      margin-top: 10px;
+      padding: 9px 10px;
+      border-radius: 9px;
+      color: #f7fbff;
+      font-size: 13px;
+      line-height: 1.35;
+      background: rgba(68, 231, 255, 0.12);
+      border: 1px solid rgba(68, 231, 255, 0.3);
+    }
+
+    .examples {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .example {
+      position: relative;
+      min-height: 214px;
+      overflow: hidden;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(68, 231, 255, 0.35);
+      background:
+        linear-gradient(180deg, rgba(1, 17, 34, 0.08), rgba(1, 17, 34, 0.86)),
+        var(--img) center / cover;
+    }
+
+    .example::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(2, 15, 32, 0.22), rgba(2, 15, 32, 0.9));
+    }
+
+    .example > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .example h3 {
+      width: fit-content;
+      margin-bottom: 82px;
+      padding: 5px 8px;
+      border-radius: 7px;
+      color: #06182e;
+      background: var(--cyan);
+      box-shadow: 0 0 20px rgba(68, 231, 255, 0.32);
+    }
+
+    .impact {
+      margin-top: 8px;
+      padding: 9px;
+      border-left: 4px solid var(--jade);
+      border-radius: 8px;
+      color: #dffcf3;
+      font-size: 13px;
+      line-height: 1.28;
+      background: rgba(82, 240, 189, 0.12);
+    }
+
+    .team-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .team-row {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 9px;
+      align-items: start;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(68, 231, 255, 0.17);
+    }
+
+    .team-row:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .team-badge {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      color: var(--gold);
+      font-size: 18px;
+      font-weight: 950;
+      background: rgba(255, 200, 61, 0.12);
+      border: 1px solid rgba(255, 200, 61, 0.4);
+    }
+
+    .team-row strong {
+      color: var(--cyan);
+    }
+
+    .value-strip {
+      display: grid;
+      grid-template-columns: 1.05fr repeat(4, 0.68fr);
+      gap: 8px;
+      margin-top: 14px;
+      padding: 12px;
+      border: 1px solid rgba(255, 200, 61, 0.45);
+      border-radius: 12px;
+      background:
+        linear-gradient(90deg, rgba(255, 200, 61, 0.18), rgba(68, 231, 255, 0.08)),
+        rgba(4, 19, 36, 0.92);
+    }
+
+    .value {
+      min-height: 72px;
+      padding: 8px;
+      border-radius: 9px;
+      background: rgba(2, 18, 34, 0.46);
+    }
+
+    .value h3 {
+      margin: 0;
+      color: var(--gold);
+      font-size: 16px;
+      line-height: 1.08;
+      text-transform: uppercase;
+    }
+
+    .value h4 {
+      margin: 0 0 5px;
+      color: var(--cyan);
+      font-size: 13px;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .wide {
+      margin-top: 14px;
+    }
+
+    .evidence {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 9px;
+    }
+
+    .trail-step {
+      min-height: 132px;
+      padding: 10px;
+      border: 1px solid rgba(68, 231, 255, 0.28);
+      border-radius: 10px;
+      background: rgba(2, 19, 37, 0.64);
+    }
+
+    .trail-mark {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 8px;
+      border-radius: 50%;
+      color: #06182e;
+      font-size: 19px;
+      font-weight: 950;
+      background: linear-gradient(135deg, var(--cyan), var(--jade));
+      box-shadow: 0 0 18px rgba(68, 231, 255, 0.28);
+    }
+
+    .answer {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .answer-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .answer-step {
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(68, 231, 255, 0.1);
+      border: 1px solid rgba(68, 231, 255, 0.25);
+    }
+
+    .answer-step h3 {
+      margin: 0;
+      color: var(--gold);
+      font-size: 14px;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .results {
+      display: grid;
+      gap: 7px;
+    }
+
+    .result {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 26px;
+      color: #f3fbff;
+      font-size: 13px;
+    }
+
+    .check {
+      display: grid;
+      place-items: center;
+      flex: 0 0 22px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      color: #06182e;
+      font-weight: 950;
+      background: var(--jade);
+      box-shadow: 0 0 14px rgba(82, 240, 189, 0.45);
+    }
+
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 8px;
+    }
+
+    .skill {
+      min-height: 132px;
+      padding: 8px 7px 9px;
+      text-align: center;
+      border: 1px solid rgba(68, 231, 255, 0.25);
+      border-radius: 9px;
+      background: rgba(2, 19, 37, 0.62);
+    }
+
+    .skill img {
+      width: 43px;
+      height: 43px;
+      object-fit: contain;
+      margin-bottom: 5px;
+    }
+
+    .skill h3 {
+      color: #ffffff;
+      font-size: 10px;
+      line-height: 1.08;
+    }
+
+    .skill .code {
+      display: block;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 950;
+      line-height: 1.1;
+    }
+
+    .skill p {
+      color: #d8ecf4;
+      font-size: 10px;
+      line-height: 1.18;
+    }
+
+    .footer {
+      display: grid;
+      grid-template-columns: 188px 1fr 74px;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .show {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 10px;
+      align-items: center;
+      min-height: 86px;
+      padding: 12px;
+      border: 1px solid rgba(68, 231, 255, 0.42);
+      border-radius: 12px;
+      background: rgba(3, 22, 41, 0.9);
+    }
+
+    .show-mark {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      color: var(--gold);
+      font-size: 31px;
+      font-weight: 950;
+      border: 3px solid var(--cyan);
+      box-shadow: 0 0 24px rgba(68, 231, 255, 0.6);
+    }
+
+    .show h2 {
+      margin: 0;
+      color: var(--cyan);
+      font-size: 25px;
+      line-height: 1.02;
+      text-transform: uppercase;
+    }
+
+    .micro-flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      min-height: 86px;
+      padding: 10px;
+      border: 1px solid rgba(68, 231, 255, 0.28);
+      border-radius: 12px;
+      background: rgba(3, 22, 41, 0.8);
+    }
+
+    .micro {
+      padding: 4px 6px;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .micro strong {
+      display: block;
+      color: #ffffff;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .micro span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.15;
+    }
+
+    .footer-logo {
+      display: grid;
+      place-items: center;
+      height: 86px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+    }
+
+    .footer-logo img {
+      width: 44px;
+      height: 62px;
+      object-fit: contain;
+    }
+
+    .page {
+      padding: 22px;
+    }
+
+    .hero {
+      grid-template-columns: 1fr 238px;
+      gap: 16px;
+      min-height: 208px;
+    }
+
+    .hero-copy {
+      padding: 24px 24px 18px 26px;
+    }
+
+    .eyebrow {
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    h1 {
+      font-size: 62px;
+    }
+
+    .tagline {
+      margin: 7px 0 12px;
+      font-size: 31px;
+    }
+
+    .definition {
+      max-width: 638px;
+      font-size: 15px;
+      line-height: 1.42;
+    }
+
+    .hero-art {
+      min-height: 208px;
+    }
+
+    .student {
+      right: 10px;
+      bottom: -5px;
+      width: 250px;
+      height: 208px;
+      object-position: 17% 47%;
+    }
+
+    .crest {
+      width: 54px;
+      height: 76px;
+    }
+
+    .grid {
+      grid-template-columns: 358px 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .stack {
+      gap: 10px;
+    }
+
+    .card-title {
+      gap: 9px;
+      min-height: 30px;
+      padding: 9px 12px 2px;
+      font-size: 18px;
+    }
+
+    .card-body {
+      padding: 8px 12px 10px;
+    }
+
+    .mini-icon {
+      flex-basis: 34px;
+      width: 34px;
+      height: 34px;
+      font-size: 17px;
+    }
+
+    .ways {
+      gap: 7px;
+    }
+
+    .way {
+      grid-template-columns: 36px 1fr;
+      gap: 7px;
+      padding: 7px;
+    }
+
+    .way-num {
+      width: 32px;
+      height: 32px;
+      font-size: 17px;
+    }
+
+    .way h3,
+    .example h3,
+    .trail-step h3,
+    .skill h3 {
+      font-size: 13.5px;
+    }
+
+    .way p,
+    .example p,
+    .team-row p,
+    .trail-step p,
+    .skill p,
+    .answer-step p,
+    .value p {
+      font-size: 11.5px;
+      line-height: 1.24;
+    }
+
+    .note {
+      margin-top: 7px;
+      padding: 7px 8px;
+      font-size: 11.5px;
+      line-height: 1.28;
+    }
+
+    .examples {
+      gap: 10px;
+    }
+
+    .example {
+      min-height: 166px;
+      padding: 10px;
+    }
+
+    .example h3 {
+      margin-bottom: 42px;
+      padding: 4px 7px;
+    }
+
+    .impact {
+      margin-top: 6px;
+      padding: 7px;
+      font-size: 11px;
+      line-height: 1.2;
+    }
+
+    .team-list {
+      gap: 5px;
+    }
+
+    .team-row {
+      grid-template-columns: 28px 1fr;
+      gap: 8px;
+      padding-bottom: 5px;
+    }
+
+    .team-badge {
+      width: 28px;
+      height: 28px;
+      font-size: 15px;
+    }
+
+    .value-strip {
+      gap: 7px;
+      margin-top: 10px;
+      padding: 8px;
+    }
+
+    .value {
+      min-height: 58px;
+      padding: 7px;
+    }
+
+    .value h3 {
+      font-size: 14px;
+    }
+
+    .value h4 {
+      margin-bottom: 4px;
+      font-size: 12px;
+    }
+
+    .wide {
+      margin-top: 10px;
+    }
+
+    .evidence {
+      gap: 8px;
+    }
+
+    .trail-step {
+      min-height: 104px;
+      padding: 8px;
+    }
+
+    .trail-mark {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    .answer {
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .answer-steps {
+      gap: 7px;
+    }
+
+    .answer-step {
+      padding: 8px;
+    }
+
+    .answer-step h3 {
+      font-size: 12px;
+    }
+
+    .results {
+      gap: 5px;
+    }
+
+    .result {
+      min-height: 21px;
+      font-size: 11.5px;
+    }
+
+    .check {
+      flex-basis: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .skills {
+      gap: 7px;
+    }
+
+    .skill {
+      min-height: 108px;
+      padding: 6px 6px 7px;
+    }
+
+    .skill img {
+      width: 35px;
+      height: 35px;
+      margin-bottom: 3px;
+    }
+
+    .skill h3 {
+      font-size: 8.8px;
+    }
+
+    .skill .code {
+      font-size: 11.5px;
+    }
+
+    .skill p {
+      font-size: 8.6px;
+      line-height: 1.12;
+    }
+
+    .footer {
+      grid-template-columns: 168px 1fr 64px;
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .show {
+      grid-template-columns: 46px 1fr;
+      gap: 8px;
+      min-height: 64px;
+      padding: 8px;
+    }
+
+    .show-mark {
+      width: 44px;
+      height: 44px;
+      font-size: 24px;
+    }
+
+    .show h2 {
+      font-size: 20px;
+    }
+
+    .micro-flow {
+      gap: 6px;
+      min-height: 64px;
+      padding: 7px;
+    }
+
+    .micro {
+      padding: 3px 4px;
+    }
+
+    .micro strong {
+      font-size: 10px;
+    }
+
+    .micro span {
+      margin-top: 3px;
+      font-size: 8.7px;
+      line-height: 1.12;
+    }
+
+    .footer-logo {
+      height: 64px;
+    }
+
+    .footer-logo img {
+      width: 34px;
+      height: 49px;
+    }
+
+    .hero {
+      min-height: 190px;
+    }
+
+    .hero-copy {
+      padding: 21px 22px 16px 24px;
+    }
+
+    h1 {
+      font-size: 58px;
+    }
+
+    .tagline {
+      font-size: 29px;
+    }
+
+    .hero-art {
+      min-height: 190px;
+    }
+
+    .student {
+      width: 235px;
+      height: 190px;
+    }
+
+    .page {
+      padding: 20px;
+    }
+
+    .hero {
+      min-height: 176px;
+    }
+
+    .hero-copy {
+      padding: 18px 22px 14px 24px;
+    }
+
+    .eyebrow {
+      font-size: 15px;
+    }
+
+    h1 {
+      font-size: 54px;
+    }
+
+    .tagline {
+      margin: 5px 0 9px;
+      font-size: 27px;
+    }
+
+    .definition {
+      font-size: 14.5px;
+      line-height: 1.34;
+    }
+
+    .hero-art {
+      min-height: 176px;
+    }
+
+    .student {
+      width: 220px;
+      height: 176px;
+    }
+
+    .crest {
+      width: 48px;
+      height: 68px;
+    }
+
+    .grid {
+      margin-top: 10px;
+    }
+
+    .stack {
+      gap: 8px;
+    }
+
+    .card-title {
+      padding-top: 8px;
+      font-size: 19px;
+    }
+
+    .card-body {
+      padding: 7px 11px 9px;
+    }
+
+    .way h3,
+    .example h3,
+    .trail-step h3,
+    .skill h3 {
+      font-size: 15px;
+      line-height: 1.08;
+    }
+
+    .way p,
+    .example p,
+    .team-row p,
+    .trail-step p,
+    .skill p,
+    .answer-step p,
+    .value p {
+      font-size: 12.8px;
+      line-height: 1.24;
+    }
+
+    .note {
+      font-size: 12.8px;
+      line-height: 1.24;
+    }
+
+    .way {
+      padding: 6px;
+    }
+
+    .example {
+      min-height: 166px;
+      padding: 9px;
+    }
+
+    .example h3 {
+      margin-bottom: 36px;
+    }
+
+    .impact {
+      padding: 6px;
+      font-size: 12.4px;
+      line-height: 1.18;
+    }
+
+    .team-row {
+      padding-bottom: 4px;
+    }
+
+    .value-strip {
+      margin-top: 8px;
+    }
+
+    .value h3 {
+      font-size: 15px;
+    }
+
+    .value h4 {
+      font-size: 13px;
+    }
+
+    .wide,
+    .answer {
+      margin-top: 8px;
+    }
+
+    .trail-step {
+      min-height: 108px;
+    }
+
+    .answer-step h3 {
+      font-size: 13.5px;
+    }
+
+    .result {
+      font-size: 12.8px;
+      line-height: 1.2;
+    }
+
+    .grid {
+      align-items: start;
+    }
+
+    .stack {
+      align-content: start;
+    }
+
+    .hero-art {
+      overflow: visible;
+    }
+
+    .student {
+      right: -34px;
+      bottom: -32px;
+      width: 304px;
+      height: 216px;
+      object-fit: contain;
+      object-position: center bottom;
+      border-radius: 0;
+      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.48));
+    }
+
+    .examples .card-body {
+      align-items: stretch;
+    }
+
+    .example {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .example h3 {
+      align-self: flex-start;
+      margin-bottom: auto;
+    }
+
+    .team-list {
+      gap: 0;
+    }
+
+    .team-row {
+      min-height: 37px;
+      align-items: center;
+    }
+
+    .grid {
+      align-items: stretch;
+    }
+
+    .grid > .stack:nth-child(2) {
+      height: 100%;
+      align-content: stretch;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    .grid > .stack:nth-child(2) .card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .grid > .stack:nth-child(2) .card-body {
+      flex: 1;
+    }
+
+    .grid > .stack:nth-child(2) .examples {
+      align-items: stretch;
+    }
+
+    .grid > .stack:nth-child(2) .example {
+      min-height: 0;
+    }
+
+    .grid > .stack:nth-child(2) .team-list {
+      align-content: space-between;
+    }
+
+    .grid > .stack:first-child > .card:first-child .note {
+      font-size: 14px;
+      line-height: 1.28;
+      padding: 10px;
+    }
+
+    .grid {
+      margin-top: 8px;
+    }
+
+    .value-strip {
+      margin-top: 6px;
+    }
+
+    .wide,
+    .answer {
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Enterprising behaviours</p>
+        <h1>Initiative</h1>
+        <p class="tagline">Take action. Create impact.</p>
+        <p class="definition">Initiative means proactively taking action without being told. It includes spotting opportunities, suggesting improvements, helping others and taking on responsibilities that contribute positively to the workplace.</p>
+      </div>
+      <div class="hero-art">
+        <img class="crest" src="../landing-screenshots/ecc-logo.png" alt="">
+        <img class="student" src="../../remotion-est-scenes/public/ecc-characters/romero-pointing.png" alt="">
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="stack">
+        <article class="card">
+          <h2 class="card-title"><span class="mini-icon">?</span> What is initiative?</h2>
+          <div class="card-body">
+            <p class="note">Being proactive, speaking up, helping others and taking responsibility to improve how work is done and support your team.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2 class="card-title"><span class="mini-icon">5</span> Five ways to show initiative</h2>
+          <div class="card-body ways">
+            <div class="way">
+              <div class="way-num">1</div>
+              <div>
+                <h3>Being proactive</h3>
+                <p>Anticipate problems or opportunities and act early.</p>
+              </div>
+            </div>
+            <div class="way">
+              <div class="way-num">2</div>
+              <div>
+                <h3>Improving work practices</h3>
+                <p>Suggest safer, easier or more efficient ways to complete tasks.</p>
+              </div>
+            </div>
+            <div class="way">
+              <div class="way-num">3</div>
+              <div>
+                <h3>Vocalising opinions</h3>
+                <p>Share ideas, feedback or concerns that could improve outcomes.</p>
+              </div>
+            </div>
+            <div class="way">
+              <div class="way-num">4</div>
+              <div>
+                <h3>Helping fellow workers</h3>
+                <p>Support colleagues so teamwork and productivity improve.</p>
+              </div>
+            </div>
+            <div class="way">
+              <div class="way-num">5</div>
+              <div>
+                <h3>Seeking more responsibilities</h3>
+                <p>Volunteer to learn new tasks or take on extra duties.</p>
+              </div>
+            </div>
+            <p class="note">Across all five, strong workers ask questions and seek advice so their action is useful, safe and respectful.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="stack">
+        <article class="card">
+          <h2 class="card-title"><span class="mini-icon">!</span> Initiative in action: examples</h2>
+          <div class="card-body examples">
+            <div class="example" style="--img: url('../ECC Branding/ECC_QCE_task_complete_crest_closeup.jpg')">
+              <h3>New worker</h3>
+              <p>A warehouse assistant notices workers waste time searching for packing tools and suggests small supply stations at each bench.</p>
+              <div class="impact">Impact: equipment is nearby, efficiency improves and a new worker contributes a useful idea.</div>
+            </div>
+            <div class="example" style="--img: url('../ECC Branding/ECC_QCE_collaboration_tabletech.jpg')">
+              <h3>Junior manager</h3>
+              <p>A retail supervisor reviews sales patterns and notices staffing does not match peak customer periods.</p>
+              <div class="impact">Impact: adjusted shift times improve customer service and workplace efficiency.</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2 class="card-title"><span class="mini-icon">+</span> Initiative and teamwork</h2>
+          <div class="card-body team-list">
+            <div class="team-row">
+              <div class="team-badge">1</div>
+              <p><strong>Helping colleagues</strong> - Step in when a co-worker is busy or struggling.</p>
+            </div>
+            <div class="team-row">
+              <div class="team-badge">2</div>
+              <p><strong>Sharing ideas</strong> - Suggest safer methods or more efficient processes.</p>
+            </div>
+            <div class="team-row">
+              <div class="team-badge">3</div>
+              <p><strong>Supporting goals</strong> - Take responsibility for tasks that help the whole team succeed.</p>
+            </div>
+            <div class="team-row">
+              <div class="team-badge">4</div>
+              <p><strong>Improving communication</strong> - Ask questions, share information and raise concerns.</p>
+            </div>
+            <div class="team-row">
+              <div class="team-badge">5</div>
+              <p><strong>Maintaining safe work</strong> - Identify hazards, clean spills and follow WHS practices.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="value-strip">
+      <div class="value">
+        <h3>Employers value initiative</h3>
+        <p>It shows workers can notice what matters, act responsibly and improve how the workplace operates.</p>
+      </div>
+      <div class="value">
+        <h4>Motivation</h4>
+        <p>Willing to get started.</p>
+      </div>
+      <div class="value">
+        <h4>Independence</h4>
+        <p>Acts without waiting to be told.</p>
+      </div>
+      <div class="value">
+        <h4>Responsibility</h4>
+        <p>Owns tasks and outcomes.</p>
+      </div>
+      <div class="value">
+        <h4>Problem-solving</h4>
+        <p>Finds practical solutions.</p>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2 class="card-title"><span class="mini-icon">E</span> Evidence trail: how initiative becomes an EST answer</h2>
+      <div class="card-body evidence">
+        <div class="trail-step">
+          <div class="trail-mark">1</div>
+          <h3>Notice</h3>
+          <p>Observe a problem, risk, opportunity or team need.</p>
+        </div>
+        <div class="trail-step">
+          <div class="trail-mark">2</div>
+          <h3>Think</h3>
+          <p>Consider safe, useful improvements and ask for advice if needed.</p>
+        </div>
+        <div class="trail-step">
+          <div class="trail-mark">3</div>
+          <h3>Act</h3>
+          <p>Take appropriate action or suggest a practical solution.</p>
+        </div>
+        <div class="trail-step">
+          <div class="trail-mark">4</div>
+          <h3>Support</h3>
+          <p>Help the team, share information and communicate clearly.</p>
+        </div>
+        <div class="trail-step">
+          <div class="trail-mark">5</div>
+          <h3>Review</h3>
+          <p>Explain the result: safer work, better quality or improved efficiency.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="answer">
+      <article class="card">
+        <h2 class="card-title"><span class="mini-icon">A</span> Short answer builder</h2>
+        <div class="card-body answer-steps">
+          <div class="answer-step">
+            <h3>Situation</h3>
+            <p>Where was the worker and what did they notice?</p>
+          </div>
+          <div class="answer-step">
+            <h3>Initiative</h3>
+            <p>Which action showed one of the five ways?</p>
+          </div>
+          <div class="answer-step">
+            <h3>Impact</h3>
+            <p>How did it help safety, quality, service or efficiency?</p>
+          </div>
+          <div class="answer-step">
+            <h3>Skill</h3>
+            <p>Which employability skill or trait supported the action?</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2 class="card-title"><span class="mini-icon">*</span> Results of showing initiative</h2>
+        <div class="card-body results">
+          <div class="result"><span class="check">&#10003;</span> Improved efficiency and quality</div>
+          <div class="result"><span class="check">&#10003;</span> Stronger teamwork and communication</div>
+          <div class="result"><span class="check">&#10003;</span> Safer workplaces and better WHS habits</div>
+          <div class="result"><span class="check">&#10003;</span> More opportunities to learn and contribute</div>
+          <div class="result"><span class="check">&#10003;</span> Career growth and recognition</div>
+        </div>
+      </article>
+    </section>
+
+  </main>
+</body>
+</html>

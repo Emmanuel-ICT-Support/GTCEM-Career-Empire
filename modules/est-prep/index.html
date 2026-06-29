@@ -9,7 +9,7 @@
   <link rel="icon" href="data:,">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../dashboards/dashboard.css">
-  <link rel="stylesheet" href="./est-prep.css?v=vault-bridge-layering-v2">
+  <link rel="stylesheet" href="./est-prep.css?v=explainer-deck-v1">
 </head>
 <body>
   <main class="module-shell">
@@ -45,16 +45,22 @@
         </div>
         <div class="hero-video-shell hero-video-shell--chaptered" data-hero-video-chapters aria-label="Chaptered EST Lab briefing video">
           <div class="hero-video-stage">
-            <video
-              class="hero-video hero-video--chaptered"
-              data-hero-video
-              src="../../Assets/EST Preparation/est-lab-systems.mp4"
-              poster="../../Assets/EST Preparation/est-lab-systems-poster.png"
-              muted
-              playsinline
-              preload="auto"
-              aria-label="EST Lab briefing video split into student-controlled chapters"
-            ></video>
+            <div class="hero-explainer-tabs" role="group" aria-label="EST Lab explainer view">
+              <button type="button" class="is-active" data-hero-view-button="video" onclick="window.ESTPrep.setHeroExplainerView('video')">Video</button>
+              <button type="button" data-hero-view-button="deck" onclick="window.ESTPrep.setHeroExplainerView('deck')">Slide deck</button>
+            </div>
+            <div class="hero-video-pane" data-hero-view-panel="video">
+              <video
+                class="hero-video hero-video--chaptered"
+                data-hero-video
+                src="../../Assets/EST Preparation/est-lab-systems.mp4"
+                poster="../../Assets/EST Preparation/est-lab-systems-poster.png"
+                playsinline
+                preload="auto"
+                aria-label="EST Lab briefing video split into student-controlled chapters"
+              ></video>
+            </div>
+            <div class="hero-slide-deck is-hidden" data-hero-view-panel="deck" data-hero-slide-deck aria-label="Scrollable EST Lab briefing slide deck"></div>
             <div class="hero-video-badge" aria-live="polite">
               <span data-hero-chapter-count>01 / 06</span>
               <strong data-hero-chapter-label>Intro</strong>
@@ -69,7 +75,15 @@
             <div class="hero-video-controls" aria-label="EST Lab video chapter controls">
               <button type="button" data-hero-prev onclick="window.ESTPrep.prevHeroChapter()" aria-label="Previous video chapter">Previous</button>
               <button type="button" class="primary" data-hero-play onclick="window.ESTPrep.playHeroChapter()" aria-label="Play current video chapter">Play section</button>
+              <button type="button" data-hero-full onclick="window.ESTPrep.playHeroFullVideo()" aria-label="Play full EST Lab briefing video">Play full video</button>
               <button type="button" data-hero-next onclick="window.ESTPrep.nextHeroChapter()" aria-label="Next video chapter">Next</button>
+            </div>
+          </div>
+          <div class="hero-video-complete is-hidden" data-hero-complete-actions aria-live="polite">
+            <strong>Briefing complete</strong>
+            <div>
+              <button type="button" onclick="window.ESTPrep.playHeroFullVideo()">Replay video</button>
+              <button type="button" onclick="window.ESTPrep.setHeroExplainerView('deck')">Slide deck view</button>
             </div>
           </div>
           <div class="hero-video-chapter-pips" role="tablist" aria-label="Jump to a video chapter">
@@ -148,7 +162,7 @@
   <script src="./est-prep-content.js?v=core-briefing-controls-v1"></script>
   <script src="./est-prep-glossary.js?v=vault-bridge-result-animations-v4"></script>
   <script src="./est-prep-boss.js?v=teacher-written-v1"></script>
-  <script src="./est-prep.js?v=glossary-entry-termfall-v1"></script>
+  <script src="./est-prep.js?v=explainer-deck-v1"></script>
   <script src="../../src/services/session-banner.js?v=20260507-session-banner"></script>
   <script src="../../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
 </body>

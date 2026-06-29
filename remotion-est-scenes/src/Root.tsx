@@ -1,10 +1,20 @@
 import React from "react";
 import {Composition} from "remotion";
+import {AvatarAnimationSourceDemo} from "./scenes/AvatarAnimationSourceDemo";
+import {AvatarSpriteRigDemo} from "./scenes/AvatarSpriteRigDemo";
 import {CareerEmpireExplainer} from "./scenes/CareerEmpireExplainer";
 import {CommunicationExplainer} from "./scenes/CommunicationExplainer";
 import {CriticalThinkingExplainer} from "./scenes/CriticalThinkingExplainer";
 import {DigitalLiteracyExplainer} from "./scenes/DigitalLiteracyExplainer";
+import {ECCAvatarRigPrototype} from "./scenes/ECCAvatarRigPrototype";
+import {
+  ECCCharacterAnimationPack,
+  ECCDecisionPointLoop,
+  ECCMissionBriefLoop,
+  ECCSuccessBurstLoop
+} from "./scenes/ECCCharacterAnimations";
 import {ESTLabSystemsExplainer} from "./scenes/ESTLabSystemsExplainer";
+import {InitiativeCinematicTrailer} from "./scenes/InitiativeCinematicTrailer";
 import {InitiativePortraitTeaser} from "./scenes/InitiativePortraitTeaser";
 import {InitiativeScenario} from "./scenes/InitiativeScenario";
 import {OverseasOpportunityScenario} from "./scenes/OverseasOpportunityScenario";
@@ -42,7 +52,63 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="ESTLabSystemsExplainer"
         component={ESTLabSystemsExplainer}
-        durationInFrames={1350}
+        durationInFrames={1800}
+        fps={30}
+        width={1280}
+        height={720}
+      />
+      <Composition
+        id="ECCCharacterAnimationPack"
+        component={ECCCharacterAnimationPack}
+        durationInFrames={450}
+        fps={30}
+        width={1280}
+        height={720}
+      />
+      <Composition
+        id="ECCMissionBriefLoop"
+        component={ECCMissionBriefLoop}
+        durationInFrames={150}
+        fps={30}
+        width={1280}
+        height={720}
+      />
+      <Composition
+        id="ECCDecisionPointLoop"
+        component={ECCDecisionPointLoop}
+        durationInFrames={150}
+        fps={30}
+        width={1280}
+        height={720}
+      />
+      <Composition
+        id="ECCSuccessBurstLoop"
+        component={ECCSuccessBurstLoop}
+        durationInFrames={150}
+        fps={30}
+        width={1280}
+        height={720}
+      />
+      <Composition
+        id="AvatarAnimationSourceDemo"
+        component={AvatarAnimationSourceDemo}
+        durationInFrames={570}
+        fps={30}
+        width={1280}
+        height={720}
+      />
+      <Composition
+        id="AvatarSpriteRigDemo"
+        component={AvatarSpriteRigDemo}
+        durationInFrames={560}
+        fps={30}
+        width={1280}
+        height={720}
+      />
+      <Composition
+        id="ECCAvatarRigPrototype"
+        component={ECCAvatarRigPrototype}
+        durationInFrames={590}
         fps={30}
         width={1280}
         height={720}
@@ -102,6 +168,14 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1280}
         height={720}
+      />
+      <Composition
+        id="InitiativeCinematicTrailer"
+        component={InitiativeCinematicTrailer}
+        durationInFrames={2700}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="InitiativePortraitTeaser"

@@ -128,7 +128,7 @@ const DEFAULT_CONTENT_TOPIC_GROUPS = [
     introTitle: "Initiative In Action",
     introSummary: "This strand focuses on acting early, improving work, helping others, and stepping up before being told.",
     introImage: "../../remotion-est-scenes/public/est-assets/game-images/Siena.png",
-    introVideo: "../../Assets/EST Preparation/initiative-portrait.mp4",
+    introVideo: "../../Assets/EST Preparation/initiative-portrait.mp4?v=initiative-summary-v2",
     introMediaLayout: "portrait",
     introHighlights: ["Be proactive", "Improve work practices", "Vocalise opinions", "Help fellow workers"],
     topics: ["Initiative", "Being proactive", "Improving work practices", "Vocalising opinions", "Helping fellow workers", "Seeking more responsibilities"],

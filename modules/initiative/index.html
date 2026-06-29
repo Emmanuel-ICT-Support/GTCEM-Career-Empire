@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../dashboards/dashboard.css">
-  <link rel="stylesheet" href="./initiative.css?v=initiative-no-avatar-v1">
+  <link rel="stylesheet" href="./initiative.css?v=initiative-trailer-v1">
 </head>
 <body>
   <main class="initiative-shell">
@@ -30,43 +30,65 @@
       </div>
     </header>
 
-    <section class="mission-board">
-      <article class="mission-brief">
-        <div class="mission-copy">
-          <span class="eyebrow">Initiative mission reactor</span>
-          <h1>Unlock initiative, then prove it.</h1>
-          <p class="subtitle">
-            Scan the five initiative signals, clear the unlock gate, then choose a mission that turns the content into teacher-visible proof.
-          </p>
-          <div id="student-context" class="badge-row">
-            <span class="badge">Loading module profile...</span>
-          </div>
+    <section id="initiative-trailer" class="trailer-hero" aria-label="Initiative cinematic trailer">
+      <div class="trailer-frame">
+        <video id="initiative-trailer-video" class="trailer-video" autoplay muted playsinline controls preload="metadata" poster="../../Assets/videos/initiative-trailer-poster.png?v=initiative-trailer-v1">
+          <source src="../../Assets/videos/initiative-trailer.mp4?v=initiative-trailer-v1" type="video/mp4">
+        </video>
+      </div>
+      <div class="trailer-overlay">
+        <span class="eyebrow">Career Empire cinematic</span>
+        <h1>Initiative</h1>
+        <p class="subtitle">Before the module starts, watch the trailer. Then decide whether initiative is just a school word, or a real advantage.</p>
+        <div class="hero-action-row">
+          <button id="play-trailer-sound" class="secondary-button" type="button">Play with sound</button>
+          <button class="primary-button" type="button" data-jump-section="core-section" data-stage-key="core">Begin mission</button>
         </div>
-        <div class="mission-media">
-          <img src="../../Assets/Images and Animations/Initiative Scenes/Initiative topic scene neutral.png" alt="Initiative workplace scene">
+        <div id="student-context" class="badge-row">
+          <span class="badge">Loading module profile...</span>
         </div>
-      </article>
+      </div>
+    </section>
 
-      <aside class="evidence-console">
+    <section class="initiative-primer" aria-label="Initiative relevance">
+      <article class="primer-card primer-card--what">
+        <span>What is this?</span>
+        <h2>The skill of moving first, wisely.</h2>
+        <p>Initiative means noticing what needs doing and taking the first useful, safe step before someone has to chase you.</p>
+      </article>
+      <article class="primer-card primer-card--why">
+        <span>Why should you care?</span>
+        <h2>It changes how people read you.</h2>
+        <p>Trust, reputation, responsibility, better tasks, stronger references, and real career options often start with a small action nobody forced you to take.</p>
+      </article>
+      <article class="primer-card primer-card--warning">
+        <span>Warning</span>
+        <h2>Initiative can go wrong.</h2>
+        <p>Rushing, taking over, ignoring instructions, or trying to control everything is not smart initiative. The skill is knowing when, why, and how to act.</p>
+      </article>
+    </section>
+
+    <section class="progress-dock" aria-label="Module progress and rewards">
+      <aside class="evidence-console challenge-console">
         <div class="section-title">
-          <h2>Teacher Signal Console</h2>
-          <p id="evidence-state">Not complete</p>
+          <h2>Progress and Rewards</h2>
+          <p id="evidence-state">Ready</p>
         </div>
         <div class="console-metrics">
           <div>
-            <span>Active signal</span>
+            <span>Practice time</span>
             <strong id="metric-active-time">0m</strong>
           </div>
           <div>
-            <span>Gate score</span>
+            <span>Unlock gate</span>
             <strong id="metric-core-score">0%</strong>
           </div>
           <div>
-            <span>Memory lock</span>
+            <span>Memory vault</span>
             <strong id="metric-retention-score">0%</strong>
           </div>
           <div>
-            <span>Mission progress</span>
+            <span>Module progress</span>
             <strong id="metric-progress">0%</strong>
           </div>
           <div>
@@ -74,20 +96,22 @@
             <strong id="metric-salary-boost">$0</strong>
           </div>
           <div>
-            <span>Class tax</span>
+            <span>Community boost</span>
             <strong id="metric-tax-contribution">$0</strong>
           </div>
         </div>
+      </aside>
+      <div class="progress-dock__feedback">
         <div id="reward-console" class="reward-console" aria-live="polite"></div>
         <div id="support-signal" class="support-signal">
-          <strong>Support signal pending</strong>
-          <p>Clear the Unlock Gate to generate a useful learning signal.</p>
+          <strong>Next move waiting</strong>
+          <p>Watch the trailer, learn the five behaviours, then test whether you can spot initiative in action.</p>
         </div>
         <div id="intervention-plan" class="intervention-plan">
           <strong>Next learning move</strong>
-          <p>Waiting for evidence.</p>
+          <p>Start with the trailer challenge.</p>
         </div>
-      </aside>
+      </div>
     </section>
 
     <section class="workflow-rail" aria-label="Initiative learning workflow">
@@ -117,7 +141,7 @@
       <div class="stage-banner stage-banner--intel">
         <div class="stage-banner__copy">
           <span class="stage-kicker">01 Intel Scan</span>
-          <h2>Collect the five initiative signals.</h2>
+          <h2>Collect the five initiative moves.</h2>
           <p>Use the brief, video, and hook words to lock in what initiative looks like before the missions open.</p>
         </div>
         <span class="stage-status-pill" data-stage-status="core">Open</span>
@@ -139,12 +163,12 @@
           <h2>Watch the Dispatch</h2>
           <p>A4 sheet and video</p>
         </div>
-        <video controls playsinline preload="metadata" poster="../../Assets/EST Preparation/initiative-one-page-summary.png">
-          <source src="../../Assets/EST Preparation/initiative-portrait.mp4" type="video/mp4">
+        <video controls playsinline preload="metadata" poster="../../Assets/EST Preparation/initiative-one-page-summary.png?v=initiative-summary-v2">
+          <source src="../../Assets/EST Preparation/initiative-portrait.mp4?v=initiative-summary-v2" type="video/mp4">
         </video>
         <details class="summary-sheet">
           <summary>Open one-page summary</summary>
-          <img src="../../Assets/EST Preparation/initiative-one-page-summary.png" alt="Initiative one-page summary">
+          <img src="../../Assets/EST Preparation/initiative-one-page-summary.png?v=initiative-summary-v2" alt="Initiative one-page summary">
         </details>
       </article>
     </section>
@@ -154,7 +178,7 @@
         <div class="stage-banner__copy">
           <span class="stage-kicker">02 Unlock Gate</span>
           <h2>Clear the behaviour lock.</h2>
-          <p>Score 5 out of 6 so the system knows the basics are secure before choice opens.</p>
+          <p>Score 5 out of 6 so you know the basics are secure before choice opens.</p>
         </div>
         <span class="stage-status-pill" data-stage-status="checkpoint">Ready</span>
       </div>
@@ -170,7 +194,7 @@
       <div id="core-result" class="result-panel"></div>
       <div id="diagnostic-panel" class="diagnostic-panel is-hidden">
         <h3>What made that hard?</h3>
-        <p>Choose the closest reason. This helps your teacher see whether you need challenge, guided practice, simpler steps, or encouragement.</p>
+        <p>Choose the closest reason so the next retry gives you the right kind of help: more challenge, guided practice, simpler steps, or encouragement.</p>
         <div id="diagnostic-options" class="diagnostic-options"></div>
       </div>
     </section>
@@ -201,7 +225,7 @@
         <div class="stage-banner__copy">
           <span class="stage-kicker">04 Proof Drop</span>
           <h2>Bank the same curriculum proof.</h2>
-          <p>Different missions are allowed, but every student has to prove the same initiative understanding.</p>
+          <p>Different missions are allowed, but everyone builds the same initiative understanding.</p>
         </div>
         <span class="stage-status-pill" data-stage-status="evidence">Locked</span>
       </div>
@@ -242,18 +266,18 @@
         <div class="stage-banner__copy">
           <span class="stage-kicker">05 Memory Vault</span>
           <h2>Prove the learning held.</h2>
-          <p>The badge only opens when recall is still visible after the applied mission.</p>
+          <p>The badge only opens when you can still recall the idea after the applied mission.</p>
         </div>
         <span class="stage-status-pill" data-stage-status="retention">Locked</span>
       </div>
       <div class="section-title">
         <h2>Memory Vault</h2>
-        <p>Unlocks completion only when learning is visible</p>
+        <p>Unlocks completion when the learning holds</p>
       </div>
       <div id="retention-drill" class="drill-grid"></div>
       <div class="button-row">
         <button id="submit-retention" class="primary-button" type="button">Seal memory vault</button>
-        <button id="save-teacher-snapshot" class="secondary-button" type="button">Save signal</button>
+        <button id="save-teacher-snapshot" class="secondary-button" type="button">Save progress</button>
       </div>
       <div id="retention-result" class="result-panel"></div>
     </section>
@@ -263,7 +287,7 @@
   <script src="../../src/services/supabase-browser.js"></script>
   <script src="../../src/services/economy-ledger.js"></script>
   <script src="../../src/services/response-moderation.js?v=teacher-written-filter-v5"></script>
-  <script src="./initiative.js?v=initiative-no-avatar-v1"></script>
+  <script src="./initiative.js?v=initiative-trailer-v1"></script>
   <script src="../../src/services/session-banner.js?v=20260507-session-banner"></script>
   <script src="../../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
 </body>

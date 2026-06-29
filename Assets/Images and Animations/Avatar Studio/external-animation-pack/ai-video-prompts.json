@@ -1,0 +1,70 @@
+{
+  "project": "ECC student avatar animation prompts",
+  "reference_images": [
+    "../layers/ecc-boy-base-neutral/recomposed-preview.png",
+    "../layers/ecc-girl-base-neutral/recomposed-preview.png"
+  ],
+  "global_style_prompt": "Full-body friendly school student avatar, polished 3D educational game style, navy school blazer uniform, clean readable silhouette, warm expressive face, age-appropriate high-school student, bright flat studio background, full body visible from head to shoes, consistent character identity, consistent uniform details, smooth natural animation, no camera movement, no background distractions.",
+  "global_negative_prompt": "adult proportions, different outfit, changed face, changed hairstyle, cropped feet, cropped hands, blurry face, extra fingers, distorted limbs, horror style, superhero costume, anime battle pose, fashion runway, cinematic camera pan, busy background, text, logo changes, uniform colour changes",
+  "export_notes": {
+    "review": "Generate MP4 previews for each motion.",
+    "game": "For final gameplay use, convert approved motion into sprite sheets, Rive, Spine, Lottie, or transparent WebM.",
+    "duration": "2 to 4 seconds per motion.",
+    "camera": "Locked camera, full-body framing.",
+    "background": "Plain light background or transparent if supported."
+  },
+  "characters": [
+    {
+      "id": "ecc_boy_student",
+      "reference_image": "../layers/ecc-boy-base-neutral/recomposed-preview.png",
+      "character_prompt": "Use the reference image of the ECC boy student exactly: brown hair, friendly face, navy blazer, white shirt, tie, dark trousers, black school shoes, school crest placement maintained."
+    },
+    {
+      "id": "ecc_girl_student",
+      "reference_image": "../layers/ecc-girl-base-neutral/recomposed-preview.png",
+      "character_prompt": "Use the reference image of the ECC girl student exactly: brown hair, friendly face, navy blazer, white shirt, tie, tartan skirt, navy tights, black school shoes, school crest placement maintained."
+    }
+  ],
+  "motions": [
+    {
+      "id": "idle",
+      "loop": true,
+      "prompt": "The student stands relaxed in a gentle idle loop, subtle breathing, tiny posture shift, natural blink, friendly neutral expression, full body visible, feet planted."
+    },
+    {
+      "id": "walk",
+      "loop": true,
+      "prompt": "The student performs a smooth in-place walking cycle, natural alternating arm swing, clear stepping motion, relaxed school-day energy, full body visible, no forward travel."
+    },
+    {
+      "id": "run",
+      "loop": true,
+      "prompt": "The student performs an energetic in-place running cycle, stronger arm swing, light bounce, upbeat but not frantic, full body visible, no forward travel."
+    },
+    {
+      "id": "jump",
+      "loop": false,
+      "prompt": "The student does one cheerful jump: slight crouch, lift into the air, brief happy air pose, clean landing, small recovery, full body visible throughout, hands and feet never cropped."
+    },
+    {
+      "id": "wave",
+      "loop": true,
+      "prompt": "The student raises one hand and gives a friendly wave, smiling, welcoming energy, relaxed body, full body visible, school uniform remains consistent."
+    },
+    {
+      "id": "point",
+      "loop": false,
+      "prompt": "The student turns slightly and points to the right side of the screen as if highlighting a button or feedback panel, confident friendly expression, hand fully visible, full body visible."
+    },
+    {
+      "id": "think",
+      "loop": true,
+      "prompt": "The student makes a thoughtful pose, small head tilt, one hand near chin or chest, curious expression, subtle breathing loop, full body visible."
+    },
+    {
+      "id": "celebrate",
+      "loop": true,
+      "prompt": "The student celebrates a success with arms raised and a small joyful bounce, proud happy expression, energetic but school-appropriate, full body visible."
+    }
+  ]
+}

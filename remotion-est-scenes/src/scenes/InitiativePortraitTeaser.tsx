@@ -18,6 +18,7 @@ const {fontFamily: bodyFont} = loadOutfitFont();
 
 const mackillopGuide = staticFile("ecc-characters/mackillop-welcome.png");
 const romeroPointing = staticFile("ecc-characters/romero-pointing.png");
+const initiativeOnePage = staticFile("est-assets/initiative-one-page-summary.png");
 const qceHologramClassroom = staticFile("ecc-branding/qce-student-hologram-classroom.jpg");
 const qcePresentationScene = staticFile("ecc-branding/qce-student-presentation-scene.jpg");
 const qceTaskComplete = staticFile("ecc-branding/qce-task-complete-crest-closeup.jpg");
@@ -81,12 +82,12 @@ const actionBeats = [
   {label: "Act", detail: "Take the first smart step", symbol: "03"}
 ];
 
-const initiativeWays = [
-  {label: "Be proactive", icon: estAssets.subskills.problemSolving.questioningTechniques},
-  {label: "Improve work practices", icon: estAssets.subskills.problemSolving.generateSolutions},
-  {label: "Vocalise opinions", icon: estAssets.logos.communication},
-  {label: "Help fellow workers", icon: estAssets.logos.teamwork},
-  {label: "Seek responsibility", icon: estAssets.subskills.teamwork.reliabilityAndTaskCompletion}
+const evidenceTrail = [
+  {label: "Notice", detail: "Observe the problem or opportunity"},
+  {label: "Think", detail: "Choose a safe, useful improvement"},
+  {label: "Act", detail: "Take action or suggest a solution"},
+  {label: "Support", detail: "Help the team work clearly"},
+  {label: "Review", detail: "Explain the result and impact"}
 ];
 
 export const InitiativePortraitTeaser: React.FC = () => {
@@ -425,61 +426,125 @@ export const InitiativePortraitTeaser: React.FC = () => {
       {neonPanel(
         actionOpacity,
         `translateY(${enter(animationFrame, 102, 18, 62, 0)}px)`,
-        <div style={{padding: "28px 26px"}}>
+        <div style={{padding: "24px 26px"}}>
           <div
             style={{
-              fontSize: 25,
+              fontSize: 24,
               lineHeight: 1,
               fontWeight: 1000,
               color: "#ffd247",
               textTransform: "uppercase",
-              marginBottom: 18
+              marginBottom: 16
             }}
           >
-            Five ways to show initiative
+            Use the one-page evidence trail
           </div>
-          <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14}}>
-            {initiativeWays.map((way, index) => (
-              <div
-                key={way.label}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "270px 1fr",
+              gap: 18,
+              alignItems: "stretch"
+            }}
+          >
+            <div
+              style={{
+                height: 384,
+                borderRadius: 22,
+                overflow: "hidden",
+                border: "2px solid rgba(93,242,255,0.62)",
+                background: "rgba(2, 13, 31, 0.78)",
+                boxShadow: "0 18px 34px rgba(0,0,0,0.34)"
+              }}
+            >
+              <Img
+                src={initiativeOnePage}
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "58px 1fr",
-                  gap: 12,
-                  alignItems: "center",
-                  minHeight: index === 4 ? 82 : 72,
-                  padding: "12px 13px",
-                  borderRadius: 20,
-                  background: "rgba(3, 23, 54, 0.68)",
-                  border: "1px solid rgba(93,242,255,0.3)",
-                  gridColumn: index === 4 ? "1 / span 2" : undefined,
-                  opacity: enter(animationFrame, 110 + index * 4, 10, 0, 1)
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center top"
                 }}
-              >
-                <Img
-                  src={way.icon}
-                  style={{
-                    width: 54,
-                    height: 54,
-                    objectFit: "contain",
-                    filter: "drop-shadow(0 0 12px rgba(93,242,255,0.38))"
-                  }}
-                />
+              />
+            </div>
+            <div style={{display: "grid", gap: 10}}>
+              {evidenceTrail.map((step, index) => (
                 <div
+                  key={step.label}
                   style={{
-                    fontSize: 22,
-                    lineHeight: 1.06,
-                    fontWeight: 950,
-                    color: index === 4 ? "#ffd247" : "#ffffff"
+                    display: "grid",
+                    gridTemplateColumns: "52px 1fr",
+                    gap: 12,
+                    alignItems: "center",
+                    padding: "11px 13px",
+                    minHeight: 66,
+                    borderRadius: 18,
+                    background: "rgba(3, 23, 54, 0.76)",
+                    border: "1px solid rgba(93,242,255,0.32)",
+                    opacity: enter(animationFrame, 110 + index * 4, 10, 0, 1)
                   }}
                 >
-                  {way.label}
+                  <div
+                    style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 16,
+                      display: "grid",
+                      placeItems: "center",
+                      background: "linear-gradient(135deg, #44e7ff, #52f0bd)",
+                      color: "#041733",
+                      fontSize: 20,
+                      fontWeight: 1000,
+                      boxShadow: "0 0 18px rgba(80,225,255,0.38)"
+                    }}
+                  >
+                    {index + 1}
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: 21,
+                        lineHeight: 1,
+                        fontWeight: 1000,
+                        color: "#5df2ff",
+                        textTransform: "uppercase"
+                      }}
+                    >
+                      {step.label}
+                    </div>
+                    <div
+                      style={{
+                        marginTop: 5,
+                        fontSize: 17,
+                        lineHeight: 1.12,
+                        fontWeight: 850,
+                        color: "#ffffff"
+                      }}
+                    >
+                      {step.detail}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+          <div
+            style={{
+              marginTop: 14,
+              padding: "12px 16px",
+              borderRadius: 18,
+              background: "rgba(82,240,189,0.12)",
+              border: "1px solid rgba(82,240,189,0.34)",
+              color: "#ffffff",
+              fontSize: 20,
+              lineHeight: 1.12,
+              fontWeight: 900
+            }}
+          >
+            EST answer move: name the action, identify the initiative behaviour, then explain the workplace impact.
           </div>
         </div>,
-        {left: 64, right: 64, top: 1208}
+        {left: 64, right: 64, top: 1226}
       )}
 
       <Img
@@ -545,7 +610,7 @@ export const InitiativePortraitTeaser: React.FC = () => {
           width: 128,
           height: 154,
           objectFit: "contain",
-          opacity: enter(animationFrame, 34, 16, 0, 1),
+          opacity: finalOpacity,
           transform: `scale(${0.92 + pulse * 0.04})`,
           filter:
             "drop-shadow(0 16px 28px rgba(0,0,0,0.36)) drop-shadow(0 0 18px rgba(93,242,255,0.24))"

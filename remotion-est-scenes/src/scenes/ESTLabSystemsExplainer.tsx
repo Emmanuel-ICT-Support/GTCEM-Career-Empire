@@ -5,6 +5,7 @@ import {
   AbsoluteFill,
   Easing,
   Img,
+  OffthreadVideo,
   interpolate,
   spring,
   staticFile,
@@ -16,6 +17,7 @@ const {fontFamily: displayFont} = loadBungeeFont();
 const {fontFamily: bodyFont} = loadOutfitFont();
 
 const labAsset = (fileName: string) => staticFile(`est-assets/est-lab/${fileName}`);
+const sourceDocAsset = (fileName: string) => staticFile(`est-assets/source-docs/${fileName}`);
 
 const ease = Easing.bezier(0.16, 1, 0.3, 1);
 
@@ -69,7 +71,7 @@ const stages: LabStage[] = [
     kicker: "CORE / What to say",
     title: "What to say",
     shortTitle: "CORE",
-    body: "CORE is the actual revision content the EST can draw from.",
+    body: "CORE is the assessed content from the curriculum authority.",
     signal: "What do I need to know?",
     answer: "Topics, examples, facts, and syllabus points.",
     accent: "#61f0ff",
@@ -83,7 +85,7 @@ const stages: LabStage[] = [
     kicker: "TERM / The right language",
     title: "The right language",
     shortTitle: "TERM",
-    body: "TERM gives you the exact Careers language markers expect.",
+    body: "TERM comes from the syllabus glossary language markers expect.",
     signal: "Which term fits this question?",
     answer: "Precise language, not vague wording.",
     accent: "#72f7b8",
@@ -97,7 +99,7 @@ const stages: LabStage[] = [
     kicker: "VTCS / What the question wants",
     title: "What the question wants",
     shortTitle: "VTCS",
-    body: "Verb, topic, context, and structure reveal what the question wants.",
+    body: "SCSA key words help reveal what the question wants.",
     signal: "What is the question really asking?",
     answer: "Decode first. Answer second.",
     accent: "#ffd86c",
@@ -127,6 +129,50 @@ const vtcsParts = [
   {letter: "C", label: "Context"},
   {letter: "S", label: "Structure"}
 ];
+
+type SourceDocConfig = {
+  label: string;
+  title: string;
+  caption: string;
+  documentType: "video" | "pages";
+  video?: string;
+  pages?: string[];
+  pageFocus?: string[];
+};
+
+const sourceDocuments: Partial<Record<string, SourceDocConfig>> = {
+  knowledge: {
+    label: "Curriculum authority source",
+    title: "SCSA Careers and Employability syllabus",
+    caption: "CORE topics come straight from the assessed curriculum.",
+    documentType: "video",
+    video: sourceDocAsset("core/curriculum-authority-scroll.mp4")
+  },
+  glossary: {
+    label: "Syllabus glossary source",
+    title: "Appendix 2 - Glossary",
+    caption: "TERM language is pulled from the glossary students are expected to know.",
+    documentType: "pages",
+    pages: [
+      sourceDocAsset("term/glossary-terms-1.png"),
+      sourceDocAsset("term/glossary-terms-2.png"),
+      sourceDocAsset("term/glossary-terms-3.png")
+    ],
+    pageFocus: ["50% 12%", "50% 8%", "50% 8%"]
+  },
+  vtcs: {
+    label: "SCSA question-word source",
+    title: "Glossary of key words in questions",
+    caption: "VTCS starts with the command words SCSA uses to build questions.",
+    documentType: "pages",
+    pages: [
+      sourceDocAsset("vtcs/scsa-keywords-1.png"),
+      sourceDocAsset("vtcs/scsa-keywords-2.png"),
+      sourceDocAsset("vtcs/scsa-keywords-3.png")
+    ],
+    pageFocus: ["50% 9%", "50% 8%", "50% 8%"]
+  }
+};
 
 const panelBase: React.CSSProperties = {
   background: "rgba(12, 24, 55, 0.82)",
@@ -447,6 +493,117 @@ const IntroScene: React.FC<{frame: number; fps: number}> = ({frame, fps}) => {
   );
 };
 
+const SourceDocumentVisual: React.FC<{stage: LabStage; localFrame: number; fps: number}> = ({
+  stage,
+  localFrame,
+  fps
+}) => {
+  const source = sourceDocuments[stage.id];
+  const reveal = fade(localFrame, 26, 18);
+  const pageCount = source?.pages?.length || 1;
+  const pageIndex = Math.min(pageCount - 1, Math.max(0, Math.floor(Math.max(0, localFrame - 28) / (fps * 2.15)) % pageCount));
+  const currentPage = source?.pages?.[pageIndex];
+  const focus = source?.pageFocus?.[pageIndex] || "50% 8%";
+
+  if (!source) return null;
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateRows: "auto minmax(0, 1fr) auto",
+        gap: 9,
+        minHeight: 0,
+        opacity: reveal,
+        transform: `translateY(${interpolate(reveal, [0, 1], [18, 0])}px)`
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 10,
+          color: "#ffffff",
+          fontSize: 13,
+          fontWeight: 900,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase"
+        }}
+      >
+        <span style={{color: stage.accent}}>{source.label}</span>
+        <span style={{color: "#dbe8ff"}}>{source.documentType === "pages" ? `Page ${pageIndex + 1}/${pageCount}` : "Live scroll"}</span>
+      </div>
+
+      <div
+        style={{
+          position: "relative",
+          minHeight: 194,
+          overflow: "hidden",
+          borderRadius: 20,
+          background: "#f8fbff",
+          border: `2px solid ${stage.accent}`,
+          boxShadow: `0 0 34px ${stage.glow}`
+        }}
+      >
+        {source.documentType === "video" && source.video ? (
+          <OffthreadVideo
+            src={source.video}
+            muted
+            loop
+            playbackRate={0.72}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "50% 18%",
+              filter: "contrast(1.04) saturate(1.04)"
+            }}
+          />
+        ) : currentPage ? (
+          <Img
+            key={currentPage}
+            src={currentPage}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: focus,
+              filter: "contrast(1.05)",
+              transform: `scale(${1.02 + Math.sin(localFrame / 40) * 0.01})`
+            }}
+          />
+        ) : null}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(180deg, rgba(4, 10, 24, 0.02), transparent 55%, rgba(4, 10, 24, 0.08))",
+            pointerEvents: "none"
+          }}
+        />
+      </div>
+
+      <div
+        style={{
+          borderRadius: 16,
+          padding: "9px 11px",
+          background: "rgba(5, 13, 31, 0.64)",
+          border: "1px solid rgba(255,255,255,0.14)"
+        }}
+      >
+        <div style={{color: "#ffffff", fontSize: 17, lineHeight: 1.08, fontWeight: 900}}>
+          {source.title}
+        </div>
+        <div style={{marginTop: 4, color: "#dbe8ff", fontSize: 13, lineHeight: 1.22, fontWeight: 800}}>
+          {source.caption}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const StageVisual: React.FC<{stage: LabStage; frame: number; localFrame: number; fps: number}> = ({
   stage,
   frame,
@@ -456,6 +613,7 @@ const StageVisual: React.FC<{stage: LabStage; frame: number; localFrame: number;
   const cardIn = pop(localFrame, fps, 6);
   const consoleIn = pop(localFrame, fps, 24);
   const beamShift = interpolate(frame % 90, [0, 90], [-260, 520]);
+  const hasSourceDocument = Boolean(sourceDocuments[stage.id]);
 
   return (
     <AbsoluteFill>
@@ -653,7 +811,9 @@ const StageVisual: React.FC<{stage: LabStage; frame: number; localFrame: number;
             <span style={{color: stage.accent}}>Online</span>
           </div>
 
-          {stage.id === "vtcs" ? (
+          {hasSourceDocument ? (
+            <SourceDocumentVisual stage={stage} localFrame={localFrame} fps={fps} />
+          ) : stage.id === "vtcs" ? (
             <div
               style={{
                 display: "grid",
@@ -952,10 +1112,10 @@ const RecapScene: React.FC<{frame: number; fps: number}> = ({frame, fps}) => {
 export const ESTLabSystemsExplainer: React.FC = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const introEnd = 5 * fps;
-  const stageLength = 8 * fps;
+  const introEnd = 7 * fps;
+  const stageLength = 10 * fps;
   const recapStart = introEnd + stages.length * stageLength;
-  const fadeOut = frame > 43 * fps ? 1 - fade(frame, 43 * fps, 26, 0, 0.08) : 1;
+  const fadeOut = frame > 58 * fps ? 1 - fade(frame, 58 * fps, 26, 0, 0.08) : 1;
 
   let activeIndex = -1;
 

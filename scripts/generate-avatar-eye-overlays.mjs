@@ -1,27 +1,31 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { deflateSync } from "node:zlib";
+import { deflateSync, inflateSync } from "node:zlib";
 
 const WIDTH = 1024;
 const HEIGHT = 1536;
 const ROOT = "Assets/Images and Animations/Avatar Studio/layers";
 
 const eyeColours = [
-  { id: "brown", color: "#6f3f1f", highlight: "#c9823c" },
-  { id: "amber", color: "#9a7622", highlight: "#dfb453" },
-  { id: "green", color: "#5f7d32", highlight: "#9fc45c" },
-  { id: "blue", color: "#2f789c", highlight: "#8bd8ff" },
-  { id: "grey", color: "#5d6871", highlight: "#b8c5ce" }
+  { id: "brown", color: "#6f3b18", highlight: "#c77b33" },
+  { id: "amber", color: "#bd841f", highlight: "#f0c45f" },
+  { id: "green", color: "#3f9b4a", highlight: "#8de26f" },
+  { id: "blue", color: "#238fcc", highlight: "#8bd8ff" },
+  { id: "grey", color: "#788995", highlight: "#d4dde4" }
 ];
 
 const rigs = {
   "ecc-boy-base-neutral": {
-    leftEye: { x: 454, y: 309 },
-    rightEye: { x: 544, y: 309 }
+    sourceImage: "skin-variants/sheet-base-skin-sand.png",
+    sourceIris: "blue",
+    leftEye: { x: 483, y: 322, rx: 24, ry: 23 },
+    rightEye: { x: 567, y: 322, rx: 24, ry: 23 }
   },
   "ecc-girl-base-neutral": {
-    leftEye: { x: 454, y: 282 },
-    rightEye: { x: 544, y: 282 }
+    sourceImage: "skin-variants/sheet-base-skin-sand.png",
+    sourceIris: "brown",
+    leftEye: { x: 458, y: 310, rx: 25, ry: 24 },
+    rightEye: { x: 547, y: 309, rx: 25, ry: 24 }
   }
 };
 
@@ -47,6 +51,67 @@ function chunk(type, data = Buffer.alloc(0)) {
   return Buffer.concat([length, typeBuffer, data, checksum]);
 }
 
+function paeth(a, b, c) {
+  const p = a + b - c;
+  const pa = Math.abs(p - a);
+  const pb = Math.abs(p - b);
+  const pc = Math.abs(p - c);
+  if (pa <= pb && pa <= pc) return a;
+  if (pb <= pc) return b;
+  return c;
+}
+
+function decodePng(path) {
+  const png = readFileSync(path);
+  if (!png.subarray(0, 4).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47]))) throw new Error(`${path} is not a PNG`);
+  let offset = 8;
+  let width = 0;
+  let height = 0;
+  let bitDepth = 0;
+  let colorType = 0;
+  const idat = [];
+  while (offset < png.length) {
+    const length = png.readUInt32BE(offset);
+    const type = png.subarray(offset + 4, offset + 8).toString("ascii");
+    const data = png.subarray(offset + 8, offset + 8 + length);
+    if (type === "IHDR") {
+      width = data.readUInt32BE(0);
+      height = data.readUInt32BE(4);
+      bitDepth = data[8];
+      colorType = data[9];
+    }
+    if (type === "IDAT") idat.push(data);
+    if (type === "IEND") break;
+    offset += length + 12;
+  }
+  if (bitDepth !== 8 || colorType !== 6) throw new Error(`${path} must be an 8-bit RGBA PNG`);
+  const inflated = inflateSync(Buffer.concat(idat));
+  const stride = width * 4;
+  const pixels = Buffer.alloc(width * height * 4);
+  for (let y = 0; y < height; y += 1) {
+    const sourceRow = y * (stride + 1);
+    const filter = inflated[sourceRow];
+    const targetRow = y * stride;
+    for (let x = 0; x < stride; x += 1) {
+      const raw = inflated[sourceRow + 1 + x];
+      const left = x >= 4 ? pixels[targetRow + x - 4] : 0;
+      const up = y > 0 ? pixels[targetRow + x - stride] : 0;
+      const upLeft = y > 0 && x >= 4 ? pixels[targetRow + x - stride - 4] : 0;
+      const value = filter === 0
+        ? raw
+        : filter === 1
+          ? raw + left
+          : filter === 2
+            ? raw + up
+            : filter === 3
+              ? raw + Math.floor((left + up) / 2)
+              : raw + paeth(left, up, upLeft);
+      pixels[targetRow + x] = value & 0xff;
+    }
+  }
+  return { width, height, pixels };
+}
+
 function pngFromRgba(rgba) {
   const raw = Buffer.alloc((WIDTH * 4 + 1) * HEIGHT);
   for (let y = 0; y < HEIGHT; y += 1) {
@@ -59,9 +124,6 @@ function pngFromRgba(rgba) {
   header.writeUInt32BE(HEIGHT, 4);
   header[8] = 8;
   header[9] = 6;
-  header[10] = 0;
-  header[11] = 0;
-  header[12] = 0;
   return Buffer.concat([
     Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
     chunk("IHDR", header),
@@ -79,57 +141,79 @@ function parseHex(hex) {
   ];
 }
 
-function blendPixel(canvas, x, y, color, alpha = 255) {
-  if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT || alpha <= 0) return;
-  const index = (Math.round(y) * WIDTH + Math.round(x)) * 4;
-  const srcA = alpha / 255;
-  const dstA = canvas[index + 3] / 255;
-  const outA = srcA + dstA * (1 - srcA);
-  if (outA === 0) return;
-  canvas[index] = Math.round((color[0] * srcA + canvas[index] * dstA * (1 - srcA)) / outA);
-  canvas[index + 1] = Math.round((color[1] * srcA + canvas[index + 1] * dstA * (1 - srcA)) / outA);
-  canvas[index + 2] = Math.round((color[2] * srcA + canvas[index + 2] * dstA * (1 - srcA)) / outA);
-  canvas[index + 3] = Math.round(outA * 255);
+function luminance(r, g, b) {
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-function fillEllipse(canvas, cx, cy, rx, ry, color, alpha = 255) {
-  const minX = Math.floor(cx - rx - 2);
-  const maxX = Math.ceil(cx + rx + 2);
-  const minY = Math.floor(cy - ry - 2);
-  const maxY = Math.ceil(cy + ry + 2);
-  for (let y = minY; y <= maxY; y += 1) {
-    for (let x = minX; x <= maxX; x += 1) {
-      const dx = (x + 0.5 - cx) / rx;
-      const dy = (y + 0.5 - cy) / ry;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance > 1.08) continue;
-      const coverage = distance <= 0.94 ? 1 : Math.max(0, (1.08 - distance) / 0.14);
-      blendPixel(canvas, x, y, color, Math.round(alpha * coverage));
-    }
+function clamp(value, min = 0, max = 255) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function isInsideEye(point, x, y) {
+  const dx = (x + 0.5 - point.x) / point.rx;
+  const dy = (y + 0.5 - point.y) / point.ry;
+  return dx * dx + dy * dy <= 1;
+}
+
+function isSourceIrisColourPixel(source, index, eye, sourceIris, x, y) {
+  if (!isInsideEye(eye, x, y)) return false;
+  const r = source[index];
+  const g = source[index + 1];
+  const b = source[index + 2];
+  const a = source[index + 3];
+  if (a < 180) return false;
+
+  const brightness = (r + g + b) / 3;
+  const saturation = Math.max(r, g, b) - Math.min(r, g, b);
+  if (brightness < 44) return false;
+  if (brightness > 222 && saturation < 48) return false;
+
+  if (sourceIris === "blue") {
+    return b > 56 && b > r + 16 && g > r + 4 && saturation > 18 && brightness < 175;
   }
+  return r > 62 && g > 32 && b < 102 && r > g + 5 && g > b + 3 && r - b > 24 && saturation > 20 && brightness < 158;
 }
 
-function renderEyePair(rig, colour) {
+function renderEyeOverlay(sourceImage, rig, colour) {
   const canvas = Buffer.alloc(WIDTH * HEIGHT * 4);
-  const iris = parseHex(colour.color);
-  const highlight = parseHex(colour.highlight);
-  const pupil = parseHex("#111318");
-  const white = parseHex("#ffffff");
+  const target = parseHex(colour.color);
+  const highlight = parseHex(colour.highlight || colour.color);
+
   for (const eye of [rig.leftEye, rig.rightEye]) {
-    fillEllipse(canvas, eye.x, eye.y, 10, 12, iris, 235);
-    fillEllipse(canvas, eye.x, eye.y + 1, 4.5, 4.5, pupil, 220);
-    fillEllipse(canvas, eye.x - 4, eye.y - 5, 2.5, 2.5, highlight, 230);
-    fillEllipse(canvas, eye.x - 1, eye.y - 8, 1.6, 1.6, white, 210);
+    const minX = Math.floor(eye.x - eye.rx);
+    const maxX = Math.ceil(eye.x + eye.rx);
+    const minY = Math.floor(eye.y - eye.ry);
+    const maxY = Math.ceil(eye.y + eye.ry);
+    for (let y = minY; y <= maxY; y += 1) {
+      for (let x = minX; x <= maxX; x += 1) {
+        if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) continue;
+        const index = (y * WIDTH + x) * 4;
+        if (!isSourceIrisColourPixel(sourceImage.pixels, index, eye, rig.sourceIris, x, y)) continue;
+
+        const sourceBrightness = (sourceImage.pixels[index] + sourceImage.pixels[index + 1] + sourceImage.pixels[index + 2]) / 3;
+        const sourceLum = luminance(sourceImage.pixels[index], sourceImage.pixels[index + 1], sourceImage.pixels[index + 2]);
+        const shade = clamp(sourceLum / (rig.sourceIris === "blue" ? 92 : 104), 0.55, 1.2);
+        const shineMix = clamp((sourceBrightness - 70) / 86, 0, 0.35);
+        const mix = Math.min(0.35, shineMix);
+        const alpha = Math.round(rig.sourceIris === "blue" ? 248 : 238);
+
+        canvas[index] = clamp(Math.round((target[0] * (1 - mix) + highlight[0] * mix) * shade));
+        canvas[index + 1] = clamp(Math.round((target[1] * (1 - mix) + highlight[1] * mix) * shade));
+        canvas[index + 2] = clamp(Math.round((target[2] * (1 - mix) + highlight[2] * mix) * shade));
+        canvas[index + 3] = alpha;
+      }
+    }
   }
   return canvas;
 }
 
 for (const [rigId, rig] of Object.entries(rigs)) {
+  const sourceImage = decodePng(join(ROOT, rigId, rig.sourceImage));
   for (const colour of eyeColours) {
     const outputPath = join(ROOT, rigId, "face", `eye-colour-${colour.id}.png`);
     mkdirSync(dirname(outputPath), { recursive: true });
-    writeFileSync(outputPath, pngFromRgba(renderEyePair(rig, colour)));
+    writeFileSync(outputPath, pngFromRgba(renderEyeOverlay(sourceImage, rig, colour)));
   }
 }
 
-console.log(`Generated ${eyeColours.length} eye-colour overlays for ${Object.keys(rigs).length} ECC rigs.`);
+console.log(`Generated ${eyeColours.length} iris-mask overlays for ${Object.keys(rigs).length} ECC rigs.`);

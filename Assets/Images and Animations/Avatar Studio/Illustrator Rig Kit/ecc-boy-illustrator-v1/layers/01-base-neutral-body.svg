@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1024" height="1536" viewBox="0 0 1024 1536" role="img" aria-label="ECC Boy Illustrator Rig v1 01-base-neutral-body.svg">
+  <title>ECC Boy Illustrator Rig v1 01-base-neutral-body.svg</title>
+  <defs>
+    <linearGradient id="skinSoft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4cda6"/>
+      <stop offset="0.55" stop-color="#e7b98e"/>
+      <stop offset="1" stop-color="#cc966f"/>
+    </linearGradient>
+    <linearGradient id="navyCloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#213b63"/>
+      <stop offset="0.45" stop-color="#142947"/>
+      <stop offset="1" stop-color="#0d1a2f"/>
+    </linearGradient>
+    <linearGradient id="tealCloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d8da0"/>
+      <stop offset="1" stop-color="#004b5c"/>
+    </linearGradient>
+    <linearGradient id="blackShoe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#343b47"/>
+      <stop offset="1" stop-color="#10141d"/>
+    </linearGradient>
+    <style>
+      .outline { stroke: #2d3340; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { stroke: #2d3340; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .stitch { stroke: rgba(255,255,255,.42); stroke-width: 3; stroke-linecap: round; }
+      .guide-line { stroke: #23b8d4; stroke-width: 2; stroke-dasharray: 10 8; opacity: .65; }
+      .guide-dot { fill: #ffcc33; stroke: #152238; stroke-width: 3; }
+      .guide-label { fill: #102033; font-family: Arial, sans-serif; font-size: 19px; font-weight: 700; }
+    </style>
+    
+  </defs>
+<g id="01-base-neutral-body">
+    <ellipse class="outline" cx="403" cy="295" rx="28" ry="42" fill="url(#skinSoft)"/>
+    <ellipse class="outline" cx="621" cy="295" rx="28" ry="42" fill="url(#skinSoft)"/>
+    <ellipse class="outline" cx="512" cy="275" rx="103" ry="125" fill="url(#skinSoft)"/>
+    <rect class="outline" x="470" y="392" width="84" height="118" rx="34" fill="url(#skinSoft)"/>
+    <path class="outline" d="M360 512 C408 472, 616 472, 664 512 L634 818 C594 850, 430 850, 390 818 Z" fill="#dfe5ec"/>
+    <path class="thin" d="M448 514 C474 552, 550 552, 576 514" fill="none" opacity=".45"/>
+    <path class="outline" d="M363 523 C323 610, 314 704, 341 777 C351 801, 381 789, 373 760 C354 692, 369 602, 399 532 Z" fill="url(#skinSoft)"/>
+    <path class="outline" d="M661 523 C701 610, 710 704, 683 777 C673 801, 643 789, 651 760 C670 692, 655 602, 625 532 Z" fill="url(#skinSoft)"/>
+    <path class="outline" d="M332 772 C322 805, 332 836, 356 844 C372 849, 386 838, 378 820 C366 825, 355 818, 357 799 C358 782, 351 773, 332 772 Z" fill="url(#skinSoft)"/>
+    <path class="outline" d="M692 772 C702 805, 692 836, 668 844 C652 849, 638 838, 646 820 C658 825, 669 818, 667 799 C666 782, 673 773, 692 772 Z" fill="url(#skinSoft)"/>
+    <path class="outline" d="M414 812 C454 832, 570 832, 610 812 L610 900 C570 920, 454 920, 414 900 Z" fill="#cfd6df"/>
+    <path class="outline" d="M426 878 C408 986, 405 1116, 424 1238 L486 1238 C492 1110, 495 984, 492 878 Z" fill="url(#skinSoft)"/>
+    <path class="outline" d="M598 878 C616 986, 619 1116, 600 1238 L538 1238 C532 1110, 529 984, 532 878 Z" fill="url(#skinSoft)"/>
+    <path class="outline" d="M416 1232 C380 1248, 374 1289, 425 1300 L492 1300 C499 1272, 471 1238, 416 1232 Z" fill="url(#skinSoft)"/>
+    <path class="outline" d="M608 1232 C644 1248, 650 1289, 599 1300 L532 1300 C525 1272, 553 1238, 608 1232 Z" fill="url(#skinSoft)"/>
+  </g>
+</svg>

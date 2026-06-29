@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1024 1536">
+  <!-- Generator: Adobe Illustrator 30.4.0, SVG Export Plug-In . SVG Version: 2.1.4 Build 226)  -->
+  <defs>
+    <style>
+      .st0, .st1, .st2 {
+        fill: none;
+      }
+
+      .st1, .st3, .st4 {
+        stroke: #333;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 6px;
+      }
+
+      .st3 {
+        fill: #e8c4a7;
+      }
+
+      .st5 {
+        font-family: ArialMT, Arial;
+        font-size: 26px;
+      }
+
+      .st5, .st2, .st6 {
+        isolation: isolate;
+      }
+
+      .st2 {
+        opacity: .3;
+        stroke: #6dccdd;
+        stroke-miterlimit: 10;
+      }
+
+      .st6, .st7 {
+        display: none;
+      }
+
+      .st8 {
+        fill: #333;
+      }
+
+      .st4 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="HEAD" class="st7">
+    <path id="Head_Base" class="st3" d="M481.65,216.12c-189.48,14.07-288.07,171.8-268.83,431.08,18.51,249.31,159.99,399.25,329.53,386.67,169.53-12.58,287.33-181.77,268.83-431.08-19.25-259.29-140.05-400.73-329.53-386.67h0Z"/>
+    <g id="Neck">
+      <rect class="st3" x="412" y="975" width="200" height="180" rx="40" ry="40"/>
+    </g>
+    <g id="Ears">
+      <ellipse class="st3" cx="792" cy="655" rx="55" ry="90"/>
+      <ellipse class="st3" cx="232" cy="655" rx="55" ry="90"/>
+    </g>
+  </g>
+  <g id="Face" class="st7">
+    <g id="Eyes">
+      <ellipse id="Right_Eye" class="st4" cx="612" cy="595" rx="55" ry="42"/>
+      <circle id="Right_Pupil" class="st8" cx="612" cy="600" r="18"/>
+      <ellipse id="Left_eye" class="st4" cx="412" cy="595" rx="55" ry="42"/>
+      <circle id="Left_Pupil" class="st8" cx="412" cy="600" r="18"/>
+    </g>
+    <g id="Brows">
+      <path class="st1" d="M557,515c30-20,80-20,110,0"/>
+      <path class="st1" d="M357,515c30-20,80-20,110,0"/>
+    </g>
+    <g id="Nose">
+      <path class="st1" d="M512,655c10,50,10,90-5,115"/>
+    </g>
+    <g id="Mouth">
+      <path class="st1" d="M442,840c40,35,100,35,140,0"/>
+    </g>
+  </g>
+  <g id="Guides" class="st7">
+    <g class="st6">
+      <text class="st5" transform="translate(842 778)"><tspan x="0" y="0">Neck Anchor</tspan></text>
+    </g>
+    <g class="st6">
+      <text class="st5" transform="translate(882 -262)"><tspan x="0" y="0">Hair Zone</tspan></text>
+    </g>
+    <ellipse id="Right_Eye_GUide" class="st2" cx="612" cy="218" rx="55" ry="42"/>
+    <ellipse id="Left_eye_guide" class="st0" cx="412" cy="218" rx="55" ry="42"/>
+  </g>
+  <image width="114" height="117" transform="translate(63.5548 46.8202) scale(7.8634 6.181)" xlink:href="data:image/png;base64,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"/>
+</svg>

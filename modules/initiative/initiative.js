@@ -164,7 +164,7 @@ const DIAGNOSTICS = [
     id: "mastery",
     label: "I want challenge",
     supportTitle: "Mastery-oriented",
-    supportCopy: "Provide challenge, visible progress, and room to improve the work further."
+    supportCopy: "Provide challenge, clear progress, and room to improve the work further."
   },
   {
     id: "performance",
@@ -176,7 +176,7 @@ const DIAGNOSTICS = [
     id: "self-efficacy",
     label: "I am not sure I can do it",
     supportTitle: "Low self-efficacy",
-    supportCopy: "Use modelling, guided practice, and small visible wins before asking for independent evidence."
+    supportCopy: "Use modelling, guided practice, and small wins before asking for independent evidence."
   },
   {
     id: "overwhelmed",
@@ -601,9 +601,9 @@ function renderStudentContext() {
   const name = auth?.studentLogin?.displayName || auth?.studentLogin?.username || getSession()?.playerName || "Local learner";
   const occupation = avatar?.occupation || "occupation lens ready";
   setHtml("student-context", [
-    `<span class="badge">Student: ${escapeHtml(name)}</span>`,
-    `<span class="badge">Avatar: ${escapeHtml(occupation)}</span>`,
-    `<span class="badge">Rule: unlock before missions</span>`
+    `<span class="badge">Player: ${escapeHtml(name)}</span>`,
+    `<span class="badge">Career lens: ${escapeHtml(occupation)}</span>`,
+    `<span class="badge">Move: notice, check, act</span>`
   ].join(""));
 }
 
@@ -693,7 +693,7 @@ function renderCoreResult(latestScore = null) {
   panel.classList.toggle("is-visible", Boolean(state.coreAttempts));
   panel.innerHTML = state.coreAttempts ? `
     <strong>${passed ? "Mission board unlocked" : "Unlock Gate not cleared yet"}</strong>
-    <p>Latest visible score: ${score.correct}/${score.total}. Best score: ${state.coreBestScore}%.
+    <p>Latest score: ${score.correct}/${score.total}. Best score: ${state.coreBestScore}%.
     ${passed ? "Choose an applied mission next." : "You need at least 5 out of 6. Use the support prompt below before retrying."}</p>
   ` : "";
   renderDiagnosticPanel(!passed && state.coreAttempts > 0);
@@ -755,7 +755,7 @@ function renderPathways() {
   } else if (state.selectedPathwayId) {
     renderPathwayStage();
   } else {
-    setHtml("pathway-stage", '<div class="empty-state"><p>Choose a mission. Active time is tracked, but progress only moves when proof and recall are visible.</p></div>');
+    setHtml("pathway-stage", '<div class="empty-state"><p>Choose a mission. Progress moves when your proof and recall are strong.</p></div>');
   }
 }
 
@@ -1251,8 +1251,8 @@ function renderRetentionResult(latestScore = null) {
   panel.classList.toggle("is-visible", Number(state.retentionBestScore || 0) > 0 || Object.keys(state.retentionAnswers || {}).length > 0);
   const complete = state.retentionBestScore >= 80 && state.completionPercent >= 100;
   panel.innerHTML = panel.classList.contains("is-visible") ? `
-    <strong>${complete ? "Initiative Applied badge unlocked" : "Memory signal recorded"}</strong>
-    <p>Latest visible score: ${score.correct}/${score.total}. Best retention score: ${state.retentionBestScore}%.
+    <strong>${complete ? "Initiative Applied badge unlocked" : "Memory vault recorded"}</strong>
+    <p>Latest score: ${score.correct}/${score.total}. Best retention score: ${state.retentionBestScore}%.
     ${state.retentionBestScore >= 80 ? "Your Memory Vault score is strong enough for completion if the mission and proof drop are also complete." : "Retake after reviewing the five behaviours."}</p>
   ` : "";
 }
@@ -1272,7 +1272,7 @@ function addEvidenceLog(type, label, score) {
 function setProgressOutcome(outcome = {}) {
   state.lastProgressOutcome = {
     type: outcome.type || "commiseration",
-    title: outcome.title || "Learning signal recorded",
+    title: outcome.title || "Progress recorded",
     detail: outcome.detail || "Your work was saved. Improve the evidence to bank the next salary reward.",
     earnedDelta: Number(outcome.earnedDelta || 0),
     taxDelta: Number(outcome.taxDelta || 0),
@@ -1301,7 +1301,7 @@ function awardMilestone(milestoneKey, scorePercent) {
   setProgressOutcome({
     type: "celebration",
     title: milestone.title,
-    detail: `${milestone.detail} ${formatCurrency(earnedDelta)} salary and ${formatCurrency(taxDelta)} class tax were banked.`,
+    detail: `${milestone.detail} ${formatCurrency(earnedDelta)} salary and ${formatCurrency(taxDelta)} community boost were banked.`,
     earnedDelta,
     taxDelta,
     scoreLabel: `${Math.round(Number(scorePercent || 0))}%`,
@@ -1337,7 +1337,7 @@ function awardScoreImprovement(surface, previousPercent, nextPercent) {
   setProgressOutcome({
     type: "celebration",
     title: rule.label,
-    detail: `Best result lifted from ${previous}% to ${next}%. ${formatCurrency(earnedDelta)} salary and ${formatCurrency(taxDelta)} class tax were banked for real progress.`,
+    detail: `Best result lifted from ${previous}% to ${next}%. ${formatCurrency(earnedDelta)} salary and ${formatCurrency(taxDelta)} community boost were banked for real progress.`,
     earnedDelta,
     taxDelta,
     scoreLabel: `${previous}% -> ${next}%`,
@@ -1422,35 +1422,35 @@ function getSupportSignal() {
   if (state.corePassed && state.retentionBestScore >= 80 && state.commonEvidenceScore >= 80) {
     return {
       level: "good",
-      title: "Mastery evidence visible",
-      copy: "Student has cleared the gate, banked proof, and retained the key Initiative behaviours."
+      title: "Initiative badge ready",
+      copy: "You cleared the gate, banked proof, and remembered the key initiative behaviours."
     };
   }
   if (state.activeSeconds > 1200 && state.completionPercent < 60) {
     return {
       level: "concern",
-      title: "High time, low evidence",
-      copy: "The student has spent significant active time without enough progress. Drill down into overwhelm, avoidance, or confidence."
+      title: "Pause and reset",
+      copy: "You have spent a while here without much progress. Pick one small example, compare it with the five behaviours, then try again."
     };
   }
   if (state.coreAttempts >= 2 && state.coreBestScore < 60) {
     return {
       level: "warning",
-      title: "Core understanding needs modelling",
-      copy: "Multiple checkpoint attempts are below the pass gate. Use examples, non-examples, and guided practice."
+      title: "Use a worked example",
+      copy: "Compare one strong initiative example with one non-example before you retry the gate."
     };
   }
   if (state.corePassed && getPathwayScore() < 70 && state.activeSeconds > 600) {
     return {
       level: "warning",
-      title: "Application not yet secure",
-      copy: "The student knows the basics but has not turned the mission into clear curriculum proof yet."
+      title: "Make the example sharper",
+      copy: "You know the basics. Now name the exact behaviour and explain how the action helps the workplace."
     };
   }
   return {
     level: "neutral",
-    title: "Learning signal building",
-    copy: "The module is collecting active time, checkpoint results, pathway evidence, and retention data."
+    title: "Challenge ready",
+    copy: "Watch the trailer, collect the five initiative behaviours, and decide what you would do before someone tells you."
   };
 }
 
@@ -1463,7 +1463,7 @@ function getInterventionPlan() {
       items: [
         "Create one strong example and one non-example of initiative for a chosen occupation.",
         "Explain how the example supports teamwork, safety, or efficiency.",
-        "Peer-check another student's example by naming the exact initiative behaviour."
+        "Peer-check another example by naming the exact initiative behaviour."
       ]
     };
   }
@@ -1486,7 +1486,7 @@ function getInterventionPlan() {
       title: "Mission board ready",
       items: [
         "Choose the mission that best matches your interest.",
-        "Keep the five behaviours visible while building the product.",
+        "Keep the five behaviours close while building the product.",
         "Aim for evidence that could be understood by someone who has not seen the module."
       ]
     };
@@ -1499,7 +1499,7 @@ function getInterventionPlan() {
       items: [
         "Pause the open-ended pathway.",
         "Return to one worked example and one non-example.",
-        "Use a teacher or peer conference to identify whether the blocker is confidence, overwhelm, avoidance, or misunderstanding."
+        "Use a quick check-in to identify whether the blocker is confidence, overwhelm, avoidance, or misunderstanding."
       ]
     };
   }
@@ -1571,7 +1571,7 @@ function renderRewardConsole() {
   const outcome = state.lastProgressOutcome || {
     type: "neutral",
     title: "Salary bank waiting",
-    detail: "Bank salary and class tax by proving learning progress, not just spending time on the page.",
+    detail: "Bank salary and community boost by proving useful progress, not just spending time on the page.",
     earnedDelta: 0,
     taxDelta: 0,
     scoreLabel: "No attempt yet",
@@ -1596,8 +1596,8 @@ function renderRewardConsole() {
     ? `+${formatCurrency(outcome.earnedDelta)} salary`
     : "No new salary";
   const taxText = Number(outcome.taxDelta || 0) > 0
-    ? `+${formatCurrency(outcome.taxDelta)} tax`
-    : "No new tax";
+    ? `+${formatCurrency(outcome.taxDelta)} community`
+    : "No new community boost";
 
   panel.className = `reward-console is-${type}`;
   panel.innerHTML = `
@@ -1612,13 +1612,13 @@ function renderRewardConsole() {
       <strong>${escapeHtml(outcome.title)}</strong>
       <p>${escapeHtml(outcome.detail)}</p>
       <div class="reward-chip-row">
-        <span>${escapeHtml(outcome.scoreLabel || "Signal recorded")}</span>
+        <span>${escapeHtml(outcome.scoreLabel || "Progress recorded")}</span>
         <span>${escapeHtml(earnedText)}</span>
         <span>${escapeHtml(taxText)}</span>
       </div>
       <div class="reward-totals">
         <span>Total salary ${escapeHtml(formatCurrency(state.salaryBoost))}</span>
-        <span>Class tax ${escapeHtml(formatCurrency(state.taxContribution))}</span>
+        <span>Community boost ${escapeHtml(formatCurrency(state.taxContribution))}</span>
       </div>
     </div>
   `;
@@ -1633,7 +1633,7 @@ function updateMetrics() {
   setText("metric-progress", `${state.completionPercent || 0}%`);
   setText("metric-salary-boost", formatCurrency(state.salaryBoost));
   setText("metric-tax-contribution", formatCurrency(state.taxContribution));
-  setText("evidence-state", state.completionPercent >= 100 ? "Complete" : state.corePassed ? "Mission active" : "Gate pending");
+  setText("evidence-state", state.completionPercent >= 100 ? "Complete" : state.corePassed ? "Mission open" : "Ready");
 
   const signal = getSupportSignal();
   const signalPanel = document.getElementById("support-signal");
@@ -1645,6 +1645,17 @@ function updateMetrics() {
   renderInterventionPlan();
   renderRewardConsole();
   updateStageFlow();
+}
+
+function playTrailerWithSound() {
+  const video = document.getElementById("initiative-trailer-video");
+  const button = document.getElementById("play-trailer-sound");
+  if (!video) return;
+  video.muted = false;
+  video.currentTime = 0;
+  const playAttempt = video.play();
+  if (playAttempt?.catch) playAttempt.catch(console.warn);
+  if (button) button.textContent = "Sound on";
 }
 
 function buildSnapshot(taskName = "snapshot") {
@@ -1706,7 +1717,7 @@ async function saveTeacherSnapshot(taskName = "snapshot") {
   state.savedSnapshots += 1;
   saveState();
   const snapshot = buildSnapshot(taskName);
-  addEvidenceLog("teacher-snapshot", `Saved teacher snapshot: ${taskName}`, snapshot.score_percent);
+  addEvidenceLog("progress-snapshot", `Saved progress snapshot: ${taskName}`, snapshot.score_percent);
   setText("evidence-state", "Saving...");
 
   const auth = getAuthState();
@@ -1752,11 +1763,12 @@ async function saveTeacherSnapshot(taskName = "snapshot") {
     });
   if (evidenceError) console.error(evidenceError);
 
-  setText("evidence-state", snapshot.completed ? "Complete and saved" : "Saved for teacher");
+  setText("evidence-state", snapshot.completed ? "Complete and saved" : "Progress saved");
   saveState();
 }
 
 function wireEvents() {
+  document.getElementById("play-trailer-sound")?.addEventListener("click", playTrailerWithSound);
   document.getElementById("submit-core-drill")?.addEventListener("click", submitCoreDrill);
   document.getElementById("retry-core-drill")?.addEventListener("click", resetCoreDrill);
   document.getElementById("submit-common-evidence")?.addEventListener("click", submitCommonEvidence);
