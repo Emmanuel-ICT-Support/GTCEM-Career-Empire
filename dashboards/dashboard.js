@@ -125,6 +125,16 @@ const DASHBOARD_MODULES = [
     launchPath: "../modules/initiative/index.html"
   },
   {
+    id: "archon-careers",
+    title: "Careers Archon",
+    shortTitle: "Archon",
+    defaultStatus: "active",
+    currentLabel: "Written battle prototype",
+    inactiveLabel: "Unavailable from student hub",
+    archivedLabel: "Careers Archon history",
+    launchPath: "../modules/archon-careers/index.html"
+  },
+  {
     id: "employability-skills",
     title: "Employability Skills Portfolio",
     shortTitle: "Employability",
@@ -426,10 +436,14 @@ async function getCurrentStudentModuleProgress() {
   const authState = getAuthPrototypeState();
   const studentId = authState?.studentLogin?.id;
   const localInitiativeProgress = getLocalInitiativeProgressRow();
-  if (!studentId) return localInitiativeProgress ? { initiative: localInitiativeProgress } : {};
+  const localArchonProgress = getLocalArchonCareersProgressRow();
+  const localRows = {};
+  if (localInitiativeProgress) localRows.initiative = localInitiativeProgress;
+  if (localArchonProgress) localRows["archon-careers"] = localArchonProgress;
+  if (!studentId) return localRows;
 
   const supabase = await getSupabaseClientOrNull();
-  if (!supabase) return localInitiativeProgress ? { initiative: localInitiativeProgress } : {};
+  if (!supabase) return localRows;
 
   const { data, error } = await supabase
     .from("student_module_progress")
@@ -446,6 +460,7 @@ async function getCurrentStudentModuleProgress() {
     return acc;
   }, {});
   if (localInitiativeProgress && !rows.initiative) rows.initiative = localInitiativeProgress;
+  if (localArchonProgress && !rows["archon-careers"]) rows["archon-careers"] = localArchonProgress;
   return rows;
 }
 
@@ -459,6 +474,26 @@ function getLocalInitiativeProgressRow() {
     mastery_percent: Number(progress.masteryPercent || 0),
     attempts: Number(progress.coreAttempts || 0),
     completed: Number(progress.completionPercent || 0) >= 100,
+    local_only: true
+  };
+}
+
+function getLocalArchonCareersProgressRow() {
+  const progress = readJsonStorage("career-empire-archon-careers-progress-v1", null);
+  if (!progress || typeof progress !== "object") return null;
+  const clashes = Array.isArray(progress.clashes) ? progress.clashes : [];
+  const clashCount = clashes.length;
+  if (!Number(clashCount || progress.bestScore || progress?.scores?.player)) return null;
+  const completion = progress.winner ? 100 : Math.min(95, Math.round((clashCount / 5) * 100));
+  const mastery = clashCount
+    ? Math.round(average(clashes.map(item => Number(item.studentScore || 0))))
+    : Number(progress.bestScore || 0);
+  return {
+    module_id: "archon-careers",
+    completion_percent: completion,
+    mastery_percent: mastery,
+    attempts: clashCount,
+    completed: completion >= 100,
     local_only: true
   };
 }
@@ -538,6 +573,47 @@ function getModuleAvailabilitySettings() {
 
 function saveModuleAvailabilitySettings(settings) {
   localStorage.setItem(MODULE_AVAILABILITY_STORAGE_KEY, JSON.stringify(settings));
+}
+
+function isPersistableClassModuleScope(classId) {
+  return Boolean(classId && classId !== "all" && classId !== "global" && !String(classId).startsWith("fallback-"));
+}
+
+function applyClassModuleRowsToAvailability(rows = []) {
+  if (!Array.isArray(rows) || !rows.length) return;
+  const settings = getModuleAvailabilitySettings();
+
+  rows.forEach(row => {
+    if (!isPersistableClassModuleScope(row?.class_id) || !row?.module_id) return;
+    const currentClassDefaults = settings.classDefaults[row.class_id] || {};
+    const status = row.is_enabled === false ? "inactive" : "active";
+    settings.classDefaults[row.class_id] = {
+      ...currentClassDefaults,
+      [row.module_id]: status
+    };
+  });
+
+  saveModuleAvailabilitySettings(settings);
+}
+
+async function syncClassModuleAvailabilityFromSupabase(classIds = []) {
+  const scopeIds = [...new Set((classIds || []).filter(isPersistableClassModuleScope))];
+  if (!scopeIds.length) return;
+
+  const supabase = await getSupabaseClientOrNull();
+  if (!supabase) return;
+
+  const { data, error } = await supabase
+    .from("class_modules")
+    .select("class_id, module_id, is_enabled")
+    .in("class_id", scopeIds);
+
+  if (error) {
+    console.warn("Could not load class module availability:", error.message || error);
+    return;
+  }
+
+  applyClassModuleRowsToAvailability(data || []);
 }
 
 function getModuleById(moduleId) {
@@ -1829,11 +1905,22 @@ function getCurrentStudentModuleStatuses() {
   return getEffectiveModuleStatuses({ classId, studentId });
 }
 
+async function syncCurrentStudentClassModuleAvailability() {
+  const authState = getAuthPrototypeState();
+  const studentLogin = authState?.studentLogin || {};
+  const session = getCurrentPlayerSession() || {};
+  const classId = studentLogin.classId || session.classId || "global";
+  const studentId = studentLogin.id || session.studentId || "";
+  if (!studentId || !isPersistableClassModuleScope(classId)) return;
+  await syncClassModuleAvailabilityFromSupabase([classId]);
+}
+
 function syncStudentPrimaryModuleActions(moduleStatuses) {
   const actionMap = {
     "student-hub-avatar-link": "avatar-studio",
     "student-hub-est-link": "est-prep",
     "student-hub-initiative-link": "initiative",
+    "student-hub-archon-link": "archon-careers",
     "student-hub-megatrends-link": "megatrends",
     "student-hub-lifelong-link": "lifelong-learning"
   };
@@ -3050,6 +3137,7 @@ function getStudentCompareModuleValue(item, moduleId, metric) {
     "lifelong-learning": { completion: "lifelongCompletion", mastery: "lifelongMastery" },
     "est-prep": { completion: "estCompletion", mastery: "estMastery" },
     "initiative": { completion: "initiativeCompletion", mastery: "initiativeMastery" },
+    "archon-careers": { completion: "archonCompletion", mastery: "archonMastery" },
     "employability-skills": { completion: "employabilityCompletion", mastery: "employabilityMastery" }
   };
   return item?.[keyMap[moduleId]?.[metric]] || 0;
@@ -4496,6 +4584,7 @@ function getModuleLabel(moduleId) {
     "megatrends": "Megatrends",
     "est-prep": "EST Prep",
     "initiative": "Initiative",
+    "archon-careers": "Careers Archon",
     "lifelong-learning": "Lifelong Learning",
     "employability-skills": "Employability Skills"
   };
@@ -5261,7 +5350,7 @@ async function getTeacherDashboardData() {
     : (selectedClassRows[0]?.name || "Selected class");
   const studentRecordFocus = dashboardFilter.studentRecordFocus || "active";
 
-  const [studentsResult, votesResult, feedbackResult, reviewsResult] = await Promise.allSettled([
+  const [studentsResult, votesResult, feedbackResult, reviewsResult, classModulesResult] = await Promise.allSettled([
     supabase
       .from("students")
       .select("id, display_name, username, created_at, last_login_at, school_id, class_id, is_active")
@@ -5283,7 +5372,11 @@ async function getTeacherDashboardData() {
       .eq("school_id", schoolId)
       .in("class_id", classIds)
       .order("created_at", { ascending: false })
-      .limit(300)
+      .limit(300),
+    supabase
+      .from("class_modules")
+      .select("class_id, module_id, is_enabled")
+      .in("class_id", classIds)
   ]);
 
   const unwrapResult = (result, label) => {
@@ -5303,6 +5396,8 @@ async function getTeacherDashboardData() {
   const students = allStudents.filter(student => studentMatchesRecordFocus(student, studentRecordFocus));
   const voteRows = unwrapResult(votesResult, "community_votes");
   const feedbackRows = unwrapResult(feedbackResult, "feedback_reports");
+  const classModuleRows = unwrapResult(classModulesResult, "class_modules");
+  applyClassModuleRowsToAvailability(classModuleRows);
   const studentById = new Map(allStudents.map(student => [student.id, student]));
   const classById = new Map(availableClasses.map(classroom => [classroom.id, classroom]));
   const allReviewRows = unwrapResult(reviewsResult, "student_response_reviews").map(row => {
@@ -5589,7 +5684,7 @@ function renderTeacherClassSelector(teacherData, studentRows = []) {
 }
 
 async function persistClassModuleStatusToSupabase(classId, moduleId, status) {
-  if (!classId || classId === "all" || classId === "global" || String(classId).startsWith("fallback-")) return;
+  if (!isPersistableClassModuleScope(classId)) return;
   const supabase = await getSupabaseClientOrNull();
   if (!supabase) return;
   const { error } = await supabase
@@ -5601,6 +5696,25 @@ async function persistClassModuleStatusToSupabase(classId, moduleId, status) {
       assigned_at: new Date().toISOString()
     }, { onConflict: "class_id,module_id" });
   if (error) console.warn("Class module status saved locally but not to Supabase:", error.message || error);
+}
+
+function getModuleAvailabilityTargetClassIds(teacherData, scopeClassId) {
+  if (isPersistableClassModuleScope(scopeClassId)) return [scopeClassId];
+  if (scopeClassId !== "global") return [];
+  return [...new Set((teacherData?.availableClasses || [])
+    .map(classroom => classroom.id)
+    .filter(isPersistableClassModuleScope))];
+}
+
+function setClassModuleStatusForScope(teacherData, scopeClassId, moduleId, status) {
+  setClassModuleStatus(scopeClassId, moduleId, status);
+  getModuleAvailabilityTargetClassIds(teacherData, scopeClassId)
+    .forEach(classId => setClassModuleStatus(classId, moduleId, status));
+}
+
+async function persistClassModuleStatusForScopeToSupabase(teacherData, scopeClassId, moduleId, status) {
+  const targetClassIds = getModuleAvailabilityTargetClassIds(teacherData, scopeClassId);
+  await Promise.all(targetClassIds.map(classId => persistClassModuleStatusToSupabase(classId, moduleId, status)));
 }
 
 function getModuleAvailabilityScope(teacherData, selectedStudent = null) {
@@ -5678,8 +5792,8 @@ function renderTeacherModuleAvailability(teacherData, students = [], selectedStu
       const moduleId = event.currentTarget.dataset.moduleClassToggle;
       const currentStatus = classStatuses[moduleId] || "inactive";
       const nextStatus = currentStatus === "active" ? "inactive" : "active";
-      setClassModuleStatus(scopeClassId, moduleId, nextStatus);
-      persistClassModuleStatusToSupabase(scopeClassId, moduleId, nextStatus).catch(console.warn);
+      setClassModuleStatusForScope(teacherData, scopeClassId, moduleId, nextStatus);
+      persistClassModuleStatusForScopeToSupabase(teacherData, scopeClassId, moduleId, nextStatus).catch(console.warn);
       initDashboards().catch(console.error);
     });
   });
@@ -5688,8 +5802,8 @@ function renderTeacherModuleAvailability(teacherData, students = [], selectedStu
     select.addEventListener("change", event => {
       const moduleId = event.currentTarget.dataset.moduleClassStatus;
       const status = event.currentTarget.value;
-      setClassModuleStatus(scopeClassId, moduleId, status);
-      persistClassModuleStatusToSupabase(scopeClassId, moduleId, status).catch(console.warn);
+      setClassModuleStatusForScope(teacherData, scopeClassId, moduleId, status);
+      persistClassModuleStatusForScopeToSupabase(teacherData, scopeClassId, moduleId, status).catch(console.warn);
       initDashboards().catch(console.error);
     });
   });
@@ -5710,6 +5824,7 @@ function renderTeacherDashboardFocusStrip(moduleStatuses, activeFocus = "active"
     { id: "active", label: "Active Modules", note: "Default current teaching view" },
     { id: "est-prep", label: "EST Prep", note: "Assessment prep only" },
     { id: "initiative", label: "Initiative", note: "Unlock Gate plus Proof Drop" },
+    { id: "archon-careers", label: "Careers Archon", note: "Written clashes" },
     { id: "employability-skills", label: "Employability", note: "STAR portfolio only" },
     { id: "archived", label: "Archived", note: "Term 1 and prototype history" },
     { id: "cumulative", label: "Cumulative", note: "All module patterns" }
@@ -5746,14 +5861,17 @@ async function renderStudentLiveData(players, skillsData) {
   const lifelongProgressRow = moduleProgressById["lifelong-learning"];
   const estProgressRow = moduleProgressById["est-prep"];
   const initiativeProgressRow = moduleProgressById.initiative;
+  const archonProgressRow = moduleProgressById["archon-careers"];
+  await syncCurrentStudentClassModuleAvailability();
   const moduleStatuses = getCurrentStudentModuleStatuses();
   const activeModuleIds = DASHBOARD_MODULES.filter(module => moduleStatuses[module.id] === "active").map(module => module.id);
   const hasPlayerProgress = hasMeaningfulPlayerProgress(record);
   const hasLifelongProgress = hasMeaningfulModuleProgress(lifelongProgressRow);
   const hasESTProgress = hasMeaningfulModuleProgress(estProgressRow) || hasLocalESTProgress(session);
   const hasInitiativeProgress = hasMeaningfulModuleProgress(initiativeProgressRow);
+  const hasArchonProgress = hasMeaningfulModuleProgress(archonProgressRow);
   const hasAvatarProgress = avatarCompletion > 0;
-  const hasAnySavedProgress = hasPlayerProgress || hasLifelongProgress || hasESTProgress || hasInitiativeProgress || hasAvatarProgress;
+  const hasAnySavedProgress = hasPlayerProgress || hasLifelongProgress || hasESTProgress || hasInitiativeProgress || hasArchonProgress || hasAvatarProgress;
   const progressRecord = hasPlayerProgress ? record : null;
   let reviewRows = await getCurrentStudentResponseReviews();
   let skillEvidenceEntries = syncSkillStarEvidenceWithReviews(getSkillStarEvidenceEntries(), reviewRows);
@@ -5786,6 +5904,8 @@ async function renderStudentLiveData(players, skillsData) {
   const estMastery = Number(estProgressRow?.mastery_percent || 0);
   const initiativeProgress = Number(initiativeProgressRow?.completion_percent || 0);
   const initiativeMastery = Number(initiativeProgressRow?.mastery_percent || 0);
+  const archonProgress = Number(archonProgressRow?.completion_percent || 0);
+  const archonMastery = Number(archonProgressRow?.mastery_percent || 0);
   const employabilityPortfolioProgress = calculateStarReflectionCompletion(skillEvidenceEntries);
   const employabilityPortfolioMastery = employabilityScore;
   const moduleCompletionMap = {
@@ -5794,6 +5914,7 @@ async function renderStudentLiveData(players, skillsData) {
     "lifelong-learning": lifelongProgress,
     "est-prep": estProgress,
     "initiative": initiativeProgress,
+    "archon-careers": archonProgress,
     "employability-skills": employabilityPortfolioProgress
   };
   const overallModuleCompletion = Math.round(average((activeModuleIds.length ? activeModuleIds : DASHBOARD_MODULES.map(module => module.id)).map(moduleId => moduleCompletionMap[moduleId] || 0)));
@@ -5928,6 +6049,23 @@ async function renderStudentLiveData(players, skillsData) {
       available: moduleStatuses["megatrends"] === "active",
       unavailableLabel: moduleStatuses["megatrends"] === "archived" ? "Archived" : "Not assigned",
       tags: [getModuleStatusLabel(moduleStatuses["megatrends"]), "Career stats", "History kept"]
+    },
+    {
+      id: "archon-careers",
+      title: "Careers Archon",
+      state: hasArchonProgress ? `${getModuleStatusLabel(moduleStatuses["archon-careers"])} writing clashes saved` : getModuleStatusLabel(moduleStatuses["archon-careers"]),
+      summary: "Move pieces across an Archon-inspired board, then win contested squares by writing stronger Careers curriculum responses than the opposition.",
+      progress: archonProgress,
+      mastery: archonMastery,
+      variant: "green",
+      spotlight: moduleStatuses["archon-careers"] === "active",
+      logoPath: skillsData.categories.find(category => category.id === "communication")?.logoPath || skillsData.categories.find(category => category.id === "critical-thinking")?.logoPath,
+      logoLabel: "Communication",
+      launchPath: "../modules/archon-careers/index.html",
+      launchLabel: hasArchonProgress ? "Continue Careers Archon" : "Start Careers Archon",
+      available: moduleStatuses["archon-careers"] === "active",
+      unavailableLabel: moduleStatuses["archon-careers"] === "archived" ? "Archived" : "Not assigned",
+      tags: [getModuleStatusLabel(moduleStatuses["archon-careers"]), "Written clash", "Megatrends"]
     },
     {
       id: "lifelong-learning",
@@ -6118,6 +6256,7 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
   const megatrendsProgressRows = moduleProgressRows.filter(row => (row.module_id || row.module_slug) === "megatrends");
   const estProgressRows = moduleProgressRows.filter(row => (row.module_id || row.module_slug) === "est-prep");
   const initiativeProgressRows = moduleProgressRows.filter(row => (row.module_id || row.module_slug) === "initiative");
+  const archonProgressRows = moduleProgressRows.filter(row => (row.module_id || row.module_slug) === "archon-careers");
   const lifelongProgressRows = moduleProgressRows.filter(row => (row.module_id || row.module_slug) === "lifelong-learning");
   const parsedEvidenceRows = evidenceRowsBase.map(row => ({
     row,
@@ -6419,15 +6558,18 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
     const lifelongProgress = studentProgress.find(row => (row.module_id || row.module_slug) === "lifelong-learning") || null;
     const estProgress = studentProgress.find(row => (row.module_id || row.module_slug) === "est-prep") || null;
     const initiativeProgress = studentProgress.find(row => (row.module_id || row.module_slug) === "initiative") || null;
+    const archonProgress = studentProgress.find(row => (row.module_id || row.module_slug) === "archon-careers") || null;
     const studentEvidence = parsedEvidenceRows.filter(entry => entry.row.student_id === student.id);
     const estEvidence = studentEvidence.filter(entry => (entry.row.module_id || entry.row.module_slug || entry.payload?.module_id) === "est-prep");
     const megatrendsEvidence = studentEvidence.filter(entry => (entry.row.module_id || entry.row.module_slug || entry.payload?.module_id) === "megatrends");
     const lifelongEvidence = studentEvidence.filter(entry => (entry.row.module_id || entry.row.module_slug || entry.payload?.module_id) === "lifelong-learning");
     const initiativeEvidence = studentEvidence.filter(entry => (entry.row.module_id || entry.row.module_slug || entry.payload?.module_id) === "initiative");
+    const archonEvidence = studentEvidence.filter(entry => (entry.row.module_id || entry.row.module_slug || entry.payload?.module_id) === "archon-careers");
     const studentCapabilityEntries = capabilityEvidenceEntries.filter(entry => entry.studentId === student.id);
     const latestEST = estEvidence[0]?.payload || null;
     const latestMegatrends = megatrendsEvidence[0]?.payload || null;
     const latestLifelong = lifelongEvidence[0] || null;
+    const latestArchon = archonEvidence[0] || null;
     const latestAnyEvidence = studentEvidence[0] || null;
     const latestESTTopicRows = estEvidence
       .filter(entry => entry.payload?.topic_group)
@@ -6461,11 +6603,13 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
     const lifelongCompletion = Number(lifelongProgress?.completion_percent || 0);
     const estCompletion = Number(estProgress?.completion_percent || 0);
     const initiativeCompletion = Number(initiativeProgress?.completion_percent || 0);
+    const archonCompletion = Number(archonProgress?.completion_percent || 0);
     const employabilityCompletion = calculateSkillEvidenceProgress(studentCapabilityEntries);
     const megatrendsMastery = Number(megatrendsProgress?.mastery_percent || overallMastery || 0);
     const lifelongMastery = Number(lifelongProgress?.mastery_percent || 0);
     const estMastery = Number(estProgress?.mastery_percent || 0);
     const initiativeMastery = Number(initiativeProgress?.mastery_percent || 0);
+    const archonMastery = Number(archonProgress?.mastery_percent || 0);
     const employabilityMastery = studentCapabilityEntries.length
       ? Math.round(average(studentCapabilityEntries.map(entry => Math.min(100, Number(entry.quality || 0) * 8))))
       : 0;
@@ -6474,6 +6618,7 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
       "lifelong-learning": [lifelongCompletion, lifelongMastery],
       "est-prep": [estCompletion, estMastery],
       "initiative": [initiativeCompletion, initiativeMastery],
+      "archon-careers": [archonCompletion, archonMastery],
       "employability-skills": [employabilityCompletion, employabilityMastery]
     };
     const progressScore = average(visibleModuleIds.flatMap(moduleId => moduleScoreValues[moduleId] || []));
@@ -6503,6 +6648,7 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
         `Employability STAR: ${studentCapabilityEntries.length}`,
         `Lifelong mastery: ${Number(lifelongProgress?.mastery_percent || 0)}%`,
         `Initiative mastery: ${Number(initiativeProgress?.mastery_percent || 0)}%`,
+        `Archon mastery: ${Number(archonProgress?.mastery_percent || 0)}%`,
         `EST mastery: ${Number(estProgress?.mastery_percent || 0)}%`,
         `Avg task time: ${averageTaskTime ? formatDurationSeconds(averageTaskTime) : "No timings yet"}`,
         `Strongest skill: ${strongestSkill?.title || "Not clear yet"}`
@@ -6511,11 +6657,13 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
       lifelongCompletion,
       estCompletion,
       initiativeCompletion,
+      archonCompletion,
       employabilityCompletion,
       megatrendsMastery,
       lifelongMastery,
       estMastery,
       initiativeMastery,
+      archonMastery,
       employabilityMastery,
       progressScore,
       averageTaskTimeSeconds: averageTaskTime,
@@ -6542,6 +6690,12 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
             : "No Initiative progress saved yet."
         },
         {
+          title: "Careers Archon snapshot",
+          detail: archonProgress
+            ? `Completion ${Number(archonProgress.completion_percent || 0)}% • Mastery ${Number(archonProgress.mastery_percent || 0)}% • Written clashes ${Number(archonProgress.attempts || 0)}${latestArchon ? ` • Latest clash ${formatDateTime(latestArchon.row.created_at)}` : ""}`
+            : "No Careers Archon progress saved yet."
+        },
+        {
           title: "EST snapshot",
           detail: estProgress
             ? `Completion ${Number(estProgress.completion_percent || 0)}% • Mastery ${Number(estProgress.mastery_percent || 0)}% • Attempts ${Number(estProgress.attempts || 0)}${latestESTTopicRows.length ? ` • ${latestESTTopicRows.join(" | ")}` : ""}`
@@ -6556,8 +6710,8 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
       ]
     };
   }).sort((a, b) => {
-    const aScore = Number(a.megatrendsCompletion || 0) + Number(a.lifelongCompletion || 0) + Number(a.initiativeCompletion || 0) + Number(a.estCompletion || 0) + Number(a.employabilityCompletion || 0);
-    const bScore = Number(b.megatrendsCompletion || 0) + Number(b.lifelongCompletion || 0) + Number(b.initiativeCompletion || 0) + Number(b.estCompletion || 0) + Number(b.employabilityCompletion || 0);
+    const aScore = Number(a.megatrendsCompletion || 0) + Number(a.lifelongCompletion || 0) + Number(a.initiativeCompletion || 0) + Number(a.archonCompletion || 0) + Number(a.estCompletion || 0) + Number(a.employabilityCompletion || 0);
+    const bScore = Number(b.megatrendsCompletion || 0) + Number(b.lifelongCompletion || 0) + Number(b.initiativeCompletion || 0) + Number(b.archonCompletion || 0) + Number(b.estCompletion || 0) + Number(b.employabilityCompletion || 0);
     return bScore - aScore;
   });
 
@@ -6682,6 +6836,23 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
       imagePath: "../Assets/Images and Animations/Initiative Scenes/Initiative topic scene neutral.png",
       logoPath: getSkillCategoryById(skillsData, "teamwork")?.logoPath || getSkillCategoryById(skillsData, "communication")?.logoPath,
       logoLabel: "Teamwork"
+    },
+    {
+      id: "archon-careers",
+      label: "Careers Archon",
+      title: "Careers Archon",
+      status: getModuleStatusLabel(moduleStatuses["archon-careers"]),
+      summary: visibleModuleIdSet.has("archon-careers") && archonProgressRows.length
+        ? `Tracking ${archonProgressRows.length} Careers Archon progress row(s) and ${parsedEvidenceRows.filter(entry => getEvidenceModuleId(entry.row, entry.payload) === "archon-careers").length} written clash evidence item(s).`
+        : visibleModuleIdSet.has("archon-careers")
+          ? "Once students contest board squares, this card will show written clash progress, mastery, and response evidence."
+          : "Careers Archon is not included in the current dashboard focus.",
+      completion: average(archonProgressRows.map(row => Number(row.completion_percent || 0))),
+      mastery: average(archonProgressRows.map(row => Number(row.mastery_percent || 0))),
+      variant: "green",
+      spotlight: moduleStatuses["archon-careers"] === "active",
+      logoPath: getSkillCategoryById(skillsData, "communication")?.logoPath || getSkillCategoryById(skillsData, "critical-thinking")?.logoPath,
+      logoLabel: "Communication"
     },
     {
       id: EMPLOYABILITY_PORTFOLIO_MODULE_ID,

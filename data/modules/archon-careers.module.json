@@ -1,0 +1,108 @@
+{
+  "id": "archon-careers",
+  "title": "Careers Archon",
+  "curriculumArea": "Careers and Employability",
+  "theme": "Career concepts, megatrends, labour market information, transferable skills, resilience, and initiative",
+  "status": "prototype",
+  "overview": {
+    "tagline": "Win contested board squares by writing stronger Careers curriculum responses.",
+    "playerFantasy": "Command a future-ready occupation team against a mirrored occupation team in a battle for career territory.",
+    "teacherValue": "Turns short-answer Careers curriculum questions into repeated written evidence. Each contested square compares the student response with an opponent response and records a score."
+  },
+  "gameplayIdentity": {
+    "moduleFantasy": "curriculum strategy duel",
+    "playStyle": "Archon-inspired tactical board with written response battles",
+    "repeatableWorkflow": [
+      "Move a career unit",
+      "Contest a square",
+      "Write a curriculum response",
+      "Compare against the opponent response",
+      "Choose a gameplay consequence tile after a win",
+      "Resolve the board outcome",
+      "Save teacher-visible evidence"
+    ]
+  },
+  "learningObjectives": [
+    "Describe megatrends in the context of career planning.",
+    "Explain how labour market information supports career decisions.",
+    "Use transferable skills, resilience, and initiative language accurately.",
+    "Write short Careers responses that define a concept, explain its importance, and connect it to a career pathway or workplace example."
+  ],
+  "sharedStatEffects": [
+    {
+      "stat": "salary",
+      "description": "Winning written clashes can bank small salary gains as the student proves stronger career-planning knowledge."
+    },
+    {
+      "stat": "community_tax",
+      "description": "A portion of writing clash rewards contributes to the class economy."
+    },
+    {
+      "stat": "career_success",
+      "description": "Stronger written career reasoning supports long-term career success."
+    }
+  ],
+  "employabilityFocus": [
+    {
+      "categoryId": "communication",
+      "subskillIds": [
+        "purpose-audience-format",
+        "terminology-spelling-grammar"
+      ],
+      "whyItFits": "Students must write clear, accurate short responses using Careers curriculum language."
+    },
+    {
+      "categoryId": "critical-thinking",
+      "subskillIds": [
+        "analysis-and-evaluation",
+        "research-and-information-gathering"
+      ],
+      "whyItFits": "Students connect concepts such as megatrends and labour market evidence to future pathway decisions."
+    },
+    {
+      "categoryId": "problem-solving",
+      "subskillIds": [
+        "generate-solutions",
+        "decision-making-models"
+      ],
+      "whyItFits": "The board state asks students to adapt after wins, losses, and contested career-planning prompts."
+    }
+  ],
+  "activities": [
+    {
+      "id": "archon-board-control",
+      "type": "strategy",
+      "title": "Career Board Control",
+      "purpose": "Move pieces across the board and force written curriculum clashes.",
+      "awards": [
+        { "kind": "module-xp", "target": "archon-careers", "amount": 5 }
+      ]
+    },
+    {
+      "id": "archon-written-clash",
+      "type": "short-response",
+      "title": "Written Clash",
+      "purpose": "Compare student writing with an opponent response and resolve the contested square.",
+      "awards": [
+        { "kind": "employability-xp", "target": "communication", "amount": 5 },
+        { "kind": "shared-stat", "target": "salary", "amount": 1 }
+      ]
+    }
+  ],
+  "assessmentEvidence": [
+    {
+      "id": "archon-careers-written-clash",
+      "type": "justification",
+      "prompt": "Write a Careers curriculum response that defines the concept, explains why it matters, and connects it to career planning or workplaces.",
+      "teacherVisible": true,
+      "autoScored": true
+    }
+  ],
+  "teacherSignals": [
+    "written clashes completed",
+    "student writing score",
+    "best response score",
+    "latest prompt attempted",
+    "teacher review queue entry for longer responses"
+  ]
+}

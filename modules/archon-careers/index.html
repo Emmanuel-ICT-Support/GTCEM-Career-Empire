@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Careers Archon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../dashboards/dashboard.css">
+  <link rel="stylesheet" href="./archon-careers.css?v=writing-duel-v6">
+</head>
+<body>
+  <main class="archon-shell">
+    <nav class="dashboard-nav">
+      <a class="dashboard-nav-link" href="../../dashboards/student.html">Student Hub</a>
+      <a class="dashboard-nav-link" href="../../dashboards/leaderboard.html">Leaderboard</a>
+      <a class="dashboard-nav-link" href="../../dashboards/community.html">Community</a>
+      <a class="dashboard-nav-link" href="../../dashboards/global.html">Global Index</a>
+      <a class="dashboard-nav-link" href="../../shop/index.html">Shop</a>
+    </nav>
+
+    <header class="archon-topbar">
+      <div>
+        <span class="eyebrow">Career Empire prototype</span>
+        <h1>Careers Archon</h1>
+        <p id="student-context" class="subtitle">Loading player profile...</p>
+      </div>
+      <div class="topbar-actions">
+        <button id="reset-game" class="ghost-button" type="button">Reset local game</button>
+      </div>
+    </header>
+
+    <section class="archon-layout" aria-label="Careers Archon game board">
+      <article class="board-panel">
+        <div class="board-header">
+          <div>
+            <span class="panel-kicker">Strategic board</span>
+            <h2>Claim the future work grid.</h2>
+          </div>
+          <div class="turn-pill" id="turn-pill">Your move</div>
+        </div>
+        <div id="game-board" class="game-board" aria-label="Careers Archon board"></div>
+      </article>
+
+      <aside class="command-panel">
+        <section class="status-card">
+          <div class="section-title">
+            <h2>Career Command</h2>
+            <p id="game-state-label">Board active</p>
+          </div>
+          <div class="metric-stack">
+            <div>
+              <span>Clashes resolved</span>
+              <strong id="metric-clashes">0</strong>
+            </div>
+            <div>
+              <span>Your writing wins</span>
+              <strong id="metric-player-wins">0</strong>
+            </div>
+            <div>
+              <span>Best response</span>
+              <strong id="metric-best-score">0%</strong>
+            </div>
+            <div>
+              <span>Salary banked</span>
+              <strong id="metric-salary-earned">$0</strong>
+            </div>
+            <div>
+              <span>Module progress</span>
+              <strong id="metric-progress">0%</strong>
+            </div>
+          </div>
+          <div class="button-row">
+            <button id="save-progress" class="primary-button" type="button">Save progress</button>
+          </div>
+        </section>
+
+        <section class="status-card prompt-bank-card">
+          <span class="panel-kicker">Tile state rules</span>
+          <h2>Captured squares change future moves.</h2>
+          <div id="square-rule-list" class="tile-rule-list"></div>
+        </section>
+
+        <section class="status-card">
+          <span class="panel-kicker">Evidence log</span>
+          <div id="evidence-log" class="evidence-log"></div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <div id="clash-modal" class="clash-modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="clash-title">
+    <div class="clash-card">
+      <div class="clash-card__header">
+        <div>
+          <span id="clash-kicker" class="panel-kicker">Writing clash</span>
+          <h2 id="clash-title">Careers question</h2>
+        </div>
+        <div id="clash-square" class="square-badge">A1</div>
+      </div>
+
+      <div id="clash-body" class="clash-body">
+        <p id="clash-prompt" class="clash-prompt"></p>
+        <div id="clash-criteria" class="criteria-list"></div>
+        <label class="response-field">
+          <span>Your written response</span>
+          <textarea id="student-response" rows="8" placeholder="Write a clear careers response that explains the concept, uses curriculum language, and connects it to career planning."></textarea>
+        </label>
+        <div id="clash-feedback" class="clash-feedback" aria-live="polite"></div>
+        <div class="button-row">
+          <button id="submit-response" class="primary-button" type="button">Submit response</button>
+        </div>
+      </div>
+
+      <div id="comparison-panel" class="comparison-panel is-hidden">
+        <div class="comparison-grid">
+          <article class="comparison-response comparison-response--student">
+            <div class="comparison-topline">
+              <span>Your response</span>
+              <strong id="student-score-label">0%</strong>
+            </div>
+            <p id="student-response-preview"></p>
+          </article>
+          <article class="comparison-response comparison-response--opponent">
+            <div class="comparison-topline">
+              <span>Opponent response</span>
+              <strong id="opponent-score-label">0%</strong>
+            </div>
+            <p id="opponent-response-preview"></p>
+          </article>
+        </div>
+        <div id="comparison-result" class="comparison-result"></div>
+        <div id="square-choice-panel" class="square-choice-panel is-hidden">
+          <span class="panel-kicker">Claim the square</span>
+          <h3>Choose the gameplay consequence for this square.</h3>
+          <div id="square-choice-options" class="square-choice-grid"></div>
+        </div>
+        <div class="button-row">
+          <button id="continue-after-clash" class="primary-button" type="button">Continue game</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../config/supabase-config.js"></script>
+  <script src="../../src/services/supabase-browser.js"></script>
+  <script src="../../src/services/economy-ledger.js"></script>
+  <script src="../../src/services/response-moderation.js?v=teacher-written-filter-v5"></script>
+  <script src="./archon-careers.js?v=writing-duel-v6"></script>
+  <script src="../../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>
