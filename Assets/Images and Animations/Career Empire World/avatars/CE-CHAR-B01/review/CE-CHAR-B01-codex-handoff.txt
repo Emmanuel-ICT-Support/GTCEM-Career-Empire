@@ -1,0 +1,42 @@
+Please build a Phaser world-map character controller test using this character kit.
+
+Character: CE-CHAR-B01 Boy Student Explorer
+This is the first complete test kit. Do not scale to more characters. Stay in Phaser.
+
+Character root (Tania's Mac, production path):
+Desktop/Megatrends/Assets/Images and Animations/Career Empire World/avatars/CE-CHAR-B01/
+
+Manifest:
+Desktop/Megatrends/Assets/Images and Animations/Career Empire World/avatars/CE-CHAR-B01/runtime/CE-CHAR-B01-world.json
+
+Use source/runtime transparent PNGs with:
+- runtime frame 256 x 384
+- origin 0.5, 0.9375
+- feet baseline 360 (source 720)
+- directional swapping for back-3q, front-3q, left-3q, right-3q
+- walk pose cycle plus subtle procedural bob and lean
+- run derived from walk with faster cadence and stronger lean
+- jump-back-3q pose during Phaser jump/tween
+- point-front-3q and celebrate-front-3q as one-shot poses
+
+Kit poses (all processed, validated):
+1. idle-back-3q
+2. walk-back-3q-a
+3. walk-back-3q-b
+4. idle-front-3q
+5. idle-left-3q
+6. idle-right-3q
+7. walk-left-3q-a
+8. walk-right-3q-a
+9. jump-back-3q
+10. point-front-3q
+11. celebrate-front-3q
+
+Technical lock:
+- PNG RGBA, transparent, no floor shadow
+- source 512x768, runtime 256x384
+- character height ~620 on source (range 600-650 except jump which is a bent-knee hop at the same locked scale)
+- Phaser origin 0.5, 0.9375 so feet sit on the tile
+- Asymmetry: teal badge LEFT chest, black watch LEFT wrist. Do not mirror frames.
+
+Please create a small movement test (WASD / arrows) in the existing Career Empire world and report any art issues that make animation awkward before we scale the pipeline to more characters. Reload path if you keep it: http://localhost:8001/world/index.html

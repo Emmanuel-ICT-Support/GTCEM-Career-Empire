@@ -1,0 +1,324 @@
+{
+  "poses": [
+    {
+      "pose": "idle-back-3q",
+      "file": "/workspace/career-empire/output/CE-CHAR-B01/source-poses/CE-CHAR-B01-idle-back-3q.png",
+      "width": 512,
+      "height": 768,
+      "mode": "RGBA",
+      "hasTransparency": true,
+      "bbox": [
+        153,
+        101,
+        358,
+        719
+      ],
+      "characterHeight": 619,
+      "feetBaselineY": 720,
+      "centerX": 255.5,
+      "pad": {
+        "T": 101,
+        "L": 153,
+        "R": 153,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "height600-650": true,
+        "pad24": true,
+        "runtime256x384": true
+      }
+    },
+    {
+      "pose": "walk-back-3q-a",
+      "native": [
+        1024,
+        1536
+      ],
+      "crop": [
+        653,
+        1441
+      ],
+      "source": [
+        512,
+        768
+      ],
+      "characterHeight": 613,
+      "feetBaselineY": 720,
+      "centerX": 255.5,
+      "pad": {
+        "T": 107,
+        "L": 117,
+        "R": 117,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "pad24T": true,
+        "pad24LR": true,
+        "runtime256x384": true
+      }
+    },
+    {
+      "pose": "walk-back-3q-b",
+      "crop": [
+        671,
+        1451
+      ],
+      "characterHeight": 616,
+      "feetBaselineY": 720,
+      "centerX": 255.5,
+      "pad": {
+        "T": 104,
+        "L": 113,
+        "R": 113,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "pad24T": true,
+        "pad24LR": true,
+        "runtime256x384": true
+      }
+    },
+    {
+      "pose": "idle-front-3q",
+      "crop": [
+        493,
+        1479
+      ],
+      "characterHeight": 629,
+      "feetBaselineY": 720,
+      "centerX": 255.5,
+      "pad": {
+        "T": 91,
+        "L": 151,
+        "R": 151,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "pad24T": true,
+        "pad24LR": true,
+        "runtime256x384": true
+      }
+    },
+    {
+      "pose": "idle-left-3q",
+      "crop": [
+        522,
+        1491
+      ],
+      "characterHeight": 634,
+      "feetBaselineY": 720,
+      "centerX": 255.5,
+      "pad": {
+        "T": 86,
+        "L": 145,
+        "R": 145,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "pad24T": true,
+        "pad24LR": true,
+        "runtime256x384": true
+      }
+    },
+    {
+      "pose": "idle-right-3q",
+      "nativeMode": "RGB",
+      "crop": [
+        525,
+        1477
+      ],
+      "characterHeight": 629,
+      "feetBaselineY": 720,
+      "centerX": 256.0,
+      "pad": {
+        "T": 91,
+        "L": 145,
+        "R": 144,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "pad24T": true,
+        "pad24LR": true,
+        "runtime256x384": true
+      }
+    },
+    {
+      "pose": "walk-left-3q-a",
+      "crop": [
+        749,
+        1447
+      ],
+      "characterHeight": 616,
+      "feetBaselineY": 720,
+      "centerX": 256.0,
+      "pad": {
+        "T": 104,
+        "L": 97,
+        "R": 96,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "pad24T": true,
+        "pad24LR": true,
+        "runtime256x384": true
+      }
+    },
+    {
+      "pose": "walk-right-3q-a",
+      "crop": [
+        799,
+        1460
+      ],
+      "characterHeight": 620,
+      "feetBaselineY": 720,
+      "centerX": 255.5,
+      "pad": {
+        "T": 100,
+        "L": 86,
+        "R": 86,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "pad24T": true,
+        "pad24LR": true,
+        "runtime256x384": true
+      }
+    },
+    {
+      "pose": "jump-back-3q",
+      "crop": [
+        717,
+        1279
+      ],
+      "characterHeight": 544,
+      "feetBaselineY": 720,
+      "centerX": 256.0,
+      "pad": {
+        "T": 176,
+        "L": 104,
+        "R": 103,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "pad24T": true,
+        "pad24LR": true,
+        "runtime256x384": true
+      }
+    },
+    {
+      "pose": "point-front-3q",
+      "crop": [
+        691,
+        1475
+      ],
+      "characterHeight": 628,
+      "feetBaselineY": 720,
+      "centerX": 255.5,
+      "pad": {
+        "T": 92,
+        "L": 109,
+        "R": 109,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "pad24T": true,
+        "pad24LR": true,
+        "runtime256x384": true
+      }
+    },
+    {
+      "pose": "celebrate-front-3q",
+      "crop": [
+        504,
+        1321
+      ],
+      "characterHeight": 620,
+      "feetBaselineY": 720,
+      "centerX": 256.0,
+      "scaleNote": "upscaled from native so total height matches idle lock 620 (ChatGPT drew this figure smaller in-frame)",
+      "pad": {
+        "T": 100,
+        "L": 138,
+        "R": 137,
+        "B": 48
+      },
+      "checks": {
+        "dims512x768": true,
+        "rgba": true,
+        "feetY720": true,
+        "anchorX256": true,
+        "pad24T": true,
+        "pad24LR": true,
+        "runtime256x384": true,
+        "height600to650": true
+      }
+    }
+  ],
+  "celebrate": {
+    "pose": "celebrate-front-3q",
+    "crop": [
+      504,
+      1321
+    ],
+    "characterHeight": 620,
+    "feetBaselineY": 720,
+    "centerX": 256.0,
+    "scaleNote": "upscaled from native so total height matches idle lock 620 (ChatGPT drew this figure smaller in-frame)",
+    "pad": {
+      "T": 100,
+      "L": 138,
+      "R": 137,
+      "B": 48
+    },
+    "checks": {
+      "dims512x768": true,
+      "rgba": true,
+      "feetY720": true,
+      "anchorX256": true,
+      "pad24T": true,
+      "pad24LR": true,
+      "runtime256x384": true,
+      "height600to650": true
+    }
+  }
+}

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Empire World | Corrected Stage 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./rebuild-corrected.css?v=20260831-entry-v2">
+</head>
+<body class="corrected-page">
+  <main class="corrected-shell">
+    <nav class="corrected-nav" aria-label="Career Empire navigation">
+      <a href="./index.html">Current Prototype</a>
+      <a href="./rebuild.html">Codex Stage 1</a>
+      <a class="active" href="./rebuild-corrected.html">Corrected Stage 1</a>
+    </nav>
+    <header class="corrected-header">
+      <div><span>Career Empire World</span><h1>A town experienced at character level.</h1></div>
+      <p>Home → Learn → Work → Money → Community</p>
+    </header>
+    <section class="corrected-layout">
+      <div class="corrected-stage">
+        <div id="corrected-game" class="corrected-game">
+          <div class="corrected-loading">Loading corrected town…</div>
+          <div id="corrected-cinematic" class="corrected-cinematic" hidden aria-hidden="true">
+            <div class="corrected-cinematic-stage">
+              <img id="corrected-cinematic-hall" class="corrected-cinematic-hall" alt="" aria-hidden="true">
+              <div id="corrected-cinematic-portal" class="corrected-cinematic-portal" hidden>PORTAL PLACEHOLDER</div>
+              <div class="corrected-cinematic-lane" aria-hidden="true"></div>
+              <img id="corrected-cinematic-player" class="corrected-cinematic-player" alt="" aria-hidden="true">
+            </div>
+          </div>
+          <button id="corrected-entry-prompt" class="corrected-entry-prompt" type="button" hidden>Enter Town Hall</button>
+        </div>
+        <div class="corrected-strip"><span>Move: WASD/arrows · Run: Shift · Click a destination · Aerial: M</span><button id="corrected-aerial" type="button">Aerial Map</button></div>
+        <div id="corrected-module" class="corrected-module" hidden>
+          <section class="corrected-module-card" aria-labelledby="corrected-module-title">
+            <span id="corrected-module-type">Civic Heart</span>
+            <h2 id="corrected-module-title">Town Hall Placeholder</h2>
+            <p id="corrected-module-detail">This temporary screen proves the building-entry handoff and return loop.</p>
+            <button id="corrected-exit-module" type="button">Exit to Town</button>
+          </section>
+        </div>
+      </div>
+      <aside class="corrected-panel" aria-live="polite">
+        <span id="corrected-type">Current area</span><h2 id="corrected-title">Home + Identity</h2>
+        <p id="corrected-detail">Follow the street toward Town Square. The next landmark should remain visible as you move.</p>
+        <button id="corrected-enter" type="button" disabled>Move near an entrance</button>
+        <div class="corrected-notes"><strong>Corrected spatial foundation</strong><p>Continuous streets, compact neighbourhoods, character-relative asset scale and route-based travel.</p></div>
+      </aside>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+  <script src="./rebuild-corrected.js?v=20260831-entry-v2"></script>
+</body>
+</html>

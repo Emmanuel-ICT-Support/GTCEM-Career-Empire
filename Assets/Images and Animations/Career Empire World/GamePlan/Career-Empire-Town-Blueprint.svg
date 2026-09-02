@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061827"/><stop offset="1" stop-color="#0b3040"/></linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#073553"/><stop offset="1" stop-color="#0e6680"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000" flood-opacity=".35"/></filter>
+    <style>
+      .title{font:700 38px Arial,sans-serif;fill:#eefbff}.sub{font:18px Arial,sans-serif;fill:#a8c6d2}.district{stroke-width:3;filter:url(#shadow)}
+      .dlabel{font:700 22px Arial,sans-serif;fill:#f4fbff}.small{font:15px Arial,sans-serif;fill:#d5e9ef}.building{fill:#132c3d;stroke:#67d9ff;stroke-width:2}
+      .btext{font:700 15px Arial,sans-serif;fill:#f6fcff}.pathOuter{fill:none;stroke:#07121d;stroke-width:102;stroke-linecap:round;stroke-linejoin:round}
+      .path{fill:none;stroke:#354b60;stroke-width:74;stroke-linecap:round;stroke-linejoin:round}.pathGlow{fill:none;stroke:#51d6e8;stroke-width:4;stroke-dasharray:10 18;opacity:.65}
+      .foot{fill:none;stroke:#8ae6b3;stroke-width:25;stroke-linecap:round;stroke-dasharray:2 18;opacity:.7}.legend{font:15px Arial,sans-serif;fill:#d7e8ee}
+    </style>
+  </defs>
+  <rect width="1600" height="1200" fill="url(#bg)"/>
+  <text x="70" y="66" class="title">Career Empire — Compact Town Blueprint</text>
+  <text x="70" y="98" class="sub">Character-level planning guide • approx. 2560 × 2304 world px • not a flattened game background</text>
+
+  <rect x="70" y="135" width="1120" height="965" rx="30" fill="#326b42" stroke="#69b678" stroke-width="4"/>
+  <path d="M70 195 Q250 125 430 180 T800 165 T1190 195 L1190 135 L70 135Z" fill="url(#water)"/>
+  <path d="M70 1030 Q245 970 410 1030 T790 1020 T1190 1010 L1190 1100 L70 1100Z" fill="url(#water)" opacity=".9"/>
+
+  <!-- districts -->
+  <path class="district" fill="#235a43" stroke="#83ecac" d="M105 720 Q215 655 395 680 L480 870 Q380 1040 115 1005Z"/>
+  <path class="district" fill="#174b5b" stroke="#67d9ff" d="M115 290 Q265 170 500 240 L515 600 Q315 700 125 625Z"/>
+  <ellipse class="district" cx="630" cy="625" rx="220" ry="205" fill="#4a4930" stroke="#ffd46b"/>
+  <path class="district" fill="#553c50" stroke="#ff91ca" d="M805 690 Q1005 640 1150 745 L1145 1010 Q930 1050 790 900Z"/>
+  <path class="district" fill="#3b345d" stroke="#bba8ff" d="M825 280 Q1030 205 1150 330 L1140 650 Q945 705 790 575Z"/>
+  <path class="district" fill="#234e56" stroke="#6ee7e1" d="M470 175 Q670 120 855 190 L835 390 Q650 460 475 365Z"/>
+
+  <!-- roads main loop -->
+  <path class="pathOuter" d="M285 820 C275 635 330 470 480 420 C570 385 720 390 835 440 C975 500 1035 645 985 810 C865 930 670 955 485 910 C385 885 320 855 285 820Z"/>
+  <path class="path" d="M285 820 C275 635 330 470 480 420 C570 385 720 390 835 440 C975 500 1035 645 985 810 C865 930 670 955 485 910 C385 885 320 855 285 820Z"/>
+  <path class="pathGlow" d="M285 820 C275 635 330 470 480 420 C570 385 720 390 835 440 C975 500 1035 645 985 810 C865 930 670 955 485 910 C385 885 320 855 285 820Z"/>
+  <path class="pathOuter" d="M630 425 L630 890 M330 620 L980 620"/>
+  <path class="path" d="M630 425 L630 890 M330 620 L980 620"/>
+  <path class="pathGlow" d="M630 425 L630 890 M330 620 L980 620"/>
+  <path class="foot" d="M590 390 Q620 280 650 220 M830 430 Q985 350 1075 260 M330 510 Q220 430 160 360 M925 870 Q1055 915 1120 990"/>
+
+  <!-- buildings -->
+  <g filter="url(#shadow)">
+    <rect class="building" x="185" y="790" width="160" height="95" rx="18"/><text class="btext" x="265" y="832" text-anchor="middle">HOME BASE</text><text class="small" x="265" y="855" text-anchor="middle">arrival + identity</text>
+    <rect class="building" x="340" y="900" width="145" height="82" rx="18"/><text class="btext" x="412" y="936" text-anchor="middle">AVATAR</text><text class="small" x="412" y="958" text-anchor="middle">STUDIO</text>
+    <rect class="building" x="145" y="405" width="170" height="95" rx="18"/><text class="btext" x="230" y="445" text-anchor="middle">SKILLS CENTRE</text><text class="small" x="230" y="470" text-anchor="middle">capabilities</text>
+    <rect class="building" x="290" y="265" width="180" height="100" rx="18"/><text class="btext" x="380" y="308" text-anchor="middle">CAREER STUDIO</text><text class="small" x="380" y="333" text-anchor="middle">jobs + pathways</text>
+    <rect class="building" x="395" y="515" width="155" height="88" rx="18"/><text class="btext" x="472" y="553" text-anchor="middle">LIFELONG</text><text class="small" x="472" y="576" text-anchor="middle">LEARNING</text>
+    <ellipse class="building" cx="630" cy="625" rx="118" ry="92"/><text class="btext" x="630" y="617" text-anchor="middle">TOWN SQUARE</text><text class="small" x="630" y="642" text-anchor="middle">events + orientation</text>
+    <rect class="building" x="545" y="730" width="170" height="100" rx="18"/><text class="btext" x="630" y="772" text-anchor="middle">TOWN HALL</text><text class="small" x="630" y="797" text-anchor="middle">votes + tax fund</text>
+    <rect class="building" x="885" y="755" width="175" height="95" rx="18"/><text class="btext" x="972" y="795" text-anchor="middle">MARKET STREET</text><text class="small" x="972" y="820" text-anchor="middle">shop + money</text>
+    <rect class="building" x="915" y="905" width="155" height="80" rx="18"/><text class="btext" x="992" y="941" text-anchor="middle">BANK / BUDGET</text><text class="small" x="992" y="964" text-anchor="middle">interaction point</text>
+    <rect class="building" x="900" y="390" width="185" height="105" rx="18"/><text class="btext" x="992" y="434" text-anchor="middle">FIRST WORKPLACE</text><text class="small" x="992" y="460" text-anchor="middle">earn + experience</text>
+    <rect class="building" x="820" y="530" width="170" height="92" rx="18"/><text class="btext" x="905" y="568" text-anchor="middle">RIGHTS + SAFETY</text><text class="small" x="905" y="593" text-anchor="middle">workplace point</text>
+    <rect class="building" x="555" y="205" width="165" height="96" rx="18"/><text class="btext" x="637" y="245" text-anchor="middle">MEGATRENDS</text><text class="small" x="637" y="270" text-anchor="middle">change events</text>
+    <rect class="building" x="745" y="230" width="140" height="86" rx="18"/><text class="btext" x="815" y="267" text-anchor="middle">GLOBAL</text><text class="small" x="815" y="291" text-anchor="middle">PORTAL</text>
+  </g>
+
+  <!-- landmarks -->
+  <circle cx="365" cy="640" r="23" fill="#79dba3"/><text class="small" x="365" y="647" text-anchor="middle">T</text>
+  <circle cx="760" cy="620" r="23" fill="#79dba3"/><text class="small" x="760" y="627" text-anchor="middle">T</text>
+  <circle cx="800" cy="870" r="23" fill="#79dba3"/><text class="small" x="800" y="877" text-anchor="middle">T</text>
+  <circle cx="507" cy="450" r="12" fill="#67d9ff"/><circle cx="745" cy="450" r="12" fill="#67d9ff"/><circle cx="830" cy="780" r="12" fill="#67d9ff"/>
+
+  <!-- labels -->
+  <text class="dlabel" x="135" y="750">HOME + IDENTITY</text><text class="small" x="135" y="775">goals • wellbeing • personal choices</text>
+  <text class="dlabel" x="135" y="225">CAREERS + LEARNING</text><text class="small" x="135" y="250">skills • pathways • applications</text>
+  <text class="dlabel" x="510" y="535">CIVIC HEART</text>
+  <text class="dlabel" x="825" y="735">COMMERCE + MONEY</text>
+  <text class="dlabel" x="850" y="325">WORK + ENTERPRISE</text>
+  <text class="dlabel" x="495" y="160">FUTURES + TRANSFORMATION</text>
+
+  <!-- outside transformation gates -->
+  <g>
+    <rect x="90" y="150" width="150" height="60" rx="17" fill="#152d3b" stroke="#6ee7e1" stroke-width="2"/><text class="btext" x="165" y="176" text-anchor="middle">GREEN FUTURES</text><text class="small" x="165" y="197" text-anchor="middle">gateway</text>
+    <rect x="980" y="150" width="175" height="60" rx="17" fill="#152d3b" stroke="#6ee7e1" stroke-width="2"/><text class="btext" x="1067" y="176" text-anchor="middle">DIGITAL ACCESS</text><text class="small" x="1067" y="197" text-anchor="middle">gateway</text>
+    <rect x="90" y="1025" width="160" height="58" rx="17" fill="#152d3b" stroke="#6ee7e1" stroke-width="2"/><text class="btext" x="170" y="1051" text-anchor="middle">FAIRER STARTS</text><text class="small" x="170" y="1072" text-anchor="middle">gateway</text>
+    <rect x="975" y="1025" width="180" height="58" rx="17" fill="#152d3b" stroke="#6ee7e1" stroke-width="2"/><text class="btext" x="1065" y="1051" text-anchor="middle">WIDER HORIZONS</text><text class="small" x="1065" y="1072" text-anchor="middle">gateway</text>
+  </g>
+
+  <!-- legend -->
+  <rect x="1230" y="135" width="310" height="965" rx="25" fill="#0a1d2b" stroke="#254c60" stroke-width="3"/>
+  <text x="1270" y="190" class="dlabel">DESIGN INTENT</text>
+  <text x="1270" y="230" class="legend">A compact life loop:</text><text x="1270" y="258" class="legend">Home → Learn → Work → Money</text><text x="1270" y="282" class="legend">→ Community → Home</text>
+  <line x1="1270" y1="330" x2="1450" y2="330" stroke="#354b60" stroke-width="28" stroke-linecap="round"/><text x="1270" y="370" class="legend">Main loop street</text>
+  <line x1="1270" y1="425" x2="1450" y2="425" stroke="#8ae6b3" stroke-width="14" stroke-dasharray="2 16" stroke-linecap="round"/><text x="1270" y="462" class="legend">Optional footpath / gateway</text>
+  <rect x="1270" y="510" width="90" height="52" rx="12" class="building"/><text x="1380" y="541" class="legend">Major destination</text>
+  <circle cx="1315" cy="615" r="22" fill="#79dba3"/><text class="small" x="1315" y="622" text-anchor="middle">T</text><text x="1380" y="621" class="legend">Large tree landmark</text>
+  <circle cx="1315" cy="680" r="12" fill="#67d9ff"/><text x="1380" y="686" class="legend">Prop cluster / wayfinder</text>
+  <text x="1270" y="755" class="dlabel">PLAYER EXPERIENCE</text>
+  <text x="1270" y="795" class="legend">• Next landmark visible</text><text x="1270" y="825" class="legend">• No empty walk over ~8 sec</text><text x="1270" y="855" class="legend">• Entrances face paths</text><text x="1270" y="885" class="legend">• Whole building framed</text><text x="1270" y="915" class="legend">• Props scaled to character</text><text x="1270" y="945" class="legend">• Routes, not straight-line travel</text>
+  <text x="1270" y="1015" class="dlabel">FIRST TEST SLICE</text><text x="1270" y="1050" class="legend">Home → Town Square →</text><text x="1270" y="1075" class="legend">Skills/Career → Workplace</text>
+</svg>

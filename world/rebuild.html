@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Empire World | Stage 1 Rebuild</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../dashboards/dashboard.css?v=20260629-est-start-here-v1">
+  <link rel="stylesheet" href="./rebuild.css?v=20260830-stage1-v3">
+</head>
+<body class="world-rebuild-page">
+  <main class="world-rebuild-shell">
+    <nav class="dashboard-nav world-rebuild-nav" aria-label="Career Empire navigation">
+      <a class="dashboard-nav-link" href="./index.html">Current Prototype</a>
+      <a class="dashboard-nav-link active" href="./rebuild.html">Stage 1 Rebuild</a>
+      <a class="dashboard-nav-link" href="../dashboards/student.html">Student Hub</a>
+      <a class="dashboard-nav-link" href="../modules/initiative/index.html">Skills</a>
+      <a class="dashboard-nav-link" href="../shop/index.html">Shop</a>
+    </nav>
+
+    <section class="world-rebuild-header" aria-labelledby="world-rebuild-title">
+      <div>
+        <span class="eyebrow">Career Empire World</span>
+        <h1 id="world-rebuild-title">Stage 1 town slice.</h1>
+      </div>
+      <div class="world-rebuild-controls" aria-label="Keyboard controls legend">
+        <strong>Keyboard</strong>
+        <span>Move WASD / arrows</span>
+        <span>Run Shift</span>
+        <span>Jump Space</span>
+        <span>Point P</span>
+        <span>Celebrate C</span>
+        <span>Aerial M</span>
+      </div>
+    </section>
+
+    <section class="world-rebuild-layout">
+      <div class="world-rebuild-stage">
+        <div id="rebuild-game" class="rebuild-game">
+          <div class="rebuild-loading">Loading Stage 1 slice...</div>
+          <div class="rebuild-toast" id="rebuild-toast" aria-live="polite"></div>
+        </div>
+        <div class="world-rebuild-strip">
+          <span>Click a route or entrance to travel by paths. Press a direction key to leave aerial mode.</span>
+          <button id="rebuild-aerial-button" type="button">Aerial Map</button>
+        </div>
+      </div>
+
+      <aside class="world-rebuild-panel" aria-live="polite">
+        <span id="rebuild-location-type" class="world-rebuild-kicker">Current area</span>
+        <h2 id="rebuild-location-title">Arrival Street</h2>
+        <p id="rebuild-location-detail">Walk from Home Base to Town Square, then out to Skills Centre or First Workplace.</p>
+        <button id="rebuild-enter-button" type="button" disabled>Move near an entrance</button>
+
+        <div class="world-rebuild-notes">
+          <strong>Stage 1 boundary</strong>
+          <p>This page is a playable rebuild slice only. It does not replace the current world prototype.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+  <script src="./rebuild.js?v=20260830-stage1-v3"></script>
+</body>
+</html>

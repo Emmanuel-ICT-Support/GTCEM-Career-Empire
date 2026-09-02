@@ -1,0 +1,119 @@
+{
+  "id": "CE-CHAR-B01",
+  "label": "Boy Student Explorer",
+  "sourceFrame": {
+    "width": 512,
+    "height": 768
+  },
+  "runtimeFrame": {
+    "width": 256,
+    "height": 384
+  },
+  "origin": {
+    "x": 0.5,
+    "y": 0.9375
+  },
+  "feetBaseline": {
+    "sourceY": 720,
+    "runtimeY": 360
+  },
+  "lockedScale": {
+    "idleCropH": 1457,
+    "targetHeight": 620,
+    "range": [
+      600,
+      650
+    ]
+  },
+  "directions": [
+    "back-3q",
+    "front-3q",
+    "left-3q",
+    "right-3q"
+  ],
+  "asymmetry": {
+    "badge": "left-chest",
+    "watch": "left-wrist"
+  },
+  "animations": {
+    "idle-back-3q": {
+      "type": "pose",
+      "file": "runtime/CE-CHAR-B01-idle-back-3q.png"
+    },
+    "idle-front-3q": {
+      "type": "pose",
+      "file": "runtime/CE-CHAR-B01-idle-front-3q.png"
+    },
+    "idle-left-3q": {
+      "type": "pose",
+      "file": "runtime/CE-CHAR-B01-idle-left-3q.png"
+    },
+    "idle-right-3q": {
+      "type": "pose",
+      "file": "runtime/CE-CHAR-B01-idle-right-3q.png"
+    },
+    "walk-back-3q": {
+      "type": "pose-cycle",
+      "files": [
+        "runtime/CE-CHAR-B01-idle-back-3q.png",
+        "runtime/CE-CHAR-B01-walk-back-3q-a.png",
+        "runtime/CE-CHAR-B01-walk-back-3q-b.png"
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "walk-left-3q": {
+      "type": "pose-cycle",
+      "files": [
+        "runtime/CE-CHAR-B01-idle-left-3q.png",
+        "runtime/CE-CHAR-B01-walk-left-3q-a.png"
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "walk-right-3q": {
+      "type": "pose-cycle",
+      "files": [
+        "runtime/CE-CHAR-B01-idle-right-3q.png",
+        "runtime/CE-CHAR-B01-walk-right-3q-a.png"
+      ],
+      "fps": 8,
+      "loop": true
+    },
+    "run-back-3q": {
+      "type": "derived",
+      "from": "walk-back-3q",
+      "fps": 14,
+      "proceduralLean": true,
+      "loop": true
+    },
+    "jump-back-3q": {
+      "type": "pose",
+      "file": "runtime/CE-CHAR-B01-jump-back-3q.png",
+      "loop": false
+    },
+    "point-front-3q": {
+      "type": "pose",
+      "file": "runtime/CE-CHAR-B01-point-front-3q.png",
+      "loop": false
+    },
+    "celebrate-front-3q": {
+      "type": "pose",
+      "file": "runtime/CE-CHAR-B01-celebrate-front-3q.png",
+      "loop": false
+    }
+  },
+  "sourcePoses": {
+    "idle-back-3q": "source-poses/CE-CHAR-B01-idle-back-3q.png",
+    "walk-back-3q-a": "source-poses/CE-CHAR-B01-walk-back-3q-a.png",
+    "walk-back-3q-b": "source-poses/CE-CHAR-B01-walk-back-3q-b.png",
+    "idle-front-3q": "source-poses/CE-CHAR-B01-idle-front-3q.png",
+    "idle-left-3q": "source-poses/CE-CHAR-B01-idle-left-3q.png",
+    "idle-right-3q": "source-poses/CE-CHAR-B01-idle-right-3q.png",
+    "walk-left-3q-a": "source-poses/CE-CHAR-B01-walk-left-3q-a.png",
+    "walk-right-3q-a": "source-poses/CE-CHAR-B01-walk-right-3q-a.png",
+    "jump-back-3q": "source-poses/CE-CHAR-B01-jump-back-3q.png",
+    "point-front-3q": "source-poses/CE-CHAR-B01-point-front-3q.png",
+    "celebrate-front-3q": "source-poses/CE-CHAR-B01-celebrate-front-3q.png"
+  }
+}

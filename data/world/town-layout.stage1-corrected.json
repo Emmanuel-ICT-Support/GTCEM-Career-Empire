@@ -1,0 +1,82 @@
+{
+  "schema": "career-empire-town-layout.stage1-corrected",
+  "world": { "width": 1920, "height": 1536 },
+  "designRules": {
+    "maximumEmptyWalkSeconds": 8,
+    "playerHeight": 144,
+    "mainStreetWidth": 104,
+    "footpathWidth": 58,
+    "note": "Coordinates are authoritative for the corrected Stage 1 slice. The blueprint remains design intent; this file controls construction."
+  },
+  "precincts": [
+    { "id": "careers-learning", "title": "Careers + Learning", "x": 75, "y": 190, "width": 660, "height": 650, "color": "#174b5b" },
+    { "id": "futures", "title": "Futures + Transformation", "x": 650, "y": 90, "width": 620, "height": 410, "color": "#234e56" },
+    { "id": "work-enterprise", "title": "Work + Enterprise", "x": 1190, "y": 210, "width": 650, "height": 640, "color": "#3b345d" },
+    { "id": "home-identity", "title": "Home + Identity", "x": 80, "y": 860, "width": 650, "height": 590, "color": "#235a43" },
+    { "id": "civic-heart", "title": "Civic Heart", "x": 655, "y": 510, "width": 610, "height": 700, "color": "#4a4930" },
+    { "id": "commerce-money", "title": "Commerce + Money", "x": 1190, "y": 865, "width": 650, "height": 585, "color": "#553c50" }
+  ],
+  "routes": [
+    {
+      "id": "life-loop",
+      "type": "main",
+      "closed": true,
+      "points": [[465,1115],[365,930],[380,690],[535,505],[760,420],[1010,420],[1275,500],[1485,690],[1515,945],[1390,1160],[1120,1285],[805,1285]]
+    },
+    { "id": "civic-east-west", "type": "main", "closed": false, "points": [[380,805],[640,805],[960,805],[1270,805],[1510,805]] },
+    { "id": "civic-north-south", "type": "main", "closed": false, "points": [[960,420],[960,610],[960,805],[960,1040],[960,1285]] },
+    { "id": "home-path", "type": "foot", "closed": false, "points": [[465,1115],[385,1220],[365,1320]] },
+    { "id": "skills-path", "type": "foot", "closed": false, "points": [[535,505],[420,440],[330,430]] },
+    { "id": "career-path", "type": "foot", "closed": false, "points": [[760,420],[670,330],[610,285]] },
+    { "id": "megatrends-path", "type": "foot", "closed": false, "points": [[960,420],[960,300],[960,220]] },
+    { "id": "work-path", "type": "foot", "closed": false, "points": [[1275,500],[1400,415],[1510,400]] },
+    { "id": "market-path", "type": "foot", "closed": false, "points": [[1390,1160],[1510,1230],[1590,1270]] },
+    { "id": "hall-path", "type": "foot", "closed": false, "points": [[960,805],[960,940]] }
+  ],
+  "destinations": [
+    { "id": "home-base", "title": "Home Base", "type": "Home + Identity", "asset": "homeBase", "x": 350, "baseY": 1440, "objectHeight": 300, "entrance": [365,1320], "entrancePoint": [365,1320], "approachStart": [385,1220], "approachDirection": "south", "cameraTarget": { "x": 365, "y": 1284, "zoom": 1.35 }, "interactionRadius": 92, "portalAsset": "portal-placeholder-temporary", "moduleRoute": "../dashboards/student.html?from=world-corrected", "collision": [350,1402,350,55], "href": "../dashboards/student.html?from=world-corrected", "detail": "Arrival, identity, goals and the visible consequences of life choices." },
+    { "id": "skills-centre", "title": "Skills Centre", "type": "Careers + Learning", "asset": "skillsCentre", "x": 250, "baseY": 425, "objectHeight": 300, "entrance": [330,430], "entrancePoint": [330,430], "approachStart": [420,440], "approachDirection": "west", "cameraTarget": { "x": 340, "y": 420, "zoom": 1.35 }, "interactionRadius": 92, "portalAsset": "portal-placeholder-temporary", "moduleRoute": "../modules/initiative/index.html?from=world-corrected", "collision": [250,390,360,52], "href": "../modules/initiative/index.html?from=world-corrected", "detail": "Learn capabilities, then use them during later work and life events." },
+    { "id": "career-studio", "title": "Career Studio", "type": "Careers + Learning", "asset": "estPrep", "x": 570, "baseY": 275, "objectHeight": 245, "entrance": [610,285], "entrancePoint": [610,285], "approachStart": [670,330], "approachDirection": "northwest", "cameraTarget": { "x": 610, "y": 270, "zoom": 1.35 }, "interactionRadius": 92, "portalAsset": "portal-placeholder-temporary", "moduleRoute": "../modules/est-prep/index.html?from=world-corrected", "collision": [570,245,290,46], "href": "../modules/est-prep/index.html?from=world-corrected", "detail": "Pathways, labour-market evidence, applications, interviews and EST support." },
+    { "id": "megatrends", "title": "Megatrends Centre", "type": "Futures + Transformation", "asset": "megatrends", "x": 960, "baseY": 205, "objectHeight": 260, "entrance": [960,220], "entrancePoint": [960,220], "approachStart": [960,300], "approachDirection": "north", "cameraTarget": { "x": 960, "y": 215, "zoom": 1.35 }, "interactionRadius": 92, "portalAsset": "portal-placeholder-temporary", "moduleRoute": "../modules/megatrends/index.html?from=world-corrected", "collision": [960,174,310,48], "href": "../modules/megatrends/index.html?from=world-corrected", "detail": "Explore forces changing work and prepare for future career events." },
+    { "id": "first-workplace", "title": "First Workplace", "type": "Work + Enterprise", "asset": "shop", "x": 1580, "baseY": 410, "objectHeight": 315, "entrance": [1510,400], "entrancePoint": [1510,400], "approachStart": [1400,415], "approachDirection": "east", "cameraTarget": { "x": 1510, "y": 390, "zoom": 1.35 }, "interactionRadius": 92, "portalAsset": "portal-placeholder-temporary", "moduleRoute": "placeholder:first-workplace", "collision": [1580,372,380,56], "detail": "A flexible first workplace for income, expectations, teamwork and communication." },
+    { "id": "town-square", "title": "Town Square", "type": "Civic Heart", "x": 960, "baseY": 805, "objectHeight": 0, "entrance": [960,805], "entrancePoint": [960,805], "approachStart": [960,805], "approachDirection": "center", "cameraTarget": { "x": 960, "y": 805, "zoom": 1.05 }, "interactionRadius": 145, "portalAsset": null, "moduleRoute": "placeholder:town-square", "detail": "Orientation, chapter events and shared class progress." },
+    { "id": "town-hall", "title": "Town Hall", "type": "Civic Heart", "asset": "townHall", "x": 960, "baseY": 1060, "objectHeight": 285, "entrance": [960,940], "entrancePoint": [960,940], "approachStart": [960,805], "approachDirection": "south", "cameraTarget": { "x": 960, "y": 920, "zoom": 1.42 }, "interactionRadius": 92, "portalAsset": "portal-placeholder-temporary", "moduleRoute": "placeholder:town-hall", "collision": [960,1025,340,50], "href": "../dashboards/community.html?from=world-corrected", "detail": "Class votes, community contributions and town upgrades." },
+    { "id": "market-street", "title": "Market Street", "type": "Commerce + Money", "asset": "shop", "x": 1650, "baseY": 1370, "objectHeight": 300, "entrance": [1590,1270], "entrancePoint": [1590,1270], "approachStart": [1510,1230], "approachDirection": "southeast", "cameraTarget": { "x": 1590, "y": 1260, "zoom": 1.35 }, "interactionRadius": 92, "portalAsset": "portal-placeholder-temporary", "moduleRoute": "../shop/index.html?from=world-corrected", "collision": [1650,1334,360,54], "href": "../shop/index.html?from=world-corrected", "detail": "Spending, saving, needs, wants and opportunity cost." }
+  ],
+  "props": [
+    { "asset": "treeLarge", "x": 120, "y": 740, "objectHeight": 370, "collision": [120,735,26] },
+    { "asset": "treeLarge", "x": 1810, "y": 790, "objectHeight": 360, "collision": [1810,785,26] },
+    { "asset": "treeSmall", "x": 690, "y": 720, "objectHeight": 270, "collision": [690,715,19] },
+    { "asset": "treeSmall", "x": 1210, "y": 970, "objectHeight": 260, "collision": [1210,965,19] },
+    { "asset": "lamp", "x": 730, "y": 620, "objectHeight": 310, "collision": [730,615,12] },
+    { "asset": "lamp", "x": 1190, "y": 620, "objectHeight": 310, "collision": [1190,615,12] },
+    { "asset": "lamp", "x": 805, "y": 1010, "objectHeight": 305, "collision": [805,1005,12] },
+    { "asset": "bench", "x": 770, "y": 880, "objectHeight": 68, "collisionRect": [770,880,95,22] },
+    { "asset": "bench", "x": 1150, "y": 760, "objectHeight": 68, "collisionRect": [1150,760,95,22] },
+    { "asset": "planter", "x": 735, "y": 770, "objectHeight": 84, "collisionRect": [735,770,72,22] },
+    { "asset": "planter", "x": 1175, "y": 865, "objectHeight": 84, "collisionRect": [1175,865,72,22] },
+    { "asset": "sign", "x": 620, "y": 865, "objectHeight": 175, "collision": [620,860,11] },
+    { "asset": "banner", "x": 1105, "y": 625, "objectHeight": 160 },
+    { "asset": "bikeRack", "x": 415, "y": 385, "objectHeight": 72, "collisionRect": [415,385,78,22] },
+    { "asset": "bin", "x": 1270, "y": 1080, "objectHeight": 78, "collision": [1270,1075,11] }
+  ],
+  "routeNodes": [
+    { "id": "home", "x": 365, "y": 1320 }, { "id": "loop-home", "x": 465, "y": 1115 },
+    { "id": "loop-west", "x": 380, "y": 805 }, { "id": "loop-nw", "x": 535, "y": 505 },
+    { "id": "skills", "x": 330, "y": 430 }, { "id": "loop-north", "x": 760, "y": 420 },
+    { "id": "career", "x": 610, "y": 285 }, { "id": "mega-junction", "x": 960, "y": 420 },
+    { "id": "megatrends", "x": 960, "y": 220 }, { "id": "loop-ne", "x": 1275, "y": 500 },
+    { "id": "work", "x": 1510, "y": 400 }, { "id": "loop-east", "x": 1510, "y": 805 },
+    { "id": "loop-se", "x": 1390, "y": 1160 }, { "id": "market", "x": 1590, "y": 1270 },
+    { "id": "loop-south", "x": 1120, "y": 1285 }, { "id": "hall", "x": 960, "y": 940 },
+    { "id": "square", "x": 960, "y": 805 }, { "id": "loop-sw", "x": 805, "y": 1285 }
+  ],
+  "routeLinks": [
+    ["home","loop-home"],["loop-home","loop-west"],["loop-west","loop-nw"],["loop-nw","loop-north"],
+    ["loop-north","mega-junction"],["mega-junction","loop-ne"],["loop-ne","loop-east"],["loop-east","loop-se"],
+    ["loop-se","loop-south"],["loop-south","loop-sw"],["loop-sw","loop-home"],
+    ["skills","loop-nw"],["career","loop-north"],["megatrends","mega-junction"],["work","loop-ne"],
+    ["market","loop-se"],["hall","square"],["square","loop-west"],["square","loop-east"],
+    ["square","mega-junction"],["square","loop-south"]
+  ]
+}
