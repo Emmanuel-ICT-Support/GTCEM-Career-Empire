@@ -1,6 +1,6 @@
 (function () {
   window.CareerEmpireAvatarParts = {
-    schemaVersion: 9,
+    schemaVersion: 10,
     rig: {
       id: "ecc-student-take-2-layered-rig-v1",
       canvas: { width: 1280, height: 720 },
@@ -131,7 +131,10 @@
             brown: { front: "Boy Hair.png" },
             black: { front: "Black hair.png" },
             auburn: { front: "Boy Hair Auburn.png" },
-            blonde: { front: "Boy Hair Blonde.png" }
+            "auburn-deep": { front: "Boy Hair Auburn Deep.png" },
+            blonde: { front: "Boy Hair Blonde.png" },
+            teal: { front: "Boy Hair Teal.png" },
+            silver: { front: "Boy Hair Silver.png" }
           }
         }
       },
@@ -235,8 +238,9 @@
       { id: "black", label: "Black", color: "#050505", source: "avatar-take-2-layered-png", note: "Active Take 2 hair layer" },
       { id: "auburn", label: "Auburn", color: "#9b3f24", source: "avatar-take-2-layered-png", note: "Active Take 2 hair layer" },
       { id: "blonde", label: "Blonde", color: "#d9b85d", source: "avatar-take-2-layered-png", note: "Active Take 2 hair layer" },
-      { id: "silver", label: "Silver", color: "#c8ced4", plannedOnly: true, note: "Needs clean hair mask" },
-      { id: "teal", label: "Teal", color: "#0f8f8c", plannedOnly: true, note: "Needs clean hair mask" }
+      { id: "auburn-deep", label: "Auburn deep", color: "#8a3a22", source: "avatar-take-2-layered-png", note: "New spare part" },
+      { id: "silver", label: "Silver", color: "#c8ced4", source: "avatar-take-2-layered-png", note: "New spare part" },
+      { id: "teal", label: "Teal", color: "#0f8f8c", source: "avatar-take-2-layered-png", note: "New spare part" }
     ],
     shirtOptions: [
       { id: "none", label: "Neutral base", token: "-", layer: null, note: "No shirt layer" },
@@ -244,7 +248,9 @@
     ],
     pantsOptions: [
       { id: "none", label: "Neutral base", token: "-", layer: null, note: "No pants layer" },
-      { id: "ecc-navy-pants", label: "Navy pants", token: "P", layer: "Boy Pants.png", source: "avatar-take-2-layered-png" }
+      { id: "ecc-navy-pants", label: "Navy pants", token: "P", layer: "Boy Pants.png", source: "avatar-take-2-layered-png" },
+      { id: "ecc-burgundy-pants", label: "Burgundy pants", token: "PB", layer: "Boy Pants Burgundy.png", source: "avatar-take-2-layered-png" },
+      { id: "ecc-jeans", label: "Jeans", token: "J", layer: "Boy Jeans.png", source: "avatar-take-2-layered-png" }
     ],
     shoeOptions: [
       { id: "none", label: "Bare feet", color: "#dba77c", layer: null, note: "Neutral base feet" },
@@ -255,7 +261,8 @@
       { id: "none", label: "No blazer", token: "-", layer: null, note: "Base and shirt only" },
       { id: "ecc-navy-blazer", label: "ECC blazer", token: "B", layer: "Boy Blazer.png", source: "avatar-take-2-layered-png" },
       { id: "hivis-vest", label: "Hi-vis vest", token: "HV", layer: "Boy Hi Vis Vest.png", source: "avatar-take-2-layered-png" },
-      { id: "lab-coat", label: "Lab coat", token: "LC", layer: "Boy Lab Coat.png", source: "avatar-take-2-layered-png" }
+      { id: "lab-coat", label: "Lab coat", token: "LC", layer: "Boy Lab Coat.png", source: "avatar-take-2-layered-png" },
+      { id: "camel-blazer", label: "Camel jacket", token: "CJ", layer: "Boy Blazer Camel.png", source: "avatar-take-2-layered-png" }
     ],
     outfits: [
       {
