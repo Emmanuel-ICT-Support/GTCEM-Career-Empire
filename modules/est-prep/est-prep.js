@@ -12,6 +12,9 @@ function openStage(stageId) {
   }
   state.selectedStageId = stageId;
   state.lastBossReview = null;
+  if (stageId === "boss" && previousStageId !== "boss") {
+    state.bossPageIndex = 0;
+  }
   resetStageTaskTimer();
   if (stageId === "content") {
     if (previousStageId === "content" && ["lesson", "response"].includes(state.contentView) && state.contentGroupIndex >= 0) {
@@ -612,8 +615,13 @@ window.ESTPrep = {
   stopGlossaryInvaderMove,
   setGlossaryInvaderShield,
   fireGlossaryInvaderPlayerShot,
+  setDecoderActivePart,
   setBossScaffold,
   setBossShowdownReason,
+  setBossText,
+  focusBossLoadout,
+  setBossPage,
+  moveBossPage,
   buildBossDraft,
   setChoice,
   setChoiceEncoded,
