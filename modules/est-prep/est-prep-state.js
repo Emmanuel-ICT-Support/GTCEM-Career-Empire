@@ -23,6 +23,7 @@ const state = {
   creditedTaxContribution: 0,
   answers: {},
   lastBossReview: null,
+  bossPageIndex: 0,
   decoderRoundIndex: 0,
   decoderTransitionFeedback: null,
   decoderResults: {},
@@ -123,6 +124,7 @@ function buildESTProgressSnapshot() {
       taxContribution: state.taxContribution,
       creditedTaxContribution: state.creditedTaxContribution,
       answers: state.answers,
+      bossPageIndex: state.bossPageIndex,
       decoderRoundIndex: state.decoderRoundIndex,
       decoderResults: state.decoderResults,
       contentGroupIndex: state.contentGroupIndex,
@@ -237,6 +239,7 @@ function hydrateESTProgressSnapshot() {
   state.taxContribution = Number(progress.taxContribution || state.taxContribution || 0);
   state.creditedTaxContribution = Number(progress.creditedTaxContribution || state.creditedTaxContribution || 0);
   state.answers = progress.answers || {};
+  state.bossPageIndex = Number.isInteger(progress.bossPageIndex) ? progress.bossPageIndex : 0;
   state.decoderRoundIndex = Number.isInteger(progress.decoderRoundIndex) ? progress.decoderRoundIndex : 0;
   state.decoderResults = progress.decoderResults || {};
   state.contentGroupIndex = Number.isInteger(progress.contentGroupIndex) ? progress.contentGroupIndex : -1;

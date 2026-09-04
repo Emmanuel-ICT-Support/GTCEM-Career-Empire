@@ -14,39 +14,94 @@ function getBossScaffoldLines(round) {
     .filter(Boolean);
 }
 
+const EST_LAB_ASSET_ROOT = "../../Assets/EST Preparation/est-lab-asset-packs/";
+
+const EST_LAB_ASSETS = {
+  decoderBackground: `${EST_LAB_ASSET_ROOT}est-question-forensics-lab-bg.png`,
+  evidenceScanFrame: `${EST_LAB_ASSET_ROOT}est-evidence-scan-frame.png`,
+  correctLockGlow: `${EST_LAB_ASSET_ROOT}est-correct-lock-in-glow.png`,
+  misreadWarning: `${EST_LAB_ASSET_ROOT}est-misread-warning-glitch.png`,
+  caseBriefComplete: `${EST_LAB_ASSET_ROOT}est-case-brief-complete-badge.png`,
+  bossBackground: `${EST_LAB_ASSET_ROOT}est-final-exam-simulation-chamber-bg.png`,
+  answerLoadoutTray: `${EST_LAB_ASSET_ROOT}est-answer-loadout-tray.png`,
+  chipContent: `${EST_LAB_ASSET_ROOT}est-chip-content.png`,
+  chipTerm: `${EST_LAB_ASSET_ROOT}est-chip-term.png`,
+  chipVtcs: `${EST_LAB_ASSET_ROOT}est-chip-vtcs.png`,
+  markerScanner: `${EST_LAB_ASSET_ROOT}est-marker-scanner-frame.png`,
+  finalResponseUplink: `${EST_LAB_ASSET_ROOT}est-final-response-uplink.png`,
+  completionRewardBurst: `${EST_LAB_ASSET_ROOT}est-completion-reward-burst.png`,
+  feedbackMarkSecured: `${EST_LAB_ASSET_ROOT}est-feedback-mark-secured.png`,
+  feedbackMissingEvidence: `${EST_LAB_ASSET_ROOT}est-feedback-missing-evidence.png`,
+  feedbackUpgradeAnswer: `${EST_LAB_ASSET_ROOT}est-feedback-upgrade-answer.png`,
+  guide: {
+    pointing: "../../Assets/EST Preparation/guide-character/guide-pointing.png",
+    thinking: "../../Assets/EST Preparation/guide-character/guide-thinking-top.png",
+    thinkingBottom: "../../Assets/EST Preparation/guide-character/guide-thinking-bottom.png",
+    thumbsUp: "../../Assets/EST Preparation/guide-character/guide-thumbs-up.png",
+    celebration: "../../Assets/EST Preparation/guide-character/guide-celebration.png"
+  },
+  lockSlots: {
+    verb: `${EST_LAB_ASSET_ROOT}est-lock-slot-verb.png`,
+    topic: `${EST_LAB_ASSET_ROOT}est-lock-slot-topic.png`,
+    context: `${EST_LAB_ASSET_ROOT}est-lock-slot-context.png`,
+    structure: `${EST_LAB_ASSET_ROOT}est-lock-slot-structure.png`
+  }
+};
+
 const DECODER_PARTS = [
   {
     id: "verb",
     label: "Verb",
+    shortLabel: "Verb scan",
     placeholder: "Select the command word",
     optionsKey: "verbOptions",
     correctKey: "correctVerb",
-    toolTitle: "Forensics Tool 1: Command verb"
+    toolTitle: "Forensics Tool 1: Command verb",
+    mission: "Find the action word that controls how much detail the answer needs."
   },
   {
     id: "topic",
     label: "Topic",
+    shortLabel: "Topic lock",
     placeholder: "Select the concept",
     optionsKey: "topicOptions",
     correctKey: "correctTopic",
-    toolTitle: "Forensics Tool 2: Topic"
+    toolTitle: "Forensics Tool 2: Topic",
+    mission: "Lock the course content being tested before choosing evidence."
   },
   {
     id: "context",
     label: "Context",
+    shortLabel: "Context key",
     placeholder: "Select the context",
     optionsKey: "contextOptions",
     correctKey: "correctContext",
-    toolTitle: "Forensics Tool 3: Context"
+    toolTitle: "Forensics Tool 3: Context",
+    mission: "Spot the clue that narrows where the answer should aim."
   },
   {
     id: "structure",
     label: "Structure",
+    shortLabel: "Structure circuit",
     placeholder: "Select the structure",
     optionsKey: "structureOptions",
     correctKey: "correctStructure",
-    toolTitle: "Forensics Tool 4: Structure"
+    toolTitle: "Forensics Tool 4: Structure",
+    mission: "Choose the response shape that protects marks."
   }
+];
+
+const BOSS_LOADOUT_KEYS = {
+  "boss-command": "vtcs",
+  "boss-content": "content",
+  "boss-glossary": "term"
+};
+
+const BOSS_PAGE_SEQUENCE = [
+  { id: "loadout", label: "Loadout" },
+  { id: "calibration", label: "Samples" },
+  { id: "forge", label: "Forge" },
+  { id: "scanner", label: "Scan" }
 ];
 
 function getDecoderRounds() {
@@ -88,12 +143,30 @@ function setDecoderChoice(groupKey, option) {
   const round = getDecoderRounds()[getDecoderRoundIndex()];
   const part = getDecoderPartFromAnswerKey(groupKey);
   const isCorrect = Boolean(part && round && option === round[part.correctKey]);
+  const partLabel = part?.label || "Clue";
+  let nextPart = null;
+  if (part && round) {
+    nextPart = DECODER_PARTS.find(item => getDecoderPartState(item, round).isCorrect === false);
+    state.decoderActivePart = isCorrect && nextPart ? nextPart.id : part.id;
+  }
+  const remainingLocks = part && round
+    ? DECODER_PARTS.filter(item => !getDecoderPartState(item, round).isCorrect).length
+    : DECODER_PARTS.length;
+  state.decoderPulse = {
+    type: isCorrect ? (remainingLocks === 0 ? "complete" : "good") : "warn",
+    title: isCorrect ? `${partLabel} repaired` : "Try again",
+    detail: isCorrect
+      ? remainingLocks === 0
+        ? "All four clues are restored. Bank this brief to load the next EST question."
+        : `${option} locked. Next scan: ${nextPart?.shortLabel || "next clue"}.`
+      : getDecoderHint(part, round)
+  };
   state.recentReward = {
     type: isCorrect ? "positive" : "warning",
-    title: isCorrect ? `${part.label} locked in` : "Keep decoding",
+    title: isCorrect ? `${partLabel} locked in` : "Keep decoding",
     detail: isCorrect
       ? `${option} is now glowing on the forensics board.`
-      : "That choice is selected, but the board only lights up for the correct VTCS part."
+      : getDecoderHint(part, round)
   };
   persistESTProgressSnapshot();
   renderDecoderStage();
@@ -113,6 +186,241 @@ function getDecoderProgress() {
   };
 }
 
+function getDecoderPartState(part, round, roundIndex = getDecoderRoundIndex()) {
+  const answer = getDecoderAnswer(part.id, roundIndex);
+  const isCorrect = Boolean(answer && round && answer === round[part.correctKey]);
+  return {
+    answer,
+    isAnswered: Boolean(answer),
+    isCorrect,
+    isMisread: Boolean(answer && !isCorrect)
+  };
+}
+
+function getDecoderActivePart(round, roundIndex = getDecoderRoundIndex()) {
+  const requested = DECODER_PARTS.find(part => part.id === state.decoderActivePart);
+  if (requested) return requested;
+  return DECODER_PARTS.find(part => !getDecoderPartState(part, round, roundIndex).isCorrect) || DECODER_PARTS[0];
+}
+
+function setDecoderActivePart(partId) {
+  const nextPart = DECODER_PARTS.find(part => part.id === partId);
+  if (!nextPart) return;
+  state.decoderActivePart = nextPart.id;
+  renderDecoderStage();
+}
+
+function getDecoderBriefState(round, roundIndex = getDecoderRoundIndex()) {
+  const parts = DECODER_PARTS.map(part => ({
+    part,
+    ...getDecoderPartState(part, round, roundIndex)
+  }));
+  const locked = parts.filter(item => item.isCorrect).length;
+  const attempted = parts.filter(item => item.isAnswered).length;
+  return {
+    parts,
+    locked,
+    attempted,
+    total: DECODER_PARTS.length,
+    isComplete: locked === DECODER_PARTS.length
+  };
+}
+
+function getDecoderActiveFeedback(part, round, roundIndex = getDecoderRoundIndex()) {
+  const partState = getDecoderPartState(part, round, roundIndex);
+  if (!partState.isAnswered) {
+    return {
+      type: "pending",
+      title: `${part.shortLabel} armed`,
+      detail: part.mission
+    };
+  }
+  if (partState.isCorrect) {
+    return {
+      type: "good",
+      title: `${part.label} locked`,
+      detail: `${partState.answer} is now secured in the case brief.`
+    };
+  }
+  return {
+    type: "warn",
+    title: "Misread risk",
+    detail: getDecoderHint(part, round)
+  };
+}
+
+function getDecoderHint(part, round) {
+  if (!part || !round) return "Re-scan the question clue, then try another option.";
+  if (part.id === "verb") {
+    return `Hint: the command word is usually the first instruction in the question. It tells you whether to list, describe, explain, compare, or analyse.`;
+  }
+  if (part.id === "topic") {
+    return "Hint: look for the main course idea being tested, not just any familiar word in the sentence.";
+  }
+  if (part.id === "context") {
+    return "Hint: the context is the situation or boundary that narrows the answer, such as workplace, budgeting, career development, or job application.";
+  }
+  if (part.id === "structure") {
+    return `Hint: match the answer shape to the command word. ${round.correctVerb || "This command"} needs ${round.correctStructure || "the structure that earns marks"}.`;
+  }
+  return "Re-scan the clue and try again.";
+}
+
+function getDecoderStructureBlueprint(structure) {
+  const blueprints = {
+    "Name the correct item": {
+      title: "Identify / list shape",
+      parts: [
+        { type: "answer", label: "Direct answer", text: "Name the item clearly." }
+      ],
+      sentence: [
+        { type: "answer", text: "The item is ..." }
+      ]
+    },
+    "Name one item only": {
+      title: "One-item shape",
+      parts: [
+        { type: "answer", label: "One valid point", text: "Give the item. Stop there unless asked for detail." }
+      ],
+      sentence: [
+        { type: "answer", text: "One example is ..." }
+      ]
+    },
+    "What it is + one key feature": {
+      title: "Outline shape",
+      parts: [
+        { type: "answer", label: "What it is", text: "Briefly define the idea." },
+        { type: "detail", label: "Key feature", text: "Add one important feature." }
+      ],
+      sentence: [
+        { type: "answer", text: "A megatrend is ..." },
+        { type: "detail", text: "One key feature is ..." }
+      ]
+    },
+    "Feature + detail": {
+      title: "Describe shape",
+      parts: [
+        { type: "answer", label: "Feature", text: "Name the skill, behaviour, or feature." },
+        { type: "detail", label: "Detail", text: "Add what it looks like in the situation." }
+      ],
+      sentence: [
+        { type: "answer", text: "One way is ..." },
+        { type: "detail", text: "This involves ..." }
+      ]
+    },
+    "Point + because/how + result": {
+      title: "Explain shape",
+      parts: [
+        { type: "answer", label: "Point", text: "State the impact or idea." },
+        { type: "reason", label: "Because/how", text: "Show the cause or process." },
+        { type: "result", label: "Result", text: "State what follows." }
+      ],
+      sentence: [
+        { type: "answer", text: "The impact is ..." },
+        { type: "reason", text: "because/how ..." },
+        { type: "result", text: "As a result ..." }
+      ]
+    },
+    "Point + explanation + example + result": {
+      title: "Discuss shape",
+      parts: [
+        { type: "answer", label: "Point", text: "Make a claim." },
+        { type: "reason", label: "Explanation", text: "Develop the idea." },
+        { type: "example", label: "Example", text: "Use a relevant example." },
+        { type: "result", label: "Result", text: "Show why it matters." }
+      ],
+      sentence: [
+        { type: "answer", text: "One influence is ..." },
+        { type: "reason", text: "This matters because ..." },
+        { type: "example", text: "For example ..." },
+        { type: "result", text: "This can lead to ..." }
+      ]
+    },
+    "Both... however...": {
+      title: "Compare shape",
+      parts: [
+        { type: "compare", label: "Similarity", text: "Show what both have in common." },
+        { type: "contrast", label: "Difference", text: "Show how they are different." }
+      ],
+      sentence: [
+        { type: "compare", text: "Both ... and ... are ..." },
+        { type: "contrast", text: "However, ... while ..." }
+      ]
+    },
+    "Similarity + difference": {
+      title: "Compare shape",
+      parts: [
+        { type: "compare", label: "Similarity", text: "Name what is shared." },
+        { type: "contrast", label: "Difference", text: "Name what changes." }
+      ],
+      sentence: [
+        { type: "compare", text: "Both are ..." },
+        { type: "contrast", text: "The difference is ..." }
+      ]
+    },
+    "Evidence + meaning + conclusion": {
+      title: "Analyse shape",
+      parts: [
+        { type: "evidence", label: "Evidence", text: "Use the data or clue." },
+        { type: "reason", label: "Meaning", text: "Explain what it shows." },
+        { type: "result", label: "Conclusion", text: "Make a judgement." }
+      ],
+      sentence: [
+        { type: "evidence", text: "The evidence shows ..." },
+        { type: "reason", text: "This means ..." },
+        { type: "result", text: "Therefore ..." }
+      ]
+    },
+    "Evidence + conclusion": {
+      title: "Evidence shape",
+      parts: [
+        { type: "evidence", label: "Evidence", text: "Use the clue." },
+        { type: "result", label: "Conclusion", text: "State the judgement." }
+      ],
+      sentence: [
+        { type: "evidence", text: "The evidence suggests ..." },
+        { type: "result", text: "Therefore ..." }
+      ]
+    },
+    "Definition only": {
+      title: "Definition shape",
+      parts: [
+        { type: "answer", label: "Definition", text: "Give the meaning only." }
+      ],
+      sentence: [
+        { type: "answer", text: "This means ..." }
+      ]
+    }
+  };
+  return blueprints[structure] || {
+    title: "Answer shape",
+    parts: [
+      { type: "answer", label: "Answer", text: "Use the structure that matches the command word." }
+    ],
+    sentence: [
+      { type: "answer", text: structure || "Build a clear answer shape." }
+    ]
+  };
+}
+
+function setBossSelectionPulse(groupKey, option) {
+  const round = state.stageDeck?.bossRound;
+  const correctAnswer = {
+    "boss-command": round?.correctCommand,
+    "boss-content": round?.correctContent,
+    "boss-glossary": round?.correctGlossary
+  }[groupKey];
+  const isCorrect = Boolean(correctAnswer && option === correctAnswer);
+  state.recentReward = {
+    type: isCorrect ? "positive" : "warning",
+    title: isCorrect ? "Loadout chip armed" : "Try again",
+    detail: isCorrect
+      ? `${option} is ready for the final response simulation.`
+      : "That chip will cost marks. Recheck what this answer system is looking for."
+  };
+  renderRewardPulse();
+}
+
 function renderDecoderTransitionFeedback(feedback) {
   if (!feedback) return "";
   return `
@@ -126,12 +434,12 @@ function renderDecoderTransitionFeedback(feedback) {
 function renderBossResponseBuilder(round) {
   const lines = getBossScaffoldLines(round);
   return `
-    <div class="panel">
+    <div class="panel boss-forge-panel">
       <div class="section-title">
         <h2>Response Forge</h2>
-        <p>Build before you write</p>
+        <p>Blocks feed the paragraph</p>
       </div>
-      <p class="small-copy">Use the scaffold blocks to build a stronger answer before drafting the final response.</p>
+      <p class="small-copy">Each scaffold block joins into the final paragraph below.</p>
       ${renderFreeTextPrivacyNotice()}
       <div class="builder-grid">
         ${lines.map((line, index) => `
@@ -146,9 +454,227 @@ function renderBossResponseBuilder(round) {
         `).join("")}
       </div>
       <div class="builder-actions">
-        <button class="submit-button" type="button" onclick="window.ESTPrep.buildBossDraft()">Build Draft from Scaffold</button>
+        <button class="submit-button" type="button" onclick="window.ESTPrep.buildBossDraft()">Refresh final paragraph</button>
       </div>
     </div>
+  `;
+}
+
+function renderDecoderLockSlot(item, activePartId) {
+  const statusClass = item.isCorrect ? "filled" : item.isMisread ? "misread" : "pending";
+  const statusText = item.isCorrect ? "Locked" : item.isMisread ? "Misread" : "Scanning";
+  const displayAnswer = item.isCorrect ? item.answer : item.isMisread ? "Re-scan" : item.part.placeholder;
+  return `
+    <button
+      type="button"
+      class="decoder-lock-slot ${statusClass} ${activePartId === item.part.id ? "active" : ""}"
+      onclick="window.ESTPrep.setDecoderActivePart('${item.part.id}')"
+      aria-pressed="${activePartId === item.part.id ? "true" : "false"}"
+    >
+      <span class="decoder-lock-icon">
+        <img class="decoder-lock-art" src="${escapeHtml(EST_LAB_ASSETS.lockSlots[item.part.id])}" alt="" aria-hidden="true">
+      </span>
+      ${item.isCorrect ? `<img class="decoder-lock-glow" src="${escapeHtml(EST_LAB_ASSETS.correctLockGlow)}" alt="" aria-hidden="true">` : ""}
+      ${item.isMisread ? `<img class="decoder-lock-glitch" src="${escapeHtml(EST_LAB_ASSETS.misreadWarning)}" alt="" aria-hidden="true">` : ""}
+      <span class="decoder-lock-status">${escapeHtml(statusText)}</span>
+      <strong>${escapeHtml(item.part.label)}</strong>
+      <small>${escapeHtml(displayAnswer)}</small>
+    </button>
+  `;
+}
+
+function renderDecoderPulse(briefState) {
+  const pulse = state.decoderPulse || {
+    type: "pending",
+    title: "Scanner online",
+    detail: "Choose one clue at a time. Correct choices repair the question signal."
+  };
+  const tone = pulse.type === "complete" ? "good" : pulse.type;
+  return `
+    <aside class="decoder-motivation-pulse ${escapeHtml(tone)}">
+      <div class="decoder-pulse-node" aria-hidden="true"></div>
+      <div>
+        <strong>${escapeHtml(pulse.title)}</strong>
+        <p>${escapeHtml(pulse.detail)}</p>
+      </div>
+      <span>${briefState.locked}/${briefState.total}</span>
+    </aside>
+  `;
+}
+
+function renderDecoderRepairRail(briefState) {
+  const repairPercent = Math.round((briefState.locked / Math.max(1, briefState.total)) * 100);
+  return `
+    <div class="decoder-repair-rail" style="--decoder-repair:${repairPercent}%">
+      <div class="decoder-repair-track">
+        <span></span>
+      </div>
+      <div class="decoder-repair-nodes" aria-label="${repairPercent}% question signal restored">
+        ${briefState.parts.map(item => `
+          <button
+            type="button"
+            class="decoder-repair-node ${item.isCorrect ? "filled" : item.isMisread ? "misread" : ""}"
+            onclick="window.ESTPrep.setDecoderActivePart('${item.part.id}')"
+            aria-label="${escapeHtml(item.part.label)} ${item.isCorrect ? "locked" : item.isMisread ? "needs retry" : "pending"}"
+          >
+            ${escapeHtml(item.part.label.charAt(0))}
+          </button>
+        `).join("")}
+      </div>
+      <strong>${repairPercent}% signal restored</strong>
+    </div>
+  `;
+}
+
+function renderDecoderBlueprintPreview(round, briefState, roundIndex) {
+  const selectedStructure = getDecoderAnswer("structure", roundIndex);
+  const structureReady = selectedStructure === round.correctStructure;
+  const blueprint = getDecoderStructureBlueprint(structureReady ? selectedStructure : round.correctStructure);
+  return `
+    <section class="decoder-blueprint-preview ${structureReady || briefState.isComplete ? "revealed" : "locked"}">
+      <div class="decoder-blueprint-head">
+        <span class="kicker">Answer shape preview</span>
+        <strong>${structureReady || briefState.isComplete ? escapeHtml(blueprint.title) : "Restore Structure to reveal the sentence map"}</strong>
+      </div>
+      ${structureReady || briefState.isComplete ? `
+        <div class="decoder-blueprint-parts">
+          ${blueprint.parts.map(part => `
+            <span class="decoder-blueprint-chip ${escapeHtml(part.type)}">
+              <strong>${escapeHtml(part.label)}</strong>
+              <small>${escapeHtml(part.text)}</small>
+            </span>
+          `).join("")}
+        </div>
+        <p class="decoder-blueprint-sentence">
+          ${blueprint.sentence.map(part => `<span class="${escapeHtml(part.type)}">${escapeHtml(part.text)}</span>`).join(" ")}
+        </p>
+      ` : `
+        <p>VTCS previews the sentence structure. BOSS uses it later to build the full response.</p>
+      `}
+    </section>
+  `;
+}
+
+function getDecoderVisualState(briefState) {
+  const pulse = state.decoderPulse || {};
+  if (pulse.type === "warn") {
+    return {
+      tone: "warn",
+      title: "Think again",
+      label: "Misread detected",
+      detail: "Re-scan the clue and choose the option that matches the question wording.",
+      character: EST_LAB_ASSETS.guide.thinking,
+      effect: EST_LAB_ASSETS.misreadWarning
+    };
+  }
+  if (briefState.isComplete || pulse.type === "complete") {
+    return {
+      tone: "complete",
+      title: "Question restored",
+      label: "All locks repaired",
+      detail: "The question is ready to bank. Send the brief to load the next one.",
+      character: EST_LAB_ASSETS.guide.celebration,
+      effect: EST_LAB_ASSETS.completionRewardBurst,
+      badge: EST_LAB_ASSETS.caseBriefComplete
+    };
+  }
+  if (pulse.type === "good" || briefState.locked > 0) {
+    return {
+      tone: "good",
+      title: "Clue repaired",
+      label: `${briefState.locked}/${briefState.total} locks restored`,
+      detail: "The signal is improving. Keep repairing until the bank gate opens.",
+      character: EST_LAB_ASSETS.guide.thumbsUp,
+      effect: EST_LAB_ASSETS.correctLockGlow
+    };
+  }
+  return {
+    tone: "pending",
+    title: "Scanner online",
+    label: "Question needs repair",
+    detail: "Start with the command word, then restore Topic, Context, and Structure.",
+    character: EST_LAB_ASSETS.guide.pointing,
+    effect: EST_LAB_ASSETS.evidenceScanFrame
+  };
+}
+
+function renderDecoderRepairVisual(briefState) {
+  const visual = getDecoderVisualState(briefState);
+  return `
+    <figure class="decoder-repair-visual ${escapeHtml(visual.tone)}" aria-hidden="true">
+      <img class="decoder-repair-effect" src="${escapeHtml(visual.effect)}" alt="">
+      ${visual.badge ? `<img class="decoder-repair-badge" src="${escapeHtml(visual.badge)}" alt="">` : ""}
+      <img class="decoder-repair-character" src="${escapeHtml(visual.character)}" alt="">
+      <figcaption>
+        <strong>${escapeHtml(visual.label)}</strong>
+        <span>${escapeHtml(visual.detail)}</span>
+      </figcaption>
+    </figure>
+  `;
+}
+
+function renderDecoderStageReaction(briefState) {
+  const pulse = state.decoderPulse;
+  if (!pulse || pulse.type === "pending") return "";
+  const visual = getDecoderVisualState(briefState);
+  const title = pulse.type === "warn" ? "Think again" : visual.title;
+  return `
+    <aside class="decoder-stage-reaction ${escapeHtml(visual.tone)}" aria-live="polite">
+      <img class="decoder-stage-reaction-effect" src="${escapeHtml(visual.effect)}" alt="" aria-hidden="true">
+      <img class="decoder-stage-reaction-character" src="${escapeHtml(visual.character)}" alt="" aria-hidden="true">
+      <div>
+        <span>${escapeHtml(title)}</span>
+        <strong>${escapeHtml(pulse.title)}</strong>
+        <p>${escapeHtml(pulse.detail)}</p>
+      </div>
+    </aside>
+  `;
+}
+
+function renderDecoderActiveConsole(part, round, roundIndex) {
+  const answer = getDecoderAnswer(part.id, roundIndex);
+  const correctAnswer = round[part.correctKey];
+  const feedback = getDecoderActiveFeedback(part, round, roundIndex);
+  const feedbackAsset = feedback.type === "good"
+    ? EST_LAB_ASSETS.correctLockGlow
+    : feedback.type === "warn"
+      ? EST_LAB_ASSETS.misreadWarning
+      : EST_LAB_ASSETS.evidenceScanFrame;
+  return `
+    <section class="decoder-tool-console ${escapeHtml(feedback.type)}">
+      <div class="decoder-tool-header">
+        <div>
+          <span class="kicker">${escapeHtml(part.toolTitle)}</span>
+          <h3>${escapeHtml(part.shortLabel)}</h3>
+          <p>${escapeHtml(part.mission)}</p>
+        </div>
+        <div class="decoder-scan-screen" aria-hidden="true">
+          <img src="${escapeHtml(feedbackAsset)}" alt="">
+        </div>
+      </div>
+      <div class="decoder-option-grid">
+        ${(round[part.optionsKey] || []).map(option => {
+          const selected = answer === option;
+          const selectedState = selected && option === correctAnswer ? "correct" : selected ? "incorrect" : "";
+          return `
+            <button
+              type="button"
+              class="choice-button decoder-option ${selected ? "selected live-selected" : ""} ${selectedState}"
+              data-group="${escapeHtml(getDecoderAnswerKey(part.id, roundIndex))}"
+              data-value="${escapeHtml(option)}"
+              onclick="window.ESTPrep.setChoiceEncoded('${getDecoderAnswerKey(part.id, roundIndex)}', '${encodeForInlineHandler(option)}')"
+            >
+              <strong>${escapeHtml(option)}</strong>
+            </button>
+          `;
+        }).join("")}
+      </div>
+      <div class="decoder-scan-feedback">
+        <strong>${escapeHtml(feedback.title)}</strong>
+        <p>${escapeHtml(feedback.detail)}</p>
+        ${feedback.type === "warn" ? `<button class="choice-button decoder-retry-button" type="button" onclick="window.ESTPrep.setDecoderActivePart('${part.id}')"><strong>Try this clue again</strong></button>` : ""}
+      </div>
+    </section>
   `;
 }
 
@@ -170,45 +696,637 @@ function renderDecoderStage() {
     const score = result ? ` ${result.correctCount}/${DECODER_PARTS.length}` : "";
     return `<span class="badge decoder-progress-badge ${stateClass}">Question ${index + 1}${score}</span>`;
   }).join("");
-  const forensicsBoard = `
-    <div class="panel training-bay">
-      <div class="section-title">
-        <h2>Question Forensics Board</h2>
-        <p>Build the brief</p>
-      </div>
-      <p class="small-copy">Treat the EST question like evidence. Correct VTCS choices lock into the brief below.</p>
-      <div class="forensics-grid">
-        ${DECODER_PARTS.map(part => {
-          const answer = getDecoderAnswer(part.id, roundIndex);
-          const isCorrect = answer === round[part.correctKey];
-          return `
-            <div class="prompt-card forensics-slot ${isCorrect ? "filled" : "pending"}">
-              <strong>${escapeHtml(part.label)}</strong>
-              <p>${isCorrect ? escapeHtml(answer) : ""}</p>
-            </div>
-          `;
-        }).join("")}
-      </div>
-    </div>
-  `;
+  const briefState = getDecoderBriefState(round, roundIndex);
+  const activePart = getDecoderActivePart(round, roundIndex);
+  const bankDisabled = briefState.isComplete ? "" : "disabled";
+  const submitDockClass = briefState.isComplete ? "ready" : "pending";
+  const nextQuestionText = roundIndex === rounds.length - 1 ? "finish VTCS" : `load Question ${roundIndex + 2}`;
   setText("stage-title", "VTCS");
   setText("stage-subtitle", `What the question wants: run question forensics before you write. Question ${roundIndex + 1} of ${rounds.length}.`);
   renderStageRoot(`
-    ${renderDecoderTransitionFeedback(transitionFeedback)}
-    <div class="badge-row decoder-progress-strip">${progressBadges}</div>
-    <div class="question-card">
-      <div class="kicker">VTCS ${roundIndex + 1}/${rounds.length}</div>
-      <h3>${escapeHtml(round.question)}</h3>
-      <p>${escapeHtml(round.feedback)}</p>
-    </div>
-    ${DECODER_PARTS.map(part => renderOptionGroup(getDecoderAnswerKey(part.id, roundIndex), part.toolTitle, round[part.optionsKey] || [])).join("")}
-    ${forensicsBoard}
-    <div class="written-stage">
-      <strong>Case summary</strong>
-      <p class="small-copy">${progress.completed}/${progress.total} questions banked. Students lose marks when they misread what the question is actually asking. Strong decoding protects marks before writing starts.</p>
-      <button class="submit-button" type="button" onclick="window.ESTPrep.submitDecoder()">${roundIndex === rounds.length - 1 ? "Bank Decoder Results" : "Bank Question And Continue"}</button>
-    </div>
+    <section class="decoder-lab-shell">
+      <img class="decoder-lab-bg" src="${escapeHtml(EST_LAB_ASSETS.decoderBackground)}" alt="">
+      ${renderDecoderStageReaction(briefState)}
+      <div class="decoder-lab-overlay">
+        <header class="decoder-lab-hud">
+          <div>
+            <span class="kicker">VTCS / Question Forensics</span>
+            <h2>Crack what the question wants.</h2>
+          </div>
+          <div class="decoder-hud-stat">
+            <strong>${briefState.locked}/${briefState.total}</strong>
+            <span>case locks</span>
+          </div>
+          <div class="decoder-hud-stat">
+            <strong>${progress.completed}/${progress.total}</strong>
+            <span>questions banked</span>
+          </div>
+        </header>
+        ${renderDecoderTransitionFeedback(transitionFeedback)}
+        <div class="badge-row decoder-progress-strip">${progressBadges}</div>
+        <div class="decoder-forensics-layout">
+          <article class="decoder-evidence-panel ${briefState.isComplete ? "restored" : briefState.locked ? "repairing" : "damaged"}" style="--decoder-lock-ratio:${briefState.locked / Math.max(1, briefState.total)}">
+            <div class="decoder-scan-beam" aria-hidden="true"></div>
+            <div class="decoder-evidence-copy">
+              <div class="decoder-question-copy">
+                <span class="kicker">Question signal ${briefState.locked}/${briefState.total}</span>
+                <h3>${escapeHtml(round.question)}</h3>
+                <p>${escapeHtml(round.feedback)}</p>
+                ${renderDecoderRepairRail(briefState)}
+              </div>
+              ${renderDecoderRepairVisual(briefState)}
+            </div>
+          </article>
+          <aside class="decoder-brief-panel">
+            <div>
+              <span class="kicker">Case brief</span>
+              <strong>Lock the four clues.</strong>
+            </div>
+            <div class="decoder-lock-grid">
+              ${briefState.parts.map(item => renderDecoderLockSlot(item, activePart.id)).join("")}
+            </div>
+          </aside>
+        </div>
+        ${renderDecoderPulse(briefState)}
+        ${renderDecoderActiveConsole(activePart, round, roundIndex)}
+        ${renderDecoderBlueprintPreview(round, briefState, roundIndex)}
+        <footer class="decoder-submit-dock ${submitDockClass}">
+          <div>
+            <strong>${briefState.isComplete ? "All four clues restored" : "Repair the clue locks"}</strong>
+            <p>${briefState.isComplete ? `Bank this brief to ${nextQuestionText}.` : `${briefState.locked}/${briefState.total} locks restored. Wrong choices show hints; keep scanning until the signal is clear.`}</p>
+          </div>
+          <button class="submit-button" type="button" onclick="window.ESTPrep.submitDecoder()" ${bankDisabled}>${briefState.isComplete ? (roundIndex === rounds.length - 1 ? "Bank VTCS Results" : `Bank Brief And Load Question ${roundIndex + 2}`) : "Restore All Four Clues"}</button>
+        </footer>
+      </div>
+    </section>
   `);
+}
+
+function getBossLoadoutItems(round) {
+  return [
+    {
+      key: "boss-content",
+      type: "content",
+      title: "CORE content",
+      kicker: "What to say",
+      asset: EST_LAB_ASSETS.chipContent,
+      options: round.contentOptions || [],
+      correct: round.correctContent,
+      empty: "Choose the strongest content point"
+    },
+    {
+      key: "boss-glossary",
+      type: "term",
+      title: "TERM language",
+      kicker: "Precise wording",
+      asset: EST_LAB_ASSETS.chipTerm,
+      options: round.glossaryOptions || [],
+      correct: round.correctGlossary,
+      empty: "Choose the glossary context"
+    },
+    {
+      key: "boss-command",
+      type: "vtcs",
+      title: "VTCS blueprint",
+      kicker: "Question strategy",
+      asset: EST_LAB_ASSETS.chipVtcs,
+      options: round.commandOptions || [],
+      correct: round.correctCommand,
+      empty: "Choose the command word"
+    }
+  ];
+}
+
+function getBossLoadoutReview(round) {
+  const items = getBossLoadoutItems(round).map(item => {
+    const selected = state.answers[item.key] || "";
+    return {
+      ...item,
+      selected,
+      isLoaded: Boolean(selected),
+      isCorrect: Boolean(selected && selected === item.correct)
+    };
+  });
+  return {
+    items,
+    loaded: items.filter(item => item.isLoaded).length,
+    locked: items.filter(item => item.isCorrect).length,
+    total: items.length
+  };
+}
+
+function renderBossLoadoutTray(round) {
+  const review = getBossLoadoutReview(round);
+  return `
+    <aside class="boss-loadout-panel">
+      <div class="boss-loadout-head">
+        <span class="kicker">Answer loadout</span>
+        <strong>${review.locked}/${review.total} systems armed</strong>
+      </div>
+      <div class="boss-loadout-tray">
+        <img class="boss-loadout-tray-art" src="${escapeHtml(EST_LAB_ASSETS.answerLoadoutTray)}" alt="" aria-hidden="true">
+        <div class="boss-loadout-chips">
+          ${review.items.map(item => `
+            <button
+              type="button"
+              class="boss-loadout-chip ${item.isCorrect ? "locked" : item.isLoaded ? "warn" : "empty"}"
+              onclick="window.ESTPrep.focusBossLoadout('${item.key}')"
+            >
+              <img src="${escapeHtml(item.asset)}" alt="" aria-hidden="true">
+              <span>${escapeHtml(item.kicker)}</span>
+              <strong>${escapeHtml(item.title)}</strong>
+              <small>${escapeHtml(item.selected || item.empty)}</small>
+            </button>
+          `).join("")}
+        </div>
+      </div>
+    </aside>
+  `;
+}
+
+function renderBossLoadoutFeedback(round) {
+  const review = getBossLoadoutReview(round);
+  const firstWrong = review.items.find(item => item.isLoaded && !item.isCorrect);
+  const allSecure = review.locked === review.total;
+  const tone = firstWrong ? "warn" : allSecure || review.locked ? "good" : "neutral";
+  const title = firstWrong
+    ? `Try again: ${firstWrong.title}`
+    : allSecure
+      ? "Loadout secured."
+      : review.locked
+        ? "Chip secured."
+        : "Choose the three answer systems.";
+  const detail = firstWrong
+    ? `The scanner rejected "${firstWrong.selected}". Pick the chip that best matches ${firstWrong.kicker.toLowerCase()}.`
+    : allSecure
+      ? "CORE, TERM, and VTCS are ready for the sample check."
+      : review.locked
+        ? `${review.locked}/${review.total} chips are secured. Keep loading the remaining systems.`
+        : "Each correct chip arms part of the final answer.";
+  const character = firstWrong
+    ? EST_LAB_ASSETS.guide.thinking
+    : allSecure || review.locked
+      ? EST_LAB_ASSETS.guide.thumbsUp
+      : EST_LAB_ASSETS.guide.pointing;
+  return `
+    <aside class="boss-loadout-feedback boss-loadout-feedback--${escapeHtml(tone)}" aria-live="polite">
+      <img src="${escapeHtml(character)}" alt="" aria-hidden="true">
+      <div>
+        <span class="kicker">Loadout feedback</span>
+        <strong>${escapeHtml(title)}</strong>
+        <p>${escapeHtml(detail)}</p>
+        ${firstWrong ? `<button class="submit-button ghost" type="button" onclick="window.ESTPrep.focusBossLoadout('${firstWrong.key}')">Try ${escapeHtml(firstWrong.title)} again</button>` : ""}
+      </div>
+      <div class="boss-loadout-feedback-grid">
+        ${review.items.map(item => `
+          <span class="${item.isCorrect ? "secure" : item.isLoaded ? "retry" : "pending"}">
+            <small>${item.isCorrect ? "Reward" : item.isLoaded ? "Try again" : "Pending"}</small>
+            <strong>${escapeHtml(item.kicker)}</strong>
+          </span>
+        `).join("")}
+      </div>
+    </aside>
+  `;
+}
+
+function renderBossChoiceRack(item) {
+  const selected = state.answers[item.key] || "";
+  const selectedIsCorrect = Boolean(selected && selected === item.correct);
+  const reaction = selectedIsCorrect
+    ? {
+        tone: "good",
+        title: "Secured!",
+        detail: `${item.kicker} is glowing in the answer loadout.`,
+        effect: EST_LAB_ASSETS.completionRewardBurst,
+        character: EST_LAB_ASSETS.guide.celebration,
+        badge: EST_LAB_ASSETS.feedbackMarkSecured
+      }
+    : {
+        tone: "warn",
+        title: `Try again: ${item.title}`,
+        detail: `The scanner rejected "${selected}". Pick the option that best matches ${item.kicker.toLowerCase()}.`,
+        effect: EST_LAB_ASSETS.misreadWarning,
+        character: EST_LAB_ASSETS.guide.thinking,
+        badge: EST_LAB_ASSETS.feedbackMissingEvidence
+      };
+  return `
+    <section class="boss-choice-rack boss-choice-rack--${escapeHtml(item.type)}" id="boss-rack-${escapeHtml(item.key)}">
+      <div class="boss-choice-rack-head">
+        <img src="${escapeHtml(item.asset)}" alt="" aria-hidden="true">
+        <div>
+          <span class="kicker">${escapeHtml(item.kicker)}</span>
+          <h3>${escapeHtml(item.title)}</h3>
+        </div>
+      </div>
+      <div class="boss-choice-options">
+        ${item.options.map(option => {
+          const isSelected = selected === option;
+          const selectedState = isSelected && option === item.correct ? "correct" : isSelected ? "incorrect" : "";
+          return `
+            <button
+              type="button"
+              class="choice-button boss-choice-option ${isSelected ? "selected live-selected" : ""} ${selectedState}"
+              data-group="${escapeHtml(item.key)}"
+              data-value="${escapeHtml(option)}"
+              onclick="window.ESTPrep.setChoiceEncoded('${item.key}', '${encodeForInlineHandler(option)}')"
+            >
+              <strong>${escapeHtml(option)}</strong>
+            </button>
+          `;
+        }).join("")}
+      </div>
+      ${selected ? `
+        <div class="boss-choice-feedback ${escapeHtml(reaction.tone)}" aria-live="polite">
+          <figure class="boss-choice-reaction-art" aria-hidden="true">
+            <img class="boss-choice-reaction-effect" src="${escapeHtml(reaction.effect)}" alt="">
+            <img class="boss-choice-reaction-character" src="${escapeHtml(reaction.character)}" alt="">
+            <img class="boss-choice-reaction-badge" src="${escapeHtml(reaction.badge)}" alt="">
+          </figure>
+          <div class="boss-choice-reaction-copy">
+            <span class="kicker">${selectedIsCorrect ? "Loadout charged" : "Scanner rejected"}</span>
+            <strong>${escapeHtml(reaction.title)}</strong>
+            <p>${escapeHtml(reaction.detail)}</p>
+            ${selectedIsCorrect ? "" : `<button class="submit-button ghost" type="button" onclick="window.ESTPrep.focusBossLoadout('${item.key}')">Try ${escapeHtml(item.title)} again</button>`}
+          </div>
+        </div>
+      ` : ""}
+    </section>
+  `;
+}
+
+function getBossScannerState(round) {
+  const loadout = getBossLoadoutReview(round);
+  const scaffoldLines = getBossScaffoldLines(round);
+  const scaffoldCount = scaffoldLines.filter((_, index) => String(state.answers[`boss-scaffold-${index}`] || "").trim()).length;
+  const response = String(state.answers.bossText || "").trim();
+  const wordCount = response ? response.split(/\s+/).filter(Boolean).length : 0;
+  const minimumWordCount = Number.isFinite(round.minimumWordCount) ? round.minimumWordCount : 24;
+  const loadoutRatio = loadout.locked / Math.max(1, loadout.total);
+  const scaffoldRatio = scaffoldCount / Math.max(1, scaffoldLines.length);
+  const writingRatio = Math.min(1, wordCount / Math.max(1, minimumWordCount));
+  const fill = Math.round((loadoutRatio * 0.5 + scaffoldRatio * 0.25 + writingRatio * 0.25) * 100);
+  return { loadout, scaffoldCount, scaffoldTotal: scaffoldLines.length, wordCount, minimumWordCount, fill };
+}
+
+function renderBossMarkerScanner(round) {
+  const scanner = getBossScannerState(round);
+  const checkRows = [
+    { label: "CORE content", passed: scanner.loadout.items.find(item => item.type === "content")?.isCorrect },
+    { label: "TERM precision", passed: scanner.loadout.items.find(item => item.type === "term")?.isCorrect },
+    { label: "VTCS command", passed: scanner.loadout.items.find(item => item.type === "vtcs")?.isCorrect },
+    { label: "Scaffold built", passed: scanner.scaffoldCount >= Math.max(1, scanner.scaffoldTotal) },
+    { label: "Response drafted", passed: scanner.wordCount >= Math.min(scanner.minimumWordCount, 12) }
+  ];
+  return `
+    <aside class="boss-scanner-panel" style="--boss-scanner-fill:${scanner.fill}%">
+      <div class="boss-scanner-art">
+        <img src="${escapeHtml(EST_LAB_ASSETS.markerScanner)}" alt="" aria-hidden="true">
+        <div class="boss-scanner-fill"></div>
+      </div>
+      <div class="boss-scanner-status">
+        <span class="kicker">Marker scanner</span>
+        <strong>${scanner.fill}% ready</strong>
+        <p>${scanner.wordCount}/${scanner.minimumWordCount} target words. Final marks are checked after submission.</p>
+      </div>
+      <div class="boss-scanner-checks">
+        ${checkRows.map(row => `
+          <div class="boss-scanner-check ${row.passed ? "pass" : "pending"}">
+            <span>${row.passed ? "Secured" : "Pending"}</span>
+            <strong>${escapeHtml(row.label)}</strong>
+          </div>
+        `).join("")}
+      </div>
+    </aside>
+  `;
+}
+
+function renderBossShowdownGate(round, showdownPair) {
+  if (showdownPair.length !== 2) {
+    return `
+      <section class="boss-showdown-gate boss-showdown-empty">
+        <div class="boss-showdown-head">
+          <div>
+            <span class="kicker">Calibration gate</span>
+            <h3>Samples unavailable.</h3>
+          </div>
+          <img src="${escapeHtml(EST_LAB_ASSETS.feedbackUpgradeAnswer)}" alt="" aria-hidden="true">
+        </div>
+        <p class="small-copy">Move to the forge and build your own response from the scaffold.</p>
+      </section>
+    `;
+  }
+  return `
+    <section class="boss-showdown-gate">
+      <div class="boss-showdown-head">
+        <div>
+          <span class="kicker">Calibration gate</span>
+          <h3>Judge quality before drafting.</h3>
+          <p>Choose the response that would survive marker scanning, then name why.</p>
+        </div>
+        <img src="${escapeHtml(EST_LAB_ASSETS.feedbackMarkSecured)}" alt="" aria-hidden="true">
+      </div>
+      <div class="sample-grid boss-sample-grid">
+        ${showdownPair.map((sample, index) => `
+          <article class="sample-card boss-sample-card">
+            <div class="sample-meta">
+              <strong>Sample ${index + 1}</strong>
+              <span>${escapeHtml(sample.label)}</span>
+            </div>
+            <p>${escapeHtml(sample.response)}</p>
+            <button
+              type="button"
+              class="choice-button ${state.answers.bossShowdown === sample.label ? "selected live-selected" : ""}"
+              onclick="window.ESTPrep.setChoiceEncoded('bossShowdown', '${encodeForInlineHandler(sample.label)}')"
+            >
+              <strong>This earns more marks</strong>
+            </button>
+          </article>
+        `).join("")}
+      </div>
+      <div class="boss-showdown-reason">
+        <strong>Marker note</strong>
+        <textarea id="boss-showdown-reason" placeholder="Name the feature that makes the stronger sample more mark-worthy..." oninput="window.ESTPrep.setBossShowdownReason(this.value)">${escapeHtml(state.answers.bossShowdownReason || "")}</textarea>
+      </div>
+    </section>
+  `;
+}
+
+function setBossText(value) {
+  state.answers.bossText = value;
+  state.answers.bossTextMode = value === state.answers.bossDraftSource ? "auto" : "manual";
+  persistESTProgressSnapshot();
+}
+
+function getBossDraftFromScaffold(round) {
+  return getBossScaffoldLines(round)
+    .map((_, index) => String(state.answers[`boss-scaffold-${index}`] || "").trim().replace(/\s+/g, " "))
+    .filter(Boolean)
+    .join(" ");
+}
+
+function syncBossDraftFromScaffold(round, { force = false } = {}) {
+  const draft = getBossDraftFromScaffold(round);
+  const current = String(state.answers.bossText || "");
+  const previousAutoDraft = String(state.answers.bossDraftSource || "");
+  const hasManualFinalEdit = (state.answers.bossTextMode === "manual" || (!state.answers.bossTextMode && current.trim())) && current !== previousAutoDraft;
+
+  if (!force && hasManualFinalEdit) return false;
+
+  state.answers.bossText = draft;
+  state.answers.bossDraftSource = draft;
+  state.answers.bossTextMode = "auto";
+
+  const textarea = document.getElementById("boss-response");
+  if (textarea && textarea.value !== draft) textarea.value = draft;
+
+  return true;
+}
+
+function focusBossLoadout(groupKey) {
+  if (state.bossPageIndex !== 0) {
+    state.bossPageIndex = 0;
+    renderBossStage();
+  }
+  const rack = document.getElementById(`boss-rack-${groupKey}`);
+  if (rack) rack.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function getBossPageIndex(totalPages = BOSS_PAGE_SEQUENCE.length) {
+  if (!Number.isInteger(state.bossPageIndex)) state.bossPageIndex = 0;
+  state.bossPageIndex = Math.max(0, Math.min(state.bossPageIndex, Math.max(0, totalPages - 1)));
+  return state.bossPageIndex;
+}
+
+function scrollBossStageTop() {
+  const shell = document.querySelector(".boss-sim-shell");
+  if (shell) {
+    shell.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function setBossPage(pageIndex) {
+  const numericIndex = Number(pageIndex);
+  if (!Number.isFinite(numericIndex)) return;
+  state.bossPageIndex = Math.max(0, Math.min(Math.trunc(numericIndex), BOSS_PAGE_SEQUENCE.length - 1));
+  persistESTProgressSnapshot();
+  renderBossStage();
+  scrollBossStageTop();
+}
+
+function moveBossPage(delta) {
+  setBossPage(getBossPageIndex() + Number(delta || 0));
+}
+
+function getBossScaffoldStatus(round) {
+  const lines = getBossScaffoldLines(round);
+  const completed = lines.filter((_, index) => String(state.answers[`boss-scaffold-${index}`] || "").trim()).length;
+  return { completed, total: lines.length };
+}
+
+function renderBossPageVisual({ tone = "neutral", title, detail, character, effect, badge }) {
+  return `
+    <figure class="boss-page-visual boss-page-visual--${escapeHtml(tone)}" aria-hidden="true">
+      <img class="boss-page-visual-effect" src="${escapeHtml(effect)}" alt="">
+      ${badge ? `<img class="boss-page-visual-badge" src="${escapeHtml(badge)}" alt="">` : ""}
+      <img class="boss-page-visual-character" src="${escapeHtml(character)}" alt="">
+      <figcaption>
+        <strong>${escapeHtml(title)}</strong>
+        <span>${escapeHtml(detail)}</span>
+      </figcaption>
+    </figure>
+  `;
+}
+
+function renderBossDraftPreview(round) {
+  const response = String(state.answers.bossText || "").trim();
+  const scaffold = getBossScaffoldReviewParts(round);
+  return `
+    <article class="boss-draft-preview">
+      <span class="kicker">Response preview</span>
+      <strong>${response ? "Draft loaded into scanner" : scaffold.length ? "Scaffold ready to assemble" : "No draft loaded yet"}</strong>
+      <p>${escapeHtml(response || scaffold.map(part => `${part.label}: ${part.response}`).join(" ") || "Use the Forge page to build a response before the final scan.")}</p>
+    </article>
+  `;
+}
+
+function getBossPageDefinitions(round, loadoutItems, showdownPair, communityOptions) {
+  const loadoutReview = getBossLoadoutReview(round);
+  const scanner = getBossScannerState(round);
+  const scaffold = getBossScaffoldStatus(round);
+  const response = String(state.answers.bossText || "").trim();
+  const showdownReady = Boolean(state.answers.bossShowdown);
+  const reasonReady = String(state.answers.bossShowdownReason || "").trim().length >= 8;
+
+  return [
+    {
+      id: "loadout",
+      label: "Loadout",
+      eyebrow: "Page 1 / Answer systems",
+      title: "Arm CORE, TERM, and VTCS.",
+      detail: "Choose the three chips that should feed the final answer.",
+      status: `${loadoutReview.locked}/${loadoutReview.total} systems secured`,
+      isComplete: loadoutReview.locked === loadoutReview.total,
+      visual: {
+        tone: loadoutReview.locked === loadoutReview.total ? "good" : "neutral",
+        title: loadoutReview.locked === loadoutReview.total ? "Loadout armed" : "Build the loadout",
+        detail: "The final answer needs content, language, and question strategy.",
+        character: loadoutReview.locked === loadoutReview.total ? EST_LAB_ASSETS.guide.thumbsUp : EST_LAB_ASSETS.guide.pointing,
+        effect: EST_LAB_ASSETS.answerLoadoutTray,
+        badge: loadoutReview.locked === loadoutReview.total ? EST_LAB_ASSETS.feedbackMarkSecured : ""
+      },
+      html: `
+        <div class="boss-page-split boss-page-loadout">
+          <article class="boss-question-terminal boss-question-terminal--paged">
+            <span class="kicker">Final prompt</span>
+            <h3>${escapeHtml(round.question)}</h3>
+            <p>${escapeHtml(round.help)}</p>
+          </article>
+          ${renderBossLoadoutTray(round)}
+        </div>
+        <section class="boss-armory-grid boss-armory-grid--paged">
+          ${loadoutItems.map(renderBossChoiceRack).join("")}
+        </section>
+        ${renderBossLoadoutFeedback(round)}
+      `
+    },
+    {
+      id: "calibration",
+      label: "Samples",
+      eyebrow: "Page 2 / Marker calibration",
+      title: "Spot which sample earns more.",
+      detail: "Compare two responses before writing so quality is visible.",
+      status: showdownReady ? reasonReady ? "choice and note saved" : "choice saved" : "choose a sample",
+      isComplete: showdownReady && reasonReady,
+      visual: {
+        tone: showdownReady ? "good" : "neutral",
+        title: showdownReady ? "Marker lens tuned" : "Read like the marker",
+        detail: "Look for specific examples, structure, glossary control, and a clear link back to the question.",
+        character: showdownReady ? EST_LAB_ASSETS.guide.thumbsUp : EST_LAB_ASSETS.guide.thinking,
+        effect: showdownReady ? EST_LAB_ASSETS.feedbackMarkSecured : EST_LAB_ASSETS.feedbackUpgradeAnswer
+      },
+      html: renderBossShowdownGate(round, showdownPair)
+    },
+    {
+      id: "forge",
+      label: "Forge",
+      eyebrow: "Page 3 / Build response",
+      title: "Assemble the answer.",
+      detail: "Use the scaffold, then turn it into one final response.",
+      status: response ? `${response.split(/\s+/).filter(Boolean).length} words drafted` : `${scaffold.completed}/${Math.max(1, scaffold.total)} scaffold blocks`,
+      isComplete: Boolean(response) || scaffold.completed >= Math.max(1, scaffold.total),
+      visual: {
+        tone: response ? "good" : scaffold.completed ? "neutral" : "neutral",
+        title: response ? "Draft forged" : "Response forge",
+        detail: "The strongest answer should prove the loadout, not just mention it.",
+        character: response ? EST_LAB_ASSETS.guide.thumbsUp : EST_LAB_ASSETS.guide.pointing,
+        effect: EST_LAB_ASSETS.finalResponseUplink
+      },
+      html: `
+        <section class="boss-response-zone boss-response-zone--paged">
+          <div class="boss-response-main">
+            ${renderBossResponseBuilder(round)}
+            <div class="written-stage boss-final-response">
+              <strong>Final paragraph</strong>
+              <p class="small-copy">${escapeHtml(round.scaffold)}</p>
+              ${renderFreeTextPrivacyNotice()}
+              <textarea id="boss-response" placeholder="The scaffold will build here. Polish the paragraph before banking it." oninput="window.ESTPrep.setBossText(this.value)">${escapeHtml(state.answers.bossText || "")}</textarea>
+            </div>
+          </div>
+          <aside class="boss-forge-sidecar">
+            <img src="${escapeHtml(EST_LAB_ASSETS.finalResponseUplink)}" alt="" aria-hidden="true">
+            <strong>Forge target</strong>
+            <p>Turn the scaffold into a response that names the point, explains it, and links back to the question.</p>
+          </aside>
+        </section>
+      `
+    },
+    {
+      id: "scanner",
+      label: "Scan",
+      eyebrow: "Page 4 / Final scan",
+      title: "Scan, route impact, submit.",
+      detail: "Check the answer systems, choose the community route, then bank the BOSS response.",
+      status: `${scanner.fill}% ready`,
+      isComplete: scanner.fill >= 70,
+      visual: {
+        tone: scanner.fill >= 70 ? "good" : "neutral",
+        title: scanner.fill >= 70 ? "Scanner ready" : "Final systems check",
+        detail: "The scanner looks for the loadout, scaffold, and enough written evidence.",
+        character: scanner.fill >= 70 ? EST_LAB_ASSETS.guide.celebration : EST_LAB_ASSETS.guide.thinkingBottom,
+        effect: scanner.fill >= 70 ? EST_LAB_ASSETS.completionRewardBurst : EST_LAB_ASSETS.markerScanner,
+        badge: scanner.fill >= 70 ? EST_LAB_ASSETS.feedbackMarkSecured : ""
+      },
+      html: `
+        <section class="boss-final-page-grid boss-final-page-grid--scan">
+          ${renderBossMarkerScanner(round)}
+          ${renderBossDraftPreview(round)}
+        </section>
+        <section class="boss-community-uplink boss-community-uplink--paged">
+          <div class="boss-uplink-art" aria-hidden="true">
+            <img src="${escapeHtml(EST_LAB_ASSETS.finalResponseUplink)}" alt="">
+          </div>
+          <div class="boss-community-panel">
+            <span class="kicker">Class impact route</span>
+            <strong>Community contribution</strong>
+            <p>Choose where a share of this round's reward should go.</p>
+            <div class="choice-grid">${communityOptions}</div>
+          </div>
+          <button class="submit-button boss-submit-button" type="button" onclick="window.ESTPrep.submitBoss()">Bank BOSS response</button>
+        </section>
+      `
+    }
+  ];
+}
+
+function renderBossPageRail(pages, pageIndex) {
+  return `
+    <nav class="boss-page-rail" aria-label="BOSS round pages">
+      ${pages.map((page, index) => `
+        <button
+          type="button"
+          class="boss-page-tab ${index === pageIndex ? "active" : ""} ${page.isComplete ? "complete" : ""}"
+          onclick="window.ESTPrep.setBossPage(${index})"
+          aria-current="${index === pageIndex ? "step" : "false"}"
+        >
+          <span>${index + 1}</span>
+          <strong>${escapeHtml(page.label)}</strong>
+          <small>${escapeHtml(page.status)}</small>
+        </button>
+      `).join("")}
+    </nav>
+  `;
+}
+
+function renderBossPageNav(pages, pageIndex) {
+  const prevDisabled = pageIndex <= 0 ? "disabled" : "";
+  const nextDisabled = pageIndex >= pages.length - 1 ? "disabled" : "";
+  const nextLabel = pageIndex < pages.length - 1 ? `Next: ${pages[pageIndex + 1].label}` : "Bank on this page";
+  return `
+    <footer class="boss-page-nav">
+      <button class="submit-button ghost boss-page-back-button" type="button" onclick="window.ESTPrep.moveBossPage(-1)" ${prevDisabled}>Back</button>
+      <span>Page ${pageIndex + 1} of ${pages.length}</span>
+      <button class="submit-button boss-page-next-button" type="button" onclick="window.ESTPrep.moveBossPage(1)" ${nextDisabled}>${escapeHtml(nextLabel)}</button>
+    </footer>
+  `;
+}
+
+function renderBossPageShell(pages, pageIndex) {
+  const page = pages[pageIndex];
+  return `
+    <section class="boss-page-shell boss-page-shell--${escapeHtml(page.id)}" aria-live="polite">
+      <div class="boss-page-head">
+        <div>
+          <span class="kicker">${escapeHtml(page.eyebrow)}</span>
+          <h3>${escapeHtml(page.title)}</h3>
+          <p>${escapeHtml(page.detail)}</p>
+        </div>
+        ${renderBossPageVisual(page.visual)}
+      </div>
+      <div class="boss-page-body">
+        ${page.html}
+      </div>
+    </section>
+  `;
 }
 
 function renderBossStage() {
@@ -221,77 +1339,33 @@ function renderBossStage() {
   const round = state.stageDeck?.bossRound;
   if (!round) return;
   const showdownPair = getBossShowdownPair(round);
+  const loadoutItems = getBossLoadoutItems(round);
   const communityOptions = (state.stageDeck?.communityOptions || []).map(option => `
     <button type="button" class="choice-button ${state.answers.bossVote === option.id ? "selected live-selected" : ""}" data-group="boss-vote" data-value="${option.id}" onclick="window.ESTPrep.setBossVote('${option.id}')">
       <strong>${escapeHtml(option.label)}</strong>
-      <small>Direct 10% of this round's income to this class/community focus.</small>
+      <small>Bank 10% reward here.</small>
     </button>
   `).join("");
+  const bossPages = getBossPageDefinitions(round, loadoutItems, showdownPair, communityOptions);
+  const bossPageIndex = getBossPageIndex(bossPages.length);
   renderStageRoot(`
-    <div class="question-card">
-      <div class="kicker">BOSS</div>
-      <h3>${escapeHtml(round.question)}</h3>
-      <p>${escapeHtml(round.help)}</p>
-    </div>
-    ${showdownPair.length === 2 ? `
-      <div class="panel training-bay">
-        <div class="section-title">
-          <h2>Worked Example Showdown</h2>
-          <p>Judge before you draft</p>
-        </div>
-        <p class="small-copy">Choose the stronger response first. This helps students notice what quality looks like before they write their own answer.</p>
-        <div class="sample-grid">
-          ${showdownPair.map((sample, index) => `
-            <article class="sample-card">
-              <div class="sample-meta">
-                <strong>Sample ${index + 1}</strong>
-                <span>${escapeHtml(sample.label)}</span>
-              </div>
-              <p>${escapeHtml(sample.response)}</p>
-              <button
-                type="button"
-                class="choice-button ${state.answers.bossShowdown === sample.label ? "selected live-selected" : ""}"
-                style="margin-top:12px;"
-                onclick="window.ESTPrep.setChoiceEncoded('bossShowdown', '${encodeForInlineHandler(sample.label)}')"
-              >
-                <strong>This is stronger</strong>
-              </button>
-            </article>
-          `).join("")}
-        </div>
-        <div class="written-stage">
-          <strong>Why?</strong>
-          <p class="small-copy">Explain what makes the stronger sample better.</p>
-          ${renderFreeTextPrivacyNotice()}
-          <textarea id="boss-showdown-reason" placeholder="Explain what the stronger sample includes or does better..." oninput="window.ESTPrep.setBossShowdownReason(this.value)">${escapeHtml(state.answers.bossShowdownReason || "")}</textarea>
-        </div>
+    <section class="boss-sim-shell">
+      <img class="boss-sim-bg" src="${escapeHtml(EST_LAB_ASSETS.bossBackground)}" alt="">
+      <div class="boss-sim-overlay">
+        <header class="boss-sim-hud">
+          <div>
+            <span class="kicker">BOSS / Final Exam Simulation</span>
+            <h2>Build the answer that proves the training worked.</h2>
+          </div>
+          <div class="boss-tag-row">
+            ${round.conceptTags.map(tag => `<span>${escapeHtml(tag)}</span>`).join("")}
+          </div>
+        </header>
+        ${renderBossPageRail(bossPages, bossPageIndex)}
+        ${renderBossPageShell(bossPages, bossPageIndex)}
+        ${renderBossPageNav(bossPages, bossPageIndex)}
       </div>
-    ` : ""}
-    <div class="prompt-grid">
-      ${round.conceptTags.map(tag => `<div class="prompt-card"><strong>Revision tag</strong><p>${escapeHtml(tag)}</p></div>`).join("")}
-      <div class="prompt-card"><strong>Structure hint</strong><p>${escapeHtml(round.scaffold.split("\n").join(" "))}</p></div>
-    </div>
-    ${renderOptionGroup("boss-command", "Command word", round.commandOptions)}
-    ${renderOptionGroup("boss-content", "Best content point", round.contentOptions)}
-    ${renderOptionGroup("boss-glossary", "Glossary context term", round.glossaryOptions)}
-    ${renderBossResponseBuilder(round)}
-    <div class="written-stage">
-      <strong>Final simulation response</strong>
-      <p class="small-copy">${escapeHtml(round.scaffold)}</p>
-      ${renderFreeTextPrivacyNotice()}
-      <textarea id="boss-response" placeholder="Write your EST-style answer here...">${escapeHtml(state.answers.bossText || "")}</textarea>
-    </div>
-    <div class="panel">
-      <div class="section-title">
-        <h2>Community Contribution</h2>
-        <p class="status-watch">Class impact</p>
-      </div>
-      <p class="small-copy">Ten percent of this round’s reward feeds the wider class/community economy. Choose where this answer will direct its contribution.</p>
-      <div class="choice-grid">${communityOptions}</div>
-    </div>
-    <div class="written-stage">
-      <button class="submit-button" type="button" onclick="window.ESTPrep.submitBoss()">Submit BOSS response</button>
-    </div>
+    </section>
   `);
 }
 
@@ -302,7 +1376,28 @@ function setChoice(groupKey, option) {
   }
   state.answers[groupKey] = option;
   updateSelectionButtons(groupKey, option);
-  setSelectionPulse(groupKey, option);
+  if (BOSS_LOADOUT_KEYS[groupKey]) {
+    setBossSelectionPulse(groupKey, option);
+    persistESTProgressSnapshot();
+    renderBossStage();
+    setTimeout(() => {
+      const rack = document.getElementById(`boss-rack-${groupKey}`);
+      if (rack) rack.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 0);
+    return;
+  } else if (groupKey === "bossShowdown") {
+    state.recentReward = {
+      type: "positive",
+      title: "Marker lens tuned",
+      detail: "That sample choice is saved. Add the note, then move into the response forge."
+    };
+    persistESTProgressSnapshot();
+    renderBossStage();
+    renderRewardPulse();
+    return;
+  } else {
+    setSelectionPulse(groupKey, option);
+  }
   persistESTProgressSnapshot();
 }
 
@@ -312,6 +1407,7 @@ function setChoiceEncoded(groupKey, encodedOption) {
 
 function setBossScaffold(index, value) {
   state.answers[`boss-scaffold-${index}`] = value;
+  syncBossDraftFromScaffold(state.stageDeck?.bossRound);
   persistESTProgressSnapshot();
 }
 
@@ -323,21 +1419,11 @@ function setBossShowdownReason(value) {
 function buildBossDraft() {
   const round = state.stageDeck?.bossRound;
   if (!round) return;
-  const draft = getBossScaffoldLines(round)
-    .map((line, index) => {
-      const label = line.replace("...", "").trim();
-      const value = state.answers[`boss-scaffold-${index}`] || "";
-      return value ? `${label} ${value}`.trim() : "";
-    })
-    .filter(Boolean)
-    .join("\n");
-  state.answers.bossText = draft;
-  const textarea = document.getElementById("boss-response");
-  if (textarea) textarea.value = draft;
+  syncBossDraftFromScaffold(round, { force: true });
   state.recentReward = {
     type: "positive",
-    title: "Draft built",
-    detail: "Your scaffold blocks have been assembled into a first EST response draft."
+    title: "Paragraph refreshed",
+    detail: "Your scaffold blocks are now joined in the final response box."
   };
   persistESTProgressSnapshot();
   renderRewardPulse();
@@ -441,6 +1527,33 @@ function renderBossSamples(round) {
   `;
 }
 
+function showDecoderFinalFeedback(progress, finalScoreRatio, previousBestRatio, bestUpdated) {
+  const scorePercent = Math.round(finalScoreRatio * 100);
+  const resultType = finalScoreRatio >= 0.75 ? "good" : finalScoreRatio >= 0.5 ? "warn" : "bad";
+  const bestLine = bestUpdated
+    ? `Best decoder result is now ${Math.round(state.stageBestScores.decoder * 100)}%.`
+    : `Best decoder result remains ${Math.round(previousBestRatio * 100)}%. This replay was saved but did not overwrite your best run.`;
+  setStageScene(finalScoreRatio >= 0.75 ? "restored" : "challenge");
+  renderStageRoot(`
+    <section class="decoder-lab-shell decoder-lab-shell--complete">
+      <img class="decoder-lab-bg" src="${escapeHtml(EST_LAB_ASSETS.decoderBackground)}" alt="">
+      <div class="decoder-lab-overlay decoder-complete-overlay">
+        <article class="decoder-complete-panel ${resultType}">
+          <img class="decoder-complete-badge" src="${escapeHtml(EST_LAB_ASSETS.caseBriefComplete)}" alt="" aria-hidden="true">
+          <div>
+            <span class="kicker">VTCS case banked</span>
+            <h2>Question forensics complete.</h2>
+            <p><strong>${progress.correct}/${progress.totalParts}</strong> VTCS clues secured across ${progress.total} questions.</p>
+            <p>${bestLine}</p>
+            <p>You banked marks and readiness by reading each question properly before writing.</p>
+          </div>
+          <button class="submit-button" type="button" onclick="window.ESTPrep.returnToTrack()">Back to EST Lab Track</button>
+        </article>
+      </div>
+    </section>
+  `);
+}
+
 function getBossScaffoldReviewParts(round) {
   return getBossScaffoldLines(round)
     .map((line, index) => ({
@@ -450,11 +1563,82 @@ function getBossScaffoldReviewParts(round) {
     .filter(part => part.response);
 }
 
+function showBossCompletionFeedback(round, review, strengths, nextSteps, rubric) {
+  const resultType = review.scorePercent >= 85 ? "good" : review.scorePercent >= 60 ? "warn" : "bad";
+  const stampAsset = resultType === "good"
+    ? EST_LAB_ASSETS.feedbackMarkSecured
+    : resultType === "warn"
+      ? EST_LAB_ASSETS.feedbackUpgradeAnswer
+      : EST_LAB_ASSETS.feedbackMissingEvidence;
+  setStageScene(resultType === "good" ? "success" : "challenge");
+  renderStageRoot(`
+    <section class="boss-sim-shell boss-sim-shell--complete">
+      <img class="boss-sim-bg" src="${escapeHtml(EST_LAB_ASSETS.bossBackground)}" alt="">
+      <div class="boss-sim-overlay boss-complete-overlay">
+        <img class="boss-complete-burst" src="${escapeHtml(EST_LAB_ASSETS.completionRewardBurst)}" alt="" aria-hidden="true">
+        <article class="boss-completion-panel ${resultType}">
+          <div class="boss-completion-head">
+            <div>
+              <span class="kicker">BOSS submitted</span>
+              <h2>${review.scorePercent}% • ${escapeHtml(review.band)} band</h2>
+              <p>Word count: ${review.wordCount}. ${escapeHtml(round.reviewSummary || "BOSS checked decoding, glossary control, answer structure, explanation, and result language.")}</p>
+            </div>
+            <img src="${escapeHtml(stampAsset)}" alt="" aria-hidden="true">
+          </div>
+          <div class="boss-completion-grid">
+            <section>
+              <h3>Your strengths</h3>
+              ${strengths}
+            </section>
+            <section>
+              <h3>Next steps</h3>
+              ${nextSteps}
+            </section>
+          </div>
+          <section class="boss-completion-model">
+            <h3>Marker model</h3>
+            <p>${escapeHtml(round.strongAnswer)}</p>
+          </section>
+          <section>
+            <h3>Scanner snapshot</h3>
+            ${rubric}
+          </section>
+          ${renderBossSamples(round)}
+          <button class="submit-button" type="button" onclick="window.ESTPrep.returnToTrack()">Back to EST Lab Track</button>
+        </article>
+      </div>
+    </section>
+  `);
+}
+
 async function submitDecoder() {
   const rounds = getDecoderRounds();
   const roundIndex = getDecoderRoundIndex();
   const round = rounds[roundIndex];
   if (!round) return;
+  const briefState = getDecoderBriefState(round, roundIndex);
+  if (!briefState.isComplete) {
+    const targetItem = briefState.parts.find(item => item.isMisread) || briefState.parts.find(item => !item.isCorrect);
+    if (targetItem) state.decoderActivePart = targetItem.part.id;
+    state.decoderPulse = {
+      type: "warn",
+      title: "Not ready to bank",
+      detail: targetItem
+        ? targetItem.isMisread
+          ? getDecoderHint(targetItem.part, round)
+          : `Restore the ${targetItem.part.label} clue first. ${targetItem.part.mission}`
+        : "Restore all four VTCS clues before banking this question."
+    };
+    state.recentReward = {
+      type: "warning",
+      title: "Finish the repair",
+      detail: "The bank button unlocks after Verb, Topic, Context, and Structure are all correct."
+    };
+    persistESTProgressSnapshot();
+    renderDecoderStage();
+    renderRewardPulse();
+    return;
+  }
   const durationSeconds = getCurrentStageDurationSeconds();
   const answersByPart = getDecoderAnswers(roundIndex);
   const correctCount = DECODER_PARTS.filter(part => answersByPart[part.id] === round[part.correctKey]).length;
@@ -486,6 +1670,12 @@ async function submitDecoder() {
   if (roundIndex < rounds.length - 1) {
     const type = questionScoreRatio >= 0.75 ? "good" : questionScoreRatio >= 0.5 ? "warn" : "bad";
     state.decoderRoundIndex = roundIndex + 1;
+    state.decoderActivePart = DECODER_PARTS[0].id;
+    state.decoderPulse = {
+      type: "good",
+      title: "Brief banked",
+      detail: `Question ${roundIndex + 2} is online. Start with the command verb, then repair each clue lock.`
+    };
     state.decoderTransitionFeedback = {
       type,
       questionNumber: roundIndex + 1,
@@ -538,13 +1728,7 @@ async function submitDecoder() {
     }
   });
   persistESTProgressSnapshot();
-  showFeedbackBox(finalScoreRatio >= 0.75 ? "good" : finalScoreRatio >= 0.5 ? "warn" : "bad", [
-    `<strong>Decoder results:</strong> ${progress.correct}/${progress.totalParts} VTCS parts correct across ${progress.total} questions.`,
-    `${improvedBest || firstDecoderClear
-      ? `Best decoder result is now ${Math.round(state.stageBestScores.decoder * 100)}%.`
-      : `Best decoder result remains ${Math.round(previousBestRatio * 100)}%. This replay was saved but did not overwrite your best run.`}`,
-    "You banked marks and readiness by reading each question properly before writing."
-  ]);
+  showDecoderFinalFeedback(progress, finalScoreRatio, previousBestRatio, improvedBest || firstDecoderClear);
 }
 
 async function submitBoss() {
@@ -635,19 +1819,5 @@ async function submitBoss() {
     </div>
   `;
 
-  showFeedbackBox(review.scorePercent >= 85 ? "good" : review.scorePercent >= 60 ? "warn" : "bad", [
-    `<strong>BOSS complete:</strong> ${review.scorePercent}% • ${review.band} band.`,
-    `Word count: ${review.wordCount}. ${escapeHtml(round.reviewSummary || "BOSS checked decoding, glossary control, answer structure, explanation, and result language.")}`,
-    `Marker model: ${escapeHtml(round.strongAnswer)}`
-  ], `
-    <div class="sample-review">
-      <h3>Your strengths</h3>
-      ${strengths}
-      <h3>Next steps</h3>
-      ${nextSteps}
-      <h3>Rubric snapshot</h3>
-      ${rubric}
-    </div>
-    ${renderBossSamples(round)}
-  `);
+  showBossCompletionFeedback(round, review, strengths, nextSteps, rubric);
 }
