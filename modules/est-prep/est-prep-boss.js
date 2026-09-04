@@ -7,11 +7,239 @@ function getBossShowdownPair(round) {
   return round.sampleResponses.slice(0, 2);
 }
 
+function isBossStrongSample(sample) {
+  return /strong/i.test(`${sample?.band || ""} ${sample?.label || ""}`);
+}
+
+function getBossShowdownResult(showdownPair) {
+  const selectedLabel = state.answers.bossShowdown || "";
+  const selectedSample = showdownPair.find(sample => sample.label === selectedLabel);
+  const correctSample = showdownPair.find(isBossStrongSample);
+  return {
+    selectedLabel,
+    selectedSample,
+    correctSample,
+    isCorrect: Boolean(selectedSample && isBossStrongSample(selectedSample))
+  };
+}
+
 function getBossScaffoldLines(round) {
   return String(round?.scaffold || "")
     .split("\n")
     .map(line => line.trim())
     .filter(Boolean);
+}
+
+function escapeBossRegExp(value) {
+  return String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function uniqueBossTerms(terms) {
+  const seen = new Set();
+  return (terms || []).map(term => String(term || "").trim()).filter(term => {
+    const key = term.toLowerCase();
+    if (!term || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function getBossAnswerPartsSignal(round) {
+  const question = String(round?.question || "");
+  const lower = question.toLowerCase();
+  const patterns = [
+    { test: /three workplace situations/, value: "three workplace situations", terms: ["three workplace situations", "three", "situations"] },
+    { test: /three key pieces of advice/, value: "three pieces of advice", terms: ["three key pieces of advice", "three", "advice"] },
+    { test: /two different sources of advice/, value: "two advice sources", terms: ["two different sources of advice", "two", "sources of advice"] },
+    { test: /two responses.*selection criteria/, value: "two STAR responses", terms: ["two responses", "selection criteria", "STAR method"] },
+    { test: /three time-management tools|three time management tools/, value: "three time-management tools", terms: ["three", "tools"] },
+    { test: /one megatrend/, value: "one megatrend impact", terms: ["one megatrend", "one", "megatrend"] }
+  ];
+  const match = patterns.find(pattern => pattern.test.test(lower));
+  if (match) return match;
+  const numberMatch = question.match(/\b(one|two|three|four)\b/i);
+  return {
+    value: numberMatch ? `${numberMatch[1].toLowerCase()} answer parts` : "answer parts",
+    terms: numberMatch ? [numberMatch[1]] : []
+  };
+}
+
+function getBossContextSignal(round) {
+  const question = String(round?.question || "");
+  const lower = question.toLowerCase();
+  const candidates = [
+    "school, work, and personal responsibilities",
+    "life and work responsibilities",
+    "workplace situations",
+    "work environment",
+    "workplace",
+    "young person",
+    "young people",
+    "financial management",
+    "career development",
+    "selection criteria",
+    "budgeting"
+  ];
+  const matches = candidates.filter(candidate => lower.includes(candidate.toLowerCase()));
+  if (!matches.length) return null;
+  const value = matches.includes("school, work, and personal responsibilities")
+    ? "young person: school, work, and personal responsibilities"
+    : matches.slice(0, 2).join(" / ");
+  return { value, terms: matches };
+}
+
+function getBossQuestionSignals(round) {
+  const tags = Array.isArray(round?.conceptTags) ? round.conceptTags : [];
+  const command = String(round?.correctCommand || tags[tags.length - 1] || "").trim();
+  const topic = String(round?.correctGlossary || tags.find(tag => tag !== command) || "").trim();
+  const topicTerms = topic ? [topic, topic.replace(/\s+/g, "-")] : [];
+  const parts = getBossAnswerPartsSignal(round);
+  const context = getBossContextSignal(round);
+  return [
+    {
+      id: "command",
+      label: "Command word",
+      value: command,
+      terms: [command],
+      detail: `${command || "The verb"} tells you how to answer.`
+    },
+    {
+      id: "topic",
+      label: "Topic language",
+      value: topic,
+      terms: topicTerms,
+      detail: "Use this course language in the answer."
+    },
+    {
+      id: "parts",
+      label: "Answer parts",
+      value: parts.value,
+      terms: parts.terms,
+      detail: "These are the pieces your answer must include."
+    },
+    {
+      id: "context",
+      label: "Context",
+      value: context?.value || "",
+      terms: context?.terms || [],
+      detail: "Keep the answer aimed at this situation."
+    }
+  ].filter(signal => signal.value);
+}
+
+function renderBossHighlightedQuestion(round) {
+  const question = String(round?.question || "Question loading...");
+  const matches = [];
+  getBossQuestionSignals(round).forEach(signal => {
+    uniqueBossTerms(signal.terms).forEach(term => {
+      const pattern = new RegExp(escapeBossRegExp(term), "gi");
+      let match = pattern.exec(question);
+      while (match) {
+        matches.push({
+          start: match.index,
+          end: match.index + match[0].length,
+          text: match[0],
+          signalId: signal.id,
+          label: signal.label
+        });
+        match = pattern.exec(question);
+      }
+    });
+  });
+
+  matches.sort((a, b) => a.start - b.start || b.end - a.end);
+  let html = "";
+  let cursor = 0;
+  matches.forEach(match => {
+    if (match.start < cursor) return;
+    html += escapeHtml(question.slice(cursor, match.start));
+    html += `<mark class="boss-question-word boss-question-word--${escapeHtml(match.signalId)}" title="${escapeHtml(match.label)}">${escapeHtml(match.text)}</mark>`;
+    cursor = match.end;
+  });
+  html += escapeHtml(question.slice(cursor));
+  return html;
+}
+
+function renderBossQuestionMap(round, activePageId) {
+  const activeSignalsByPage = {
+    loadout: ["command", "topic", "parts"],
+    calibration: ["command", "parts"],
+    forge: ["command", "topic", "parts", "context"],
+    scanner: ["command", "topic", "parts", "context"]
+  };
+  const activeSignals = new Set(activeSignalsByPage[activePageId] || []);
+  return `
+    <section class="boss-question-map" aria-label="Question map">
+      <div>
+        <span class="kicker">Question map</span>
+        <p>${escapeHtml(round.help || "Use the coloured clues to keep every answer page connected to the question.")}</p>
+      </div>
+      <div class="boss-question-signal-grid">
+        ${getBossQuestionSignals(round).map(signal => `
+          <span class="boss-question-signal boss-question-signal--${escapeHtml(signal.id)} ${activeSignals.has(signal.id) ? "active" : ""}">
+            <small>${escapeHtml(signal.label)}</small>
+            <strong>${escapeHtml(signal.value)}</strong>
+            <em>${escapeHtml(signal.detail)}</em>
+          </span>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function getBossScaffoldParts(round) {
+  const command = String(round?.correctCommand || "").toLowerCase();
+  return getBossScaffoldLines(round).map((line, index) => {
+    const labelSource = line.replace(/\.\.\.$/, "").trim();
+    const rawLabel = (labelSource.split(":")[0] || "").trim();
+    const lowerLabel = rawLabel.toLowerCase();
+    let label = rawLabel || `Answer part ${index + 1}`;
+    let signalId = "parts";
+    let instruction = "Build one answer piece that matches the coloured question clues.";
+
+    if (command === "list" && /^tool\s+\d+/i.test(rawLabel)) {
+      label = `Item ${index + 1}`;
+      instruction = "Name one relevant item from the answer-parts clue in the question.";
+    } else if (/^advice\s+\d+/i.test(rawLabel)) {
+      signalId = "parts";
+      instruction = "Give one practical piece of advice that answers the question.";
+    } else if (/^situation\s+\d+/i.test(rawLabel)) {
+      signalId = "context";
+      instruction = "Describe one workplace situation, not just the skill name.";
+    } else if (/^source\s+\d+/i.test(rawLabel)) {
+      signalId = "parts";
+      instruction = "Name one advice source and explain how it helps.";
+    } else if (/^criterion\s+\d+/i.test(rawLabel)) {
+      signalId = "parts";
+      instruction = "Build one STAR response for this criterion.";
+    } else if (/link/.test(lowerLabel)) {
+      signalId = "topic";
+      instruction = "Connect your answer back to the topic language.";
+    } else if (/how|why|because/.test(lowerLabel)) {
+      signalId = "command";
+      instruction = "Explain the cause, reason, or process.";
+    } else if (/result|outcome/.test(lowerLabel)) {
+      signalId = "context";
+      instruction = "State the outcome for the person or workplace in the question.";
+    }
+
+    const signal = getBossQuestionSignals(round).find(item => item.id === signalId) || getBossQuestionSignals(round)[0];
+    return {
+      label,
+      signalId,
+      signalLabel: signal?.label || "Question clue",
+      signalValue: signal?.value || "",
+      instruction
+    };
+  });
+}
+
+function cleanBossDraftSegment(value) {
+  return String(value || "")
+    .trim()
+    .replace(/^(tool|item|advice|situation|source|criterion)\s*\d+\s*:\s*/i, "")
+    .replace(/^(link|tools\/techniques|megatrend or impact|how\/why it affects careers|result for young people)\s*:\s*/i, "")
+    .replace(/\s+/g, " ");
 }
 
 const EST_LAB_ASSET_ROOT = "../../Assets/EST Preparation/est-lab-asset-packs/";
@@ -432,22 +660,26 @@ function renderDecoderTransitionFeedback(feedback) {
 }
 
 function renderBossResponseBuilder(round) {
-  const lines = getBossScaffoldLines(round);
+  const parts = getBossScaffoldParts(round);
   return `
     <div class="panel boss-forge-panel">
       <div class="section-title">
         <h2>Response Forge</h2>
-        <p>Blocks feed the paragraph</p>
+        <p>Answer parts feed the paragraph</p>
       </div>
-      <p class="small-copy">Each scaffold block joins into the final paragraph below.</p>
+      <p class="small-copy">Each box matches a coloured clue from the question above, then joins into the final paragraph below.</p>
       ${renderFreeTextPrivacyNotice()}
       <div class="builder-grid">
-        ${lines.map((line, index) => `
-          <div class="written-stage">
-            <strong>${escapeHtml(line.replace("...", "").trim() || `Scaffold ${index + 1}`)}</strong>
+        ${parts.map((part, index) => `
+          <div class="written-stage boss-builder-card boss-builder-card--${escapeHtml(part.signalId)}">
+            <div class="boss-builder-card-head">
+              <strong>${escapeHtml(part.label)}</strong>
+              <span>${escapeHtml(part.signalLabel)}: ${escapeHtml(part.signalValue)}</span>
+            </div>
+            <p class="small-copy">${escapeHtml(part.instruction)}</p>
             <textarea
               id="boss-scaffold-${index}"
-              placeholder="Write the key idea for this part..."
+              placeholder="Write this answer part..."
               oninput="window.ESTPrep.setBossScaffold(${index}, this.value)"
             >${escapeHtml(state.answers[`boss-scaffold-${index}`] || "")}</textarea>
           </div>
@@ -984,7 +1216,7 @@ function renderBossMarkerScanner(round) {
         <div class="boss-scanner-fill"></div>
       </div>
       <div class="boss-scanner-status">
-        <span class="kicker">Marker scanner</span>
+        <span class="kicker">Answer scanner</span>
         <strong>${scanner.fill}% ready</strong>
         <p>${scanner.wordCount}/${scanner.minimumWordCount} target words. Final marks are checked after submission.</p>
       </div>
@@ -1015,27 +1247,32 @@ function renderBossShowdownGate(round, showdownPair) {
       </section>
     `;
   }
+  const showdown = getBossShowdownResult(showdownPair);
+  const noteDisabled = showdown.isCorrect ? "" : "disabled";
+  const notePlaceholder = showdown.isCorrect
+    ? "Name the feature that makes this sample stronger..."
+    : "Choose the stronger sample first, then explain why it earns more marks.";
   return `
     <section class="boss-showdown-gate">
       <div class="boss-showdown-head">
         <div>
-          <span class="kicker">Calibration gate</span>
+          <span class="kicker">Sample check</span>
           <h3>Judge quality before drafting.</h3>
-          <p>Choose the response that would survive marker scanning, then name why.</p>
+          <p>Choose the response that would earn more marks, then say what makes it stronger.</p>
         </div>
-        <img src="${escapeHtml(EST_LAB_ASSETS.feedbackMarkSecured)}" alt="" aria-hidden="true">
+        <img src="${escapeHtml(showdown.isCorrect ? EST_LAB_ASSETS.feedbackMarkSecured : EST_LAB_ASSETS.feedbackUpgradeAnswer)}" alt="" aria-hidden="true">
       </div>
       <div class="sample-grid boss-sample-grid">
         ${showdownPair.map((sample, index) => `
-          <article class="sample-card boss-sample-card">
+          <article class="sample-card boss-sample-card ${state.answers.bossShowdown === sample.label ? isBossStrongSample(sample) ? "correct" : "incorrect" : ""}">
             <div class="sample-meta">
               <strong>Sample ${index + 1}</strong>
-              <span>${escapeHtml(sample.label)}</span>
+              <span>Answer option</span>
             </div>
             <p>${escapeHtml(sample.response)}</p>
             <button
               type="button"
-              class="choice-button ${state.answers.bossShowdown === sample.label ? "selected live-selected" : ""}"
+              class="choice-button ${state.answers.bossShowdown === sample.label ? "selected live-selected" : ""} ${state.answers.bossShowdown === sample.label ? isBossStrongSample(sample) ? "correct" : "incorrect" : ""}"
               onclick="window.ESTPrep.setChoiceEncoded('bossShowdown', '${encodeForInlineHandler(sample.label)}')"
             >
               <strong>This earns more marks</strong>
@@ -1043,11 +1280,46 @@ function renderBossShowdownGate(round, showdownPair) {
           </article>
         `).join("")}
       </div>
+      ${renderBossShowdownFeedback(showdown)}
       <div class="boss-showdown-reason">
-        <strong>Marker note</strong>
-        <textarea id="boss-showdown-reason" placeholder="Name the feature that makes the stronger sample more mark-worthy..." oninput="window.ESTPrep.setBossShowdownReason(this.value)">${escapeHtml(state.answers.bossShowdownReason || "")}</textarea>
+        <strong>Why this earns more</strong>
+        <textarea id="boss-showdown-reason" placeholder="${escapeHtml(notePlaceholder)}" oninput="window.ESTPrep.setBossShowdownReason(this.value)" ${noteDisabled}>${escapeHtml(state.answers.bossShowdownReason || "")}</textarea>
       </div>
     </section>
+  `;
+}
+
+function renderBossShowdownFeedback(showdown) {
+  if (!showdown.selectedSample) {
+    return `
+      <div class="boss-showdown-feedback neutral" aria-live="polite">
+        <img src="${escapeHtml(EST_LAB_ASSETS.guide.thinking)}" alt="" aria-hidden="true">
+        <div>
+          <strong>Pick the stronger sample.</strong>
+          <p>Look for specific details, clear structure, and a direct answer to the question.</p>
+        </div>
+      </div>
+    `;
+  }
+  if (showdown.isCorrect) {
+    return `
+      <div class="boss-showdown-feedback good" aria-live="polite">
+        <img src="${escapeHtml(EST_LAB_ASSETS.guide.celebration)}" alt="" aria-hidden="true">
+        <div>
+          <strong>Correct sample spotted.</strong>
+          <p>${escapeHtml(showdown.selectedSample.commentary || "This response gives enough detail and links back to the question.")}</p>
+        </div>
+      </div>
+    `;
+  }
+  return `
+    <div class="boss-showdown-feedback warn" aria-live="polite">
+      <img src="${escapeHtml(EST_LAB_ASSETS.guide.thinking)}" alt="" aria-hidden="true">
+      <div>
+        <strong>Try again.</strong>
+        <p>${escapeHtml(showdown.selectedSample.commentary || "That sample is too thin for the marks.")} Choose the sample with more specific evidence.</p>
+      </div>
+    </div>
   `;
 }
 
@@ -1059,7 +1331,7 @@ function setBossText(value) {
 
 function getBossDraftFromScaffold(round) {
   return getBossScaffoldLines(round)
-    .map((_, index) => String(state.answers[`boss-scaffold-${index}`] || "").trim().replace(/\s+/g, " "))
+    .map((_, index) => cleanBossDraftSegment(state.answers[`boss-scaffold-${index}`]))
     .filter(Boolean)
     .join(" ");
 }
@@ -1154,8 +1426,7 @@ function getBossPageDefinitions(round, loadoutItems, showdownPair, communityOpti
   const scanner = getBossScannerState(round);
   const scaffold = getBossScaffoldStatus(round);
   const response = String(state.answers.bossText || "").trim();
-  const showdownReady = Boolean(state.answers.bossShowdown);
-  const reasonReady = String(state.answers.bossShowdownReason || "").trim().length >= 8;
+  const showdown = getBossShowdownResult(showdownPair);
 
   return [
     {
@@ -1166,6 +1437,7 @@ function getBossPageDefinitions(round, loadoutItems, showdownPair, communityOpti
       detail: "Choose the three chips that should feed the final answer.",
       status: `${loadoutReview.locked}/${loadoutReview.total} systems secured`,
       isComplete: loadoutReview.locked === loadoutReview.total,
+      blockedNextLabel: "Secure all 3 systems first",
       visual: {
         tone: loadoutReview.locked === loadoutReview.total ? "good" : "neutral",
         title: loadoutReview.locked === loadoutReview.total ? "Loadout armed" : "Build the loadout",
@@ -1192,17 +1464,18 @@ function getBossPageDefinitions(round, loadoutItems, showdownPair, communityOpti
     {
       id: "calibration",
       label: "Samples",
-      eyebrow: "Page 2 / Marker calibration",
-      title: "Spot which sample earns more.",
+      eyebrow: "Page 2 / Sample check",
+      title: "Spot which answer earns more.",
       detail: "Compare two responses before writing so quality is visible.",
-      status: showdownReady ? reasonReady ? "choice and note saved" : "choice saved" : "choose a sample",
-      isComplete: showdownReady && reasonReady,
+      status: showdown.selectedSample ? showdown.isCorrect ? "strong sample spotted" : "try again" : "choose a sample",
+      isComplete: showdown.isCorrect,
+      blockedNextLabel: showdown.selectedSample ? "Choose the stronger sample first" : "Choose a sample first",
       visual: {
-        tone: showdownReady ? "good" : "neutral",
-        title: showdownReady ? "Marker lens tuned" : "Read like the marker",
+        tone: showdown.selectedSample ? showdown.isCorrect ? "good" : "warn" : "neutral",
+        title: showdown.selectedSample ? showdown.isCorrect ? "Strong sample spotted" : "Try that choice again" : "Compare like an examiner",
         detail: "Look for specific examples, structure, glossary control, and a clear link back to the question.",
-        character: showdownReady ? EST_LAB_ASSETS.guide.thumbsUp : EST_LAB_ASSETS.guide.thinking,
-        effect: showdownReady ? EST_LAB_ASSETS.feedbackMarkSecured : EST_LAB_ASSETS.feedbackUpgradeAnswer
+        character: showdown.selectedSample ? showdown.isCorrect ? EST_LAB_ASSETS.guide.thumbsUp : EST_LAB_ASSETS.guide.thinking : EST_LAB_ASSETS.guide.thinking,
+        effect: showdown.selectedSample ? showdown.isCorrect ? EST_LAB_ASSETS.feedbackMarkSecured : EST_LAB_ASSETS.misreadWarning : EST_LAB_ASSETS.feedbackUpgradeAnswer
       },
       html: renderBossShowdownGate(round, showdownPair)
     },
@@ -1214,6 +1487,7 @@ function getBossPageDefinitions(round, loadoutItems, showdownPair, communityOpti
       detail: "Use the scaffold, then turn it into one final response.",
       status: response ? `${response.split(/\s+/).filter(Boolean).length} words drafted` : `${scaffold.completed}/${Math.max(1, scaffold.total)} scaffold blocks`,
       isComplete: Boolean(response) || scaffold.completed >= Math.max(1, scaffold.total),
+      blockedNextLabel: "Add an answer part first",
       visual: {
         tone: response ? "good" : scaffold.completed ? "neutral" : "neutral",
         title: response ? "Draft forged" : "Response forge",
@@ -1227,7 +1501,7 @@ function getBossPageDefinitions(round, loadoutItems, showdownPair, communityOpti
             ${renderBossResponseBuilder(round)}
             <div class="written-stage boss-final-response">
               <strong>Final paragraph</strong>
-              <p class="small-copy">${escapeHtml(round.scaffold)}</p>
+              <p class="small-copy">Your answer parts join here. Polish the wording before you bank the response.</p>
               ${renderFreeTextPrivacyNotice()}
               <textarea id="boss-response" placeholder="The scaffold will build here. Polish the paragraph before banking it." oninput="window.ESTPrep.setBossText(this.value)">${escapeHtml(state.answers.bossText || "")}</textarea>
             </div>
@@ -1299,11 +1573,18 @@ function renderBossPageRail(pages, pageIndex) {
 
 function renderBossPageNav(pages, pageIndex) {
   const prevDisabled = pageIndex <= 0 ? "disabled" : "";
-  const nextDisabled = pageIndex >= pages.length - 1 ? "disabled" : "";
-  const nextLabel = pageIndex < pages.length - 1 ? `Next: ${pages[pageIndex + 1].label}` : "Bank on this page";
+  const page = pages[pageIndex];
+  const nextBlocked = pageIndex < pages.length - 1 && !page.isComplete;
+  const nextDisabled = pageIndex >= pages.length - 1 || nextBlocked ? "disabled" : "";
+  const prevLabel = pageIndex > 0 ? `Previous: ${pages[pageIndex - 1].label}` : "Previous page";
+  const nextLabel = pageIndex < pages.length - 1
+    ? nextBlocked
+      ? page.blockedNextLabel || "Finish this page first"
+      : `Next page: ${pages[pageIndex + 1].label}`
+    : "Use Bank BOSS response below";
   return `
     <footer class="boss-page-nav">
-      <button class="submit-button ghost boss-page-back-button" type="button" onclick="window.ESTPrep.moveBossPage(-1)" ${prevDisabled}>Back</button>
+      <button class="submit-button ghost boss-page-back-button" type="button" onclick="window.ESTPrep.moveBossPage(-1)" ${prevDisabled}>${escapeHtml(prevLabel)}</button>
       <span>Page ${pageIndex + 1} of ${pages.length}</span>
       <button class="submit-button boss-page-next-button" type="button" onclick="window.ESTPrep.moveBossPage(1)" ${nextDisabled}>${escapeHtml(nextLabel)}</button>
     </footer>
@@ -1348,19 +1629,22 @@ function renderBossStage() {
   `).join("");
   const bossPages = getBossPageDefinitions(round, loadoutItems, showdownPair, communityOptions);
   const bossPageIndex = getBossPageIndex(bossPages.length);
+  const activeBossPage = bossPages[bossPageIndex];
   renderStageRoot(`
     <section class="boss-sim-shell">
       <img class="boss-sim-bg" src="${escapeHtml(EST_LAB_ASSETS.bossBackground)}" alt="">
       <div class="boss-sim-overlay">
         <header class="boss-sim-hud">
-          <div>
+          <div class="boss-hud-question">
             <span class="kicker">BOSS / Final Exam Simulation</span>
-            <h2>Build the answer that proves the training worked.</h2>
+            <h2>${renderBossHighlightedQuestion(round)}</h2>
+            <p>${escapeHtml(round.help || "Use the coloured question clues to build the final answer.")}</p>
           </div>
           <div class="boss-tag-row">
             ${round.conceptTags.map(tag => `<span>${escapeHtml(tag)}</span>`).join("")}
           </div>
         </header>
+        ${renderBossQuestionMap(round, activeBossPage.id)}
         ${renderBossPageRail(bossPages, bossPageIndex)}
         ${renderBossPageShell(bossPages, bossPageIndex)}
         ${renderBossPageNav(bossPages, bossPageIndex)}
@@ -1386,10 +1670,13 @@ function setChoice(groupKey, option) {
     }, 0);
     return;
   } else if (groupKey === "bossShowdown") {
+    const showdown = getBossShowdownResult(getBossShowdownPair(state.stageDeck?.bossRound));
     state.recentReward = {
-      type: "positive",
-      title: "Marker lens tuned",
-      detail: "That sample choice is saved. Add the note, then move into the response forge."
+      type: showdown.isCorrect ? "positive" : "warning",
+      title: showdown.isCorrect ? "Strong sample spotted" : "Try that sample again",
+      detail: showdown.isCorrect
+        ? "That sample has enough detail for the question. Move into the response forge."
+        : "Look for the response with more specific evidence and a clearer link to the question."
     };
     persistESTProgressSnapshot();
     renderBossStage();
@@ -1555,10 +1842,10 @@ function showDecoderFinalFeedback(progress, finalScoreRatio, previousBestRatio, 
 }
 
 function getBossScaffoldReviewParts(round) {
-  return getBossScaffoldLines(round)
-    .map((line, index) => ({
-      label: line.replace(/\.\.\.$/, "").trim() || `Scaffold ${index + 1}`,
-      response: String(state.answers[`boss-scaffold-${index}`] || "").trim()
+  return getBossScaffoldParts(round)
+    .map((part, index) => ({
+      label: part.label,
+      response: cleanBossDraftSegment(state.answers[`boss-scaffold-${index}`])
     }))
     .filter(part => part.response);
 }
@@ -1596,7 +1883,7 @@ function showBossCompletionFeedback(round, review, strengths, nextSteps, rubric)
             </section>
           </div>
           <section class="boss-completion-model">
-            <h3>Marker model</h3>
+            <h3>Strong sample answer</h3>
             <p>${escapeHtml(round.strongAnswer)}</p>
           </section>
           <section>
