@@ -52,6 +52,8 @@ test("Avatar Studio defaults to the Take 2 ECC rig base", async ({ page }) => {
 });
 
 test("Avatar Studio ECC rig uses the approved Take 2 layer stack", async ({ page }) => {
+  test.setTimeout(90_000);
+
   await page.goto("/modules/avatar/", { waitUntil: "domcontentloaded" });
 
   const getPreviewHtml = () => page.locator("#avatar-render").evaluate(element => element.innerHTML);
@@ -98,7 +100,15 @@ test("Avatar Studio ECC rig uses the approved Take 2 layer stack", async ({ page
   await expect(page.locator('[data-avatar-key="hairColour"][data-avatar-value="blonde"]')).toBeEnabled();
   await page.locator('[data-avatar-key="hairColour"][data-avatar-value="blonde"]').click();
   expect(await getPreviewHtml()).toContain('data-rig-layer="Boy Hair Blonde.png"');
-  await expect(page.locator('[data-avatar-key="hairColour"][data-avatar-value="silver"]')).toBeDisabled();
+  await expect(page.locator('[data-avatar-key="hairColour"][data-avatar-value="auburn-deep"]')).toBeEnabled();
+  await page.locator('[data-avatar-key="hairColour"][data-avatar-value="auburn-deep"]').click();
+  expect(await getPreviewHtml()).toContain('data-rig-layer="Boy Hair Auburn Deep.png"');
+  await expect(page.locator('[data-avatar-key="hairColour"][data-avatar-value="silver"]')).toBeEnabled();
+  await page.locator('[data-avatar-key="hairColour"][data-avatar-value="silver"]').click();
+  expect(await getPreviewHtml()).toContain('data-rig-layer="Boy Hair Silver.png"');
+  await expect(page.locator('[data-avatar-key="hairColour"][data-avatar-value="teal"]')).toBeEnabled();
+  await page.locator('[data-avatar-key="hairColour"][data-avatar-value="teal"]').click();
+  expect(await getPreviewHtml()).toContain('data-rig-layer="Boy Hair Teal.png"');
   await page.locator('[data-avatar-key="hairColour"][data-avatar-value="brown"]').click();
 
   await page.getByRole("tab", { name: "Outfit" }).click();
@@ -106,6 +116,13 @@ test("Avatar Studio ECC rig uses the approved Take 2 layer stack", async ({ page
   await expect(page.locator('[data-avatar-key="pants"][data-avatar-value="ecc-navy-pants"]')).toHaveClass(/is-selected/);
   await expect(page.locator('[data-avatar-key="shoes"][data-avatar-value="black-school-shoes"]')).toHaveClass(/is-selected/);
   await expect(page.locator('[data-avatar-key="blazer"][data-avatar-value="ecc-navy-blazer"]')).toHaveClass(/is-selected/);
+  await expect(page.locator('[data-avatar-key="pants"][data-avatar-value="ecc-burgundy-pants"]')).toBeEnabled();
+  await page.locator('[data-avatar-key="pants"][data-avatar-value="ecc-burgundy-pants"]').click();
+  expect(await getPreviewHtml()).toContain('data-rig-layer="Boy Pants Burgundy.png"');
+  await expect(page.locator('[data-avatar-key="pants"][data-avatar-value="ecc-jeans"]')).toBeEnabled();
+  await page.locator('[data-avatar-key="pants"][data-avatar-value="ecc-jeans"]').click();
+  expect(await getPreviewHtml()).toContain('data-rig-layer="Boy Jeans.png"');
+  await page.locator('[data-avatar-key="pants"][data-avatar-value="ecc-navy-pants"]').click();
   await page.locator('[data-avatar-key="shoes"][data-avatar-value="brown-school-shoes"]').click();
   const brownShoesPreview = await getPreviewHtml();
   expect(brownShoesPreview).toContain('data-rig-layer="Brown Shoes.png"');
@@ -122,6 +139,11 @@ test("Avatar Studio ECC rig uses the approved Take 2 layer stack", async ({ page
   const labCoatPreview = await getPreviewHtml();
   expect(labCoatPreview).toContain('data-rig-layer="Boy Lab Coat.png"');
   expect(labCoatPreview).not.toContain('data-rig-layer="Boy Hi Vis Vest.png"');
+  await expect(page.locator('[data-avatar-key="blazer"][data-avatar-value="camel-blazer"]')).toBeEnabled();
+  await page.locator('[data-avatar-key="blazer"][data-avatar-value="camel-blazer"]').click();
+  const camelJacketPreview = await getPreviewHtml();
+  expect(camelJacketPreview).toContain('data-rig-layer="Boy Blazer Camel.png"');
+  expect(camelJacketPreview).not.toContain('data-rig-layer="Boy Lab Coat.png"');
   await page.locator('[data-avatar-key="blazer"][data-avatar-value="ecc-navy-blazer"]').click();
   await page.locator('[data-avatar-key="shirt"][data-avatar-value="none"]').click();
   await page.locator('[data-avatar-key="pants"][data-avatar-value="none"]').click();
@@ -158,7 +180,7 @@ test("Avatar Studio cleans up previously saved unapproved avatar choices", async
         faceStyle: "freckled",
         eyeColour: "green",
         hairStyle: "crop",
-        hairColour: "silver",
+        hairColour: "platinum",
         outfit: "ecc-sports",
         shirt: "custom-shirt",
         pants: "custom-pants",
