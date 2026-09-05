@@ -1,6 +1,6 @@
 (function () {
   window.CareerEmpireAvatarParts = {
-    schemaVersion: 10,
+    schemaVersion: 11,
     rig: {
       id: "ecc-student-take-2-layered-rig-v1",
       canvas: { width: 1280, height: 720 },
@@ -138,7 +138,10 @@
           }
         }
       },
-      accessoryLayers: {},
+      accessoryLayers: {
+        "tool-belt-brown": "Boy Tool Belt Brown.png",
+        "safety-goggles-clear": "Boy Safety Goggles Clear.png"
+      },
       eyeColourLayers: {},
       layerOrder: [
         "Neutral Boy Smooth Transparent background.png",
@@ -244,13 +247,16 @@
     ],
     shirtOptions: [
       { id: "none", label: "Neutral base", token: "-", layer: null, note: "No shirt layer" },
-      { id: "ecc-shirt-tie", label: "Shirt and tie", token: "S", layer: "Boy Shirt and tie.png", source: "avatar-take-2-layered-png" }
+      { id: "ecc-shirt-tie", label: "Shirt and tie", token: "S", layer: "Boy Shirt and tie.png", source: "avatar-take-2-layered-png" },
+      { id: "scrubs-top-teal", label: "Teal scrub top", token: "ST", layer: "Boy Scrubs Top Teal.png", source: "avatar-take-2-layered-png" },
+      { id: "chef-jacket-white", label: "Chef jacket", token: "CJ", layer: "Boy Chef Jacket White.png", source: "avatar-take-2-layered-png" }
     ],
     pantsOptions: [
       { id: "none", label: "Neutral base", token: "-", layer: null, note: "No pants layer" },
       { id: "ecc-navy-pants", label: "Navy pants", token: "P", layer: "Boy Pants.png", source: "avatar-take-2-layered-png" },
       { id: "ecc-burgundy-pants", label: "Burgundy pants", token: "PB", layer: "Boy Pants Burgundy.png", source: "avatar-take-2-layered-png" },
-      { id: "ecc-jeans", label: "Jeans", token: "J", layer: "Boy Jeans.png", source: "avatar-take-2-layered-png" }
+      { id: "ecc-jeans", label: "Jeans", token: "J", layer: "Boy Jeans.png", source: "avatar-take-2-layered-png" },
+      { id: "scrubs-pants-teal", label: "Teal scrub pants", token: "SP", layer: "Boy Scrubs Pants Teal.png", source: "avatar-take-2-layered-png" }
     ],
     shoeOptions: [
       { id: "none", label: "Bare feet", color: "#dba77c", layer: null, note: "Neutral base feet" },
@@ -258,11 +264,12 @@
       { id: "brown-school-shoes", label: "Brown", color: "#8b5b10", layer: "Brown Shoes.png", source: "avatar-take-2-layered-png" }
     ],
     blazerOptions: [
-      { id: "none", label: "No blazer", token: "-", layer: null, note: "Base and shirt only" },
+      { id: "none", label: "No outer layer", token: "-", layer: null, note: "Base and shirt only" },
       { id: "ecc-navy-blazer", label: "ECC blazer", token: "B", layer: "Boy Blazer.png", source: "avatar-take-2-layered-png" },
       { id: "hivis-vest", label: "Hi-vis vest", token: "HV", layer: "Boy Hi Vis Vest.png", source: "avatar-take-2-layered-png" },
       { id: "lab-coat", label: "Lab coat", token: "LC", layer: "Boy Lab Coat.png", source: "avatar-take-2-layered-png" },
-      { id: "camel-blazer", label: "Camel jacket", token: "CJ", layer: "Boy Blazer Camel.png", source: "avatar-take-2-layered-png" }
+      { id: "camel-blazer", label: "Camel jacket", token: "CJ", layer: "Boy Blazer Camel.png", source: "avatar-take-2-layered-png" },
+      { id: "chef-apron-black", label: "Chef apron", token: "CA", layer: "Boy Chef Apron Black.png", source: "avatar-take-2-layered-png" }
     ],
     outfits: [
       {
@@ -467,6 +474,8 @@
     ],
     accessories: [
       { id: "none", label: "None", token: "-" },
+      { id: "tool-belt-brown", label: "Tool belt", token: "TB", source: "avatar-take-2-layered-png" },
+      { id: "safety-goggles-clear", label: "Safety goggles", token: "SG", source: "avatar-take-2-layered-png" },
       { id: "earrings", label: "Small earrings", token: "E", plannedOnly: true, note: "Needs aligned ear layer" },
       { id: "badge", label: "Name badge", token: "N", plannedOnly: true, note: "Needs name-badge art" },
       { id: "glasses", label: "Glasses", token: "G", plannedOnly: true, note: "Needs better art" },
