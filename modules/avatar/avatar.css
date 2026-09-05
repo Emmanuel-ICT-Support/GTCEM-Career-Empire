@@ -144,6 +144,7 @@ body.avatar-page::before {
 
 .avatar-preview-panel {
   display: grid;
+  align-self: start;
   grid-template-rows: auto minmax(360px, 1fr) auto;
   min-height: 710px;
   overflow: hidden;
@@ -375,7 +376,6 @@ body.avatar-page::before {
   border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(10px);
   z-index: 2;
 }
 
@@ -383,6 +383,10 @@ body.avatar-page::before {
 .avatar-nameplate span {
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.avatar-nameplate strong {
+  color: var(--avatar-ink);
 }
 
 .avatar-nameplate span {

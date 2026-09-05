@@ -1,6 +1,6 @@
 (function () {
   window.CareerEmpireAvatarParts = {
-    schemaVersion: 11,
+    schemaVersion: 12,
     rig: {
       id: "ecc-student-take-2-layered-rig-v1",
       canvas: { width: 1280, height: 720 },
@@ -12,6 +12,7 @@
         "hairColour",
         "uniform",
         "shirt",
+        "jumper",
         "pants",
         "shoes",
         "blazer",
@@ -104,7 +105,7 @@
       basePath: "../../Assets/Images and Animations/Avatar Studio",
       canvas: { width: 1280, height: 720 },
       starterPackId: "ecc-boy-take-2-layered-v1",
-      note: "Take 2 boy starter rig. Runtime starts with the neutral base and layers the selected clothing, shoes, blazer, and hair on top.",
+      note: "Registered boy and girl neutral rigs with independent shirt, jumper, outerwear, and hair layers.",
       usePreviewBase: true,
       useFeatureOverlays: false,
       renderHairStyleLayersWithPreviewBase: true,
@@ -116,6 +117,7 @@
         { id: "uniform/pants", order: 30, slot: "bottoms", canvas: "1280x720", anchor: "waistLine", overlap: "top sits under shirt and blazer" },
         { id: "uniform/shirt-and-tie", order: 40, slot: "shirt", canvas: "1280x720", anchor: "neckOpening", overlap: "collar and tie sit under blazer lapels" },
         { id: "shoes", order: 50, slot: "shoes", canvas: "1280x720", anchor: "feetBaseline", overlap: "shoes cover trouser hems" },
+        { id: "uniform/jumper", order: 55, slot: "jumper", canvas: "1280x720", anchor: "shoulderLine", overlap: "full jumper sits over the shirt and under outerwear" },
         { id: "uniform/blazer", order: 60, slot: "outerwear", canvas: "1280x720", anchor: "shoulderLine", overlap: "blazer covers shirt, sleeves, and waist joins" },
         { id: "hair/front", order: 70, slot: "hair", canvas: "1280x720", anchor: "headCenter", overlap: "hair covers the bald neutral base head" }
       ],
@@ -146,9 +148,10 @@
       layerOrder: [
         "Neutral Boy Smooth Transparent background.png",
         "Boy Pants.png",
-        "Boy Shirt and tie.png",
+        "Boy Full Shirt Teal Tie.png",
         "Shoes Corrected.png",
-        "Boy Blazer.png",
+        "Boy Full Jumper Teal.png",
+        "Boy Blazer Separate Navy.png",
         "Boy Hair.png"
       ],
       expressionPlates: [],
@@ -161,6 +164,10 @@
           defaultExpression: "neutral",
           compatibleBodyRig: "ecc-boy-standard",
           compatibleFaceRig: "ecc-boy-take-2-face",
+          config: {
+            supportedChoices: { eyeColour: ["blue"] },
+            occlusion: { sleeveBand: [190, 388], torsoEdges: [600, 680], collarBox: [603, 172, 678, 262] }
+          },
           previewFit: {
             width: "min(765px, 190vw)"
           },
@@ -196,11 +203,57 @@
           requiredStarterLayers: [
             "Neutral Boy Smooth Transparent background.png",
             "Boy Pants.png",
-            "Boy Shirt and tie.png",
+            "Boy Full Shirt Teal Tie.png",
             "Shoes Corrected.png",
-            "Boy Blazer.png",
+            "Boy Full Jumper Teal.png",
+            "Boy Blazer Separate Navy.png",
             "Boy Hair.png"
           ]
+        },
+        "ecc-girl-take-2-layered": {
+          id: "ecc-girl-take-2-layered",
+          label: "ECC girl Take 2 layered",
+          fileRoot: "",
+          previewPath: "../../Assets/Images and Animations/Avatar Studio/Neutral Girl Take 2.png",
+          defaultExpression: "neutral",
+          compatibleBodyRig: "ecc-girl-standard",
+          compatibleFaceRig: "ecc-girl-take-2-face",
+          previewFit: { width: "min(765px, 190vw)" },
+          anchors: {
+            root: { x: 640, y: 676 }, feetBaseline: { x: 640, y: 676 },
+            hips: { x: 640, y: 401 }, waistLine: { x: 640, y: 365 },
+            torso: { x: 640, y: 296 }, chest: { x: 640, y: 267 },
+            neckCenter: { x: 640, y: 209 }, neckOpening: { x: 640, y: 221 },
+            headCenter: { x: 640, y: 128 }, faceCenter: { x: 640, y: 151 },
+            leftEye: { x: 615, y: 135 }, rightEye: { x: 666, y: 135 },
+            leftShoulder: { x: 584, y: 224 }, rightShoulder: { x: 696, y: 224 },
+            leftHandRest: { x: 553, y: 446 }, rightHandRest: { x: 729, y: 446 }
+          },
+          config: {
+            starterPackId: "ecc-girl-take-2-layered-v1",
+            baseImage: "Neutral Girl Take 2.png",
+            supportedChoices: { eyeColour: ["brown"] },
+            occlusion: { sleeveBand: [215, 423], torsoEdges: [599, 682], collarBox: [602, 198, 682, 290] },
+            hairStyleLayerSets: {
+              none: { back: null, front: null },
+              waves: { front: "Girl Hair Waves Brown.png", colourVariants: {
+                brown: { front: "Girl Hair Waves Brown.png" },
+                black: { front: "Girl Hair Waves Black.png" },
+                auburn: { front: "Girl Hair Waves Auburn.png" },
+                "auburn-deep": { front: "Girl Hair Waves Auburn Deep.png" },
+                blonde: { front: "Girl Hair Waves Blonde.png" },
+                teal: { front: "Girl Hair Waves Teal.png" },
+                silver: { front: "Girl Hair Waves Silver.png" }
+              } },
+              bob: { front: "Girl Hair Bob Brown.png", colourVariants: { brown: { front: "Girl Hair Bob Brown.png" } } },
+              ponytail: { front: "Girl Hair Ponytail Brown.png", colourVariants: { brown: { front: "Girl Hair Ponytail Brown.png" } } }
+            },
+            accessoryLayers: {
+              "tool-belt-brown": "Girl Tool Belt Brown.png",
+              "safety-goggles-clear": "Girl Safety Goggles Clear.png"
+            }
+          },
+          requiredStarterLayers: ["Neutral Girl Take 2.png", "Girl Skirt Tartan.png", "Girl Full Shirt Teal Tie.png", "Girl Full Jumper Teal.png", "Girl Blazer Separate Navy.png", "Girl Shoes Black.png", "Girl Hair Bob Brown.png"]
         }
       }
     },
@@ -230,6 +283,8 @@
     hairStyles: [
       { id: "none", label: "No hair", token: "-", slot: "hair/none", source: "take-2-baked-base", note: "Uses neutral base head" },
       { id: "waves", label: "Take 2 hair", token: "W", slot: "hair/take-2-front" },
+      { id: "bob", label: "Side-part bob", token: "B", compatibleRigs: ["ecc-girl-take-2-layered"] },
+      { id: "ponytail", label: "Ponytail", token: "P", compatibleRigs: ["ecc-girl-take-2-layered"] },
       { id: "crop", label: "Crop", token: "C", slot: "hair/crop", plannedOnly: true, note: "Needs clean art" },
       { id: "curls", label: "Curls", token: "R", slot: "hair/curly", plannedOnly: true, note: "Needs art" },
       { id: "long", label: "Long", token: "L", slot: "hair/long-back", plannedOnly: true, note: "Needs art" },
@@ -247,29 +302,34 @@
     ],
     shirtOptions: [
       { id: "none", label: "Neutral base", token: "-", layer: null, note: "No shirt layer" },
-      { id: "ecc-shirt-tie", label: "Shirt and tie", token: "S", layer: "Boy Shirt and tie.png", source: "avatar-take-2-layered-png" },
-      { id: "scrubs-top-teal", label: "Teal scrub top", token: "ST", layer: "Boy Scrubs Top Teal.png", source: "avatar-take-2-layered-png" },
-      { id: "chef-jacket-white", label: "Chef jacket", token: "CJ", layer: "Boy Chef Jacket White.png", source: "avatar-take-2-layered-png" }
+      { id: "ecc-shirt-tie", label: "Shirt and tie", token: "S", layer: "Boy Full Shirt Teal Tie.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Full Shirt Teal Tie.png"] } },
+      { id: "scrubs-top-teal", label: "Teal scrub top", token: "ST", layer: "Boy Scrubs Top Teal.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Scrubs Top Teal.png"] } },
+      { id: "chef-jacket-white", label: "Chef jacket", token: "CJ", layer: "Boy Chef Jacket Fitted.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Chef Jacket Fitted.png"] } }
+    ],
+    jumperOptions: [
+      { id: "none", label: "No jumper", token: "-", layer: null },
+      { id: "ecc-jumper-teal", label: "Teal jumper", token: "J", layer: "Boy Full Jumper Teal.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Full Jumper Teal.png"] } }
     ],
     pantsOptions: [
       { id: "none", label: "Neutral base", token: "-", layer: null, note: "No pants layer" },
-      { id: "ecc-navy-pants", label: "Navy pants", token: "P", layer: "Boy Pants.png", source: "avatar-take-2-layered-png" },
-      { id: "ecc-burgundy-pants", label: "Burgundy pants", token: "PB", layer: "Boy Pants Burgundy.png", source: "avatar-take-2-layered-png" },
-      { id: "ecc-jeans", label: "Jeans", token: "J", layer: "Boy Jeans.png", source: "avatar-take-2-layered-png" },
-      { id: "scrubs-pants-teal", label: "Teal scrub pants", token: "SP", layer: "Boy Scrubs Pants Teal.png", source: "avatar-take-2-layered-png" }
+      { id: "ecc-navy-pants", label: "Navy pants", token: "P", layer: "Boy Pants.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Pants Navy.png"] } },
+      { id: "ecc-burgundy-pants", label: "Burgundy pants", token: "PB", layer: "Boy Pants Burgundy.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Pants Burgundy.png"] } },
+      { id: "ecc-jeans", label: "Jeans", token: "J", layer: "Boy Jeans.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Jeans.png"] } },
+      { id: "scrubs-pants-teal", label: "Teal scrub pants", token: "SP", layer: "Boy Scrubs Pants Teal.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Scrubs Pants Teal.png"] } },
+      { id: "tartan-skirt", label: "Tartan skirt", token: "TS", compatibleRigs: ["ecc-girl-take-2-layered"], rigLayers: { "ecc-girl-take-2-layered": ["Girl Skirt Tartan.png"] } }
     ],
     shoeOptions: [
       { id: "none", label: "Bare feet", color: "#dba77c", layer: null, note: "Neutral base feet" },
-      { id: "black-school-shoes", label: "Black", color: "#151515", layer: "Shoes Corrected.png", source: "avatar-take-2-layered-png" },
-      { id: "brown-school-shoes", label: "Brown", color: "#8b5b10", layer: "Brown Shoes.png", source: "avatar-take-2-layered-png" }
+      { id: "black-school-shoes", label: "Black", color: "#151515", layer: "Shoes Corrected.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Shoes Black.png"] } },
+      { id: "brown-school-shoes", label: "Brown", color: "#8b5b10", layer: "Brown Shoes.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Shoes Brown.png"] } }
     ],
     blazerOptions: [
       { id: "none", label: "No outer layer", token: "-", layer: null, note: "Base and shirt only" },
-      { id: "ecc-navy-blazer", label: "ECC blazer", token: "B", layer: "Boy Blazer.png", source: "avatar-take-2-layered-png" },
-      { id: "hivis-vest", label: "Hi-vis vest", token: "HV", layer: "Boy Hi Vis Vest.png", source: "avatar-take-2-layered-png" },
-      { id: "lab-coat", label: "Lab coat", token: "LC", layer: "Boy Lab Coat.png", source: "avatar-take-2-layered-png" },
-      { id: "camel-blazer", label: "Camel jacket", token: "CJ", layer: "Boy Blazer Camel.png", source: "avatar-take-2-layered-png" },
-      { id: "chef-apron-black", label: "Chef apron", token: "CA", layer: "Boy Chef Apron Black.png", source: "avatar-take-2-layered-png" }
+      { id: "ecc-navy-blazer", label: "ECC blazer", token: "B", layer: "Boy Blazer Separate Navy.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Blazer Separate Navy.png"] } },
+      { id: "hivis-vest", label: "Hi-vis vest", token: "HV", layer: "Boy Hi Vis Vest.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Hi Vis Vest.png"] } },
+      { id: "lab-coat", label: "Lab coat", token: "LC", layer: "Boy Lab Coat.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Lab Coat.png"] } },
+      { id: "camel-blazer", label: "Camel jacket", token: "CJ", layer: "Boy Blazer Separate Camel.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Blazer Separate Camel.png"] } },
+      { id: "chef-apron-black", label: "Chef apron", token: "CA", layer: "Boy Chef Apron Fitted.png", rigLayers: { "ecc-girl-take-2-layered": ["Girl Chef Apron Fitted.png"] } }
     ],
     outfits: [
       {
@@ -288,9 +348,17 @@
         rigLayers: {
           "ecc-boy-take-2-layered": [
             "Boy Pants.png",
-            "Boy Shirt and tie.png",
+            "Boy Full Shirt Teal Tie.png",
             "Shoes Corrected.png",
-            "Boy Blazer.png"
+            "Boy Full Jumper Teal.png",
+            "Boy Blazer Separate Navy.png"
+          ],
+          "ecc-girl-take-2-layered": [
+            "Girl Skirt Tartan.png",
+            "Girl Full Shirt Teal Tie.png",
+            "Girl Shoes Black.png",
+            "Girl Full Jumper Teal.png",
+            "Girl Blazer Separate Navy.png"
           ]
         }
       },
@@ -520,6 +588,7 @@
         defaultHairStyle: "waves",
         defaultHairColour: "brown",
         defaultShirt: "ecc-shirt-tie",
+        defaultJumper: "ecc-jumper-teal",
         defaultPants: "ecc-navy-pants",
         defaultShoes: "black-school-shoes",
         defaultBlazer: "ecc-navy-blazer",
@@ -528,16 +597,24 @@
       },
       {
         id: "ecc-girl-rig-source",
-        label: "ECC girl preset",
+        label: "ECC girl Take 2",
         token: "GR",
         partMode: "production-png-rig",
-        assetRigId: "ecc-boy-take-2-layered",
-        imagePath: "../../Assets/Images and Animations/Avatar Studio/Neutral Boy Smooth Transparent background.png",
+        assetRigId: "ecc-girl-take-2-layered",
+        imagePath: "../../Assets/Images and Animations/Avatar Studio/Neutral Girl Take 2.png",
+        defaultSkinTone: "sand",
+        defaultFaceStyle: "soft",
+        defaultEyeColour: "brown",
         defaultOutfit: "ecc-current-uniform",
-        defaultHairStyle: "waves",
+        defaultHairStyle: "bob",
+        defaultHairColour: "brown",
+        defaultShirt: "ecc-shirt-tie",
+        defaultJumper: "ecc-jumper-teal",
+        defaultPants: "tartan-skirt",
+        defaultShoes: "black-school-shoes",
+        defaultBlazer: "ecc-navy-blazer",
         defaultAccessory: "none",
-        plannedOnly: true,
-        note: "Girl art pending"
+        note: "Active Take 2 layered art"
       },
       {
         id: "mackillop",
@@ -614,6 +691,7 @@
       hairColour: "brown",
       outfit: "ecc-current-uniform",
       shirt: "ecc-shirt-tie",
+      jumper: "ecc-jumper-teal",
       pants: "ecc-navy-pants",
       shoes: "black-school-shoes",
       blazer: "ecc-navy-blazer",

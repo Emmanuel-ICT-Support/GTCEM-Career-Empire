@@ -48,7 +48,7 @@ test("Avatar Studio defaults to the Take 2 ECC rig base", async ({ page }) => {
   await expect(page.locator('[data-avatar-value="custom-trousers"]')).toHaveCount(0);
   await expect(page.locator('[data-avatar-value="custom-skirt"]')).toHaveCount(0);
   await expect(page.locator('[data-avatar-value="ecc-boy-rig-source"]')).toBeVisible();
-  await expect(page.locator('[data-avatar-value="ecc-girl-rig-source"]')).toBeDisabled();
+  await expect(page.locator('[data-avatar-value="ecc-girl-rig-source"]')).toBeEnabled();
 });
 
 test("Avatar Studio ECC rig uses the approved Take 2 layer stack", async ({ page }) => {
@@ -63,9 +63,9 @@ test("Avatar Studio ECC rig uses the approved Take 2 layer stack", async ({ page
   const starterPreview = await getPreviewHtml();
   expect(starterPreview).toContain('data-rig-layer="Neutral Boy Smooth Transparent background.png"');
   expect(starterPreview).toContain('data-rig-layer="Boy Pants.png"');
-  expect(starterPreview).toContain('data-rig-layer="Boy Shirt and tie.png"');
+  expect(starterPreview).toContain('data-rig-layer="Boy Full Shirt Teal Tie.png"');
   expect(starterPreview).toContain('data-rig-layer="Shoes Corrected.png"');
-  expect(starterPreview).toContain('data-rig-layer="Boy Blazer.png"');
+  expect(starterPreview).toContain('data-rig-layer="Boy Blazer Separate Navy.png"');
   expect(starterPreview).toContain('data-rig-layer="Boy Hair.png"');
   expect(starterPreview).toContain('--avatar-rig-aspect-ratio: 1280 / 720');
   expect(starterPreview).not.toContain('data-rig-feature="earrings"');
@@ -133,7 +133,7 @@ test("Avatar Studio ECC rig uses the approved Take 2 layer stack", async ({ page
   await page.locator('[data-avatar-key="blazer"][data-avatar-value="hivis-vest"]').click();
   const hivisPreview = await getPreviewHtml();
   expect(hivisPreview).toContain('data-rig-layer="Boy Hi Vis Vest.png"');
-  expect(hivisPreview).not.toContain('data-rig-layer="Boy Blazer.png"');
+  expect(hivisPreview).not.toContain('data-rig-layer="Boy Blazer Separate Navy.png"');
   await expect(page.locator('[data-avatar-key="blazer"][data-avatar-value="lab-coat"]')).toBeEnabled();
   await page.locator('[data-avatar-key="blazer"][data-avatar-value="lab-coat"]').click();
   const labCoatPreview = await getPreviewHtml();
@@ -142,21 +142,22 @@ test("Avatar Studio ECC rig uses the approved Take 2 layer stack", async ({ page
   await expect(page.locator('[data-avatar-key="blazer"][data-avatar-value="camel-blazer"]')).toBeEnabled();
   await page.locator('[data-avatar-key="blazer"][data-avatar-value="camel-blazer"]').click();
   const camelJacketPreview = await getPreviewHtml();
-  expect(camelJacketPreview).toContain('data-rig-layer="Boy Blazer Camel.png"');
+  expect(camelJacketPreview).toContain('data-rig-layer="Boy Blazer Separate Camel.png"');
   expect(camelJacketPreview).not.toContain('data-rig-layer="Boy Lab Coat.png"');
   await page.locator('[data-avatar-key="blazer"][data-avatar-value="ecc-navy-blazer"]').click();
   await page.locator('[data-avatar-key="shirt"][data-avatar-value="none"]').click();
   await page.locator('[data-avatar-key="pants"][data-avatar-value="none"]').click();
   await page.locator('[data-avatar-key="shoes"][data-avatar-value="none"]').click();
   await page.locator('[data-avatar-key="blazer"][data-avatar-value="none"]').click();
+  await page.locator('[data-avatar-key="jumper"][data-avatar-value="none"]').click();
   const neutralPreview = await getPreviewHtml();
   expect(neutralPreview).toContain('data-rig-layer="Neutral Boy Smooth Transparent background.png"');
   expect(neutralPreview).toContain('data-rig-layer="Boy Hair.png"');
   expect(neutralPreview).not.toContain('data-rig-layer="Boy Pants.png"');
-  expect(neutralPreview).not.toContain('data-rig-layer="Boy Shirt and tie.png"');
+  expect(neutralPreview).not.toContain('data-rig-layer="Boy Full Shirt Teal Tie.png"');
   expect(neutralPreview).not.toContain('data-rig-layer="Shoes Corrected.png"');
   expect(neutralPreview).not.toContain('data-rig-layer="Brown Shoes.png"');
-  expect(neutralPreview).not.toContain('data-rig-layer="Boy Blazer.png"');
+  expect(neutralPreview).not.toContain('data-rig-layer="Boy Blazer Separate Navy.png"');
   await page.locator('[data-avatar-key="shirt"][data-avatar-value="ecc-shirt-tie"]').click();
   await page.locator('[data-avatar-key="pants"][data-avatar-value="ecc-navy-pants"]').click();
   await page.locator('[data-avatar-key="shoes"][data-avatar-value="black-school-shoes"]').click();
@@ -198,9 +199,9 @@ test("Avatar Studio cleans up previously saved unapproved avatar choices", async
   const previewHtml = await page.locator("#avatar-render").evaluate(element => element.innerHTML);
   expect(previewHtml).toContain('data-rig-layer="Neutral Boy Smooth Transparent background.png"');
   expect(previewHtml).toContain('data-rig-layer="Boy Pants.png"');
-  expect(previewHtml).toContain('data-rig-layer="Boy Shirt and tie.png"');
+  expect(previewHtml).toContain('data-rig-layer="Boy Full Shirt Teal Tie.png"');
   expect(previewHtml).toContain('data-rig-layer="Shoes Corrected.png"');
-  expect(previewHtml).toContain('data-rig-layer="Boy Blazer.png"');
+  expect(previewHtml).toContain('data-rig-layer="Boy Blazer Separate Navy.png"');
   expect(previewHtml).toContain('data-rig-layer="Boy Hair.png"');
   expect(previewHtml).not.toContain('data-rig-feature="eye-colour"');
   expect(previewHtml).not.toContain('data-rig-feature="earrings"');

@@ -3,8 +3,8 @@ import { expect, test } from "@playwright/test";
 const assets = [
   ["shirt", "scrubs-top-teal", "Boy Scrubs Top Teal.png", [545, 191, 735, 379]],
   ["pants", "scrubs-pants-teal", "Boy Scrubs Pants Teal.png", [573, 347, 703, 633]],
-  ["shirt", "chef-jacket-white", "Boy Chef Jacket White.png", [545, 180, 735, 398]],
-  ["blazer", "chef-apron-black", "Boy Chef Apron Black.png", [575, 202, 705, 494]],
+  ["shirt", "chef-jacket-white", "Boy Chef Jacket Fitted.png", [530, 174, 750, 406]],
+  ["blazer", "chef-apron-black", "Boy Chef Apron Fitted.png", [568, 193, 713, 488]],
   ["accessory", "tool-belt-brown", "Boy Tool Belt Brown.png", [568, 343, 712, 416]],
   ["accessory", "safety-goggles-clear", "Boy Safety Goggles Clear.png", [587, 110, 697, 147]]
 ];
