@@ -142,7 +142,7 @@ export async function createWorlds(){
   const groundGeo=new THREE.PlaneGeometry(180,180,100,100);groundGeo.rotateX(-Math.PI/2);
   const pos=groundGeo.attributes.position;
   for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getZ(i),r=Math.hypot(x,z);pos.setY(i,Math.max(0,(r-43)/35)*(1.5+Math.sin(x*.11)*1.4+Math.cos(z*.1)*1.1));}
-  groundGeo.computeVertexNormals();mesh(town,groundGeo,materials.ground);
+  groundGeo.computeVertexNormals();const groundMesh=mesh(town,groundGeo,materials.ground);
 
   // --- Expanded plaza path network (campus feel) ---
   const pathGroup=new THREE.Group();town.add(pathGroup);
@@ -192,9 +192,18 @@ export async function createWorlds(){
   // Tripo daytime plaza GLB replaces procedural path/road network when present.
   const usingPlazaGlb=!!plazaGround;
   if(usingPlazaGlb){
+    // Road/path tops sit above native y=0; snap the spawn road surface to the physics floor.
+    plazaGround.updateMatrixWorld(true);
+    const alignRay=new THREE.Raycaster(new THREE.Vector3(2.55,80,17),new THREE.Vector3(0,-1,0));
+    const alignHits=alignRay.intersectObject(plazaGround,true);
+    if(alignHits.length){
+      plazaGround.position.y-=alignHits[0].point.y;
+      plazaGround.updateMatrixWorld(true);
+    }
     town.add(plazaGround);
     pathGroup.visible=false;
     roadGroup.visible=false;
+    groundMesh.visible=false;
   }
 
   const est=consolidate(outerAsset.scene);est.position.z=-14;town.add(est);
@@ -214,6 +223,7 @@ export async function createWorlds(){
   const trunkGeo=new THREE.CylinderGeometry(.13,.25,3.3,7),crownGeo=new THREE.IcosahedronGeometry(1,1);
   const count=68,trunks=new THREE.InstancedMesh(trunkGeo,materials.trunk,count),crowns=new THREE.InstancedMesh(crownGeo,materials.leaf,count*3);
   trunks.castShadow=crowns.castShadow=true;trunks.receiveShadow=crowns.receiveShadow=true;town.add(trunks,crowns);
+  if(usingPlazaGlb){trunks.visible=false;crowns.visible=false;}
   const matrix=new THREE.Object3D(),treePositions=[];
   for(let i=0;i<count;i++){
     let x,z;
@@ -309,6 +319,10 @@ export async function createWorlds(){
     water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=name==='disrepair'&&!usingPlazaGlb;restorations.visible=name==='growth';
   }
   phase('disrepair');
+  if(usingPlazaGlb){
+    // Plaza mesh already has landscaping; hide leftover greybox props that float through it.
+    for(const g of [garden,flowers,planting,fountain,pond,bank,wear,closedWings,restorations])if(g)g.visible=false;
+  }
   return {town,interior,townPhysics,interiorPhysics,est,stations,phase,
     plazaGlb:usingPlazaGlb,
     plazaGround:usingPlazaGlb?{scale:PLAZA_GROUND.scale,position:PLAZA_GROUND.position.slice(),url:PLAZA_GROUND.url}:null,
