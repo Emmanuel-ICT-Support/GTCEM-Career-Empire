@@ -1,0 +1,151 @@
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {clone} from 'three/addons/utils/SkeletonUtils.js';
+import {SKIN} from './profiles.js';
+
+const loader = new GLTFLoader();
+const kits = {};
+const TARGET_HEIGHT = 1.7;
+
+function normalizeHeight(model) {
+  const box = new THREE.Box3().setFromObject(model);
+  const size = box.getSize(new THREE.Vector3());
+  const scale = TARGET_HEIGHT / Math.max(size.y, 0.001);
+  model.scale.multiplyScalar(scale);
+  box.setFromObject(model);
+  model.position.y -= box.min.y;
+  return scale;
+}
+
+function bindClips(model, animations) {
+  const mixer = new THREE.AnimationMixer(model);
+  const clips = {};
+  for (const clip of animations) {
+    const name = /walk/i.test(clip.name) ? 'walk' : 'idle';
+    clips[name] = mixer.clipAction(clip);
+  }
+  if (clips.idle) clips.idle.play();
+  let motion = 'idle';
+  return {
+    mixer,
+    clips,
+    setWalking(value) {
+      const next = value ? 'walk' : 'idle';
+      if (motion === next) return;
+      clips[next]?.reset().fadeIn(0.18).play();
+      clips[motion]?.fadeOut(0.18);
+      motion = next;
+    },
+    update(dt) {
+      mixer.update(dt * (motion === 'walk' ? 1.8 : 1));
+    },
+    disposeMixer() {
+      mixer.stopAllAction();
+      mixer.uncacheRoot(model);
+    }
+  };
+}
+
+export async function loadCharacterKits() {
+  await Promise.all([
+    ...['a', 'b'].map(async body => {
+      kits[body] = await loader.loadAsync(`./assets/avatar-${body}.glb`);
+    }),
+    (async () => {
+      kits.tripo = await loader.loadAsync('./assets/player-bald-base.glb');
+    })()
+  ]);
+}
+
+function createModularCharacter(profile) {
+  const kit = kits[profile.body];
+  const model = clone(kit.scene);
+  const materialCopies = new Map();
+  const materialSlots = {
+    Skin: 'skin', Hair: 'hair', Eye: 'eye', Top: 'top', Bottom: 'bottom',
+    Outer: 'outer', Jumper: 'jumper', Shoe: 'shoes'
+  };
+  model.traverse(node => {
+    if (!node.isMesh) return;
+    node.castShadow = true;
+    node.receiveShadow = true;
+    const copy = source => {
+      if (!materialCopies.has(source)) materialCopies.set(source, source.clone());
+      const m = materialCopies.get(source);
+      const semantic = m.name.replace(/\.\d+$/, '');
+      const key = materialSlots[semantic];
+      if (key) m.color.set(key === 'skin' ? SKIN[profile.skin] : profile.colours[key]);
+      return m;
+    };
+    node.material = Array.isArray(node.material) ? node.material.map(copy) : copy(node.material);
+    const {slot, variant} = node.userData;
+    if (slot === 'hair') node.visible = variant === profile.hair;
+    if (slot === 'top') node.visible = variant === profile.top;
+    if (slot === 'bottom') node.visible = variant === profile.bottom;
+    if (slot === 'outer') node.visible = variant === profile.outer;
+    if (slot === 'accessory') node.visible = variant === profile.accessory;
+    if (slot === 'jumper') node.visible = profile.jumper;
+    const coveredSleeve = /^Sleeve/.test(node.name) && ['blazer', 'labcoat'].includes(profile.outer);
+    if (coveredSleeve && (slot === 'top' || slot === 'jumper')) node.visible = false;
+    if (slot === 'top' && /^Sleeve/.test(node.name) && profile.jumper) node.visible = false;
+    if (/^Leg(?:[._\d]|$)/.test(node.name) && profile.bottom !== 'skirt') node.visible = false;
+  });
+  const head = model.getObjectByName('head');
+  if (head) {
+    head.scale.set(
+      profile.face === 'round' ? 1.08 : profile.face === 'defined' ? 0.94 : 1,
+      profile.face === 'defined' ? 1.025 : 1,
+      1
+    );
+  }
+  const anim = bindClips(model, kit.animations);
+  return {
+    model,
+    mixer: anim.mixer,
+    profile,
+    clips: anim.clips,
+    simple: false,
+    setWalking: anim.setWalking,
+    update: anim.update,
+    dispose() {
+      anim.disposeMixer();
+      for (const m of materialCopies.values()) m.dispose();
+      model.removeFromParent();
+    }
+  };
+}
+
+/** Interim Tripo Mixamo player — baked wetsuit+hair, no wardrobe slots. */
+function createSimpleTripoCharacter(profile) {
+  const kit = kits.tripo;
+  const model = clone(kit.scene);
+  model.traverse(node => {
+    if (!node.isMesh) return;
+    node.castShadow = true;
+    node.receiveShadow = true;
+  });
+  normalizeHeight(model);
+  const anim = bindClips(model, kit.animations || []);
+  return {
+    model,
+    mixer: anim.mixer,
+    profile,
+    clips: anim.clips,
+    simple: true,
+    setWalking: anim.setWalking,
+    update: anim.update,
+    dispose() {
+      anim.disposeMixer();
+      model.removeFromParent();
+    }
+  };
+}
+
+export function createCharacter(profile) {
+  if (profile.body === 'tripo') return createSimpleTripoCharacter(profile);
+  return createModularCharacter(profile);
+}
+
+export function isSimpleBody(body) {
+  return body === 'tripo';
+}

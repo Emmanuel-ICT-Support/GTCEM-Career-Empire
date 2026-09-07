@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#24433e">
+  <title>Career Empire | EST District</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.js","three/addons/":"./vendor/three/examples/jsm/","@dimforge/rapier3d-compat":"./vendor/rapier/rapier.mjs"}}</script>
+  <script src="./vendor/lucide/lucide.min.js" defer></script>
+</head>
+<body>
+  <main id="experience" aria-label="Career Empire 3D world">
+    <canvas id="scene" aria-label="Interactive 3D town" tabindex="0"></canvas>
+    <header class="topbar">
+      <a class="brand" href="../" aria-label="Career Empire home"><span class="brand-mark"><i data-lucide="landmark"></i></span><span>CAREER<br><strong>EMPIRE</strong></span></a>
+      <nav class="mode-switch" aria-label="View">
+        <button id="town-view" class="active" aria-pressed="true" aria-label="Town" title="Town"><i data-lucide="map"></i><span>Town</span></button>
+        <button id="studio-view" aria-pressed="false" aria-label="Avatar Studio" title="Avatar Studio"><i data-lucide="user-round-pen"></i><span>Avatar Studio</span></button>
+      </nav>
+      <div class="account"><label class="sr-only" for="profile">Local character</label><select id="profile"></select><button class="icon-button" id="new-profile" aria-label="New character" title="New character"><i data-lucide="user-round-plus"></i></button></div>
+    </header>
+    <section class="world-heading" id="world-heading"><div class="eyebrow" id="district-label">THE LEARNING DISTRICT</div><h1 id="location-title">Town Square</h1><div class="location-line"><span class="status-dot"></span><span id="location-subtitle">Home Base &middot; EST Prep</span></div></section>
+    <aside class="world-tools" id="world-tools" aria-label="World settings">
+      <label class="phase-control"><i data-lucide="sprout"></i><span><small>PHASE PREVIEW</small><select id="phase" aria-label="World phase"><option value="disrepair">Disrepair</option><option value="growth">Growth</option><option value="flourishing">Flourishing</option></select></span></label>
+      <div class="tool-row"><button class="icon-button" id="aerial" aria-label="Aerial view" aria-pressed="false" title="Aerial view"><i data-lucide="scan-eye"></i></button><button class="icon-button" id="recenter" aria-label="Recenter camera" title="Recenter camera"><i data-lucide="focus"></i></button><label class="quality-control" title="Render quality"><i data-lucide="monitor"></i><select id="quality" aria-label="Render quality"><option value="auto">Auto</option><option value="low">Low</option><option value="high">High</option></select></label></div>
+    </aside>
+    <div class="destination-bar" id="destination-bar" aria-label="Destinations"><button id="home-destination"><i data-lucide="house"></i><span>Home Base</span></button><span class="route-line"></span><button id="est-destination"><i data-lucide="landmark"></i><span>EST Prep</span></button></div>
+    <button class="interaction" id="interact" hidden><i data-lucide="door-open"></i><span>Enter EST Prep</span><i data-lucide="arrow-right"></i></button>
+    <div class="movement" id="movement" aria-label="Movement controls"><button data-key="KeyW" aria-label="Walk forward" title="Walk forward"><i data-lucide="chevron-up"></i></button><button data-key="KeyA" aria-label="Walk left" title="Walk left"><i data-lucide="chevron-left"></i></button><button data-key="KeyS" aria-label="Walk backward" title="Walk backward"><i data-lucide="chevron-down"></i></button><button data-key="KeyD" aria-label="Walk right" title="Walk right"><i data-lucide="chevron-right"></i></button></div>
+    <div class="world-footer" id="world-footer"><span class="build-label">3D REVIEW 01</span><span id="character-caption">Avery</span></div>
+    <section class="studio-heading" id="studio-heading" hidden><div class="eyebrow">HOME BASE</div><h1>Avatar Studio</h1><div class="studio-caption" id="studio-caption">Avery</div></section>
+    <div class="studio-view-tools" id="studio-view-tools" hidden><button class="icon-button" id="turn-avatar" title="Turn around" aria-label="Turn avatar around"><i data-lucide="rotate-3d"></i></button><button class="icon-button" id="pose-avatar" title="Walking preview" aria-label="Walking preview" aria-pressed="false"><i data-lucide="footprints"></i></button><button class="icon-button" id="portrait-view" title="Portrait view" aria-label="Portrait view" aria-pressed="false"><i data-lucide="scan-face"></i></button></div>
+    <aside class="studio-panel" id="studio-panel" aria-label="Avatar appearance" hidden>
+      <div class="panel-heading"><h2>Your character</h2><span class="edit-state" id="edit-state">Saved</span></div>
+      <nav class="editor-tabs" aria-label="Avatar settings"><button data-tab="identity" class="active" aria-pressed="true" title="Identity"><i data-lucide="user-round"></i><span>Identity</span></button><button data-tab="style" aria-pressed="false" title="Wardrobe"><i data-lucide="shirt"></i><span>Style</span></button><button data-tab="future" aria-pressed="false" title="Future self"><i data-lucide="compass"></i><span>Future</span></button></nav>
+      <div id="editor-fields" class="editor-fields"></div>
+      <div class="editor-actions"><button class="icon-button" id="undo" aria-label="Undo appearance change" title="Undo"><i data-lucide="undo-2"></i></button><button class="icon-button" id="redo" aria-label="Redo appearance change" title="Redo"><i data-lucide="redo-2"></i></button><button class="primary" id="save-avatar"><i data-lucide="check"></i><span>Save &amp; return</span></button></div>
+    </aside>
+    <div class="loading" id="loading" role="status"><span class="loading-mark"><i data-lucide="landmark"></i></span><h1>Career Empire</h1><p id="loading-message">Opening the learning district...</p><progress></progress><a id="fallback-link" href="/existing/modules/est-prep/index.html" hidden>Continue to EST Prep</a></div>
+    <div class="toast" id="toast" role="status" hidden></div>
+    <output id="diagnostics" class="sr-only" aria-label="Prototype diagnostics"></output>
+  </main>
+  <section class="module-overlay" id="module-overlay" aria-label="EST Prep activity" hidden><header><div><i data-lucide="landmark"></i><strong>EST Prep</strong><span id="module-name"></span></div><button id="close-module"><i data-lucide="arrow-left"></i><span>Return to hall</span></button></header><iframe id="module-frame" title="Existing EST Prep learning module"></iframe></section>
+  <dialog id="leave-dialog"><h2>Save your character?</h2><p>You have unsaved appearance changes.</p><div class="dialog-actions"><button id="keep-editing">Keep editing</button><button id="discard-changes">Discard</button><button class="primary" id="save-changes">Save</button></div></dialog>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
