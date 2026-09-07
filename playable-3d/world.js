@@ -223,12 +223,23 @@ export async function createWorlds(){
   const trunkGeo=new THREE.CylinderGeometry(.13,.25,3.3,7),crownGeo=new THREE.IcosahedronGeometry(1,1);
   const count=68,trunks=new THREE.InstancedMesh(trunkGeo,materials.trunk,count),crowns=new THREE.InstancedMesh(crownGeo,materials.leaf,count*3);
   trunks.castShadow=crowns.castShadow=true;trunks.receiveShadow=crowns.receiveShadow=true;town.add(trunks,crowns);
-  if(usingPlazaGlb){trunks.visible=false;crowns.visible=false;}
+  // Procedural trees stay on for hard-surface plaza plates (Tripo vegetation removed).
   const matrix=new THREE.Object3D(),treePositions=[];
+  const treeBlocked=(x,z)=>{
+    // Keep clear of Home Base / Avatar Studio, EST facade, and central plaza pad.
+    if(Math.hypot(x+17,z-5)<7.5)return true;
+    if(Math.hypot(x,z+14)<10)return true;
+    if(Math.hypot(x,z-4)<11)return true;
+    return false;
+  };
   for(let i=0;i<count;i++){
-    let x,z;
-    if(i<10){x=(i%2?1:-1)*(10.5+rand()*2);z=-5+Math.floor(i/2)*6.3;}
-    else{const a=rand()*Math.PI*2,r=30+rand()*32;x=Math.cos(a)*r;z=Math.sin(a)*r;}
+    let x,z,tries=0;
+    do{
+      if(i<10){x=(i%2?1:-1)*(12.5+rand()*3);z=-2+Math.floor(i/2)*6.8;}
+      else{const a=rand()*Math.PI*2,r=28+rand()*34;x=Math.cos(a)*r;z=Math.sin(a)*r;}
+      tries++;
+    }while(treeBlocked(x,z)&&tries<40);
+    if(treeBlocked(x,z)){x=(i%2?1:-1)*(22+rand()*4);z=16+rand()*6;}
     const height=3.8+rand()*2.8;treePositions.push({x,z});matrix.position.set(x,1.6,z);matrix.scale.set(1,height/4,1);matrix.rotation.set(0,rand()*3,0);matrix.updateMatrix();trunks.setMatrixAt(i,matrix.matrix);
     for(let j=0;j<3;j++){matrix.position.set(x+(j-1)*.7,height-.6+(j%2)*.8,z+(j%2)*.5);matrix.scale.set(1.15+rand()*.35,1.6+rand()*.65,1.2);matrix.updateMatrix();crowns.setMatrixAt(i*3+j,matrix.matrix);}
   }
