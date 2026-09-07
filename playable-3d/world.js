@@ -204,6 +204,20 @@ export async function createWorlds(){
     pathGroup.visible=false;
     roadGroup.visible=false;
     groundMesh.visible=false;
+    // Sharp asphalt help along N-S corridor near spawn (east of center); avoid EST colliders (z≲-10).
+    const roadHelp=new THREE.Group();roadHelp.name='plaza-road-help';town.add(roadHelp);
+    const aspMat=new THREE.MeshStandardMaterial({map:asphaltMap||roadTex,color:0xffffff,roughness:.94,metalness:0,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+    if(aspMat.map){aspMat.map=aspMat.map.clone();aspMat.map.repeat.set(4,14);aspMat.map.needsUpdate=true;}
+    const helpDash=new THREE.MeshStandardMaterial({map:dashMap||null,color:dashMap?0xffffff:0xf0c828,transparent:true,opacity:dashMap?1:.9,depthWrite:false,roughness:.85,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2});
+    const helpCross=new THREE.MeshStandardMaterial({map:crosswalkMap||null,color:crosswalkMap?0xffffff:0xf2f2f6,transparent:true,opacity:crosswalkMap?1:.92,depthWrite:false,roughness:.8,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2});
+    // Main N-S strip east of plaza (matches procedural road at x≈18.5), clipped clear of EST.
+    planeOverlay(roadHelp,5.2,36,aspMat,18.5,0.04,6);
+    planeOverlay(roadHelp,1.0,34,helpDash,18.5,0.055,6);
+    planeOverlay(roadHelp,7.2,3.8,helpCross,18.5,0.06,12,Math.PI/2);
+    planeOverlay(roadHelp,7.2,3.8,helpCross,18.5,0.06,22,Math.PI/2);
+    // Secondary west strip (away from Home Base collider at x=-17).
+    planeOverlay(roadHelp,4.6,28,aspMat,-22,0.04,8);
+    planeOverlay(roadHelp,0.9,26,helpDash,-22,0.055,8);
   }
 
   const est=consolidate(outerAsset.scene);est.position.z=-14;town.add(est);
@@ -220,8 +234,12 @@ export async function createWorlds(){
   town.add(new THREE.AmbientLight(0xddeeff,.35));
   interior.add(new THREE.HemisphereLight(0xe2eeee,0x6c6a55,2.2));
   const innerSun=new THREE.DirectionalLight(0xffe8c7,2);innerSun.position.set(-5,9,6);interior.add(innerSun);
-  const trunkGeo=new THREE.CylinderGeometry(.13,.25,3.3,7),crownGeo=new THREE.IcosahedronGeometry(1,1);
-  const count=68,trunks=new THREE.InstancedMesh(trunkGeo,materials.trunk,count),crowns=new THREE.InstancedMesh(crownGeo,materials.leaf,count*3);
+  // Clean upright trees: vertical cylinder trunk + cone crown (no random X/Z tilt).
+  const trunkGeo=new THREE.CylinderGeometry(.12,.22,1,8);
+  const crownGeo=new THREE.ConeGeometry(1,1.6,8);
+  const count=40;
+  const trunks=new THREE.InstancedMesh(trunkGeo,materials.trunk,count);
+  const crowns=new THREE.InstancedMesh(crownGeo,materials.leaf,count);
   trunks.castShadow=crowns.castShadow=true;trunks.receiveShadow=crowns.receiveShadow=true;town.add(trunks,crowns);
   // Procedural trees stay on for hard-surface plaza plates (Tripo vegetation removed).
   const matrix=new THREE.Object3D(),treePositions=[];
@@ -235,14 +253,31 @@ export async function createWorlds(){
   for(let i=0;i<count;i++){
     let x,z,tries=0;
     do{
-      if(i<10){x=(i%2?1:-1)*(12.5+rand()*3);z=-2+Math.floor(i/2)*6.8;}
-      else{const a=rand()*Math.PI*2,r=28+rand()*34;x=Math.cos(a)*r;z=Math.sin(a)*r;}
+      if(i<8){x=(i%2?1:-1)*(13+rand()*3.5);z=-1+Math.floor(i/2)*7.2;}
+      else{const a=rand()*Math.PI*2,r=26+rand()*32;x=Math.cos(a)*r;z=Math.sin(a)*r;}
       tries++;
     }while(treeBlocked(x,z)&&tries<40);
     if(treeBlocked(x,z)){x=(i%2?1:-1)*(22+rand()*4);z=16+rand()*6;}
-    const height=3.8+rand()*2.8;treePositions.push({x,z});matrix.position.set(x,1.6,z);matrix.scale.set(1,height/4,1);matrix.rotation.set(0,rand()*3,0);matrix.updateMatrix();trunks.setMatrixAt(i,matrix.matrix);
-    for(let j=0;j<3;j++){matrix.position.set(x+(j-1)*.7,height-.6+(j%2)*.8,z+(j%2)*.5);matrix.scale.set(1.15+rand()*.35,1.6+rand()*.65,1.2);matrix.updateMatrix();crowns.setMatrixAt(i*3+j,matrix.matrix);}
+    const trunkH=2.2+rand()*1.4;
+    const crownH=2.4+rand()*1.6;
+    const crownR=1.05+rand()*.55;
+    const yaw=rand()*Math.PI*2;
+    treePositions.push({x,z});
+    // Trunk: unit-height cylinder scaled to trunkH; base sits on y≈0.
+    matrix.position.set(x,trunkH/2,z);
+    matrix.scale.set(1,trunkH,1);
+    matrix.rotation.set(0,yaw,0);
+    matrix.updateMatrix();
+    trunks.setMatrixAt(i,matrix.matrix);
+    // Cone crown centered above trunk top; upright only (Y rot).
+    matrix.position.set(x,trunkH+crownH*0.42,z);
+    matrix.scale.set(crownR,crownH/1.6,crownR);
+    matrix.rotation.set(0,yaw+rand()*0.6,0);
+    matrix.updateMatrix();
+    crowns.setMatrixAt(i,matrix.matrix);
   }
+  trunks.instanceMatrix.needsUpdate=true;
+  crowns.instanceMatrix.needsUpdate=true;
   const garden=new THREE.Group();town.add(garden);
   for(const x of [-4.4,4.4])for(const z of [-7,-3,13]){
     box(garden,1.15,.42,2.2,materials.edge,x,.21,z);
@@ -329,7 +364,7 @@ export async function createWorlds(){
     flowers.visible=name!=='disrepair';flowers.children.forEach((o,i)=>o.visible=name==='flourishing'||i%3===0);planting.visible=name!=='disrepair';closedWings.visible=name==='disrepair';
     water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=name==='disrepair'&&!usingPlazaGlb;restorations.visible=name==='growth';
   }
-  phase('disrepair');
+  phase('flourishing');
   if(usingPlazaGlb){
     // Plaza mesh already has landscaping; hide leftover greybox props that float through it.
     for(const g of [garden,flowers,planting,fountain,pond,bank,wear,closedWings,restorations])if(g)g.visible=false;
