@@ -1,8 +1,19 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import RAPIER from '@dimforge/rapier3d-compat';
 import {PHASES} from './profiles.js';
+
+/** Tripo daytime plaza plate — native units are tiny (~0.78 x 0.16 x 0.98, Y-up). */
+export const PLAZA_GROUND = {
+  url: './assets/plaza/plaza-day-ground.glb',
+  // Fit circular plaza near town center (x=0,z=4); EST stays at z=-14.
+  scale: 52,
+  position: [0, 0, 4],
+  // Source bbox (pre-scale): min[-0.389,0,-0.490] max[0.389,0.162,0.490]
+  nativeBBox: {min:[-0.389,0,-0.490], max:[0.389,0.162,0.490]},
+};
 
 const rand=(()=>{let n=1429;return()=>{n=(1664525*n+1013904223)>>>0;return n/4294967296;};})();
 const basic=(colour,roughness=.8)=>new THREE.MeshStandardMaterial({color:colour,roughness});
@@ -44,6 +55,33 @@ function tryLoadPlazaMap(url,repeatX=1,repeatY=1){
     },undefined,()=>resolve(null));
   });
 }
+async function tryLoadPlazaGround(loader){
+  try{
+    const gltf=await loader.loadAsync(PLAZA_GROUND.url);
+    const root=gltf.scene||gltf.scenes?.[0];
+    if(!root)return null;
+    root.name='plaza-day-ground';
+    root.scale.setScalar(PLAZA_GROUND.scale);
+    root.position.set(...PLAZA_GROUND.position);
+    root.traverse(o=>{
+      if(o.isMesh){
+        o.castShadow=true;
+        o.receiveShadow=true;
+        if(o.material){
+          const mats=Array.isArray(o.material)?o.material:[o.material];
+          for(const m of mats){
+            if(m.map)m.map.colorSpace=THREE.SRGBColorSpace;
+            m.needsUpdate=true;
+          }
+        }
+      }
+    });
+    return root;
+  }catch(err){
+    console.warn('[world] plaza GLB unavailable, procedural paths fallback', err);
+    return null;
+  }
+}
 function planeOverlay(group,w,d,material,x,y,z,rotY=0){
   const o=mesh(group,new THREE.PlaneGeometry(w,d),material,x,y,z);
   o.rotation.x=-Math.PI/2;o.rotation.z=rotY;o.castShadow=false;o.renderOrder=2;return o;
@@ -63,7 +101,15 @@ function consolidate(root){
 export async function createWorlds(){
   await RAPIER.init();
   const loader=new GLTFLoader();
-  const [outerAsset,innerAsset]=await Promise.all([loader.loadAsync('./assets/est-exterior.glb'),loader.loadAsync('./assets/est-interior.glb')]);
+  const draco=new DRACOLoader();
+  // Decoder matches three r180 / gltf-transform Draco meshes; CDN keeps vendor tree light.
+  draco.setDecoderPath('./vendor/draco/');
+  loader.setDRACOLoader(draco);
+  const [outerAsset,innerAsset,plazaGround]=await Promise.all([
+    loader.loadAsync('./assets/est-exterior.glb'),
+    loader.loadAsync('./assets/est-interior.glb'),
+    tryLoadPlazaGround(loader),
+  ]);
   // Optional daytime plaza kit (falls back to procedural canvas textures).
   const [grassMap,stoneMap,asphaltMap,dashMap,crosswalkMap,curbMap]=await Promise.all([
     tryLoadPlazaMap('./assets/plaza/grass_day.png',85,85),
@@ -143,6 +189,14 @@ export async function createWorlds(){
   planeOverlay(pathGroup,40,0.35,curbMat,0,.096,4.0);
   planeOverlay(pathGroup,40,0.35,curbMat,0,.096,9.0);
 
+  // Tripo daytime plaza GLB replaces procedural path/road network when present.
+  const usingPlazaGlb=!!plazaGround;
+  if(usingPlazaGlb){
+    town.add(plazaGround);
+    pathGroup.visible=false;
+    roadGroup.visible=false;
+  }
+
   const est=consolidate(outerAsset.scene);est.position.z=-14;town.add(est);
   const estSign=sign('EST PREP',3.3);estSign.position.set(0,5.73,-10.1);town.add(estSign);
   const home=est.clone(true);home.scale.setScalar(.45);home.position.set(-17,0,5.0);home.rotation.y=Math.PI/2;town.add(home);
@@ -221,13 +275,17 @@ export async function createWorlds(){
     if(inside){block(-7.3,3,0,.35,6,14);block(7.3,3,0,.35,6,14);block(0,3,-7,15,6,.35);block(0,3,7.3,15,6,.35);
       for(const s of stations)block(s.x,.65,s.z,2.35,1.3,1.1);
     }else{
-      // Match expanded plaza path colliders (walkable).
-      block(0,.04,4,7.2,.08,46);block(0,.04,6.5,42,.08,5.2);block(0,.045,-8.2,16,.09,7.2);
-      block(-14.5,.04,5.2,14,.07,3.4);block(14,.04,7.8,12,.07,3.2);block(0,.04,18,4.5,.07,10);
-      world.createCollider(RAPIER.ColliderDesc.cylinder(.045,9.4).setTranslation(0,.045,4));
+      // Large flat walkable plate (GLB mesh collision skipped — keep gameplay simple).
+      // block(0,-.1,0,120,.2,120) already covers the district floor.
+      if(!usingPlazaGlb){
+        // Match expanded plaza path colliders (walkable) when procedural paths are shown.
+        block(0,.04,4,7.2,.08,46);block(0,.04,6.5,42,.08,5.2);block(0,.045,-8.2,16,.09,7.2);
+        block(-14.5,.04,5.2,14,.07,3.4);block(14,.04,7.8,12,.07,3.2);block(0,.04,18,4.5,.07,10);
+        world.createCollider(RAPIER.ColliderDesc.cylinder(.045,9.4).setTranslation(0,.045,4));
+      }
       block(0,.12,-9.85,7,.24,2.6);
       block(0,3,-14,16,6,6.7);block(0,2,-11.3,5.8,4,2.8);block(-17,2,5,4.0,4,7.2);
-      world.createCollider(RAPIER.ColliderDesc.cylinder(.45,1.8).setTranslation(0,.45,4));
+      if(!usingPlazaGlb)world.createCollider(RAPIER.ColliderDesc.cylinder(.45,1.8).setTranslation(0,.45,4));
       world.createCollider(RAPIER.ColliderDesc.cylinder(2,7.4).setTranslation(23,1,-10));
       for(const t of treePositions.slice(0,10))world.createCollider(RAPIER.ColliderDesc.cylinder(2,.27).setTranslation(t.x,2,t.z));
       for(const x of [-4.4,4.4])for(const z of [-7,-3,13])block(x,.3,z,1.15,.6,2.2);
@@ -248,10 +306,12 @@ export async function createWorlds(){
     });
     lights.forEach((m,i)=>m.emissiveIntensity=name==='disrepair'?(i<2?.15:0):p.light);
     flowers.visible=name!=='disrepair';flowers.children.forEach((o,i)=>o.visible=name==='flourishing'||i%3===0);planting.visible=name!=='disrepair';closedWings.visible=name==='disrepair';
-    water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=name==='disrepair';restorations.visible=name==='growth';
+    water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=name==='disrepair'&&!usingPlazaGlb;restorations.visible=name==='growth';
   }
   phase('disrepair');
   return {town,interior,townPhysics,interiorPhysics,est,stations,phase,
+    plazaGlb:usingPlazaGlb,
+    plazaGround:usingPlazaGlb?{scale:PLAZA_GROUND.scale,position:PLAZA_GROUND.position.slice(),url:PLAZA_GROUND.url}:null,
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time){if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
     move(inside,delta){const physics=inside?interiorPhysics:townPhysics;physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
