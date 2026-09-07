@@ -17,15 +17,36 @@ export function sign(text,width=3,colour='#e5dbc1',back='#253c3b'){
 }
 function texture(kind){
   const c=document.createElement('canvas');c.width=c.height=512;const ctx=c.getContext('2d');
-  ctx.fillStyle=kind==='stone'?'#9c9c92':'#b6c0a7';ctx.fillRect(0,0,512,512);
+  ctx.fillStyle=kind==='stone'?'#9c9c92':kind==='asphalt'?'#32343a':'#b6c0a7';ctx.fillRect(0,0,512,512);
   if(kind==='stone'){
     for(let y=0;y<8;y++)for(let x=-1;x<5;x++){
       const v=151+rand()*32;ctx.fillStyle=`rgb(${v+3},${v+2},${v-4})`;
       ctx.fillRect(x*128+(y%2)*64+2,y*64+2,124,60);
     }
   }
-  for(let i=0;i<17000;i++){const v=rand();ctx.fillStyle=v>.5?'rgba(255,255,240,.04)':'rgba(0,20,0,.035)';ctx.fillRect(rand()*512,rand()*512,rand()*3+1,rand()*3+1);}
+  if(kind==='asphalt'){
+    for(let i=0;i<22000;i++){const v=28+rand()*40;ctx.fillStyle=`rgb(${v},${v},${v+2})`;ctx.fillRect(rand()*512,rand()*512,rand()*2+1,rand()*2+1);}
+  }else{
+    for(let i=0;i<17000;i++){const v=rand();ctx.fillStyle=v>.5?'rgba(255,255,240,.04)':'rgba(0,20,0,.035)';ctx.fillRect(rand()*512,rand()*512,rand()*3+1,rand()*3+1);}
+  }
   const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;return t;
+}
+/** Try plaza PNG maps; resolve null on miss so caller can keep procedural fallback. */
+function tryLoadPlazaMap(url,repeatX=1,repeatY=1){
+  return new Promise(resolve=>{
+    const loader=new THREE.TextureLoader();
+    loader.load(url,t=>{
+      t.colorSpace=THREE.SRGBColorSpace;
+      t.wrapS=t.wrapT=THREE.RepeatWrapping;
+      t.anisotropy=8;
+      t.repeat.set(repeatX,repeatY);
+      resolve(t);
+    },undefined,()=>resolve(null));
+  });
+}
+function planeOverlay(group,w,d,material,x,y,z,rotY=0){
+  const o=mesh(group,new THREE.PlaneGeometry(w,d),material,x,y,z);
+  o.rotation.x=-Math.PI/2;o.rotation.z=rotY;o.castShadow=false;o.renderOrder=2;return o;
 }
 function consolidate(root){
   root.updateMatrixWorld(true);const groups=new Map();
@@ -43,21 +64,85 @@ export async function createWorlds(){
   await RAPIER.init();
   const loader=new GLTFLoader();
   const [outerAsset,innerAsset]=await Promise.all([loader.loadAsync('./assets/est-exterior.glb'),loader.loadAsync('./assets/est-interior.glb')]);
+  // Optional daytime plaza kit (falls back to procedural canvas textures).
+  const [grassMap,stoneMap,asphaltMap,dashMap,crosswalkMap,curbMap]=await Promise.all([
+    tryLoadPlazaMap('./assets/plaza/grass_day.png',85,85),
+    tryLoadPlazaMap('./assets/plaza/stone_flag_day.png',6,14),
+    tryLoadPlazaMap('./assets/plaza/asphalt_day.png',10,3),
+    tryLoadPlazaMap('./assets/plaza/asphalt_dash_overlay.png',1,8),
+    tryLoadPlazaMap('./assets/plaza/crosswalk_overlay.png',1,1),
+    tryLoadPlazaMap('./assets/plaza/curb_cyan_trim.png',12,1),
+  ]);
   const town=new THREE.Scene(),interior=new THREE.Scene();
-  town.background=new THREE.Color(0xb8d5df);town.fog=new THREE.Fog(0xb8d5df,52,155);
-  interior.background=new THREE.Color(0xb9b7a8);
-  const materials={ground:basic(0x809066),path:basic(0xb4b3a7),leaf:basic(0x487e47),trunk:basic(0x605344),edge:basic(0xb4b7a8),water:new THREE.MeshStandardMaterial({color:0x4b9baf,metalness:.5,roughness:.2})};
-  const grass=texture('grass');grass.repeat.set(85,85);materials.ground.map=grass;
-  const paving=texture('stone');paving.repeat.set(4,12);materials.path.map=paving;materials.path.bumpMap=paving;materials.path.bumpScale=.028;
+  // Brighter daytime sky / fog (less greybox-night feel).
+  town.background=new THREE.Color(0xc8e6f2);town.fog=new THREE.Fog(0xc8e6f2,64,175);
+  interior.background=new THREE.Color(0xc4c2b4);
+  const materials={
+    ground:basic(0x7fad5e),
+    path:basic(0xd4d2c6,.78),
+    asphalt:basic(0x3a3c42,.94),
+    leaf:basic(0x487e47),
+    trunk:basic(0x605344),
+    edge:basic(0xb4b7a8),
+    water:new THREE.MeshStandardMaterial({color:0x4b9baf,metalness:.5,roughness:.2}),
+  };
+  const grass=grassMap||texture('grass');if(!grassMap)grass.repeat.set(85,85);materials.ground.map=grass;materials.ground.color.set(0xffffff);
+  const paving=stoneMap||texture('stone');if(!stoneMap)paving.repeat.set(4,12);materials.path.map=paving;materials.path.bumpMap=paving;materials.path.bumpScale=.028;materials.path.color.set(0xffffff);
+  const roadTex=asphaltMap||texture('asphalt');if(!asphaltMap)roadTex.repeat.set(10,3);materials.asphalt.map=roadTex;materials.asphalt.color.set(0xffffff);
+  const dashMat=new THREE.MeshStandardMaterial({map:dashMap||null,color:dashMap?0xffffff:0xf0c828,transparent:true,opacity:dashMap?1:.9,depthWrite:false,roughness:.85,side:THREE.DoubleSide});
+  const crossMat=new THREE.MeshStandardMaterial({map:crosswalkMap||null,color:crosswalkMap?0xffffff:0xf2f2f6,transparent:true,opacity:crosswalkMap?1:.92,depthWrite:false,roughness:.8,side:THREE.DoubleSide});
+  const curbMat=new THREE.MeshStandardMaterial({map:curbMap||null,color:curbMap?0xffffff:0x5ec8d4,transparent:true,opacity:curbMap?1:.45,depthWrite:false,roughness:.55,metalness:.15,side:THREE.DoubleSide,emissive:0x1a6a72,emissiveIntensity:.15});
+
   const groundGeo=new THREE.PlaneGeometry(180,180,100,100);groundGeo.rotateX(-Math.PI/2);
   const pos=groundGeo.attributes.position;
   for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getZ(i),r=Math.hypot(x,z);pos.setY(i,Math.max(0,(r-43)/35)*(1.5+Math.sin(x*.11)*1.4+Math.cos(z*.1)*1.1));}
   groundGeo.computeVertexNormals();mesh(town,groundGeo,materials.ground);
+
+  // --- Expanded plaza path network (campus feel) ---
   const pathGroup=new THREE.Group();town.add(pathGroup);
-  box(pathGroup,6,.08,38,materials.path,0,.04,5);
-  box(pathGroup,21,.08,4.2,materials.path,-10.5,.042,6.5);
-  const circle=mesh(pathGroup,new THREE.CircleGeometry(8.2,80),materials.path,0,.09,4);circle.rotation.x=-Math.PI/2;
-  box(pathGroup,14,.09,6.5,materials.path,0,.048,-7.3);
+  // Main N-S flagstone avenue (toward EST)
+  box(pathGroup,7.2,.08,46,materials.path,0,.04,4);
+  // Cross street E-W through plaza
+  box(pathGroup,42,.08,5.2,materials.path,0,.042,6.5);
+  // Circular plaza ring / pad
+  const circle=mesh(pathGroup,new THREE.CircleGeometry(9.4,80),materials.path,0,.09,4);circle.rotation.x=-Math.PI/2;
+  // Approach apron in front of EST
+  box(pathGroup,16,.09,7.2,materials.path,0,.048,-8.2);
+  // Sidewalk spur toward Home Base (west)
+  box(pathGroup,14,.07,3.4,materials.path,-14.5,.045,5.2);
+  // Sidewalk spur east toward gardens / pond
+  box(pathGroup,12,.07,3.2,materials.path,14,.045,7.8);
+  // Short spur south (player spawn approach)
+  box(pathGroup,4.5,.07,10,materials.path,0,.043,18);
+  // Diagonal campus spur (NE)
+  const diag=box(pathGroup,3.2,.07,16,materials.path,11,.046,-2);diag.rotation.y=-Math.PI/5;
+
+  // --- Asphalt road strips (thin, framing plaza) ---
+  const roadGroup=new THREE.Group();town.add(roadGroup);
+  box(roadGroup,5.5,.055,52,materials.asphalt,18.5,.028,2);
+  box(roadGroup,5.5,.055,40,materials.asphalt,-22,.028,4);
+  box(roadGroup,48,.055,5.2,materials.asphalt,-1.5,.029,24);
+  box(roadGroup,36,.055,4.6,materials.asphalt,0,.029,-18);
+
+  // Yellow dashed centre lines
+  planeOverlay(roadGroup,1.1,48,dashMat,18.5,.062,2);
+  planeOverlay(roadGroup,1.1,36,dashMat,-22,.062,4);
+  planeOverlay(roadGroup,1.0,44,dashMat,-1.5,.063,24,Math.PI/2);
+  planeOverlay(roadGroup,1.0,32,dashMat,0,.063,-18,Math.PI/2);
+
+  // White zebra crosswalks where roads meet plaza paths
+  planeOverlay(roadGroup,7.5,4.2,crossMat,18.5,.068,6.5,Math.PI/2);
+  planeOverlay(roadGroup,7.5,4.2,crossMat,18.5,.068,24,Math.PI/2);
+  planeOverlay(roadGroup,7.5,4.2,crossMat,-22,.068,5.2,Math.PI/2);
+  planeOverlay(roadGroup,6.5,4.0,crossMat,0,.068,24);
+  planeOverlay(roadGroup,6.5,4.0,crossMat,0,.068,-15.5);
+
+  // Restrained cyan curb accents along avenue edges
+  planeOverlay(pathGroup,0.35,44,curbMat,-3.75,.095,4);
+  planeOverlay(pathGroup,0.35,44,curbMat,3.75,.095,4);
+  planeOverlay(pathGroup,40,0.35,curbMat,0,.096,4.0);
+  planeOverlay(pathGroup,40,0.35,curbMat,0,.096,9.0);
+
   const est=consolidate(outerAsset.scene);est.position.z=-14;town.add(est);
   const estSign=sign('EST PREP',3.3);estSign.position.set(0,5.73,-10.1);town.add(estSign);
   const home=est.clone(true);home.scale.setScalar(.45);home.position.set(-17,0,5.0);home.rotation.y=Math.PI/2;town.add(home);
@@ -66,8 +151,10 @@ export async function createWorlds(){
   const hallSign=sign('EST PREP',4.0);hallSign.position.set(0,4.65,-6.68);interior.add(hallSign);
   const stations=[{id:'content',name:'CORE',x:-3.5,z:1.5,colour:0x2e8481},{id:'glossary',name:'TERM',x:3.5,z:1.5,colour:0x927331},{id:'decoder',name:'VTCS',x:-3.5,z:-3.5,colour:0x466faa},{id:'boss',name:'BOSS',x:3.5,z:-3.5,colour:0x9d5368}];
   for(const s of stations){const plaque=sign(s.name,1.04);plaque.position.set(s.x,1.47,s.z+.10);interior.add(plaque);const light=new THREE.PointLight(s.colour,2,3);light.position.set(s.x,1.7,s.z);interior.add(light);}
-  const sun=new THREE.DirectionalLight(0xffeed0,3.4);sun.position.set(-16,32,22);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-33;sun.shadow.camera.right=33;sun.shadow.camera.top=35;sun.shadow.camera.bottom=-30;sun.shadow.camera.far=100;sun.shadow.normalBias=.035;town.add(sun);
-  town.add(new THREE.HemisphereLight(0xd7edf7,0x7a806c,1.85));
+  // Stronger daytime sun + hemisphere
+  const sun=new THREE.DirectionalLight(0xfff2d8,4.2);sun.position.set(-18,36,24);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-36;sun.shadow.camera.right=36;sun.shadow.camera.top=38;sun.shadow.camera.bottom=-32;sun.shadow.camera.far=110;sun.shadow.normalBias=.035;town.add(sun);
+  town.add(new THREE.HemisphereLight(0xe8f6ff,0x7d9168,2.15));
+  town.add(new THREE.AmbientLight(0xddeeff,.35));
   interior.add(new THREE.HemisphereLight(0xe2eeee,0x6c6a55,2.2));
   const innerSun=new THREE.DirectionalLight(0xffe8c7,2);innerSun.position.set(-5,9,6);interior.add(innerSun);
   const trunkGeo=new THREE.CylinderGeometry(.13,.25,3.3,7),crownGeo=new THREE.IcosahedronGeometry(1,1);
@@ -134,8 +221,10 @@ export async function createWorlds(){
     if(inside){block(-7.3,3,0,.35,6,14);block(7.3,3,0,.35,6,14);block(0,3,-7,15,6,.35);block(0,3,7.3,15,6,.35);
       for(const s of stations)block(s.x,.65,s.z,2.35,1.3,1.1);
     }else{
-      block(0,.04,5,6,.08,38);block(-10.5,.04,6.5,21,.08,4.2);block(0,.045,-7.3,14,.09,6.5);
-      world.createCollider(RAPIER.ColliderDesc.cylinder(.045,8.2).setTranslation(0,.045,4));
+      // Match expanded plaza path colliders (walkable).
+      block(0,.04,4,7.2,.08,46);block(0,.04,6.5,42,.08,5.2);block(0,.045,-8.2,16,.09,7.2);
+      block(-14.5,.04,5.2,14,.07,3.4);block(14,.04,7.8,12,.07,3.2);block(0,.04,18,4.5,.07,10);
+      world.createCollider(RAPIER.ColliderDesc.cylinder(.045,9.4).setTranslation(0,.045,4));
       block(0,.12,-9.85,7,.24,2.6);
       block(0,3,-14,16,6,6.7);block(0,2,-11.3,5.8,4,2.8);block(-17,2,5,4.0,4,7.2);
       world.createCollider(RAPIER.ColliderDesc.cylinder(.45,1.8).setTranslation(0,.45,4));
@@ -151,7 +240,8 @@ export async function createWorlds(){
   const townPhysics=physics(false),interiorPhysics=physics(true);
   function phase(name){
     const p=PHASES[name];if(!p)throw new Error('Unknown world phase');
-    materials.ground.color.set(p.grass);materials.leaf.color.set(p.leaf);materials.path.color.set(name==='disrepair'?0xa3a292:0xd0d0bf);
+    // Keep albedo maps; tint lightly via material color for phase mood.
+    materials.ground.color.set(grassMap?0xffffff:p.grass);materials.leaf.color.set(p.leaf);materials.path.color.set(stoneMap?0xffffff:(name==='disrepair'?0xa3a292:0xd0d0bf));
     for(const root of [est,home,inner])root.traverse(o=>{if(!o.isMesh)return;const m=o.material;const key=m.name.replace(/\.\d+$/,'');
       if(key==='Stone'){m.color.set(p.stone);m.roughness=name==='disrepair'?.99:.83;}if(key==='Trim')m.color.set(p.trim);if(key==='Roof')m.color.set(p.roof);if(key==='Glass'){m.color.set(p.glass);m.roughness=name==='disrepair'?.7:name==='growth'?.35:.2;}
       if(key==='Light')m.emissiveIntensity=p.light;if(key==='Warm')m.emissiveIntensity=p.light*.6;
@@ -162,6 +252,7 @@ export async function createWorlds(){
   }
   phase('disrepair');
   return {town,interior,townPhysics,interiorPhysics,est,stations,phase,
+    plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time){if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
     move(inside,delta){const physics=inside?interiorPhysics:townPhysics;physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
       next.x=Math.max(inside?-6.9:-27,Math.min(inside?6.9:27,next.x));next.z=Math.max(inside?-6.8:-25,Math.min(inside?6.9:29,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
