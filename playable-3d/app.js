@@ -8,7 +8,7 @@ import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './
 const $=id=>document.getElementById(id),canvas=$('scene');
 const icons=()=>window.lucide?.createIcons();
 const state=loadProfiles(localStorage);
-let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='disrepair',draft,editorTab='identity';
+let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flourishing',draft,editorTab='identity';
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
 let toastTimer,drag=null,lastTime=0,accumulator=0,metricsTime=0,frames=0,viewport={width:1,height:1};
 let tapMovement=null;
