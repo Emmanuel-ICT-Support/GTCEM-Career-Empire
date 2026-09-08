@@ -24,6 +24,13 @@ function bindClips(model, animations) {
     const name = /walk/i.test(clip.name) ? 'walk' : 'idle';
     clips[name] = mixer.clipAction(clip);
   }
+  if (!clips.idle && clips.walk) {
+    const walk = animations.find(clip => /walk/i.test(clip.name));
+    const tracks = walk.tracks.map(track => new track.constructor(
+      track.name, [0], Array.from(track.values.slice(0, track.getValueSize()))
+    ));
+    clips.idle = mixer.clipAction(new THREE.AnimationClip('idle', 1, tracks));
+  }
   if (clips.idle) clips.idle.play();
   let motion = 'idle';
   return {
@@ -51,7 +58,7 @@ export const hasCharacterKit = body => Boolean(kits[body]);
 export function loadCharacterKit(body) {
   if (!['a', 'b', 'tripo'].includes(body)) return Promise.reject(new Error('Unknown avatar body'));
   if (!kitLoads.has(body)) {
-    const url = body === 'tripo' ? './assets/player-bald-base.glb' : `./assets/avatar-${body}.glb`;
+    const url = body === 'tripo' ? './assets/player-tripo-20260908.glb' : `./assets/avatar-${body}.glb`;
     kitLoads.set(body, loader.loadAsync(url).then(kit => (kits[body] = kit)).catch(error => {
       kitLoads.delete(body); // A failed download can be retried from the picker.
       throw error;
@@ -127,10 +134,13 @@ function createSimpleTripoCharacter(profile) {
     node.castShadow = true;
     node.receiveShadow = true;
   });
-  normalizeHeight(model);
   const anim = bindClips(model, kit.animations || []);
+  anim.mixer.update(0);
+  normalizeHeight(model);
+  const positioned = new THREE.Group();
+  positioned.add(model);
   return {
-    model,
+    model: positioned,
     mixer: anim.mixer,
     profile,
     clips: anim.clips,

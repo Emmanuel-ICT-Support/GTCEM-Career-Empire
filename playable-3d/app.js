@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds} from './world.js?v=startup-2';
-import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=startup-2';
+import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260908-avatar';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
