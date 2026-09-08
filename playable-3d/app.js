@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=startup-2';
+import {createWorlds} from './world.js?v=scenery-1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260908-avatar2';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js';
 
@@ -192,7 +192,7 @@ function animate(){
     accumulator=Math.min(accumulator+dt,.1);let travelled=0;
     while(accumulator>=1/60){const previous=actor.model.position.clone();const next=worlds.move(mode==='interior',{x:dx/60,z:dz/60});actor.model.position.set(next.x,next.y,next.z);travelled+=Math.hypot(next.x-previous.x,next.z-previous.z);accumulator-=1/60;}
     actor.setWalking(Boolean(length && travelled>.001));if(length){const target=Math.atan2(dx,dz),difference=Math.atan2(Math.sin(target-actor.model.rotation.y),Math.cos(target-actor.model.rotation.y));actor.model.rotation.y+=difference*Math.min(1,dt*12);}
-    actor.update(dt);worlds.update(now);updateInteraction();
+    actor.update(dt);worlds.update(now,camera);updateInteraction();
   }else if(mode==='studio')preview?.update(dt);
   updateCamera(dt);renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   let scene=mode==='studio'?studio:mode==='interior'?worlds.interior:worlds.town;
@@ -201,7 +201,7 @@ function animate(){
   if(now-metricsTime>1){
     const gl=renderer.getContext(),pixels=new Uint8Array(4*24*24),colours=new Set();
     for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
-    const data={mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours:colours.size,animations:Object.keys(actor.clips),visibleMeshes:0};
+    const data={scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours:colours.size,animations:Object.keys(actor.clips),visibleMeshes:0};
     (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
     $('diagnostics').value=JSON.stringify(data);$('diagnostics').dataset.state=JSON.stringify(data);canvas.dataset.rendered='true';frames=0;metricsTime=now;
   }
@@ -219,6 +219,7 @@ async function boot(){
     studio.add(new THREE.HemisphereLight(0xf5faf4,0x7a8f72,2.1));const key=new THREE.DirectionalLight(0xfff3dc,3.4);key.position.set(-3,5,4);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-3;key.shadow.camera.right=3;key.shadow.camera.top=4;key.shadow.camera.bottom=-2;key.shadow.normalBias=.015;studio.add(key);
     const rim=new THREE.DirectionalLight(0xcfe9f1,1.4);rim.position.set(3,3,-2);studio.add(rim);
     worlds.teleport(false,2.55,17);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');$('loading').hidden=true;icons();animate();
+    setTimeout(()=>worlds.loadScenery(),0);
   }catch(error){console.error(error);$('loading-message').textContent=`The 3D district could not open: ${error.message}`;$('loading').querySelector('progress').hidden=true;$('fallback-link').hidden=false;}
 }
 boot();

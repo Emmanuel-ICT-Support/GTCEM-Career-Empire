@@ -9,6 +9,7 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import RAPIER from '@dimforge/rapier3d-compat';
+import {treeKit,homeModel} from './scenery.js?v=scenery-1';
 import {PHASES} from './profiles.js';
 
 const TILE=2;
@@ -268,7 +269,7 @@ export async function createWorlds(onProgress=()=>{}){
     const crownH=2.4+rand()*1.6;
     const crownR=1.05+rand()*.55;
     const yaw=rand()*Math.PI*2;
-    treePositions.push({x,z});
+    treePositions.push({x,z,height:trunkH+crownH*.92,yaw});
     // Trunk: unit-height cylinder scaled to trunkH; base sits on y≈0.
     matrix.position.set(x,trunkH/2,z);
     matrix.scale.set(1,trunkH,1);
@@ -365,15 +366,34 @@ export async function createWorlds(onProgress=()=>{}){
       if(key==='Stone'){m.color.set(p.stone);m.roughness=name==='disrepair'?.99:.83;}if(key==='Trim')m.color.set(p.trim);if(key==='Roof')m.color.set(p.roof);if(key==='Glass'){m.color.set(p.glass);m.roughness=name==='disrepair'?.7:name==='growth'?.35:.2;}
       if(key==='Light')m.emissiveIntensity=p.light;if(key==='Warm')m.emissiveIntensity=p.light*.6;
     });
+    importedTrees?.phase(name);
+    importedHome?.traverse(o=>{if(o.isMesh)o.material.color.set(name==='disrepair'?0xa4a394:name==='growth'?0xd7d5c8:0xffffff);});
     lights.forEach((m,i)=>m.emissiveIntensity=name==='disrepair'?(i<2?.15:0):p.light);
     flowers.visible=name!=='disrepair';flowers.children.forEach((o,i)=>o.visible=name==='flourishing'||i%3===0);planting.visible=name!=='disrepair';closedWings.visible=name==='disrepair';
     water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=name==='disrepair';restorations.visible=name==='growth';
   }
+  const scenery={status:'pending',trees:0,home:false,errors:[]};
+  let importedTrees,importedHome,sceneryLoad;
+  function loadScenery(){
+    if(sceneryLoad)return sceneryLoad;
+    scenery.status='loading';
+    const trees=Promise.all([loader.loadAsync('./assets/scenery/tree.glb'),loader.loadAsync('./assets/scenery/tree-low.glb')]).then(([high,low])=>{
+      importedTrees=treeKit(town,high,low,treePositions);importedTrees.phase(currentPhase);
+      // Keep the existing trees until the new instances have their first matrices.
+      scenery.trees=treePositions.length;
+    }).catch(error=>{scenery.errors.push('Trees: '+error.message);console.warn('Keeping fallback trees',error);});
+    const building=loader.loadAsync('./assets/scenery/city.glb').then(asset=>{
+      importedHome=homeModel(asset);town.add(importedHome);home.visible=false;
+      homeSign.position.y=1.5;scenery.home=true;phase(currentPhase);
+    }).catch(error=>{scenery.errors.push('Home Base: '+error.message);console.warn('Keeping fallback Home Base',error);});
+    sceneryLoad=Promise.all([trees,building]).then(()=>{scenery.status=scenery.errors.length?'fallback':'ready';});
+    return sceneryLoad;
+  }
   phase('flourishing');
-  return {ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
-    update(time){if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
+    update(time,camera){if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
     move(inside,delta){const physics=inside?interiorPhysics:townPhysics;physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
       next.x=Math.max(inside?-6.9:-27,Math.min(inside?6.9:27,next.x));next.z=Math.max(inside?-6.8:-25,Math.min(inside?6.9:29,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
     position(inside){const p=(inside?interiorPhysics:townPhysics).body.translation();return new THREE.Vector3(p.x,p.y-.785,p.z);},
