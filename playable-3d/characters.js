@@ -8,11 +8,15 @@ const kits = {};
 const TARGET_HEIGHT = 1.7;
 
 function normalizeHeight(model) {
-  const box = new THREE.Box3().setFromObject(model);
+  model.updateMatrixWorld(true);
+  model.traverse(node => { if (node.isSkinnedMesh) node.skeleton.update(); });
+  const box = new THREE.Box3().setFromObject(model, true);
   const size = box.getSize(new THREE.Vector3());
   const scale = TARGET_HEIGHT / Math.max(size.y, 0.001);
   model.scale.multiplyScalar(scale);
-  box.setFromObject(model);
+  model.updateMatrixWorld(true);
+  model.traverse(node => { if (node.isSkinnedMesh) node.skeleton.update(); });
+  box.setFromObject(model, true);
   model.position.y -= box.min.y;
   return scale;
 }
