@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=scenery-1';
-import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260908-shirt1';
-import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260908-shirt1';
+import {createWorlds} from './world.js?v=scenery-2';
+import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260908-base2';
+import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260908-base2';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
 const icons=()=>window.lucide?.createIcons();
@@ -69,7 +69,7 @@ function renderEditor(){
   if(editorTab==='identity'){
     root.append(field('Name','name'),field('Body','body','select',OPTIONS.body));
     if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent='Reference avatar wearing the uniform shirt prototype. Face, skin and hair controls are not available yet.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent='Reference avatar using the normal base model. Face, skin and hair controls are not available yet.';root.append(note);
     }else{
       root.append(field('Face','face','select',OPTIONS.face));
       const skin=document.createElement('div');skin.className='field';const label=document.createElement('span');label.textContent='Skin tone';skin.append(label);
@@ -80,7 +80,7 @@ function renderEditor(){
     }
   }else if(editorTab==='style'){
     if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent='This outfit includes a white shirt, teal tie and black shorts. Choose Body A or Body B for other clothing options.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent='This is the normal reference avatar. Choose Body A or Body B for clothing options.';root.append(note);
     }else{
       root.append(optionWithColour('Top','top'),optionWithColour('Bottom','bottom'),optionWithColour('Outer layer','outer'));
       const jumper=document.createElement('label');jumper.className='binary-field';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=draft.jumper;checkbox.addEventListener('change',()=>changeDraft(p=>p.jumper=checkbox.checked));jumper.append(checkbox,'Knit jumper');root.append(jumper);

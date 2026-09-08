@@ -62,7 +62,7 @@ export const hasCharacterKit = body => Boolean(kits[body]);
 export function loadCharacterKit(body) {
   if (!['a', 'b', 'tripo'].includes(body)) return Promise.reject(new Error('Unknown avatar body'));
   if (!kitLoads.has(body)) {
-    const url = body === 'tripo' ? './assets/player-uniform-shirt-20260908.glb' : `./assets/avatar-${body}.glb`;
+    const url = body === 'tripo' ? './assets/player-tripo-20260908.glb' : `./assets/avatar-${body}.glb`;
     kitLoads.set(body, loader.loadAsync(url).then(kit => (kits[body] = kit)).catch(error => {
       kitLoads.delete(body); // A failed download can be retried from the picker.
       throw error;
@@ -129,7 +129,7 @@ function createModularCharacter(profile) {
   };
 }
 
-/** Tripo reference player with a fitted uniform shirt and the original walk rig. */
+/** Tripo reference player using the normal base model and its original walk rig. */
 function createSimpleTripoCharacter(profile) {
   const kit = kits.tripo;
   const model = clone(kit.scene);

@@ -57,3 +57,11 @@ export function homeModel(asset) {
   root.position.set(-17,0,5);
   return root;
 }
+
+/** A centred, grounded campus building placed at an approved town location. */
+export function districtBuildingModel(asset,{name,x,z,rotation=0}) {
+  const model=parts(asset),root=new THREE.Group();root.name=name;
+  for(const p of model.parts){const mesh=new THREE.Mesh(p.geometry,p.material);mesh.castShadow=mesh.receiveShadow=true;root.add(mesh);}
+  root.position.set(x,0,z);root.rotation.y=rotation;
+  return root;
+}

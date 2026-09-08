@@ -10,7 +10,9 @@ test('startup defers unused bodies and hall; studio and hall remain usable',asyn
   await page.goto('/playable-3d/');
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
   await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');
-  expect(requests.some(u=>u.endsWith('player-uniform-shirt-20260908.glb'))).toBeTruthy();
+  expect(requests.some(u=>u.endsWith('player-tripo-20260908.glb'))).toBeTruthy();
+  await expect.poll(()=>requests.some(u=>u.endsWith('modern-campus-building.glb'))).toBeTruthy();
+  await expect.poll(()=>requests.some(u=>u.endsWith('future-careers-hub.glb'))).toBeTruthy();
   expect(requests.filter(u=>/avatar-[ab]\.glb|est-interior\.glb/.test(u))).toEqual([]);
   for(const name of ['grass_day.png','stone_flag_day.png','asphalt_day.png','asphalt_dash_overlay.png','crosswalk_overlay.png','curb_cyan_trim.png'])expect(requests.some(u=>u.endsWith(name))).toBeTruthy();
   await page.locator('#studio-view').click();
@@ -39,7 +41,7 @@ test('saved active body loads alone, and failed alternate selection can retry',a
   const requests=[];page.on('request',r=>requests.push(r.url()));
   await page.goto('/playable-3d/');
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
-  expect(requests.filter(u=>/avatar-a\.glb|player-uniform-shirt-20260908\.glb|est-interior\.glb/.test(u))).toEqual([]);
+  expect(requests.filter(u=>/avatar-a\.glb|player-tripo-20260908\.glb|est-interior\.glb/.test(u))).toEqual([]);
   await page.locator('#studio-view').click();
   await page.route('**/avatar-a.glb',r=>r.abort());
   await page.getByLabel('Body',{exact:true}).selectOption('a');

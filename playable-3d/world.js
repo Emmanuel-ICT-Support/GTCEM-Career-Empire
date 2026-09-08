@@ -9,7 +9,7 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import RAPIER from '@dimforge/rapier3d-compat';
-import {treeKit,homeModel} from './scenery.js?v=scenery-1';
+import {treeKit,homeModel,districtBuildingModel} from './scenery.js?v=scenery-2';
 import {PHASES} from './profiles.js';
 
 const TILE=2;
@@ -252,6 +252,9 @@ export async function createWorlds(onProgress=()=>{}){
     if(Math.hypot(x+17,z-5)<7.5)return true;
     if(Math.hypot(x,z+14)<10)return true;
     if(Math.hypot(x,z-4)<11)return true;
+    // Keep landscaping clear of the two added campus buildings.
+    if(Math.abs(x+12)<3.5&&Math.abs(z-14)<3.5)return true;
+    if(Math.abs(x-10)<7&&Math.abs(z-17)<6)return true;
     // Keep clear of asphalt road corridors.
     if(Math.abs(x-18.5)<4&&z>-16&&z<26)return true;
     if(Math.abs(x+22)<4&&z>-10&&z<22)return true;
@@ -340,6 +343,7 @@ export async function createWorlds(onProgress=()=>{}){
     }else{
       block(0,.12,-9.85,7,.24,2.6);
       block(0,3,-14,16,6,6.7);block(0,2,-11.3,5.8,4,2.8);block(-17,2,5,4.0,4,7.2);
+      block(-12,2.6,14,4.2,5.2,4.0);block(10,3,17,12,6,10);
       world.createCollider(RAPIER.ColliderDesc.cylinder(.45,1.8).setTranslation(0,.45,4));
       world.createCollider(RAPIER.ColliderDesc.cylinder(2,7.4).setTranslation(23,1,-10));
       for(const t of treePositions.slice(0,10))world.createCollider(RAPIER.ColliderDesc.cylinder(2,.27).setTranslation(t.x,2,t.z));
@@ -372,8 +376,8 @@ export async function createWorlds(onProgress=()=>{}){
     flowers.visible=name!=='disrepair';flowers.children.forEach((o,i)=>o.visible=name==='flourishing'||i%3===0);planting.visible=name!=='disrepair';closedWings.visible=name==='disrepair';
     water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=name==='disrepair';restorations.visible=name==='growth';
   }
-  const scenery={status:'pending',trees:0,home:false,errors:[]};
-  let importedTrees,importedHome,sceneryLoad;
+  const scenery={status:'pending',trees:0,home:false,buildings:0,errors:[]};
+  let importedTrees,importedHome,importedModern,importedFuture,sceneryLoad;
   function loadScenery(){
     if(sceneryLoad)return sceneryLoad;
     scenery.status='loading';
@@ -386,7 +390,15 @@ export async function createWorlds(onProgress=()=>{}){
       importedHome=homeModel(asset);town.add(importedHome);home.visible=false;
       homeSign.position.y=1.5;scenery.home=true;phase(currentPhase);
     }).catch(error=>{scenery.errors.push('Home Base: '+error.message);console.warn('Keeping fallback Home Base',error);});
-    sceneryLoad=Promise.all([trees,building]).then(()=>{scenery.status=scenery.errors.length?'fallback':'ready';});
+    const district=Promise.all([
+      loader.loadAsync('./assets/scenery/modern-campus-building.glb'),
+      loader.loadAsync('./assets/scenery/future-careers-hub.glb')
+    ]).then(([modern,future])=>{
+      importedModern=districtBuildingModel(modern,{name:'Modern Campus Building',x:-12,z:14,rotation:Math.PI});
+      importedFuture=districtBuildingModel(future,{name:'Future Careers Hub',x:10,z:17,rotation:Math.PI});
+      town.add(importedModern,importedFuture);scenery.buildings=2;
+    }).catch(error=>{scenery.errors.push('Campus buildings: '+error.message);console.warn('Keeping town without new campus buildings',error);});
+    sceneryLoad=Promise.all([trees,building,district]).then(()=>{scenery.status=scenery.errors.length?'fallback':'ready';});
     return sceneryLoad;
   }
   phase('flourishing');
