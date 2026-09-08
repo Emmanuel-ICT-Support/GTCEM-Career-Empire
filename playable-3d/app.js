@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js';
-import {loadCharacterKits,createCharacter,isSimpleBody} from './characters.js';
+import {createWorlds} from './world.js?v=startup-2';
+import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=startup-2';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
@@ -21,17 +21,31 @@ const dirty=()=>mode==='studio' && JSON.stringify(draft)!==JSON.stringify(active
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4300);}
 function persist(){try{saveProfiles(localStorage,state);return true;}catch{toast('Your browser could not save this character. Keep this tab open.');return false;}}
 function populateProfiles(){$('profile').replaceChildren(...state.profiles.map(p=>new Option(p.name,p.id)));$('profile').value=state.activeId;$('character-caption').textContent=active().name;}
-function updateActor(){
+let actorRequest=0,previewRequest=0,hallRequest=0,nearHall=false;
+async function updateActor(){
+  const request=++actorRequest,profile=active();
+  if(!hasCharacterKit(profile.body)){
+    toast('Loading your character...');
+    try{await loadCharacterKit(profile.body);}catch{toast('Character could not load. Select the profile again to retry.');return;}
+    if(request!==actorRequest)return;
+  }
   const position=actor?.model.position.clone() || worlds.position(false),rotation=actor?.model.rotation.y ?? Math.PI;
   actor?.dispose();actor=createCharacter(active());actor.model.position.copy(position);actor.model.rotation.y=rotation;
   (mode==='interior'?worlds.interior:worlds.town).add(actor.model);populateProfiles();
 }
-function updatePreview(){
+async function updatePreview(){
+  const request=++previewRequest;
+  $('undo').disabled=!undo.length;$('redo').disabled=!redo.length;
+  if(!hasCharacterKit(draft.body)){
+    $('edit-state').textContent='Loading body...';
+    try{await loadCharacterKit(draft.body);}catch{if(request===previewRequest&&mode==='studio')$('edit-state').textContent='Body could not load. Select it again to retry.';return;}
+    if(request!==previewRequest||mode!=='studio')return;
+  }
   const rotation=preview?.model.rotation.y || 0;
   preview?.dispose();preview=createCharacter(draft);preview.model.rotation.y=rotation;studio.add(preview.model);preview.setWalking(previewWalking);
   $('studio-caption').textContent=draft.name;$('edit-state').textContent=dirty()?'Unsaved':'Saved';$('undo').disabled=!undo.length;$('redo').disabled=!redo.length;
 }
-function changeDraft(mutator){undo.push(copy(draft));if(undo.length>60)undo.shift();redo=[];mutator(draft);draft=normaliseProfile(draft);updatePreview();}
+function changeDraft(mutator){undo.push(copy(draft));if(undo.length>60)undo.shift();redo=[];mutator(draft);draft=normaliseProfile(draft);updatePreview();renderEditor();}
 function field(label,key,type='text',rows){
   const wrapper=document.createElement('label');wrapper.className='field';
   const title=document.createElement('span');title.textContent=label;wrapper.append(title);
@@ -77,7 +91,7 @@ function renderEditor(){
   icons();
 }
 function setMode(next){
-  keys.clear();tapMovement=null;document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;
+  hallRequest++;previewRequest++;keys.clear();tapMovement=null;document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;
   const inStudio=next==='studio';
   for(const id of ['world-heading','world-tools','destination-bar','movement','world-footer'])$(id).hidden=inStudio;
   for(const id of ['studio-heading','studio-panel','studio-view-tools'])$(id).hidden=!inStudio;
@@ -91,9 +105,14 @@ function setMode(next){
 }
 function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='interior'?'THE LEARNING HALL':'THE LEARNING DISTRICT';$('location-subtitle').textContent=mode==='interior'?'CORE / TERM / VTCS / BOSS':'Home Base / EST Prep';}
 function leaveStudio(callback){if(dirty()){pendingLeave=callback;$('leave-dialog').showModal();}else callback();}
-function saveDraft(){state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
+function saveDraft(){if(!hasCharacterKit(draft.body)){toast('Wait for the selected body to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
 function openStudio(){if(mode==='studio')return;setMode('studio');}
-function enterHall(){worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');}
+async function enterHall(){
+  const request=++hallRequest;toast('Opening EST Prep...');
+  try{await worlds.ensureInterior();}catch{if(request===hallRequest)toast('EST Prep could not load. Choose Enter EST Prep to retry.');return;}
+  if(request!==hallRequest||mode!=='town')return;
+  worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');
+}
 function returnTown(){if(mode==='studio')leaveStudio(()=>setMode('town'));else setMode('town');}
 function destination(which){const go=()=>{setMode('town');worlds.teleport(false,which==='est'?0:-12.4,which==='est'?-8.35:5.0);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?Math.PI:-Math.PI/2;yaw=which==='est'?0:Math.PI/2;setLocation(which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
 function resetStudioCamera(){const distance=isMobile()?4.25:4.0;camera.position.set(.12,portrait?1.63:1.3,portrait?1.8:distance);orbit.target.set(0,portrait?1.48:.95,0);orbit.minDistance=1.15;orbit.maxDistance=5.2;orbit.maxPolarAngle=Math.PI*.59;orbit.minPolarAngle=Math.PI*.28;orbit.update();}
@@ -115,6 +134,9 @@ function updateInteraction(){
   if(mode==='studio'||!$('module-overlay').hidden){$('interact').hidden=true;interaction=null;return;}
   const p=actor.model.position;
   if(mode==='town'){
+    const approaching=Math.hypot(p.x,p.z+8.6)<7;
+    if(approaching&&!nearHall)worlds.ensureInterior().catch(()=>{});
+    nearHall=approaching;
     if(Math.hypot(p.x,p.z+8.6)<3.25)interaction={label:'Enter EST Prep',action:enterHall};
     else if(Math.hypot(p.x+12.6,p.z-5)<2.5)interaction={label:'Open Avatar Studio',action:openStudio};
     else interaction=null;
@@ -151,7 +173,7 @@ function bindEvents(){
   $('save-avatar').addEventListener('click',()=>{if(saveDraft()){setMode('town');toast(`${active().name} saved in this browser`);}});
   $('undo').addEventListener('click',()=>{if(!undo.length)return;redo.push(copy(draft));draft=undo.pop();updatePreview();renderEditor();});$('redo').addEventListener('click',()=>{if(!redo.length)return;undo.push(copy(draft));draft=redo.pop();updatePreview();renderEditor();});
   $('keep-editing').addEventListener('click',()=>{$('leave-dialog').close();pendingLeave=null;});$('discard-changes').addEventListener('click',()=>{$('leave-dialog').close();pendingLeave?.();pendingLeave=null;});$('save-changes').addEventListener('click',()=>{if(saveDraft()){$('leave-dialog').close();pendingLeave?.();pendingLeave=null;}});
-  $('turn-avatar').addEventListener('click',()=>preview.model.rotation.y+=Math.PI);$('pose-avatar').addEventListener('click',()=>{previewWalking=!previewWalking;preview.setWalking(previewWalking);$('pose-avatar').setAttribute('aria-pressed',previewWalking);});$('portrait-view').addEventListener('click',()=>{portrait=!portrait;$('portrait-view').setAttribute('aria-pressed',portrait);resetStudioCamera();});
+  $('turn-avatar').addEventListener('click',()=>{if(preview)preview.model.rotation.y+=Math.PI;});$('pose-avatar').addEventListener('click',()=>{previewWalking=!previewWalking;preview?.setWalking(previewWalking);$('pose-avatar').setAttribute('aria-pressed',previewWalking);});$('portrait-view').addEventListener('click',()=>{portrait=!portrait;$('portrait-view').setAttribute('aria-pressed',portrait);resetStudioCamera();});
   $('close-module').addEventListener('click',closeModule);
   window.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)||$('leave-dialog').open||!$('module-overlay').hidden)return;if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','ShiftLeft','ShiftRight'].includes(e.code)){e.preventDefault();keys.add(e.code);}if(e.code==='KeyE')interaction?.action();});
   window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());document.addEventListener('visibilitychange',()=>{keys.clear();accumulator=0;});window.addEventListener('resize',resize);
@@ -180,7 +202,7 @@ function animate(){
     const gl=renderer.getContext(),pixels=new Uint8Array(4*24*24),colours=new Set();
     for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
     const data={mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours:colours.size,animations:Object.keys(actor.clips),visibleMeshes:0};
-    (mode==='studio'?preview.model:actor.model).traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
+    (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
     $('diagnostics').value=JSON.stringify(data);$('diagnostics').dataset.state=JSON.stringify(data);canvas.dataset.rendered='true';frames=0;metricsTime=now;
   }
 }
@@ -189,7 +211,9 @@ async function boot(){
     icons();renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.03;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.autoClear=false;
     camera=new THREE.PerspectiveCamera(55,1,.08,220);orbit=new OrbitControls(camera,canvas);orbit.enableDamping=true;orbit.enablePan=false;orbit.enabled=false;
     const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();const environment=pmrem.fromScene(room,.04);room.dispose();pmrem.dispose();
-    await loadCharacterKits();worlds=await createWorlds();worlds.town.environment=environment.texture;worlds.town.environmentIntensity=.28;worlds.interior.environment=environment.texture;worlds.interior.environmentIntensity=.55;
+    $('loading-message').textContent='Loading your character and learning district...';
+    [worlds]=await Promise.all([createWorlds(message=>$('loading-message').textContent=message),loadCharacterKit(active().body)]);
+    $('loading-message').textContent='Preparing your first view...';worlds.town.environment=environment.texture;worlds.town.environmentIntensity=.28;worlds.interior.environment=environment.texture;worlds.interior.environmentIntensity=.55;
     studio=new THREE.Scene();studio.background=new THREE.Color(0xd8e3d5);studio.fog=new THREE.Fog(0xd8e3d5,4,12);studio.environment=environment.texture;studio.environmentIntensity=.4;
     const ground=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshStandardMaterial({color:0xd8e3d5,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-.005;ground.receiveShadow=true;studio.add(ground);
     studio.add(new THREE.HemisphereLight(0xf5faf4,0x7a8f72,2.1));const key=new THREE.DirectionalLight(0xfff3dc,3.4);key.position.set(-3,5,4);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-3;key.shadow.camera.right=3;key.shadow.camera.top=4;key.shadow.camera.bottom=-2;key.shadow.normalBias=.015;studio.add(key);

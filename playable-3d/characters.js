@@ -46,15 +46,18 @@ function bindClips(model, animations) {
   };
 }
 
-export async function loadCharacterKits() {
-  await Promise.all([
-    ...['a', 'b'].map(async body => {
-      kits[body] = await loader.loadAsync(`./assets/avatar-${body}.glb`);
-    }),
-    (async () => {
-      kits.tripo = await loader.loadAsync('./assets/player-bald-base.glb');
-    })()
-  ]);
+const kitLoads = new Map();
+export const hasCharacterKit = body => Boolean(kits[body]);
+export function loadCharacterKit(body) {
+  if (!['a', 'b', 'tripo'].includes(body)) return Promise.reject(new Error('Unknown avatar body'));
+  if (!kitLoads.has(body)) {
+    const url = body === 'tripo' ? './assets/player-bald-base.glb' : `./assets/avatar-${body}.glb`;
+    kitLoads.set(body, loader.loadAsync(url).then(kit => (kits[body] = kit)).catch(error => {
+      kitLoads.delete(body); // A failed download can be retried from the picker.
+      throw error;
+    }));
+  }
+  return kitLoads.get(body);
 }
 
 function createModularCharacter(profile) {

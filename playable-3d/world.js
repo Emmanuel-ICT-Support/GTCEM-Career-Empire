@@ -146,20 +146,18 @@ function buildTileKits(town,materials){
   return {kits,buckets};
 }
 
-export async function createWorlds(){
-  await RAPIER.init();
+export async function createWorlds(onProgress=()=>{}){
+  const physicsReady=RAPIER.init();
   const loader=new GLTFLoader();
   const draco=new DRACOLoader();
   // Decoder matches three r180 / gltf-transform Draco meshes; CDN keeps vendor tree light.
   draco.setDecoderPath('./vendor/draco/');
   loader.setDRACOLoader(draco);
-  const [outerAsset,innerAsset]=await Promise.all([
-    loader.loadAsync('./assets/est-exterior.glb'),
-    loader.loadAsync('./assets/est-interior.glb'),
-  ]);
+  const exteriorReady=loader.loadAsync('./assets/est-exterior.glb');
+  onProgress('Loading plaza textures and town buildings...');
   // Daytime plaza PNG kit (procedural canvas fallback if a map is missing).
   // Per-tile UVs are 0–1, so repeat stays at 1 (seamless maps tile across instances).
-  const [grassMap,stoneMap,asphaltMap,dashMap,crosswalkMap,curbMap]=await Promise.all([
+  const texturesReady=Promise.all([
     tryLoadPlazaMap('./assets/plaza/grass_day.png',1,1),
     tryLoadPlazaMap('./assets/plaza/stone_flag_day.png',1,1),
     tryLoadPlazaMap('./assets/plaza/asphalt_day.png',1,1),
@@ -167,6 +165,9 @@ export async function createWorlds(){
     tryLoadPlazaMap('./assets/plaza/crosswalk_overlay.png',1,1),
     tryLoadPlazaMap('./assets/plaza/curb_cyan_trim.png',12,1),
   ]);
+  const [outerAsset,,maps]=await Promise.all([exteriorReady,physicsReady,texturesReady]);
+  const [grassMap,stoneMap,asphaltMap,dashMap,crosswalkMap,curbMap]=maps;
+  onProgress('Building the learning district...');
   const town=new THREE.Scene(),interior=new THREE.Scene();
   // Brighter daytime sky / fog (clean campus, not portal neon).
   town.background=new THREE.Color(0xc8e6f2);town.fog=new THREE.Fog(0xc8e6f2,64,175);
@@ -220,7 +221,14 @@ export async function createWorlds(){
   const estSign=sign('EST PREP',3.3);estSign.position.set(0,5.73,-10.1);town.add(estSign);
   const home=est.clone(true);home.scale.setScalar(.45);home.position.set(-17,0,5.0);home.rotation.y=Math.PI/2;town.add(home);
   const homeSign=sign('HOME BASE',1.8);homeSign.position.set(-14.9,2.58,5.0);homeSign.rotation.y=Math.PI/2;town.add(homeSign);
-  const inner=consolidate(innerAsset.scene);interior.add(inner);
+  const inner=new THREE.Group();interior.add(inner);
+  let interiorLoad,currentPhase='flourishing';
+  function ensureInterior(){
+    if(!interiorLoad)interiorLoad=loader.loadAsync('./assets/est-interior.glb').then(asset=>{
+      inner.add(consolidate(asset.scene));phase(currentPhase);
+    }).catch(error=>{interiorLoad=null;throw error;});
+    return interiorLoad;
+  }
   const hallSign=sign('EST PREP',4.0);hallSign.position.set(0,4.65,-6.68);interior.add(hallSign);
   const stations=[{id:'content',name:'CORE',x:-3.5,z:1.5,colour:0x2e8481},{id:'glossary',name:'TERM',x:3.5,z:1.5,colour:0x927331},{id:'decoder',name:'VTCS',x:-3.5,z:-3.5,colour:0x466faa},{id:'boss',name:'BOSS',x:3.5,z:-3.5,colour:0x9d5368}];
   for(const s of stations){const plaque=sign(s.name,1.04);plaque.position.set(s.x,1.47,s.z+.10);interior.add(plaque);const light=new THREE.PointLight(s.colour,2,3);light.position.set(s.x,1.7,s.z);interior.add(light);}
@@ -343,7 +351,7 @@ export async function createWorlds(){
   }
   const townPhysics=physics(false),interiorPhysics=physics(true);
   function phase(name){
-    const p=PHASES[name];if(!p)throw new Error('Unknown world phase');
+    const p=PHASES[name];if(!p)throw new Error('Unknown world phase');currentPhase=name;
     const tint=TILE_TINTS[name]||TILE_TINTS.flourishing;
     // Swap tile-kit material tints (maps stay; colour multiply drives phase mood).
     materials.grass.color.set(tint.grass);
@@ -362,7 +370,7 @@ export async function createWorlds(){
     water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=name==='disrepair';restorations.visible=name==='growth';
   }
   phase('flourishing');
-  return {town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time){if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
