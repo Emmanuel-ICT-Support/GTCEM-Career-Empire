@@ -59,9 +59,12 @@ export function homeModel(asset) {
 }
 
 /** A centred, grounded campus building placed at an approved town location. */
-export function districtBuildingModel(asset,{name,x,z,rotation=0}) {
+export function districtBuildingModel(asset,{name,x,z,rotation=0,scale=1}) {
   const model=parts(asset),root=new THREE.Group();root.name=name;
   for(const p of model.parts){const mesh=new THREE.Mesh(p.geometry,p.material);mesh.castShadow=mesh.receiveShadow=true;root.add(mesh);}
-  root.position.set(x,0,z);root.rotation.y=rotation;
+  // Downloaded architectural models use a much larger unit scale than the town.
+  // Set the conversion at placement time so they sit beside the plaza, rather
+  // than enclosing the player and camera.
+  root.position.set(x,0,z);root.rotation.y=rotation;root.scale.setScalar(scale);
   return root;
 }

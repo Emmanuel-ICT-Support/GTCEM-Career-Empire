@@ -394,8 +394,8 @@ export async function createWorlds(onProgress=()=>{}){
       loader.loadAsync('./assets/scenery/modern-campus-building.glb'),
       loader.loadAsync('./assets/scenery/future-careers-hub.glb')
     ]).then(([modern,future])=>{
-      importedModern=districtBuildingModel(modern,{name:'Modern Campus Building',x:-12,z:14,rotation:Math.PI});
-      importedFuture=districtBuildingModel(future,{name:'Future Careers Hub',x:10,z:17,rotation:Math.PI});
+      importedModern=districtBuildingModel(modern,{name:'Modern Campus Building',x:-12,z:9,rotation:Math.PI,scale:1.5});
+      importedFuture=districtBuildingModel(future,{name:'Future Careers Hub',x:11,z:8,rotation:Math.PI,scale:.75});
       town.add(importedModern,importedFuture);scenery.buildings=2;
     }).catch(error=>{scenery.errors.push('Campus buildings: '+error.message);console.warn('Keeping town without new campus buildings',error);});
     sceneryLoad=Promise.all([trees,building,district]).then(()=>{scenery.status=scenery.errors.length?'fallback':'ready';});
