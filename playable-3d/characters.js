@@ -10,7 +10,7 @@ draco.setDecoderPath('./vendor/draco/');
 loader.setDRACOLoader(draco);
 const kits = {};
 const TARGET_HEIGHT = 1.7;
-const SIMPLE_BODIES = new Set(['tripo','shirt','schoolboy']);
+const SIMPLE_BODIES = new Set(['tripo','shirt','schoolboy','jackettest']);
 
 function normalizeHeight(model) {
   model.updateMatrixWorld(true);
@@ -26,7 +26,7 @@ function normalizeHeight(model) {
   return scale;
 }
 
-function bindClips(model, animations) {
+function bindClips(model, animations, walkSpeed = 1.8) {
   const mixer = new THREE.AnimationMixer(model);
   const clips = {};
   for (const clip of animations) {
@@ -53,7 +53,7 @@ function bindClips(model, animations) {
       motion = next;
     },
     update(dt) {
-      mixer.update(dt * (motion === 'walk' ? 1.8 : 1));
+      mixer.update(dt * (motion === 'walk' ? walkSpeed : 1));
     },
     disposeMixer() {
       mixer.stopAllAction();
@@ -67,11 +67,24 @@ export const hasCharacterKit = body => Boolean(kits[body]);
 export function loadCharacterKit(body) {
   if (!['a', 'b', ...SIMPLE_BODIES].includes(body)) return Promise.reject(new Error('Unknown avatar body'));
   if (!kitLoads.has(body)) {
-    const url = body === 'tripo' ? './assets/player-tripo-20260908.glb'
+    const url = body === 'jackettest' ? './assets/player-jacket-test-20260909.glb'
+      : body === 'tripo' ? './assets/player-tripo-20260908.glb'
       : body === 'shirt' ? './assets/player-uniform-shirt-20260908.glb'
       : body === 'schoolboy' ? './assets/player-schoolboy-20260909.glb?v=draco2'
       : `./assets/avatar-${body}.glb`;
-    kitLoads.set(body, loader.loadAsync(url).then(kit => (kits[body] = kit)).catch(error => {
+    kitLoads.set(body, loader.loadAsync(url).then(kit => {
+      if (body === 'jackettest') {
+        const source = kit.animations[0];
+        if (!source) throw new Error('Jacket test animation is missing');
+        // Exported frame 1 starts at t=0. Keep stress poses out of the walk.
+        const walk = THREE.AnimationUtils.subclip(source, 'walk', 89, 149, 30);
+        const tracks = source.tracks.map(track => new track.constructor(
+          track.name, [0], Array.from(track.values.slice(0, track.getValueSize()))
+        ));
+        kit.animations = [new THREE.AnimationClip('idle', 1, tracks), walk];
+      }
+      return (kits[body] = kit);
+    }).catch(error => {
       kitLoads.delete(body); // A failed download can be retried from the picker.
       throw error;
     }));
@@ -168,9 +181,13 @@ function createSimpleTripoCharacter(profile) {
       }
     }
   });
-  const anim = bindClips(model, kit.animations || []);
+  const anim = bindClips(model, kit.animations || [], profile.body === 'jackettest' ? 1 : 1.8);
   anim.mixer.update(0);
   normalizeHeight(model);
+  // Normalize the complete outfit first so jacket-off never changes avatar size.
+  if (profile.body === 'jackettest') model.traverse(node => {
+    if (node.isMesh && node.userData.clothingSlot === 'jacket') node.visible = profile.outer !== 'none';
+  });
   const positioned = new THREE.Group();
   positioned.add(model);
   return {

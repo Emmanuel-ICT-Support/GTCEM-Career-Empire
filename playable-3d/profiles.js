@@ -1,7 +1,7 @@
 export const STORAGE_KEY = 'career-empire-3d-profiles-v2-tripo';
 export const SKIN = { porcelain:'#edc9af', sand:'#d2a075', warm:'#b7774f', copper:'#955d3e', mahogany:'#65432f', deep:'#39281f' };
 export const OPTIONS = {
-  body: [['schoolboy','School student'],['tripo','Base avatar'],['shirt','Shirt avatar (test)'],['a','Body A'],['b','Body B']],
+  body: [['jackettest','White avatar - jacket test'],['schoolboy','School student'],['tripo','Base avatar'],['shirt','Shirt avatar (test)'],['a','Body A'],['b','Body B']],
   face: [['soft','Soft'],['round','Round'],['defined','Defined']],
   hair: [['waves','Tousled'],['bob','Side-part bob'],['ponytail','Ponytail'],['none','No hair']],
   top: [['shirt','Shirt & tie'],['scrubs','Scrub top'],['chef','Chef jacket']],

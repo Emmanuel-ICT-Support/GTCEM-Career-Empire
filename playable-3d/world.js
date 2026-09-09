@@ -265,8 +265,8 @@ export async function createWorlds(onProgress=()=>{}){
 
   const est=consolidate(outerAsset.scene);est.position.z=-14;town.add(est);
   const estSign=sign('EST PREP',3.3);estSign.position.set(0,5.73,-10.1);town.add(estSign);
-  const home=consolidate(studioAsset.scene);home.name='ECC Avatar Studio';home.position.set(-17,0,5);home.rotation.y=Math.PI/2;town.add(home);
-  const homeSign=sign('AVATAR STUDIO',2.3);homeSign.position.set(-13.85,2.64,5.0);homeSign.rotation.y=Math.PI/2;town.add(homeSign);
+  const home=consolidate(studioAsset.scene);home.name='ECC Avatar Studio';home.position.set(-17,0,5);home.rotation.y=-Math.PI/2;town.add(home);
+  const homeSign=sign('AVATAR STUDIO',2.3);homeSign.position.set(-13.25,3.56,5.0);homeSign.rotation.y=Math.PI/2;town.add(homeSign);
   const inner=new THREE.Group();interior.add(inner);
   let interiorLoad,currentPhase='flourishing';
   function ensureInterior(){

@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=ecc-campus-environment1';
-import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260909-schoolboy6';
-import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-schoolboy1';
+import {createWorlds} from './world.js?v=ecc-studio-entry2';
+import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260909-jackettest1';
+import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
 const icons=()=>window.lucide?.createIcons();
@@ -89,7 +89,10 @@ function renderEditor(){
       const eye=document.createElement('label');eye.className='binary-field';eye.append('Eye colour',colour('Eye colour','eye'));root.append(eye);
     }
   }else if(editorTab==='style'){
-    if(simple){
+    if(draft.body==='jackettest'){
+      root.append(field('Jacket','outer','select',[['blazer','Navy blazer'],['none','Off - inspect fit']]));
+      const note=document.createElement('p');note.className='hint';note.textContent='Dressing test. Jacket-off reveals missing body areas. Walking preview uses a simple test cycle.';root.append(note);
+    }else if(simple){
       const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='schoolboy'?'This school-student model uses its own uniform and styling.':draft.body==='shirt'?'This test model includes a white shirt, short teal tie and black shorts.':'This is the normal reference avatar.';root.append(note);
     }else{
       root.append(optionWithColour('Top','top'),optionWithColour('Bottom','bottom'),optionWithColour('Outer layer','outer'));
@@ -148,7 +151,7 @@ function updateInteraction(){
     if(approaching&&!nearHall)worlds.ensureInterior().catch(()=>{});
     nearHall=approaching;
     if(Math.hypot(p.x,p.z+8.6)<3.25)interaction={label:'Enter EST Prep',action:enterHall};
-    else if(Math.hypot(p.x+12.6,p.z-5)<2.5)interaction={label:'Open Avatar Studio',action:openStudio};
+    else if(p.x>-13.6 && p.x<-10.8 && Math.abs(p.z-5)<1.45)interaction={label:'Open Avatar Studio',action:openStudio};
     else interaction=null;
   }else{
     const nearest=worlds.stations.map(s=>({...s,distance:Math.hypot(p.x-s.x,p.z-s.z)})).sort((a,b)=>a.distance-b.distance)[0];

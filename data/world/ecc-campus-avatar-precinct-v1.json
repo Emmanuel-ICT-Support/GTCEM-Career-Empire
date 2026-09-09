@@ -1,0 +1,51 @@
+{
+  "name": "ECC Campus Avatar Studio test precinct",
+  "status": "design-candidate",
+  "purpose": "The first complete, player-height review slice for the Career Empire campus rebuild.",
+  "visualTarget": "ECC-informed Career Journey Campus: limestone, navy, timber, glass, native planting and restrained teal.",
+  "worldUnits": "metres",
+  "bounds": { "minX": -24, "maxX": 4, "minZ": -6, "maxZ": 22 },
+  "destinations": [
+    {
+      "id": "avatar-studio",
+      "role": "hero-building",
+      "position": { "x": -15, "z": 7 },
+      "entrance": { "x": -10.8, "z": 7, "facing": "east" },
+      "footprint": { "width": 8.5, "depth": 8 },
+      "arrivalCamera": { "x": -7.5, "z": 8.5, "lookAt": { "x": -13.5, "z": 7 } }
+    },
+    {
+      "id": "civic-heart-edge",
+      "role": "plaza-connection",
+      "position": { "x": 0, "z": 5 },
+      "footprint": { "width": 9, "depth": 10 }
+    }
+  ],
+  "routes": [
+    {
+      "id": "studio-approach",
+      "from": "civic-heart-edge",
+      "to": "avatar-studio",
+      "width": 3.2,
+      "nodes": [
+        { "x": 0, "z": 5 },
+        { "x": -4, "z": 5 },
+        { "x": -7.5, "z": 7 },
+        { "x": -10.8, "z": 7 }
+      ],
+      "design": "pale limestone paving, planting on both edges, no vehicle road between plaza and entry"
+    }
+  ],
+  "landscapeZones": [
+    { "id": "arrival-garden", "shape": "crescent", "between": ["studio-approach", "avatar-studio"], "contents": ["native shrubs", "two small eucalyptus", "low limestone planter", "bench"] },
+    { "id": "plaza-edge", "shape": "linear", "between": ["civic-heart-edge", "studio-approach"], "contents": ["shade tree", "bench", "wayfinding marker"] }
+  ],
+  "reviewChecks": [
+    "The Avatar Studio entry is visible from the plaza connection.",
+    "The approach contains no more than eight seconds of empty walking.",
+    "The building, entrance, path and planting read together in one player-height camera frame.",
+    "No vehicle road separates the player from the studio entrance.",
+    "The teal portal is visible only once the player is near the entry."
+  ],
+  "notForLiveUseYet": true
+}

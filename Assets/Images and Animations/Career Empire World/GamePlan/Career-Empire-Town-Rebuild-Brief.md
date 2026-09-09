@@ -61,6 +61,34 @@ Career Empire is an **ECC-informed Career Journey Campus**: a believable warm We
 
 Only after this slice is visually approved should EST Prep, Careers, Town Square and later precincts be made from the same asset kit.
 
+## 2B. Required production order
+
+The work must happen in this order. Do not skip ahead to publishing an individual model or changing the live map.
+
+### 1. Lock the visual bible
+
+Use the approved concept images as the target: limestone, navy framing, timber fins, large glass, native planting, shaded campus paths and restrained teal interaction elements.
+
+### 2. Design the playable layout
+
+Turn the aerial concept into a compact walking map with routes, destination footprints, player-height camera views, visible entrances and garden edges. The existing square road grid is a prototype only and must not dictate the new campus layout.
+
+### 3. Create a modular 3D asset kit
+
+Properly model and texture reusable limestone walls, glass walls, navy beams, timber fins, canopies, roofs, solar panels, planters, benches, paths, shrubs and eucalyptus trees. Each asset needs UVs, materials, character-relative scale and a collision footprint.
+
+### 4. Build the Avatar Studio from that kit
+
+The Avatar Studio is the first hero asset. It requires a modelled facade, interior suggestion, believable landscaping and a clear entrance. A technical GLB or primitive blockout is not final production.
+
+### 5. Assemble one finished test precinct
+
+Combine the Avatar Studio, garden, connecting path and plaza edge. Review it at player height against the approved concept before any further destination is built.
+
+### 6. Replace the live world only after review
+
+Export optimised GLBs, validate walking, collisions and performance, then publish the approved precinct as a deliberate release.
+
 ## 3. Recommended player progression model
 
 Use **story chapters with an event clock**, not dice rolls and not continuous real-time simulation.
