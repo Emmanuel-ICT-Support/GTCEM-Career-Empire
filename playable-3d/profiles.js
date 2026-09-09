@@ -1,7 +1,7 @@
 export const STORAGE_KEY = 'career-empire-3d-profiles-v2-tripo';
 export const SKIN = { porcelain:'#edc9af', sand:'#d2a075', warm:'#b7774f', copper:'#955d3e', mahogany:'#65432f', deep:'#39281f' };
 export const OPTIONS = {
-  body: [['tripo','Base avatar'],['shirt','Shirt avatar (test)'],['a','Body A'],['b','Body B']],
+  body: [['schoolboy','School student'],['tripo','Base avatar'],['shirt','Shirt avatar (test)'],['a','Body A'],['b','Body B']],
   face: [['soft','Soft'],['round','Round'],['defined','Defined']],
   hair: [['waves','Tousled'],['bob','Side-part bob'],['ponytail','Ponytail'],['none','No hair']],
   top: [['shirt','Shirt & tie'],['scrubs','Scrub top'],['chef','Chef jacket']],
@@ -21,7 +21,7 @@ export function normaliseProfile(value = {}) {
   for (const key of Object.keys(profile.future)) profile.future[key]=String(value.future?.[key] || '').slice(0,500);
   return profile;
 }
-export const STARTERS = [normaliseProfile({id:'avery',name:'Avery',body:'tripo',skin:'warm',accessory:'backpack'}),normaliseProfile({id:'morgan',name:'Morgan',body:'b',skin:'deep',hair:'bob',bottom:'skirt',outer:'none',jumper:true,accessory:'glasses',colours:{hair:'#2a221d',top:'#e9e3dd',jumper:'#8a4260',bottom:'#354547',eye:'#895b2e'}})];
+export const STARTERS = [normaliseProfile({id:'avery',name:'Avery',body:'schoolboy',skin:'warm',accessory:'backpack'}),normaliseProfile({id:'morgan',name:'Morgan',body:'b',skin:'deep',hair:'bob',bottom:'skirt',outer:'none',jumper:true,accessory:'glasses',colours:{hair:'#2a221d',top:'#e9e3dd',jumper:'#8a4260',bottom:'#354547',eye:'#895b2e'}})];
 export function loadProfiles(storage) {
   try {
     const raw=JSON.parse(storage.getItem(STORAGE_KEY));

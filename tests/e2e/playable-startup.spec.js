@@ -10,7 +10,7 @@ test('startup defers unused bodies and hall; studio and hall remain usable',asyn
   await page.goto('/playable-3d/');
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
   await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');
-  expect(requests.some(u=>u.endsWith('player-tripo-20260908.glb'))).toBeTruthy();
+  expect(requests.some(u=>u.includes('player-schoolboy-20260909.glb'))).toBeTruthy();
   await expect.poll(()=>requests.some(u=>u.endsWith('modern-campus-building.glb'))).toBeTruthy();
   await expect.poll(()=>requests.some(u=>u.endsWith('future-careers-hub.glb'))).toBeTruthy();
   expect(requests.filter(u=>/avatar-[ab]\.glb|est-interior\.glb/.test(u))).toEqual([]);

@@ -1,12 +1,16 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {clone} from 'three/addons/utils/SkeletonUtils.js';
 import {SKIN} from './profiles.js';
 
 const loader = new GLTFLoader();
+const draco = new DRACOLoader();
+draco.setDecoderPath('./vendor/draco/');
+loader.setDRACOLoader(draco);
 const kits = {};
 const TARGET_HEIGHT = 1.7;
-const SIMPLE_BODIES = new Set(['tripo','shirt']);
+const SIMPLE_BODIES = new Set(['tripo','shirt','schoolboy']);
 
 function normalizeHeight(model) {
   model.updateMatrixWorld(true);
@@ -65,6 +69,7 @@ export function loadCharacterKit(body) {
   if (!kitLoads.has(body)) {
     const url = body === 'tripo' ? './assets/player-tripo-20260908.glb'
       : body === 'shirt' ? './assets/player-uniform-shirt-20260908.glb'
+      : body === 'schoolboy' ? './assets/player-schoolboy-20260909.glb?v=draco1'
       : `./assets/avatar-${body}.glb`;
     kitLoads.set(body, loader.loadAsync(url).then(kit => (kits[body] = kit)).catch(error => {
       kitLoads.delete(body); // A failed download can be retried from the picker.
