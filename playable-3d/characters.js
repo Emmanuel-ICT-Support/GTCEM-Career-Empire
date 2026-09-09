@@ -141,10 +141,32 @@ function createModularCharacter(profile) {
 function createSimpleTripoCharacter(profile) {
   const kit = kits[profile.body];
   const model = clone(kit.scene);
+  const materialCopies = new Map();
+  const schoolUniformParts = new Set([1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 22, 23, 28, 29]);
   model.traverse(node => {
     if (!node.isMesh) return;
     node.castShadow = true;
     node.receiveShadow = true;
+    // The school model arrives as many separately textured parts. Its source
+    // normal maps make the joins read as harsher than they do in Tripo under
+    // the brighter town lighting, so use private material copies and soften
+    // their relief without changing the downloaded source asset.
+    if (profile.body === 'schoolboy') {
+      const copyMaterial = source => {
+        if (!materialCopies.has(source)) materialCopies.set(source, source.clone());
+        return materialCopies.get(source);
+      };
+      node.material = Array.isArray(node.material) ? node.material.map(copyMaterial) : copyMaterial(node.material);
+      const materials = Array.isArray(node.material) ? node.material : [node.material];
+      for (const material of materials) {
+        material.normalScale?.setScalar(0.42);
+        const part = Number(material.name.match(/tripo_part_(\d+)_material/)?.[1]);
+        if (schoolUniformParts.has(part) && material.emissive) {
+          material.emissive.set(0x17284a);
+          material.emissiveIntensity = 0.22;
+        }
+      }
+    }
   });
   const anim = bindClips(model, kit.animations || []);
   anim.mixer.update(0);
@@ -161,6 +183,7 @@ function createSimpleTripoCharacter(profile) {
     update: anim.update,
     dispose() {
       anim.disposeMixer();
+      for (const material of materialCopies.values()) material.dispose();
       model.removeFromParent();
     }
   };
