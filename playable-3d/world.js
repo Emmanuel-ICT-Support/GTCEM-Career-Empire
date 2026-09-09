@@ -1,3 +1,4 @@
+import {arrivalPrecinct} from './arrival-precinct.js?v=arrival1';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
  * ~2wu tiles stamped from a 2D grid: grass / path / asphalt / plaza (+ curb overlays).
@@ -199,7 +200,8 @@ export async function createWorlds(onProgress=()=>{}){
   draco.setDecoderPath('./vendor/draco/');
   loader.setDRACOLoader(draco);
   const exteriorReady=loader.loadAsync('./assets/est-exterior.glb');
-  const studioReady=loader.loadAsync('./assets/scenery/ecc-avatar-studio-v1.glb');
+  // The new Studio is native geometry; optional scenery must not block startup.
+  const studioReady=Promise.resolve({scene:new THREE.Group()});
   onProgress('Loading plaza textures and town buildings...');
   // Daytime plaza PNG kit (procedural canvas fallback if a map is missing).
   // Per-tile UVs are 0–1, so repeat stays at 1 (seamless maps tile across instances).
@@ -265,8 +267,9 @@ export async function createWorlds(onProgress=()=>{}){
 
   const est=consolidate(outerAsset.scene);est.position.z=-14;town.add(est);
   const estSign=sign('EST PREP',3.3);estSign.position.set(0,5.73,-10.1);town.add(estSign);
-  const home=consolidate(studioAsset.scene);home.name='ECC Avatar Studio';home.position.set(-17,0,5);home.rotation.y=-Math.PI/2;town.add(home);
-  const homeSign=sign('AVATAR STUDIO',2.3);homeSign.position.set(-13.25,3.56,5.0);homeSign.rotation.y=Math.PI/2;town.add(homeSign);
+  const home=consolidate(studioAsset.scene);home.name='ECC Avatar Studio';home.position.set(-17,0,5);home.rotation.y=-Math.PI/2;home.visible=false;town.add(home);
+  const precinct=arrivalPrecinct(town,stoneTex,sign);
+  const homeSign=sign('AVATAR STUDIO',2.3);homeSign.position.set(-13.25,3.56,5.0);homeSign.rotation.y=Math.PI/2;homeSign.visible=false;town.add(homeSign);
   const inner=new THREE.Group();interior.add(inner);
   let interiorLoad,currentPhase='flourishing';
   function ensureInterior(){
@@ -279,8 +282,8 @@ export async function createWorlds(onProgress=()=>{}){
   const stations=[{id:'content',name:'CORE',x:-3.5,z:1.5,colour:0x2e8481},{id:'glossary',name:'TERM',x:3.5,z:1.5,colour:0x927331},{id:'decoder',name:'VTCS',x:-3.5,z:-3.5,colour:0x466faa},{id:'boss',name:'BOSS',x:3.5,z:-3.5,colour:0x9d5368}];
   for(const s of stations){const plaque=sign(s.name,1.04);plaque.position.set(s.x,1.47,s.z+.10);interior.add(plaque);const light=new THREE.PointLight(s.colour,2,3);light.position.set(s.x,1.7,s.z);interior.add(light);}
   // Stronger daytime sun + hemisphere
-  const sun=new THREE.DirectionalLight(0xfff2d8,4.2);sun.position.set(-18,36,24);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-36;sun.shadow.camera.right=36;sun.shadow.camera.top=38;sun.shadow.camera.bottom=-32;sun.shadow.camera.far=110;sun.shadow.normalBias=.035;town.add(sun);
-  town.add(new THREE.HemisphereLight(0xe8f6ff,0x7d9168,2.15));
+  const sun=new THREE.DirectionalLight(0xffe0ac,3.5);sun.position.set(-18,24,24);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-36;sun.shadow.camera.right=36;sun.shadow.camera.top=38;sun.shadow.camera.bottom=-32;sun.shadow.camera.far=110;sun.shadow.normalBias=.035;town.add(sun);
+  town.add(new THREE.HemisphereLight(0xe8f6ff,0x7d9168,1.5));
   town.add(new THREE.AmbientLight(0xddeeff,.35));
   interior.add(new THREE.HemisphereLight(0xe2eeee,0x6c6a55,2.2));
   const innerSun=new THREE.DirectionalLight(0xffe8c7,2);innerSun.position.set(-5,9,6);interior.add(innerSun);
@@ -297,14 +300,15 @@ export async function createWorlds(onProgress=()=>{}){
   const shrubSites=[[-10,10],[-8,11],[-6,10],[-10,-4],[-8,-5],[-6,-4],[7,11],[9,10],[11,11],[13,10],[8,-5],[10,-5],[12,-4],[-15,0],[-14,-2],[-13,1],[15,1],[16,0],[15,-2],[-3,20],[3,20],[-4,-15],[4,-15]];
   const shrubs=new THREE.InstancedMesh(shrubGeo,shrubMat,shrubSites.length*3);shrubs.castShadow=shrubs.receiveShadow=true;
   const shrubTransform=new THREE.Object3D();let shrubIndex=0;
-  for(const [x,z] of shrubSites)for(let i=0;i<3;i++){
+  for(const [x,z] of shrubSites.filter(([x,z])=>!(x>-10&&x<-4&&z>3&&z<20)))for(let i=0;i<3;i++){
     const angle=(i*2.17+x)*1.3,offset=.28+i*.16;shrubTransform.position.set(x+Math.cos(angle)*offset,.28,z+Math.sin(angle)*offset);
     const scale=.55+i*.14;shrubTransform.scale.set(scale,.72+scale*.4,scale);shrubTransform.rotation.set(0,angle,0);shrubTransform.updateMatrix();shrubs.setMatrixAt(shrubIndex++,shrubTransform.matrix);
   }
-  shrubs.instanceMatrix.needsUpdate=true;town.add(shrubs);
-  const matrix=new THREE.Object3D(),treePositions=[];
+  shrubs.count=shrubIndex;shrubs.instanceMatrix.needsUpdate=true;town.add(shrubs);
+  const matrix=new THREE.Object3D(),treePositions=[...precinct.trees];
   const treeBlocked=(x,z)=>{
     // Keep clear of Home Base / Avatar Studio, EST facade, and central plaza pad.
+    if(x>-16&&x<1&&z>-4&&z<25)return true;
     if(Math.hypot(x+17,z-5)<7.5)return true;
     if(Math.hypot(x,z+14)<10)return true;
     if(Math.hypot(x,z-4)<11)return true;
@@ -370,7 +374,7 @@ export async function createWorlds(onProgress=()=>{}){
     const m=new THREE.MeshStandardMaterial({color:0xb9e3db,emissive:0x76c8c7,emissiveIntensity:1});lights.push(m);
     box(town,.22,.33,.22,m,x,2.76,z);
   }
-  for(const x of [-6.7,6.7])for(const z of [1,10]){
+  for(const x of [6.7])for(const z of [1,10]){
     for(let j=0;j<4;j++)box(town,1.7,.055,.095,basic(0x796549),x,.53,z+j*.11);
     for(const dx of [-.67,.67])box(town,.055,.48,.43,materials.edge,x+dx,.25,z+.16);
     box(town,1.7,.25,.065,basic(0x796549),x,.82,z+.4);
@@ -399,7 +403,7 @@ export async function createWorlds(onProgress=()=>{}){
     }else{
       block(0,.12,-9.85,7,.24,2.6);
       block(0,3,-14,16,6,6.7);block(0,2,-11.3,5.8,4,2.8);block(-17,2,5,7.2,4,6.2);
-      block(-12,2.6,14,4.2,5.2,4.0);block(10,3,17,12,6,10);
+      for(const b of precinct.colliders)block(...b);block(10,3,17,12,6,10);
       world.createCollider(RAPIER.ColliderDesc.cylinder(.45,1.8).setTranslation(0,.45,4));
       world.createCollider(RAPIER.ColliderDesc.cylinder(2,7.4).setTranslation(23,1,-10));
       for(const t of treePositions.slice(0,10))world.createCollider(RAPIER.ColliderDesc.cylinder(2,.27).setTranslation(t.x,2,t.z));

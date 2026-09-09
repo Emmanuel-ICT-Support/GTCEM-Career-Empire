@@ -34,6 +34,6 @@ test('failed scenery retains a playable fallback world',async({page})=>{
   await page.route('**/assets/scenery/*.glb',route=>route.abort());
   await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:60000});
   await expect.poll(async()=>(await state(page)).scenery?.status,{timeout:30000}).toBe('fallback');
-  const data=await state(page);expect(data.scenery.trees).toBe(0);expect(data.scenery.home).toBe(false);
+  const data=await state(page);expect(data.scenery.trees).toBe(0);expect(data.scenery.home).toBe(true);
   await page.locator('#home-destination').click();await page.locator('#interact').click();await expect(page.locator('#studio-panel')).toBeVisible();
 });

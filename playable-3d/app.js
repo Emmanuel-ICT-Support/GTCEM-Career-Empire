@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=ecc-studio-entry2';
+import {createWorlds} from './world.js?v=arrival1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260909-jackettest1';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
 
@@ -105,7 +105,7 @@ function renderEditor(){
 }
 function setMode(next){
   hallRequest++;previewRequest++;keys.clear();tapMovement=null;document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;
-  const inStudio=next==='studio';
+  const inStudio=next==='studio';$('arrival-mission').hidden=inStudio||next==='interior';
   for(const id of ['world-heading','world-tools','destination-bar','movement','world-footer'])$(id).hidden=inStudio;
   for(const id of ['studio-heading','studio-panel','studio-view-tools'])$(id).hidden=!inStudio;
   $('interact').hidden=true;interaction=null;
@@ -113,12 +113,12 @@ function setMode(next){
   $('studio-view').classList.toggle('active',inStudio);$('studio-view').setAttribute('aria-pressed',inStudio);
   orbit.enabled=inStudio;canvas.setAttribute('aria-label',inStudio?'Interactive 3D character':next==='interior'?'Interactive EST Prep hall':'Interactive 3D town');
   if(inStudio){draft=copy(active());undo=[];redo=[];editorTab='identity';previewWalking=false;portrait=false;$('pose-avatar').setAttribute('aria-pressed','false');$('portrait-view').setAttribute('aria-pressed','false');updatePreview();renderEditor();resetStudioCamera();}
-  else{preview?.dispose();preview=null;(next==='interior'?worlds.interior:worlds.town).add(actor.model);actor.model.position.copy(worlds.position(next==='interior'));yaw=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='interior'?'EST Prep':'Town Square');updateCamera(1,true);}
+  else{preview?.dispose();preview=null;(next==='interior'?worlds.interior:worlds.town).add(actor.model);actor.model.position.copy(worlds.position(next==='interior'));yaw=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
   resize();
 }
-function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='interior'?'THE LEARNING HALL':'THE LEARNING DISTRICT';$('location-subtitle').textContent=mode==='interior'?'CORE / TERM / VTCS / BOSS':'Home Base / EST Prep';}
+function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='interior'?'THE LEARNING HALL':'CAREER EMPIRE · YOUR FIRST DAY';$('location-subtitle').textContent=mode==='interior'?'CORE / TERM / VTCS / BOSS':'Arrival Gardens / Avatar Studio';}
 function leaveStudio(callback){if(dirty()){pendingLeave=callback;$('leave-dialog').showModal();}else callback();}
-function saveDraft(){if(!hasCharacterKit(draft.body)){toast('Wait for the selected body to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
+function saveDraft(){if(!hasCharacterKit(draft.body)){toast('Wait for the selected body to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{localStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
 function openStudio(){if(mode==='studio')return;setMode('studio');}
 async function enterHall(){
   const request=++hallRequest;toast('Opening EST Prep...');
@@ -140,8 +140,20 @@ function updateCamera(dt,snap=false){
   if(mode==='studio'){orbit.update();return;}
   const p=actor.model.position;
   if(aerial){if(mode==='interior'){desiredCamera.set(8,12,13);lookAt.set(0,0,0);}else{desiredCamera.set(27,36,38);lookAt.set(-1,0,-3);}}
-  else{const distance=mode==='interior'?4.2:6.0;desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+(mode==='interior'?3:3.25),p.z+Math.cos(yaw)*distance);lookAt.set(p.x-Math.sin(yaw)*1.1,p.y+(mode==='interior'?1.55:2.1),p.z-Math.cos(yaw)*1.1);}
+  else{const studioApproach=mode==='town'&&p.x<-10&&Math.abs(p.z-5)<3;const distance=mode==='interior'?4.2:studioApproach?7:4.3;desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+(mode==='interior'?3:studioApproach?4:2.75),p.z+Math.cos(yaw)*distance);lookAt.set(p.x-Math.sin(yaw)*1.1,p.y+(mode==='interior'?1.55:studioApproach?3:2.1),p.z-Math.cos(yaw)*1.1);}
   camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);
+}
+function updateMission(){
+ if(mode!=='town')return;
+ let done=false;try{done=localStorage.getItem('ce-arrival-complete-'+state.activeId)==='1';}catch{}
+ const distance=Math.hypot(actor.model.position.x+12.4,actor.model.position.z-5);
+ const near=distance<2.2;
+ const title=done?'Your first step is saved':near?'Make this your future':'Find your place';
+ const detail=done?'Your character is ready. Explore the gardens or continue to EST Prep.':near?'Open Avatar Studio. Choose your look, explore Future, then Save & return.':`Follow the shaded walk, then turn left to Avatar Studio · ${Math.ceil(distance)} m`;
+ if($('mission-title').textContent!==title)$('mission-title').textContent=title;
+ if($('mission-detail').textContent!==detail)$('mission-detail').textContent=detail;
+ $('mission-bar').style.width=done?'100%':near?'65%':`${Math.max(15,60-distance*3)}%`;
+ $('arrival-mission').classList.toggle('complete',done);
 }
 function updateInteraction(){
   if(mode==='studio'||!$('module-overlay').hidden){$('interact').hidden=true;interaction=null;return;}
@@ -205,7 +217,7 @@ function animate(){
     accumulator=Math.min(accumulator+dt,.1);let travelled=0;
     while(accumulator>=1/60){const previous=actor.model.position.clone();const next=worlds.move(mode==='interior',{x:dx/60,z:dz/60});actor.model.position.set(next.x,next.y,next.z);travelled+=Math.hypot(next.x-previous.x,next.z-previous.z);accumulator-=1/60;}
     actor.setWalking(Boolean(length && travelled>.001));if(length){const target=Math.atan2(dx,dz),difference=Math.atan2(Math.sin(target-actor.model.rotation.y),Math.cos(target-actor.model.rotation.y));actor.model.rotation.y+=difference*Math.min(1,dt*12);}
-    actor.update(dt);worlds.update(now,camera);updateInteraction();
+    actor.update(dt);worlds.update(now,camera);updateInteraction();updateMission();
   }else if(mode==='studio')preview?.update(dt);
   updateCamera(dt);renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   let scene=mode==='studio'?studio:mode==='interior'?worlds.interior:worlds.town;
@@ -231,7 +243,7 @@ async function boot(){
     const ground=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshStandardMaterial({color:0xd8e3d5,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-.005;ground.receiveShadow=true;studio.add(ground);
     studio.add(new THREE.HemisphereLight(0xf5faf4,0x7a8f72,2.1));const key=new THREE.DirectionalLight(0xfff3dc,3.4);key.position.set(-3,5,4);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-3;key.shadow.camera.right=3;key.shadow.camera.top=4;key.shadow.camera.bottom=-2;key.shadow.normalBias=.015;studio.add(key);
     const rim=new THREE.DirectionalLight(0xcfe9f1,1.4);rim.position.set(3,3,-2);studio.add(rim);
-    worlds.teleport(false,2.55,17);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');$('loading').hidden=true;icons();animate();
+    worlds.teleport(false,-7,14);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');yaw=0;updateCamera(1,true);$('loading').hidden=true;icons();animate();
     setTimeout(()=>worlds.loadScenery(),0);
     // Let the new player reach a stable town first. Choices then prepare in
     // the background before they are likely to open Avatar Studio.

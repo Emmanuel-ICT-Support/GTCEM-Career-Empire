@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:[]}});
 test('studio door faces the square and approaching activates entry',async({page})=>{
  test.setTimeout(180000);
  await page.goto('/playable-3d/');

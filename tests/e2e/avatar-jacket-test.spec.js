@@ -1,4 +1,5 @@
 import {test, expect} from '@playwright/test';
+test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:[]}});
 
 test('jacket test supports outfit visibility, walking and saved profiles', async ({page}) => {
   test.setTimeout(180000);
