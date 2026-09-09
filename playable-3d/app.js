@@ -80,7 +80,7 @@ function renderEditor(){
     }
   }else if(editorTab==='style'){
     if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='shirt'?'This test model includes a white shirt, teal tie and black shorts.':'This is the normal reference avatar.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='shirt'?'This test model is the black-shirt-and-shorts avatar shown in the preview.':'This is the normal reference avatar.';root.append(note);
     }else{
       root.append(optionWithColour('Top','top'),optionWithColour('Bottom','bottom'),optionWithColour('Outer layer','outer'));
       const jumper=document.createElement('label');jumper.className='binary-field';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=draft.jumper;checkbox.addEventListener('change',()=>changeDraft(p=>p.jumper=checkbox.checked));jumper.append(checkbox,'Knit jumper');root.append(jumper);
