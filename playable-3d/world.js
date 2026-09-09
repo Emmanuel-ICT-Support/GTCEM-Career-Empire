@@ -199,6 +199,7 @@ export async function createWorlds(onProgress=()=>{}){
   draco.setDecoderPath('./vendor/draco/');
   loader.setDRACOLoader(draco);
   const exteriorReady=loader.loadAsync('./assets/est-exterior.glb');
+  const studioReady=loader.loadAsync('./assets/scenery/ecc-avatar-studio-v1.glb');
   onProgress('Loading plaza textures and town buildings...');
   // Daytime plaza PNG kit (procedural canvas fallback if a map is missing).
   // Per-tile UVs are 0–1, so repeat stays at 1 (seamless maps tile across instances).
@@ -210,7 +211,7 @@ export async function createWorlds(onProgress=()=>{}){
     tryLoadPlazaMap('./assets/plaza/crosswalk_overlay.png',1,1),
     tryLoadPlazaMap('./assets/plaza/curb_cyan_trim.png',12,1),
   ]);
-  const [outerAsset,,maps]=await Promise.all([exteriorReady,physicsReady,texturesReady]);
+  const [outerAsset,studioAsset,,maps]=await Promise.all([exteriorReady,studioReady,physicsReady,texturesReady]);
   const [grassMap,stoneMap,asphaltMap,dashMap,crosswalkMap,curbMap]=maps;
   onProgress('Building the learning district...');
   const town=new THREE.Scene(),interior=new THREE.Scene();
@@ -264,7 +265,7 @@ export async function createWorlds(onProgress=()=>{}){
 
   const est=consolidate(outerAsset.scene);est.position.z=-14;town.add(est);
   const estSign=sign('EST PREP',3.3);estSign.position.set(0,5.73,-10.1);town.add(estSign);
-  const home=avatarStudioBuilding();town.add(home);
+  const home=consolidate(studioAsset.scene);home.name='ECC Avatar Studio';home.position.set(-17,0,5);home.rotation.y=Math.PI/2;town.add(home);
   const homeSign=sign('AVATAR STUDIO',2.3);homeSign.position.set(-13.85,2.64,5.0);homeSign.rotation.y=Math.PI/2;town.add(homeSign);
   const inner=new THREE.Group();interior.add(inner);
   let interiorLoad,currentPhase='flourishing';
