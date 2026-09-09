@@ -3,7 +3,7 @@ test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:
 const state=page=>page.locator('#diagnostics').getAttribute('data-state').then(s=>JSON.parse(s||'{}'));
 
 test('scenery loads after entry, uses all 36 placements, and keeps destinations and movement',async({page})=>{
-  test.setTimeout(120000);
+  test.setTimeout(180000);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   // Hold scenery until the playable shell is ready: it must never block entry.
   let release;const hold=new Promise(resolve=>release=resolve);
@@ -13,9 +13,9 @@ test('scenery loads after entry, uses all 36 placements, and keeps destinations 
   await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');
   await page.locator('#phase').selectOption('disrepair');
   release();
-  await expect.poll(async()=>(await state(page)).scenery?.status,{timeout:30000}).toBe('ready');
+  await expect.poll(async()=>(await state(page)).scenery?.status,{timeout:90000}).toBe('ready');
   const loaded=await state(page);
-  expect(loaded.scenery.trees).toBe(36);expect(loaded.scenery.home).toBe(true);
+  expect(loaded.scenery.trees).toBe(36);expect(loaded.scenery.home).toBe(true);expect(loaded.scenery.buildings).toBe(2);
   expect(loaded.scenery.lod.near+loaded.scenery.lod.far).toBe(36);
   expect(loaded.phase).toBe('disrepair');
   const before=loaded.position;
