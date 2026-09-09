@@ -16,6 +16,9 @@ test('startup defers unused bodies and hall; studio and hall remain usable',asyn
   expect(requests.filter(u=>/avatar-[ab]\.glb|est-interior\.glb/.test(u))).toEqual([]);
   for(const name of ['grass_day.png','stone_flag_day.png','asphalt_day.png','asphalt_dash_overlay.png','crosswalk_overlay.png','curb_cyan_trim.png'])expect(requests.some(u=>u.endsWith(name))).toBeTruthy();
   await page.locator('#studio-view').click();
+  await page.getByLabel('Body',{exact:true}).selectOption('shirt');
+  await expect.poll(()=>requests.some(u=>u.endsWith('player-uniform-shirt-20260908.glb'))).toBeTruthy();
+  await expect(page.locator('#editor-fields .hint')).toContainText('Shirt avatar test model');
   await page.getByLabel('Body',{exact:true}).selectOption('a');
   await expect(page.locator('#edit-state')).toHaveText('Unsaved',{timeout:30000});
   await page.getByLabel('Body',{exact:true}).selectOption('b');

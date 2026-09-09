@@ -6,6 +6,7 @@ import {SKIN} from './profiles.js';
 const loader = new GLTFLoader();
 const kits = {};
 const TARGET_HEIGHT = 1.7;
+const SIMPLE_BODIES = new Set(['tripo','shirt']);
 
 function normalizeHeight(model) {
   model.updateMatrixWorld(true);
@@ -60,9 +61,11 @@ function bindClips(model, animations) {
 const kitLoads = new Map();
 export const hasCharacterKit = body => Boolean(kits[body]);
 export function loadCharacterKit(body) {
-  if (!['a', 'b', 'tripo'].includes(body)) return Promise.reject(new Error('Unknown avatar body'));
+  if (!['a', 'b', ...SIMPLE_BODIES].includes(body)) return Promise.reject(new Error('Unknown avatar body'));
   if (!kitLoads.has(body)) {
-    const url = body === 'tripo' ? './assets/player-tripo-20260908.glb' : `./assets/avatar-${body}.glb`;
+    const url = body === 'tripo' ? './assets/player-tripo-20260908.glb'
+      : body === 'shirt' ? './assets/player-uniform-shirt-20260908.glb'
+      : `./assets/avatar-${body}.glb`;
     kitLoads.set(body, loader.loadAsync(url).then(kit => (kits[body] = kit)).catch(error => {
       kitLoads.delete(body); // A failed download can be retried from the picker.
       throw error;
@@ -129,7 +132,7 @@ function createModularCharacter(profile) {
   };
 }
 
-/** Tripo reference player using the normal base model and its original walk rig. */
+/** Reference players using their original walk rig. */
 function createSimpleTripoCharacter(profile) {
   const kit = kits.tripo;
   const model = clone(kit.scene);
@@ -159,10 +162,10 @@ function createSimpleTripoCharacter(profile) {
 }
 
 export function createCharacter(profile) {
-  if (profile.body === 'tripo') return createSimpleTripoCharacter(profile);
+  if (SIMPLE_BODIES.has(profile.body)) return createSimpleTripoCharacter(profile);
   return createModularCharacter(profile);
 }
 
 export function isSimpleBody(body) {
-  return body === 'tripo';
+  return SIMPLE_BODIES.has(body);
 }
