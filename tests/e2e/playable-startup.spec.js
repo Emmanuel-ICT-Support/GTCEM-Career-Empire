@@ -15,7 +15,7 @@ test('startup warms avatar choices and keeps the studio and hall usable',async({
   await expect.poll(()=>requests.some(u=>u.endsWith('future-careers-hub.glb'))).toBeTruthy();
   await expect.poll(()=>['player-uniform-shirt-20260908.glb','avatar-a.glb','avatar-b.glb'].every(name=>requests.some(u=>u.includes(name))),{timeout:30000}).toBeTruthy();
   expect(requests.some(u=>u.endsWith('est-interior.glb'))).toBeFalsy();
-  for(const name of ['grass_day.png','stone_flag_day.png','asphalt_day.png','asphalt_dash_overlay.png','crosswalk_overlay.png','curb_cyan_trim.png'])expect(requests.some(u=>u.endsWith(name))).toBeTruthy();
+  for(const name of ['grass-ecc-campus-v1.png','limestone-ecc-campus-v1.png','asphalt_day.png','asphalt_dash_overlay.png','crosswalk_overlay.png','curb_cyan_trim.png'])expect(requests.some(u=>u.endsWith(name))).toBeTruthy();
   await page.locator('#studio-view').click();
   await page.getByLabel('Body',{exact:true}).selectOption('shirt');
   await expect.poll(()=>requests.some(u=>u.endsWith('player-uniform-shirt-20260908.glb'))).toBeTruthy();
