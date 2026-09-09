@@ -25,6 +25,42 @@ The current map works as an aerial diagram but not yet as a lived-in town at cha
 9. **No real-time multiplayer dependency for the first build.** Shared class state and visible classmates may be added asynchronously without making the core game technically dependent on live networking.
 10. **Use existing approved art.** Do not regenerate assets as part of the map rebuild. Scale and place them correctly.
 
+## 2A. Visual production source of truth
+
+The structural town blueprint and the visual direction must be used together. The current visual direction is documented in:
+
+- `docs/career-empire-world-visual-direction-draft.md`
+
+Career Empire is an **ECC-informed Career Journey Campus**: a believable warm Western Australian school campus that develops into a careers precinct. It is not a generic city, a board-game map or a permanent neon science-fiction world.
+
+### Required visual language
+
+- pale limestone or cream brick, ECC navy frames and roofs, timber fins and broad shade structures;
+- large glass learning spaces, clearly framed entrances and low, human-scale buildings;
+- native planting, eucalypts, warm paving, gardens and outdoor learning/seating areas;
+- teal used only for wayfinding, active learning and meaningful unlocks;
+- bright, readable campus daylight with a character-level camera as the primary design view.
+
+### Production rules
+
+1. A concept image establishes visual intent; it is not a finished game asset.
+2. Every new building must be designed as a modular, textured 3D asset with correct scale, materials, UVs, collision footprint and player-height review.
+3. Do not publish primitive blockouts, isolated marketplace assets or unreviewed experiments as final world content.
+4. Build and approve one complete precinct before creating the next destination.
+5. The live world receives only versioned, reviewed candidates after performance and walking-view checks pass.
+
+### First completed-quality precinct
+
+**Avatar Studio arrival precinct** is the first production slice:
+
+1. approved Avatar Studio façade and material sheet;
+2. purpose-built GLB with glass, limestone, navy framing, timber fins, solar roof and restrained portal;
+3. finished surrounding paving, planting, seating, wayfinding and approach path;
+4. player-height approach review against the approved concept;
+5. optimisation, collision, lighting and deployment review.
+
+Only after this slice is visually approved should EST Prep, Careers, Town Square and later precincts be made from the same asset kit.
+
 ## 3. Recommended player progression model
 
 Use **story chapters with an event clock**, not dice rolls and not continuous real-time simulation.
