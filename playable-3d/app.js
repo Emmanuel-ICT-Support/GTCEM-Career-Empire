@@ -18,6 +18,7 @@ const active=()=>state.profiles.find(p=>p.id===state.activeId);
 const copy=value=>structuredClone(value);
 const isMobile=()=>window.innerWidth<=620;
 const dirty=()=>mode==='studio' && JSON.stringify(draft)!==JSON.stringify(active());
+const bodyName=body=>OPTIONS.body.find(([id])=>id===body)?.[1] || 'avatar';
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4300);}
 function persist(){try{saveProfiles(localStorage,state);return true;}catch{toast('Your browser could not save this character. Keep this tab open.');return false;}}
 function populateProfiles(){$('profile').replaceChildren(...state.profiles.map(p=>new Option(p.name,p.id)));$('profile').value=state.activeId;$('character-caption').textContent=active().name;}
@@ -36,14 +37,23 @@ async function updateActor(){
 async function updatePreview(){
   const request=++previewRequest;
   $('undo').disabled=!undo.length;$('redo').disabled=!redo.length;
+  $('save-avatar').disabled=true;
   if(!hasCharacterKit(draft.body)){
-    $('edit-state').textContent='Loading body...';
-    try{await loadCharacterKit(draft.body);}catch{if(request===previewRequest&&mode==='studio')$('edit-state').textContent='Body could not load. Select it again to retry.';return;}
+    $('edit-state').textContent=`Preparing ${bodyName(draft.body)}…`;
+    try{await loadCharacterKit(draft.body);}catch{if(request===previewRequest&&mode==='studio')$('edit-state').textContent='This avatar could not load. Select it again to retry.';return;}
     if(request!==previewRequest||mode!=='studio')return;
   }
   const rotation=preview?.model.rotation.y || 0;
   preview?.dispose();preview=createCharacter(draft);preview.model.rotation.y=rotation;studio.add(preview.model);preview.setWalking(previewWalking);
-  $('studio-caption').textContent=draft.name;$('edit-state').textContent=dirty()?'Unsaved':'Saved';$('undo').disabled=!undo.length;$('redo').disabled=!redo.length;
+  $('studio-caption').textContent=draft.name;$('edit-state').textContent=dirty()?'Unsaved':'Saved';$('undo').disabled=!undo.length;$('redo').disabled=!redo.length;$('save-avatar').disabled=false;
+}
+async function warmAvatarChoices(){
+  // Prepare the alternate choices after the town is ready, one at a time, so
+  // the first visit to Avatar Studio feels immediate without delaying entry.
+  for(const body of ['shirt','a','b']){
+    try{await loadCharacterKit(body);}catch{ /* The picker can retry a failed choice. */ }
+    await new Promise(resolve=>requestAnimationFrame(resolve));
+  }
 }
 function changeDraft(mutator){undo.push(copy(draft));if(undo.length>60)undo.shift();redo=[];mutator(draft);draft=normaliseProfile(draft);updatePreview();renderEditor();}
 function field(label,key,type='text',rows){
@@ -220,6 +230,8 @@ async function boot(){
     const rim=new THREE.DirectionalLight(0xcfe9f1,1.4);rim.position.set(3,3,-2);studio.add(rim);
     worlds.teleport(false,2.55,17);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');$('loading').hidden=true;icons();animate();
     setTimeout(()=>worlds.loadScenery(),0);
+    const warm=()=>warmAvatarChoices();
+    if('requestIdleCallback' in window)requestIdleCallback(warm,{timeout:1500});else setTimeout(warm,1500);
   }catch(error){console.error(error);$('loading-message').textContent=`The 3D district could not open: ${error.message}`;$('loading').querySelector('progress').hidden=true;$('fallback-link').hidden=false;}
 }
 boot();

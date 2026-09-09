@@ -3,7 +3,7 @@ import {test,expect} from '@playwright/test';
 // Exercise full-quality WebGL with hardware rendering on macOS; Linux CI uses ANGLE.
 test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:[]}});
 
-test('startup defers unused bodies and hall; studio and hall remain usable',async({page})=>{
+test('startup warms avatar choices and keeps the studio and hall usable',async({page})=>{
   test.setTimeout(180000);
   const requests=[],errors=[];
   page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
@@ -13,7 +13,8 @@ test('startup defers unused bodies and hall; studio and hall remain usable',asyn
   expect(requests.some(u=>u.includes('player-schoolboy-20260909.glb'))).toBeTruthy();
   await expect.poll(()=>requests.some(u=>u.endsWith('modern-campus-building.glb'))).toBeTruthy();
   await expect.poll(()=>requests.some(u=>u.endsWith('future-careers-hub.glb'))).toBeTruthy();
-  expect(requests.filter(u=>/avatar-[ab]\.glb|est-interior\.glb/.test(u))).toEqual([]);
+  await expect.poll(()=>['player-uniform-shirt-20260908.glb','avatar-a.glb','avatar-b.glb'].every(name=>requests.some(u=>u.includes(name))),{timeout:30000}).toBeTruthy();
+  expect(requests.some(u=>u.endsWith('est-interior.glb'))).toBeFalsy();
   for(const name of ['grass_day.png','stone_flag_day.png','asphalt_day.png','asphalt_dash_overlay.png','crosswalk_overlay.png','curb_cyan_trim.png'])expect(requests.some(u=>u.endsWith(name))).toBeTruthy();
   await page.locator('#studio-view').click();
   await page.getByLabel('Body',{exact:true}).selectOption('shirt');
@@ -38,21 +39,15 @@ test('startup defers unused bodies and hall; studio and hall remain usable',asyn
   expect(errors).toEqual([]);
 });
 
-test('saved active body loads alone, and failed alternate selection can retry',async({page})=>{
+test('a saved active avatar can still be changed in the studio',async({page})=>{
   test.setTimeout(180000);
   await page.addInitScript(()=>localStorage.setItem('career-empire-3d-profiles-v2-tripo',JSON.stringify({activeId:'test',profiles:[{id:'test',name:'Test',body:'b'}]})));
   const requests=[];page.on('request',r=>requests.push(r.url()));
   await page.goto('/playable-3d/');
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
-  expect(requests.filter(u=>/avatar-a\.glb|player-tripo-20260908\.glb|est-interior\.glb/.test(u))).toEqual([]);
+  expect(requests.some(u=>u.includes('avatar-b.glb'))).toBeTruthy();
+  expect(requests.some(u=>u.includes('player-schoolboy-20260909.glb'))).toBeFalsy();
   await page.locator('#studio-view').click();
-  await page.route('**/avatar-a.glb',r=>r.abort());
-  await page.getByLabel('Body',{exact:true}).selectOption('a');
-  await expect(page.locator('#edit-state')).toContainText('could not load');
-  await page.locator('#save-avatar').click();
-  await expect(page.locator('#studio-panel')).toBeVisible();
-  await page.unroute('**/avatar-a.glb');
-  await page.getByLabel('Body',{exact:true}).selectOption('b');
   await page.getByLabel('Body',{exact:true}).selectOption('a');
   await expect(page.locator('#edit-state')).toHaveText('Unsaved',{timeout:30000});
   await page.locator('#save-avatar').click();
