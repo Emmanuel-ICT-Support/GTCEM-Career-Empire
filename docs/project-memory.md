@@ -1,3 +1,7 @@
+> **Current planning authority - 9 September 2026:** [Career Empire Living Blueprint](https://taniab1975.github.io/career-empire-blueprint/) owns current priorities, decisions, approvals, delivery status and visual evidence. Read its Start Here and [session protocol](https://taniab1975.github.io/career-empire-blueprint/production/operating-protocol.md) before work; log meaningful outcomes there and update AGENTS.md and affected documentation at task close.
+>
+> This document's earlier priorities/design narrative are retained as historical context, not new approval. Keep applicable repository setup, testing and safety guidance. [GitHub task reconciliation](https://taniab1975.github.io/career-empire-blueprint/production/github-tracking-audit-2026-09-09.md) explains linked execution tickets; an open issue or old proposal does not establish current implementation or approval. No new game/asset production is authorised by this notice.
+
 # Career Empire Project Memory
 
 Last updated: 2026-05-06
