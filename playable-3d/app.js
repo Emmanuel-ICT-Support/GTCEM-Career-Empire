@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds} from './world.js?v=scenery-3';
-import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260909-shirt-option1';
+import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260909-shirt-option2';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-shirt-option1';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
@@ -80,7 +80,7 @@ function renderEditor(){
     }
   }else if(editorTab==='style'){
     if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='shirt'?'This test model is the black-shirt-and-shorts avatar shown in the preview.':'This is the normal reference avatar.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='shirt'?'This test model includes a white shirt, short teal tie and black shorts.':'This is the normal reference avatar.';root.append(note);
     }else{
       root.append(optionWithColour('Top','top'),optionWithColour('Bottom','bottom'),optionWithColour('Outer layer','outer'));
       const jumper=document.createElement('label');jumper.className='binary-field';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=draft.jumper;checkbox.addEventListener('change',()=>changeDraft(p=>p.jumper=checkbox.checked));jumper.append(checkbox,'Knit jumper');root.append(jumper);

@@ -134,7 +134,7 @@ function createModularCharacter(profile) {
 
 /** Reference players using their original walk rig. */
 function createSimpleTripoCharacter(profile) {
-  const kit = kits.tripo;
+  const kit = kits[profile.body];
   const model = clone(kit.scene);
   model.traverse(node => {
     if (!node.isMesh) return;
