@@ -1,23 +1,23 @@
 {
-  "release": "arrival-gardens-20260910",
+  "release": "arrival-paving-20260910",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "e3b7c1be950681fd95629ce9ea8a53f37082869b",
+  "baseCommit": "8c7b27e6d71686cfee1350628295abb49e803f1f",
   "files": [
     {
       "path": "app.js",
-      "sha256": "5f9642cc4905970730f3bdd53cc926c499b15a2e33c861d2f64af4ffb2c7b37f"
+      "sha256": "2fe18c8029b101da8ccb7afded4b2f0ac66bf87f6c1a81caa67b783ccfa2ad33"
     },
     {
       "path": "world.js",
-      "sha256": "bc5d47cf22a39864d5c0c18def01da9c7fcfd29d97ddecbe35e80c1192384229"
+      "sha256": "cce294d13d7b5444005c79d00920d9d265dedf650ab837153da1df34f41ae59a"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "837fafd444ccb3bba0e94b1e1ede190f8331fa15f722e7d920c2854fed88e0f6"
+      "sha256": "3ed3cf7f0b2287b3a49c76edc29c0c971b572a031f83ca581169b516b89f44d5"
     },
     {
       "path": "index.html",
-      "sha256": "c8a967365f4d2b09f97a7b26f2fbb8dd1b0c911c8302a3c53fa24b721e71db9e"
+      "sha256": "7be7cfe05e14566b491f589324532c451bd510ecfaa059d62a1a03ca31fae9b2"
     },
     {
       "path": "style.css",

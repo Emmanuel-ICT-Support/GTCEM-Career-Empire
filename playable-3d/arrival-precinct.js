@@ -35,7 +35,25 @@ export function arrivalPrecinct(town,stoneTexture,sign){
  for(const x of [-1.1,1.1]){box(building,x,.75,2,1.3,.12,.7,wood);box(building,x,.35,2,.12,.7,.12,navy);box(building,x,4.25,1.6,1.4,.8,.7,warm);}
  const plaque=sign('AVATAR STUDIO',2.4,'#f6e9ce','#29434a');plaque.position.set(.25,3.12,5.23);building.add(plaque);
  // Landscape stage: continuous walk from arrival, generous clear central lane.
- box(root,-7,.035,11.5,4.5,.07,17,stone);box(root,-10,.04,5,7,.08,4.2,stone);
+ // World-aligned paving keeps a consistent scale across turns and junctions.
+ const paving=mat(0xe5e1d7,.94);paving.map=stoneTexture;paving.bumpMap=stoneTexture;paving.bumpScale=.012;
+ const border=mat(0x8c9186,.96);
+ function ground(x,z,w,d,material,y=.065){
+  const geo=new THREE.PlaneGeometry(w,d);geo.rotateX(-Math.PI/2);
+  const uv=geo.attributes.uv,pos=geo.attributes.position;
+  for(let i=0;i<uv.count;i++)uv.setXY(i,(pos.getX(i)+x)/3,(pos.getZ(i)+z)/3);
+  const surface=new THREE.Mesh(geo,material);surface.position.set(x,y,z);surface.receiveShadow=true;root.add(surface);
+ }
+ // Flush Studio apron, shaded walk and southern link; no new collision bodies.
+ // The cross-link passes south of the existing garden and joins the main avenue.
+ ground(-7,13.55,4.5,12.9,paving);
+ ground(-8.6,5,9.8,4.2,paving);
+ ground(-2.875,18,3.75,3.6,paving);
+ for(const x of [-9.16,-4.84])ground(x,13.55,.18,12.9,border,.067);
+ for(const z of [8.8,11.8,14.8,17.8,19.9])ground(-7,z,4.14,.075,border,.068);
+ for(const z of [16.29,19.71])ground(-2.875,z,3.75,.18,border,.067);
+ for(const z of [2.99,7.01])ground(-8.6,z,9.8,.18,border,.067);
+ ground(-10.9,5,.08,3.84,border,.068);
  function pergola(x,z,w,d){box(root,x,3.45,z-d/2,w,.16,.13,navy);box(root,x,3.45,z+d/2,w,.16,.13,navy);for(const dx of [-w/2+.15,w/2-.15])for(const dz of [-d/2+.15,d/2-.15])box(root,x+dx,1.72,z+dz,.13,3.44,.13,navy);for(let q=-w/2;q<w/2;q+=.28)box(root,x+q,3.58,z,.12,.16,d+.25,wood);}
  pergola(-7,18,5.4,3.6);pergola(-7,11.5,4.4,4.5);
  const welcome=sign('ARRIVAL GARDENS',2.8,'#f4e5c6','#29434a');welcome.position.set(-7,3.15,19.9);root.add(welcome);

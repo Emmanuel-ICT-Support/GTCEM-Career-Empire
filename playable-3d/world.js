@@ -1,4 +1,4 @@
-import {arrivalPrecinct} from './arrival-precinct.js?v=arrival1';
+import {arrivalPrecinct} from './arrival-precinct.js?v=arrival-ground1';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
  * ~2wu tiles stamped from a 2D grid: grass / path / asphalt / plaza (+ curb overlays).
