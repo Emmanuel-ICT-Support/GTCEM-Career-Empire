@@ -69,7 +69,7 @@ export function loadCharacterKit(body) {
   if (!kitLoads.has(body)) {
     const url = body === 'tripo' ? './assets/player-tripo-20260908.glb'
       : body === 'shirt' ? './assets/player-uniform-shirt-20260908.glb'
-      : body === 'schoolboy' ? './assets/player-schoolboy-20260909.glb?v=draco1'
+      : body === 'schoolboy' ? './assets/player-schoolboy-20260909.glb?v=draco2'
       : `./assets/avatar-${body}.glb`;
     kitLoads.set(body, loader.loadAsync(url).then(kit => (kits[body] = kit)).catch(error => {
       kitLoads.delete(body); // A failed download can be retried from the picker.

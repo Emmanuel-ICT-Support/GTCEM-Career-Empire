@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds} from './world.js?v=scenery-3';
-import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260909-schoolboy4';
+import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260909-schoolboy5';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-schoolboy1';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
@@ -230,8 +230,9 @@ async function boot(){
     const rim=new THREE.DirectionalLight(0xcfe9f1,1.4);rim.position.set(3,3,-2);studio.add(rim);
     worlds.teleport(false,2.55,17);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');$('loading').hidden=true;icons();animate();
     setTimeout(()=>worlds.loadScenery(),0);
-    const warm=()=>warmAvatarChoices();
-    if('requestIdleCallback' in window)requestIdleCallback(warm,{timeout:1500});else setTimeout(warm,1500);
+    // Let the new player reach a stable town first. Choices then prepare in
+    // the background before they are likely to open Avatar Studio.
+    setTimeout(warmAvatarChoices,5000);
   }catch(error){console.error(error);$('loading-message').textContent=`The 3D district could not open: ${error.message}`;$('loading').querySelector('progress').hidden=true;$('fallback-link').hidden=false;}
 }
 boot();
