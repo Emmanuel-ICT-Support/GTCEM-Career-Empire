@@ -10,7 +10,7 @@ test('startup warms avatar choices and keeps the studio and hall usable',async({
   await page.goto('/playable-3d/');
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
   await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');
-  expect(requests.some(u=>u.includes('player-schoolboy-20260909.glb'))).toBeTruthy();
+  expect(requests.some(u=>u.includes('player-schoolboy-repaired-20260910.glb'))).toBeTruthy();
   await expect.poll(()=>requests.some(u=>u.endsWith('modern-campus-building.glb'))).toBeTruthy();
   await expect.poll(()=>requests.some(u=>u.endsWith('future-careers-hub.glb'))).toBeTruthy();
   await expect.poll(()=>['player-uniform-shirt-20260908.glb','avatar-a.glb','avatar-b.glb'].every(name=>requests.some(u=>u.includes(name))),{timeout:30000}).toBeTruthy();
@@ -46,7 +46,7 @@ test('a saved active avatar can still be changed in the studio',async({page})=>{
   await page.goto('/playable-3d/');
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
   expect(requests.some(u=>u.includes('avatar-b.glb'))).toBeTruthy();
-  expect(requests.some(u=>u.includes('player-schoolboy-20260909.glb'))).toBeFalsy();
+  expect(requests.some(u=>u.includes('player-schoolboy-repaired-20260910.glb'))).toBeFalsy();
   await page.locator('#studio-view').click();
   await page.getByLabel('Body',{exact:true}).selectOption('a');
   await expect(page.locator('#edit-state')).toHaveText('Unsaved',{timeout:30000});

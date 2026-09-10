@@ -1,0 +1,61 @@
+[
+  {
+    "changeId": "CE-CHANGE-20260910-27",
+    "project": "game-live",
+    "integrationSha256": "57b2f2822a5e5824e15ce12f7eaf8f01224bb1da8fcd116694aada51290d7cbb",
+    "recordSha256": "a129d7a951844578a450c2dee1c87565d7763beaf072523e162ba1e87c4dee12",
+    "reviewedAt": "2026-09-09T22:32:34.022Z",
+    "reviewEvidence": "Exact local source versions reviewed and published through the documented public adaptation. Live keyboard walking, Studio entry/save/return, reload persistence and mobile layout passed; 270-file content parity verified.",
+    "files": {
+      "AGENTS.md": "100644:86ceedd5a1d862231f22dd23b6eaa4964af4b2fc",
+      "playable-3d/arrival-precinct.js": "100644:d1443bcb0878d79a31f42d963cb1cba21e2ee1fc",
+      "playable-3d/world.js": "100644:86ca4c639015259398123d0da1d93ea652c412ea",
+      "playable-3d/app.js": "100644:4e3870d0033c65860ddec1df53c9d4abca79bb8b",
+      "playable-3d/index.html": "100644:24c966527529fbc3549ec03233488a93b1887c5c",
+      "playable-3d/style.css": "100644:84ddc4fed06f3e401e585e16ede8bc3fc3c76de6",
+      "docs/production/arrival-playable-20260910.md": "100644:fb2b263b0b3061c43ca320d67284e72fcf147727"
+    }
+  },
+  {
+    "changeId": "CE-CHANGE-20260910-35",
+    "project": "game-live",
+    "integrationSha256": "c2ea89f4aa9cd9505a8e5356abd35c94eb66bd0cfb225469884bcdb02046268e",
+    "recordSha256": "02a88aa64848b72fe5be1edaa3ab441470f1f5b75ab196bde867079a92b4b935",
+    "reviewedAt": "2026-09-10T05:57:25.248Z",
+    "reviewEvidence": "Exact source bindings reviewed against 1931e2c, validated game CI and independently verified public Blueprint desktop/mobile source review.",
+    "files": {
+      "AGENTS.md": "100644:264106c81ae20659fc6d285bfd76ada16692dfa6",
+      "playable-3d/app.js": "100644:71a43941de3f9c77ab61b668db92e5da06425b2d",
+      "playable-3d/characters.js": "100644:d1eaca78d516b8871186f134b68799179f13423d",
+      "playable-3d/index.html": "100644:252dc42f925ca93ebc0cfb0bc057d3a1be23c251",
+      "playable-3d/assets/player-schoolboy-repaired-20260910.glb": "100644:7bc6a9fbed78a86717e8a43b1f0c9f8b3f78e8d6",
+      "playable-3d/release-manifest.json": "100644:af62a0a18e0705b7bbeceef72163babd3680f3ca",
+      "scripts/repair-schoolboy-forearms.py": "100644:0583cea290de8b230b752d5384e3eea0a0eb2764",
+      "docs/production/avatar-polish-20260910.md": "100644:a1eb4f5750387900723895da1656f3263c7c6709",
+      "tests/e2e/playable-startup.spec.js": "100644:350ef78ff2b9a4732cac98115dde7daaf29d0260"
+    }
+  },
+  {
+    "changeId": "CE-CHANGE-20260910-29",
+    "project": "game-live",
+    "integrationSha256": "d456025fcd8176d1f6042837a2b3dc2d40b6f14d55141b580d431554c25ed1bb",
+    "recordSha256": "02a88aa64848b72fe5be1edaa3ab441470f1f5b75ab196bde867079a92b4b935",
+    "reviewedAt": "2026-09-10T05:57:26.903Z",
+    "reviewEvidence": "Exact source bindings reviewed against 1931e2c, validated game CI and independently verified public Blueprint desktop/mobile source review.",
+    "files": {
+      "README.md": "100644:e56b7031034cebbd1446361054ae1cfa42358b37",
+      "docs/platform-skeleton.md": "100644:eb75f51e07a7013ff861779aa91a22568007f83e",
+      "docs/production/arrival-live-20260910.md": "100644:eb51aa0b55b4e85a4f5bf91de04a55ec3cf78042",
+      "docs/production/arrival-paving-20260910.md": "100644:459394b1d56e56f966bc06ac9de59fb747ab4580",
+      "docs/project-memory.md": "100644:336ea4b9fc46d2f88ed9e00ac2a875f79a85e60d",
+      "docs/year12-careers-ecosystem-blueprint.md": "100644:ce121c4efc7473081d565baf6093d453b392012c",
+      "playable-3d/arrival-precinct.js": "100644:5ae20594ae4594f12d6284e3c4ca33497beeb17c",
+      "playable-3d/style.css": "100644:f5f58494d9927e487ff7fb2506c6f2c800392daf",
+      "playable-3d/world.js": "100644:83360998287118357647ce19e66509eeb9f34483",
+      "tests/e2e/arrival-gardens.spec.js": "100644:7f2029aabe779d25e1bb148183cb2eafb407fdd7",
+      "tests/e2e/avatar-jacket-test.spec.js": "100644:0bac83f68274a14e292adaf78b51d966c6063637",
+      "tests/e2e/avatar-studio-entry.spec.js": "100644:555977a9901d3719433744264e5a0b76bce79052",
+      "tests/e2e/playable-scenery.spec.js": "100644:9427eebf2fbef3f7fdc8be24dd74893a96cbbb42"
+    }
+  }
+]

@@ -70,7 +70,7 @@ export function loadCharacterKit(body) {
     const url = body === 'jackettest' ? './assets/player-jacket-test-20260909.glb'
       : body === 'tripo' ? './assets/player-tripo-20260908.glb'
       : body === 'shirt' ? './assets/player-uniform-shirt-20260908.glb'
-      : body === 'schoolboy' ? './assets/player-schoolboy-20260909.glb?v=draco2'
+      : body === 'schoolboy' ? './assets/player-schoolboy-repaired-20260910.glb?v=1'
       : `./assets/avatar-${body}.glb`;
     kitLoads.set(body, loader.loadAsync(url).then(kit => {
       if (body === 'jackettest') {
@@ -155,31 +155,12 @@ function createSimpleTripoCharacter(profile) {
   const kit = kits[profile.body];
   const model = clone(kit.scene);
   const materialCopies = new Map();
-  const schoolUniformParts = new Set([1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 22, 23, 28, 29]);
+  // The intact schoolboy export keeps its authored textures and normal map.
+  // Forearm twist is repaired in the asset; no global material override needed.
   model.traverse(node => {
     if (!node.isMesh) return;
     node.castShadow = true;
     node.receiveShadow = true;
-    // The school model arrives as many separately textured parts. Its source
-    // normal maps make the joins read as harsher than they do in Tripo under
-    // the brighter town lighting, so use private material copies and soften
-    // their relief without changing the downloaded source asset.
-    if (profile.body === 'schoolboy') {
-      const copyMaterial = source => {
-        if (!materialCopies.has(source)) materialCopies.set(source, source.clone());
-        return materialCopies.get(source);
-      };
-      node.material = Array.isArray(node.material) ? node.material.map(copyMaterial) : copyMaterial(node.material);
-      const materials = Array.isArray(node.material) ? node.material : [node.material];
-      for (const material of materials) {
-        material.normalScale?.setScalar(0.42);
-        const part = Number(material.name.match(/tripo_part_(\d+)_material/)?.[1]);
-        if (schoolUniformParts.has(part) && material.emissive) {
-          material.emissive.set(0x17284a);
-          material.emissiveIntensity = 0.22;
-        }
-      }
-    }
   });
   const anim = bindClips(model, kit.animations || [], profile.body === 'jackettest' ? 1 : 1.8);
   anim.mixer.update(0);

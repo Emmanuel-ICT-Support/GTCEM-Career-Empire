@@ -1,27 +1,37 @@
 {
-  "release": "arrival-paving-20260910",
+  "release": "schoolboy-repair-20260910",
+  "changeId": "CE-CHANGE-20260910-35",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "8c7b27e6d71686cfee1350628295abb49e803f1f",
+  "baseCommit": "1931e2c8818265057c3202316e113631e1170608",
+  "scope": "Approved original schoolboy presentation and forearm repair; environment unchanged",
   "files": [
     {
       "path": "app.js",
-      "sha256": "2fe18c8029b101da8ccb7afded4b2f0ac66bf87f6c1a81caa67b783ccfa2ad33"
+      "sha256": "7051dd3598f4f64941728feb69978ea0d93e1291f1659f62bae06be3b7b76b0c"
+    },
+    {
+      "path": "characters.js",
+      "sha256": "2bd6d306e9923229983d6f5e51c8f21ce19b726debbf232431614c839ae21820"
+    },
+    {
+      "path": "index.html",
+      "sha256": "1be9e72f6d460b4db40559e2cf80a263fb3475ea880b7351b980998757e0a0fe"
     },
     {
       "path": "world.js",
       "sha256": "cce294d13d7b5444005c79d00920d9d265dedf650ab837153da1df34f41ae59a"
     },
     {
+      "path": "style.css",
+      "sha256": "f660228ef3aa7ec7a71f0b2756cc678db5ece9f2ced505f5e7fa5996a1260de7"
+    },
+    {
       "path": "arrival-precinct.js",
       "sha256": "3ed3cf7f0b2287b3a49c76edc29c0c971b572a031f83ca581169b516b89f44d5"
     },
     {
-      "path": "index.html",
-      "sha256": "7be7cfe05e14566b491f589324532c451bd510ecfaa059d62a1a03ca31fae9b2"
-    },
-    {
-      "path": "style.css",
-      "sha256": "f660228ef3aa7ec7a71f0b2756cc678db5ece9f2ced505f5e7fa5996a1260de7"
+      "path": "assets/player-schoolboy-repaired-20260910.glb",
+      "sha256": "fe6fa382bd5cbbee9ea5118203d178c160835bc4a6adeefc80a05f96e5f45e93"
     }
   ]
 }

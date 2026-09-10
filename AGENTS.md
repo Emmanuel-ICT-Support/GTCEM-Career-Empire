@@ -76,3 +76,6 @@ Teacher dashboard work should preserve class-level visibility, student evidence 
 Check status before editing and before finishing. Leave unrelated untracked files alone. Commit only relevant files with clear user-facing/reliability messages. Include issue numbers and closing keywords when completing GitHub issues. Push only when requested or when the workflow clearly calls for it.
 
 Paving stage, 10 September 2026: Tania authorised individual-element upgrades and publication of the improved paving. Consistent world-scale stone, route edges, Studio apron and avenue connection are tested; this is not whole-environment acceptance. Saved full CI: 30 browser tests pass; navigation/save/reload/mobile pass. Next separate candidate: sky and lighting. Blueprint CE-CHANGE-20260910-29 reader integration remains pending.
+
+## Approved school avatar release — 10 September 2026
+Tania approved the playable repair and explicitly requested live publication. CE-CHANGE-20260910-35 restores the intact original schoolboy with two forearm twist tracks repaired; original geometry, textures, weights and rig preserved. See docs/production/avatar-polish-20260910.md. Preserve the current live environment and paused wardrobe work.
