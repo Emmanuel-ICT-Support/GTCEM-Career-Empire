@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {EST} from './destinations.js?v=ecc1';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 function mergeStatic(root){
@@ -27,16 +28,25 @@ beds.forEach(([x,z,w,d],j)=>{rect(x,z,w,d,soil,.1);colliders.push([x,.25,z,w,.5,
 [[-20,-2],[-14,-9],[7,-6],[18,1],[-3,9]].forEach(([x,z],i)=>add('small-multistem-a',x,z,.65,i));
 [[-19,-8],[8,-4],[16,-16],[-17,-19]].forEach(([x,z],i)=>add('boulder-a',x,z,.8,i));
 
-for(const id of [...new Set(placements.map(p=>p.id))]){const asset=await loader.loadAsync(`./assets/campus-landscape/${id}.glb`);asset.scene=mergeStatic(asset.scene);asset.scene.updateMatrixWorld(true);const ps=placements.filter(p=>p.id===id);asset.scene.traverse(o=>{if(!o.isMesh)return;const inst=new THREE.InstancedMesh(o.geometry,o.material,ps.length);ps.forEach((p,i)=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(p.x,.12,p.z),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),p.rotation),new THREE.Vector3(p.scale,p.scale,p.scale));m.multiply(o.matrixWorld);inst.setMatrixAt(i,m);});inst.castShadow=true;inst.receiveShadow=true;group.add(inst);});}
-const garden=await loader.loadAsync('./assets/campus-buildings/garden.glb');garden.scene.updateMatrixWorld(true);const shade=new THREE.Group();garden.scene.traverse(o=>{if(o.isMesh&&/shade|bench|table/i.test(o.name)){const m=new THREE.Mesh(o.geometry,o.material);m.applyMatrix4(o.matrixWorld);m.castShadow=true;m.receiveShadow=true;shade.add(m);}});const bb=new THREE.Box3().setFromObject(shade),centre=bb.getCenter(new THREE.Vector3());shade.position.set(-centre.x,-bb.min.y,-centre.z);const normalized=new THREE.Group();normalized.add(shade);for(const [x,z]of [[-17,-5],[10,-1]]){const n=normalized.clone(true);n.position.set(x,.1,z);group.add(n);for(const dx of [-3.5,3.5])for(const dz of [-2,2])colliders.push([x+dx,1.6,z+dz,.15,3.2,.15]);rect(x,z,8.2,5.2,paving,.105);}
+const assetIds=[...new Set(placements.map(p=>p.id)),'garden','careers','workplace'];
+const loaded=new Map(await Promise.all(assetIds.map(async id=>[id,await loader.loadAsync(`./assets/${['garden','careers','workplace'].includes(id)?'campus-buildings':'campus-landscape'}/${id}.glb`)])));
+for(const id of [...new Set(placements.map(p=>p.id))]){const asset=loaded.get(id);asset.scene=mergeStatic(asset.scene);asset.scene.updateMatrixWorld(true);const ps=placements.filter(p=>p.id===id);asset.scene.traverse(o=>{if(!o.isMesh)return;const inst=new THREE.InstancedMesh(o.geometry,o.material,ps.length);ps.forEach((p,i)=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(p.x,.12,p.z),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),p.rotation),new THREE.Vector3(p.scale,p.scale,p.scale));m.multiply(o.matrixWorld);inst.setMatrixAt(i,m);});inst.castShadow=true;inst.receiveShadow=true;group.add(inst);});}
+const garden=loaded.get('garden');garden.scene.updateMatrixWorld(true);const shade=new THREE.Group();garden.scene.traverse(o=>{if(o.isMesh&&/shade|bench|table/i.test(o.name)){const m=new THREE.Mesh(o.geometry,o.material);m.applyMatrix4(o.matrixWorld);m.castShadow=true;m.receiveShadow=true;shade.add(m);}});const bb=new THREE.Box3().setFromObject(shade),centre=bb.getCenter(new THREE.Vector3());shade.position.set(-centre.x,-bb.min.y,-centre.z);const normalized=new THREE.Group();normalized.add(shade);for(const [x,z]of [[-17,-5],[10,-1]]){const n=normalized.clone(true);n.position.set(x,.1,z);group.add(n);for(const dx of [-3.5,3.5])for(const dz of [-2,2])colliders.push([x+dx,1.6,z+dz,.15,3.2,.15]);rect(x,z,8.2,5.2,paving,.105);}
 
 for(const p of placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')))colliders.push([p.x,1.5,p.z,.4,3,.4]);
 const buildings=[];
-for(const spec of [{id:'careers',name:'Careers Advice Centre',x:-19,z:18,width:8,depth:6},{id:'workplace',name:'First Workplace',x:15,z:18,width:12,depth:8}]){
- const asset=await loader.loadAsync(`./assets/campus-buildings/${spec.id}.glb`);
+for(const spec of [{id:'careers',name:'Careers Advice Centre',x:-19,z:18,width:8,depth:6},{id:'workplace',name:EST.name,x:15,z:18,width:12,depth:8}]){
+ const asset=loaded.get(spec.id);
  // Reuse the building, porch, furniture and planting. The display plate gives way to campus paths.
  for(const child of [...asset.scene.children])if(/^Whole item paving/i.test(child.name))asset.scene.remove(child);
+ if(spec.id===EST.buildingId){
+  const oldText=[];asset.scene.traverse(o=>{if(/^Text[._]?013$/.test(o.name))oldText.push(o);});oldText.forEach(o=>o.removeFromParent());
+ }
  const model=mergeStatic(asset.scene);model.name=spec.name;model.rotation.y=Math.PI;model.position.set(spec.x,0,spec.z);scene.add(model);
+ if(spec.id===EST.buildingId){
+  const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=256;const ctx=canvas.getContext('2d');ctx.fillStyle='#164f54';ctx.fillRect(0,0,1024,256);ctx.strokeStyle='#d6b95c';ctx.lineWidth=12;ctx.strokeRect(10,10,1004,236);ctx.fillStyle='#fff9e8';ctx.font='bold 110px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(EST.name,512,130);
+  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const sign=new THREE.Mesh(new THREE.PlaneGeometry(3,.45),new THREE.MeshBasicMaterial({map:texture}));sign.name='EST Prep entrance sign';sign.rotation.y=Math.PI;sign.position.set(15,3.34,12.30);scene.add(sign);
+ }
  // Side/rear walls and front jambs leave the authored doorway (module centred at local x=-1) open.
  const front=spec.z-spec.depth/2,back=spec.z+spec.depth/2;
  colliders.push([spec.x-spec.width/2,1.8,spec.z,.24,3.6,spec.depth],[spec.x+spec.width/2,1.8,spec.z,.24,3.6,spec.depth],[spec.x,1.8,back,spec.width,3.6,.24]);

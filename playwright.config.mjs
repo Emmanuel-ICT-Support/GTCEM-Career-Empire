@@ -7,12 +7,12 @@ export default defineConfig({
     timeout: 5_000
   },
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: "http://127.0.0.1:4273",
     trace: "on-first-retry"
   },
   webServer: {
-    command: "python3 -m http.server 4173",
-    url: "http://127.0.0.1:4173",
+    command: "python3 -m http.server 4273",
+    url: "http://127.0.0.1:4273",
     reuseExistingServer: !process.env.CI,
     timeout: 10_000
   },

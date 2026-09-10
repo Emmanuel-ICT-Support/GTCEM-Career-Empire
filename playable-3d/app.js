@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=campus1';
+import {createWorlds} from './world.js?v=ecc1';
+import {LEGACY,EST} from './destinations.js?v=ecc1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260910-schoolboy1';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
 
@@ -126,8 +127,8 @@ async function enterHall(){
   if(request!==hallRequest||mode!=='town')return;
   worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');
 }
-function returnTown(){if(mode==='studio')leaveStudio(()=>setMode('town'));else setMode('town');}
-function destination(which){const go=()=>{setMode('town');worlds.teleport(false,which==='est'?0:-12.4,which==='est'?-8.35:5.0);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?Math.PI:-Math.PI/2;yaw=which==='est'?0:Math.PI/2;setLocation(which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
+function returnTown(){if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='interior')destination('est');else setMode('town');}
+function destination(which){const go=()=>{setMode('town');worlds.teleport(false,which==='est'?EST.x:-12.4,which==='est'?EST.z:5.0);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:-Math.PI/2;yaw=which==='est'?EST.yaw:Math.PI/2;setLocation(which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
 function resetStudioCamera(){const distance=isMobile()?4.25:4.0;camera.position.set(.12,portrait?1.63:1.3,portrait?1.8:distance);orbit.target.set(0,portrait?1.48:.95,0);orbit.minDistance=1.15;orbit.maxDistance=5.2;orbit.maxPolarAngle=Math.PI*.59;orbit.minPolarAngle=Math.PI*.28;orbit.update();}
 function resize(){
   if(!renderer)return;viewport={width:window.innerWidth,height:$('experience').clientHeight};renderer.setSize(viewport.width,viewport.height,false);
@@ -139,7 +140,7 @@ function resize(){
 function updateCamera(dt,snap=false){
   if(mode==='studio'){orbit.update();return;}
   const p=actor.model.position;
-  if(aerial){if(mode==='interior'){desiredCamera.set(8,12,13);lookAt.set(0,0,0);}else{desiredCamera.set(27,36,38);lookAt.set(-1,0,-3);}}
+  if(aerial){if(mode==='interior'){desiredCamera.set(8,12,13);lookAt.set(0,0,0);}else{desiredCamera.set(29,43,46);lookAt.set(-1,0,1);}}
   else{const studioApproach=mode==='town'&&p.x<-10&&Math.abs(p.z-5)<3;const distance=mode==='interior'?4.2:studioApproach?7:4.3;desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+(mode==='interior'?3:studioApproach?4:2.75),p.z+Math.cos(yaw)*distance);lookAt.set(p.x-Math.sin(yaw)*1.1,p.y+(mode==='interior'?1.55:studioApproach?3:2.1),p.z-Math.cos(yaw)*1.1);}
   camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);
 }
@@ -159,16 +160,17 @@ function updateInteraction(){
   if(mode==='studio'||!$('module-overlay').hidden){$('interact').hidden=true;interaction=null;return;}
   const p=actor.model.position;
   if(mode==='town'){
-    const approaching=Math.hypot(p.x,p.z+8.6)<7;
+    const approaching=Math.hypot(p.x-EST.x,p.z-EST.doorZ)<7;
     if(approaching&&!nearHall)worlds.ensureInterior().catch(()=>{});
     nearHall=approaching;
-    if(Math.hypot(p.x,p.z+8.6)<3.25)interaction={label:'Enter EST Prep',action:enterHall};
+    if(Math.hypot(p.x-EST.x,p.z-EST.doorZ)<2.2)interaction={label:'Enter EST Prep',action:enterHall};
     else if(p.x>-13.6 && p.x<-10.8 && Math.abs(p.z-5)<1.45)interaction={label:'Open Avatar Studio',action:openStudio};
+    else if(Math.hypot(p.x-LEGACY.x,p.z-LEGACY.z)<2.7)interaction={label:'Open Original Career Empire ↗',action:()=>window.open(LEGACY.url,'_blank','noopener,noreferrer')};
     else interaction=null;
   }else{
     const nearest=worlds.stations.map(s=>({...s,distance:Math.hypot(p.x-s.x,p.z-s.z)})).sort((a,b)=>a.distance-b.distance)[0];
     if(nearest.distance<2.25)interaction={label:`Open ${nearest.name}`,action:()=>openModule(nearest.name,nearest.id)};
-    else if(p.z>4.2)interaction={label:'Return to Town Square',action:()=>{worlds.teleport(false,0,-8.35);setMode('town');}};
+    else if(p.z>4.2)interaction={label:'Return to campus',action:()=>destination('est')};
     else interaction={label:'Open EST Prep',action:()=>openModule('Learning labs')};
   }
   $('interact').hidden=!interaction;if(interaction)$('interact').querySelector('span').textContent=interaction.label;
@@ -243,11 +245,12 @@ async function boot(){
     const ground=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshStandardMaterial({color:0xd8e3d5,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-.005;ground.receiveShadow=true;studio.add(ground);
     studio.add(new THREE.HemisphereLight(0xf5faf4,0x7a8f72,2.1));const key=new THREE.DirectionalLight(0xfff3dc,3.4);key.position.set(-3,5,4);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-3;key.shadow.camera.right=3;key.shadow.camera.top=4;key.shadow.camera.bottom=-2;key.shadow.normalBias=.015;studio.add(key);
     const rim=new THREE.DirectionalLight(0xcfe9f1,1.4);rim.position.set(3,3,-2);studio.add(rim);
+    $('loading-message').textContent='Opening the complete campus and both outer buildings...';await worlds.loadScenery();if(worlds.scenery.status!=='ready')throw new Error('Campus buildings could not load. Reload to retry.');
     worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');yaw=0;updateCamera(1,true);$('loading').hidden=true;icons();animate();
-    setTimeout(()=>worlds.loadScenery(),0);
+    // All campus destinations are loaded before the interactive scene is revealed.
     // Let the new player reach a stable town first. Choices then prepare in
     // the background before they are likely to open Avatar Studio.
     setTimeout(warmAvatarChoices,5000);
-  }catch(error){console.error(error);$('loading-message').textContent=`The 3D district could not open: ${error.message}`;$('loading').querySelector('progress').hidden=true;$('fallback-link').hidden=false;}
+  }catch(error){console.error(error);$('loading-message').textContent=`The 3D district could not open. Reload to retry. ${error.message}`;$('loading').querySelector('progress').hidden=true;$('fallback-link').hidden=false;}
 }
 boot();

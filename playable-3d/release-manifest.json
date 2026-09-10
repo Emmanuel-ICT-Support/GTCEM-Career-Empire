@@ -1,25 +1,25 @@
 {
-  "release": "campus-map-20260910",
-  "changeId": "CE-CHANGE-20260910-36",
+  "release": "ecc-campus-est-20260910",
+  "changeId": "CE-CHANGE-20260910-38",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "78c6278ec75b53b8a312752f939dc4862a84e017",
-  "scope": "Accepted landscaping, two selected existing buildings facing paths, earlier arrival start; town hall and avatar unchanged",
+  "baseCommit": "d85de9920f23f9f18288c42eed2e86dcfc9da1b1",
+  "scope": "Accepted ECC exterior, right-hand EST Prep entry/return, both outer buildings retained, complete startup and Original Career Empire access",
   "files": [
     {
       "path": "app.js",
-      "sha256": "a85d7d4714c16eb49d6eab114f0a284dd517cc68e4951fd73733a801a1b2ce5a"
+      "sha256": "c18cceafd3afbca1fda02bb095cb2fd71f6c1d8d80b5d48c2f661673700297c2"
     },
     {
       "path": "world.js",
-      "sha256": "411b112a37e1d1c84532a5a73f260a3e669be2d557614c57111b31bcf85cc86a"
+      "sha256": "24a1e0bef519f91b02e34a2ddd77c24e75dc03f61bc28f76d9f4bc44d19a35ec"
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "86f8743639816e961463714ed8860741a0cb0a23d22cfca05d6b14c33217c39b"
+      "sha256": "acaaf13a2afb8f62e03425b471f5f203d59560b139b1d183a902804458dce5e2"
     },
     {
       "path": "index.html",
-      "sha256": "052d305352f01eff8cf0df0c9b2ad5db5398d462d9009b8a71a5d0dd69b8d1c1"
+      "sha256": "fde0bbc58385782cb35cfc8606477b53f4b9add248e4cdb3ac747981ebe58928"
     },
     {
       "path": "arrival-precinct.js",
@@ -31,7 +31,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "f660228ef3aa7ec7a71f0b2756cc678db5ece9f2ced505f5e7fa5996a1260de7"
+      "sha256": "15e07b7906a11b0fcbe5a8ee197be8a48dd19b40a75660973ff731f11f886479"
     },
     {
       "path": "assets/est-exterior.glb",
@@ -84,6 +84,18 @@
     {
       "path": "assets/campus-buildings/careers.glb",
       "sha256": "c419c7fea6dfec869787bbb7bb977b4c69eaa5c8ada66d9e136f0fdd498793f4"
+    },
+    {
+      "path": "destinations.js",
+      "sha256": "288115ac405d328babf70f8ef3d41c14912c4077a0233144c2d1e2f389fa8b40"
+    },
+    {
+      "path": "ecc-preview/model.js",
+      "sha256": "cee4711f3e68c90235baa5aedbbf650824714f43843fca420f54f14e167081a4"
+    },
+    {
+      "path": "ecc-preview/assets/ECC_Logo.png",
+      "sha256": "211e78146e2b39d3fcee8a76109ac5572dfaac28b7fa60d38502af2716c80f0d"
     }
   ]
 }

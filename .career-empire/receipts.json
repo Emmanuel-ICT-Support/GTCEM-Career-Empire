@@ -88,5 +88,48 @@
       "playable-3d/assets/campus-buildings/workplace.glb": "100644:df3231a4f7c0dcc5f6fda2d08d653b19e5ed1c0c",
       "playable-3d/assets/campus-buildings/careers.glb": "100644:79204140881d0d812efd7629df159abf6d3c07fa"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20260910-38",
+    "project": "game-live",
+    "integrationSha256": "1f578221b0ac97a5aaaea668eead727c01d7102578338b64e11d7e632987d96d",
+    "recordSha256": "ff9a5444c3b1efd446c6f34f68286be3c93f8d654db9589d98edb3839c168918",
+    "reviewedAt": "2026-09-10T11:02:07.176Z",
+    "reviewEvidence": "Published ECC specification and source hashes; 14 live reader checks, local map and EST entry/return, full game suite plus loading-error retest.",
+    "files": {
+      "AGENTS.md": "100644:0c37f16dc5b219847ef2261616c4bccbf6d175cc",
+      "playable-3d/app.js": "100644:5d6dfeb18458c8ffa9dd67875bb8bf90cf8d0440",
+      "playable-3d/campus-landscape.js": "100644:9118e1119ba7c75a9a4f8d3ee5017281c7a58062",
+      "playable-3d/index.html": "100644:8ae7158b0ac8a61e0e3e52bafbbfdbcbda5b592f",
+      "playable-3d/release-manifest.json": "100644:2a1731702a2437f1e5735ace8a4d99a298dc75df",
+      "playable-3d/style.css": "100644:ce3dd6b6d09bea29876ce79971582d6ca2e8f8dd",
+      "playable-3d/world.js": "100644:a05547310f60656625cb92e1e38e56c2bae47563",
+      "playwright.config.mjs": "100644:09f8e97aba3e888dc9585144c213a9f96962c162",
+      "tests/e2e/campus-layout.spec.js": "100644:fc39b6191870ffa48040947da7a437faf5e87af4",
+      "tests/e2e/playable-scenery.spec.js": "100644:96076797885be3248efe6b2da806c8743b6a8095",
+      "docs/production/ecc-campus-release-20260910.md": "100644:909c8b9d629e73425a5f785e6651737f67ccbf94",
+      "playable-3d/destinations.js": "100644:f4af1628630e2baecd3b277213909dd8a7b342bf",
+      "playable-3d/ecc-preview/index.html": "100644:34ea016c9591813b67e837195da528bb9eec04a7",
+      "playable-3d/ecc-preview/preview.css": "100644:579ad18299955bc0a50659e84d881c2913f06186",
+      "playable-3d/ecc-preview/preview.js": "100644:a181e15061b2be3204794345b797568c57ca190c",
+      "playable-3d/ecc-preview/serve.py": "100644:03522ecc51d93a6f3696924346218006bc6cf782",
+      "playable-3d/ecc-preview/model.js": "100644:d2b3afe7f954de90232d8db04d236211f3b902c3",
+      "playable-3d/ecc-preview/assets/ECC-Campus-Hub-Exterior-Candidate-01.glb": "100644:1fc426f335fa7fe7bb689069e958a0e60d4e49f0",
+      "playable-3d/ecc-preview/assets/ECC_Logo.png": "100644:00b4b60c05f70e5c9f474883a10ba388ddcd16bf",
+      "playable-3d/ecc-preview/assets/candidate-layout.json": "100644:bfe6f7ca9c1a7574db304df18760b2ad90058b26",
+      "playable-3d/ecc-preview/vendor/THREE-LICENSE.txt": "100644:cf781430404b0ae0ba7d8dea3457a3515dd7c9b9",
+      "playable-3d/ecc-preview/vendor/exporters/GLTFExporter.js": "100644:2da060f940b591fa0a461a34b936d94c80a0cebd",
+      "playable-3d/ecc-preview/vendor/math/SimplexNoise.js": "100644:6712f3410a42a424e0545dbc2811d9fee3601bc0",
+      "playable-3d/ecc-preview/vendor/postprocessing/SSAOPass.js": "100644:dfe8d8b4cf86ff7331bc24f6bb410da14ebe3372",
+      "playable-3d/ecc-preview/vendor/postprocessing/Pass.js": "100644:50acb4784ee0d67f34f5efcb574b55d0b083c81b",
+      "playable-3d/ecc-preview/vendor/postprocessing/MaskPass.js": "100644:3a2afff8cf261faa6972d87c4843580901eac7ad",
+      "playable-3d/ecc-preview/vendor/postprocessing/EffectComposer.js": "100644:cc807df391d6d01b7eb5c7097fbc6fe8ad96084a",
+      "playable-3d/ecc-preview/vendor/postprocessing/ShaderPass.js": "100644:ce72fcf13ec3daff78b940fe2bfc78def01729e8",
+      "playable-3d/ecc-preview/vendor/postprocessing/OutputPass.js": "100644:1148de644671f9af49023dcd50bbd3993d2f678c",
+      "playable-3d/ecc-preview/vendor/postprocessing/RenderPass.js": "100644:c85f0e559a7a7813f911e87ef24a589fd61f2a0f",
+      "playable-3d/ecc-preview/vendor/shaders/SSAOShader.js": "100644:ab1dc6f25eca7eb7947564bf6506eb804cbb022d",
+      "playable-3d/ecc-preview/vendor/shaders/OutputShader.js": "100644:5f257829fe655f74252d67585e1d63e035c05b67",
+      "playable-3d/ecc-preview/vendor/shaders/CopyShader.js": "100644:6deb24849e1dd080f35af75728d29028920f1fb3"
+    }
   }
 ]

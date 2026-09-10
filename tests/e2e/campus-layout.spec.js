@@ -17,5 +17,6 @@ test('campus entrances and destination paths are walkable while walls and pond s
  console.log(JSON.stringify(result));
  for(const [name,failures]of Object.entries(result.routes))expect(failures,name).toEqual([]);
  expect(result.entry[2]).toBeGreaterThan(14);expect(result.wall[2]).toBeLessThan(14);expect(result.pond[0]).toBeLessThan(15.5);
+ expect(result.buildings.find(x=>x.id==='workplace').name).toBe('EST Prep');
  expect(result.buildings.map(x=>x.outward)).toEqual([[0,-1],[0,-1]]);
 });

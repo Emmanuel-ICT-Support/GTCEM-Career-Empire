@@ -82,3 +82,15 @@ Tania approved the playable repair and explicitly requested live publication. CE
 
 ## Campus map release authorised — 10 September 2026
 CE-CHANGE-20260910-36: Tania accepted the landscape direction and explicitly requested two existing building replacements plus live publication. Careers Advice Centre (-19,18) and First Workplace (15,18) replace the two provisional outer buildings; both face north onto connected paths. Town hall retained for future ECC; native Studio retained. Earlier start (-7,23.3) included. Existing planting meshes reused unchanged. Local gameplay/entrance checks and source-bound Blueprint release precede live game verification. Preserve separate gait follow-up and unrelated records.
+
+
+## ECC integration and missing buildings — 10 September 2026
+CE-CHANGE-20260910-38: Tania accepted the separate exterior candidate as OK for now and explicitly authorised live integration, relocation of EST to an existing empty building, and an Original Career Empire sign/link to https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/. Local integration is saved in the existing /private/tmp/ce-avatar-release; no new checkout. Chapel interior concept, approved build and placement follow this campus release separately.
+
+Tania reported both outer buildings missing. Both published GLBs still return HTTP 200; local real-physics route checks confirm Careers Advice Centre and First Workplace remain present and reachable. Startup previously revealed the scene before background scenery completed; local startup now awaits all scenery, loads assets concurrently, and widens the aerial view. This is a plausible partial-loading explanation, not proof of the exact screenshot cause. Six unit tests and the focused campus entrance test pass; full release checks remain pending.
+
+EST target remains a necessary unanswered choice: First Workplace on the right (recommended) or Careers Advice Centre on the left. Do not infer an answer or publish the current interim EST hotspot. New hub and Original Career Empire link are local only; live game remains d85de992. Next: obtain target, relocate and label EST, finish gameplay/visual and Blueprint release checks, then publish the already-authorised combined update. Preserve global refresh checkpoint and existing gait/lighting/hosted timing follow-ups.
+
+
+## Confirmed EST location — 10 September 2026
+Tania confirmed: “Yes first building on right please”. The existing First Workplace at (15,18) becomes EST Prep; Careers Advice Centre remains unchanged. Local navigation now approaches its north-facing doorway at (16,14), with arrival/return at (16,12.5). The old central EST hotspot is removed. Original Career Empire sign and new-tab link join the authorised ECC release. Publication and final validation remain in progress; no further building-choice approval is required.

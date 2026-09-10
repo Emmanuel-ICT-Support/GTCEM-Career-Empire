@@ -1,4 +1,6 @@
-import {createCampusLandscape} from './campus-landscape.js?v=campus1';
+import {buildExterior} from './ecc-preview/model.js?v=ecc1';
+import {LEGACY} from './destinations.js?v=ecc1';
+import {createCampusLandscape} from './campus-landscape.js?v=ecc-release2';
 import {arrivalPrecinct} from './arrival-precinct.js?v=arrival-ground1';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
@@ -178,7 +180,7 @@ export async function createWorlds(onProgress=()=>{}){
   // Decoder matches three r180 / gltf-transform Draco meshes; CDN keeps vendor tree light.
   draco.setDecoderPath('./vendor/draco/');
   loader.setDRACOLoader(draco);
-  const exteriorReady=loader.loadAsync('./assets/est-exterior.glb');
+  const exteriorReady=buildExterior({inGame:true});
   // The new Studio is native geometry; optional scenery must not block startup.
   const studioReady=Promise.resolve({scene:new THREE.Group()});
   onProgress('Loading plaza textures and town buildings...');
@@ -244,10 +246,12 @@ export async function createWorlds(onProgress=()=>{}){
   planeOverlay(marks,38,0.35,curbMat,0,.071,4.0);
   planeOverlay(marks,38,0.35,curbMat,0,.071,9.0);
 
-  const est=consolidate(outerAsset.scene);est.position.z=-14;town.add(est);
-  const estSign=sign('EST PREP',3.3);estSign.position.set(0,5.73,-10.1);town.add(estSign);
+  const est=outerAsset.root;est.name='ECC Campus Hub';est.position.set(0,.12,-11);town.add(est);
   const home=consolidate(studioAsset.scene);home.name='ECC Avatar Studio';home.position.set(-17,0,5);home.rotation.y=-Math.PI/2;home.visible=false;town.add(home);
   const precinct=arrivalPrecinct(town,stoneTex,sign);
+  const legacySign=sign('ORIGINAL CAREER EMPIRE',3.1,'#f2e4bd','#29434a');legacySign.position.set(LEGACY.x,1.72,LEGACY.z);town.add(legacySign);
+  const legacyHint=sign('OPEN THE ORIGINAL GAME',2.65,'#e6d9b9','#29434a');legacyHint.position.set(LEGACY.x,1.04,LEGACY.z);town.add(legacyHint);
+  for(const dx of [-1.1,1.1])box(town,.1,1.95,.1,basic(0x304c54),LEGACY.x+dx,.975,LEGACY.z-.05);
   const homeSign=sign('AVATAR STUDIO',2.3);homeSign.position.set(-13.25,3.56,5.0);homeSign.rotation.y=Math.PI/2;homeSign.visible=false;town.add(homeSign);
   const inner=new THREE.Group();interior.add(inner);
   let interiorLoad,currentPhase='flourishing';
@@ -380,8 +384,18 @@ export async function createWorlds(onProgress=()=>{}){
     if(inside){block(-7.3,3,0,.35,6,14);block(7.3,3,0,.35,6,14);block(0,3,-7,15,6,.35);block(0,3,7.3,15,6,.35);
       for(const s of stations)block(s.x,.65,s.z,2.35,1.3,1.1);
     }else{
-      block(0,.12,-9.85,7,.24,2.6);
-      block(0,3,-14,16,6,6.7);block(0,2,-11.3,5.8,4,2.8);block(-17,2,5,7.2,4,6.2);
+      block(0,.08,-7.6,19,.16,19);
+      for(const b of outerAsset.obstacles){
+        if(b.type==='box')block(b.x,1.8,b.z-11,b.w,3.6,b.d);
+        if(b.type==='circle')world.createCollider(RAPIER.ColliderDesc.cylinder(2,b.r).setTranslation(b.x,2,b.z-11));
+        if(b.type==='chapel'){
+          // Full exterior wall collision, preserving the recessed doorway but not opening an unfinished interior.
+          for(let i=0;i<64;i++){const angle=i*Math.PI*2/64-Math.PI;if(Math.abs(angle-b.doorAngle)<b.doorHalf)continue;const x=b.x+Math.sin(angle)*(b.r-.1),z=b.z-11+Math.cos(angle)*(b.r-.1);world.createCollider(RAPIER.ColliderDesc.cuboid(.19,2.2,.14).setTranslation(x,2.2,z).setRotation({x:0,y:Math.sin(angle/2),z:0,w:Math.cos(angle/2)}));}
+          world.createCollider(RAPIER.ColliderDesc.cylinder(2.2,b.r-.65).setTranslation(b.x,2.2,b.z-11));
+        }
+      }
+      block(-17,2,5,7.2,4,6.2);
+      block(LEGACY.x,1,LEGACY.z,2.5,2,.18);
       for(const b of precinct.colliders)block(...b);
       world.createCollider(RAPIER.ColliderDesc.cylinder(.45,1.8).setTranslation(0,.45,4));
       world.createCollider(RAPIER.ColliderDesc.cylinder(2,7.4).setTranslation(23,1,-10));
@@ -411,8 +425,8 @@ export async function createWorlds(onProgress=()=>{}){
     });
     importedTrees?.phase(name);
     lights.forEach((m,i)=>m.emissiveIntensity=name==='disrepair'?(i<2?.15:0):p.light);
-    flowers.visible=false;flowers.children.forEach((o,i)=>o.visible=name==='flourishing'||i%3===0);planting.visible=false;closedWings.visible=name==='disrepair';
-    water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=false;restorations.visible=name==='growth';
+    flowers.visible=false;flowers.children.forEach((o,i)=>o.visible=name==='flourishing'||i%3===0);planting.visible=false;closedWings.visible=false;
+    water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=false;restorations.visible=false;
   }
   const scenery={status:'pending',trees:0,home:false,buildings:0,errors:[]};
   let importedTrees,importedModern,importedFuture,sceneryLoad;
