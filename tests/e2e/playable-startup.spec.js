@@ -11,8 +11,8 @@ test('startup warms avatar choices and keeps the studio and hall usable',async({
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
   await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');
   expect(requests.some(u=>u.includes('player-schoolboy-repaired-20260910.glb'))).toBeTruthy();
-  await expect.poll(()=>requests.some(u=>u.endsWith('modern-campus-building.glb'))).toBeTruthy();
-  await expect.poll(()=>requests.some(u=>u.endsWith('future-careers-hub.glb'))).toBeTruthy();
+  await expect.poll(()=>requests.some(u=>u.endsWith('campus-buildings/careers.glb'))).toBeTruthy();
+  await expect.poll(()=>requests.some(u=>u.endsWith('campus-buildings/workplace.glb'))).toBeTruthy();
   await expect.poll(()=>['player-uniform-shirt-20260908.glb','avatar-a.glb','avatar-b.glb'].every(name=>requests.some(u=>u.includes(name))),{timeout:30000}).toBeTruthy();
   expect(requests.some(u=>u.endsWith('est-interior.glb'))).toBeFalsy();
   for(const name of ['grass-ecc-campus-v1.png','limestone-ecc-campus-v1.png','asphalt_day.png','asphalt_dash_overlay.png','crosswalk_overlay.png','curb_cyan_trim.png'])expect(requests.some(u=>u.endsWith(name))).toBeTruthy();

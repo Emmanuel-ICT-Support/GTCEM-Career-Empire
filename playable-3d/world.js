@@ -1,3 +1,4 @@
+import {createCampusLandscape} from './campus-landscape.js?v=campus1';
 import {arrivalPrecinct} from './arrival-precinct.js?v=arrival-ground1';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
@@ -121,29 +122,7 @@ function consolidate(root){
 }
 
 /** Classify a tile centre (wx,wz) into grass | path | asphalt | plaza. Asphalt wins roads. */
-function classifyTile(wx,wz){
-  const plazaCx=0,plazaCz=4,plazaR=9.4;
-  // Asphalt road strips (charcoal campus roads framing the plaza).
-  if(Math.abs(wx-18.5)<TILE_HALF+1.2&&wz>=-16&&wz<=26)return 'asphalt';
-  if(Math.abs(wx+22)<TILE_HALF+1.2&&wz>=-10&&wz<=22)return 'asphalt';
-  if(Math.abs(wz-24)<TILE_HALF+1.1&&wx>=-24&&wx<=22)return 'asphalt';
-  if(Math.abs(wz+18)<TILE_HALF+1.0&&wx>=-18&&wx<=18)return 'asphalt';
-  // Central circular stone plaza pad (fountain sits at 0,4).
-  if(Math.hypot(wx-plazaCx,wz-plazaCz)<=plazaR)return 'plaza';
-  // N-S flagstone avenue toward EST (z≈-14) and spawn (z≈17).
-  if(Math.abs(wx)<3.6&&wz>=-12&&wz<=22)return 'path';
-  // E-W cross path through plaza.
-  if(Math.abs(wz-6.5)<2.6&&Math.abs(wx)<21)return 'path';
-  // EST approach apron.
-  if(Math.abs(wx)<8&&wz>=-12&&wz<=-6)return 'path';
-  // Home Base sidewalk spur (west).
-  if(wx>=-22&&wx<=-7&&wz>=3.2&&wz<=6.8)return 'path';
-  // East gardens spur.
-  if(wx>=7&&wx<=20&&wz>=6&&wz<=9.6)return 'path';
-  // Spawn approach spur (south).
-  if(Math.abs(wx)<2.5&&wz>=14&&wz<=23)return 'path';
-  return 'grass';
-}
+function classifyTile(wx,wz){return 'grass';}
 
 /** Phase tints multiply albedo maps (flourishing = bright white). */
 const TILE_TINTS={
@@ -403,11 +382,11 @@ export async function createWorlds(onProgress=()=>{}){
     }else{
       block(0,.12,-9.85,7,.24,2.6);
       block(0,3,-14,16,6,6.7);block(0,2,-11.3,5.8,4,2.8);block(-17,2,5,7.2,4,6.2);
-      for(const b of precinct.colliders)block(...b);block(10,3,17,12,6,10);
+      for(const b of precinct.colliders)block(...b);
       world.createCollider(RAPIER.ColliderDesc.cylinder(.45,1.8).setTranslation(0,.45,4));
       world.createCollider(RAPIER.ColliderDesc.cylinder(2,7.4).setTranslation(23,1,-10));
-      for(const t of treePositions.slice(0,10))world.createCollider(RAPIER.ColliderDesc.cylinder(2,.27).setTranslation(t.x,2,t.z));
-      for(const x of [-4.4,4.4])for(const z of [-7,-3,13])block(x,.3,z,1.15,.6,2.2);
+
+
     }
     const body=world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(0,inside?.8:.9,inside?5:17));
     const collider=world.createCollider(RAPIER.ColliderDesc.capsule(.56,.20),body);
@@ -432,36 +411,25 @@ export async function createWorlds(onProgress=()=>{}){
     });
     importedTrees?.phase(name);
     lights.forEach((m,i)=>m.emissiveIntensity=name==='disrepair'?(i<2?.15:0):p.light);
-    flowers.visible=name!=='disrepair';flowers.children.forEach((o,i)=>o.visible=name==='flourishing'||i%3===0);planting.visible=name!=='disrepair';closedWings.visible=name==='disrepair';
-    water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=name==='disrepair';restorations.visible=name==='growth';
+    flowers.visible=false;flowers.children.forEach((o,i)=>o.visible=name==='flourishing'||i%3===0);planting.visible=false;closedWings.visible=name==='disrepair';
+    water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=false;restorations.visible=name==='growth';
   }
   const scenery={status:'pending',trees:0,home:false,buildings:0,errors:[]};
   let importedTrees,importedModern,importedFuture,sceneryLoad;
   function loadScenery(){
     if(sceneryLoad)return sceneryLoad;
     scenery.status='loading';
-    const trees=Promise.all([loader.loadAsync('./assets/scenery/tree.glb'),loader.loadAsync('./assets/scenery/tree-low.glb')]).then(([high,low])=>{
-      importedTrees=treeKit(town,high,low,treePositions);importedTrees.phase(currentPhase);
-      // Keep the existing trees until the new instances have their first matrices.
-      scenery.trees=treePositions.length;
-    }).catch(error=>{scenery.errors.push('Trees: '+error.message);console.warn('Keeping fallback trees',error);});
+    const trees=Promise.resolve();
     // Avatar Studio is now a native campus building, so the old generic city model is retired.
-    const building=Promise.resolve().then(()=>{scenery.home=true;phase(currentPhase);});
-    const district=Promise.all([
-      loader.loadAsync('./assets/scenery/modern-campus-building.glb'),
-      loader.loadAsync('./assets/scenery/future-careers-hub.glb')
-    ]).then(([modern,future])=>{
-      // Provisional marketplace models sit at the future precinct edge until their
-      // own coherent campus-family replacements are designed.
-      importedModern=districtBuildingModel(modern,{name:'Modern Campus Building',x:-19,z:17,rotation:Math.PI,scale:.72});
-      importedFuture=districtBuildingModel(future,{name:'Future Careers Hub',x:15,z:17,rotation:Math.PI,scale:.48});
-      town.add(importedModern,importedFuture);scenery.buildings=2;
-    }).catch(error=>{scenery.errors.push('Campus buildings: '+error.message);console.warn('Keeping town without new campus buildings',error);});
+    const building=Promise.resolve().then(()=>{scenery.home=true;});
+    const district=createCampusLandscape(town,townPhysics).then(result=>{Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);console.warn('Campus details unavailable; main destinations remain usable',error);});
     sceneryLoad=Promise.all([trees,building,district]).then(()=>{scenery.status=scenery.errors.length?'fallback':'ready';});
     return sceneryLoad;
   }
+  const campus={buildings:[],placements:[],colliders:0};
   phase('flourishing');
-  return {loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
+  return {campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},

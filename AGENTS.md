@@ -79,3 +79,6 @@ Paving stage, 10 September 2026: Tania authorised individual-element upgrades an
 
 ## Approved school avatar release — 10 September 2026
 Tania approved the playable repair and explicitly requested live publication. CE-CHANGE-20260910-35 restores the intact original schoolboy with two forearm twist tracks repaired; original geometry, textures, weights and rig preserved. See docs/production/avatar-polish-20260910.md. Preserve the current live environment and paused wardrobe work.
+
+## Campus map release authorised — 10 September 2026
+CE-CHANGE-20260910-36: Tania accepted the landscape direction and explicitly requested two existing building replacements plus live publication. Careers Advice Centre (-19,18) and First Workplace (15,18) replace the two provisional outer buildings; both face north onto connected paths. Town hall retained for future ECC; native Studio retained. Earlier start (-7,23.3) included. Existing planting meshes reused unchanged. Local gameplay/entrance checks and source-bound Blueprint release precede live game verification. Preserve separate gait follow-up and unrelated records.

@@ -57,5 +57,36 @@
       "tests/e2e/avatar-studio-entry.spec.js": "100644:555977a9901d3719433744264e5a0b76bce79052",
       "tests/e2e/playable-scenery.spec.js": "100644:9427eebf2fbef3f7fdc8be24dd74893a96cbbb42"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20260910-36",
+    "project": "game-live",
+    "integrationSha256": "0b5007b5490c52cc370e15082904bd7511aa209616d875495337aafd30c3d32d",
+    "recordSha256": "0a462cf4ffac83dbed56f75df878640261cd4e7c7c3721f65bc5319d28994d37",
+    "reviewedAt": "2026-09-10T07:00:34.174Z",
+    "reviewEvidence": "Published Blueprint source review verified by live hashes and desktop/mobile reader inspection; game CI 31 browser tests plus corrected doorway Rapier test passed.",
+    "files": {
+      "AGENTS.md": "100644:e59186e4712e67c771b3f493aefce4be2d789843",
+      "docs/production/campus-map-release-20260910.md": "100644:096cbb7ff6c6d8cfadc091de68e180930f3f7006",
+      "playable-3d/app.js": "100644:f31d67b9f26a931674a01a2b58dbee98cff1399c",
+      "playable-3d/world.js": "100644:61eb00d6a97938c9f7b37dc40f5ce3bd73babeb3",
+      "playable-3d/campus-landscape.js": "100644:b9e3f3d1e599379cfeda844335aeaa196555e855",
+      "playable-3d/index.html": "100644:25a03ddea2e103d98ae00330188ea38bf044ab42",
+      "playable-3d/release-manifest.json": "100644:fa9bff60adbb6096df49318fdff6e0221db7eeb2",
+      "tests/e2e/campus-layout.spec.js": "100644:52b04cbd3ed824adbd8bbcbca32b0092fc3325aa",
+      "tests/e2e/playable-startup.spec.js": "100644:73f4c29a6d1eb784cf912b051c696105c73243ed",
+      "tests/e2e/playable-scenery.spec.js": "100644:ded32f24a6259c854ace3d9ca284184003353b9a",
+      "playable-3d/assets/campus-landscape/boulder-a.glb": "100644:af7dae7cd73ce1255ef4f12da1824b7a689fee56",
+      "playable-3d/assets/campus-landscape/mature-eucalypt-a.glb": "100644:90438609dbc5b00dcd0d96ee2fc4eab9c3ed2b09",
+      "playable-3d/assets/campus-landscape/mature-eucalypt-b.glb": "100644:a44a743200c4a4ff36866d993e5c5f81237b9673",
+      "playable-3d/assets/campus-landscape/silver-shrub.glb": "100644:6c55359d50c2594bdfde04463cb5a41f7ab87bd7",
+      "playable-3d/assets/campus-landscape/olive-shrub.glb": "100644:755cc8f39af83dd2343f26b6c9d8fcf4050d3273",
+      "playable-3d/assets/campus-landscape/yellow-flower-clump.glb": "100644:c9cf546f23be5147df03081ba8f8f1b3fd4fd53c",
+      "playable-3d/assets/campus-landscape/small-multistem-a.glb": "100644:201896cd484a3012d087a7a97bd093b1bede6d72",
+      "playable-3d/assets/campus-landscape/tufted-grass.glb": "100644:6ae0e9dd8f247a13473d45370f90d97793f96841",
+      "playable-3d/assets/campus-buildings/garden.glb": "100644:8e2c26466054fc2237c2047e865020b33eecd781",
+      "playable-3d/assets/campus-buildings/workplace.glb": "100644:df3231a4f7c0dcc5f6fda2d08d653b19e5ed1c0c",
+      "playable-3d/assets/campus-buildings/careers.glb": "100644:79204140881d0d812efd7629df159abf6d3c07fa"
+    }
   }
 ]

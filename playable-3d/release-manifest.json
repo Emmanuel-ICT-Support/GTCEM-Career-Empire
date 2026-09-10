@@ -1,37 +1,89 @@
 {
-  "release": "schoolboy-repair-20260910",
-  "changeId": "CE-CHANGE-20260910-35",
+  "release": "campus-map-20260910",
+  "changeId": "CE-CHANGE-20260910-36",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "1931e2c8818265057c3202316e113631e1170608",
-  "scope": "Approved original schoolboy presentation and forearm repair; environment unchanged",
+  "baseCommit": "78c6278ec75b53b8a312752f939dc4862a84e017",
+  "scope": "Accepted landscaping, two selected existing buildings facing paths, earlier arrival start; town hall and avatar unchanged",
   "files": [
     {
       "path": "app.js",
-      "sha256": "7051dd3598f4f64941728feb69978ea0d93e1291f1659f62bae06be3b7b76b0c"
-    },
-    {
-      "path": "characters.js",
-      "sha256": "2bd6d306e9923229983d6f5e51c8f21ce19b726debbf232431614c839ae21820"
-    },
-    {
-      "path": "index.html",
-      "sha256": "1be9e72f6d460b4db40559e2cf80a263fb3475ea880b7351b980998757e0a0fe"
+      "sha256": "a85d7d4714c16eb49d6eab114f0a284dd517cc68e4951fd73733a801a1b2ce5a"
     },
     {
       "path": "world.js",
-      "sha256": "cce294d13d7b5444005c79d00920d9d265dedf650ab837153da1df34f41ae59a"
+      "sha256": "411b112a37e1d1c84532a5a73f260a3e669be2d557614c57111b31bcf85cc86a"
     },
     {
-      "path": "style.css",
-      "sha256": "f660228ef3aa7ec7a71f0b2756cc678db5ece9f2ced505f5e7fa5996a1260de7"
+      "path": "campus-landscape.js",
+      "sha256": "86f8743639816e961463714ed8860741a0cb0a23d22cfca05d6b14c33217c39b"
+    },
+    {
+      "path": "index.html",
+      "sha256": "052d305352f01eff8cf0df0c9b2ad5db5398d462d9009b8a71a5d0dd69b8d1c1"
     },
     {
       "path": "arrival-precinct.js",
       "sha256": "3ed3cf7f0b2287b3a49c76edc29c0c971b572a031f83ca581169b516b89f44d5"
     },
     {
+      "path": "characters.js",
+      "sha256": "2bd6d306e9923229983d6f5e51c8f21ce19b726debbf232431614c839ae21820"
+    },
+    {
+      "path": "style.css",
+      "sha256": "f660228ef3aa7ec7a71f0b2756cc678db5ece9f2ced505f5e7fa5996a1260de7"
+    },
+    {
+      "path": "assets/est-exterior.glb",
+      "sha256": "57d8d0d877ca75b192b2e3e71d0e9aca97e308fc789ebbe5c8061f7021008134"
+    },
+    {
       "path": "assets/player-schoolboy-repaired-20260910.glb",
       "sha256": "fe6fa382bd5cbbee9ea5118203d178c160835bc4a6adeefc80a05f96e5f45e93"
+    },
+    {
+      "path": "assets/campus-landscape/boulder-a.glb",
+      "sha256": "70941240610426afe513e2e1ef096b6ffc9a0ff0843378fe8d346d8ca69eff00"
+    },
+    {
+      "path": "assets/campus-landscape/mature-eucalypt-a.glb",
+      "sha256": "7573a54bc3221a2fcf9172be4f4c409cb96594282b78bebe71dcc515fcd006f1"
+    },
+    {
+      "path": "assets/campus-landscape/mature-eucalypt-b.glb",
+      "sha256": "ef6a06b660ac42971528cf8bc2fcee83b2a700f7154a350618d89a6b450f5294"
+    },
+    {
+      "path": "assets/campus-landscape/silver-shrub.glb",
+      "sha256": "99e931a4c90e4550d7d685004d97863d7187eeb61688fffcafe7c396fe0054e0"
+    },
+    {
+      "path": "assets/campus-landscape/olive-shrub.glb",
+      "sha256": "091c05b4eac7c878fa589c37c29fe7dd41d7e975cde0920fa3d1e52378ecc9f3"
+    },
+    {
+      "path": "assets/campus-landscape/yellow-flower-clump.glb",
+      "sha256": "8655219094d14dfb1c34d25e5a2e3c3727b064a7563ebcbbb906692f292d62b7"
+    },
+    {
+      "path": "assets/campus-landscape/small-multistem-a.glb",
+      "sha256": "011e673ba420f067141aa1e6ff58df90a811a06152817bb0184efae5bb636aea"
+    },
+    {
+      "path": "assets/campus-landscape/tufted-grass.glb",
+      "sha256": "0ce8674e14e73825fc672e4b490cb3dc81df33f61784a830985ba42a3d775e6c"
+    },
+    {
+      "path": "assets/campus-buildings/garden.glb",
+      "sha256": "506eaebf8ed36cbeaf12637ec5dc4cbf9fc907df7a79c0d8f687253c81645c63"
+    },
+    {
+      "path": "assets/campus-buildings/workplace.glb",
+      "sha256": "e0978d287a56c32c91bf2b3edd4b90490286b413d6af75574edc94da758cc709"
+    },
+    {
+      "path": "assets/campus-buildings/careers.glb",
+      "sha256": "c419c7fea6dfec869787bbb7bb977b4c69eaa5c8ada66d9e136f0fdd498793f4"
     }
   ]
 }
