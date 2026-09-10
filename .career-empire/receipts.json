@@ -131,5 +131,29 @@
       "playable-3d/ecc-preview/vendor/shaders/OutputShader.js": "100644:5f257829fe655f74252d67585e1d63e035c05b67",
       "playable-3d/ecc-preview/vendor/shaders/CopyShader.js": "100644:6deb24849e1dd080f35af75728d29028920f1fb3"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20260910-39",
+    "project": "game-live",
+    "integrationSha256": "47b1297c9496fc406f350d889848ae159890fbd48461a46d2e7f6dc320bebc6e",
+    "recordSha256": "9a819de4831c529184015b35f5e0d7eeec1e016c7410044c3dddb854cdacbd19",
+    "reviewedAt": "2026-09-10T11:55:16.455Z",
+    "reviewEvidence": "Verified source-bound Chapel, sign/posts, entry markers and EST wall video; 35 browser scenarios and desktop/mobile reader checks; exact public reader hashes retained in canonical chapel-v1 evidence.",
+    "files": {
+      "AGENTS.md": "100644:8d5008f4c4d57424ac1ac4c6cc5fbdd41f608e40",
+      "docs/production/chapel-reflection-20260910.md": "100644:22115717d76c22fcc1b222b62ad2542525a4573d",
+      "playable-3d/app.js": "100644:f387d765a9bea8ce334377360a762b6676080c54",
+      "playable-3d/world.js": "100644:f3d8f2a553d34c9b8db492dd7c5d42c95ef2298c",
+      "playable-3d/chapel.js": "100644:bea0a1c23521722b309a0231bf4ce62afc56e041",
+      "playable-3d/index.html": "100644:82a90197aa8919d1d729c0ff8863bdbfdebf7d93",
+      "playable-3d/style.css": "100644:6df710b74346814577224da96528927109fd54cb",
+      "playable-3d/release-manifest.json": "100644:a4868129f56a4e98445f1ac9cc04b7f53d7bd329",
+      "playable-3d/assets/chapel/altar-reference.jpg": "100644:b366b58682262d32615a94a0b03a83512d3a4a6f",
+      "playable-3d/assets/chapel/tree-glass-reference.jpg": "100644:17e1bf8075c84789ac8b3748670fb63b2a1a1ee9",
+      "tests/e2e/chapel.spec.js": "100644:d703ca93ae7940b762d1b90cb4cf3f72d518137c",
+      "playable-3d/arrival-precinct.js": "100644:90f5e25c4844b1dbcb9a330a6d29a1bac2e2e805",
+      "playable-3d/est-wall-video.js": "100644:3ed2549cd649abd8c77d3f8723686acdaacd6789",
+      "tests/e2e/est-wall-video.spec.js": "100644:bf94e7a7f132fc2296c81cc6f93d593e377e6bf3"
+    }
   }
 ]

@@ -1,7 +1,9 @@
+import {createESTWallVideo} from './est-wall-video.js?v=chapel2';
+import {buildChapel} from './chapel.js?v=chapel1';
 import {buildExterior} from './ecc-preview/model.js?v=ecc1';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createCampusLandscape} from './campus-landscape.js?v=ecc-release2';
-import {arrivalPrecinct} from './arrival-precinct.js?v=arrival-ground1';
+import {arrivalPrecinct} from './arrival-precinct.js?v=chapel2';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
  * ~2wu tiles stamped from a 2D grid: grass / path / asphalt / plaza (+ curb overlays).
@@ -250,8 +252,8 @@ export async function createWorlds(onProgress=()=>{}){
   const home=consolidate(studioAsset.scene);home.name='ECC Avatar Studio';home.position.set(-17,0,5);home.rotation.y=-Math.PI/2;home.visible=false;town.add(home);
   const precinct=arrivalPrecinct(town,stoneTex,sign);
   const legacySign=sign('ORIGINAL CAREER EMPIRE',3.1,'#f2e4bd','#29434a');legacySign.position.set(LEGACY.x,1.72,LEGACY.z);town.add(legacySign);
-  const legacyHint=sign('OPEN THE ORIGINAL GAME',2.65,'#e6d9b9','#29434a');legacyHint.position.set(LEGACY.x,1.04,LEGACY.z);town.add(legacyHint);
-  for(const dx of [-1.1,1.1])box(town,.1,1.95,.1,basic(0x304c54),LEGACY.x+dx,.975,LEGACY.z-.05);
+  const legacyHint=sign('OPEN THE ORIGINAL GAME',2.65,'#e6d9b9','#29434a');legacyHint.position.set(LEGACY.x,.92,LEGACY.z);town.add(legacyHint);
+  for(const dx of [-1.1,1.1])box(town,.1,1.95,.1,basic(0x304c54),LEGACY.x+dx,.975,LEGACY.z-.16);
   const homeSign=sign('AVATAR STUDIO',2.3);homeSign.position.set(-13.25,3.56,5.0);homeSign.rotation.y=Math.PI/2;homeSign.visible=false;town.add(homeSign);
   const inner=new THREE.Group();interior.add(inner);
   let interiorLoad,currentPhase='flourishing';
@@ -261,7 +263,8 @@ export async function createWorlds(onProgress=()=>{}){
     }).catch(error=>{interiorLoad=null;throw error;});
     return interiorLoad;
   }
-  const hallSign=sign('EST PREP',4.0);hallSign.position.set(0,4.65,-6.68);interior.add(hallSign);
+  const hallSign=sign('EST PREP',4.0);hallSign.position.set(0,5.65,-6.48);interior.add(hallSign);
+  const estVideo=createESTWallVideo(interior);
   const stations=[{id:'content',name:'CORE',x:-3.5,z:1.5,colour:0x2e8481},{id:'glossary',name:'TERM',x:3.5,z:1.5,colour:0x927331},{id:'decoder',name:'VTCS',x:-3.5,z:-3.5,colour:0x466faa},{id:'boss',name:'BOSS',x:3.5,z:-3.5,colour:0x9d5368}];
   for(const s of stations){const plaque=sign(s.name,1.04);plaque.position.set(s.x,1.47,s.z+.10);interior.add(plaque);const light=new THREE.PointLight(s.colour,2,3);light.position.set(s.x,1.7,s.z);interior.add(light);}
   // Stronger daytime sun + hemisphere
@@ -381,9 +384,9 @@ export async function createWorlds(onProgress=()=>{}){
     const world=new RAPIER.World({x:0,y:-9.81,z:0});
     const block=(x,y,z,w,h,d)=>world.createCollider(RAPIER.ColliderDesc.cuboid(w/2,h/2,d/2).setTranslation(x,y,z));
     block(0,-.1,0,120,.2,120);
-    if(inside){block(-7.3,3,0,.35,6,14);block(7.3,3,0,.35,6,14);block(0,3,-7,15,6,.35);block(0,3,7.3,15,6,.35);
+    if(inside===true){block(-7.3,3,0,.35,6,14);block(7.3,3,0,.35,6,14);block(0,3,-7,15,6,.35);block(0,3,7.3,15,6,.35);
       for(const s of stations)block(s.x,.65,s.z,2.35,1.3,1.1);
-    }else{
+    }else if(!inside){
       block(0,.08,-7.6,19,.16,19);
       for(const b of outerAsset.obstacles){
         if(b.type==='box')block(b.x,1.8,b.z-11,b.w,3.6,b.d);
@@ -407,7 +410,10 @@ export async function createWorlds(onProgress=()=>{}){
     const controller=world.createCharacterController(.025);controller.enableAutostep(.27,.15,true);controller.enableSnapToGround(.3);controller.setSlideEnabled(true);
     return {world,body,collider,controller,block,verticalVelocity:0};
   }
-  const townPhysics=physics(false),interiorPhysics=physics(true);
+  const townPhysics=physics(false),interiorPhysics=physics(true),chapelPhysics=physics('chapel');
+  const chapel=new THREE.Scene();chapel.background=new THREE.Color(0xe8e0d1);let chapelLoad;
+  function ensureChapel(){if(!chapelLoad)chapelLoad=buildChapel(chapel,chapelPhysics).catch(error=>{chapelLoad=null;throw error;});return chapelLoad;}
+  const physical=inside=>inside==='chapel'?chapelPhysics:inside?interiorPhysics:townPhysics;
   function phase(name){
     const p=PHASES[name];if(!p)throw new Error('Unknown world phase');currentPhase=name;
     const tint=TILE_TINTS[name]||TILE_TINTS.flourishing;
@@ -443,13 +449,13 @@ export async function createWorlds(onProgress=()=>{}){
   const campus={buildings:[],placements:[],colliders:0};
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
-  return {campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
-    move(inside,delta){const physics=inside?interiorPhysics:townPhysics;physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
-      next.x=Math.max(inside?-6.9:-27,Math.min(inside?6.9:27,next.x));next.z=Math.max(inside?-6.8:-25,Math.min(inside?6.9:29,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
-    position(inside){const p=(inside?interiorPhysics:townPhysics).body.translation();return new THREE.Vector3(p.x,p.y-.785,p.z);},
-    teleport(inside,x,z){const p=inside?interiorPhysics:townPhysics;p.verticalVelocity=0;p.body.setTranslation({x,y:inside?.8:.9,z},true);p.body.setNextKinematicTranslation({x,y:inside?.8:.9,z});p.world.step();}
+    move(inside,delta){const physics=physical(inside);physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
+      next.x=Math.max(inside==='chapel'?-8.1:inside?-6.9:-27,Math.min(inside==='chapel'?8.1:inside?6.9:27,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-25,Math.min(inside==='chapel'?8.3:inside?6.9:29,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
+    position(inside){const p=physical(inside).body.translation();return new THREE.Vector3(p.x,p.y-.785,p.z);},
+    teleport(inside,x,z){const p=physical(inside);p.verticalVelocity=0;p.body.setTranslation({x,y:inside?.8:.9,z},true);p.body.setNextKinematicTranslation({x,y:inside?.8:.9,z});p.world.step();}
   };
 }

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#24433e">
   <title>Career Empire | Your first day</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./style.css?v=ecc1">
+  <link rel="stylesheet" href="./style.css?v=chapel2">
   <script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.js","three/addons/":"./vendor/three/examples/jsm/","@dimforge/rapier3d-compat":"./vendor/rapier/rapier.mjs"}}</script>
   <script src="./vendor/lucide/lucide.min.js" defer></script>
 </head>
@@ -27,7 +27,7 @@
       <label class="phase-control"><i data-lucide="sprout"></i><span><small>PHASE PREVIEW</small><select id="phase" aria-label="World phase"><option value="flourishing">Flourishing</option><option value="growth">Growth</option><option value="disrepair">Disrepair</option></select></span></label>
       <div class="tool-row"><button class="icon-button" id="aerial" aria-label="Aerial view" aria-pressed="false" title="Aerial view"><i data-lucide="scan-eye"></i></button><button class="icon-button" id="recenter" aria-label="Recenter camera" title="Recenter camera"><i data-lucide="focus"></i></button><label class="quality-control" title="Render quality"><i data-lucide="monitor"></i><select id="quality" aria-label="Render quality"><option value="auto">Auto</option><option value="low">Low</option><option value="high">High</option></select></label></div>
     </aside>
-    <div class="destination-bar" id="destination-bar" aria-label="Destinations"><button id="home-destination"><i data-lucide="house"></i><span>Home Base</span></button><span class="route-line"></span><button id="est-destination"><i data-lucide="landmark"></i><span>EST Prep</span></button></div>
+    <div class="destination-bar" id="destination-bar" aria-label="Destinations"><button id="home-destination"><i data-lucide="house"></i><span>Home Base</span></button><span class="route-line"></span><button id="est-destination"><i data-lucide="landmark"></i><span>EST Prep</span></button><span class="route-line"></span><button id="chapel-destination"><i data-lucide="church"></i><span>Chapel</span></button></div>
     <button class="interaction" id="interact" hidden><i data-lucide="door-open"></i><span>Enter EST Prep</span><i data-lucide="arrow-right"></i></button>
     <div class="movement" id="movement" aria-label="Movement controls"><button data-key="KeyW" aria-label="Walk forward" title="Walk forward"><i data-lucide="chevron-up"></i></button><button data-key="KeyA" aria-label="Walk left" title="Walk left"><i data-lucide="chevron-left"></i></button><button data-key="KeyS" aria-label="Walk backward" title="Walk backward"><i data-lucide="chevron-down"></i></button><button data-key="KeyD" aria-label="Walk right" title="Walk right"><i data-lucide="chevron-right"></i></button></div>
     <div class="world-footer" id="world-footer"><span class="build-label">CAMPUS PREVIEW</span><span id="character-caption">Avery</span><a class="legacy-link" href="https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/" target="_blank" rel="noopener noreferrer" aria-label="Open Original Career Empire in a new tab">Original Career Empire ↗</a></div>
@@ -42,9 +42,10 @@
     <div class="loading" id="loading" role="status"><span class="loading-mark"><i data-lucide="landmark"></i></span><h1>Career Empire</h1><p id="loading-message">Opening the learning district...</p><progress></progress><a id="fallback-link" href="/existing/modules/est-prep/index.html" hidden>Continue to EST Prep</a></div>
     <div class="toast" id="toast" role="status" hidden></div>
     <output id="diagnostics" class="sr-only" aria-label="Prototype diagnostics"></output>
-  </main>
+  <section id="est-video-controls" class="est-video-controls" aria-label="EST Lab wall video controls" hidden><strong>EST Lab · CORE / TERM / VTCS / BOSS</strong><div><button id="est-video-play">Pause</button><button id="est-video-restart">Restart</button><button id="est-video-sound">Mute</button><button id="est-video-close">Back to hall</button></div><span id="est-video-status" role="status"></span></section></main>
   <section class="module-overlay" id="module-overlay" aria-label="EST Prep activity" hidden><header><div><i data-lucide="landmark"></i><strong>EST Prep</strong><span id="module-name"></span></div><button id="close-module"><i data-lucide="arrow-left"></i><span>Return to hall</span></button></header><iframe id="module-frame" title="Existing EST Prep learning module"></iframe></section>
   <dialog id="leave-dialog"><h2>Save your character?</h2><p>You have unsaved appearance changes.</p><div class="dialog-actions"><button id="keep-editing">Keep editing</button><button id="discard-changes">Discard</button><button class="primary" id="save-changes">Save</button></div></dialog>
-<script type="module" src="./app.js?v=ecc1"></script>
+<script type="module" src="./app.js?v=chapel2"></script>
+<dialog id="reflection-dialog" aria-labelledby="reflection-title"><p class="eyebrow">ECC CHAPEL</p><h2 id="reflection-title">A moment of stillness</h2><p>Let your shoulders soften. Notice the light around you.</p><p>Take a gentle breath, at your own pace.</p><p>What is one good thing you can carry into the rest of your day?</p><button id="close-reflection">Return to the Chapel</button></dialog>
 </body>
 </html>

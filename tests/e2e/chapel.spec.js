@@ -1,0 +1,11 @@
+import {test,expect} from '@playwright/test';
+test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:[]}});
+const state=async page=>JSON.parse(await page.locator('#diagnostics').getAttribute('data-state')||'{}');
+for(const width of [1440,390])test(`Chapel reflection and campus return at ${width}px`,async({page})=>{
+ test.setTimeout(180000);await page.setViewportSize({width,height:900});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:120000});await page.locator('#chapel-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive ECC Chapel',{timeout:30000});await expect.poll(async()=>(await state(page)).mode).toBe('chapel');
+ await page.waitForTimeout(4400);await page.screenshot({path:`/private/tmp/ce-chapel-${width}.png`});const before=(await state(page)).position;await page.keyboard.down('KeyW');await page.waitForTimeout(800);await page.keyboard.up('KeyW');await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(before[2]-.3);
+ await page.locator('#interact').click();await expect(page.locator('#reflection-dialog')).toBeVisible();await page.waitForTimeout(1100);const paused=(await state(page)).position;await page.keyboard.down('KeyW');await page.waitForTimeout(1100);await page.keyboard.up('KeyW');expect((await state(page)).position).toEqual(paused);await page.locator('#close-reflection').click();await expect(page.locator('#reflection-dialog')).toBeHidden();
+ await page.locator('#town-view').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive 3D town');await expect.poll(async()=>(await state(page)).position[2]).toBeCloseTo(-8.8,0);await expect(page.locator('#interact')).toContainText('Enter Chapel');
+ await page.locator('#est-destination').click();await page.locator('#interact').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive EST Prep hall',{timeout:30000});await page.locator('#chapel-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive ECC Chapel');expect(errors).toEqual([]);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});

@@ -70,8 +70,6 @@ export function arrivalPrecinct(town,stoneTexture,sign){
  for(const [x,z] of [[-10.6,9],[-3.3,10],[-3.5,15],[-10.5,2]]){const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(.65,1),mat(0xabaa91));rock.position.set(x,.6,z);rock.scale.set(1.3,.65,1);rock.castShadow=true;root.add(rock);}
  for(const z of [8,15]){box(root,-4.5,.55,z,.48,.13,2,wood);for(const dz of [-.7,.7])box(root,-4.5,.27,z+dz,.38,.5,.1,navy);}
  for(const z of [6.5,9,13.8,16.2]){box(root,-5,.36,z,.11,.72,.11,navy);box(root,-5,.67,z,.13,.1,.13,warm);}
- const routeMat=new THREE.MeshStandardMaterial({color:0x3b9996,emissive:0x1c6c69,emissiveIntensity:.25});
- for(const z of [16,14.5,8.5,7]){const arrow=new THREE.Mesh(new THREE.ConeGeometry(.18,.42,3),routeMat);arrow.rotation.x=-Math.PI/2;arrow.position.set(-7,.1,z);root.add(arrow);}
 // Fine leaves and pale branching trunks for the close-up native garden trees.
  const treeSites=[[-11.3,10,6.8],[-2.8,13,7.4],[-11,0,6.6],[-3,1,7.2]];
  const leafShape=new THREE.SphereGeometry(1,5,3);leafShape.scale(.055,.22,.025);

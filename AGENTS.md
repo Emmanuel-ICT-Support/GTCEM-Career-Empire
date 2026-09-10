@@ -94,3 +94,12 @@ EST target remains a necessary unanswered choice: First Workplace on the right (
 
 ## Confirmed EST location — 10 September 2026
 Tania confirmed: “Yes first building on right please”. The existing First Workplace at (15,18) becomes EST Prep; Careers Advice Centre remains unchanged. Local navigation now approaches its north-facing doorway at (16,14), with arrival/return at (16,12.5). The old central EST hotspot is removed. Original Career Empire sign and new-tab link join the authorised ECC release. Publication and final validation remain in progress; no further building-choice approval is required.
+
+
+## Chapel interior and sign repair — 10 September 2026
+CE-CHANGE-20260910-39: Tania explicitly authorised a photo-backed quiet Chapel, placement and the sign repair, then selected the A Place to Pause concept as the fidelity target. Existing checkout only. Native interior in playable-3d/chapel.js; actual cross/tree imagery copied unchanged from supplied photos. Preserve the live ECC exterior, both outer buildings, right-hand EST, avatar and existing modules. Runtime/visual validation and publication remain in progress; see docs/production/chapel-reflection-20260910.md. Earlier EST-choice and campus-publication pending notes are superseded by verified 9c593f62. Keep gait/lighting/hosted CI follow-ups separate.
+
+Local close: source checks and six unit tests passed. Full browser suite passed 32/33; the new mobile reflection check used a stale diagnostic sample. Corrected diagnostic waiting and the desktop/mobile Chapel retest both pass (all 33 browser scenarios now checked). Real Rapier checks pass for the paved exterior approach, central/side aisles and return; the direct line through a planter is correctly blocked. Sign panel gap .08125m and support setback .11m verified. Actual screenshots retained in canonical Chapel evidence. Canonical Blueprint tests: 73 passed; TypeScript, focused lint and production build passed. Source-bound reader/game publication remains pending; no global refresh claim.
+
+
+Final additions: exact EST Lab video plays on the rear wall with pause/restart/mute and automatically pauses on leaving. Desktop/mobile playback and Chapel/arrival regression checks pass. Phone camera fits the complete video. Four entry-path teal cones removed; sign posts remain behind both separated panels. Full set: six unit tests and 35 browser scenarios checked across the main run and focused retests; earlier failed checks/logs retained. Publication remains pending.

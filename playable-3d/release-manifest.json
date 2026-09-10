@@ -1,17 +1,17 @@
 {
-  "release": "ecc-campus-est-20260910",
-  "changeId": "CE-CHANGE-20260910-38",
+  "release": "ecc-chapel-reflection-20260910",
+  "changeId": "CE-CHANGE-20260910-39",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "d85de9920f23f9f18288c42eed2e86dcfc9da1b1",
-  "scope": "Accepted ECC exterior, right-hand EST Prep entry/return, both outer buildings retained, complete startup and Original Career Empire access",
+  "baseCommit": "9c593f62ead4834df0b74af420c82b32d18a586b",
+  "scope": "Walkable ECC Chapel, corrected original-game sign/posts, cleared entry pavers and existing four-system EST Lab video on rear wall; existing campus and avatar retained",
   "files": [
     {
       "path": "app.js",
-      "sha256": "c18cceafd3afbca1fda02bb095cb2fd71f6c1d8d80b5d48c2f661673700297c2"
+      "sha256": "3515a480b868ff4cd42e3531fd48f4b3833c4df461e4b4e887fff20cac0089e0"
     },
     {
       "path": "world.js",
-      "sha256": "24a1e0bef519f91b02e34a2ddd77c24e75dc03f61bc28f76d9f4bc44d19a35ec"
+      "sha256": "be7793033a7446eb929bf5032cae6e08f016e0aff1f0eb7801b6e0e1c656bf08"
     },
     {
       "path": "campus-landscape.js",
@@ -19,11 +19,11 @@
     },
     {
       "path": "index.html",
-      "sha256": "fde0bbc58385782cb35cfc8606477b53f4b9add248e4cdb3ac747981ebe58928"
+      "sha256": "e5220e30994ce2c9c7eecc22270b496a247a5bfedd568a1fbf9179e3a77df833"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "3ed3cf7f0b2287b3a49c76edc29c0c971b572a031f83ca581169b516b89f44d5"
+      "sha256": "990306c9ea507b2468a781c6dbd10764b71f9110516ded74d5febda348b48790"
     },
     {
       "path": "characters.js",
@@ -31,7 +31,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "15e07b7906a11b0fcbe5a8ee197be8a48dd19b40a75660973ff731f11f886479"
+      "sha256": "2d4fb55d09f1f64131371c2fb2552f47213a4e9da52b6358e7125a2d5c2f25b8"
     },
     {
       "path": "assets/est-exterior.glb",
@@ -96,6 +96,22 @@
     {
       "path": "ecc-preview/assets/ECC_Logo.png",
       "sha256": "211e78146e2b39d3fcee8a76109ac5572dfaac28b7fa60d38502af2716c80f0d"
+    },
+    {
+      "path": "chapel.js",
+      "sha256": "d8094ac6c804dc788dbb17b1f43b8a698ec95f7bf70b46b2fa908169ac095f58"
+    },
+    {
+      "path": "assets/chapel/altar-reference.jpg",
+      "sha256": "045ba49a1082d4cc1be2eb5eff5f320d90448197c2b2c8a9732a8bfc4b33c49a"
+    },
+    {
+      "path": "assets/chapel/tree-glass-reference.jpg",
+      "sha256": "998e046acd7a0bb61296da11cec570bbab01c4e4b315448e86499d5a79b54686"
+    },
+    {
+      "path": "est-wall-video.js",
+      "sha256": "1820a6f74e48c91400eaf01b8e904c54ebe4523bda6692dabb6c76c9c9380cdd"
     }
   ]
 }
