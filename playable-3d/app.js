@@ -1,3 +1,4 @@
+import {integrateEnvironment} from './environment.js?v=combined1';
 import {CHAPEL} from './chapel.js?v=chapel1';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
@@ -134,7 +135,7 @@ async function enterHall(){
   worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');worlds.estVideo.prepare().catch(()=>{});toast('Choose Play EST video on the wall whenever you are ready.');
 }
 async function enterChapel(){const request=++hallRequest;toast('Opening the Chapel...');try{await worlds.ensureChapel();}catch{if(request===hallRequest)toast('Chapel could not load. Try entering again.');return;}if(request!==hallRequest||mode!=='town')return;worlds.teleport('chapel',...CHAPEL.entry);setMode('chapel');}
-function leaveChapel(){setMode('town');worlds.teleport(false,CHAPEL.x,CHAPEL.z);actor.model.position.copy(worlds.position(false));yaw=-2.4;updateCamera(1,true);}
+function leaveChapel(){setMode('town');worlds.teleport(false,CHAPEL.x,CHAPEL.z);actor.model.position.copy(worlds.position(false));yaw=1.1;clearTimeout(toastTimer);$('toast').hidden=true;updateCamera(1,true);}
 function closeESTVideo(){documentRequest++;if(document.fullscreenElement)document.exitFullscreen?.();$('est-document-frame').replaceChildren();$('est-video-dialog').close();watchingEST=false;worlds.estVideo.pause();$('est-video-controls').hidden=true;keys.clear();tapMovement=null;canvas.focus();}
 function showESTFilm(){documentRequest++; $('est-documents').hidden=true;$('est-document-frame').hidden=true;$('est-document-frame').replaceChildren();$('est-source-title').hidden=true;worlds.estVideo.video.hidden=false;$('est-film-controls').hidden=false; }
 function watchESTVideo(){watchingEST=true;$('est-video-zoom').value='1';$('est-media-slot').classList.remove('zoomed');const media=worlds.estVideo.video;media.hidden=false;media.controls=true;$('est-media-slot').append(media);showESTFilm();$('est-video-dialog').showModal();$('interact').hidden=true;$('est-watch').hidden=true;interaction=null;clearTimeout(toastTimer);$('toast').hidden=true;keys.clear();tapMovement=null;actor.setWalking(false);$('est-video-controls').hidden=false;$('est-video-play').textContent='Play';$('est-video-status').textContent='Loading the video for smooth playback and seeking…';worlds.estVideo.play().catch(()=>{$('est-video-status').textContent='Video could not load. Choose Play to retry.';});}
@@ -151,7 +152,7 @@ function positionESTPlayButton(){const button=$('est-watch');if(mode!=='interior
 
 function reflect(){keys.clear();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
 function returnTown(){if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='interior')destination('est');else setMode('town');}
-function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=()=>{setMode('town');worlds.teleport(false,which==='est'?EST.x:-12.4,which==='est'?EST.z:5.0);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:-Math.PI/2;yaw=which==='est'?EST.yaw:Math.PI/2;setLocation(which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
+function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=()=>{setMode('town');worlds.teleport(false,which==='est'?EST.x:-3.2,which==='est'?EST.z:-1.7);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:Math.PI;yaw=which==='est'?EST.yaw:1;setLocation(which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
 function resetStudioCamera(){const distance=isMobile()?4.25:4.0;camera.position.set(.12,portrait?1.63:1.3,portrait?1.8:distance);orbit.target.set(0,portrait?1.48:.95,0);orbit.minDistance=1.15;orbit.maxDistance=5.2;orbit.maxPolarAngle=Math.PI*.59;orbit.minPolarAngle=Math.PI*.28;orbit.update();}
 function resize(){
   if(!renderer)return;viewport={width:window.innerWidth,height:$('experience').clientHeight};renderer.setSize(viewport.width,viewport.height,false);
@@ -164,8 +165,17 @@ function updateCamera(dt,snap=false){
   if(mode==='studio'){orbit.update();return;}
   const p=actor.model.position;
   if(watchingEST){const viewingDistance=Math.max(7.9,6.8/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect));desiredCamera.set(0,3.3,-6.48+viewingDistance);lookAt.set(0,3.3,-6.48);camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);return;}
-  if(aerial){if(mode==='chapel'){desiredCamera.set(7,5,8);lookAt.set(0,1,-3);}else if(mode==='interior'){desiredCamera.set(8,12,13);lookAt.set(0,0,0);}else{desiredCamera.set(29,43,46);lookAt.set(-1,0,1);}}
-  else{const studioApproach=mode==='town'&&p.x<-10&&Math.abs(p.z-5)<3;const distance=mode==='chapel'?2.7:mode==='interior'?4.2:studioApproach?7:4.3;desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+(mode==='interior'?3:studioApproach?4:2.75),p.z+Math.cos(yaw)*distance);lookAt.set(p.x-Math.sin(yaw)*(mode==='chapel'?5:1.1),p.y+(mode==='chapel'?2.3:mode==='interior'?1.55:studioApproach?3:2.1),p.z-Math.cos(yaw)*(mode==='chapel'?5:1.1));}
+  if(aerial){if(mode==='chapel'){desiredCamera.set(7,5,8);lookAt.set(0,1,-3);}else if(mode==='interior'){desiredCamera.set(8,12,13);lookAt.set(0,0,0);}else{desiredCamera.set(-63,77,91);lookAt.set(-23,0,18);}}
+  else if(mode==='town'){
+    // Keep head-to-foot framing steady through the Studio approach and camera turns.
+    const distance=6.4;
+    desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+3.1,p.z+Math.cos(yaw)*distance);
+    lookAt.set(p.x-Math.sin(yaw)*.6,p.y+1.25,p.z-Math.cos(yaw)*.6);
+  }else{
+    const distance=mode==='chapel'?2.7:4.2;
+    desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+(mode==='interior'?3:2.75),p.z+Math.cos(yaw)*distance);
+    lookAt.set(p.x-Math.sin(yaw)*(mode==='chapel'?5:1.1),p.y+(mode==='chapel'?2.3:1.55),p.z-Math.cos(yaw)*(mode==='chapel'?5:1.1));
+  }
   if(mode==='chapel'){desiredCamera.x=THREE.MathUtils.clamp(desiredCamera.x,-8.1,8.1);desiredCamera.z=THREE.MathUtils.clamp(desiredCamera.z,-8.05,8.05);}
   camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);
 }
@@ -272,7 +282,7 @@ function animate(){
   updateCamera(dt);positionESTPlayButton();renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   let scene=mode==='studio'?studio:activeScene();
   if(mode==='studio'){const mobile=isMobile();renderer.setViewport(0,mobile?viewport.height*.43:0,mobile?viewport.width:viewport.width-(viewport.width>900?364:316),mobile?viewport.height*.57:viewport.height);}
-  renderer.render(scene,camera);frames++;
+  renderer.toneMappingExposure=mode==='town'?1:1.03;renderer.render(scene,camera);frames++;
   if(now-metricsTime>1){
     const gl=renderer.getContext(),pixels=new Uint8Array(4*24*24),colours=new Set();
     for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
@@ -294,6 +304,7 @@ async function boot(){
     studio.add(new THREE.HemisphereLight(0xf5faf4,0x7a8f72,2.1));const key=new THREE.DirectionalLight(0xfff3dc,3.4);key.position.set(-3,5,4);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-3;key.shadow.camera.right=3;key.shadow.camera.top=4;key.shadow.camera.bottom=-2;key.shadow.normalBias=.015;studio.add(key);
     const rim=new THREE.DirectionalLight(0xcfe9f1,1.4);rim.position.set(3,3,-2);studio.add(rim);
     $('loading-message').textContent='Opening the complete campus and both outer buildings...';await worlds.loadScenery();if(worlds.scenery.status!=='ready')throw new Error('Campus buildings could not load. Reload to retry.');
+    await integrateEnvironment(worlds);
     worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');yaw=0;updateCamera(1,true);$('loading').hidden=true;icons();animate();
     // All campus destinations are loaded before the interactive scene is revealed.
     // Let the new player reach a stable town first. Choices then prepare in

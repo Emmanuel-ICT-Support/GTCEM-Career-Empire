@@ -23,7 +23,7 @@ test('campus waits for both buildings and keeps destinations and movement',async
   const before=loaded.position;
   await page.keyboard.down('KeyD');await page.waitForTimeout(600);await page.keyboard.up('KeyD');
   await expect.poll(async()=>(await state(page)).position[0]).toBeGreaterThan(before[0]+.2);
-  await page.locator('#home-destination').click();await page.locator('#interact').click();
+  await page.locator('#studio-view').click();
   await expect(page.locator('#studio-panel')).toBeVisible();
   await page.locator('#town-view').click();
   await page.locator('#est-destination').click();

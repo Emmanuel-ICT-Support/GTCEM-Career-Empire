@@ -103,3 +103,45 @@ Local close: source checks and six unit tests passed. Full browser suite passed 
 
 
 Final additions: exact EST Lab video plays on the rear wall with pause/restart/mute and automatically pauses on leaving. Desktop/mobile playback and Chapel/arrival regression checks pass. Phone camera fits the complete video. Four entry-path teal cones removed; sign posts remain behind both separated panels. Full set: six unit tests and 35 browser scenarios checked across the main run and focused retests; earlier failed checks/logs retained. Publication remains pending.
+
+
+## ECC session recovered — 11 September 2026
+Original missing game worktree restored in place at f436726; approved revision4 preview restored with exact hashes. Stage 1 is banked, not awaiting approval. Continue separate Stage 2 skyline.html review; camera request is pending. See docs/production/ecc-session-recovery-20260911.md and rolling handoff. Preserve record 41, unrelated steward edits and null global refresh. No new publication.
+
+
+## SPACE revision 2 — 11 September 2026
+Tania requests a more faithful building from SPACE4.jpg, Space 3.jpg and SPACE 4.jpg. Clean ImageGen reference and photo-led exterior now replace only the provisional SPACE in the separate skyline preview. Long hall, repeated tall steel frames, louvres, blue feature wall, wrap canopy, terrace/stairs and glazed foyer are the recognition cues. Foyer connection is interpretive; no surveyed plan exists. Review SPACE close-up before acceptance. Live game, approved Stage 1 and other buildings unchanged. See docs/production/space-revision2-20260911.md.
+
+
+## SPACE rear-corner correction — revision 3
+Tania clarifies that the glazed foyer is beyond the white-door side wall: grey wall, then grey upper cladding with cream/red brick lower wall, then around the rear corner, facing opposite the main hall frontage. This supersedes revision 2’s inferred left-front foyer location. Regenerated a two-view image reference and moved/rotated the actual 3D foyer to the back corner. Added the side-wall material transition and rear court circular paving. New SPACE rear foyer camera complements the front close-up. Generated views remain illustrative; exact dimensions are not surveyed. Approval of the corrected candidate remains pending.
+
+
+## English and Media / oval — current 11 September 2026
+SPACE revision3 is accepted (Tania: Yes good). Current separate skyline preview adds curved glass English and Media, painted north end toward SPACE, shared Aussie-rules oval and exact continued campus grass material/grid for all three stages. New candidate awaits appearance review; bank and pause wider surroundings after this bounded change. Generated mural is a source-derived reconstruction, not an exact scan. See docs/production/media-oval-20260911.md and private evidence/media-oval. Stage 1 source remains untouched; camera and combined release remain pending. No publication or global-refresh success.
+
+
+## Media/oval revision2 — compact recognisable campus
+Tania clarifies representative/recognisable is sufficient; bring SPACE and Media closer to admin, avoid wasted space. Separate mural atlas regions sharpen iconic cues. SPACE west of reception/Chapel, Media southwest with glass toward shared oval and painted end toward SPACE; comparable larger scales. Existing core, accepted SPACE geometry and Stage1 retained. See media-oval-20260911.md revision2 and evidence/media-oval-revision2. Local candidate only; pause wider surrounding work after review.
+
+
+## Media/oval revision2 approved — 11 September 2026
+Tania accepts current candidate (Great! whats nexg). Bank its mural and compact representative layout; pause wider surroundings production. Next bounded production step is the already-requested comfortable whole-body walking camera, then combined environment/gameplay review and regression checks. No publication authorization inferred. Approval with exact source hashes saved under media-oval-revision2/approval.json.
+
+
+## Walking camera candidate — 11 September 2026
+Outdoor full-body camera implemented locally: steady wider view/lower target, no Studio-approach zoom jump; Chapel outdoor return angle corrected. Specialised indoor/Studio cameras retained. Approved environment files stay banked and unchanged. See docs/production/walking-camera-20260911.md. Review camera then combined environment integration/regressions; no publication.
+
+
+## Walking camera approved — 11 September 2026
+Tania: Yes much better. Bank the current outdoor camera and Chapel return with exact app/index hashes in walking-camera/approval.json. Next: combine approved environment and camera for integrated in-game review and regression checks. No publication authorised by this acceptance.
+
+
+## Combined approved world — 11 September 2026
+Approved atmosphere/grass, SPACE/Media/oval and outdoor camera integrated locally. Production modules in playable-3d/environment/ preserve world-preview approval snapshots. Media closed footprint has collision; outer surroundings remain non-enterable beyond the original walkable boundary. Next: combined review and verified release. No publication claimed. See docs/production/combined-world-20260911.md.
+
+
+## Recovered omitted review steps and Home Base correction
+Recovered from Design ECC Campus Hub task 01a08a33-c916-7c40-acea-18b13a26bacd, turn 01a08b3e-3170-7ce2-8cc3-3128f44d9647: campus edges soften abrupt lawn boundaries, materials/planting form a consistent palette with less repetition, and arrival composition strengthens the first ECC welcome/Chapel view with clear paths and less clutter. Later five-pass plan folds arrival composition into every pass. AGENTS stage-lighting notes explicitly defer smooth stage blending to integration. These were not completed by merely integrating static presets. Correction: retain these remaining checks as open before final combined lock/release. Previously accepted assets remain accepted.
+
+Tania additionally corrects Home Base: return to the actual WELCOME TO ECC sign, not Avatar Studio. Home Base now returns to (-3.2,-1.7), south of the welcome sign at (-3.2,-4.6), facing the sign and admin/Chapel. Avatar Studio remains its own button and physical entrance; unsaved-change protection retained. Desktop/phone destination and Studio save-return checks passed.
