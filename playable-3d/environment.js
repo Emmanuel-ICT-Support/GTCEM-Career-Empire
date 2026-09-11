@@ -31,7 +31,7 @@ function stageSky(name){
 }
 function capturePlants(){
  // ECC hero beds are authored separately from the surrounding landscape.
- world.town.traverse(o=>{if(!o.isInstancedMesh||!/^Approved (tufted-grass|yellow-flower-clump|olive-shrub|mature-eucalypt-[ab]|small-multistem-a)$/.test(o.name))return;const matrices=[];for(let i=0;i<o.count;i++){const m=new T.Matrix4();o.getMatrixAt(i,m);matrices.push({i,m});}plantInstances.push({o,matrices});});
+ world.town.traverse(o=>{if(!o.isInstancedMesh||o.name!=='Oval edge eucalypts'&&!/^Approved (tufted-grass|yellow-flower-clump|olive-shrub|mature-eucalypt-[ab]|small-multistem-a)$/.test(o.name))return;const matrices=[];for(let i=0;i<o.count;i++){const m=new T.Matrix4();o.getMatrixAt(i,m);matrices.push({i,m});}plantInstances.push({o,matrices});});
 
  // Landscape instances preserve original species, placement and soil-level pivot.
  const rocks=world.campus.placements.filter(p=>p.id==='boulder-a');
@@ -41,7 +41,16 @@ function apply(name){const p=presets[name];basePhase(name);world.town.background
  plantInstances.forEach(({o,matrices})=>{matrices.forEach(({i,m})=>{const n=m.clone();n.scale(new T.Vector3(p.size,p.size,p.size));o.setMatrixAt(i,n);});o.instanceMatrix.needsUpdate=true;o.computeBoundingSphere();});
  world.town.traverse(o=>{if(o.isMesh){for(const m of (Array.isArray(o.material)?o.material:[o.material])){if(m.map?.image?.src?.includes('grass-ecc-campus'))m.color.set(p.grass);}}});world.town.traverse(o=>{if(o.isDirectionalLight){o.color.set(p.sun);o.intensity=p.power;o.position.fromArray(p.p);o.shadow.radius=p.radius;if(o.shadow.mapSize.x!==p.map){o.shadow.mapSize.set(p.map,p.map);o.shadow.map?.dispose();o.shadow.map=null;o.shadow.needsUpdate=true;}}if(o.isHemisphereLight){o.color.set(p.sky);o.groundColor.set(p.ground);o.intensity=p.fill;}});}
 
-await addSurroundings(world.town);capturePlants();world.phase=apply;
+const surroundings=await addSurroundings(world.town);capturePlants();world.phase=apply;
 // Closed reference building footprint where the approved Media exterior meets the playable edge.
 world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(10.95,3.6,3.25).setTranslation(-32,3.6,21).setRotation({x:0,y:Math.sin(-.6/2),z:0,w:Math.cos(-.6/2)}));
+// Newly accessible exteriors remain solid; the playing surface stays open.
+const block=(x,y,z,w,h,d)=>world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(w/2,h/2,d/2).setTranslation(x,y,z));
+block(-49,2.8,-11.68,21.25,5.6,5.95);
+block(-40.8,3.5,-11.4,3.83,7,5.78);
+block(-40.755,2.4,-16.78,3.74,4.8,2.98);
+block(43,1.4,-26,12,2.8,3);
+for(const z of [14,72])for(const dx of [-7,-2.4,2.4,7])block(-54+dx,2,z,.12,4,.12);
+for(const {x,z} of surroundings.userData.treePlacements)world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cylinder(2,.28).setTranslation(x,2,z));
+
 }

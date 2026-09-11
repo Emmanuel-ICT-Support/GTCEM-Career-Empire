@@ -383,7 +383,8 @@ export async function createWorlds(onProgress=()=>{}){
   function physics(inside){
     const world=new RAPIER.World({x:0,y:-9.81,z:0});
     const block=(x,y,z,w,h,d)=>world.createCollider(RAPIER.ColliderDesc.cuboid(w/2,h/2,d/2).setTranslation(x,y,z));
-    block(0,-.1,0,120,.2,120);
+    if(inside)block(0,-.1,0,120,.2,120);
+    else block(-17,-.1,18,138,.2,120); // Match the continued grass footprint.
     if(inside===true){block(-7.3,3,0,.35,6,14);block(7.3,3,0,.35,6,14);block(0,3,-7,15,6,.35);block(0,3,7.3,15,6,.35);
       for(const s of stations)block(s.x,.65,s.z,2.35,1.3,1.1);
     }else if(!inside){
@@ -454,7 +455,7 @@ export async function createWorlds(onProgress=()=>{}){
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
     move(inside,delta){const physics=physical(inside);physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
-      next.x=Math.max(inside==='chapel'?-8.1:inside?-6.9:-27,Math.min(inside==='chapel'?8.1:inside?6.9:27,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-25,Math.min(inside==='chapel'?8.3:inside?6.9:29,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
+      next.x=Math.max(inside==='chapel'?-8.1:inside?-6.9:-84,Math.min(inside==='chapel'?8.1:inside?6.9:50,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-40,Math.min(inside==='chapel'?8.3:inside?6.9:76,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
     position(inside){const p=physical(inside).body.translation();return new THREE.Vector3(p.x,p.y-.785,p.z);},
     teleport(inside,x,z){const p=physical(inside);p.verticalVelocity=0;p.body.setTranslation({x,y:inside?.8:.9,z},true);p.body.setNextKinematicTranslation({x,y:inside?.8:.9,z});p.world.step();}
   };

@@ -26,6 +26,11 @@ export async function addSurroundings(scene){
  const asset=await new GLTFLoader().loadAsync('./assets/campus-landscape/mature-eucalypt-a.glb');asset.scene.updateMatrixWorld(true);
  const bounds=new T.Box3().setFromObject(asset.scene),center=bounds.getCenter(new T.Vector3()),height=bounds.max.y-bounds.min.y;
  const normal=new T.Matrix4().makeTranslation(-center.x,-bounds.min.y,-center.z);
- asset.scene.traverse(o=>{if(!o.isMesh)return;const geo=o.geometry.clone().applyMatrix4(o.matrixWorld).applyMatrix4(normal);const inst=new T.InstancedMesh(geo,o.material,20);inst.name='Reused distant eucalypts';let treeCount=0;for(let i=0;i<20;i++){const a=i/19*Math.PI,x=-54-Math.sin(a)*29,z=30+Math.cos(a)*41,scale=(5.5+(i%4)*.7)/height;if(x>-38||(z<1&&x>-65))continue;const m=new T.Matrix4().compose(new T.Vector3(x,0,z),new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),i*1.7),new T.Vector3(scale,scale,scale));inst.setMatrixAt(treeCount++,m);}inst.count=treeCount;inst.computeBoundingSphere();root.add(inst);});
+ // Staggered western and southern tree belt, outside the playing oval.
+ const trees=[];
+ for(let i=0;i<20;i++)trees.push({x:-81.5+(i%2)*2,z:-25+i*5.05,h:6.5+(i%4)*.55});
+ for(let i=0;i<13;i++)trees.push({x:-76+i*4.5,z:75+(i%2)*.9,h:6.8+(i%3)*.65});
+ root.userData.treePlacements=trees;
+ asset.scene.traverse(o=>{if(!o.isMesh)return;const geo=o.geometry.clone().applyMatrix4(o.matrixWorld).applyMatrix4(normal);const inst=new T.InstancedMesh(geo,o.material,trees.length);inst.name='Oval edge eucalypts';trees.forEach(({x,z,h},i)=>{const scale=h/height;inst.setMatrixAt(i,new T.Matrix4().compose(new T.Vector3(x,0,z),new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),i*1.7),new T.Vector3(scale,scale,scale)));});inst.castShadow=inst.receiveShadow=true;inst.computeBoundingSphere();root.add(inst);});
  return root;
 }
