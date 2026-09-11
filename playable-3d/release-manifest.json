@@ -3,15 +3,15 @@
   "changeId": "CE-CHANGE-20260910-39",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "9c593f62ead4834df0b74af420c82b32d18a586b",
-  "scope": "Walkable ECC Chapel, corrected original-game sign/posts, cleared entry pavers and existing four-system EST Lab video on rear wall; existing campus and avatar retained",
+  "scope": "Clearer EST Lab film with preserved Revision 3 immediate wall Play, no autoplay, seek/restart, Back to EST video and CORE/TERM/VTCS document viewer.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "3515a480b868ff4cd42e3531fd48f4b3833c4df461e4b4e887fff20cac0089e0"
+      "sha256": "2dd992a186c85f91f3915080fcc73c94bddbb43479da9a3ee35c09206ccf10cf"
     },
     {
       "path": "world.js",
-      "sha256": "be7793033a7446eb929bf5032cae6e08f016e0aff1f0eb7801b6e0e1c656bf08"
+      "sha256": "b01af1e0ddbb452d45aa5b673b78d60b8c0463aac9fadcdb0247dcb503aa2638"
     },
     {
       "path": "campus-landscape.js",
@@ -19,7 +19,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "e5220e30994ce2c9c7eecc22270b496a247a5bfedd568a1fbf9179e3a77df833"
+      "sha256": "f938a02a506687277a1833ca75f2e28d4874aac2b2d24df075016f06ddd16dcc"
     },
     {
       "path": "arrival-precinct.js",
@@ -31,7 +31,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "2d4fb55d09f1f64131371c2fb2552f47213a4e9da52b6358e7125a2d5c2f25b8"
+      "sha256": "908cbb5475993ccefa95a0f2fbe3344d48ac86ffc26d6cfc1ede67f59fd5c967"
     },
     {
       "path": "assets/est-exterior.glb",
@@ -111,7 +111,62 @@
     },
     {
       "path": "est-wall-video.js",
-      "sha256": "1820a6f74e48c91400eaf01b8e904c54ebe4523bda6692dabb6c76c9c9380cdd"
+      "sha256": "898907e591df80af324c23dcd9e3f0d9f86448da03a6f05f9f10d64bb79f3645"
+    },
+    {
+      "path": "assets/est-documents/pages.json",
+      "sha256": "b0f656170ef9b5f09074fb92c3464f69c02842e06b6ae06b564ff660b9bf2373"
+    },
+    {
+      "path": "assets/est-documents/core/page-1.png",
+      "sha256": "b45ab40364651cd0057dca2b805b8056bc8b9608f4122c4b36602553a13a66cc"
+    },
+    {
+      "path": "assets/est-documents/core/page-3.png",
+      "sha256": "d616eac21dd855dc1302c23f0b1d5863080a8ffe27f74a330b3d913e096627ea"
+    },
+    {
+      "path": "assets/est-documents/core/page-2.png",
+      "sha256": "e0a159e639b06d3ac7fb575cd3c4a2510538c1843279edeca299e4ac5eb4b1e2"
+    },
+    {
+      "path": "assets/est-documents/core/page-5.png",
+      "sha256": "4c80556d06ca7d3fefb148856928e026dd38bc266252636cdf51deba7769673a"
+    },
+    {
+      "path": "assets/est-documents/core/page-4.png",
+      "sha256": "c8e2e392fe536a9cecdd16c7be994011c14f1396597d012a133f500703a74713"
+    },
+    {
+      "path": "assets/est-documents/term/page-1.png",
+      "sha256": "d0a2720ec0e76adfd526bf0f13c7e0bd1e382dbc39822245860e331381154a41"
+    },
+    {
+      "path": "assets/est-documents/term/page-3.png",
+      "sha256": "28d19322546f3faa21365345c217c86fb65c68859c6e6632a752cb8d40287e0a"
+    },
+    {
+      "path": "assets/est-documents/term/page-2.png",
+      "sha256": "06a56e239085b2615be0114ddee95556c9d5f9e6c0e57f8d885ea969d3deac2b"
+    },
+    {
+      "path": "assets/est-documents/vtcs/page-1.png",
+      "sha256": "cc7a20cfbaccea66c876176bafa69216fcf99b2d87a3962b6f5f12ff66d55344"
+    },
+    {
+      "path": "assets/est-documents/vtcs/page-3.png",
+      "sha256": "14e2442120bf46b1e2b32689ea103f0987279f713a4fef1d5eee61c0e489e7e9"
+    },
+    {
+      "path": "assets/est-documents/vtcs/page-2.png",
+      "sha256": "52b5be3e342c50a6e3fceaa79712dc5ac2b305fa0ae8179a570d121e8f10c3a2"
     }
-  ]
+  ],
+  "estVideo": {
+    "path": "Assets/EST Preparation/est-lab-systems.mp4",
+    "sha256": "8d78d63b4a0db0b4629fcbf5374a4706caececfa7368568ab79e2a08c1ef20cc",
+    "durationSeconds": 60.053333,
+    "width": 1280,
+    "height": 720
+  }
 }

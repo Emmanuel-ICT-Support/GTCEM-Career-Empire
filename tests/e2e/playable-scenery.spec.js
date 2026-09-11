@@ -26,7 +26,7 @@ test('campus waits for both buildings and keeps destinations and movement',async
   await page.locator('#home-destination').click();await page.locator('#interact').click();
   await expect(page.locator('#studio-panel')).toBeVisible();
   await page.locator('#town-view').click();
-  await page.locator('#est-destination').click();await page.locator('#interact').click();
+  await page.locator('#est-destination').click();
   await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive EST Prep hall',{timeout:30000});
   await page.locator('#town-view').click();
   await expect.poll(async()=>(await state(page)).position.slice(0,3).map((n,i)=>i===1?0:Math.round(n*10)/10)).toEqual([16,0,12.5]);

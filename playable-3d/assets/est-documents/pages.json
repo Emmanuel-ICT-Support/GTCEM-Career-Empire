@@ -1,0 +1,19 @@
+{
+  "core" : [
+    ".\/assets\/est-documents\/core\/page-1.png",
+    ".\/assets\/est-documents\/core\/page-2.png",
+    ".\/assets\/est-documents\/core\/page-3.png",
+    ".\/assets\/est-documents\/core\/page-4.png",
+    ".\/assets\/est-documents\/core\/page-5.png"
+  ],
+  "term" : [
+    ".\/assets\/est-documents\/term\/page-1.png",
+    ".\/assets\/est-documents\/term\/page-2.png",
+    ".\/assets\/est-documents\/term\/page-3.png"
+  ],
+  "vtcs" : [
+    ".\/assets\/est-documents\/vtcs\/page-1.png",
+    ".\/assets\/est-documents\/vtcs\/page-2.png",
+    ".\/assets\/est-documents\/vtcs\/page-3.png"
+  ]
+}

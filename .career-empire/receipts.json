@@ -155,5 +155,39 @@
       "playable-3d/est-wall-video.js": "100644:3ed2549cd649abd8c77d3f8723686acdaacd6789",
       "tests/e2e/est-wall-video.spec.js": "100644:bf94e7a7f132fc2296c81cc6f93d593e377e6bf3"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20260911-41",
+    "project": "game-live",
+    "integrationSha256": "74817d95d5d99eaea03ce2b5878af8d1fbee086bb6d299857bcf5f788096140f",
+    "recordSha256": "f408118d749e92eb9091426b46812488a9b2b00e887283bcbf428e39865875ee",
+    "reviewedAt": "2026-09-11T01:17:11.807Z",
+    "reviewEvidence": "Exact replacement video SHA verified; Revision 3 controls preserved with cache-versioned URLs; desktop/mobile seek/restart and three rendered source documents passed. Public Blueprint reader routes and exact source-bound records verified in est-release evidence.",
+    "files": {
+      "Assets/EST Preparation/est-lab-systems.mp4": "100644:b1e05a8ce832be053a14dcd0931f391c519ad2a4",
+      "playable-3d/app.js": "100644:cba2fd404d10f7f52d2292627ebc3d949331eae8",
+      "playable-3d/index.html": "100644:52e43df08d6e8e37271a35877eb7a6177d8711de",
+      "playable-3d/style.css": "100644:3649e29d9adc4f78da6ee98160c1e669d911b19e",
+      "playable-3d/est-wall-video.js": "100644:c5f2acb95a3976c0df1ebead647e5e6964235538",
+      "playable-3d/release-manifest.json": "100644:3e748161864f4f2d9c4b084f76a8bfc80460cd0c",
+      "tests/e2e/chapel.spec.js": "100644:5fcccfcd55019df5bc7f4bdfd8e0c1b1fbbad867",
+      "tests/e2e/est-wall-video.spec.js": "100644:d3a5b348179dfbba1b41842a578de2937e1cddc2",
+      "tests/e2e/playable-scenery.spec.js": "100644:83d61f18556dc37263c27edbe3eaafe43ca5b1e7",
+      "tests/e2e/playable-startup.spec.js": "100644:d386fb955a7ff2927a382c794ca258ad1cae51ca",
+      "docs/current-workspace-status.md": "100644:c82c4ca215a7c3830ef9a9b794f7a3795b1c8c07",
+      "playable-3d/assets/est-documents/pages.json": "100644:35b2c9046afe6a0121d75b9ca72672687f95ab78",
+      "playable-3d/assets/est-documents/core/page-1.png": "100644:1f6a4d72fcf408f96baa04ce3ac1a59712c13049",
+      "playable-3d/assets/est-documents/core/page-3.png": "100644:4403ba03d72aeeece0eb9bf2939952a38ef70ced",
+      "playable-3d/assets/est-documents/core/page-2.png": "100644:6f7b1f3b34a35a18f3bb9b666c6d898c62359569",
+      "playable-3d/assets/est-documents/core/page-5.png": "100644:f59666502497acc0f2df1367b521fba28a64b4a7",
+      "playable-3d/assets/est-documents/core/page-4.png": "100644:1feb4f2ee6c0f57a05203286690167935d7a5815",
+      "playable-3d/assets/est-documents/term/page-1.png": "100644:20ab337b9e8d6788fb96875f78daeeadefaafb93",
+      "playable-3d/assets/est-documents/term/page-3.png": "100644:9ef6750d70c66207fa91c9844946008c0f1c9b18",
+      "playable-3d/assets/est-documents/term/page-2.png": "100644:e545978cfdf26428438003be7f154143acd9c9c6",
+      "playable-3d/assets/est-documents/vtcs/page-1.png": "100644:37dc5916a2d2057cdbd753cad2d2481162967ea0",
+      "playable-3d/assets/est-documents/vtcs/page-3.png": "100644:2d5b56d8546ac6da54abaa810b5a1233b25b3185",
+      "playable-3d/assets/est-documents/vtcs/page-2.png": "100644:7bd164226e8d18e17d823bae32095cfd906c4bb8",
+      "playable-3d/world.js": "100644:07e4515c15acd571e847b3db6232b5c0c525ae48"
+    }
   }
 ]

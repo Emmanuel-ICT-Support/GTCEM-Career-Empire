@@ -1,4 +1,4 @@
-import {createESTWallVideo} from './est-wall-video.js?v=chapel2';
+import {createESTWallVideo} from './est-wall-video.js?v=est-release41';
 import {buildChapel} from './chapel.js?v=chapel1';
 import {buildExterior} from './ecc-preview/model.js?v=ecc1';
 import {LEGACY} from './destinations.js?v=ecc1';

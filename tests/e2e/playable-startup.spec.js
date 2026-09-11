@@ -29,7 +29,7 @@ test('startup warms avatar choices and keeps the studio and hall usable',async({
   await page.locator('#save-avatar').click();
   await page.locator('#est-destination').click();
   await expect.poll(()=>requests.some(u=>u.endsWith('est-interior.glb'))).toBeTruthy();
-  await page.locator('#interact').click();
+  await expect(page.locator('#est-video-dialog')).not.toBeVisible();
   await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive EST Prep hall',{timeout:30000});
   await page.locator('#phase').selectOption('growth');
   await page.locator('#town-view').click();

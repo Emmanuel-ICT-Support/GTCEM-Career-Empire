@@ -2,7 +2,7 @@ import {CHAPEL} from './chapel.js?v=chapel1';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=chapel2';
+import {createWorlds} from './world.js?v=est-release41';
 import {LEGACY,EST} from './destinations.js?v=ecc1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260910-schoolboy1';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
@@ -109,7 +109,7 @@ function renderEditor(){
 }
 function setMode(next){
   if(watchingEST)closeESTVideo();worlds?.estVideo.pause();hallRequest++;previewRequest++;keys.clear();tapMovement=null;document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;$('experience').classList.toggle('in-chapel',next==='chapel');
-  const inStudio=next==='studio';$('arrival-mission').hidden=inStudio||next==='interior'||next==='chapel';
+  const inStudio=next==='studio';$('arrival-mission').hidden=inStudio||next==='interior'||next==='chapel';$('est-watch').hidden=true;
   for(const id of ['world-heading','world-tools','destination-bar','movement','world-footer'])$(id).hidden=inStudio;
   for(const id of ['studio-heading','studio-panel','studio-view-tools'])$(id).hidden=!inStudio;
   $('interact').hidden=true;interaction=null;
@@ -124,16 +124,31 @@ function setLocation(title){$('location-title').textContent=title;$('district-la
 function leaveStudio(callback){if(dirty()){pendingLeave=callback;$('leave-dialog').showModal();}else callback();}
 function saveDraft(){if(!hasCharacterKit(draft.body)){toast('Wait for the selected body to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{localStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
 function openStudio(){if(mode==='studio')return;setMode('studio');}
+let enteringHall=false;
 async function enterHall(){
+  if(enteringHall)return;enteringHall=true;
   const request=++hallRequest;toast('Opening EST Prep...');
-  try{await worlds.ensureInterior();}catch{if(request===hallRequest)toast('EST Prep could not load. Choose Enter EST Prep to retry.');return;}
+  try{await worlds.ensureInterior();}catch{enteringHall=false;if(request===hallRequest)toast('EST Prep could not load. Choose Enter EST Prep to retry.');return;}
+  enteringHall=false;
   if(request!==hallRequest||mode!=='town')return;
-  worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');
+  worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');worlds.estVideo.prepare().catch(()=>{});toast('Choose Play EST video on the wall whenever you are ready.');
 }
 async function enterChapel(){const request=++hallRequest;toast('Opening the Chapel...');try{await worlds.ensureChapel();}catch{if(request===hallRequest)toast('Chapel could not load. Try entering again.');return;}if(request!==hallRequest||mode!=='town')return;worlds.teleport('chapel',...CHAPEL.entry);setMode('chapel');}
 function leaveChapel(){setMode('town');worlds.teleport(false,CHAPEL.x,CHAPEL.z);actor.model.position.copy(worlds.position(false));yaw=-2.4;updateCamera(1,true);}
-function closeESTVideo(){watchingEST=false;worlds.estVideo.pause();$('est-video-controls').hidden=true;keys.clear();tapMovement=null;canvas.focus();}
-function watchESTVideo(){watchingEST=true;$('interact').hidden=true;interaction=null;clearTimeout(toastTimer);$('toast').hidden=true;keys.clear();tapMovement=null;actor.setWalking(false);$('est-video-controls').hidden=false;$('est-video-play').textContent='Pause';$('est-video-status').textContent='';worlds.estVideo.play().catch(()=>{$('est-video-play').textContent='Play';$('est-video-status').textContent='Choose Play to start the briefing.';});}
+function closeESTVideo(){documentRequest++;if(document.fullscreenElement)document.exitFullscreen?.();$('est-document-frame').replaceChildren();$('est-video-dialog').close();watchingEST=false;worlds.estVideo.pause();$('est-video-controls').hidden=true;keys.clear();tapMovement=null;canvas.focus();}
+function showESTFilm(){documentRequest++; $('est-documents').hidden=true;$('est-document-frame').hidden=true;$('est-document-frame').replaceChildren();$('est-source-title').hidden=true;worlds.estVideo.video.hidden=false;$('est-film-controls').hidden=false; }
+function watchESTVideo(){watchingEST=true;$('est-video-zoom').value='1';$('est-media-slot').classList.remove('zoomed');const media=worlds.estVideo.video;media.hidden=false;media.controls=true;$('est-media-slot').append(media);showESTFilm();$('est-video-dialog').showModal();$('interact').hidden=true;$('est-watch').hidden=true;interaction=null;clearTimeout(toastTimer);$('toast').hidden=true;keys.clear();tapMovement=null;actor.setWalking(false);$('est-video-controls').hidden=false;$('est-video-play').textContent='Play';$('est-video-status').textContent='Loading the video for smooth playback and seeking…';worlds.estVideo.play().catch(()=>{$('est-video-status').textContent='Video could not load. Choose Play to retry.';});}
+const estDocuments={
+ core:{title:'CORE — EST Content',file:'2026-CEMGT-EST-Unit-3-Content.pdf'},
+ term:{title:'TERM — Glossary of Terms',file:'Glossary of Terms.pdf'},
+ vtcs:{title:'VTCS — Words used in the formulation of questions',file:'Glossary-of-key-words-used-in-the-formulation-of-questions_.pdf'}
+};
+let documentRequest=0,documentPages;
+async function openESTDocument(key){const request=++documentRequest,doc=estDocuments[key];worlds.estVideo.pause();worlds.estVideo.video.hidden=true;$('est-film-controls').hidden=true;$('est-documents').hidden=false;$('est-source-title').hidden=false;$('est-source-title').textContent=doc.title;const url='../Assets/EST%20Preparation/EST%20-%20Knowledge%20reactor/'+encodeURIComponent(doc.file);const frame=$('est-document-frame');frame.hidden=false;frame.textContent='Loading document pages…';$('est-media-slot').classList.remove('zoomed');$('est-document-zoom').value='1';frame.style.setProperty('--document-zoom',1);$('est-document-link').hidden=false;$('est-document-link').href=url;$('est-document-link').textContent='Open original '+doc.title+' PDF ↗';document.querySelectorAll('[data-est-document]').forEach(button=>button.setAttribute('aria-pressed',button.dataset.estDocument===key));$('est-video-status').textContent='Choose CORE, TERM or VTCS above. Scroll through every page; use Document zoom to enlarge the text.';
+ try{documentPages??=fetch('./assets/est-documents/pages.json').then(r=>{if(!r.ok)throw Error('Document pages unavailable');return r.json();});const pages=(await documentPages)[key];if(request!==documentRequest)return;frame.replaceChildren();for(const [index,src] of pages.entries()){const figure=document.createElement('figure'),image=document.createElement('img'),caption=document.createElement('figcaption');image.src=src;image.alt=doc.title+' — page '+(index+1);image.loading=index?'lazy':'eager';caption.textContent='Page '+(index+1)+' of '+pages.length;figure.append(image,caption);frame.append(figure);}frame.scrollTo(0,0);}catch{documentPages=null;if(request===documentRequest)frame.textContent='The document pages could not load. Choose the document again, or open the original PDF above.';}}
+
+function positionESTPlayButton(){const button=$('est-watch');if(mode!=='interior'||watchingEST){button.hidden=true;return;}const point=worlds.estVideo.screen.getWorldPosition(new THREE.Vector3()).project(camera);button.hidden=point.z<0||point.z>1||Math.abs(point.x)>.9||Math.abs(point.y)>.85;if(!button.hidden){button.style.left=((point.x+1)*.5*viewport.width)+'px';button.style.top=((1-point.y)*.5*viewport.height)+'px';}}
+
 function reflect(){keys.clear();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
 function returnTown(){if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='interior')destination('est');else setMode('town');}
 function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=()=>{setMode('town');worlds.teleport(false,which==='est'?EST.x:-12.4,which==='est'?EST.z:5.0);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:-Math.PI/2;yaw=which==='est'?EST.yaw:Math.PI/2;setLocation(which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
@@ -173,6 +188,7 @@ function updateInteraction(){
     const approaching=Math.hypot(p.x-EST.x,p.z-EST.doorZ)<7;
     if(approaching&&!nearHall)worlds.ensureInterior().catch(()=>{});
     nearHall=approaching;
+    if(Math.hypot(p.x-EST.x,p.z-EST.doorZ)<1.1&&keys.size&&!enteringHall){enterHall();return;}
     if(Math.hypot(p.x-EST.x,p.z-EST.doorZ)<2.2)interaction={label:'Enter EST Prep',action:enterHall};
     else if(p.x>-13.6 && p.x<-10.8 && Math.abs(p.z-5)<1.45)interaction={label:'Open Avatar Studio',action:openStudio};
     else if(Math.hypot(p.x-CHAPEL.x,p.z-CHAPEL.z)<1.9)interaction={label:'Enter Chapel',action:enterChapel};
@@ -205,8 +221,16 @@ function phaseChange(name){if(!Object.hasOwn(PHASES,name))return;phase=name;worl
 function qualityChange(){const q=$('quality').value;renderer.setPixelRatio(q==='low'?1:q==='high'?Math.min(devicePixelRatio,2):Math.min(devicePixelRatio,1.5));renderer.shadowMap.enabled=q!=='low';resize();}
 function bindEvents(){
   $('est-video-close').addEventListener('click',closeESTVideo);
-  $('est-video-play').addEventListener('click',()=>{const v=worlds.estVideo.video;if(v.paused)worlds.estVideo.play().catch(()=>toast('Video could not play. Try Play again.'));else v.pause();});
-  $('est-video-restart').addEventListener('click',()=>{worlds.estVideo.video.currentTime=0;worlds.estVideo.play().catch(()=>toast('Choose Play to restart.'));});
+  $('est-watch').addEventListener('click',watchESTVideo);
+  $('est-video-dialog').addEventListener('cancel',e=>{e.preventDefault();closeESTVideo();});
+  $('est-video-zoom').addEventListener('change',()=>{const slot=$('est-media-slot'),zoom=Number($('est-video-zoom').value);slot.classList.toggle('zoomed',zoom>1);slot.style.setProperty('--video-zoom',zoom);slot.scrollTo(0,0);});
+  $('est-video-fullscreen').addEventListener('click',()=>{if($('est-video-dialog').requestFullscreen)$('est-video-dialog').requestFullscreen().catch(()=>toast('Use the video fullscreen control.'));else worlds.estVideo.video.webkitEnterFullscreen?.();});
+  $('est-source-open').addEventListener('click',()=>openESTDocument('core'));
+  $('est-document-zoom').addEventListener('change',()=>{$('est-document-frame').style.setProperty('--document-zoom',$('est-document-zoom').value);});
+  document.querySelectorAll('[data-est-document]').forEach(button=>button.addEventListener('click',()=>openESTDocument(button.dataset.estDocument)));
+  $('est-briefing-open').addEventListener('click',()=>{showESTFilm();$('est-video-status').textContent='Video paused. Choose Play to continue.';});
+  $('est-video-play').addEventListener('click',()=>{const v=worlds.estVideo.video;if(v.paused)worlds.estVideo.play().catch(()=>toast('Video could not play. Try Play again.'));else worlds.estVideo.pause();});
+  $('est-video-restart').addEventListener('click',()=>{worlds.estVideo.restart().catch(()=>toast('Video could not restart. Try again.'));});
   $('est-video-sound').addEventListener('click',()=>{const v=worlds.estVideo.video;v.muted=!v.muted;$('est-video-sound').textContent=v.muted?'Unmute':'Mute';});
   worlds.estVideo.video.addEventListener('play',()=>{$('est-video-play').textContent='Pause';$('est-video-status').textContent='';});
   worlds.estVideo.video.addEventListener('pause',()=>{$('est-video-play').textContent='Play';});
@@ -215,7 +239,7 @@ function bindEvents(){
   $('close-reflection').addEventListener('click',()=>$('reflection-dialog').close());
   $('reflection-dialog').addEventListener('close',()=>{keys.clear();canvas.focus();});
   $('town-view').addEventListener('click',returnTown);$('studio-view').addEventListener('click',openStudio);
-  $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>destination('est'));$('chapel-destination').addEventListener('click',()=>destination('chapel'));
+  $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>{const go=()=>{setMode('town');enterHall();};if(mode==='studio')leaveStudio(go);else go();});$('chapel-destination').addEventListener('click',()=>destination('chapel'));
   $('interact').addEventListener('click',()=>interaction?.action());$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
   $('aerial').addEventListener('click',()=>{aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
   $('profile').addEventListener('change',()=>{const id=$('profile').value;$('profile').value=state.activeId;const change=()=>{state.activeId=id;persist();updateActor();if(mode==='studio')setMode('studio');};if(mode==='studio')leaveStudio(change);else change();});
@@ -245,7 +269,7 @@ function animate(){
     actor.setWalking(Boolean(length && travelled>.001));if(length){const target=Math.atan2(dx,dz),difference=Math.atan2(Math.sin(target-actor.model.rotation.y),Math.cos(target-actor.model.rotation.y));actor.model.rotation.y+=difference*Math.min(1,dt*12);}
     actor.update(dt);worlds.update(now,camera);updateInteraction();updateMission();
   }else if(mode==='studio')preview?.update(dt);
-  updateCamera(dt);renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
+  updateCamera(dt);positionESTPlayButton();renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   let scene=mode==='studio'?studio:activeScene();
   if(mode==='studio'){const mobile=isMobile();renderer.setViewport(0,mobile?viewport.height*.43:0,mobile?viewport.width:viewport.width-(viewport.width>900?364:316),mobile?viewport.height*.57:viewport.height);}
   renderer.render(scene,camera);frames++;
