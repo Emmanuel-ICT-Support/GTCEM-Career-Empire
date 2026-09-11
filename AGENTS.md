@@ -151,3 +151,16 @@ Tania additionally corrects Home Base: return to the actual WELCOME TO ECC sign,
 Tania requests walking on the football field and trees around the oval edge, following the aerial. This supersedes the previous visual-only oval boundary. Outdoor physics ground now matches the existing continued grass rectangle, with an inset walking boundary. The route across connecting grass and oval is open. Existing Media collision is retained; SPACE, its rear foyer, Home Economics, goalposts and new tree trunks have collision. Thirty-three reused eucalypts form a staggered western/southern belt outside the playing line, scaling with the approved development stages. Architecture, orientation, glass/mural assets, indoor limits and banked world-preview sources remain unchanged.
 
 Local desktop and phone browser probes exercise actual movement physics from the original arrival area across connecting grass to the oval centre; west/south bounds, ground height, SPACE frontage and Home Base welcome return pass. Local source checks pass. Test-only probes are not shipped. Screenshots and results: private/production-evidence/2026-09-12/walkable-oval/. Visual reference is the supplied aerial, interpreted compactly rather than surveyed. Wider material/arrival polish and smooth stage transitions remain open. No publication, remote CI or new global-refresh success is claimed.
+
+
+## Preview connection recovery — 12 September 2026
+User reports preview failure. Browser showed ERR_CONNECTION_REFUSED; no process was listening on 127.0.0.1:4269. Restarted the local Python preview from /private/tmp/ce-avatar-release. Saved game checkpoint ef0c0c3 is intact. The stop cause is unknown; no game code changes or publication. Local preview availability depends on the server process remaining active.
+
+
+Preview follow-up: all review URLs share port 4269. Server PID 84222 remains listening; a fresh in-app reload succeeds. Older error tabs need Reload; restarting the server does not replace their displayed error page. No evidence of lost chat or game files.
+
+
+## Mobile play area — 12 September 2026
+Tania reports the Find your place and other panels crowd the phone play area. Phone and short-landscape layouts now collapse guidance and view/phase settings into 44px buttons, open at most one card, and collapse on scene/movement/destination interaction or Escape. Header/location are smaller; redundant footer labels are hidden on phones; walking buttons are enlarged to 44px; destination bar respects bottom safe-area. The 600px minimum scene height is removed on phones so short displays keep controls on screen. Desktop cards remain expanded. Added mobile-play.css/js; no camera, world assets or gameplay physics changes.
+
+Verified through the in-app browser at 390x844, 320x568 and 844x390: panels and movement/destinations remain inside viewport, guidance toggles, settings replace guidance, Growth selection works, movement closes cards, Home Base returns to the welcome sign. Browser size restored after checks. Source syntax/dev check passes. These are desktop browser viewport checks, not physical iPhone/Android testing. Local candidate only; remaining world polish and publication gates stay open.

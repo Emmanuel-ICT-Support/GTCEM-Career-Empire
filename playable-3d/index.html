@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="./style.css?v=est-access3">
   <script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.js","three/addons/":"./vendor/three/examples/jsm/","@dimforge/rapier3d-compat":"./vendor/rapier/rapier.mjs"}}</script>
   <script src="./vendor/lucide/lucide.min.js" defer></script>
+  <link rel="stylesheet" href="./mobile-play.css?v=1">
+  <script type="module" src="./mobile-play.js?v=1"></script>
 </head>
 <body>
   <main id="experience" aria-label="Career Empire 3D world">
@@ -22,11 +24,11 @@
       <div class="account"><label class="sr-only" for="profile">Local character</label><select id="profile"></select><button class="icon-button" id="new-profile" aria-label="New character" title="New character"><i data-lucide="user-round-plus"></i></button></div>
     </header>
     <section class="world-heading" id="world-heading"><div class="eyebrow" id="district-label">THE LEARNING DISTRICT</div><h1 id="location-title">Town Square</h1><div class="location-line"><span class="status-dot"></span><span id="location-subtitle">Home Base &middot; EST Prep</span></div></section>
-    <section class="arrival-mission" id="arrival-mission" aria-label="Your first day"><small>YOUR FIRST DAY</small><h2 id="mission-title">Find your place</h2><p id="mission-detail">Follow the shaded walk to Avatar Studio.</p><div class="mission-progress"><span id="mission-bar"></span></div><span id="mission-hint">WASD or arrow buttons to walk · drag to look</span></section>
-    <aside class="world-tools" id="world-tools" aria-label="World settings">
+    <section class="arrival-mission" id="arrival-mission" aria-label="Your first day"><button class="mobile-panel-toggle" aria-expanded="false" aria-controls="mission-details" data-mobile-panel="arrival-mission">Find your place <span aria-hidden="true">⌄</span></button><div id="mission-details"><small>YOUR FIRST DAY</small><h2 id="mission-title">Find your place</h2><p id="mission-detail">Follow the shaded walk to Avatar Studio.</p><div class="mission-progress"><span id="mission-bar"></span></div><span id="mission-hint">WASD or arrow buttons to walk · drag to look</span></div></section>
+    <aside class="world-tools" id="world-tools" aria-label="World settings"><button class="mobile-panel-toggle" aria-expanded="false" aria-controls="settings-details" data-mobile-panel="world-tools">View &amp; phase <span aria-hidden="true">⌄</span></button><div id="settings-details">
       <label class="phase-control"><i data-lucide="sprout"></i><span><small>PHASE PREVIEW</small><select id="phase" aria-label="World phase"><option value="flourishing">Flourishing</option><option value="growth">Growth</option><option value="disrepair">Disrepair</option></select></span></label>
       <div class="tool-row"><button class="icon-button" id="aerial" aria-label="Aerial view" aria-pressed="false" title="Aerial view"><i data-lucide="scan-eye"></i></button><button class="icon-button" id="recenter" aria-label="Recenter camera" title="Recenter camera"><i data-lucide="focus"></i></button><label class="quality-control" title="Render quality"><i data-lucide="monitor"></i><select id="quality" aria-label="Render quality"><option value="auto">Auto</option><option value="low">Low</option><option value="high">High</option></select></label></div>
-    </aside>
+    </div></aside>
     <div class="destination-bar" id="destination-bar" aria-label="Destinations"><button id="home-destination" title="Return to the ECC welcome sign"><i data-lucide="house"></i><span>Home Base</span></button><span class="route-line"></span><button id="est-destination"><i data-lucide="landmark"></i><span>Enter EST Prep</span></button><span class="route-line"></span><button id="chapel-destination"><i data-lucide="church"></i><span>Chapel</span></button></div>
     <button class="interaction" id="interact" hidden><i data-lucide="door-open"></i><span>Enter EST Prep</span><i data-lucide="arrow-right"></i></button>
     <div class="movement" id="movement" aria-label="Movement controls"><button data-key="KeyW" aria-label="Walk forward" title="Walk forward"><i data-lucide="chevron-up"></i></button><button data-key="KeyA" aria-label="Walk left" title="Walk left"><i data-lucide="chevron-left"></i></button><button data-key="KeyS" aria-label="Walk backward" title="Walk backward"><i data-lucide="chevron-down"></i></button><button data-key="KeyD" aria-label="Walk right" title="Walk right"><i data-lucide="chevron-right"></i></button></div>
