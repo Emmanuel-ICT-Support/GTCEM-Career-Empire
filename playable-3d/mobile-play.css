@@ -30,3 +30,12 @@
 /* Keep touch-and-hold on the control, never on its decorative SVG. */
 #movement,#movement button,#movement button *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none;touch-action:none}
 #movement button *{pointer-events:none}
+
+.thumb-stick{display:none}
+@media(max-width:620px),(max-height:500px) and (max-width:950px){
+ #movement{display:block;width:120px;height:120px}
+ #movement>button{display:none}
+ .thumb-stick{display:grid;place-items:center;width:120px;height:120px;border-radius:50%;border:2px solid #f6faefd9;background:#244b3d55;box-shadow:inset 0 0 0 18px #f7faf312;touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+ .thumb-stick-knob{display:block;width:48px;height:48px;border:2px solid #fafff4;border-radius:50%;background:#edf4e4e8;box-shadow:0 2px 8px #173d3955;pointer-events:none}
+ .thumb-stick.active{background:#244b3d88}.thumb-stick:focus-visible{outline:3px solid #ce9844;outline-offset:3px}
+}

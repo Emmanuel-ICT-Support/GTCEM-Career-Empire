@@ -1,13 +1,13 @@
 {
-  "release": "ecc-campus-mobile-touch-hold-20260912",
+  "release": "ecc-campus-mobile-joystick-20260912",
   "changeId": "CE-CHANGE-20260911-46",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "f43672660b3191eda9b910fc98aafdfae44e3945",
-  "scope": "Approved campus surroundings and camera, walkable oval with staged tree boundary, Home Base welcome return and compact mobile guidance/settings. Remaining environment polish stays open. Touch-hold controls suppress native selection/callout/drag.",
+  "scope": "Approved campus surroundings and camera, walkable oval with staged tree boundary, Home Base welcome return and compact mobile guidance/settings. Remaining environment polish stays open. Touch-hold controls suppress native selection/callout/drag. Proportional phone thumb joystick with reset on release and screen changes.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "e13ba8472990b8402bfa9891297b6a9bac58c1a39756fd0e3cd133bf3cc86b39"
+      "sha256": "849e0d26205ccb41e41ce958bf9de04354dd626cb3197ac8dfaaed47be425978"
     },
     {
       "path": "arrival-precinct.js",
@@ -175,11 +175,11 @@
     },
     {
       "path": "index.html",
-      "sha256": "00cf11c2088aa767cb2c14c73f53d84fae07a01213f9603dc485a6d75afec5dc"
+      "sha256": "455434fdce49d4aa6dc281448d935c3afd9e8712204f10fa98933b8bbc62dfb7"
     },
     {
       "path": "mobile-play.css",
-      "sha256": "8073b13cc9d2bdedda62dd7d8503ad66a02678b286d3ebe70b90f41764e60b1e"
+      "sha256": "d2cbc1dcc666cf0bf8304f83579586fa10e952a92207f668788d116b487e778e"
     },
     {
       "path": "mobile-play.js",
@@ -192,6 +192,10 @@
     {
       "path": "world.js",
       "sha256": "b4b6522c23d4ce903bcb98494c0bc42c56c0783382a59292991996feb87b8080"
+    },
+    {
+      "path": "joystick.js",
+      "sha256": "70a748903a79f15a5582d83fa282c407a0414e3e94ecb9ecc63397d5a1385613"
     }
   ],
   "estVideo": {

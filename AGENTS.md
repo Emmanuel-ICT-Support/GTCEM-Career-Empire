@@ -172,3 +172,7 @@ Tania explicitly requests publishing this campus/mobile candidate to the live ga
 
 ## Touch-and-hold movement fix
 Tania reports holding an arrow selects it as an item. Disable WebKit selection, touch callouts and dragging across movement buttons and decorative SVG descendants; route icon pointer events to buttons, suppress native contextmenu/dragstart/selectstart. Existing pointer capture, held movement and release/cancel logic retained. Source checks pass; physical-phone confirmation pending.
+
+
+## Phone thumb joystick
+Tania accepts the proposed joystick. Mobile and short-landscape layouts replace arrows with a 120px captured-pointer joystick, 12% dead zone and proportional speed. Diagonal input is capped at walking speed. Release/cancel/lost capture, blur/visibility, resize, screen/destination and modal entry reset input. Desktop arrows and keyboard remain. Browser phone-size drag verified diagonal travel, centred inactive knob after release and Home Base welcome return. Physical-phone review pending.
