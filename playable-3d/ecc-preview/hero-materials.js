@@ -7,18 +7,20 @@ function hash(x,y,s=0){let n=Math.imul(x+137*s,374761393)^Math.imul(y+19*s,66826
 function noise(x,y,period,seed){const ix=Math.floor(x/period),iy=Math.floor(y/period),u=x/period-ix,v=y/period-iy;const a=u*u*(3-2*u),b=v*v*(3-2*v),n=1024/period;const h=(dx,dy)=>hash((ix+dx)%n,(iy+dy)%n,seed);return T.MathUtils.lerp(T.MathUtils.lerp(h(0,0),h(1,0),a),T.MathUtils.lerp(h(0,1),h(1,1),a),b);}
 function maps(kind){
  if(cache.has(kind))return cache.get(kind);
- const size=1024,base=document.createElement('canvas'),height=document.createElement('canvas');
+ const size=512,base=document.createElement('canvas'),height=document.createElement('canvas');
  for(const c of [base,height])c.width=c.height=size;
  const ctx=base.getContext('2d'),bc=ctx.createImageData(size,size),hc=ctx.createImageData(size,size);
  const paving=kind==='paving',row=paving?256:128,col=paving?512:256;
  const palette=kind==='brick'?[213,197,163]:paving?[194,181,153]:[205,183,143];
- for(let y=0;y<size;y++)for(let x=0;x<size;x++){
-  const iy=Math.floor(y/row),sx=(x+(iy%2)*col/2)%size,ix=Math.floor(sx/col),fx=sx%col,fy=y%row;
+ // Sample the same 1024-unit authored pattern: courses and paving keep their world scale.
+ for(let py=0;py<size;py++)for(let px=0;px<size;px++){
+  const x=px*2,y=py*2;
+  const iy=Math.floor(y/row),sx=(x+(iy%2)*col/2)%1024,ix=Math.floor(sx/col),fx=sx%col,fy=y%row;
   const edge=Math.min(fx,col-fx,fy,row-fy),joint=edge<2.4,bevel=Math.min(1,edge/6);
   const grain=(noise(x,y,32,2)-.5)*12+(noise(x,y,8,3)-.5)*7+(hash(x,y,4)-.5)*6;
   const strata=Math.sin(y*.105+noise(x,y,64,5)*5)*1.8;
   const block=(hash(ix,iy,9)-.5)*15,shade=.82+.18*bevel;
-  const at=(y*size+x)*4;
+  const at=(py*size+px)*4;
   for(let k=0;k<3;k++)bc.data[at+k]=joint?[135,127,111][k]:(palette[k]+block+grain+strata)*shade;
   const h=joint?55:159+grain*.55+bevel*20;
   // Bump reads red; roughness reads green. Pack them without changing either value.
