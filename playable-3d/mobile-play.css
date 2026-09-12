@@ -26,3 +26,7 @@
  .arrival-mission.mobile-expanded>.mobile-panel-toggle{width:146px}
  .world-tools{z-index:7}
 }
+
+/* Keep touch-and-hold on the control, never on its decorative SVG. */
+#movement,#movement button,#movement button *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none;touch-action:none}
+#movement button *{pointer-events:none}

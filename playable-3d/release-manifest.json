@@ -1,13 +1,13 @@
 {
-  "release": "ecc-campus-mobile-20260912",
+  "release": "ecc-campus-mobile-touch-hold-20260912",
   "changeId": "CE-CHANGE-20260911-46",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "f43672660b3191eda9b910fc98aafdfae44e3945",
-  "scope": "Approved campus surroundings and camera, walkable oval with staged tree boundary, Home Base welcome return and compact mobile guidance/settings. Remaining environment polish stays open.",
+  "scope": "Approved campus surroundings and camera, walkable oval with staged tree boundary, Home Base welcome return and compact mobile guidance/settings. Remaining environment polish stays open. Touch-hold controls suppress native selection/callout/drag.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "60910dc1abe228b3e913fb5edfa3a65ececb62e7055b9b43da6c2028e8816883"
+      "sha256": "e13ba8472990b8402bfa9891297b6a9bac58c1a39756fd0e3cd133bf3cc86b39"
     },
     {
       "path": "arrival-precinct.js",
@@ -175,11 +175,11 @@
     },
     {
       "path": "index.html",
-      "sha256": "20ec79d63f5fcb1fbb7b238ee7478d7bd230d6e70d915efb8e8cda08bd8325c4"
+      "sha256": "00cf11c2088aa767cb2c14c73f53d84fae07a01213f9603dc485a6d75afec5dc"
     },
     {
       "path": "mobile-play.css",
-      "sha256": "02cbbff1c6666914102083c81a2616e721673bf604985e2d842f3dc1cc637741"
+      "sha256": "8073b13cc9d2bdedda62dd7d8503ad66a02678b286d3ebe70b90f41764e60b1e"
     },
     {
       "path": "mobile-play.js",

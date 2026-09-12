@@ -33,3 +33,7 @@ Verified through the in-app browser at 390x844, 320x568 and 844x390: panels and 
 
 ## Authorised phone review release — 12 September 2026
 Tania explicitly requests publishing this campus/mobile candidate to the live game for phone review. Public main was verified at f436726, an ancestor of candidate da7b9cb. Publish to Emmanuel-ICT-Support/GTCEM-Career-Empire; this acceptance does not complete remaining world polish. Prior manifest retained in docs/pre-mobile-release-manifest.json.
+
+
+## Touch-and-hold movement fix
+Tania reports holding an arrow selects it as an item. Disable WebKit selection, touch callouts and dragging across movement buttons and decorative SVG descendants; route icon pointer events to buttons, suppress native contextmenu/dragstart/selectstart. Existing pointer capture, held movement and release/cancel logic retained. Source checks pass; physical-phone confirmation pending.
