@@ -1,5 +1,6 @@
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {upgradeMaterials,addHeroDetails} from './hero-materials.js?v=hero1';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 
 export const DOORS=[
@@ -25,13 +26,22 @@ export function consolidate(root){root.updateMatrixWorld(true);const buckets=new
 export async function buildExterior({inGame=false}={}){
  const source=new T.Group();source.name='ECC exterior candidate 01';const obstacles=[];
  const m={stone:material('stone'),brick:material('brick'),red:material('red'),roof:material('roof'),paving:material('stone',0xe7dfca),white:new T.MeshStandardMaterial({color:0xe6e4d8,roughness:.72}),teal:new T.MeshStandardMaterial({color:0x326c78,roughness:.58}),navy:new T.MeshStandardMaterial({color:0x304c54,roughness:.5}),wood:new T.MeshStandardMaterial({color:0x886344,roughness:.75}),soil:new T.MeshStandardMaterial({color:0x594d3b,roughness:1}),glass:new T.MeshPhysicalMaterial({color:0x9cb6b7,metalness:.1,roughness:.18,transparent:true,opacity:.38,side:T.DoubleSide}),darkglass:new T.MeshStandardMaterial({color:0x304a49,metalness:.22,roughness:.22,side:T.DoubleSide}),warm:new T.MeshStandardMaterial({color:0xf5d7a5,emissive:0xffd9a3,emissiveIntensity:.8}),grass:new T.MeshStandardMaterial({color:0x828d64,roughness:1})};
+ upgradeMaterials(m);
  function mesh(g,mat,x=0,y=0,z=0){const o=new T.Mesh(g,mat);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;source.add(o);return o;}
  function box(w,h,d,mat,x,y,z){return mesh(uvWorld(new T.BoxGeometry(w,h,d)),mat,x,y,z);}
  function block(x,z,w,d){obstacles.push({type:'box',x,z,w,d});}
  function beam(a,b,width,mat){const av=new T.Vector3(...a),bv=new T.Vector3(...b),d=bv.clone().sub(av);const o=mesh(new T.CylinderGeometry(width,width,d.length(),8),mat,...av.clone().add(bv).multiplyScalar(.5).toArray());o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),d.normalize());return o;}
  function text(words,w,h,x,y,z,{size=70,color='#f5f0df',background=null,rotation=0}={}){const c=document.createElement('canvas');c.width=1024;c.height=Math.max(128,Math.round(1024*h/w));const ctx=c.getContext('2d');if(background){ctx.fillStyle=background;ctx.fillRect(0,0,c.width,c.height);}ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`500 ${size}px Arial`;ctx.fillText(words,512,c.height/2,960);const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;const o=mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map:tex,transparent:true,roughness:.6,depthWrite:false,side:T.DoubleSide}),x,y,z);o.rotation.z=rotation;return o;}
- function pane(x,z,w,h,y=1.8){box(w+.13,h+.13,.12,m.navy,x,y,z);mesh(new T.PlaneGeometry(w,h),m.glass,x,y,z+.075);box(w-.08,h-.08,.035,m.darkglass,x,y,z-.12);for(const dx of [-w/2,w/2])box(.055,h,.11,m.white,x+dx,y,z+.08);box(w,.055,.11,m.white,x,y-h/2,z+.08);}
- function doorway(x,z,w=2.05){for(const dx of [-w/2-.06,w/2+.06])box(.12,2.75,.2,m.navy,x+dx,1.4,z);box(w+.24,.12,.2,m.navy,x,2.79,z);for(const dx of [-w/4,w/4]){mesh(new T.PlaneGeometry(w/2-.05,2.63),m.glass,x+dx,1.41,z+.015);box(.045,2.66,.07,m.white,x+dx+w/4,1.41,z+.035);box(.035,.46,.05,m.wood,x+dx+(dx<0?.3:-.3),1.2,z+.13);}box(w+.2,.045,1,m.paving,x,.04,z+.35);}
+ function pane(x,z,w,h,y=1.8){
+  // A recessed room impression behind four real reveal edges; no flat frame slab.
+  const back=mesh(new T.PlaneGeometry(w,h),m.room,x,y,z+.072);
+  for(const dx of [-w/2-.04,w/2+.04])box(.10,h+.2,.24,m.navy,x+dx,y,z+.12);
+  for(const dy of [-h/2-.04,h/2+.04])box(w+.2,.10,.24,m.navy,x,y+dy,z+.12);
+  mesh(new T.PlaneGeometry(w-.05,h-.05),m.glass,x,y,z+.25);
+  box(.045,h,.08,m.navy,x,y,z+.29);box(w,.04,.08,m.navy,x,y+.28,z+.29);
+  return back;
+ }
+ function doorway(x,z,w=2.05){mesh(new T.PlaneGeometry(w-.08,2.6),m.room,x,1.41,z-.035);for(const dx of [-w/2-.06,w/2+.06])box(.12,2.75,.2,m.navy,x+dx,1.4,z);box(w+.24,.12,.2,m.navy,x,2.79,z);for(const dx of [-w/4,w/4]){mesh(new T.PlaneGeometry(w/2-.05,2.63),m.glass,x+dx,1.41,z+.015);box(.045,2.66,.07,m.white,x+dx+w/4,1.41,z+.035);box(.035,.46,.05,m.wood,x+dx+(dx<0?.3:-.3),1.2,z+.13);}box(w+.2,.045,1,m.paving,x,.04,z+.35);}
  function tiledRoof(x,z,w,d,eave,rise,alongZ=false){const g=new T.Group();for(const side of [-1,1]){const roof=box(w+.4,.13,(d/2+.2)/Math.cos(Math.atan2(rise,d/2)),m.roof,0,eave+rise/2,side*d/4);roof.rotation.x=side*Math.atan2(rise,d/2);source.remove(roof);g.add(roof);}if(alongZ){g.rotation.y=Math.PI/2;}g.position.set(x,0,z);source.add(g);const ridge=box(alongZ?.14:w+.5,.14,alongZ?w+.5:.14,m.roof,x,eave+rise+.05,z);ridge.name='Terracotta ridge';}
  function planter(x,z,w,d){box(w,.27,d,m.stone,x,.135,z);box(w-.15,.035,d-.15,m.soil,x,.29,z);block(x,z,w,d);}
  function bench(x,z,w=2.2,rot=0){const g=new T.Group();for(const dx of [-w/2+.18,w/2-.18]){const b=box(.36,.5,.65,m.stone,dx,.25,0);source.remove(b);g.add(b);}for(let k=0;k<5;k++){const b=box(w,.075,.105,m.wood,0,.51,(k-2)*.125);source.remove(b);g.add(b);}g.position.set(x,0,z);g.rotation.y=rot;source.add(g);block(x,z,rot? .75:w,rot?w:.75);}
@@ -75,7 +85,9 @@ export async function buildExterior({inGame=false}={}){
  function curve(a,b,y0,y1,mat,r=radius){const shape=new T.Shape();const steps=Math.max(2,Math.ceil((b-a)*25));for(let i=0;i<=steps;i++){const t=a+(b-a)*i/steps;const x=Math.sin(t)*r,z=Math.cos(t)*r;if(i===0)shape.moveTo(x,z);else shape.lineTo(x,z);}for(let i=steps;i>=0;i--){const t=a+(b-a)*i/steps;shape.lineTo(Math.sin(t)*(r-.22),Math.cos(t)*(r-.22));}shape.closePath();const g=new T.ExtrudeGeometry(shape,{depth:y1-y0,bevelEnabled:false,steps:1});g.rotateX(Math.PI/2);g.translate(cx,y1,cz);uvWorld(g);return mesh(g,mat);}
  const segments=160,bands=[0,.5,1.05,1.95,2.55,3.45,3.75,wallHeight];
  for(let i=0;i<segments;i++){const a=-Math.PI+i*2*Math.PI/segments,b=a+2*Math.PI/segments,t=(a+b)/2;for(let j=0;j<bands.length-1;j++){const y=(bands[j]+bands[j+1])/2;const cross=(Math.abs(t+.5)<.065&&y>1.05&&y<3.45)||(t>-.77&&t<-.23&&y>1.95&&y<2.55);const tree=t>-.12&&t<.32&&y>.5&&y<3.75;const door=t>.5&&t<1&&y<3.45;if(!cross&&!tree&&!door)curve(a,b,bands[j],bands[j+1],m.stone);}}
- curve(-Math.PI,Math.PI,4.2,4.34,m.white,3.16);
+ curve(-Math.PI,Math.PI,4.11,4.22,m.navy,3.12);
+ curve(-Math.PI,Math.PI,4.22,4.37,m.stone,3.22);
+ curve(-Math.PI,Math.PI,4.37,4.43,m.white,3.16);
  mesh(new T.CylinderGeometry(2.97,2.97,.1,80),m.wood,cx,4.16,cz);mesh(new T.CylinderGeometry(2.97,2.97,.06,80),m.stone,cx,4.24,cz);mesh(new T.CylinderGeometry(2.9,2.9,.09,80),m.paving,cx,.02,cz);
  // Deep glass behind cross aperture, visible through masonry reveal.
  curve(-.81,-.19,.98,3.5,m.darkglass,2.77);
@@ -109,13 +121,20 @@ export async function buildExterior({inGame=false}={}){
  // Bounded gardens leave a clear shared forecourt and three approach lanes.
  const beds=[[-8,5,2.8,4.6],[-7.1,10.9,4.7,2],[-4.1,9.8,1.9,2],[-6.3,-6.5,5,1.7],[7.2,10.9,4.7,2],[8.5,6.2,1.7,3.5],[11,-1,2.5,7],[-11,-.5,2,7],[2.3,-.8,1.1,1.3]].filter(b=>!inGame||(Math.abs(b[0])<10&&![-7.1,-4.1,8.5].includes(b[0])));
  beds.forEach(b=>planter(...b));bench(-6,4,2.3);bench(5.7,7.7,2.5);bench(-6,8.3,2.3);bench(9.3,3.7,1.9,Math.PI/2);
- const architecture=consolidate(source);architecture.name='ECC connected hero - complete exterior';
- const root=new T.Group();root.name='ECC Campus Hub candidate 01';root.add(architecture);
+ addHeroDetails({source,box,mesh,m,beds});
+ const architecture=consolidate(source);architecture.name='ECC connected exterior - hero fidelity pilot';
+ const root=new T.Group();root.name='ECC Campus Hub hero fidelity pilot';root.add(architecture);
  const positions=[],rand=random(333);
- for(const [x,z,w,d]of beds){const count=Math.max(4,Math.round(w*d*1.7));for(let i=0;i<count;i++)positions.push({id:i%6===0?'yellow-flower-clump':'tufted-grass',x:x+(rand()-.5)*(w-.45),z:z+(rand()-.5)*(d-.45),s:.48+rand()*.35,r:rand()*6.28});}
+ for(const [x,z,w,d]of beds){const count=Math.max(4,Math.round(w*d*3.3));for(let i=0;i<count;i++)positions.push({id:i%8===0?'yellow-flower-clump':'tufted-grass',x:x+(rand()-.5)*(w-.45),z:z+(rand()-.5)*(d-.45),s:.42+rand()*.48,r:rand()*6.28});}
  for(const [x,z]of [[-8,4.4],[-8,6.1],[-7,10.7],[-5.5,10.8],[-4.3,9.8],[7,10.7],[5.7,10.8],[8.5,6.2],[8.5,7.3],[11,-3],[11,0],[-11,-1],[-11,1],[-6,-6.5]])if(!inGame||(Math.abs(x)<10&&z<9&&x!==8.5))positions.push({id:'olive-shrub',x,z,s:.65,r:rand()*6.28});
  if(!inGame)for(const [x,z]of [[-11,7],[11,8],[-12,-5],[12,-6],[-4,-9],[5,-9]]){positions.push({id:'mature-eucalypt-a',x,z,s:.68,r:rand()*6.28});obstacles.push({type:'circle',x,z,r:.3});}
  positions.push({id:'boulder-a',x:-7.4,z:3.4,s:.7,r:.8});
+ // Additional rocks/low shrub layers stay inside the existing raised-bed obstacles.
+ for(const [x,z,w,d]of beds){
+  positions.push({id:'boulder-a',x:x-w*.23,z:z+d*.19,s:.32,r:rand()*6.28});
+  if(w*d>6)for(const k of [-1,1])positions.push({id:'olive-shrub',x:x+k*w*.23,z:z-d*.12,s:.38+rand()*.12,r:rand()*6.28});
+ }
+
  const loader=new GLTFLoader();
  for(const id of [...new Set(positions.map(p=>p.id))]){const gltf=await loader.loadAsync(new URL(`../assets/campus-landscape/${id}.glb`,import.meta.url).href);const merged=consolidate(gltf.scene);const ps=positions.filter(p=>p.id===id);for(const child of merged.children){const inst=new T.InstancedMesh(child.geometry,child.material,ps.length);inst.name=`Approved ${id}`;const matrix=new T.Matrix4();ps.forEach((p,i)=>{matrix.compose(new T.Vector3(p.x,.3,p.z),new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),p.r),new T.Vector3(p.s,p.s,p.s));inst.setMatrixAt(i,matrix);});inst.castShadow=true;inst.receiveShadow=true;root.add(inst);}}
  return {root,architecture,obstacles,doors:DOORS,materials:m,plantInstances:positions.length};

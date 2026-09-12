@@ -1,7 +1,8 @@
 import * as T from 'three';
 export function buildMedia(){
  const root=new T.Group();root.name='English and Media — curved glazed frontage';
- const mat=(c,r=.8)=>new T.MeshStandardMaterial({color:c,roughness:r});
+ const materials=new Map();
+ const mat=(c,r=.8)=>{const key=`${c}:${r}`;if(!materials.has(key))materials.set(key,new T.MeshStandardMaterial({color:c,roughness:r}));return materials.get(key);};
  const silver=mat(0xb7c4c9,.3),stone=mat(0xcac2ae),white=mat(0xe1e4df),floor=mat(0xc4c0ae),wood=mat(0x9b846a),back=mat(0xd6dfcb);
  const glass=new T.MeshPhysicalMaterial({color:0xbad9df,roughness:.09,metalness:.08,transparent:true,opacity:.4,depthWrite:false,side:T.DoubleSide,envMapIntensity:3.4,clearcoat:1,clearcoatRoughness:.07});
  const c=document.createElement('canvas');c.width=c.height=128;const ctx=c.getContext('2d');ctx.fillStyle='#33353a';ctx.fillRect(0,0,128,128);let seed=271;for(let i=0;i<2600;i++){seed=(1664525*seed+1013904223)>>>0;const x=seed%128;seed=(1664525*seed+1013904223)>>>0;const y=seed%128;ctx.fillStyle=['#7b7b74','#aaa497','#575963'][i%3];ctx.fillRect(x,y,1,1);}const tx=new T.CanvasTexture(c);tx.colorSpace=T.SRGBColorSpace;tx.wrapS=tx.wrapT=T.RepeatWrapping;tx.repeat.set(2,4);const dark=new T.MeshStandardMaterial({map:tx,roughness:.9});

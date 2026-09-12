@@ -1,4 +1,5 @@
-import {buildMedia} from './media-building.js';
+import {batchStatic} from './static-batching.js?v=1';
+import {buildMedia} from './media-building.js?v=hero1';
 import {buildSpace} from './space-building.js';
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -9,8 +10,8 @@ export async function addSurroundings(scene){
  const stone=mat(0xc4bda7),glass=mat(0x668992),fin=mat(0x454c4b),roof=mat(0xb8c6c4),blue=mat(0x31596f);
  function box(g,w,h,d,m,x,y,z){const o=new T.Mesh(new T.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.receiveShadow=true;g.add(o);return o;}
  // Local annotated layout: separated right angle behind Admin; curved frontage west, mural north toward SPACE.
- const english=buildMedia();english.position.set(-4,0,-37);english.rotation.y=Math.PI;english.scale.setScalar(.9);root.add(english);
- const space=buildSpace();space.position.set(18,0,-53);space.rotation.y=-Math.PI/2;space.scale.setScalar(.85);root.add(space);
+ const english=buildMedia();english.position.set(-4,0,-37);english.rotation.y=Math.PI;english.scale.setScalar(.9);root.add(batchStatic(english));
+ const space=buildSpace();space.position.set(18,0,-53);space.rotation.y=-Math.PI/2;space.scale.setScalar(.85);root.add(batchStatic(space));
  // Home Economics is a low connecting roofline, subordinate to the hero Chapel.
  box(root,12,2.8,3,stone,43,1.4,-26);box(root,13,.25,4.4,roof,43,2.95,-25.7);
  // Reuse the approved eucalypt model for a consistent distant campus canopy.
@@ -23,7 +24,7 @@ export async function addSurroundings(scene){
  const points=[];for(let i=0;i<=128;i++){const a=i/128*Math.PI*2;points.push(new T.Vector3(-4+14*Math.cos(a),.025,-54+9*Math.sin(a)));}
  const line=new T.Line(new T.BufferGeometry().setFromPoints(points),new T.LineBasicMaterial({color:0xeeeede,transparent:true,opacity:.55}));root.add(line);
  const postMat=mat(0xe1e4dc);for(const x of [-18,10])for(const dz of [-3.8,-1.3,1.3,3.8]){const h=Math.abs(dz)<2?4:2.5;box(root,.12,h,.12,postMat,x,h/2,-54+dz);}
- const asset=await new GLTFLoader().loadAsync('./assets/campus-landscape/mature-eucalypt-a.glb');asset.scene.updateMatrixWorld(true);
+ const asset=await new GLTFLoader().loadAsync('./assets/campus-landscape/mature-eucalypt-a.glb');asset.scene=batchStatic(asset.scene);asset.scene.updateMatrixWorld(true);
  const bounds=new T.Box3().setFromObject(asset.scene),center=bounds.getCenter(new T.Vector3()),height=bounds.max.y-bounds.min.y;
  const normal=new T.Matrix4().makeTranslation(-center.x,-bounds.min.y,-center.z);
  // Staggered western and southern tree belt, outside the playing oval.
