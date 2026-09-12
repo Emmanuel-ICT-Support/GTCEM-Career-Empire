@@ -1,6 +1,7 @@
+import {polishGround} from './environment/ground-polish.js?v=3';
 import * as T from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
-import {addSurroundings} from './environment/surroundings.js';
+import {addSurroundings} from './environment/surroundings.js?v=layout-review3';
 export async function integrateEnvironment(world){
 const plantInstances=[];const basePhase=world.phase;
 const presets={
@@ -41,16 +42,16 @@ function apply(name){const p=presets[name];basePhase(name);world.town.background
  plantInstances.forEach(({o,matrices})=>{matrices.forEach(({i,m})=>{const n=m.clone();n.scale(new T.Vector3(p.size,p.size,p.size));o.setMatrixAt(i,n);});o.instanceMatrix.needsUpdate=true;o.computeBoundingSphere();});
  world.town.traverse(o=>{if(o.isMesh){for(const m of (Array.isArray(o.material)?o.material:[o.material])){if(m.map?.image?.src?.includes('grass-ecc-campus'))m.color.set(p.grass);}}});world.town.traverse(o=>{if(o.isDirectionalLight){o.color.set(p.sun);o.intensity=p.power;o.position.fromArray(p.p);o.shadow.radius=p.radius;if(o.shadow.mapSize.x!==p.map){o.shadow.mapSize.set(p.map,p.map);o.shadow.map?.dispose();o.shadow.map=null;o.shadow.needsUpdate=true;}}if(o.isHemisphereLight){o.color.set(p.sky);o.groundColor.set(p.ground);o.intensity=p.fill;}});}
 
-const surroundings=await addSurroundings(world.town);capturePlants();world.phase=apply;
+const surroundings=await addSurroundings(world.town);polishGround(world.town);capturePlants();world.phase=apply;
 // Closed reference building footprint where the approved Media exterior meets the playable edge.
-world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(10.95,3.6,3.25).setTranslation(-32,3.6,21).setRotation({x:0,y:Math.sin(-.6/2),z:0,w:Math.cos(-.6/2)}));
+world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(10.95,3.6,3.25).setTranslation(-4,3.6,-37).setRotation({x:0,y:1,z:0,w:0}));
 // Newly accessible exteriors remain solid; the playing surface stays open.
 const block=(x,y,z,w,h,d)=>world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(w/2,h/2,d/2).setTranslation(x,y,z));
-block(-49,2.8,-11.68,21.25,5.6,5.95);
-block(-40.8,3.5,-11.4,3.83,7,5.78);
-block(-40.755,2.4,-16.78,3.74,4.8,2.98);
+block(18.68,2.8,-53,5.95,5.6,21.25);
+block(18.4,3.5,-44.8,5.78,7,3.83);
+block(23.78,2.4,-44.755,2.98,4.8,3.74);
 block(43,1.4,-26,12,2.8,3);
-for(const z of [14,72])for(const dx of [-7,-2.4,2.4,7])block(-54+dx,2,z,.12,4,.12);
+for(const x of [-18,10])for(const dz of [-3.8,-1.3,1.3,3.8]){const h=Math.abs(dz)<2?4:2.5;block(x,h/2,-54+dz,.12,h,.12);}
 for(const {x,z} of surroundings.userData.treePlacements)world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cylinder(2,.28).setTranslation(x,2,z));
 
 }

@@ -1,10 +1,10 @@
 import {createJoystick} from './joystick.js?v=1';
-import {integrateEnvironment} from './environment.js?v=combined1';
+import {integrateEnvironment} from './environment.js?v=environment-final1';
 import {CHAPEL} from './chapel.js?v=chapel1';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=est-release41';
+import {createWorlds} from './world.js?v=layout-review3';
 import {LEGACY,EST} from './destinations.js?v=ecc1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260910-schoolboy1';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
@@ -123,7 +123,7 @@ function setMode(next){
   else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(worlds.position(space()));yaw=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
   resize();
 }
-function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='chapel'?'A PLACE TO PAUSE':mode==='interior'?'THE LEARNING HALL':'CAREER EMPIRE · YOUR FIRST DAY';$('location-subtitle').textContent=mode==='chapel'?'Quiet reflection / Take your time':mode==='interior'?'CORE / TERM / VTCS / BOSS':'Arrival Gardens / Avatar Studio';}
+function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='chapel'?'A PLACE TO PAUSE':mode==='interior'?'THE LEARNING HALL':'CAREER EMPIRE · YOUR FIRST DAY';$('location-subtitle').textContent=mode==='chapel'?'Quiet reflection / Take your time':mode==='interior'?'CORE / TERM / VTCS / BOSS':title==='Home Base'?'ECC welcome / Chapel / Campus paths':'Arrival Gardens / Avatar Studio';}
 function leaveStudio(callback){if(dirty()){pendingLeave=callback;$('leave-dialog').showModal();}else callback();}
 function saveDraft(){if(!hasCharacterKit(draft.body)){toast('Wait for the selected body to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{localStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
 function openStudio(){if(mode==='studio')return;setMode('studio');}
@@ -154,7 +154,7 @@ function positionESTPlayButton(){const button=$('est-watch');if(mode!=='interior
 
 function reflect(){keys.clear();joystick.reset();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
 function returnTown(){if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='interior')destination('est');else setMode('town');}
-function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=()=>{setMode('town');worlds.teleport(false,which==='est'?EST.x:-3.2,which==='est'?EST.z:-1.7);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:Math.PI;yaw=which==='est'?EST.yaw:1;setLocation(which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
+function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=()=>{setMode('town');worlds.teleport(false,which==='est'?EST.x:-3.2,which==='est'?EST.z:-1.7);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:Math.PI;yaw=which==='est'?EST.yaw:.4;setLocation(which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
 function resetStudioCamera(){const distance=isMobile()?4.25:4.0;camera.position.set(.12,portrait?1.63:1.3,portrait?1.8:distance);orbit.target.set(0,portrait?1.48:.95,0);orbit.minDistance=1.15;orbit.maxDistance=5.2;orbit.maxPolarAngle=Math.PI*.59;orbit.minPolarAngle=Math.PI*.28;orbit.update();}
 function resize(){
   if(!renderer)return;viewport={width:window.innerWidth,height:$('experience').clientHeight};renderer.setSize(viewport.width,viewport.height,false);
@@ -167,7 +167,8 @@ function updateCamera(dt,snap=false){
   if(mode==='studio'){orbit.update();return;}
   const p=actor.model.position;
   if(watchingEST){const viewingDistance=Math.max(7.9,6.8/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect));desiredCamera.set(0,3.3,-6.48+viewingDistance);lookAt.set(0,3.3,-6.48);camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);return;}
-  if(aerial){if(mode==='chapel'){desiredCamera.set(7,5,8);lookAt.set(0,1,-3);}else if(mode==='interior'){desiredCamera.set(8,12,13);lookAt.set(0,0,0);}else{desiredCamera.set(-63,77,91);lookAt.set(-23,0,18);}}
+  if(mode==='town'&&worlds.town.fog){worlds.town.fog.near=aerial?200:64;worlds.town.fog.far=aerial?320:175;}
+  if(aerial){if(mode==='chapel'){desiredCamera.set(7,5,8);lookAt.set(0,1,-3);}else if(mode==='interior'){desiredCamera.set(8,12,13);lookAt.set(0,0,0);}else{desiredCamera.set(-63,87,65);lookAt.set(-20,0,-12);}}
   else if(mode==='town'){
     // Keep head-to-foot framing steady through the Studio approach and camera turns.
     const distance=6.4;
@@ -186,8 +187,9 @@ function updateMission(){
  let done=false;try{done=localStorage.getItem('ce-arrival-complete-'+state.activeId)==='1';}catch{}
  const distance=Math.hypot(actor.model.position.x+12.4,actor.model.position.z-5);
  const near=distance<2.2;
- const title=done?'Your first step is saved':near?'Make this your future':'Find your place';
- const detail=done?'Your character is ready. Explore the gardens or continue to EST Prep.':near?'Open Avatar Studio. Choose your look, explore Future, then Save & return.':`Follow the shaded walk, then turn left to Avatar Studio · ${Math.ceil(distance)} m`;
+ const atWelcome=Math.hypot(actor.model.position.x+3.2,actor.model.position.z+1.7)<4;
+ const title=atWelcome?'Welcome to ECC':done?'Your first step is saved':near?'Make this your future':'Find your place';
+ const detail=atWelcome?'Explore the campus paths, or choose Chapel below for a quiet place to pause.':done?'Your character is ready. Explore the gardens or continue to EST Prep.':near?'Open Avatar Studio. Choose your look, explore Future, then Save & return.':`Follow the shaded walk, then turn left to Avatar Studio · ${Math.ceil(distance)} m`;
  if($('mission-title').textContent!==title)$('mission-title').textContent=title;
  if($('mission-detail').textContent!==detail)$('mission-detail').textContent=detail;
  $('mission-bar').style.width=done?'100%':near?'65%':`${Math.max(15,60-distance*3)}%`;
@@ -308,7 +310,8 @@ async function boot(){
     const rim=new THREE.DirectionalLight(0xcfe9f1,1.4);rim.position.set(3,3,-2);studio.add(rim);
     $('loading-message').textContent='Opening the complete campus and both outer buildings...';await worlds.loadScenery();if(worlds.scenery.status!=='ready')throw new Error('Campus buildings could not load. Reload to retry.');
     await integrateEnvironment(worlds);
-    worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');yaw=0;updateCamera(1,true);$('loading').hidden=true;icons();animate();
+    worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');yaw=0;updateCamera(1,true);$('loading').hidden=true;icons();
+    animate();
     // All campus destinations are loaded before the interactive scene is revealed.
     // Let the new player reach a stable town first. Choices then prepare in
     // the background before they are likely to open Avatar Studio.

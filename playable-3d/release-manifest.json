@@ -1,13 +1,13 @@
 {
-  "release": "ecc-campus-mobile-joystick-20260912",
+  "release": "ecc-campus-environment-polish-20260912",
   "changeId": "CE-CHANGE-20260911-46",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "f43672660b3191eda9b910fc98aafdfae44e3945",
-  "scope": "Approved campus surroundings and camera, walkable oval with staged tree boundary, Home Base welcome return and compact mobile guidance/settings. Remaining environment polish stays open. Touch-hold controls suppress native selection/callout/drag. Proportional phone thumb joystick with reset on release and screen changes.",
+  "baseCommit": "1fed18046baec0ecf9f1bb545c613f70ee85b9cf",
+  "scope": "Approved compact behind-Admin English/SPACE/oval layout, tree boundaries, ground/planting polish and welcome framing. Retains published phone joystick and touch fixes. Curriculum state timing and experimental avatars remain parked.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "849e0d26205ccb41e41ce958bf9de04354dd626cb3197ac8dfaaed47be425978"
+      "sha256": "0460e81ff17c1348743618e37b382401fdecedc1d841b1daf630199ab66c2ab0"
     },
     {
       "path": "arrival-precinct.js",
@@ -123,7 +123,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "acaaf13a2afb8f62e03425b471f5f203d59560b139b1d183a902804458dce5e2"
+      "sha256": "4871f7b14ab54c567008bf41423ca944435196b6eea1a47734fbc1c7edc2eaaa"
     },
     {
       "path": "chapel.js",
@@ -147,7 +147,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "69d66fd76832a952bb7733b52e34b5d1eec054b4be72693dfbbf229aee786caa"
+      "sha256": "047264bced283b929f63e5fbb10a1d969fde9638f60676a08661fb7dd2e2a4a6"
     },
     {
       "path": "environment/assets/SPACE-reference.jpg",
@@ -167,7 +167,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "abef21bfc659728126db39597adb403d442c193d8c835cd12f3fd60bda6d7c9d"
+      "sha256": "f35fd7f2e4c6c45658df25f55348af8280af8d680d129cc044e368e14214d58c"
     },
     {
       "path": "est-wall-video.js",
@@ -175,7 +175,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "455434fdce49d4aa6dc281448d935c3afd9e8712204f10fa98933b8bbc62dfb7"
+      "sha256": "fd3943a24bb891c596d866598ef401a23d3f7049798bbbbbf11d64c024364850"
     },
     {
       "path": "mobile-play.css",
@@ -191,11 +191,15 @@
     },
     {
       "path": "world.js",
-      "sha256": "b4b6522c23d4ce903bcb98494c0bc42c56c0783382a59292991996feb87b8080"
+      "sha256": "a13cb9fe70253724cca4b1aadc0d71cf009f8063f6ee66171949a48b877bf6f9"
     },
     {
       "path": "joystick.js",
       "sha256": "70a748903a79f15a5582d83fa282c407a0414e3e94ecb9ecc63397d5a1385613"
+    },
+    {
+      "path": "environment/ground-polish.js",
+      "sha256": "a0d66d498d86389bc26d3350fbfed61332a93d8f40a3a4654f98f6972baa2616"
     }
   ],
   "estVideo": {

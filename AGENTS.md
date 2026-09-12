@@ -176,3 +176,7 @@ Tania reports holding an arrow selects it as an item. Disable WebKit selection, 
 
 ## Phone thumb joystick
 Tania accepts the proposed joystick. Mobile and short-landscape layouts replace arrows with a 120px captured-pointer joystick, 12% dead zone and proportional speed. Diagonal input is capped at walking speed. Release/cancel/lost capture, blur/visibility, resize, screen/destination and modal entry reset input. Desktop arrows and keyboard remain. Browser phone-size drag verified diagonal travel, centred inactive knob after release and Home Base welcome return. Physical-phone review pending.
+
+
+## Environment polish release candidate — 12 September 2026
+Approved steps 1/2 and corrected behind-Admin layout merged onto 1fed180, retaining joystick/touch fixes. Source, unit, movement and responsive/destination checks recorded in docs/production/environment-release-20260912.md. No review/probe code ships. Physical-phone performance remains unverified; avatar and curriculum timing parked. Publication verification pending.
