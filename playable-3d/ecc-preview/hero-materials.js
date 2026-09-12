@@ -11,15 +11,15 @@ function maps(kind){
  for(const c of [base,height])c.width=c.height=size;
  const ctx=base.getContext('2d'),bc=ctx.createImageData(size,size),hc=ctx.createImageData(size,size);
  const paving=kind==='paving',row=paving?256:128,col=paving?512:256;
- const palette=kind==='brick'?[213,197,163]:paving?[194,181,153]:[205,183,143];
+ const palette=kind==='brick'?[191,175,142]:paving?[186,173,145]:[193,171,130];
  // Sample the same 1024-unit authored pattern: courses and paving keep their world scale.
  for(let py=0;py<size;py++)for(let px=0;px<size;px++){
   const x=px*2,y=py*2;
   const iy=Math.floor(y/row),sx=(x+(iy%2)*col/2)%1024,ix=Math.floor(sx/col),fx=sx%col,fy=y%row;
   const edge=Math.min(fx,col-fx,fy,row-fy),joint=edge<2.4,bevel=Math.min(1,edge/6);
-  const grain=(noise(x,y,32,2)-.5)*12+(noise(x,y,8,3)-.5)*7+(hash(x,y,4)-.5)*6;
-  const strata=Math.sin(y*.105+noise(x,y,64,5)*5)*1.8;
-  const block=(hash(ix,iy,9)-.5)*15,shade=.82+.18*bevel;
+  const grain=(noise(x,y,128,6)-.5)*15+(noise(x,y,32,2)-.5)*22+(noise(x,y,8,3)-.5)*12+(hash(x,y,4)-.5)*11;
+  const strata=Math.sin(y*.105+noise(x,y,64,5)*5)*3.5;
+  const block=(hash(ix,iy,9)-.5)*22,shade=.82+.18*bevel;
   const at=(py*size+px)*4;
   for(let k=0;k<3;k++)bc.data[at+k]=joint?[135,127,111][k]:(palette[k]+block+grain+strata)*shade;
   const h=joint?55:159+grain*.55+bevel*20;
@@ -45,12 +45,15 @@ function interiorMap(){
  x.globalAlpha=.18;const sky=x.createLinearGradient(0,0,0,512);sky.addColorStop(0,'#e5f2fb');sky.addColorStop(.5,'#94bed0');sky.addColorStop(1,'#486a62');x.fillStyle=sky;x.fillRect(0,0,512,512);x.globalAlpha=1;
  const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;map.anisotropy=4;return map;
 }
-export function upgradeMaterials(m){
+export async function upgradeMaterials(m){
  for(const key of ['stone','brick','paving']){const old=m[key];old.map?.dispose();Object.assign(old,maps(key));old.color.set(0xffffff);old.bumpScale=key==='paving'?.025:.045;old.roughness=.95;old.needsUpdate=true;}
  m.teal.color.set(0x294d60);m.teal.roughness=.52;m.navy.color.set(0x263f50);m.navy.roughness=.47;
  m.white.color.set(0xc8c4b5);m.wood.color.set(0x967044);m.wood.roughness=.82;
- m.glass.color.set(0xb8d8e0);m.glass.opacity=.22;m.glass.roughness=.15;m.glass.metalness=.35;m.glass.depthWrite=false;
+ m.glass.name='ECC courtyard glass';m.glass.color.set(0xa1b6b4);m.glass.opacity=.20;m.glass.roughness=.12;m.glass.metalness=.4;m.glass.depthWrite=false;m.glass.envMapIntensity=.9;
+ upgradeRoof(m.roof);
+ m.wood.map=timberMap();m.wood.color.set(0x9c805b);m.wood.bumpMap=m.wood.map;m.wood.bumpScale=.012;
  m.room=new T.MeshStandardMaterial({map:interiorMap(),roughness:.32,metalness:.12,color:0xe8e5d5});
+ await scannedSandstone(m);
  m.reveal=new T.MeshStandardMaterial({color:0x4b514b,roughness:.94});
 }
 
@@ -86,4 +89,25 @@ export function addHeroDetails({source,box,mesh,m,beds}){
  const map=new T.CanvasTexture(c);const ao=new T.MeshBasicMaterial({map,transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-1,toneMapped:false});
  for(const [x,z,w,d]of [[0,-4.55,9.4,5.6],[6.45,-1.45,5.8,7.8],[-6,-1,7.4,7.4],...beds]){const p=mesh(new T.PlaneGeometry(w+.7,d+.7),ao,x,.052,z);p.rotation.x=-Math.PI/2;p.castShadow=false;}
  source.userData.heroStandard='CE-VISUAL-20260913-HERO';
+}
+
+function timberMap(){
+ const c=document.createElement('canvas');c.width=c.height=256;const a=c.getContext('2d');a.fillStyle='#c6ad82';a.fillRect(0,0,256,256);
+ for(let i=0;i<260;i++){const x=hash(i,1)*256;a.strokeStyle=i%3?'#74563b35':'#eedab760';a.lineWidth=.4+hash(i,4);a.beginPath();a.moveTo(x,0);a.bezierCurveTo(x+hash(i,7)*10,85,x-5,172,x,256);a.stroke();}
+ const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;map.wrapS=map.wrapT=T.RepeatWrapping;map.anisotropy=8;return map;
+}
+function upgradeRoof(material){
+ const size=512,c=document.createElement('canvas'),h=document.createElement('canvas');c.width=c.height=h.width=h.height=size;const a=c.getContext('2d'),b=h.getContext('2d'),co=a.createImageData(size,size),hi=b.createImageData(size,size);
+ for(let y=0;y<size;y++)for(let x=0;x<size;x++){const tx=x%32/32,ty=y%96/96,crest=Math.pow(Math.sin(tx*Math.PI),.65),lap=ty<.055?-.25:0,variation=(hash(Math.floor(x/32),Math.floor(y/96),31)-.5)*14,grain=(hash(x,y,10)-.5)*13,shade=.72+.28*crest+lap;const i=(y*size+x)*4;for(let k=0;k<3;k++){co.data[i+k]=([143,91,62][k]+variation+grain)*shade;hi.data[i+k]=90+crest*105+lap*100;}co.data[i+3]=hi.data[i+3]=255;}
+ a.putImageData(co,0,0);b.putImageData(hi,0,0);const map=new T.CanvasTexture(c),bump=new T.CanvasTexture(h);map.colorSpace=T.SRGBColorSpace;for(const t of [map,bump]){t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=8;}material.map?.dispose();material.map=map;material.bumpMap=bump;material.bumpScale=.065;material.roughness=.91;
+}
+
+async function scannedSandstone(m){
+ const loader=new T.TextureLoader();
+ try{
+  const [map,normalMap,packed]=await Promise.all(['diffuse','normal','arm'].map(name=>loader.loadAsync(new URL(`./assets/courtyard/sandstone-${name}.jpg`,import.meta.url).href)));
+  map.colorSpace=T.SRGBColorSpace;
+  for(const t of [map,normalMap,packed]){t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(2/3,2/3);t.anisotropy=8;}
+  for(const key of ['stone','brick']){const a=m[key];a.map?.dispose();a.bumpMap?.dispose();a.map=map;a.bumpMap=null;a.normalMap=normalMap;a.normalScale.set(.65,.65);a.aoMap=packed;a.aoMapIntensity=.7;a.roughnessMap=packed;a.roughness=1;a.needsUpdate=true;a.userData.source='Poly Haven sandstone_blocks_08 / CC0';}
+ }catch(error){console.warn('ECC sandstone maps unavailable; retained procedural fallback.',error);}
 }

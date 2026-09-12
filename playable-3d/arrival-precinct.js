@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {addCourtyardPlanting} from './ecc-preview/courtyard-detail.js?v=courtyard1';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 // One bounded, walkable precinct. Existing Studio interaction remains at (-12.4, 5).
 export function arrivalPrecinct(town,stoneTexture,sign){
@@ -61,7 +62,7 @@ export function arrivalPrecinct(town,stoneTexture,sign){
  const plants=[];
  for(const [x,z,w,d] of [[-10.6,11.2,2.1,7],[-3.3,12,2.7,8],[-10.7,1,3,3],[-3.7,2,3.1,3.8],[-10.7,20.6,3.5,2.2]]){
   box(root,x,.22,z,w,.44,d,stone);box(root,x,.46,z,w-.2,.08,d-.2,soil);
-  for(let i=0;i<w*d*13;i++)plants.push([x+(random()-.5)*(w-.35),z+(random()-.5)*(d-.3),.3+random()*.6]);
+  for(let i=0;i<(z<3?0:w*d*13);i++)plants.push([x+(random()-.5)*(w-.35),z+(random()-.5)*(d-.3),.3+random()*.6]);
  }
  const leafGeo=new THREE.SphereGeometry(1,5,3);leafGeo.scale(.045,.42,.055);
  const foliage=new THREE.InstancedMesh(leafGeo,mat(0x647c45),plants.length*7);foliage.castShadow=foliage.receiveShadow=true;const transform=new THREE.Object3D();let n=0;
@@ -71,7 +72,9 @@ export function arrivalPrecinct(town,stoneTexture,sign){
  for(const z of [8,15]){box(root,-4.5,.55,z,.48,.13,2,wood);for(const dz of [-.7,.7])box(root,-4.5,.27,z+dz,.38,.5,.1,navy);}
  for(const z of [6.5,9,13.8,16.2]){box(root,-5,.36,z,.11,.72,.11,navy);box(root,-5,.67,z,.13,.1,.13,warm);}
 // Fine leaves and pale branching trunks for the close-up native garden trees.
- const treeSites=[[-11.3,10,6.8],[-2.8,13,7.4],[-11,0,6.6],[-3,1,7.2]];
+ const treeSites=[[-11.3,10,6.8],[-2.8,13,7.4]];
+ // Courtyard-facing beds receive the same detailed kit; roots, bed footprints and routes stay fixed.
+ addCourtyardPlanting(root,[[-10.7,1,3,3],[-3.7,2,3.1,3.8]],{treeSites:[[-11,0,1.25,.4],[-3,1,1.38,2.3]],baseY:.5});
  const leafShape=new THREE.SphereGeometry(1,5,3);leafShape.scale(.055,.22,.025);
  const canopy=new THREE.InstancedMesh(leafShape,mat(0x627747),treeSites.length*850);canopy.castShadow=true;let li=0;
  for(const [x,z,h] of treeSites){

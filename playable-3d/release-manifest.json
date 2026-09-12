@@ -1,17 +1,17 @@
 {
-  "release": "ecc-hero-pilot-20260913-local",
+  "release": "ecc-courtyard-slice-20260913-local",
   "changeId": "CE-CHANGE-20260913-47",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "d442671e21c1df623309c9fda279f6cb85fa385e",
-  "scope": "ECC hero-fidelity pilot: richer materials, glazing/reveals, roof/soffit detail, existing-bed planting, warm directional daylight, exact batching and spatial instance culling. Preserves accepted layout, connected Chapel/Admin/Services, gameplay and original GLBs.",
+  "scope": "One playable ECC courtyard slice: recessed rooms/glazing, photographed sandstone PBR, roof/timber/slatted details, native leaf/bark/grass kit in ECC and two existing foreground beds, directional sunlight/fill balance. Gameplay and accepted collision footprints retained. Below final hero target; no wider rollout or publication.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "1960d0a844060f4bc6ee344668d4e630b849b7276d63031f270dbfecb4c44ed2"
+      "sha256": "595066037d876a021d4919a60d0f1a5e312d7b42781442d402cc5243cfc68785"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "990306c9ea507b2468a781c6dbd10764b71f9110516ded74d5febda348b48790"
+      "sha256": "6d2f0f4d2e1cd8c8fb7400d10d8c9e1e56bbc85044fb6e87309828cde3f604c6"
     },
     {
       "path": "assets/campus-buildings/careers.glb",
@@ -142,16 +142,40 @@
       "sha256": "211e78146e2b39d3fcee8a76109ac5572dfaac28b7fa60d38502af2716c80f0d"
     },
     {
+      "path": "ecc-preview/assets/courtyard/README.md",
+      "sha256": "5e331b98f10c2b77c17eaae3afbb080e88d6c59002c0e6fc1c27387bf29c0b8b"
+    },
+    {
+      "path": "ecc-preview/assets/courtyard/provenance.json",
+      "sha256": "8e809ac6f8093ad7eefe9cf3f6d95d3783aca5def9097aca918bbf39e5963625"
+    },
+    {
+      "path": "ecc-preview/assets/courtyard/sandstone-arm.jpg",
+      "sha256": "4a211353047f52b9f0cf545e669fa8c29ac0d4ca87dd1f74e3a17f13d9a5b50d"
+    },
+    {
+      "path": "ecc-preview/assets/courtyard/sandstone-diffuse.jpg",
+      "sha256": "0cac65461ba33003b8a27b03c2b87f3393a824a9a98036c4c8de6182a1449369"
+    },
+    {
+      "path": "ecc-preview/assets/courtyard/sandstone-normal.jpg",
+      "sha256": "1203d5300dfc717db67220531fcdad75214d48b98d21114a155b3f01d54ab012"
+    },
+    {
+      "path": "ecc-preview/courtyard-detail.js",
+      "sha256": "4f096e8bbd046ba16eabc7a0148aeaeb5ed557836411eb1f9743b85b930dd4d4"
+    },
+    {
       "path": "ecc-preview/hero-materials.js",
-      "sha256": "84c27b6e800358f77356abff9bf0057314d53086d43203363213e32f94be75a1"
+      "sha256": "fdee1297d1efc699604deac0b433f340579e10855f5e0f03b0984455781db15a"
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "0d8df0015e6f0d8bef84ec037e4bb8091c00050980df509c9bbc527c5288ace1"
+      "sha256": "1666ed52988ec3678261fa3b4db3279de1a3199d496df41a989afe3714934943"
     },
     {
       "path": "environment.js",
-      "sha256": "4e75f5b6218cca629720c939ef14acf28bb57c7cbd0768ef9b2fe160a12c5514"
+      "sha256": "5d132c09d41fc98b772755a9c7088a3d3af81fbe8d347d734cb1a7eb98e86a64"
     },
     {
       "path": "environment/assets/SPACE-reference.jpg",
@@ -187,7 +211,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "5762b38c6d4c6c7d5b0949f82631fe479bb7f942393f4a5ceb69035f8fe9b6ff"
+      "sha256": "a9ed43480b461a22796d53d01af85cf88d36f46a51d37a0b7640694a3ea37c36"
     },
     {
       "path": "joystick.js",
@@ -207,7 +231,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "d62a533071addb1b681edbd898e6f77212f0626c17f13c01674c4f07dcc39305"
+      "sha256": "690707f6df61f5a4451d118ae0332842bac996d24d3c6b55b2043b4d6bb6b288"
     }
   ],
   "estVideo": {
@@ -217,5 +241,6 @@
     "width": 1280,
     "height": 720
   },
-  "status": "local-candidate-not-published"
+  "status": "local-candidate-not-published",
+  "pilotBaseCommit": "a2794e42c359ed930124e34b459d71bcc35216ef"
 }

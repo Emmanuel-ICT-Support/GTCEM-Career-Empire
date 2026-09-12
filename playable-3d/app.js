@@ -1,10 +1,10 @@
 import {createJoystick} from './joystick.js?v=1';
-import {integrateEnvironment} from './environment.js?v=ecc-hero1';
+import {integrateEnvironment} from './environment.js?v=ecc-courtyard1';
 import {CHAPEL} from './chapel.js?v=chapel1';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=hero1';
+import {createWorlds} from './world.js?v=courtyard1';
 import {LEGACY,EST} from './destinations.js?v=ecc1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260910-schoolboy1';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
@@ -287,7 +287,8 @@ function animate(){
   updateCamera(dt);positionESTPlayButton();renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   let scene=mode==='studio'?studio:activeScene();
   if(mode==='studio'){const mobile=isMobile();renderer.setViewport(0,mobile?viewport.height*.43:0,mobile?viewport.width:viewport.width-(viewport.width>900?364:316),mobile?viewport.height*.57:viewport.height);}
-  renderer.toneMappingExposure=mode==='town'?1:1.03;renderer.render(scene,camera);frames++;
+  renderer.toneMappingExposure=mode==='town'?1:1.03;
+  renderer.render(scene,camera);frames++;
   if(now-metricsTime>1){
     const gl=renderer.getContext(),pixels=new Uint8Array(4*24*24),colours=new Set();
     for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
@@ -311,6 +312,10 @@ async function boot(){
     $('loading-message').textContent='Opening the complete campus and both outer buildings...';await worlds.loadScenery();if(worlds.scenery.status!=='ready')throw new Error('Campus buildings could not load. Reload to retry.');
     await integrateEnvironment(worlds);
     worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');yaw=0;updateCamera(1,true);$('loading').hidden=true;icons();
+    // A shareable, playable quality-review viewpoint; normal entry remains Arrival Gardens.
+    if(new URLSearchParams(location.search).get('view')==='ecc-courtyard'){
+      worlds.teleport(false,0,-2.8);actor.model.position.copy(worlds.position(false));yaw=0;aerial=false;setLocation('ECC Courtyard');updateCamera(1,true);
+    }
     animate();
     // All campus destinations are loaded before the interactive scene is revealed.
     // Let the new player reach a stable town first. Choices then prepare in
