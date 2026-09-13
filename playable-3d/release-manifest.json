@@ -1,13 +1,13 @@
 {
-  "release": "approved-ecc-exterior-20260913-r5",
-  "changeId": "CE-CHANGE-20260913-47",
+  "release": "approved-chapel-interior-20260913",
+  "changeId": "CE-CHANGE-20260913-49",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "61826d685d434ceb8ecedaf7adf5be5d7280b651",
-  "scope": "Approved campus retained; Tania-approved revision5 Chapel exterior, sharp Administration crests/signs, moved and angled complete welcome monument, matching Home Base/colliders. New Chapel interior work explicitly excluded until separate user publication approval.",
+  "baseCommit": "1ca602a59ef16a1dc64f79e9185a9e395f81a023",
+  "scope": "Separately approved Chapel interior: broad side-perspective room, bounded raised clerestory, four lower timber ceiling wings, warm lights/reflections, 98 seats and ceiling camera. Retains approved exterior and existing gameplay.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "126bd70b16186da5d54b2dd65c1031484a273622827b93508704091c940115d6"
+      "sha256": "76a53eca5e978e5a7273d2fc240cc0db79dfe4bfcc7d00a7096d87713f1e43ed"
     },
     {
       "path": "arrival-precinct.js",
@@ -127,7 +127,7 @@
     },
     {
       "path": "chapel.js",
-      "sha256": "d8094ac6c804dc788dbb17b1f43b8a698ec95f7bf70b46b2fa908169ac095f58"
+      "sha256": "4e057b3eb9800d7a94e65ae67ddffac0090891fe99e1ea9a1b1f788465361c30"
     },
     {
       "path": "characters.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "06ee0f534a6905a6e843ccc8273592124f7dfe7291afbf8bd5c11be1c732f4f2"
+      "sha256": "0547bf2edb51990890c49b13839eee4e11bddf01534f36121858d356720182e3"
     },
     {
       "path": "joystick.js",
@@ -322,12 +322,20 @@
       "sha256": "f03037ca7bad1e3eb7f4a63fa6084a8baabd5ba30d3c239a9a7f35705d873e26"
     },
     {
+      "path": "vendor/three/examples/jsm/lights/RectAreaLightTexturesLib.js",
+      "sha256": "8acc50043aebc3ff0f63e21607ef2394cda41d634f92093bcb7ad6f1d1e2eb11"
+    },
+    {
+      "path": "vendor/three/examples/jsm/lights/RectAreaLightUniformsLib.js",
+      "sha256": "494fef2d731ff1689050cc6040ad78d927c22b9125a12f532beb0374c2811c6e"
+    },
+    {
       "path": "vendor/three/examples/jsm/loaders/HDRLoader.js",
       "sha256": "d7053cfc4019f520335ae07e0fe82b4ef5a66b6766e8b253d066616184995e89"
     },
     {
       "path": "world.js",
-      "sha256": "e538877cfc26545b57987363132df788ebf2aba21e6b48a3b22c377cf4a47f7d"
+      "sha256": "0b2baecd4b51a6ab1df963355f0552421f98cabff5854ad1f7096a104161f368"
     }
   ],
   "estVideo": {
@@ -337,6 +345,6 @@
     "width": 1280,
     "height": 720
   },
-  "status": "Local implementation of approved visual standard; desktop browser checks recorded, physical-device performance unverified.",
+  "status": "Final appearance explicitly accepted by Tania; source, 14 unit tests, seven physics routes and browser checks pass. Publication verification pending.",
   "pilotBaseCommit": "a2794e42c359ed930124e34b459d71bcc35216ef"
 }
