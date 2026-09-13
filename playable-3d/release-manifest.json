@@ -1,13 +1,13 @@
 {
-  "release": "approved-campus-windows-20260913",
+  "release": "approved-ecc-exterior-20260913-r5",
   "changeId": "CE-CHANGE-20260913-47",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "d442671e21c1df623309c9fda279f6cb85fa385e",
-  "scope": "Tania-approved courtyard and campus standard; clearer campus glazing; oval-facing English and Media art/media displays; SPACE basketball practice courts; continuous non-overlapping paths; completed EST phone playback repair. Existing mechanics and recognition preserved. Includes the completed supplied cleaned ECC crest and architectural glass signage refinement (CE-CHANGE-20260913-49).",
+  "baseCommit": "61826d685d434ceb8ecedaf7adf5be5d7280b651",
+  "scope": "Approved campus retained; Tania-approved revision5 Chapel exterior, sharp Administration crests/signs, moved and angled complete welcome monument, matching Home Base/colliders. New Chapel interior work explicitly excluded until separate user publication approval.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "39e92dc39272f26656ff03c240276cc5b92907608e4c39e41305c880e7d2e304"
+      "sha256": "126bd70b16186da5d54b2dd65c1031484a273622827b93508704091c940115d6"
     },
     {
       "path": "arrival-precinct.js",
@@ -139,7 +139,7 @@
     },
     {
       "path": "ecc-preview/admin-signage.js",
-      "sha256": "ea8adb49e515b8868599246062eb0ac5a660da4ae77860c450caa48908a4eaf3"
+      "sha256": "cbe6b41e65b25b47817ab56db171a74d05f90b323fb65f792ae8e147377ccdac"
     },
     {
       "path": "ecc-preview/assets/ECC_Logo.png",
@@ -150,12 +150,20 @@
       "sha256": "ea4b15c15cd68f70d14285bc89d6ea5d9d7c6b30edfca149bfccd925f616c036"
     },
     {
+      "path": "ecc-preview/assets/authored-courtyard/chapel-etched-glass-v2.png",
+      "sha256": "4d91d224fec6b82bf07b5acea5fa14dc247799f0b0ff6701fd9f08e136905c45"
+    },
+    {
       "path": "ecc-preview/assets/authored-courtyard/chapel-recognition-source.png",
       "sha256": "920ffad8be0c46c3a6e1967e8d7c84331dab1c41c4443df68236150c7ad52b3d"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-courtyard-compressed.glb",
       "sha256": "70a645c368bb55ad7c96a94fd5564c63e29e295bf1569a811211b72c3b9f9aa6"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-v5-compressed.glb",
+      "sha256": "7563edf9322d7ab89bfb3fe171305911463d12f5b59178d9be2a18243f840df4"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/garden-reflections.hdr",
@@ -207,7 +215,7 @@
     },
     {
       "path": "ecc-preview/authored-courtyard.js",
-      "sha256": "1bb1f2bcf38483e575121c499d046ac49c9c3a6869d2c2cd0465806715f489c8"
+      "sha256": "3f0c7bd2df01fbc2b28d8211f3c36194d42fc068070136c04ff4478ee9401e2f"
     },
     {
       "path": "ecc-preview/authored-garden.js",
@@ -222,8 +230,12 @@
       "sha256": "1208a074ba2e0d6f77f494f1599d3b3b28c50d39c62e85610b8292592cbbc0ea"
     },
     {
+      "path": "ecc-preview/landmark-layout.js",
+      "sha256": "c19f5758afd182af3dab10e820371baf6c119d0e1c5dba5153cfbba1a5cd6e50"
+    },
+    {
       "path": "ecc-preview/model.js",
-      "sha256": "3e3eb015e3c438f6bc5c24b5006dcde1e39d6e21e64af001e43fc371c399fb51"
+      "sha256": "d22ab90add558ca73d2ba7eb6e97721cdc81e03ba7e2ef9cbf0e2238752ba105"
     },
     {
       "path": "environment.js",
@@ -283,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "8c5775b694e6bba60e83b5eb2792cc4703929a56e04577cf47492124736d0a29"
+      "sha256": "06ee0f534a6905a6e843ccc8273592124f7dfe7291afbf8bd5c11be1c732f4f2"
     },
     {
       "path": "joystick.js",
@@ -315,7 +327,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "f4456b59adb968da9578e4d5361ee44b911736a931c3ac732ce9d6fa49249c4a"
+      "sha256": "e538877cfc26545b57987363132df788ebf2aba21e6b48a3b22c377cf4a47f7d"
     }
   ],
   "estVideo": {

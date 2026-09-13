@@ -25,3 +25,23 @@ The completed CE-CHANGE-20260913-49 signage receipt now supplies all three match
 
 
 The completed diagnostic run returned 28 passed/9 failed. In addition to graphics timing stalls it exposed two concrete test-platform issues: Chapel screenshots used the macOS-only /private/tmp path, and Python's basic test server did not support media byte ranges (native video seeks reset to zero). The tests now save screenshots through Playwright's portable output path, and the local test server supports HTTP byte ranges as production does. Graphics-timeout limitations remain explicit; no full CI success is claimed.
+
+
+## Verified live checkpoint — supersedes earlier pending-release notes
+
+Tania-authorised campus release is live and verified at 61826d685d434ceb8ecedaf7adf5be5d7280b651 (2026-09-13T06:50:00Z); reviewed candidate b876b64238c5c6860919e66b618d4c6fe9b9ac9b, PR #11.
+
+English/Media retains its curved oval-facing facade with clearer glass and art/film/drawing displays. SPACE reveals two practice half courts, hoops and timber flooring. Campus glazing is clearer. Overlapping path geometry and six obsolete display ramps were removed to repair marked flicker. The accepted campus rollout, completed EST native-video repair and completed cleaned-crest/glass-signage receipt are included. Working gameplay, connected Chapel/Admin/Services and Home Base remain intact.
+
+Source/package checks (78 assets and 28 reachable modules), 14 unit tests, eleven real-physics routes and actual full-size browser views passed. All 78 published release files match the checked source; the deployed game was inspected in the browser. Final candidate hosted CI: 24 browser tests passed, one arrival-walk timeout, 12 not run. Prior diagnostics established severe GPU-free rendering stalls; the full suite has NOT passed. Reduced-graphics experiments were removed from final tests. Sustained physical school-device performance remains unverified.
+
+Live game: https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/
+
+Keep the newer crest sharpness/sign positioning and Chapel glazing/metal-figure follow-up separate until its owner completes and verifies it. Review sustained performance on a representative school laptop and phone; then reuse the approved architecture/material/planting standard for future destinations by fidelity tier. Preserve paused avatar/wardrobe and curriculum-state timing.
+
+Global refresh remains incomplete (lastSuccessfulRefreshAt is null). Retain missing /mnt/data source byte-identity checkpoints, the independently verified September 12 game-clone monitoring gap, and pending canonical reader integration/review receipts. Game deployment does not publish the Blueprint reader.
+
+The first automatic merge review rejected publication over validation prerequisites. Tania then confirmed that she did not intend to block the already requested merge; the same exact candidate merged successfully. No branch protection was changed. Failure history and renewed authorisation are preserved in the evidence.
+
+
+Closing record checks: planning exports regenerated; 26 scoped Blueprint tests pass (after replacing the now-published signage local preview with its live URL). Registry scan retains 10 folders, 5 discovered working copies, zero in-registry coverage failures, 173 pending intake observations and 12 pending changes. Independent September 12 game clone remains manually verified outside that registry. No global refresh or Blueprint reader publication. New signage/Chapel working changes are outside the released source and remain untouched.

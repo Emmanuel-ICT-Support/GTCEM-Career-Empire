@@ -1,0 +1,5 @@
+# Approved Chapel exterior and Administration sign release
+
+Tania explicitly approves and requests live publication of the completed revision5 Chapel exterior and Administration/welcome signage with the existing approved campus. Freeze revision5 receipt; exclude all NEW Chapel interior work until she explicitly authorises its publication. After this verified release, stop further development pending Tania’s update from the avatar software people. Existing full-hosted-CI and physical-device limits remain disclosed; preserve all source-access checkpoints.
+
+Source: private/production-evidence/2026-09-13/ecc-signage-chapel-correction/revision5/receipt.json. The released content is the reviewed exterior plus cache keys and manifest packaging. Original existing Chapel interior and its gameplay stay at baseline 61826d6. No interior follow-up assets are included. Reuse the recorded four route/collision checks, 14 unit tests and two exterior viewpoints; independently verify candidate source and actual published output.
