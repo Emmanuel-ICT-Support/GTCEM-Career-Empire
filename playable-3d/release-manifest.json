@@ -1,17 +1,17 @@
 {
-  "release": "ecc-courtyard-slice-20260913-local",
+  "release": "ecc-authored-courtyard-20260913-local",
   "changeId": "CE-CHANGE-20260913-47",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "d442671e21c1df623309c9fda279f6cb85fa385e",
-  "scope": "One playable ECC courtyard slice: recessed rooms/glazing, photographed sandstone PBR, roof/timber/slatted details, native leaf/bark/grass kit in ECC and two existing foreground beds, directional sunlight/fill balance. Gameplay and accepted collision footprints retained. Below final hero target; no wider rollout or publication.",
+  "baseCommit": "69cf624bbfe9cbe7b6e676535a2b109cf3b5def8",
+  "scope": "One authored ECC courtyard rebuild: connected architecture, revised roof forms, recessed rooms, textured paving/stone, native planting, warm lighting, right-hand welcome sign and supplied Chapel recognition photo. Existing gameplay preserved. Local review candidate; HERO acceptance and physical-device performance remain open.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "595066037d876a021d4919a60d0f1a5e312d7b42781442d402cc5243cfc68785"
+      "sha256": "fb3cc60d2719594f8d973f0986e7401f3f95bf7962fcd1e07fd50947a8110459"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "6d2f0f4d2e1cd8c8fb7400d10d8c9e1e56bbc85044fb6e87309828cde3f604c6"
+      "sha256": "120d3fe012d08ddce30a4ae4c2ce2bb65cc0a5fd2064625089c47d23a1b1da60"
     },
     {
       "path": "assets/campus-buildings/careers.glb",
@@ -142,6 +142,42 @@
       "sha256": "211e78146e2b39d3fcee8a76109ac5572dfaac28b7fa60d38502af2716c80f0d"
     },
     {
+      "path": "ecc-preview/assets/authored-courtyard/chapel-recognition-source.png",
+      "sha256": "920ffad8be0c46c3a6e1967e8d7c84331dab1c41c4443df68236150c7ad52b3d"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/ecc-courtyard-compressed.glb",
+      "sha256": "70a645c368bb55ad7c96a94fd5564c63e29e295bf1569a811211b72c3b9f9aa6"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/garden-reflections.hdr",
+      "sha256": "f8c7970483be873487fabc0f07891be7e1551220dba911ea9dadd56f8a336a00"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/provenance.json",
+      "sha256": "a12c396c689885272d7eac9bea3ff4a1224c1feae2ef4a6146fb3d26d756e252"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/reception-backwall.jpg",
+      "sha256": "6d239d0d4a38b09c3f5c9aa243f5fa6f03c5bfd0b91add25cd75f76cfd1e9126"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/scene-layout.json",
+      "sha256": "5c2cb0a9055b5c892d69d06065f594779e3b363fec639a4ba1377857098b74bb"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/stone-surface-arm.webp",
+      "sha256": "5a34519fc0db907a422af2c01d95c621d6e7c6cd6370e1f86311b1210fdc060b"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/stone-surface-diffuse.webp",
+      "sha256": "759d73c54542c9be330d1c066027a91ea685cbed7f73bc6513bfbc34c7c91299"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/stone-surface-normal.webp",
+      "sha256": "ae1f1ef6d293706d43e512b978b12171bf10904680a95af6cea2ce70a0f00acb"
+    },
+    {
       "path": "ecc-preview/assets/courtyard/README.md",
       "sha256": "5e331b98f10c2b77c17eaae3afbb080e88d6c59002c0e6fc1c27387bf29c0b8b"
     },
@@ -162,20 +198,28 @@
       "sha256": "1203d5300dfc717db67220531fcdad75214d48b98d21114a155b3f01d54ab012"
     },
     {
+      "path": "ecc-preview/authored-courtyard.js",
+      "sha256": "669b17db31430732f36acb9c5ad48eff0626da77846ed39e11a6657e3ea36d51"
+    },
+    {
+      "path": "ecc-preview/authored-garden.js",
+      "sha256": "f8e0b8e7d07d67c123095a02c99d5a4fef8afc9b6a7f4824f50889ac441e5ba4"
+    },
+    {
       "path": "ecc-preview/courtyard-detail.js",
       "sha256": "4f096e8bbd046ba16eabc7a0148aeaeb5ed557836411eb1f9743b85b930dd4d4"
     },
     {
       "path": "ecc-preview/hero-materials.js",
-      "sha256": "fdee1297d1efc699604deac0b433f340579e10855f5e0f03b0984455781db15a"
+      "sha256": "1208a074ba2e0d6f77f494f1599d3b3b28c50d39c62e85610b8292592cbbc0ea"
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "1666ed52988ec3678261fa3b4db3279de1a3199d496df41a989afe3714934943"
+      "sha256": "55c15e6fcfb4612bd987e8ee1d7852d919bb80fda19a9d0e126d16382d3c7db9"
     },
     {
       "path": "environment.js",
-      "sha256": "5d132c09d41fc98b772755a9c7088a3d3af81fbe8d347d734cb1a7eb98e86a64"
+      "sha256": "ff3336997052565950c5d787495f97b786f8b9100c02b5cd3b359354057cd228"
     },
     {
       "path": "environment/assets/SPACE-reference.jpg",
@@ -211,7 +255,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "a9ed43480b461a22796d53d01af85cf88d36f46a51d37a0b7640694a3ea37c36"
+      "sha256": "a36e4af1ec8de1df306ae538b763b79616ee9e952898e270a638a1c81afdd5ac"
     },
     {
       "path": "joystick.js",
@@ -230,8 +274,20 @@
       "sha256": "908cbb5475993ccefa95a0f2fbe3344d48ac86ffc26d6cfc1ede67f59fd5c967"
     },
     {
+      "path": "vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
+      "sha256": "cb08bf53ad8ad9693d8bb759b2dbade350eb38bcce63d005385e225b564c5f6a"
+    },
+    {
+      "path": "vendor/three/examples/jsm/libs/meshoptimizer-LICENSE.md",
+      "sha256": "f03037ca7bad1e3eb7f4a63fa6084a8baabd5ba30d3c239a9a7f35705d873e26"
+    },
+    {
+      "path": "vendor/three/examples/jsm/loaders/HDRLoader.js",
+      "sha256": "d7053cfc4019f520335ae07e0fe82b4ef5a66b6766e8b253d066616184995e89"
+    },
+    {
       "path": "world.js",
-      "sha256": "690707f6df61f5a4451d118ae0332842bac996d24d3c6b55b2043b4d6bb6b288"
+      "sha256": "e416a527e11034b4767f5e90d6e13325d0b9efa6db89d3ac59f270b6b418aa1f"
     }
   ],
   "estVideo": {

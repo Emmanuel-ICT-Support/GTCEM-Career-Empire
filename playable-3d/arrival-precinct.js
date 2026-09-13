@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {addCourtyardPlanting} from './ecc-preview/courtyard-detail.js?v=courtyard1';
+import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=5';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 // One bounded, walkable precinct. Existing Studio interaction remains at (-12.4, 5).
 export function arrivalPrecinct(town,stoneTexture,sign){
@@ -74,7 +74,7 @@ export function arrivalPrecinct(town,stoneTexture,sign){
 // Fine leaves and pale branching trunks for the close-up native garden trees.
  const treeSites=[[-11.3,10,6.8],[-2.8,13,7.4]];
  // Courtyard-facing beds receive the same detailed kit; roots, bed footprints and routes stay fixed.
- addCourtyardPlanting(root,[[-10.7,1,3,3],[-3.7,2,3.1,3.8]],{treeSites:[[-11,0,1.25,.4],[-3,1,1.38,2.3]],baseY:.5});
+ addAuthoredGarden(root,[[-10.7,1,3,3],[-3.7,2,3.1,3.8]],{treeSites:[[-11,0,1.25,.4],[-3,1,1.38,2.3]],baseY:.5});
  const leafShape=new THREE.SphereGeometry(1,5,3);leafShape.scale(.055,.22,.025);
  const canopy=new THREE.InstancedMesh(leafShape,mat(0x627747),treeSites.length*850);canopy.castShadow=true;let li=0;
  for(const [x,z,h] of treeSites){

@@ -1,10 +1,10 @@
 import {createJoystick} from './joystick.js?v=1';
-import {integrateEnvironment} from './environment.js?v=ecc-courtyard1';
+import {integrateEnvironment} from './environment.js?v=ecc-authored10';
 import {CHAPEL} from './chapel.js?v=chapel1';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=courtyard1';
+import {createWorlds} from './world.js?v=authored10';
 import {LEGACY,EST} from './destinations.js?v=ecc1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260910-schoolboy1';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
@@ -154,7 +154,7 @@ function positionESTPlayButton(){const button=$('est-watch');if(mode!=='interior
 
 function reflect(){keys.clear();joystick.reset();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
 function returnTown(){if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='interior')destination('est');else setMode('town');}
-function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=()=>{setMode('town');worlds.teleport(false,which==='est'?EST.x:-3.2,which==='est'?EST.z:-1.7);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:Math.PI;yaw=which==='est'?EST.yaw:.4;setLocation(which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
+function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=()=>{setMode('town');worlds.teleport(false,which==='est'?EST.x:4.9,which==='est'?EST.z:-1.7);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:Math.PI;yaw=which==='est'?EST.yaw:-.25;setLocation(which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
 function resetStudioCamera(){const distance=isMobile()?4.25:4.0;camera.position.set(.12,portrait?1.63:1.3,portrait?1.8:distance);orbit.target.set(0,portrait?1.48:.95,0);orbit.minDistance=1.15;orbit.maxDistance=5.2;orbit.maxPolarAngle=Math.PI*.59;orbit.minPolarAngle=Math.PI*.28;orbit.update();}
 function resize(){
   if(!renderer)return;viewport={width:window.innerWidth,height:$('experience').clientHeight};renderer.setSize(viewport.width,viewport.height,false);

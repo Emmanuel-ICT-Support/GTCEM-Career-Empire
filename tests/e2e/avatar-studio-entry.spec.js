@@ -5,7 +5,7 @@ test('Home Base returns to ECC welcome; Studio remains separate',async({page})=>
  await page.goto('/playable-3d/');
  await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true',{timeout:120000});
  await page.locator('#home-destination').click();
- await expect.poll(async()=>JSON.parse(await page.locator('#diagnostics').getAttribute('data-state')).position[0]).toBeCloseTo(-3.2,1);
+ await expect.poll(async()=>JSON.parse(await page.locator('#diagnostics').getAttribute('data-state')).position[0]).toBeCloseTo(4.9,1);
  await expect.poll(async()=>JSON.parse(await page.locator('#diagnostics').getAttribute('data-state')).position[2]).toBeCloseTo(-1.7,1);
  await expect(page.locator('#studio-panel')).toBeHidden();
  await expect(page.locator('#location-title')).toHaveText('Home Base');

@@ -8,7 +8,7 @@ const plantInstances=[];const basePhase=world.phase;
 const presets={
  disrepair:{sun:0xdce5ef,p:[-16,30,20],power:.65,sky:0xcbd8e5,ground:0x83918a,fill:1.45,exposure:1,map:2048,radius:4,size:.65,grass:0xb5bfaa,top:'#61758b',horizon:'#b9c5cc',cloud:'#748392',caption:'Disrepair · Muted overcast daylight, darker clouds and smaller plants (65%). Paths and entrances stay readable.'},
  growth:{sun:0xfff5e8,p:[-16,28,20],power:2,sky:0xdceeff,ground:0x8eaa8d,fill:1.7,exposure:1,map:2048,radius:3,size:.85,grass:0xd4e8c1,top:'#79b5d8',horizon:'#e6ece5',cloud:'#edf0ee',caption:'Growth · Fresh morning light and clearing skies. The same plants at 85% size; greens are recovering.'},
- flourishing:{sun:0xffe3ba,p:[-30,22,4],power:4.2,sky:0xe1f2ff,ground:0x98b697,fill:.48,exposure:1,map:2048,radius:2,size:1,grass:0xc5e9ae,top:'#459bce',horizon:'#c9e9f3',cloud:'#ffffff',caption:'Flourishing · Warm directional spring sunshine, healthy greens, full-size plants and a delicate rainbow.'}
+ flourishing:{sun:0xffdfb2,p:[-26,24,20],power:3.6,sky:0xe1f2ff,ground:0x98b697,fill:1.15,exposure:1,map:2048,radius:2,size:1,grass:0xc5e9ae,top:'#459bce',horizon:'#c9e9f3',cloud:'#ffffff',caption:'Flourishing · Warm directional spring sunshine, healthy greens, full-size plants and a delicate rainbow.'}
 };
 const skies={};
 function stageSky(name){
@@ -41,7 +41,7 @@ function capturePlants(){
 }
 function apply(name){const p=presets[name];basePhase(name);world.town.background=stageSky(name);if(world.town.fog)world.town.fog.color.set(p.horizon);
  plantInstances.forEach(({o,matrices})=>{matrices.forEach(({i,m})=>{const n=m.clone();n.scale(new T.Vector3(p.size,p.size,p.size));o.setMatrixAt(i,n);});o.instanceMatrix.needsUpdate=true;o.computeBoundingSphere();});
- world.town.traverse(o=>{if(o.isMesh){for(const m of (Array.isArray(o.material)?o.material:[o.material])){if(m.name==='ECC courtyard glass'){m.envMap=stageSky(name);m.needsUpdate=true;}if(m.map?.image?.src?.includes('grass-ecc-campus'))m.color.set(p.grass);}}});world.town.traverse(o=>{if(o.isDirectionalLight){o.shadow.normalBias=.016;o.color.set(p.sun);o.intensity=p.power;o.position.fromArray(p.p);o.shadow.radius=p.radius;if(o.shadow.mapSize.x!==p.map){o.shadow.mapSize.set(p.map,p.map);o.shadow.map?.dispose();o.shadow.map=null;o.shadow.needsUpdate=true;}}if(o.isAmbientLight)o.intensity=name==='flourishing'?.08:.35;if(o.isHemisphereLight){o.color.set(p.sky);o.groundColor.set(p.ground);o.intensity=p.fill;}});}
+ world.town.traverse(o=>{if(o.isMesh){for(const m of (Array.isArray(o.material)?o.material:[o.material])){if(m.name==='ECC courtyard glass'){m.envMap=stageSky(name);m.needsUpdate=true;}if(m.map?.image?.src?.includes('grass-ecc-campus'))m.color.set(p.grass);}}});world.town.traverse(o=>{if(o.isDirectionalLight){o.shadow.normalBias=.045;o.shadow.bias=-.00012;o.color.set(p.sun);o.intensity=p.power;o.position.fromArray(p.p);o.shadow.radius=p.radius;if(o.shadow.mapSize.x!==p.map){o.shadow.mapSize.set(p.map,p.map);o.shadow.map?.dispose();o.shadow.map=null;o.shadow.needsUpdate=true;}}if(o.isAmbientLight)o.intensity=name==='flourishing'?.08:.35;if(o.isHemisphereLight){o.color.set(p.sky);o.groundColor.set(p.ground);o.intensity=p.fill;}});}
 
 const surroundings=await addSurroundings(world.town);polishGround(world.town);
 partitionInstances(world.campus.group);partitionInstances(world.est);partitionInstances(surroundings,{filter:o=>o.name==='Oval edge eucalypts'});

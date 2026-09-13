@@ -91,7 +91,7 @@ export function addHeroDetails({source,box,mesh,m,beds}){
  source.userData.heroStandard='CE-VISUAL-20260913-HERO';
 }
 
-function timberMap(){
+export function timberMap(){
  const c=document.createElement('canvas');c.width=c.height=256;const a=c.getContext('2d');a.fillStyle='#c6ad82';a.fillRect(0,0,256,256);
  for(let i=0;i<260;i++){const x=hash(i,1)*256;a.strokeStyle=i%3?'#74563b35':'#eedab760';a.lineWidth=.4+hash(i,4);a.beginPath();a.moveTo(x,0);a.bezierCurveTo(x+hash(i,7)*10,85,x-5,172,x,256);a.stroke();}
  const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;map.wrapS=map.wrapT=T.RepeatWrapping;map.anisotropy=8;return map;
