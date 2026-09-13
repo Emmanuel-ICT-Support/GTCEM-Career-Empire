@@ -1,3 +1,19 @@
+# Current exterior release and interior hold — 13 September 2026
+
+Tania explicitly approves and requests live publication of the completed revision5 Chapel exterior and Administration/welcome signage with the existing approved campus. Freeze revision5 receipt; exclude all NEW Chapel interior work until she explicitly authorises its publication. After this verified release, stop further development pending Tania’s update from the avatar software people. Existing full-hosted-CI and physical-device limits remain disclosed; preserve all source-access checkpoints.
+
+# Verified campus release — 13 September 2026
+
+Tania-authorised campus release is live and verified at 61826d685d434ceb8ecedaf7adf5be5d7280b651 (2026-09-13T06:50:00Z); reviewed candidate b876b64238c5c6860919e66b618d4c6fe9b9ac9b, PR #11.
+
+Source/package checks (78 assets and 28 reachable modules), 14 unit tests, eleven real-physics routes and actual full-size browser views passed. All 78 published release files match the checked source; the deployed game was inspected in the browser. Final candidate hosted CI: 24 browser tests passed, one arrival-walk timeout, 12 not run. Prior diagnostics established severe GPU-free rendering stalls; the full suite has NOT passed. Reduced-graphics experiments were removed from final tests. Sustained physical school-device performance remains unverified.
+
+Keep the newer crest sharpness/sign positioning and Chapel glazing/metal-figure follow-up separate until its owner completes and verifies it. Review sustained performance on a representative school laptop and phone; then reuse the approved architecture/material/planting standard for future destinations by fidelity tier. Preserve paused avatar/wardrobe and curriculum-state timing.
+
+Global refresh remains incomplete (lastSuccessfulRefreshAt is null). Retain missing /mnt/data source byte-identity checkpoints, the independently verified September 12 game-clone monitoring gap, and pending canonical reader integration/review receipts. Game deployment does not publish the Blueprint reader.
+
+Read docs/production/campus-windows-release-20260913.md and its canonical evidence. Earlier no-publication/pending notes below are historical.
+
 # Campus windows release — 13 September 2026
 
 Tania explicitly authorises publishing the accepted campus rollout after clearer windows, English/Media interior art, SPACE basketball courts and marked path flicker fixes. The bounded release also preserves the completed concurrent EST phone-playback repair. Read docs/production/campus-windows-release-20260913.md and the canonical Blueprint. Geometry/14 unit checks and eleven physics routes pass; hosted browser CI and live verification remain pending. Preserve accepted layout, crest, Chapel image/role, Home Base and gameplay. Do not repeat appearance approval or paused work.
@@ -228,3 +244,18 @@ CE-CHANGE-20260913-48: existing wall film now streams from its native MP4 URL; P
 
 ## ECC Admin glass signage — 13 September 2026
 CE-CHANGE-20260913-49: Supplied cleaned ECC crest replaces the Admin gable crest; front Emmanuel sign now uses translucent teal glass in the original frame, with subtle iridescence, polished edges and stainless standoffs. Matching glass face on the existing Admin fascia retains ADMINISTRATION wording. Building geometry/style, original structural fascia, welcome frame/base/location and colliders are preserved. Local source and 14 unit checks pass; courtyard/Home Base/aerial/390px and Low/Growth views checked. See docs/production/ecc-admin-signage-20260913.md in canonical Blueprint, game docs/ecc-admin-signage-20260913.md and private evidence/ecc-admin-signage/final-receipt.json. Combined campus release MUST include new admin-signage.js and assets/admin-signage/cleaned-ecc-crest-source.png alongside authored-courtyard.js and refresh manifest. No independent deployment by signage task.
+
+
+Closing record checks: planning exports regenerated; 26 scoped Blueprint tests pass (after replacing the now-published signage local preview with its live URL). Registry scan retains 10 folders, 5 discovered working copies, zero in-registry coverage failures, 173 pending intake observations and 12 pending changes. Independent September 12 game clone remains manually verified outside that registry. No global refresh or Blueprint reader publication. New signage/Chapel working changes are outside the released source and remain untouched.
+
+
+ECC exterior follow-up (13 September 2026): locally implemented and tested window/statue → cross aperture → existing entrance; sharper crest/Admin text; welcome monument moved and angled with matching collider/Home Base. See docs/ecc-admin-signage-20260913.md and private/production-evidence/2026-09-13/ecc-signage-chapel-correction/revision2-receipt.json. User appearance review and follow-up release remain open. Interior deferred. Preserve this work in any combined release; do not infer global Blueprint refresh.
+
+
+Revision3 complete locally (13 September): moved Chapel entry to marked right-hand arc with tangent frame and fitted stone header; window/statue brought onto front; reference-shaped cross has shorter top, wider arms and longer lower stem. Actual physics verifies approach to relocated threshold, Home Base and courtyard routes. Existing unfinished-interior collision remains; Chapel destination button still opens existing interior. Latest source/master/hashes and view: private/production-evidence/2026-09-13/ecc-signage-chapel-correction/revision3/receipt.json. This supersedes revision2 doorway and opening positions. Final appearance review/publication remains open. Closing scan: 10 folders, 5 working copies, no registry coverage failures; 174 pending intakes and 12 pending changes remain (no global refresh).
+
+
+Revision4 complete locally (13 September): matched the pale/smooth cross-recess patches to limestone courses and reveals, and shifted the complete Chapel pergola 0.90m right so its post clears the cross from the courtyard. Previous doorway, window/statue, cross proportions and signage retained. Actual physics verifies approach to relocated threshold, Home Base and courtyard routes. Existing unfinished-interior collision remains; Chapel destination button still opens existing interior. Latest source/master/hashes and view: private/production-evidence/2026-09-13/ecc-signage-chapel-correction/revision4/receipt.json. This supersedes revision3 recessed lining/backing and pergola position. Final appearance review/publication remains open. Closing scan: 10 folders, 5 working copies, no registry coverage failures; 174 pending intakes and 12 pending changes remain (no global refresh).
+
+
+Revision5: cross contrast restored using deeper shaded limestone backing and restrained warm light; stray original door handles moved into relocated doorway. Pergola/other positions and colliders unchanged. Two courtyard angles visually verified; development source checks pass. Prior revision4 route/collision checks remain applicable (no collision changes). Correct root cause of marked lines: the two brushed-metal handles stayed at the former Chapel doorway; both are now transformed with the door. Temporary doorway-shadow suppression was removed. This supersedes revision4 low-contrast recess and the provisional liner/shadow diagnosis. Exact master, assets, hashes and screenshots: private/production-evidence/2026-09-13/ecc-signage-chapel-correction/revision5/receipt.json. Appearance review and publication remain open.

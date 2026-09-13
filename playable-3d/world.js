@@ -1,7 +1,7 @@
 import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
 import {createESTWallVideo} from './est-wall-video.js?v=est-mobile-20260913';
 import {buildChapel} from './chapel.js?v=chapel1';
-import {buildExterior} from './ecc-preview/model.js?v=windows1';
+import {buildExterior} from './ecc-preview/model.js?v=exterior5-20260913';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createCampusLandscape} from './campus-landscape.js?v=windows1';
 import {arrivalPrecinct} from './arrival-precinct.js?v=windows1';
@@ -391,7 +391,7 @@ export async function createWorlds(onProgress=()=>{}){
     }else if(!inside){
       block(0,.08,-7.6,19,.16,19);
       for(const b of outerAsset.obstacles){
-        if(b.type==='box')block(b.x,1.8,b.z-11,b.w,3.6,b.d);
+        if(b.type==='box'){const desc=RAPIER.ColliderDesc.cuboid(b.w/2,1.8,b.d/2).setTranslation(b.x,1.8,b.z-11);if(b.yaw)desc.setRotation({x:0,y:Math.sin(b.yaw/2),z:0,w:Math.cos(b.yaw/2)});world.createCollider(desc);}
         if(b.type==='circle')world.createCollider(RAPIER.ColliderDesc.cylinder(2,b.r).setTranslation(b.x,2,b.z-11));
         if(b.type==='chapel'){
           // Full exterior wall collision, preserving the recessed doorway but not opening an unfinished interior.
