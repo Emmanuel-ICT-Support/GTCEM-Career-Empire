@@ -1,13 +1,15 @@
+import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
+import {partitionInstances} from './environment/static-batching.js?v=1';
 import {polishGround} from './environment/ground-polish.js?v=3';
 import * as T from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
-import {addSurroundings} from './environment/surroundings.js?v=layout-review3';
+import {addSurroundings} from './environment/surroundings.js?v=windows1';
 export async function integrateEnvironment(world){
-const plantInstances=[];const basePhase=world.phase;
+const plantInstances=[];const basePhase=world.phase;let activePhase='flourishing';
 const presets={
  disrepair:{sun:0xdce5ef,p:[-16,30,20],power:.65,sky:0xcbd8e5,ground:0x83918a,fill:1.45,exposure:1,map:2048,radius:4,size:.65,grass:0xb5bfaa,top:'#61758b',horizon:'#b9c5cc',cloud:'#748392',caption:'Disrepair · Muted overcast daylight, darker clouds and smaller plants (65%). Paths and entrances stay readable.'},
  growth:{sun:0xfff5e8,p:[-16,28,20],power:2,sky:0xdceeff,ground:0x8eaa8d,fill:1.7,exposure:1,map:2048,radius:3,size:.85,grass:0xd4e8c1,top:'#79b5d8',horizon:'#e6ece5',cloud:'#edf0ee',caption:'Growth · Fresh morning light and clearing skies. The same plants at 85% size; greens are recovering.'},
- flourishing:{sun:0xfffdf4,p:[-16,42,20],power:2.65,sky:0xe1f2ff,ground:0x98b697,fill:1.8,exposure:1,map:2048,radius:3,size:1,grass:0xc5e9ae,top:'#459bce',horizon:'#c9e9f3',cloud:'#ffffff',caption:'Flourishing · Bright spring sunshine, healthy greens, full-size plants and a delicate rainbow. No sunset tint.'}
+ flourishing:{sun:0xffdfb2,p:[-26,24,20],power:3.6,sky:0xe1f2ff,ground:0x98b697,fill:1.15,exposure:1,map:2048,radius:2,size:1,grass:0xc5e9ae,top:'#459bce',horizon:'#c9e9f3',cloud:'#ffffff',caption:'Flourishing · Warm directional spring sunshine, healthy greens, full-size plants and a delicate rainbow.'}
 };
 const skies={};
 function stageSky(name){
@@ -32,17 +34,27 @@ function stageSky(name){
 }
 function capturePlants(){
  // ECC hero beds are authored separately from the surrounding landscape.
- world.town.traverse(o=>{if(!o.isInstancedMesh||o.name!=='Oval edge eucalypts'&&!/^Approved (tufted-grass|yellow-flower-clump|olive-shrub|mature-eucalypt-[ab]|small-multistem-a)$/.test(o.name))return;const matrices=[];for(let i=0;i<o.count;i++){const m=new T.Matrix4();o.getMatrixAt(i,m);matrices.push({i,m});}plantInstances.push({o,matrices});});
+ world.town.traverse(o=>{if(!o.isInstancedMesh||o.name!=='Oval edge eucalypts'&&!/^Courtyard (eucalyptus|native|lomandra)/.test(o.name)&&!/^Approved (tufted-grass|yellow-flower-clump|olive-shrub|mature-eucalypt-[ab]|small-multistem-a)$/.test(o.name))return;const matrices=[];for(let i=0;i<o.count;i++){const m=new T.Matrix4();o.getMatrixAt(i,m);matrices.push({i,m});}plantInstances.push({o,matrices});});
 
  // Landscape instances preserve original species, placement and soil-level pivot.
  const rocks=world.campus.placements.filter(p=>p.id==='boulder-a');
- world.campus.group.traverse(o=>{if(!o.isInstancedMesh)return;const matrices=[];for(let i=0;i<o.count;i++){const m=new T.Matrix4();o.getMatrixAt(i,m);const pos=new T.Vector3().setFromMatrixPosition(m);if(rocks.some(r=>Math.abs(r.x-pos.x)<.01&&Math.abs(r.z-pos.z)<.01))continue;matrices.push({i,m});}if(matrices.length)plantInstances.push({o,matrices});});
+ world.campus.group.traverse(o=>{if(!o.isInstancedMesh||o.userData.distanceDetail)return;const matrices=[];for(let i=0;i<o.count;i++){const m=new T.Matrix4();o.getMatrixAt(i,m);const pos=new T.Vector3().setFromMatrixPosition(m);if(rocks.some(r=>Math.abs(r.x-pos.x)<.01&&Math.abs(r.z-pos.z)<.01))continue;matrices.push({i,m});}if(matrices.length)plantInstances.push({o,matrices});});
 }
-function apply(name){const p=presets[name];basePhase(name);world.town.background=stageSky(name);if(world.town.fog)world.town.fog.color.set(p.horizon);
+function apply(name){activePhase=name;const p=presets[name];basePhase(name);world.town.background=stageSky(name);if(world.town.fog)world.town.fog.color.set(p.horizon);
  plantInstances.forEach(({o,matrices})=>{matrices.forEach(({i,m})=>{const n=m.clone();n.scale(new T.Vector3(p.size,p.size,p.size));o.setMatrixAt(i,n);});o.instanceMatrix.needsUpdate=true;o.computeBoundingSphere();});
- world.town.traverse(o=>{if(o.isMesh){for(const m of (Array.isArray(o.material)?o.material:[o.material])){if(m.map?.image?.src?.includes('grass-ecc-campus'))m.color.set(p.grass);}}});world.town.traverse(o=>{if(o.isDirectionalLight){o.color.set(p.sun);o.intensity=p.power;o.position.fromArray(p.p);o.shadow.radius=p.radius;if(o.shadow.mapSize.x!==p.map){o.shadow.mapSize.set(p.map,p.map);o.shadow.map?.dispose();o.shadow.map=null;o.shadow.needsUpdate=true;}}if(o.isHemisphereLight){o.color.set(p.sky);o.groundColor.set(p.ground);o.intensity=p.fill;}});}
+ world.town.traverse(o=>{if(o.isMesh){for(const m of (Array.isArray(o.material)?o.material:[o.material])){if(m.name==='ECC courtyard glass'){m.envMap=stageSky(name);m.needsUpdate=true;}if(m.map?.image?.src?.includes('grass-ecc-campus'))m.color.set(p.grass);}}});world.town.traverse(o=>{if(o.isDirectionalLight){o.shadow.normalBias=.045;o.shadow.bias=-.00012;o.color.set(p.sun);o.intensity=p.power;o.position.fromArray(p.p);o.shadow.radius=p.radius;if(o.shadow.mapSize.x!==p.map){o.shadow.mapSize.set(p.map,p.map);o.shadow.map?.dispose();o.shadow.map=null;o.shadow.needsUpdate=true;}}if(o.isAmbientLight)o.intensity=name==='flourishing'?.08:.35;if(o.isHemisphereLight){o.color.set(p.sky);o.groundColor.set(p.ground);o.intensity=p.fill;}});}
 
-const surroundings=await addSurroundings(world.town);polishGround(world.town);capturePlants();world.phase=apply;
+const surroundings=await addSurroundings(world.town,approvedPalette(world.est));polishGround(world.town);
+partitionInstances(world.campus.group,{filter:o=>!o.userData.distanceDetail});partitionInstances(world.est);partitionInstances(surroundings,{filter:o=>o.name==='Oval edge eucalypts'});
+capturePlants();world.phase=apply;
+// Keep the accepted courtyard's sun unchanged in its original review area.
+// Beyond it, translate the same light/target together so teaching buildings also receive shadows.
+const directional=[];world.town.traverse(o=>{if(o.isDirectionalLight)directional.push(o);});
+for(const sun of directional)if(!sun.target.parent)world.town.add(sun.target);
+const priorUpdate=world.update;world.update=(time,camera)=>{priorUpdate(time,camera);const pos=world.position(false),central=Math.abs(pos.x)<18&&pos.z>-22&&pos.z<22;const cx=central?0:Math.round(pos.x/2)*2,cz=central?0:Math.round(pos.z/2)*2;
+ for(const sun of directional){const p=presets[activePhase].p;sun.position.set(p[0]+cx,p[1],p[2]+cz);sun.target.position.set(cx,0,cz);sun.target.updateMatrixWorld();}
+};
+
 // Closed reference building footprint where the approved Media exterior meets the playable edge.
 world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(10.95,3.6,3.25).setTranslation(-4,3.6,-37).setRotation({x:0,y:1,z:0,w:0}));
 // Newly accessible exteriors remain solid; the playing surface stays open.
@@ -52,6 +64,7 @@ block(18.4,3.5,-44.8,5.78,7,3.83);
 block(23.78,2.4,-44.755,2.98,4.8,3.74);
 block(43,1.4,-26,12,2.8,3);
 for(const x of [-18,10])for(const dz of [-3.8,-1.3,1.3,3.8]){const h=Math.abs(dz)<2?4:2.5;block(x,h/2,-54+dz,.12,h,.12);}
+for(const [x,z,w,d]of surroundings.userData.extraBeds)block(x,.22,z,w,.44,d);
 for(const {x,z} of surroundings.userData.treePlacements)world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cylinder(2,.28).setTranslation(x,2,z));
 
 }

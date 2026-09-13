@@ -1,7 +1,7 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './campus-fixtures.js';
 
-// Exercise full-quality WebGL with hardware rendering on macOS; Linux CI uses ANGLE.
-test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:[]}});
+// Exercise the production world; hosted software raster limits are documented in campus-fixtures.js.
+
 
 test('startup warms avatar choices and keeps the studio and hall usable',async({page})=>{
   test.setTimeout(180000);

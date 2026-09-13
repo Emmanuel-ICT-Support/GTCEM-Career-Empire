@@ -1,3 +1,43 @@
+# Campus windows release — 13 September 2026
+
+Tania explicitly authorises publishing the accepted campus rollout after clearer windows, English/Media interior art, SPACE basketball courts and marked path flicker fixes. The bounded release also preserves the completed concurrent EST phone-playback repair. Read docs/production/campus-windows-release-20260913.md and the canonical Blueprint. Geometry/14 unit checks and eleven physics routes pass; hosted browser CI and live verification remain pending. Preserve accepted layout, crest, Chapel image/role, Home Base and gameplay. Do not repeat appearance approval or paused work.
+
+# Approved campus standard — rollout checkpoint, 13 September 2026
+
+Tania-approved courtyard af04666 is the playable visual benchmark. Its standard is now applied locally across Avatar Studio, SPACE, English/Media, Home Economics, Careers/EST, paths and native gardens. Eleven routes and scoped browser checks pass; no deployment.
+
+Keep the approved courtyard banked, review sustained school-device performance and complete normal release checks for the local campus rollout. Use the shared architecture/material/planting kit for future destination additions by fidelity tier. Paused avatar/wardrobe and curriculum-state timing remain untouched.
+
+Read docs/production/approved-standard-rollout-20260913.md. The governing acceptance is af04666; the new local rollout source is recorded in its final receipt. Preserve original assets, exact crest/Chapel photo, moved Home Base, accepted campus orientation, gameplay and paused work. No publication or global-refresh success. Current source and six unit checks pass; automated browser CI remains blocked at launch by macOS sandbox. Eleven physics routes and desktop/phone-size browser checks pass.
+
+# Approved courtyard standard and rollout — 13 September 2026
+
+Tania: “Next level good. that's a yes yes yes from me. Can you go ahead with that standard for the rest?”
+
+Courtyard **af04666** is now the approved playable visual benchmark. Apply that standard progressively to the rest of the existing world, preserving the accepted courtyard, gameplay, building recognition, exact crest, right-hand welcome sign and supplied Chapel image. Do not keep treating the courtyard as awaiting appearance approval. This approval does not assert a measured hero-art percentage, physical-device performance or publication.
+
+Current rollout: Avatar Studio and arrival garden, remaining ECC teaching buildings/approaches, supporting Careers/EST destinations and background edge by fidelity tier. Use the accepted asset/material kit, spatial batching and distance detail. Preserve paused avatar/wardrobe and curriculum-state timing. No new game mechanics.
+
+Read docs/production/approved-standard-rollout-20260913.md and existing pilot evidence. Global refresh remains incomplete and prior access checkpoints remain intact.
+
+## Prior checkpoint history
+
+# Current ECC authored rebuild — 13 September 2026
+
+Authored ECC courtyard rebuild is now a local playable quality candidate: editable Blender v4, coherent connected shell and tiled roofs, recessed rooms and photo-backed interiors, native planting, revised materials/light, right-hand welcome sign/Home Base and the supplied Chapel recognition photograph. HERO acceptance is still open; no deployment.
+
+Continue closing the remaining natural planting, close-up interior and Chapel source-resolution/modelled-detail gap in this same courtyard, and confirm sustained performance on school hardware before promoting it to the HERO benchmark. Avatar Studio exterior follows ECC acceptance; paused avatar/wardrobe and curriculum-state timing remain untouched.
+
+Read docs/production/ecc-hero-pilot-20260913.md and the rebuild evidence before further work. Final editable source is ECC-courtyard-master-v4.blend plus the runtime garden/material integration; master alone excludes runtime photo maps, plants, labels and lights. Preserve the exact original crest, all gameplay/paused work, the moved welcome position and user Chapel source. The photo is a low-resolution surface, not an exact 3D sculpture. Do not repeat the rejected roof or paving experiments.
+
+Same-camera screenshots and performance are retained in ecc-courtyard-rebuild. New runtime files total 5.82 MB; architecture compresses 9.25 to 2.22 MB. Short final desktop samples: median 53.5 FPS before and 41.5 after (variable; not a sustained device benchmark). Seven real-physics routes and scoped browser checks pass. Automated browser CI is blocked by sandbox launch permissions; do not report a full CI pass. No publication or completed HERO acceptance. Global refresh stays null; old /mnt/data byte identities and independent-clone monitoring remain unresolved. Update canonical Blueprint, AGENTS and handoff at task close.
+
+## Previous local pilot checkpoint
+
+# Current ECC pilot — 13 September 2026
+
+Local branch visual/ecc-hero-pilot-20260913 continues d442671. Final surface maps use 512-pixel packed textures at unchanged world scale; fixed-view comparison verifies the memory reduction. Read docs/production/ecc-hero-pilot-20260913.md and canonical Blueprint handoff/productionPlan. Hero artwork now governs playable fidelity; ECC remains below final target. Preserve accepted layout, connected Chapel/Admin/Services and gameplay, unchanged original GLBs, paused avatar work and deferred curriculum triggers. Safe reversible ECC stages are authorised without per-batch approval. Fixed-view screenshots and measured optimisation are checkpoints, not appearance acceptance. Source/unit checks and all 36 browser scenarios pass across the main run and corrected-helper retest; keep the initial helper failure as history. No new game deployment. Update canonical Blueprint and this file at task close.
+
 The live playable game is https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/. Its source is Emmanuel-ICT-Support/GTCEM-Career-Empire main, published from the repository root. The Blueprint at taniab1975.github.io/career-empire-blueprint/ is the planning reader; its embedded playable copy is a preview, never proof of game deployment. Verify the exact target and remote before publishing. Arrival Gardens update is scoped to playable-3d; preserve existing module integration, avatar choices and unrelated work.
 
 > **Current planning authority - 9 September 2026:** [Career Empire Living Blueprint](https://taniab1975.github.io/career-empire-blueprint/) owns current priorities, decisions, approvals, delivery status and visual evidence. Read its Start Here and [session protocol](https://taniab1975.github.io/career-empire-blueprint/production/operating-protocol.md) before work; log meaningful outcomes there and update AGENTS.md and affected documentation at task close.
@@ -180,3 +220,11 @@ Tania accepts the proposed joystick. Mobile and short-landscape layouts replace 
 
 ## Environment polish release candidate — 12 September 2026
 Approved steps 1/2 and corrected behind-Admin layout merged onto 1fed180, retaining joystick/touch fixes. Source, unit, movement and responsive/destination checks recorded in docs/production/environment-release-20260912.md. No review/probe code ships. Physical-phone performance remains unverified; avatar and curriculum timing parked. Publication verification pending.
+
+
+## EST mobile playback repair — 13 September 2026
+CE-CHANGE-20260913-48: existing wall film now streams from its native MP4 URL; Play/Restart run synchronously from the tap instead of awaiting an 18 MB Blob download. Keep this fix and import cache keys during the concurrent campus release. Original film, poster, visuals and sound preserved. Source and four focused tests pass; 14 project unit tests pass. Desktop/390px Chromium playback, restart and pause/reopen checked; screenshot retained. Full browser CI blocked at macOS launch 1100; physical iPhone and native scrub verification remain open. No publication by this task. See docs/production/est-mobile-video-20260913.md in canonical Blueprint, and docs/est-mobile-video-20260913.md in game. Refresh final release manifest/source hashes before deployment; do not copy an earlier campus manifest over this change.
+
+
+## ECC Admin glass signage — 13 September 2026
+CE-CHANGE-20260913-49: Supplied cleaned ECC crest replaces the Admin gable crest; front Emmanuel sign now uses translucent teal glass in the original frame, with subtle iridescence, polished edges and stainless standoffs. Matching glass face on the existing Admin fascia retains ADMINISTRATION wording. Building geometry/style, original structural fascia, welcome frame/base/location and colliders are preserved. Local source and 14 unit checks pass; courtyard/Home Base/aerial/390px and Low/Growth views checked. See docs/production/ecc-admin-signage-20260913.md in canonical Blueprint, game docs/ecc-admin-signage-20260913.md and private evidence/ecc-admin-signage/final-receipt.json. Combined campus release MUST include new admin-signage.js and assets/admin-signage/cleaned-ecc-crest-source.png alongside authored-courtyard.js and refresh manifest. No independent deployment by signage task.

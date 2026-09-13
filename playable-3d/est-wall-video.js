@@ -6,9 +6,14 @@ export function createESTWallVideo(scene){
  const frame=new THREE.Mesh(new THREE.BoxGeometry(6.58,3.78,.14),new THREE.MeshStandardMaterial({color:0x203d43,roughness:.7}));frame.position.set(0,3.3,-6.59);scene.add(frame);
  const poster=new THREE.TextureLoader().load('../Assets/EST%20Preparation/est-lab-systems-poster.png',()=>{if(!material.map){material.map=poster;material.needsUpdate=true;}});poster.colorSpace=THREE.SRGBColorSpace;
  const texture=new THREE.VideoTexture(video);texture.colorSpace=THREE.SRGBColorSpace;video.addEventListener('playing',()=>{material.map=texture;material.needsUpdate=true;});
- // A fully buffered object URL also supports scrubbing on simple preview hosts
- // which ignore Range requests. The original film file remains unchanged.
- let prepared,request=0;
- function prepare(){return prepared??=(async()=>{const response=await fetch(video.src);if(!response.ok)throw Error('Briefing download failed');const blob=await response.blob();video.src=URL.createObjectURL(blob);video.load();await new Promise((resolve,reject)=>{video.addEventListener('loadedmetadata',resolve,{once:true});video.addEventListener('error',reject,{once:true});});})().catch(error=>{prepared=null;throw error;});}
- return {video,screen,prepare,pause:()=>{request++;video.pause();},play:async()=>{const current=++request;await prepare();if(current===request)return video.play();},restart:async()=>{const current=++request;await prepare();if(current!==request)return;video.currentTime=0;return video.play();}};
+ // Keep the native URL: the production host supports byte-range streaming.
+ // Never await a download/metadata event before play(): iOS needs the tap's
+ // user activation for audible playback, including a cold first start.
+ let prepared=false;
+ function prepare(){
+  if(!prepared||video.error){prepared=true;video.preload='metadata';video.load();}
+  return Promise.resolve();
+ }
+ function play(){prepare();return video.play();}
+ return {video,screen,prepare,pause:()=>video.pause(),play,restart:()=>{prepare();video.currentTime=0;return video.play();}};
 }

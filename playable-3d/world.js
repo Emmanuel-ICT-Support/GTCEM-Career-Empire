@@ -1,9 +1,10 @@
-import {createESTWallVideo} from './est-wall-video.js?v=est-release41';
+import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
+import {createESTWallVideo} from './est-wall-video.js?v=est-mobile-20260913';
 import {buildChapel} from './chapel.js?v=chapel1';
-import {buildExterior} from './ecc-preview/model.js?v=ecc1';
+import {buildExterior} from './ecc-preview/model.js?v=windows1';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createCampusLandscape} from './campus-landscape.js?v=ground-polish1';
-import {arrivalPrecinct} from './arrival-precinct.js?v=chapel2';
+import {createCampusLandscape} from './campus-landscape.js?v=windows1';
+import {arrivalPrecinct} from './arrival-precinct.js?v=windows1';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
  * ~2wu tiles stamped from a 2D grid: grass / path / asphalt / plaza (+ curb overlays).
@@ -250,7 +251,7 @@ export async function createWorlds(onProgress=()=>{}){
 
   const est=outerAsset.root;est.name='ECC Campus Hub';est.position.set(0,.12,-11);town.add(est);
   const home=consolidate(studioAsset.scene);home.name='ECC Avatar Studio';home.position.set(-17,0,5);home.rotation.y=-Math.PI/2;home.visible=false;town.add(home);
-  const precinct=arrivalPrecinct(town,stoneTex,sign);
+  const palette=approvedPalette(est);const precinct=arrivalPrecinct(town,stoneTex,sign,palette);
   const legacySign=sign('ORIGINAL CAREER EMPIRE',3.1,'#f2e4bd','#29434a');legacySign.position.set(LEGACY.x,1.72,LEGACY.z);town.add(legacySign);
   const legacyHint=sign('OPEN THE ORIGINAL GAME',2.65,'#e6d9b9','#29434a');legacyHint.position.set(LEGACY.x,.92,LEGACY.z);town.add(legacyHint);
   for(const dx of [-1.1,1.1])box(town,.1,1.95,.1,basic(0x304c54),LEGACY.x+dx,.975,LEGACY.z-.16);
@@ -443,7 +444,7 @@ export async function createWorlds(onProgress=()=>{}){
     const trees=Promise.resolve();
     // Avatar Studio is now a native campus building, so the old generic city model is retired.
     const building=Promise.resolve().then(()=>{scenery.home=true;});
-    const district=createCampusLandscape(town,townPhysics).then(result=>{Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);console.warn('Campus details unavailable; main destinations remain usable',error);});
+    const district=createCampusLandscape(town,townPhysics,palette).then(result=>{Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);console.warn('Campus details unavailable; main destinations remain usable',error);});
     sceneryLoad=Promise.all([trees,building,district]).then(()=>{scenery.status=scenery.errors.length?'fallback':'ready';});
     return sceneryLoad;
   }

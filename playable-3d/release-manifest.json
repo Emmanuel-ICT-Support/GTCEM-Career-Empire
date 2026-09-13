@@ -1,17 +1,17 @@
 {
-  "release": "ecc-campus-environment-polish-20260912",
-  "changeId": "CE-CHANGE-20260911-46",
+  "release": "approved-campus-windows-20260913",
+  "changeId": "CE-CHANGE-20260913-47",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "1fed18046baec0ecf9f1bb545c613f70ee85b9cf",
-  "scope": "Approved compact behind-Admin English/SPACE/oval layout, tree boundaries, ground/planting polish and welcome framing. Retains published phone joystick and touch fixes. Curriculum state timing and experimental avatars remain parked.",
+  "baseCommit": "d442671e21c1df623309c9fda279f6cb85fa385e",
+  "scope": "Tania-approved courtyard and campus standard; clearer campus glazing; oval-facing English and Media art/media displays; SPACE basketball practice courts; continuous non-overlapping paths; completed EST phone playback repair. Existing mechanics and recognition preserved. Includes the completed supplied cleaned ECC crest and architectural glass signage refinement (CE-CHANGE-20260913-49).",
   "files": [
     {
       "path": "app.js",
-      "sha256": "0460e81ff17c1348743618e37b382401fdecedc1d841b1daf630199ab66c2ab0"
+      "sha256": "39e92dc39272f26656ff03c240276cc5b92907608e4c39e41305c880e7d2e304"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "990306c9ea507b2468a781c6dbd10764b71f9110516ded74d5febda348b48790"
+      "sha256": "e6c61b41120771b7493f15118a48aab8e74e8b6e1e59b3ce2e3cb9e323be3ea8"
     },
     {
       "path": "assets/campus-buildings/careers.glb",
@@ -123,7 +123,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "4871f7b14ab54c567008bf41423ca944435196b6eea1a47734fbc1c7edc2eaaa"
+      "sha256": "78ac598bd606b24a5067e5c3f523542596f1e55346b59274ad309d26fbc1fbf6"
     },
     {
       "path": "chapel.js",
@@ -138,16 +138,100 @@
       "sha256": "288115ac405d328babf70f8ef3d41c14912c4077a0233144c2d1e2f389fa8b40"
     },
     {
+      "path": "ecc-preview/admin-signage.js",
+      "sha256": "ea8adb49e515b8868599246062eb0ac5a660da4ae77860c450caa48908a4eaf3"
+    },
+    {
       "path": "ecc-preview/assets/ECC_Logo.png",
       "sha256": "211e78146e2b39d3fcee8a76109ac5572dfaac28b7fa60d38502af2716c80f0d"
     },
     {
+      "path": "ecc-preview/assets/admin-signage/cleaned-ecc-crest-source.png",
+      "sha256": "ea4b15c15cd68f70d14285bc89d6ea5d9d7c6b30edfca149bfccd925f616c036"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/chapel-recognition-source.png",
+      "sha256": "920ffad8be0c46c3a6e1967e8d7c84331dab1c41c4443df68236150c7ad52b3d"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/ecc-courtyard-compressed.glb",
+      "sha256": "70a645c368bb55ad7c96a94fd5564c63e29e295bf1569a811211b72c3b9f9aa6"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/garden-reflections.hdr",
+      "sha256": "f8c7970483be873487fabc0f07891be7e1551220dba911ea9dadd56f8a336a00"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/provenance.json",
+      "sha256": "a12c396c689885272d7eac9bea3ff4a1224c1feae2ef4a6146fb3d26d756e252"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/reception-backwall.jpg",
+      "sha256": "6d239d0d4a38b09c3f5c9aa243f5fa6f03c5bfd0b91add25cd75f76cfd1e9126"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/scene-layout.json",
+      "sha256": "5c2cb0a9055b5c892d69d06065f594779e3b363fec639a4ba1377857098b74bb"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/stone-surface-arm.webp",
+      "sha256": "5a34519fc0db907a422af2c01d95c621d6e7c6cd6370e1f86311b1210fdc060b"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/stone-surface-diffuse.webp",
+      "sha256": "759d73c54542c9be330d1c066027a91ea685cbed7f73bc6513bfbc34c7c91299"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/stone-surface-normal.webp",
+      "sha256": "ae1f1ef6d293706d43e512b978b12171bf10904680a95af6cea2ce70a0f00acb"
+    },
+    {
+      "path": "ecc-preview/assets/courtyard/README.md",
+      "sha256": "5e331b98f10c2b77c17eaae3afbb080e88d6c59002c0e6fc1c27387bf29c0b8b"
+    },
+    {
+      "path": "ecc-preview/assets/courtyard/provenance.json",
+      "sha256": "8e809ac6f8093ad7eefe9cf3f6d95d3783aca5def9097aca918bbf39e5963625"
+    },
+    {
+      "path": "ecc-preview/assets/courtyard/sandstone-arm.jpg",
+      "sha256": "4a211353047f52b9f0cf545e669fa8c29ac0d4ca87dd1f74e3a17f13d9a5b50d"
+    },
+    {
+      "path": "ecc-preview/assets/courtyard/sandstone-diffuse.jpg",
+      "sha256": "0cac65461ba33003b8a27b03c2b87f3393a824a9a98036c4c8de6182a1449369"
+    },
+    {
+      "path": "ecc-preview/assets/courtyard/sandstone-normal.jpg",
+      "sha256": "1203d5300dfc717db67220531fcdad75214d48b98d21114a155b3f01d54ab012"
+    },
+    {
+      "path": "ecc-preview/authored-courtyard.js",
+      "sha256": "1bb1f2bcf38483e575121c499d046ac49c9c3a6869d2c2cd0465806715f489c8"
+    },
+    {
+      "path": "ecc-preview/authored-garden.js",
+      "sha256": "c3da487f75ad71fb3350c7085faa2d83b83db7c6cbd30d29d3ddcad033f4e5e5"
+    },
+    {
+      "path": "ecc-preview/courtyard-detail.js",
+      "sha256": "4f096e8bbd046ba16eabc7a0148aeaeb5ed557836411eb1f9743b85b930dd4d4"
+    },
+    {
+      "path": "ecc-preview/hero-materials.js",
+      "sha256": "1208a074ba2e0d6f77f494f1599d3b3b28c50d39c62e85610b8292592cbbc0ea"
+    },
+    {
       "path": "ecc-preview/model.js",
-      "sha256": "cee4711f3e68c90235baa5aedbbf650824714f43843fca420f54f14e167081a4"
+      "sha256": "3e3eb015e3c438f6bc5c24b5006dcde1e39d6e21e64af001e43fc371c399fb51"
     },
     {
       "path": "environment.js",
-      "sha256": "047264bced283b929f63e5fbb10a1d969fde9638f60676a08661fb7dd2e2a4a6"
+      "sha256": "db9807c2493304ebb4fa83f54c45c93ee39984d01eae6f2120cff78d63f7d92f"
+    },
+    {
+      "path": "environment/approved-campus-kit.js",
+      "sha256": "9c65b0867209f226f723fb65d3813c7ae37ffcb03686e8f34936f643859e9cff"
     },
     {
       "path": "environment/assets/SPACE-reference.jpg",
@@ -158,24 +242,52 @@
       "sha256": "9fbd27beb9735277fea7c49845127a2513603125ca43461039d89ba1b4a1bee2"
     },
     {
+      "path": "environment/campus-extensions.js",
+      "sha256": "d8da1b9f653377269d8fd23bb2982fb21bf4a4bc769d9d9fb86158b02b4418af"
+    },
+    {
+      "path": "environment/ground-polish.js",
+      "sha256": "a0d66d498d86389bc26d3350fbfed61332a93d8f40a3a4654f98f6972baa2616"
+    },
+    {
+      "path": "environment/learning-interiors.js",
+      "sha256": "197e8b2927d1d398d16e5b9bbc27693bf99d3a4634f648b884b3cc5d9b0dcf34"
+    },
+    {
       "path": "environment/media-building.js",
-      "sha256": "b84675e3d9a36b3c9c9af35da6532eb51a912d41d0c0a6cf4b6e7efb010d6f81"
+      "sha256": "a27789c5e8bc68303ca6566164745f618916cb72cb4620627cae3727003f121d"
+    },
+    {
+      "path": "environment/paving-network.js",
+      "sha256": "bb703d63fd8be54d7ea15349225b3aaca106636e473ef15e32b6f13b0727f044"
+    },
+    {
+      "path": "environment/paving-polygons.js",
+      "sha256": "bae21e20b8e63228ae41d10ab7c12e7ee5f80850cf5621d5b9f0ee1911acf912"
     },
     {
       "path": "environment/space-building.js",
-      "sha256": "ebc17d1f88170c5fad24ac843a9f709239017c9ec1b76da7e3723b9945624811"
+      "sha256": "816e00a4684041d06335c7bac79a04805a169cfeafd8b64ac95e00843082f520"
+    },
+    {
+      "path": "environment/static-batching.js",
+      "sha256": "b3a8375634d5b25f74c5a7069ae768002e722f718500fe5a3a7eeb65bd6df463"
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "f35fd7f2e4c6c45658df25f55348af8280af8d680d129cc044e368e14214d58c"
+      "sha256": "884fd71c3558bcd0e1da3f36aaed7b282e485ba240d4c0a28769c60afbc84a09"
     },
     {
       "path": "est-wall-video.js",
-      "sha256": "898907e591df80af324c23dcd9e3f0d9f86448da03a6f05f9f10d64bb79f3645"
+      "sha256": "3f9dbe36f85fe3360abef340090dfe6aff5f73902e860a125432615d3a1d9b09"
     },
     {
       "path": "index.html",
-      "sha256": "fd3943a24bb891c596d866598ef401a23d3f7049798bbbbbf11d64c024364850"
+      "sha256": "8c5775b694e6bba60e83b5eb2792cc4703929a56e04577cf47492124736d0a29"
+    },
+    {
+      "path": "joystick.js",
+      "sha256": "70a748903a79f15a5582d83fa282c407a0414e3e94ecb9ecc63397d5a1385613"
     },
     {
       "path": "mobile-play.css",
@@ -190,16 +302,20 @@
       "sha256": "908cbb5475993ccefa95a0f2fbe3344d48ac86ffc26d6cfc1ede67f59fd5c967"
     },
     {
+      "path": "vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
+      "sha256": "cb08bf53ad8ad9693d8bb759b2dbade350eb38bcce63d005385e225b564c5f6a"
+    },
+    {
+      "path": "vendor/three/examples/jsm/libs/meshoptimizer-LICENSE.md",
+      "sha256": "f03037ca7bad1e3eb7f4a63fa6084a8baabd5ba30d3c239a9a7f35705d873e26"
+    },
+    {
+      "path": "vendor/three/examples/jsm/loaders/HDRLoader.js",
+      "sha256": "d7053cfc4019f520335ae07e0fe82b4ef5a66b6766e8b253d066616184995e89"
+    },
+    {
       "path": "world.js",
-      "sha256": "a13cb9fe70253724cca4b1aadc0d71cf009f8063f6ee66171949a48b877bf6f9"
-    },
-    {
-      "path": "joystick.js",
-      "sha256": "70a748903a79f15a5582d83fa282c407a0414e3e94ecb9ecc63397d5a1385613"
-    },
-    {
-      "path": "environment/ground-polish.js",
-      "sha256": "a0d66d498d86389bc26d3350fbfed61332a93d8f40a3a4654f98f6972baa2616"
+      "sha256": "f4456b59adb968da9578e4d5361ee44b911736a931c3ac732ce9d6fa49249c4a"
     }
   ],
   "estVideo": {
@@ -208,5 +324,7 @@
     "durationSeconds": 60.053333,
     "width": 1280,
     "height": 720
-  }
+  },
+  "status": "Local implementation of approved visual standard; desktop browser checks recorded, physical-device performance unverified.",
+  "pilotBaseCommit": "a2794e42c359ed930124e34b459d71bcc35216ef"
 }

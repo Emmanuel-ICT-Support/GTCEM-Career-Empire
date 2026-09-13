@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "python3 -m http.server 8000",
-    "check": "node scripts/dev-check.mjs",
+    "check": "node scripts/dev-check.mjs && node scripts/check-playable-release.mjs",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "test:e2e": "playwright test",

@@ -1,14 +1,17 @@
+import {addSportsHall} from './learning-interiors.js?v=windows1';
 import * as T from 'three';
 // SPACE revision 2: source-photo-led exterior; compact, non-enterable background asset.
-export function buildSpace(){
+export function buildSpace(palette){
  const root=new T.Group();root.name='SPACE reference-led exterior';
  const mat=(c,r=.8)=>new T.MeshStandardMaterial({color:c,roughness:r});
- const grey=mat(0x9a9d97),blue=mat(0x285773),steel=mat(0x9ca8a6,.42),roof=mat(0xc8ccc4),dark=mat(0x333c3a),stone=mat(0xd0bd96),brick=mat(0x9e6651),glass=mat(0x41696c,.27),warm=mat(0xcac69b),green=mat(0x477761);
- function box(w,h,d,m,x,y,z){const o=new T.Mesh(new T.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;root.add(o);return o;}
+ const grey=mat(0xa6aaa3),blue=palette.blue,steel=mat(0x9ca8a6,.42),roof=mat(0xc8ccc4),dark=mat(0x333c3a),stone=palette.stone,brick=mat(0x9e6651),glass=palette.glass,warm=palette.glow,green=mat(0x477761);
+ function box(w,h,d,m,x,y,z){const geometry=m===glass?new T.PlaneGeometry(w<d?d:w,h):new T.BoxGeometry(w,h,d);if(m===glass&&w<d)geometry.rotateY(Math.PI/2);const o=new T.Mesh(geometry,m);o.position.set(x,y,z);if(m.map&&!m.transparent){const uv=o.geometry.attributes.uv,n=o.geometry.attributes.normal;for(let i=0;i<uv.count;i++)uv.setXY(i,uv.getX(i)*(Math.abs(n.getX(i))>.5?d:w)/2,uv.getY(i)*(Math.abs(n.getY(i))>.5?d:h)/2);}o.castShadow=!m.transparent;o.receiveShadow=true;root.add(o);return o;}
  function beam(a,b,r,m=steel){const A=new T.Vector3(...a),B=new T.Vector3(...b),v=B.clone().sub(A);const o=new T.Mesh(new T.CylinderGeometry(r,r,v.length(),8),m);o.position.copy(A.add(B).multiplyScalar(.5));o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),v.normalize());root.add(o);return o;}
  // Long grey hall with shallow roof and a raised brick terrace.
  box(27,.5,10.7,stone,0,.25,.6);box(26.8,.09,10.5,brick,0,.545,.6);
- box(25,5.5,7,grey,0,3.3,-.8);box(25.7,.22,7.8,roof,0,6.15,-.8).rotation.z=-.025;
+ box(25,2.1,.25,grey,0,4.94,2.55);box(25,5.5,.25,grey,0,3.3,-4.2);box(.25,5.5,7,grey,-12.4,3.3,-.8);box(.25,5.5,7,grey,12.4,3.3,-.8);box(25,.14,7,stone,0,.63,-.8);
+ addSportsHall(root,palette,box,beam);
+ for(let x=-12.4;x<12.5;x+=.32)box(.025,1.99,.04,steel,x,4.94,2.701);box(25.7,.22,7.8,roof,0,6.15,-.8).rotation.z=-.025;
  // Front glazing and upper louvres, in repeated structural bays.
  for(let i=0;i<7;i++){const x=-10.8+i*3.2;
   box(2.85,2.55,.07,glass,x,1.9,2.73);box(.1,2.6,.1,steel,x,1.9,2.8);box(2.9,.1,.1,steel,x,1.92,2.8);
@@ -27,7 +30,7 @@ export function buildSpace(){
  box(.06,1.95,1.1,roof,11.94,1.58,-1.6);
  // User-corrected rear-facing foyer; collect authored parts and relocate as one group.
  const foyerStart=root.children.length;
- box(4.4,4.4,3.5,glass,-11.2,2.8,2);box(4.75,.85,3.8,blue,-11.2,5.1,2.05);
+ box(4.4,4.4,.035,glass,-11.2,2.8,3.76);box(.035,4.4,3.5,glass,-13.38,2.8,2);box(.035,4.4,3.5,glass,-9.02,2.8,2);box(4.4,4.2,.15,palette.plaster,-11.2,2.8,.3);box(3.9,.1,3.3,palette.timber,-11.2,.67,2);box(2.5,.9,.8,stone,-11.2,1.2,1.1);box(4.75,.85,3.8,blue,-11.2,5.1,2.05);
  for(const x of [-13.3,-12.3,-11.2,-10.1,-9.1])box(.1,4.35,.13,steel,x,2.8,3.8);
  box(4.4,.14,.13,steel,-11.2,2.9,3.8);box(.5,4,.08,green,-12.75,2.65,3.69);
  for(const x of [-12.1,-11,-9.9])box(.7,.06,.7,warm,x,4.65,3);

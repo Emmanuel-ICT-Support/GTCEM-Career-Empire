@@ -1,5 +1,5 @@
-import {test,expect} from '@playwright/test';
-test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:[]}});
+import {test,expect} from './campus-fixtures.js';
+
 const state=page=>page.locator('#diagnostics').getAttribute('data-state').then(s=>JSON.parse(s||'{}'));
 
 test('campus waits for both buildings and keeps destinations and movement',async({page})=>{
