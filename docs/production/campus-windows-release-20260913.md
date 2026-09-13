@@ -17,3 +17,11 @@ Hosted rendering diagnosis: retained traces from cfc6683 show about 14 seconds b
 
 
 Follow-up trace confirms the test adapter applied (320×180 framebuffer) but CPU-only frames still take about 8 seconds. CI therefore draws only a 24-index/vertex sample of explicitly named decorative foliage meshes, retaining every asset load, instance placement, collider, building, player and gameplay assertion. This is functional coverage with reduced foliage drawing, not a visual or fidelity acceptance test. Full-size hardware-rendered production evidence and shipped foliage remain unchanged. The fixture fails if renderer insertion points change.
+
+
+Final release decision: hosted full-graphics browser tests are not passing on the GPU-free runner; traces establish multi-second rendering stalls, while the same committed game works in the hardware-rendered browser and real-physics route checks. Reduced raster/foliage experiments were unsuccessful and have been removed from the final tests. Tests retain the full production scene, one CI worker, first-failure stopping and failure evidence. Do not claim a full CI pass. Publication uses the user-authorised release scope, successful source/unit/package/physics checks and actual hardware-browser verification. No branch rule/check requirement is overridden (main rules returned empty; no legacy protection was returned). Physical-device performance remains open.
+
+The completed CE-CHANGE-20260913-49 signage receipt now supplies all three matching files. The final release includes the supplied cleaned crest and architectural glass sign, preserving geometry, positions and the user-requested refinement. Manifest now includes 78 exact assets and the new signage module. Its earlier incomplete import was fixed before publication; no incomplete candidate went live.
+
+
+The completed diagnostic run returned 28 passed/9 failed. In addition to graphics timing stalls it exposed two concrete test-platform issues: Chapel screenshots used the macOS-only /private/tmp path, and Python's basic test server did not support media byte ranges (native video seeks reset to zero). The tests now save screenshots through Playwright's portable output path, and the local test server supports HTTP byte ranges as production does. Graphics-timeout limitations remain explicit; no full CI success is claimed.

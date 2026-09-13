@@ -3,7 +3,7 @@
   "changeId": "CE-CHANGE-20260913-47",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "d442671e21c1df623309c9fda279f6cb85fa385e",
-  "scope": "Tania-approved courtyard and campus standard; clearer campus glazing; oval-facing English and Media art/media displays; SPACE basketball practice courts; continuous non-overlapping paths; completed EST phone playback repair. Existing mechanics and recognition preserved.",
+  "scope": "Tania-approved courtyard and campus standard; clearer campus glazing; oval-facing English and Media art/media displays; SPACE basketball practice courts; continuous non-overlapping paths; completed EST phone playback repair. Existing mechanics and recognition preserved. Includes the completed supplied cleaned ECC crest and architectural glass signage refinement (CE-CHANGE-20260913-49).",
   "files": [
     {
       "path": "app.js",
@@ -138,8 +138,16 @@
       "sha256": "288115ac405d328babf70f8ef3d41c14912c4077a0233144c2d1e2f389fa8b40"
     },
     {
+      "path": "ecc-preview/admin-signage.js",
+      "sha256": "ea8adb49e515b8868599246062eb0ac5a660da4ae77860c450caa48908a4eaf3"
+    },
+    {
       "path": "ecc-preview/assets/ECC_Logo.png",
       "sha256": "211e78146e2b39d3fcee8a76109ac5572dfaac28b7fa60d38502af2716c80f0d"
+    },
+    {
+      "path": "ecc-preview/assets/admin-signage/cleaned-ecc-crest-source.png",
+      "sha256": "ea4b15c15cd68f70d14285bc89d6ea5d9d7c6b30edfca149bfccd925f616c036"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/chapel-recognition-source.png",
@@ -199,7 +207,7 @@
     },
     {
       "path": "ecc-preview/authored-courtyard.js",
-      "sha256": "f9b818b170aa215d1fa7a1f6bb777cf676e7b418eef84400b0faf9f803e55396"
+      "sha256": "1bb1f2bcf38483e575121c499d046ac49c9c3a6869d2c2cd0465806715f489c8"
     },
     {
       "path": "ecc-preview/authored-garden.js",

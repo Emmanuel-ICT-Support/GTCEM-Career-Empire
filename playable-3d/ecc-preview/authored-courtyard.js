@@ -1,3 +1,4 @@
+import {addAdminSignage} from './admin-signage.js?v=glass1';
 import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
 import {timberMap} from './hero-materials.js?v=authored1';
 import * as T from 'three';
@@ -11,7 +12,7 @@ for(const [x,z,w,d] of [[-2.9,-.32,2,3.5],[3.25,.1,1.6,4.25]])for(const dx of [-
 function label(words,w,h,x,y,z,dark=false){const c=document.createElement('canvas');c.width=1024;c.height=Math.ceil(1024*h/w);const ctx=c.getContext('2d');ctx.fillStyle=dark?'#263e42':'#eee4c9';ctx.font=`500 ${c.height*.57}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(words,512,c.height/2,970);const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;const o=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map,transparent:true,depthWrite:false,roughness:.6}));o.position.set(x,y,z);return o;}
 async function maps(){const loader=new T.TextureLoader();const names=['sandstone-diffuse.jpg','sandstone-normal.jpg','sandstone-arm.jpg'];const [map,normalMap,packed]=await Promise.all(names.map(n=>loader.loadAsync(new URL('./assets/courtyard/'+n,import.meta.url).href)));map.colorSpace=T.SRGBColorSpace;for(const t of [map,normalMap,packed]){t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=8;}return {map,normalMap,packed};}
 export async function buildAuthoredCourtyard(doors){
- const [asset,stone,logo,hdr,paving]=await Promise.all([new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(new URL('./assets/authored-courtyard/ecc-courtyard-compressed.glb?v=4',import.meta.url).href),maps(),new T.TextureLoader().loadAsync(new URL('./assets/ECC_Logo.png',import.meta.url).href),new HDRLoader().loadAsync(new URL('./assets/authored-courtyard/garden-reflections.hdr',import.meta.url).href),Promise.all(['diffuse','normal','arm'].map(n=>new T.TextureLoader().loadAsync(new URL('./assets/authored-courtyard/stone-surface-'+n+'.webp',import.meta.url).href)))]);
+ const [asset,stone,hdr,paving]=await Promise.all([new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(new URL('./assets/authored-courtyard/ecc-courtyard-compressed.glb?v=4',import.meta.url).href),maps(),new HDRLoader().loadAsync(new URL('./assets/authored-courtyard/garden-reflections.hdr',import.meta.url).href),Promise.all(['diffuse','normal','arm'].map(n=>new T.TextureLoader().loadAsync(new URL('./assets/authored-courtyard/stone-surface-'+n+'.webp',import.meta.url).href)))]);
  hdr.mapping=T.EquirectangularReflectionMapping;for(const t of paving){t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(2,2);t.anisotropy=8;}paving[0].colorSpace=T.SRGBColorSpace;
  const woodMap=timberMap();const root=asset.scene;root.name='ECC authored arrival courtyard';
  root.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;const m=o.material;m.name=m.name.replaceAll('_',' ');m.envMap=hdr;m.envMapIntensity=.16;
@@ -36,9 +37,8 @@ export async function buildAuthoredCourtyard(doors){
  const interior=await new T.TextureLoader().loadAsync(new URL('./assets/authored-courtyard/reception-backwall.jpg',import.meta.url).href);interior.colorSpace=T.SRGBColorSpace;interior.anisotropy=8;
  const roomArt=new T.MeshStandardMaterial({map:interior,emissiveMap:interior,emissive:0xffddb2,emissiveIntensity:.45,color:0xffffff,roughness:.95});
  for(const [x,z,w]of [[0,-5.72,3.03],[-2.78,-5.19,1.98],[2.78,-5.19,1.98],[6.45,-1.69,3.2]]){const panel=new T.Mesh(new T.PlaneGeometry(w,2.75),roomArt);panel.name='Recessed reception background texture';panel.position.set(x,1.48,z);root.add(panel);}
- logo.colorSpace=T.SRGBColorSpace;logo.anisotropy=8;const logoMat=new T.MeshStandardMaterial({map:logo,transparent:true,roughness:.55,depthWrite:false});
- for(const [x,y,z,w,h]of [[0,4.08,-1.69,.71,1.01],[ECC_WELCOME.x,1.73,ECC_WELCOME.z+.05,1.12,1.59]]){const o=new T.Mesh(new T.PlaneGeometry(w,h),logoMat);o.position.set(x,y,z);root.add(o);}
- root.add(label('ADMINISTRATION',3.45,.26,0,3.17,-1.059),label('STUDENT SERVICES',3.55,.26,6.45,3.77,2.602),label('CHAPEL',.84,.21,-3.89,3.59,1.30,true),label('WELCOME TO ECC',2.15,.24,ECC_WELCOME.x,.41,ECC_WELCOME.z+.331,true),label('Career Empire',1.05,.12,ECC_WELCOME.x,.18,ECC_WELCOME.z+.331,true));
+ await addAdminSignage(root,hdr,ECC_WELCOME);
+ root.add(label('STUDENT SERVICES',3.55,.26,6.45,3.77,2.602),label('CHAPEL',.84,.21,-3.89,3.59,1.30,true),label('WELCOME TO ECC',2.15,.24,ECC_WELCOME.x,.41,ECC_WELCOME.z+.331,true),label('Career Empire',1.05,.12,ECC_WELCOME.x,.18,ECC_WELCOME.z+.331,true));
  addAuthoredGarden(root,beds);
  for(const [x,y,z]of [[0,2.45,-3.1],[6.45,2.45,.4],[-4.0,2.45,.35]]){const l=new T.PointLight(0xffc17b,9,4.5,2);l.position.set(x,y,z);l.name='ECC warm recessed room light';root.add(l);}
  // Detailed rocks reused from the accepted kit; instance them within the planted areas.

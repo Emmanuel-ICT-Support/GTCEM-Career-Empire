@@ -5,6 +5,7 @@ export default defineConfig({
   timeout: 30_000,
   // Software WebGL tests must not compete for the hosted runner CPU.
   workers: process.env.CI ? 1 : undefined,
+  maxFailures: process.env.CI ? 1 : undefined,
   outputDir: "coverage/browser-evidence",
   expect: {
     timeout: 5_000
@@ -15,7 +16,7 @@ export default defineConfig({
     screenshot: "only-on-failure"
   },
   webServer: {
-    command: "python3 -m http.server 4273",
+    command: "python3 scripts/serve-test-site.py 4273",
     url: "http://127.0.0.1:4273",
     reuseExistingServer: !process.env.CI,
     timeout: 10_000
