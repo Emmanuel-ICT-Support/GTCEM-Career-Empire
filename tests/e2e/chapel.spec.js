@@ -1,5 +1,5 @@
-import {test,expect} from '@playwright/test';
-test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:[]}});
+import {test,expect} from './campus-fixtures.js';
+
 const state=async page=>JSON.parse(await page.locator('#diagnostics').getAttribute('data-state')||'{}');
 for(const width of [1440,390])test(`Chapel reflection and campus return at ${width}px`,async({page})=>{
  test.setTimeout(180000);await page.setViewportSize({width,height:900});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:120000});await page.locator('#chapel-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive ECC Chapel',{timeout:30000});await expect.poll(async()=>(await state(page)).mode).toBe('chapel');

@@ -1,5 +1,5 @@
-import {test,expect} from '@playwright/test';
-test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:[]}});
+import {test,expect} from './campus-fixtures.js';
+
 test('campus entrances and destination paths are walkable while walls and pond stay solid',async({page})=>{
  test.setTimeout(180000);
  // A minimal same-origin harness tests the production world and its real Rapier controller.

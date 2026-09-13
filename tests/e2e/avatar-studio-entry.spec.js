@@ -1,5 +1,5 @@
-import {test,expect} from '@playwright/test';
-test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:[]}});
+import {test,expect} from './campus-fixtures.js';
+
 test('Home Base returns to ECC welcome; Studio remains separate',async({page})=>{
  test.setTimeout(180000);
  await page.goto('/playable-3d/');

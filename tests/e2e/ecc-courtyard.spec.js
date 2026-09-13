@@ -1,5 +1,5 @@
-import {test,expect} from '@playwright/test';
-test.use({launchOptions:{args:process.platform==='darwin'?['--use-angle=metal']:[]}});
+import {test,expect} from './campus-fixtures.js';
+
 const state=page=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state));
 test('courtyard review opens the playable world and survives quality, resize and destination changes',async({page})=>{
  test.setTimeout(180000);const errors=[];
