@@ -10,7 +10,7 @@ export function approvedPalette(courtyard){
  const paving=copy('ECC travertine paving',0xddd2bb);const source=found.get('ECC travertine paving');if(source){paving.onBeforeCompile=source.onBeforeCompile;paving.customProgramCacheKey=source.customProgramCacheKey;}paving.name='Approved campus paving';
  paving.onBeforeCompile=shader=>{source?.onBeforeCompile?.(shader);shader.vertexShader='varying vec2 campusGround;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n campusGround = (modelMatrix * vec4(position,1.0)).xz;');shader.fragmentShader='varying vec2 campusGround;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\n vec2 slab=campusGround/vec2(1.2,.6);slab.x+=mod(floor(slab.y),2.)*.5;vec2 seam=min(fract(slab),1.-fract(slab));float edge=min(seam.x*1.2,seam.y*.6);diffuseColor.rgb*=mix(.72,1.,smoothstep(.004,.017,edge));');};paving.customProgramCacheKey=()=> 'approved-campus-sawn-joints-1';
  const blue=copy('ECC powdercoat blue',0x28526a),timber=copy('ECC warm timber',0xc4a175),glass=copy('ECC authored glass',0xd4ded0),roof=copy('ECC clay roof',0xa85a35);
- glass.opacity=.25;glass.name='Approved campus glazing';glass.depthWrite=false;glass.forceSinglePass=true;
+ glass.opacity=.14;glass.color.setHex(0xe5f2f0);glass.metalness=.06;glass.roughness=.07;glass.envMapIntensity=.38;glass.name='Approved campus glazing';glass.depthWrite=false;glass.forceSinglePass=true;
  const plaster=new T.MeshStandardMaterial({color:0xe5d9bf,roughness:.91});
  const glow=new T.MeshStandardMaterial({color:0xffe5b2,emissive:0xffd292,emissiveIntensity:.7,roughness:.6});
  const soil=new T.MeshStandardMaterial({color:0x544b37,roughness:1});
@@ -18,9 +18,10 @@ export function approvedPalette(courtyard){
 }
 const geometryCache=new Map();
 export function dressedBox(root,x,y,z,w,h,d,material,bevel=.02){
- const r=Math.min(bevel,w*.18,h*.18,d*.18),key=[w,h,d,r].join(':');let geo=geometryCache.get(key);
+ const r=Math.min(bevel,w*.18,h*.18,d*.18),key=[w,h,d,r,material.transparent&&!material.map?'glass':'solid'].join(':');let geo=geometryCache.get(key);
  if(!geo){
-  if(r===0)geo=new T.BoxGeometry(w,h,d);
+  if(material.transparent&&!material.map){geo=new T.PlaneGeometry(w<d?d:w,h);if(w<d)geo.rotateY(Math.PI/2);}
+  else if(r===0)geo=new T.BoxGeometry(w,h,d);
   else{const s=new T.Shape();s.moveTo(-w/2+r,-h/2+r);s.lineTo(w/2-r,-h/2+r);s.lineTo(w/2-r,h/2-r);s.lineTo(-w/2+r,h/2-r);s.closePath();geo=new T.ExtrudeGeometry(s,{depth:d-2*r,bevelEnabled:true,bevelThickness:r,bevelSize:r,bevelSegments:1,steps:1,curveSegments:1});geo.translate(0,0,-d/2+r);geo.clearGroups();}
   // Metre-based UVs avoid stretched stone on long lintels and piers.
   const p=geo.attributes.position,n=geo.attributes.normal,uv=geo.attributes.uv;
@@ -77,11 +78,13 @@ export function makeAvatarStudio(p,sign){
  return b;
 }
 export function applyBuildingPalette(model,p){
+ const glazing=p.glass.clone();glazing.side=T.FrontSide;
  model.traverse(o=>{if(!o.isMesh)return;const name=o.material.name;
   if(/limestone/i.test(name))o.material=p.stone;
   else if(/Satin-navy/.test(name))o.material=p.blue;
   else if(/Oiled-timber/.test(name))o.material=p.timber;
-  else if(/Clear-glass/.test(name)){o.material=p.glass;o.castShadow=false;}
+  // These imported panes are closed boxes; render the exterior face once.
+  else if(/Clear-glass/.test(name)){o.material=glazing;o.castShadow=false;}
   else if(/Pale-paving/.test(name))o.material=p.paving;
   else if(/Warm lighting/.test(name))o.material=p.glow;
  });return model;

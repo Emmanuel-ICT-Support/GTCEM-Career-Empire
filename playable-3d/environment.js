@@ -1,9 +1,9 @@
-import {approvedPalette} from './environment/approved-campus-kit.js?v=rollout2';
+import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
 import {partitionInstances} from './environment/static-batching.js?v=1';
 import {polishGround} from './environment/ground-polish.js?v=3';
 import * as T from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
-import {addSurroundings} from './environment/surroundings.js?v=rollout2';
+import {addSurroundings} from './environment/surroundings.js?v=windows1';
 export async function integrateEnvironment(world){
 const plantInstances=[];const basePhase=world.phase;let activePhase='flourishing';
 const presets={

@@ -1,7 +1,7 @@
-import {campusExtensions} from './campus-extensions.js?v=rollout2';
+import {campusExtensions} from './campus-extensions.js?v=windows1';
 import {batchStatic} from './static-batching.js?v=1';
-import {buildMedia} from './media-building.js?v=rollout2';
-import {buildSpace} from './space-building.js?v=rollout2';
+import {buildMedia} from './media-building.js?v=windows1';
+import {buildSpace} from './space-building.js?v=windows1';
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 // Stage 2 composition study. Reference-derived silhouettes, not enterable buildings.

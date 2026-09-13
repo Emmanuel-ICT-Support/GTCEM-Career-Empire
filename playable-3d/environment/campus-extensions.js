@@ -1,6 +1,7 @@
+import {pavingNetwork} from './paving-network.js?v=windows1';
 import * as T from 'three';
-import {dressedBox,planter,batchStatic} from './approved-campus-kit.js?v=rollout2';
-import {addAuthoredGarden} from '../ecc-preview/authored-garden.js?v=rollout2';
+import {dressedBox,planter,batchStatic} from './approved-campus-kit.js?v=windows1';
+import {addAuthoredGarden} from '../ecc-preview/authored-garden.js?v=windows1';
 
 export function campusExtensions(root,p){
  const works=new T.Group();works.name='Approved standard campus connections';root.add(works);
@@ -13,10 +14,11 @@ export function campusExtensions(root,p){
  b(0,1.48,-1.3,11.7,2.44,.08,p.plaster);for(const x of[-5.4,5.4])b(x,1.39,2.14,.13,2.78,.13,p.blue);
  const c=document.createElement('canvas');c.width=1024;c.height=128;const ctx=c.getContext('2d');ctx.fillStyle='#29434a';ctx.fillRect(0,0,1024,128);ctx.fillStyle='#f6e9ce';ctx.font='500 65px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('HOME ECONOMICS',512,64);const tx=new T.CanvasTexture(c);tx.colorSpace=T.SRGBColorSpace;const name=new T.Mesh(new T.PlaneGeometry(3.4,.425),new T.MeshStandardMaterial({map:tx,roughness:.7}));name.position.set(0,2.99,2.512);house.add(name);
  works.add(batchStatic(house));
- function path(points,width){for(let i=1;i<points.length;i++){const a=new T.Vector2(...points[i-1]),b=new T.Vector2(...points[i]),length=a.distanceTo(b),m=a.clone().add(b).multiplyScalar(.5);const geo=new T.PlaneGeometry(width,length+.14);geo.rotateX(-Math.PI/2);geo.rotateY(Math.atan2(b.x-a.x,b.y-a.y));geo.translate(m.x,.075,m.y);const pos=geo.attributes.position,uv=geo.attributes.uv;for(let j=0;j<pos.count;j++)uv.setXY(j,pos.getX(j)/3,pos.getZ(j)/3);const o=new T.Mesh(geo,p.paving);o.receiveShadow=true;works.add(o);}}
+ const pavingPaths=pavingNetwork(works,p.paving,.075);const path=(points,width)=>pavingPaths.path(points,width,false);
  path([[-15,-22],[-22,-26],[-22,-39],[-18,-41.9],[-4,-41.9]],2.6);
  path([[7,-41.5],[11,-43],[11,-61]],2.4);
  path([[32,-21.8],[43,-21.8],[43,-23]],2.4);
+ pavingPaths.finish();
  // Short raised beds follow each frontage, with openings at circulation points.
  const beds=[[-12.2,-43.4,5.6,1.15],[3.1,-43.4,5.6,1.15],[12.5,-49.7,1.15,4.1],[12.5,-57,1.15,4.1],[38.4,-23.2,2.7,1.15],[47.6,-23.2,2.7,1.15]];
  const garden=new T.Group();garden.name='Teaching building native landscape';works.add(garden);

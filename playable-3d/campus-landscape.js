@@ -1,5 +1,6 @@
-import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=rollout2';
-import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=rollout2';
+import {pavingNetwork} from './environment/paving-network.js?v=windows1';
+import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=windows1';
+import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=windows1';
 import {batchStatic} from './environment/static-batching.js?v=1';
 import * as THREE from 'three';
 import {EST} from './destinations.js?v=ecc1';
@@ -13,7 +14,7 @@ const group=new THREE.Group();group.name='Campus landscape';scene.add(group);
 const loader=new GLTFLoader(),placements=[];const colliders=[];
 const paving=palette.paving,soil=palette.soil,edge=palette.stone;
 function rect(x,z,w,d,material,y=.095){const geo=new THREE.PlaneGeometry(w,d);geo.rotateX(-Math.PI/2);const uv=geo.attributes.uv,pos=geo.attributes.position;for(let i=0;i<uv.count;i++)uv.setXY(i,(pos.getX(i)+x)/3,(pos.getZ(i)+z)/3);const m=new THREE.Mesh(geo,material);m.position.set(x,y,z);m.receiveShadow=true;group.add(m);return m;}
-function path(points,width){const curve=new THREE.CatmullRomCurve3(points.map(([x,z])=>new THREE.Vector3(x,.085,z)),false,'centripetal');const a=[],uv=[],ix=[];for(let i=0;i<=120;i++){const t=i/120,p=curve.getPoint(t),v=curve.getTangent(t),n=new THREE.Vector3(-v.z,0,v.x).multiplyScalar(width/2);for(const s of [-1,1]){const q=p.clone().addScaledVector(n,s);a.push(q.x,q.y,q.z);uv.push(q.x/3,q.z/3);}if(i<120){let k=i*2;ix.push(k,k+2,k+1,k+1,k+2,k+3);}}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(a,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));g.setIndex(ix);g.computeVertexNormals();const m=new THREE.Mesh(g,paving);m.receiveShadow=true;group.add(m);}
+const pavingPaths=pavingNetwork(group,paving);const path=pavingPaths.path;
 path([[-7,25],[-7,18],[-7,8],[-6,5],[-6,2],[-6,-1],[-3,-4],[0,-8.4]],4.2);
 path([[-7,5],[-12.4,5]],4);path([[-7,18],[-13,18],[-13,12],[-19,12],[-19,14.8]],3.2);
 path([[0,8],[8,8],[15,8],[15,13]],3.6);
@@ -21,6 +22,7 @@ path([[-7,5],[-8,0],[-11,-5],[-17,-5]],3.2);
 path([[9,8],[10,2],[11,-5],[13,-9],[13,-16],[9,-20],[0,-22]],3.2);
 path([[-20,-22],[-8,-22],[5,-22],[18,-22]],3.2);
 path([[-11,-5],[-11,-14],[-11,-19],[-15,-22]],3.2);
+pavingPaths.finish();
 const plaza=new THREE.Mesh(new THREE.CircleGeometry(5.5,64),paving);plaza.rotation.x=-Math.PI/2;plaza.position.set(0,.09,4);plaza.receiveShadow=true;group.add(plaza);
 const water=new THREE.Mesh(new THREE.CircleGeometry(1,96),new THREE.MeshStandardMaterial({color:0x488c98,roughness:.28,metalness:.15}));water.rotation.x=-Math.PI/2;water.scale.set(17.156,4.746,1);water.position.set(0,.07,-28.582);water.material.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,0,1),26)];group.add(water);
 function add(id,x,z,scale=1,rotation=0){placements.push({id,x,z,scale,rotation});}
@@ -47,7 +49,9 @@ for(const spec of [{id:'careers',name:'Careers Advice Centre',x:-19,z:18,width:8
  if(spec.id===EST.buildingId){
   const oldText=[];asset.scene.traverse(o=>{if(/^Text[._]?013$/.test(o.name))oldText.push(o);});oldText.forEach(o=>o.removeFromParent());
  }
- applyBuildingPalette(asset.scene,palette);const model=mergeStatic(asset.scene);model.name=spec.name;model.rotation.y=Math.PI;model.position.set(spec.x,0,spec.z);scene.add(model);
+ // The legacy display ramps cut through the continuous campus paving. Keep the raised landing.
+ const oldRamps=[];asset.scene.traverse(o=>{if(/^ramp-3p2x2/.test(o.name))oldRamps.push(o);});oldRamps.forEach(o=>o.removeFromParent());
+ applyBuildingPalette(asset.scene,palette);const model=batchStatic(asset.scene);model.name=spec.name;model.rotation.y=Math.PI;model.position.set(spec.x,0,spec.z);scene.add(model);
  if(spec.id===EST.buildingId){
   const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=256;const ctx=canvas.getContext('2d');ctx.fillStyle='#164f54';ctx.fillRect(0,0,1024,256);ctx.strokeStyle='#d6b95c';ctx.lineWidth=12;ctx.strokeRect(10,10,1004,236);ctx.fillStyle='#fff9e8';ctx.font='bold 110px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(EST.name,512,130);
   const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const sign=new THREE.Mesh(new THREE.PlaneGeometry(3,.45),new THREE.MeshBasicMaterial({map:texture}));sign.name='EST Prep entrance sign';sign.rotation.y=Math.PI;sign.position.set(15,3.34,12.30);scene.add(sign);

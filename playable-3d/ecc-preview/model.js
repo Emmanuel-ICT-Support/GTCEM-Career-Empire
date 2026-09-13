@@ -1,4 +1,4 @@
-import {buildAuthoredCourtyard} from './authored-courtyard.js?v=rollout2';
+import {buildAuthoredCourtyard} from './authored-courtyard.js?v=windows1';
 import * as T from 'three';
 import {addCourtyardArchitecture,addCourtyardPlanting} from './courtyard-detail.js?v=courtyard1';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';

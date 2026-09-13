@@ -1,3 +1,7 @@
+# Campus windows release — 13 September 2026
+
+Tania explicitly authorises publishing the accepted campus rollout after clearer windows, English/Media interior art, SPACE basketball courts and marked path flicker fixes. The bounded release also preserves the completed concurrent EST phone-playback repair. Read docs/production/campus-windows-release-20260913.md and the canonical Blueprint. Geometry/14 unit checks and eleven physics routes pass; hosted browser CI and live verification remain pending. Preserve accepted layout, crest, Chapel image/role, Home Base and gameplay. Do not repeat appearance approval or paused work.
+
 # Approved campus standard — rollout checkpoint, 13 September 2026
 
 Tania-approved courtyard af04666 is the playable visual benchmark. Its standard is now applied locally across Avatar Studio, SPACE, English/Media, Home Economics, Careers/EST, paths and native gardens. Eleven routes and scoped browser checks pass; no deployment.
@@ -216,3 +220,7 @@ Tania accepts the proposed joystick. Mobile and short-landscape layouts replace 
 
 ## Environment polish release candidate — 12 September 2026
 Approved steps 1/2 and corrected behind-Admin layout merged onto 1fed180, retaining joystick/touch fixes. Source, unit, movement and responsive/destination checks recorded in docs/production/environment-release-20260912.md. No review/probe code ships. Physical-phone performance remains unverified; avatar and curriculum timing parked. Publication verification pending.
+
+
+## EST mobile playback repair — 13 September 2026
+CE-CHANGE-20260913-48: existing wall film now streams from its native MP4 URL; Play/Restart run synchronously from the tap instead of awaiting an 18 MB Blob download. Keep this fix and import cache keys during the concurrent campus release. Original film, poster, visuals and sound preserved. Source and four focused tests pass; 14 project unit tests pass. Desktop/390px Chromium playback, restart and pause/reopen checked; screenshot retained. Full browser CI blocked at macOS launch 1100; physical iPhone and native scrub verification remain open. No publication by this task. See docs/production/est-mobile-video-20260913.md in canonical Blueprint, and docs/est-mobile-video-20260913.md in game. Refresh final release manifest/source hashes before deployment; do not copy an earlier campus manifest over this change.
