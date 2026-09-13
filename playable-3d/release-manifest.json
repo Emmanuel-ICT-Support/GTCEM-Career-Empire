@@ -1,17 +1,17 @@
 {
-  "release": "ecc-authored-courtyard-20260913-local",
+  "release": "approved-campus-standard-rollout-20260913-local",
   "changeId": "CE-CHANGE-20260913-47",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "69cf624bbfe9cbe7b6e676535a2b109cf3b5def8",
-  "scope": "One authored ECC courtyard rebuild: connected architecture, revised roof forms, recessed rooms, textured paving/stone, native planting, warm lighting, right-hand welcome sign and supplied Chapel recognition photo. Existing gameplay preserved. Local review candidate; HERO acceptance and physical-device performance remain open.",
+  "baseCommit": "af04666d27a1521c575839c5ab8b3ef69f98760e",
+  "scope": "Apply Tania-approved courtyard standard across existing playable campus: Avatar Studio, SPACE, English/Media, Home Economics, Careers and EST, native beds, paths and shadow coverage. Preserve accepted courtyard geometry, landmarks, gameplay and paused work. Local rollout; no publication.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "fb3cc60d2719594f8d973f0986e7401f3f95bf7962fcd1e07fd50947a8110459"
+      "sha256": "3997daa7d0da9b6d3ff1496de042ed695cde6c94352ac204bca41680e027093c"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "120d3fe012d08ddce30a4ae4c2ce2bb65cc0a5fd2064625089c47d23a1b1da60"
+      "sha256": "865e657676f6aff52b986eeb169ff71032e8a80e4b7aad3513030c9ad6cfa9c3"
     },
     {
       "path": "assets/campus-buildings/careers.glb",
@@ -123,7 +123,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "df86b581cfabbc2b8be0f10eb54977707431d2b5e2aee57ed7d1879a3387634c"
+      "sha256": "a5a40efc5bc6e5010ac3df3bdf90e691576f30bc921e346e309425f4dc43be68"
     },
     {
       "path": "chapel.js",
@@ -199,11 +199,11 @@
     },
     {
       "path": "ecc-preview/authored-courtyard.js",
-      "sha256": "669b17db31430732f36acb9c5ad48eff0626da77846ed39e11a6657e3ea36d51"
+      "sha256": "4d16333f46e75655ecf38df115252f8dd7a16427570876c29f1ca42802459c36"
     },
     {
       "path": "ecc-preview/authored-garden.js",
-      "sha256": "f8e0b8e7d07d67c123095a02c99d5a4fef8afc9b6a7f4824f50889ac441e5ba4"
+      "sha256": "c3da487f75ad71fb3350c7085faa2d83b83db7c6cbd30d29d3ddcad033f4e5e5"
     },
     {
       "path": "ecc-preview/courtyard-detail.js",
@@ -215,11 +215,15 @@
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "55c15e6fcfb4612bd987e8ee1d7852d919bb80fda19a9d0e126d16382d3c7db9"
+      "sha256": "3c9c6711b871188e9420099deccb7517044caa5722592fbbf03aa7e1435bad1e"
     },
     {
       "path": "environment.js",
-      "sha256": "ff3336997052565950c5d787495f97b786f8b9100c02b5cd3b359354057cd228"
+      "sha256": "eae632f5b8016987e03fb7a4d57e2c482aa1e81e169f3ca0c5562d8ad80ad87b"
+    },
+    {
+      "path": "environment/approved-campus-kit.js",
+      "sha256": "99bd4de32a079820c84017a52446062b613d1ae64b932f49c7b48dd9dfb50f67"
     },
     {
       "path": "environment/assets/SPACE-reference.jpg",
@@ -230,16 +234,20 @@
       "sha256": "9fbd27beb9735277fea7c49845127a2513603125ca43461039d89ba1b4a1bee2"
     },
     {
+      "path": "environment/campus-extensions.js",
+      "sha256": "891eb783b049f30c17325457f4818f49e7f77055e5eefdd1d4efd5f2f5e92b77"
+    },
+    {
       "path": "environment/ground-polish.js",
       "sha256": "a0d66d498d86389bc26d3350fbfed61332a93d8f40a3a4654f98f6972baa2616"
     },
     {
       "path": "environment/media-building.js",
-      "sha256": "3be5d2653ea5f16e01511c1228828cf86454e0ab9b55a604783985aaefecd412"
+      "sha256": "0a550c1ac10abfce8c2e0581cc1787f8ffbe53f2788cce014537e00c78684d49"
     },
     {
       "path": "environment/space-building.js",
-      "sha256": "ebc17d1f88170c5fad24ac843a9f709239017c9ec1b76da7e3723b9945624811"
+      "sha256": "114c67183cbdaecd910143b6a19d4b764c60ce08a443bae6fdf57b1224435f9b"
     },
     {
       "path": "environment/static-batching.js",
@@ -247,7 +255,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "ed62af6ec03e62634c4880dfb4ac887c53ff0929fbb9736fde4fa6bca5a666f8"
+      "sha256": "6dab64113f685c816c2b7c0cda54608f1c0b4eb608c0c297023b1651ed2c8d0f"
     },
     {
       "path": "est-wall-video.js",
@@ -255,7 +263,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "a36e4af1ec8de1df306ae538b763b79616ee9e952898e270a638a1c81afdd5ac"
+      "sha256": "5303d752ca481fd1a9310fbf3ce0218b44a31b56cead97e3ba7a1f0c4c0683b1"
     },
     {
       "path": "joystick.js",
@@ -287,7 +295,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "e416a527e11034b4767f5e90d6e13325d0b9efa6db89d3ac59f270b6b418aa1f"
+      "sha256": "2fcb796c842f4eea64098424f138e617c7010bd8adc5d050403371360a9c7d85"
     }
   ],
   "estVideo": {
@@ -297,6 +305,6 @@
     "width": 1280,
     "height": 720
   },
-  "status": "local-candidate-not-published",
+  "status": "Local implementation of approved visual standard; desktop browser checks recorded, physical-device performance unverified.",
   "pilotBaseCommit": "a2794e42c359ed930124e34b459d71bcc35216ef"
 }

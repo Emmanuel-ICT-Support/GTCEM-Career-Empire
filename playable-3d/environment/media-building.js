@@ -1,12 +1,12 @@
 import * as T from 'three';
-export function buildMedia(){
+export function buildMedia(palette){
  const root=new T.Group();root.name='English and Media — curved glazed frontage';
  const materials=new Map();
  const mat=(c,r=.8)=>{const key=`${c}:${r}`;if(!materials.has(key))materials.set(key,new T.MeshStandardMaterial({color:c,roughness:r}));return materials.get(key);};
- const silver=mat(0xb7c4c9,.3),stone=mat(0xcac2ae),white=mat(0xe1e4df),floor=mat(0xc4c0ae),wood=mat(0x9b846a),back=mat(0xd6dfcb);
- const glass=new T.MeshPhysicalMaterial({color:0xbad9df,roughness:.09,metalness:.08,transparent:true,opacity:.4,depthWrite:false,side:T.DoubleSide,envMapIntensity:3.4,clearcoat:1,clearcoatRoughness:.07});
+ const silver=mat(0xb7c4c9,.3),stone=palette.stone,white=mat(0xe1e4df),floor=palette.paving,wood=palette.timber,back=mat(0xd6dfcb);
+ const glass=palette.glass.clone();glass.opacity=.28;glass.roughness=.16;
  const c=document.createElement('canvas');c.width=c.height=128;const ctx=c.getContext('2d');ctx.fillStyle='#33353a';ctx.fillRect(0,0,128,128);let seed=271;for(let i=0;i<2600;i++){seed=(1664525*seed+1013904223)>>>0;const x=seed%128;seed=(1664525*seed+1013904223)>>>0;const y=seed%128;ctx.fillStyle=['#7b7b74','#aaa497','#575963'][i%3];ctx.fillRect(x,y,1,1);}const tx=new T.CanvasTexture(c);tx.colorSpace=T.SRGBColorSpace;tx.wrapS=tx.wrapT=T.RepeatWrapping;tx.repeat.set(2,4);const dark=new T.MeshStandardMaterial({map:tx,roughness:.9});
- function box(w,h,d,m,x,y,z){const o=new T.Mesh(new T.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=!m.transparent;o.receiveShadow=true;root.add(o);return o;}
+ function box(w,h,d,m,x,y,z){const o=new T.Mesh(new T.BoxGeometry(w,h,d),m);o.position.set(x,y,z);if(m===stone||m===wood){const uv=o.geometry.attributes.uv,n=o.geometry.attributes.normal;for(let i=0;i<uv.count;i++)uv.setXY(i,uv.getX(i)*(Math.abs(n.getX(i))>.5?d:w)/2,uv.getY(i)*(Math.abs(n.getY(i))>.5?d:h)/2);}o.castShadow=!m.transparent;o.receiveShadow=true;root.add(o);return o;}
  const curve=x=>3.9-2.6*(x/12)**2;
  function curvedSlab(y,depth,extra,material){const shape=new T.Shape();shape.moveTo(-12.3,-3.05);shape.lineTo(12.3,-3.05);for(let i=24;i>=0;i--){const x=-12.3+i*24.6/24;shape.lineTo(x,curve(x)+extra);}shape.closePath();const slab=new T.Mesh(new T.ExtrudeGeometry(shape,{depth,bevelEnabled:false}),material);slab.rotation.x=Math.PI/2;slab.position.y=y;slab.castShadow=slab.receiveShadow=true;root.add(slab);}
  curvedSlab(6.69,.22,.55,white);

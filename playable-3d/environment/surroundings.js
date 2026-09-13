@@ -1,19 +1,20 @@
+import {campusExtensions} from './campus-extensions.js?v=rollout2';
 import {batchStatic} from './static-batching.js?v=1';
-import {buildMedia} from './media-building.js?v=hero1';
-import {buildSpace} from './space-building.js';
+import {buildMedia} from './media-building.js?v=rollout2';
+import {buildSpace} from './space-building.js?v=rollout2';
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 // Stage 2 composition study. Reference-derived silhouettes, not enterable buildings.
-export async function addSurroundings(scene){
- const root=new T.Group();root.name='Stage 2 proposed campus surroundings';scene.add(root);
+export async function addSurroundings(scene,palette){
+ const root=new T.Group();root.name='Approved campus surroundings and connections';scene.add(root);
  const mat=c=>new T.MeshStandardMaterial({color:c,roughness:.88});
  const stone=mat(0xc4bda7),glass=mat(0x668992),fin=mat(0x454c4b),roof=mat(0xb8c6c4),blue=mat(0x31596f);
  function box(g,w,h,d,m,x,y,z){const o=new T.Mesh(new T.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.receiveShadow=true;g.add(o);return o;}
  // Local annotated layout: separated right angle behind Admin; curved frontage west, mural north toward SPACE.
- const english=buildMedia();english.position.set(-4,0,-37);english.rotation.y=Math.PI;english.scale.setScalar(.9);root.add(batchStatic(english));
- const space=buildSpace();space.position.set(18,0,-53);space.rotation.y=-Math.PI/2;space.scale.setScalar(.85);root.add(batchStatic(space));
+ const english=buildMedia(palette);english.position.set(-4,0,-37);english.rotation.y=Math.PI;english.scale.setScalar(.9);root.add(batchStatic(english));
+ const space=buildSpace(palette);space.position.set(18,0,-53);space.rotation.y=-Math.PI/2;space.scale.setScalar(.85);root.add(batchStatic(space));
  // Home Economics is a low connecting roofline, subordinate to the hero Chapel.
- box(root,12,2.8,3,stone,43,1.4,-26);box(root,13,.25,4.4,roof,43,2.95,-25.7);
+ const extension=campusExtensions(root,palette);root.userData.extraBeds=extension.beds;
  // Reuse the approved eucalypt model for a consistent distant campus canopy.
  let originalGrass;scene.traverse(o=>{if(o.isMesh&&!originalGrass){const ms=Array.isArray(o.material)?o.material:[o.material];originalGrass=ms.find(m=>m.map?.image?.src?.includes('grass-ecc-campus'));}});
  if(!originalGrass)throw Error('Existing campus grass material missing');

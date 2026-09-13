@@ -1,3 +1,23 @@
+# Approved campus standard — rollout checkpoint, 13 September 2026
+
+Tania-approved courtyard af04666 is the playable visual benchmark. Its standard is now applied locally across Avatar Studio, SPACE, English/Media, Home Economics, Careers/EST, paths and native gardens. Eleven routes and scoped browser checks pass; no deployment.
+
+Keep the approved courtyard banked, review sustained school-device performance and complete normal release checks for the local campus rollout. Use the shared architecture/material/planting kit for future destination additions by fidelity tier. Paused avatar/wardrobe and curriculum-state timing remain untouched.
+
+Read docs/production/approved-standard-rollout-20260913.md. The governing acceptance is af04666; the new local rollout source is recorded in its final receipt. Preserve original assets, exact crest/Chapel photo, moved Home Base, accepted campus orientation, gameplay and paused work. No publication or global-refresh success. Current source and six unit checks pass; automated browser CI remains blocked at launch by macOS sandbox. Eleven physics routes and desktop/phone-size browser checks pass.
+
+# Approved courtyard standard and rollout — 13 September 2026
+
+Tania: “Next level good. that's a yes yes yes from me. Can you go ahead with that standard for the rest?”
+
+Courtyard **af04666** is now the approved playable visual benchmark. Apply that standard progressively to the rest of the existing world, preserving the accepted courtyard, gameplay, building recognition, exact crest, right-hand welcome sign and supplied Chapel image. Do not keep treating the courtyard as awaiting appearance approval. This approval does not assert a measured hero-art percentage, physical-device performance or publication.
+
+Current rollout: Avatar Studio and arrival garden, remaining ECC teaching buildings/approaches, supporting Careers/EST destinations and background edge by fidelity tier. Use the accepted asset/material kit, spatial batching and distance detail. Preserve paused avatar/wardrobe and curriculum-state timing. No new game mechanics.
+
+Read docs/production/approved-standard-rollout-20260913.md and existing pilot evidence. Global refresh remains incomplete and prior access checkpoints remain intact.
+
+## Prior checkpoint history
+
 # Current ECC authored rebuild — 13 September 2026
 
 Authored ECC courtyard rebuild is now a local playable quality candidate: editable Blender v4, coherent connected shell and tiled roofs, recessed rooms and photo-backed interiors, native planting, revised materials/light, right-hand welcome sign/Home Base and the supplied Chapel recognition photograph. HERO acceptance is still open; no deployment.

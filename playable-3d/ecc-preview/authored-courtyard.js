@@ -3,7 +3,7 @@ import {timberMap} from './hero-materials.js?v=authored1';
 import * as T from 'three';
 import {HDRLoader} from 'three/addons/loaders/HDRLoader.js';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-import {addAuthoredGarden} from './authored-garden.js?v=5';
+import {addAuthoredGarden} from './authored-garden.js?v=rollout2';
 export const ECC_WELCOME={x:4.9,z:6.4};
 const beds=[[-8,5,2.8,4.6],[-6.3,-6.5,5,1.7],[7.2,10.9,4.7,2],[2.3,-.8,1.1,1.3],[-4.9,6.4,2.65,2.6],[5.8,5.2,3,2.6]];
 export const courtyardObstacles=[{type:'circle',x:-5.53,z:2.53,r:.26},{type:'circle',x:-10,z:-4,r:.3},{type:'circle',x:10.8,z:-3,r:.3},{type:'box',x:0,z:-4.55,w:8,d:4.2},{type:'box',x:6.45,z:-1.45,w:4.4,d:6.4},{type:'chapel',x:-6,z:-1,r:3.05,doorAngle:.75,doorHalf:.23},...beds.map(([x,z,w,d])=>({type:'box',x,z,w,d})),{type:'box',x:4.9,z:6.4,w:2.35,d:.7},...[[-6,4,2.3,.75],[5.7,7.7,2.5,.75],[-6,8.3,2.3,.75],[9.3,3.7,.75,1.9]].map(([x,z,w,d])=>({type:'box',x,z,w,d}))];

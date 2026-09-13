@@ -1,10 +1,10 @@
 import {createJoystick} from './joystick.js?v=1';
-import {integrateEnvironment} from './environment.js?v=ecc-authored10';
+import {integrateEnvironment} from './environment.js?v=rollout2';
 import {CHAPEL} from './chapel.js?v=chapel1';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=authored10';
+import {createWorlds} from './world.js?v=rollout2';
 import {LEGACY,EST} from './destinations.js?v=ecc1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260910-schoolboy1';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
@@ -313,9 +313,9 @@ async function boot(){
     await integrateEnvironment(worlds);
     worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');yaw=0;updateCamera(1,true);$('loading').hidden=true;icons();
     // A shareable, playable quality-review viewpoint; normal entry remains Arrival Gardens.
-    if(new URLSearchParams(location.search).get('view')==='ecc-courtyard'){
-      worlds.teleport(false,0,-2.8);actor.model.position.copy(worlds.position(false));yaw=0;aerial=false;setLocation('ECC Courtyard');updateCamera(1,true);
-    }
+    const viewpoints={'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Home Economics'}};
+    const viewpoint=viewpoints[new URLSearchParams(location.search).get('view')];
+    if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}
     animate();
     // All campus destinations are loaded before the interactive scene is revealed.
     // Let the new player reach a stable town first. Choices then prepare in
