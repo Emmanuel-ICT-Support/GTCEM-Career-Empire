@@ -14,3 +14,6 @@ Evidence and precise final live receipt are canonical in the existing Blueprint 
 
 
 Hosted rendering diagnosis: retained traces from cfc6683 show about 14 seconds between frames and GPU readback-stall warnings even with one worker. This runner has no hardware GPU; serialisation alone did not resolve it. Campus CI now caps only the test framebuffer to 0.25 DPR and shadow maps to 256 pixels using a checked response adapter in the test fixture. Production files, geometry, materials, quality controls and gameplay assertions remain unchanged. This suite verifies gameplay at a reduced raster budget; it does not certify full-quality rendering or school-device speed. Full-size visual evidence remains the actual hardware-rendered committed build.
+
+
+Follow-up trace confirms the test adapter applied (320×180 framebuffer) but CPU-only frames still take about 8 seconds. CI therefore draws only a 24-index/vertex sample of explicitly named decorative foliage meshes, retaining every asset load, instance placement, collider, building, player and gameplay assertion. This is functional coverage with reduced foliage drawing, not a visual or fidelity acceptance test. Full-size hardware-rendered production evidence and shipped foliage remain unchanged. The fixture fails if renderer insertion points change.
