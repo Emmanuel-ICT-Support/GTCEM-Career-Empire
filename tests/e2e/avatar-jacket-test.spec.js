@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from './campus-fixtures.js';
 
 
 test('jacket test supports outfit visibility, walking and saved profiles', async ({page}) => {
