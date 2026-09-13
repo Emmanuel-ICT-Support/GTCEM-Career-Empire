@@ -1,3 +1,19 @@
+# Approved Chapel interior publication — 13 September 2026
+
+Tania reviewed the final corrected side-perspective Chapel and explicitly approved it: “great! love it send to live if all good to go”. This separately authorises the new interior, superseding the earlier interior hold. Chapel task owns this bounded publication after the exterior release task closed; no further appearance work. Preserve the approved source, seven verified movement routes, 14 unit checks and final reference/evidence receipt. Publication verification is pending; do not infer live success from local checks. See docs/chapel-interior-upgrade-20260913.md. Older hold notes below are historical.
+
+# Published exterior; new interior on hold — 13 September 2026
+
+Tania-approved campus plus revision5 Chapel exterior and Administration/welcome signage are live and verified at 1ca602a59ef16a1dc64f79e9185a9e395f81a023 (2026-09-13T08:38:14Z), PR #12; reviewed candidate 754f3fcd8c2aeb07d5c2b91a441d00b2fc398343.
+
+NEW Chapel interior work is excluded. The released Chapel interior module is byte-identical to prior live 61826d6; newer local app.js, chapel.js and world.js work remains untouched. Do not publish new Chapel interior work until Tania explicitly approves that release. Stop further development in this task until Tania returns with news from the avatar software people. Preserve paused avatar/wardrobe and curriculum-state timing.
+
+81 published manifest files match the committed candidate. Package check resolves 29 local modules; source checks and 14 unit tests pass. Saved revision5 physics evidence covers four routes and moved-sign collision. Actual candidate and live exterior/Home Base views inspected, with no scenery errors. Full hosted graphics suite retains known timeouts and no full pass is claimed; sustained school-device performance is unverified.
+
+Global refresh stays incomplete; retained missing-source byte-identity checkpoints, independent game-clone monitoring gap, and pending canonical reader review/export release remain separate. Game publication does not publish the Blueprint reader.
+
+Read docs/production/ecc-exterior-release-20260913.md. Older pending-exterior notes below are historical.
+
 # Current exterior release and interior hold — 13 September 2026
 
 Tania explicitly approves and requests live publication of the completed revision5 Chapel exterior and Administration/welcome signage with the existing approved campus. Freeze revision5 receipt; exclude all NEW Chapel interior work until she explicitly authorises its publication. After this verified release, stop further development pending Tania’s update from the avatar software people. Existing full-hosted-CI and physical-device limits remain disclosed; preserve all source-access checkpoints.
@@ -259,3 +275,15 @@ Revision4 complete locally (13 September): matched the pale/smooth cross-recess 
 
 
 Revision5: cross contrast restored using deeper shaded limestone backing and restrained warm light; stray original door handles moved into relocated doorway. Pergola/other positions and colliders unchanged. Two courtyard angles visually verified; development source checks pass. Prior revision4 route/collision checks remain applicable (no collision changes). Correct root cause of marked lines: the two brushed-metal handles stayed at the former Chapel doorway; both are now transformed with the door. Temporary doorway-shadow suppression was removed. This supersedes revision4 low-contrast recess and the provisional liner/shadow diagnosis. Exact master, assets, hashes and screenshots: private/production-evidence/2026-09-13/ecc-signage-chapel-correction/revision5/receipt.json. Appearance review and publication remain open.
+
+
+Release-task handoff: this publication task is now paused. Separately authorised Chapel interior work may continue locally in its own task; it needs Tania’s separate explicit approval before any live release. Do not treat the exterior approval as interior publication approval.
+
+
+Final release-task record checks: 26 scoped Blueprint tests pass and exports are current. Registry scan retains 10 folders, 5 discovered working copies, zero in-registry coverage failures, 175 pending intake observations and 12 pending changes. Independent-clone coverage and global refresh remain incomplete. Release task closed; new Chapel interior code remains local and excluded from the verified publication.
+
+
+Chapel interior upgrade (13 September 2026): Raised segmented timber ceiling, continuous light ribbons and 15 staggered pendants; warm soft area lighting and local room reflections; woven upholstery/carpet, frosted-glass ripples and metal-mounted original rainbow cross; 78 instanced chairs; vertical look and clear Chapel overview. Verified local; publication explicitly authorised and coordinated with campus release task. Receipt: private/production-evidence/2026-09-13/chapel-interior-upgrade/receipt.json. See docs/production/chapel-interior-upgrade-20260913.md. Exterior revision5 accepted. Preserve current camera/import keys and both official area-light vendor modules; refresh release dependency graph. Five physics routes and 14 unit tests pass; final default/ceiling/overview/mobile screenshots retained. Do not claim live until deployment verified.
+
+
+Chapel interior upgrade (13 September 2026): Broad 22m by 18m room with a bounded central raised clerestory roof, lower timber ceilings on all four sides, deep white relief beams and wide glazed seating wings, continuous light ribbons and 15 staggered pendants; warm soft area lighting and local room reflections; woven upholstery/carpet, frosted-glass ripples and metal-mounted original rainbow cross; 98 instanced chairs; vertical look and clear Chapel overview. Verified local; publication explicitly authorised and coordinated with campus release task. Receipt: private/production-evidence/2026-09-13/chapel-interior-upgrade/receipt.json. See docs/production/chapel-interior-upgrade-20260913.md. Exterior revision5 accepted. Preserve current camera/import keys and both official area-light vendor modules; refresh release dependency graph. Seven physics routes and 14 unit tests pass; final default/ceiling/overview/mobile screenshots retained. Do not claim live until deployment verified.

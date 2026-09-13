@@ -1,6 +1,6 @@
 import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
 import {createESTWallVideo} from './est-wall-video.js?v=est-mobile-20260913';
-import {buildChapel} from './chapel.js?v=chapel1';
+import {buildChapel} from './chapel.js?v=chapel2';
 import {buildExterior} from './ecc-preview/model.js?v=exterior5-20260913';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createCampusLandscape} from './campus-landscape.js?v=windows1';
@@ -456,7 +456,7 @@ export async function createWorlds(onProgress=()=>{}){
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
     move(inside,delta){const physics=physical(inside);physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
-      next.x=Math.max(inside==='chapel'?-8.1:inside?-6.9:-38,Math.min(inside==='chapel'?8.1:inside?6.9:50,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-76,Math.min(inside==='chapel'?8.3:inside?6.9:36,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
+      next.x=Math.max(inside==='chapel'?-10.5:inside?-6.9:-38,Math.min(inside==='chapel'?10.5:inside?6.9:50,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-76,Math.min(inside==='chapel'?8.3:inside?6.9:36,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
     position(inside){const p=physical(inside).body.translation();return new THREE.Vector3(p.x,p.y-.785,p.z);},
     teleport(inside,x,z){const p=physical(inside);p.verticalVelocity=0;p.body.setTranslation({x,y:inside?.8:.9,z},true);p.body.setNextKinematicTranslation({x,y:inside?.8:.9,z});p.world.step();}
   };

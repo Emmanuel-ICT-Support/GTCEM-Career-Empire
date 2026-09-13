@@ -1,11 +1,11 @@
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
 import {integrateEnvironment} from './environment.js?v=windows1';
-import {CHAPEL} from './chapel.js?v=chapel1';
+import {CHAPEL} from './chapel.js?v=chapel2';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=exterior5-20260913';
+import {createWorlds} from './world.js?v=chapel-interior-20260913';
 import {LEGACY,EST} from './destinations.js?v=ecc1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260910-schoolboy1';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
@@ -16,6 +16,7 @@ const icons=()=>window.lucide?.createIcons();
 const state=loadProfiles(localStorage);
 let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flourishing',draft,editorTab='identity';
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
+let chapelTilt=0;
 let toastTimer,drag=null,lastTime=0,accumulator=0,metricsTime=0,frames=0,viewport={width:1,height:1};
 let tapMovement=null,watchingEST=false;
 let moduleObserver=null,moduleTimer=null;
@@ -116,15 +117,15 @@ function setMode(next){
   const inStudio=next==='studio';$('arrival-mission').hidden=inStudio||next==='interior'||next==='chapel';$('est-watch').hidden=true;
   for(const id of ['world-heading','world-tools','destination-bar','movement','world-footer'])$(id).hidden=inStudio;
   for(const id of ['studio-heading','studio-panel','studio-view-tools'])$(id).hidden=!inStudio;
-  $('interact').hidden=true;interaction=null;
+  $('interact').hidden=true;interaction=null;$('aerial').setAttribute('aria-label',next==='chapel'?'Chapel overview':'Aerial view');
   $('town-view').classList.toggle('active',!inStudio);$('town-view').setAttribute('aria-pressed',!inStudio);
   $('studio-view').classList.toggle('active',inStudio);$('studio-view').setAttribute('aria-pressed',inStudio);
   orbit.enabled=inStudio;canvas.setAttribute('aria-label',inStudio?'Interactive 3D character':next==='chapel'?'Interactive ECC Chapel':next==='interior'?'Interactive EST Prep hall':'Interactive 3D town');
   if(inStudio){draft=copy(active());undo=[];redo=[];editorTab='identity';previewWalking=false;portrait=false;$('pose-avatar').setAttribute('aria-pressed','false');$('portrait-view').setAttribute('aria-pressed','false');updatePreview();renderEditor();resetStudioCamera();}
-  else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(worlds.position(space()));yaw=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
+  else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(worlds.position(space()));yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
   resize();
 }
-function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='chapel'?'A PLACE TO PAUSE':mode==='interior'?'THE LEARNING HALL':'CAREER EMPIRE · YOUR FIRST DAY';$('location-subtitle').textContent=mode==='chapel'?'Quiet reflection / Take your time':mode==='interior'?'CORE / TERM / VTCS / BOSS':title==='Home Base'?'ECC welcome / Chapel / Campus paths':'Arrival Gardens / Avatar Studio';}
+function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='chapel'?'A PLACE TO PAUSE':mode==='interior'?'THE LEARNING HALL':'CAREER EMPIRE · YOUR FIRST DAY';$('location-subtitle').textContent=mode==='chapel'?'Quiet reflection · Drag down to look up':mode==='interior'?'CORE / TERM / VTCS / BOSS':title==='Home Base'?'ECC welcome / Chapel / Campus paths':'Arrival Gardens / Avatar Studio';}
 function leaveStudio(callback){if(dirty()){pendingLeave=callback;$('leave-dialog').showModal();}else callback();}
 function saveDraft(){if(!hasCharacterKit(draft.body)){toast('Wait for the selected body to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{localStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
 function openStudio(){if(mode==='studio')return;setMode('studio');}
@@ -137,7 +138,7 @@ async function enterHall(){
   if(request!==hallRequest||mode!=='town')return;
   worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');worlds.estVideo.prepare().catch(()=>{});toast('Choose Play EST video on the wall whenever you are ready.');
 }
-async function enterChapel(){const request=++hallRequest;toast('Opening the Chapel...');try{await worlds.ensureChapel();}catch{if(request===hallRequest)toast('Chapel could not load. Try entering again.');return;}if(request!==hallRequest||mode!=='town')return;worlds.teleport('chapel',...CHAPEL.entry);setMode('chapel');}
+async function enterChapel(){const request=++hallRequest;toast('Opening the Chapel...');try{await worlds.ensureChapel();if(!worlds.chapel.userData.reflectionProbe){const target=new THREE.WebGLCubeRenderTarget(128,{type:THREE.HalfFloatType});const probe=new THREE.CubeCamera(.1,35,target);probe.position.set(0,2.2,-2);probe.update(renderer,worlds.chapel);worlds.chapel.environment=target.texture;worlds.chapel.environmentIntensity=.45;worlds.chapel.userData.reflectionProbe=target;}}catch{if(request===hallRequest)toast('Chapel could not load. Try entering again.');return;}if(request!==hallRequest||mode!=='town')return;worlds.teleport('chapel',...CHAPEL.entry);setMode('chapel');}
 function leaveChapel(){setMode('town');worlds.teleport(false,CHAPEL.x,CHAPEL.z);actor.model.position.copy(worlds.position(false));yaw=1.1;clearTimeout(toastTimer);$('toast').hidden=true;updateCamera(1,true);}
 function closeESTVideo(){documentRequest++;if(document.fullscreenElement)document.exitFullscreen?.();$('est-document-frame').replaceChildren();$('est-video-dialog').close();watchingEST=false;worlds.estVideo.pause();$('est-video-controls').hidden=true;keys.clear();joystick.reset();tapMovement=null;canvas.focus();}
 function showESTFilm(){documentRequest++; $('est-documents').hidden=true;$('est-document-frame').hidden=true;$('est-document-frame').replaceChildren();$('est-source-title').hidden=true;worlds.estVideo.video.hidden=false;$('est-film-controls').hidden=false; }
@@ -161,7 +162,7 @@ function resize(){
   if(!renderer)return;viewport={width:window.innerWidth,height:$('experience').clientHeight};renderer.setSize(viewport.width,viewport.height,false);
   const mobile=isMobile();const width=mode==='studio'&&!mobile?viewport.width-(viewport.width>900?364:316):viewport.width;
   const height=mode==='studio'&&mobile?viewport.height*.57:viewport.height;
-  camera.aspect=width/height;camera.fov=mode==='studio'?36:mobile?62:55;camera.updateProjectionMatrix();
+  camera.aspect=width/height;camera.fov=mode==='studio'?36:mode==='chapel'?(mobile?70:64):mobile?62:55;camera.updateProjectionMatrix();
   if(mode==='studio')resetStudioCamera();
 }
 function updateCamera(dt,snap=false){
@@ -169,7 +170,7 @@ function updateCamera(dt,snap=false){
   const p=actor.model.position;
   if(watchingEST){const viewingDistance=Math.max(7.9,6.8/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect));desiredCamera.set(0,3.3,-6.48+viewingDistance);lookAt.set(0,3.3,-6.48);camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);return;}
   if(mode==='town'&&worlds.town.fog){worlds.town.fog.near=aerial?200:64;worlds.town.fog.far=aerial?320:175;}
-  if(aerial){if(mode==='chapel'){desiredCamera.set(7,5,8);lookAt.set(0,1,-3);}else if(mode==='interior'){desiredCamera.set(8,12,13);lookAt.set(0,0,0);}else{desiredCamera.set(-63,87,65);lookAt.set(-20,0,-12);}}
+  if(aerial){if(mode==='chapel'){desiredCamera.set(8.9,2.25,-1.4);lookAt.set(-1.5,3.7,1.1);}else if(mode==='interior'){desiredCamera.set(8,12,13);lookAt.set(0,0,0);}else{desiredCamera.set(-63,87,65);lookAt.set(-20,0,-12);}}
   else if(mode==='town'){
     // Keep head-to-foot framing steady through the Studio approach and camera turns.
     const distance=6.4;
@@ -177,10 +178,10 @@ function updateCamera(dt,snap=false){
     lookAt.set(p.x-Math.sin(yaw)*.6,p.y+1.25,p.z-Math.cos(yaw)*.6);
   }else{
     const distance=mode==='chapel'?2.7:4.2;
-    desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+(mode==='interior'?3:2.75),p.z+Math.cos(yaw)*distance);
-    lookAt.set(p.x-Math.sin(yaw)*(mode==='chapel'?5:1.1),p.y+(mode==='chapel'?2.3:1.55),p.z-Math.cos(yaw)*(mode==='chapel'?5:1.1));
+    desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+(mode==='interior'?3:1.95),p.z+Math.cos(yaw)*distance);
+    lookAt.set(p.x-Math.sin(yaw)*(mode==='chapel'?5:1.1),p.y+(mode==='chapel'?2.75+chapelTilt:1.55),p.z-Math.cos(yaw)*(mode==='chapel'?5:1.1));
   }
-  if(mode==='chapel'){desiredCamera.x=THREE.MathUtils.clamp(desiredCamera.x,-8.1,8.1);desiredCamera.z=THREE.MathUtils.clamp(desiredCamera.z,-8.05,8.05);}
+  if(mode==='chapel'){desiredCamera.x=THREE.MathUtils.clamp(desiredCamera.x,-10.5,10.5);desiredCamera.z=THREE.MathUtils.clamp(desiredCamera.z,-8.05,8.05);}
   camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);
 }
 function updateMission(){
@@ -256,7 +257,7 @@ function bindEvents(){
   $('town-view').addEventListener('click',returnTown);$('studio-view').addEventListener('click',openStudio);
   $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>{const go=()=>{setMode('town');enterHall();};if(mode==='studio')leaveStudio(go);else go();});$('chapel-destination').addEventListener('click',()=>destination('chapel'));
   $('interact').addEventListener('click',()=>interaction?.action());$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
-  $('aerial').addEventListener('click',()=>{aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
+  $('aerial').addEventListener('click',()=>{aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
   $('profile').addEventListener('change',()=>{const id=$('profile').value;$('profile').value=state.activeId;const change=()=>{state.activeId=id;persist();updateActor();if(mode==='studio')setMode('studio');};if(mode==='studio')leaveStudio(change);else change();});
   $('new-profile').addEventListener('click',()=>{const add=()=>{if(state.profiles.length>=24){toast('This browser already has 24 characters.');return;}const p=normaliseProfile({id:crypto.randomUUID(),name:`Character ${state.profiles.length+1}`});state.profiles.push(p);state.activeId=p.id;persist();updateActor();setMode('studio');};if(mode==='studio')leaveStudio(add);else add();});
   document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{editorTab=b.dataset.tab;renderEditor();}));
@@ -269,7 +270,7 @@ function bindEvents(){
   window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());document.addEventListener('visibilitychange',()=>{keys.clear();joystick.reset();accumulator=0;});window.addEventListener('resize',resize);
   window.addEventListener('beforeunload',e=>{if(dirty()){e.preventDefault();e.returnValue='';}});
   document.querySelectorAll('[data-key]').forEach(b=>{b.addEventListener('contextmenu',e=>e.preventDefault());b.addEventListener('dragstart',e=>e.preventDefault());b.addEventListener('selectstart',e=>e.preventDefault());let pressedAt=0;b.addEventListener('pointerdown',e=>{e.preventDefault();b.setPointerCapture(e.pointerId);pressedAt=performance.now();keys.add(b.dataset.key);b.classList.add('pressed');});const release=e=>{if(e.type==='pointerup'&&performance.now()-pressedAt<180)tapMovement={key:b.dataset.key,until:performance.now()+220};keys.delete(b.dataset.key);b.classList.remove('pressed');};b.addEventListener('pointerup',release);b.addEventListener('pointercancel',release);b.addEventListener('lostpointercapture',release);});
-  canvas.addEventListener('pointerdown',e=>{canvas.focus();if(mode==='studio')return;drag={x:e.clientX,yaw};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(drag && mode!=='studio')yaw=drag.yaw-(e.clientX-drag.x)*.006;});canvas.addEventListener('pointerup',()=>drag=null);canvas.addEventListener('pointercancel',()=>drag=null);
+  canvas.addEventListener('pointerdown',e=>{canvas.focus();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(drag && mode!=='studio'){yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='chapel')chapelTilt=THREE.MathUtils.clamp(drag.tilt+(e.clientY-drag.y)*.014,-1.6,4.5);}});canvas.addEventListener('pointerup',()=>drag=null);canvas.addEventListener('pointercancel',()=>drag=null);
 }
 function animate(){
   requestAnimationFrame(animate);const now=clock.getElapsedTime(),dt=Math.min(now-lastTime,.08);lastTime=now;
@@ -316,6 +317,7 @@ async function boot(){
     // A shareable, playable quality-review viewpoint; normal entry remains Arrival Gardens.
     const viewpoints={'chapel-exterior':{p:[-1.5,-4.5,.58],name:'Chapel exterior'},'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Home Economics'}};
     const viewpoint=viewpoints[new URLSearchParams(location.search).get('view')];
+    if(new URLSearchParams(location.search).get('view')==='chapel-interior')await enterChapel();
     if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}
     animate();
     // All campus destinations are loaded before the interactive scene is revealed.
