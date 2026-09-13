@@ -3,6 +3,23 @@ import {test as base,expect} from '@playwright/test';
 // Explicit ANGLE software backend on CI; macOS retains its hardware backend.
 // Only the trusted local test server is opened by these campus scenarios.
 export const test=base.extend({
+  // Hosted runners have no GPU. Keep every model, material and gameplay path,
+  // but cap only their test framebuffer/shadow raster size. Full-size visual
+  // acceptance is recorded separately on the hardware-rendered playable build.
+  softwareRasterBudget: [async ({page},use)=>{
+    if(process.env.CI){
+      await page.route('**/playable-3d/app.js*',async route=>{
+        const response=await route.fetch();let source=await response.text();
+        const create="renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});";
+        const draw='renderer.render(scene,camera);';
+        if(!source.includes(create)||!source.includes(draw))throw new Error('Campus CI raster adapter no longer matches production renderer');
+        source=source.replace(create,create+'const nativePixelRatio=renderer.setPixelRatio.bind(renderer);renderer.setPixelRatio=value=>nativePixelRatio(Math.min(value,.25));');
+        source=source.replace(draw,"scene.traverse(light=>{if(light.shadow)light.shadow.mapSize.set(256,256);});"+draw);
+        await route.fulfill({response,body:source});
+      });
+    }
+    await use();
+  },{auto:true}],
   launchOptions: async ({},use)=>use({args:process.platform==='darwin'
     ? ['--use-angle=metal']
     : ['--use-gl=angle','--use-angle=swiftshader']}),
