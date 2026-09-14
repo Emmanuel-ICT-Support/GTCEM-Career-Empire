@@ -1,6 +1,6 @@
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
-import {integrateEnvironment} from './environment.js?v=windows1';
+import {integrateEnvironment} from './environment.js?v=release2-20260914';
 import {CHAPEL} from './chapel.js?v=load1-20260914';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';

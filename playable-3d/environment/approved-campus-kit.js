@@ -10,6 +10,10 @@ export function approvedPalette(courtyard){
  const paving=copy('ECC travertine paving',0xddd2bb);const source=found.get('ECC travertine paving');if(source){paving.onBeforeCompile=source.onBeforeCompile;paving.customProgramCacheKey=source.customProgramCacheKey;}paving.name='Approved campus paving';
  paving.onBeforeCompile=shader=>{source?.onBeforeCompile?.(shader);shader.vertexShader='varying vec2 campusGround;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n campusGround = (modelMatrix * vec4(position,1.0)).xz;');shader.fragmentShader='varying vec2 campusGround;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\n vec2 slab=campusGround/vec2(1.2,.6);slab.x+=mod(floor(slab.y),2.)*.5;vec2 seam=min(fract(slab),1.-fract(slab));float edge=min(seam.x*1.2,seam.y*.6);diffuseColor.rgb*=mix(.72,1.,smoothstep(.004,.017,edge));');};paving.customProgramCacheKey=()=> 'approved-campus-sawn-joints-1';
  const blue=copy('ECC powdercoat blue',0x28526a),timber=copy('ECC warm timber',0xc4a175),glass=copy('ECC authored glass',0xd4ded0),roof=copy('ECC clay roof',0xa85a35);
+ // The imported Careers façade has a blue post immediately in front of its
+ // sandstone return.  Give the metal a stable depth preference so the two
+ // almost-touching surfaces cannot alternate as the depth buffer is sampled.
+ blue.polygonOffset=true;blue.polygonOffsetFactor=-1;blue.polygonOffsetUnits=-1;
  glass.opacity=.14;glass.color.setHex(0xe5f2f0);glass.metalness=.06;glass.roughness=.07;glass.envMapIntensity=.38;glass.name='Approved campus glazing';glass.depthWrite=false;glass.forceSinglePass=true;
  const plaster=new T.MeshStandardMaterial({color:0xe5d9bf,roughness:.91});
  const glow=new T.MeshStandardMaterial({color:0xffe5b2,emissive:0xffd292,emissiveIntensity:.7,roughness:.6});

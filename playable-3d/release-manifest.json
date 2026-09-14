@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "app.js",
-      "sha256": "382d1f9186bbe80faf71b3459e3c23a6cdeb2e7f03e1d6a7d3aaab74a5897d5e"
+      "sha256": "14d1d3fe9edfb8776b9ea8439b76dd062082700be31f7342f0e7a90083b10431"
     },
     {
       "path": "arrival-precinct.js",
@@ -123,7 +123,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "775b7fc779b01ee02610bec2cc9c54701567e1e6436c785bcc48e5864fbf4e32"
+      "sha256": "428d12b40240c88e517a94d122259513f29d25b129e8ab62e73304aee088dac8"
     },
     {
       "path": "chapel.js",
@@ -239,11 +239,11 @@
     },
     {
       "path": "environment.js",
-      "sha256": "db9807c2493304ebb4fa83f54c45c93ee39984d01eae6f2120cff78d63f7d92f"
+      "sha256": "cd73240a1d61e266ef7cdb1659304fecdd9f2ca588e648e4a53b34afcffb29a3"
     },
     {
       "path": "environment/approved-campus-kit.js",
-      "sha256": "9c65b0867209f226f723fb65d3813c7ae37ffcb03686e8f34936f643859e9cff"
+      "sha256": "17ef10cd3f09851f027aa03abe54004f5f95e160ff8f568dcdff9a9e194a8700"
     },
     {
       "path": "environment/assets/SPACE-reference.jpg",

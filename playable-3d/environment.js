@@ -1,3 +1,4 @@
+import {shadowAnchor} from './shadow-anchor.js';
 import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
 import {partitionInstances} from './environment/static-batching.js?v=1';
 import {polishGround} from './environment/ground-polish.js?v=3';
@@ -51,8 +52,8 @@ capturePlants();world.phase=apply;
 // Beyond it, translate the same light/target together so teaching buildings also receive shadows.
 const directional=[];world.town.traverse(o=>{if(o.isDirectionalLight)directional.push(o);});
 for(const sun of directional)if(!sun.target.parent)world.town.add(sun.target);
-const priorUpdate=world.update;world.update=(time,camera)=>{priorUpdate(time,camera);const pos=world.position(false),central=Math.abs(pos.x)<18&&pos.z>-22&&pos.z<22;const cx=central?0:Math.round(pos.x/2)*2,cz=central?0:Math.round(pos.z/2)*2;
- for(const sun of directional){const p=presets[activePhase].p;sun.position.set(p[0]+cx,p[1],p[2]+cz);sun.target.position.set(cx,0,cz);sun.target.updateMatrixWorld();}
+const priorUpdate=world.update;world.update=(time,camera)=>{priorUpdate(time,camera);const pos=world.position(false);
+ for(const sun of directional){const p=presets[activePhase].p,a=shadowAnchor(pos,p,sun.shadow.camera,sun.shadow.mapSize);sun.position.set(p[0]+a[0],p[1]+a[1],p[2]+a[2]);sun.target.position.fromArray(a);sun.target.updateMatrixWorld();}
 };
 
 // Closed reference building footprint where the approved Media exterior meets the playable edge.
