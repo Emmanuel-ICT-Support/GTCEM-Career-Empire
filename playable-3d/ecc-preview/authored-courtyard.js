@@ -21,10 +21,13 @@ function removeEmbeddedBenches(root){
  root.traverse(o=>{
   if(!o.isMesh)return;
   const original=o.geometry,source=original.index?original.toNonIndexed():original,position=source.getAttribute('position');
-  const kept=[];let removed=false;const point=new T.Vector3();
+  const kept=[];let removed=false;const points=[new T.Vector3(),new T.Vector3(),new T.Vector3()];
   for(let i=0;i<position.count;i+=3){
-   point.set((position.getX(i)+position.getX(i+1)+position.getX(i+2))/3,(position.getY(i)+position.getY(i+1)+position.getY(i+2))/3,(position.getZ(i)+position.getZ(i+1)+position.getZ(i+2))/3).applyMatrix4(o.matrixWorld);
-   const isBench=point.y>.2&&point.y<1.35&&legacyBenchZones.some(([x,z,w,d])=>Math.abs(point.x-x)<w/2&&Math.abs(point.z-z)<d/2);
+   for(let vertex=0;vertex<3;vertex++)points[vertex].set(position.getX(i+vertex),position.getY(i+vertex),position.getZ(i+vertex)).applyMatrix4(o.matrixWorld);
+   // A triangle that touches a bench zone belongs to the legacy furniture.
+   // Removing by centroid left slivers at zone edges, visible as dark shards
+   // on the paving. Include the whole triangle, with a small clearance.
+   const isBench=points.some(point=>point.y<1.6&&legacyBenchZones.some(([x,z,w,d])=>Math.abs(point.x-x)<w/2+.18&&Math.abs(point.z-z)<d/2+.18));
    if(isBench){removed=true;continue;}kept.push(i,i+1,i+2);
   }
   if(!removed){if(source!==original)source.dispose();return;}

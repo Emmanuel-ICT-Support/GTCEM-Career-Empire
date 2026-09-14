@@ -1,4 +1,4 @@
-import {buildAuthoredCourtyard} from './authored-courtyard.js?v=courtyard-bench-facing-20260915';
+import {buildAuthoredCourtyard} from './authored-courtyard.js?v=courtyard-bench-cleanup-20260915';
 import * as T from 'three';
 import {addCourtyardArchitecture,addCourtyardPlanting} from './courtyard-detail.js?v=courtyard1';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
