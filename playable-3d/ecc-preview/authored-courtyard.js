@@ -84,7 +84,9 @@ export async function buildAuthoredCourtyard(doors){
  // the requested orientations: the eastern bench is turned 90°, while the
  // planter-side bench faces out toward the circulation path.
  addBackedBench(root,-8.4,8.3,2.3,0);
- addBackedBench(root,-6,8.3,2.3,Math.PI/2);
+ // Its long edge is perpendicular to the planter; face the paving, with the
+ // back against the garden rather than toward the pedestrian route.
+ addBackedBench(root,-6,8.3,2.3,-Math.PI/2);
  addBackedBench(root,5.7,7.7,2.5,Math.PI/2);
  addBackedBench(root,9.3,3.7,1.9,Math.PI/2);
  for(const [x,y,z]of [[0,2.45,-3.1],[6.45,2.45,.4],[-4.0,2.45,.35]]){const l=new T.PointLight(0xffc17b,9,4.5,2);l.position.set(x,y,z);l.name='ECC warm recessed room light';root.add(l);}
