@@ -6,7 +6,7 @@ import {EffectComposer} from './vendor/postprocessing/EffectComposer.js';
 import {RenderPass} from './vendor/postprocessing/RenderPass.js';
 import {SSAOPass} from './vendor/postprocessing/SSAOPass.js';
 import {OutputPass} from './vendor/postprocessing/OutputPass.js';
-import {buildExterior,VIEWS,DOORS,canWalk} from './model.js';
+import {buildExterior,VIEWS,DOORS,canWalk} from './model.js?v=opt2-20260914';
 
 const canvas=document.querySelector('#scene'),renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false,preserveDrawingBuffer:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;renderer.outputColorSpace=T.SRGBColorSpace;

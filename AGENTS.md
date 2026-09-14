@@ -304,3 +304,7 @@ Verification: all 18 unit tests passed; source checks passed; all five real-phys
 Source base: public game 7388cfa3bca6b58a06a88bf18f65e6d49dc17501. Separate startup performance changes are not included. Avatar, Chapel interior, curriculum timing and saved-profile schema are preserved. Local corrected candidate; no live publication is claimed by this record.
 
 Evidence: private/production-evidence/2026-09-14/annotation-corrections. User annotation originals remain in this task; new screenshots are actual local game captures. Editable corrected Blender master retained privately. Original master and published model remain retained.
+
+
+## Performance optimisation — 14 September 2026
+Base 029bade; preserve all latest garden/access/bench corrections. Normal play skips hidden synchronous pixel probes; explicit visual diagnostics use `?diagnostics=pixels`. Five lossless WebP replacements and three shared-texture building GLBs preserve decoded pixels and geometry. Estimated cold saving 12.356MB. Four fixed-view screenshots match exactly. See docs/performance-20260914.md for validation, limitations and exact paths. Original assets retained; do not reintroduce startup avatar warming. Publication is authorised by Tania’s earlier instruction to push verified performance improvements live; no live claim until deployment verification.

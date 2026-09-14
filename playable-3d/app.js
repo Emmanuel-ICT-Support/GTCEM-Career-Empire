@@ -1,16 +1,18 @@
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
-import {integrateEnvironment} from './environment.js?v=release2-20260914';
-import {CHAPEL} from './chapel.js?v=load1-20260914';
+import {integrateEnvironment} from './environment.js?v=opt2-20260914';
+import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=release2-20260914';
+import {createWorlds} from './world.js?v=opt2-20260914';
 import {LEGACY,EST} from './destinations.js?v=ecc1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260910-schoolboy1';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
+// Pixel readback synchronises the GPU. Reserve it for explicit visual diagnostics.
+const pixelDiagnostics=new URLSearchParams(location.search).get('diagnostics')==='pixels';
 const joystick=createJoystick($('movement'));
 const icons=()=>window.lucide?.createIcons();
 const state=loadProfiles(localStorage);
@@ -284,9 +286,13 @@ function animate(){
   renderer.toneMappingExposure=mode==='town'?1:1.03;
   renderer.render(scene,camera);frames++;
   if(now-metricsTime>1){
-    const gl=renderer.getContext(),pixels=new Uint8Array(4*24*24),colours=new Set();
-    for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
-    const data={scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours:colours.size,animations:Object.keys(actor.clips),visibleMeshes:0};
+    let pixelColours=null;
+    if(pixelDiagnostics){
+      const gl=renderer.getContext(),pixels=new Uint8Array(4*24*24),colours=new Set();
+      for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
+      pixelColours=colours.size;
+    }
+    const data={scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
     (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
     $('diagnostics').value=JSON.stringify(data);$('diagnostics').dataset.state=JSON.stringify(data);canvas.dataset.rendered='true';frames=0;metricsTime=now;
   }

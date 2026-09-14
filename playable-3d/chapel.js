@@ -101,7 +101,7 @@ export async function buildChapel(scene,physics){
  box(.65,.8,.55,dark,-3.3,.56,-6.5);box(.84,.075,.62,oak,-3.3,1,-6.5);solid(-3.3,.55,-6.5,.85,1.1,.7);
  for(const x of [2.4,3.25]){box(.64,.15,.65,chair,x,.55,-7.1);box(.68,.62,.13,chair,x,.85,-7.39);for(const dx of [-.25,.25])box(.07,.5,.07,oak,x+dx,.3,-7.1);}
  // The photo's distinctive branching window is a visual focus of a quiet side alcove.
- const tree=await loader.loadAsync(new URL('./ecc-preview/assets/authored-courtyard/chapel-etched-glass-v2.png',import.meta.url).href);tree.colorSpace=THREE.SRGBColorSpace;tree.anisotropy=8;const window=new THREE.Mesh(new THREE.PlaneGeometry(1.8,2.7),new THREE.MeshPhysicalMaterial({map:tree,roughness:.24,metalness:.12,clearcoat:.8,envMapIntensity:.25}));window.name='ECC tree-glass interior interpretation';window.rotation.y=0;window.position.set(-6.7,2.3,-8.51);root.add(window);
+ const tree=await loader.loadAsync(new URL('./ecc-preview/assets/authored-courtyard/chapel-etched-glass-v2-lossless.webp',import.meta.url).href);tree.colorSpace=THREE.SRGBColorSpace;tree.anisotropy=8;const window=new THREE.Mesh(new THREE.PlaneGeometry(1.8,2.7),new THREE.MeshPhysicalMaterial({map:tree,roughness:.24,metalness:.12,clearcoat:.8,envMapIntensity:.25}));window.name='ECC tree-glass interior interpretation';window.rotation.y=0;window.position.set(-6.7,2.3,-8.51);root.add(window);
  for(const x of [-7.65,-5.75])box(.12,3.1,.16,oak,x,2.3,-8.42);for(const y of [.87,3.73])box(2.0,.10,.16,oak,-6.7,y,-8.42);
  // Quiet-alcove timber baffles and a teal upholstered bench echo the concept.
  for(let i=0;i<10;i++)box(.075,3.9,.18,oak,-7.8+i*.16,1.95,4.9);

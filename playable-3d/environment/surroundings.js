@@ -1,6 +1,6 @@
 import {campusExtensions} from './campus-extensions.js?v=windows1';
 import {batchStatic} from './static-batching.js?v=1';
-import {buildMedia} from './media-building.js?v=windows1';
+import {buildMedia} from './media-building.js?v=opt2-20260914';
 import {buildSpace} from './space-building.js?v=windows1';
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
