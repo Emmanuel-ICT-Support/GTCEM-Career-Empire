@@ -1,7 +1,7 @@
-import {campusExtensions} from './campus-extensions.js?v=windows1';
+import {campusExtensions} from './campus-extensions.js?v=walkthrough2';
 import {batchStatic} from './static-batching.js?v=1';
-import {buildMedia} from './media-building.js?v=opt2-20260914';
-import {buildSpace} from './space-building.js?v=windows1';
+import {buildMedia} from './media-building.js?v=walkthrough3';
+import {buildSpace} from './space-building.js?v=walkthrough3';
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 // Stage 2 composition study. Reference-derived silhouettes, not enterable buildings.
@@ -24,7 +24,8 @@ export async function addSurroundings(scene,palette){
  // Australian rules oval: continuous grass, oval perimeter, four posts at each end.
  const points=[];for(let i=0;i<=128;i++){const a=i/128*Math.PI*2;points.push(new T.Vector3(-4+14*Math.cos(a),.025,-54+9*Math.sin(a)));}
  const line=new T.Line(new T.BufferGeometry().setFromPoints(points),new T.LineBasicMaterial({color:0xeeeede,transparent:true,opacity:.55}));root.add(line);
- const postMat=mat(0xe1e4dc);for(const x of [-18,10])for(const dz of [-3.8,-1.3,1.3,3.8]){const h=Math.abs(dz)<2?4:2.5;box(root,.12,h,.12,postMat,x,h/2,-54+dz);}
+ // Keep the football posts within the playing oval, clear of the perimeter path.
+ const postMat=mat(0xe1e4dc);for(const x of [-16,8])for(const dz of [-3.8,-1.3,1.3,3.8]){const h=Math.abs(dz)<2?4:2.5;box(root,.12,h,.12,postMat,x,h/2,-54+dz);}
  const asset=await new GLTFLoader().loadAsync('./assets/campus-landscape/mature-eucalypt-a.glb');asset.scene=batchStatic(asset.scene);asset.scene.updateMatrixWorld(true);
  const bounds=new T.Box3().setFromObject(asset.scene),center=bounds.getCenter(new T.Vector3()),height=bounds.max.y-bounds.min.y;
  const normal=new T.Matrix4().makeTranslation(-center.x,-bounds.min.y,-center.z);

@@ -13,7 +13,10 @@ export function approvedPalette(courtyard){
  // The imported Careers façade has a blue post immediately in front of its
  // sandstone return.  Give the metal a stable depth preference so the two
  // almost-touching surfaces cannot alternate as the depth buffer is sampled.
- blue.polygonOffset=true;blue.polygonOffsetFactor=-1;blue.polygonOffsetUnits=-1;
+ // Pull the powdercoat forward consistently.  Several thin posts sit close to
+ // their sandstone or glazing returns, so a single stable depth preference
+ // avoids shimmer at every approach angle.
+ blue.polygonOffset=true;blue.polygonOffsetFactor=-2;blue.polygonOffsetUnits=-2;
  glass.opacity=.14;glass.color.setHex(0xe5f2f0);glass.metalness=.06;glass.roughness=.07;glass.envMapIntensity=.38;glass.name='Approved campus glazing';glass.depthWrite=false;glass.forceSinglePass=true;
  const plaster=new T.MeshStandardMaterial({color:0xe5d9bf,roughness:.91});
  const glow=new T.MeshStandardMaterial({color:0xffe5b2,emissive:0xffd292,emissiveIntensity:.7,roughness:.6});

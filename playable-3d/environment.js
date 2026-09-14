@@ -1,10 +1,10 @@
 import {shadowAnchor} from './shadow-anchor.js';
-import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
+import {approvedPalette} from './environment/approved-campus-kit.js?v=walkthrough2';
 import {partitionInstances} from './environment/static-batching.js?v=1';
 import {polishGround} from './environment/ground-polish.js?v=3';
 import * as T from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
-import {addSurroundings} from './environment/surroundings.js?v=opt2-20260914';
+import {addSurroundings} from './environment/surroundings.js?v=walkthrough3';
 export async function integrateEnvironment(world){
 const plantInstances=[];const basePhase=world.phase;let activePhase='flourishing';
 const presets={
@@ -64,7 +64,7 @@ block(18.68,2.8,-53,5.95,5.6,21.25);
 block(18.4,3.5,-44.8,5.78,7,3.83);
 block(23.78,2.4,-44.755,2.98,4.8,3.74);
 block(43,1.4,-26,12,2.8,3);
-for(const x of [-18,10])for(const dz of [-3.8,-1.3,1.3,3.8]){const h=Math.abs(dz)<2?4:2.5;block(x,h/2,-54+dz,.12,h,.12);}
+for(const x of [-16,8])for(const dz of [-3.8,-1.3,1.3,3.8]){const h=Math.abs(dz)<2?4:2.5;block(x,h/2,-54+dz,.12,h,.12);}
 for(const [x,z,w,d]of surroundings.userData.extraBeds)block(x,.22,z,w,.44,d);
 for(const {x,z} of surroundings.userData.treePlacements)world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cylinder(2,.28).setTranslation(x,2,z));
 

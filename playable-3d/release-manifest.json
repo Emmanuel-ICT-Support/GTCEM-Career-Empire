@@ -1,9 +1,9 @@
 {
-  "release": "demo-shop-feedback-20260914",
+  "release": "demo-shop-walkthrough-cleanup-20260914",
   "changeId": "CE-CHANGE-20260914-52",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
-  "scope": "Demo-only $100,000 shop at the separate Careers Advice Centre desk, plus student development feedback using the existing teacher inbox.",
+  "scope": "Demo-only Careers shop and teacher feedback, plus a campus walk-through cleanup covering seating, rails, goalposts, water, paving, Media foundation and frontage planting.",
   "files": [
     {
       "path": "app.js",
@@ -11,7 +11,7 @@
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "e6dcc074a33abbc79ecb483d156d96c42233a9a547836b2fc37c77932650c82f"
+      "sha256": "a659b843281b1e15a3a29bd53f32f53e8f9f3977affa08c2ce4800bf3c837fab"
     },
     {
       "path": "assets/campus-buildings/careers-shared-textures.glb",
@@ -123,7 +123,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "819a0b51e190039a6535e5347a305be50e93eabd54f3683fea5a99e77411c1d2"
+      "sha256": "38354414781dd09d1673e811d8fab5333f0d6451367a5bd880ebf28dfd4fc608"
     },
     {
       "path": "chapel.js",
@@ -239,11 +239,11 @@
     },
     {
       "path": "environment.js",
-      "sha256": "0e4585af91cc5e9bd2b2a94e16a87ed28501fca00af3288634e3afca390b0852"
+      "sha256": "11abc14f90537b52739f5c986a2531702c06858888296f4d89738e6853d6c961"
     },
     {
       "path": "environment/approved-campus-kit.js",
-      "sha256": "17ef10cd3f09851f027aa03abe54004f5f95e160ff8f568dcdff9a9e194a8700"
+      "sha256": "30a1069add10fdc9dbe8c45f5daae1c02db4b379432e0905b028ac20f1fed9df"
     },
     {
       "path": "environment/assets/SPACE-reference.jpg",
@@ -255,7 +255,7 @@
     },
     {
       "path": "environment/campus-extensions.js",
-      "sha256": "e62007853756ebcb55a289bd1c8dedc52129c2e74eade11803031edaf2201c23"
+      "sha256": "958f4aeb68490a04a473c3d8f5360a9ea28f9bcff8bccb43ddb5c9814beafa66"
     },
     {
       "path": "environment/ground-polish.js",
@@ -267,7 +267,7 @@
     },
     {
       "path": "environment/media-building.js",
-      "sha256": "c9a2ca6f2ed45bbd14cf1b98d73aa0bc5eadd2202b919df9e2a08326ed3b337c"
+      "sha256": "bc2202aa39231182830f1a8e9cc7af5b5b0d20d73c8127edabe9d29bf1b522dc"
     },
     {
       "path": "environment/paving-network.js",
@@ -279,7 +279,7 @@
     },
     {
       "path": "environment/space-building.js",
-      "sha256": "816e00a4684041d06335c7bac79a04805a169cfeafd8b64ac95e00843082f520"
+      "sha256": "e65d9b45edcb65bb18b680577957d1e9e335544dd4a66d909c85023161085a4c"
     },
     {
       "path": "environment/static-batching.js",
@@ -287,7 +287,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "08774c18f8f362d15aef4724060c8dce538c7361f97d3864f73f9698c075fffb"
+      "sha256": "1728c33129ff75c2828c1ed75cd1b616b101dafc849a2b90792b73fffe2a42c0"
     },
     {
       "path": "est-wall-video.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "30e93af61fab62d6fc6e56666b8a82267120acdfb8c0319e8fa352b28d1a86bf"
+      "sha256": "85be2e036bec2175f29824fdb46d675e69e099d1776195cb555daf08e1b1d5bd"
     },
     {
       "path": "joystick.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "dc7b69b9cd6aaed5c1bc416108848d7e882cfe89ebcb091b5ffefcc86c2c6be0"
+      "sha256": "e6e0b8a24ff05b9e1e5f90a134c092183da4805772dd382af0a3b0ac3a51f7a8"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",

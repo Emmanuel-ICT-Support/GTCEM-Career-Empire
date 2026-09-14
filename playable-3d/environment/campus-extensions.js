@@ -1,6 +1,6 @@
-import {pavingNetwork} from './paving-network.js?v=windows1';
+import {pavingNetwork} from './paving-network.js?v=walkthrough2';
 import * as T from 'three';
-import {dressedBox,planter,batchStatic} from './approved-campus-kit.js?v=windows1';
+import {dressedBox,planter,batchStatic} from './approved-campus-kit.js?v=walkthrough2';
 import {addAuthoredGarden} from '../ecc-preview/authored-garden.js?v=annotations1';
 
 export function campusExtensions(root,p){
@@ -19,8 +19,9 @@ export function campusExtensions(root,p){
  path([[7,-41.5],[11,-43],[11,-61]],2.4);
  path([[32,-21.8],[43,-21.8],[43,-23]],2.4);
  pavingPaths.finish();
- // Short raised beds follow each frontage, with openings at circulation points.
- const beds=[[-12.2,-43.4,5.6,1.15],[3.1,-43.4,5.6,1.15],[12.5,-49.7,1.15,4.1],[12.5,-57,1.15,4.1],[38.4,-23.2,2.7,1.15],[47.6,-23.2,2.7,1.15]];
+ // A faceted planting ribbon follows the Media frontage.  It removes the
+ // leftover grass sliver while keeping a continuous, generous walking path.
+ const beds=[[-10.0,-41.15,7.1,.82],[-3.7,-40.72,5.4,.82],[2.8,-41.15,7.1,.82],[12.5,-49.7,1.15,4.1],[12.5,-57,1.15,4.1],[38.4,-23.2,2.7,1.15],[47.6,-23.2,2.7,1.15]];
  const garden=new T.Group();garden.name='Teaching building native landscape';works.add(garden);
  for(const [x,z,w,d]of beds)planter(garden,x,z,w,d,p);
  addAuthoredGarden(garden,beds,{treeSites:[],baseY:.43,density:5.5,detail:'supporting'});

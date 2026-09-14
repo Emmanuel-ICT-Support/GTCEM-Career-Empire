@@ -47,7 +47,9 @@ export function buildSpace(palette){
  box(.42,.015,3,dark,9.7,.453,-9.7);
  // Terrace stairs and slim metal handrails, repeated at the two principal bays.
  for(const x of [-6,5]){for(let i=0;i<4;i++)box(2.4,.13*(i+1),.38,stone,x,.065*(i+1),6.1-i*.36);
- for(const dx of [-1.15,1.15]){beam([x+dx,.15,6.25],[x+dx,1.05,6.25],.035);beam([x+dx,.55,4.95],[x+dx,1.5,4.95],.035);beam([x+dx,1.05,6.25],[x+dx,1.5,4.95],.035);}}
+ // Finish each handrail on the stair landing, rather than extending it into
+ // the adjacent garden beds.
+ for(const dx of [-1.15,1.15]){beam([x+dx,.15,6.15],[x+dx,1.05,6.15],.035);beam([x+dx,.48,5.28],[x+dx,1.34,5.28],.035);beam([x+dx,1.05,6.15],[x+dx,1.34,5.28],.035);}}
  // Bird mural uses a reference photograph sampled through an authored UV projection.
  // This keeps the distinctive original artwork rather than inventing a replacement crest.
  const texture=new T.TextureLoader().load('environment/assets/SPACE-reference.jpg');texture.colorSpace=T.SRGBColorSpace;

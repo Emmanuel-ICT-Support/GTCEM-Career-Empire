@@ -48,9 +48,13 @@ export function buildMedia(palette){
   if(y>3){box(.05,.5,.8,silver,x-.035,y+.6,z);box(.055,.35,.63,mat(0x456675,.15),x-.06,y+.6,z);}
  }
  box(.045,2.1,.85,mat(0x4d6468),-12.17,2.1,.04);
- // Low side landing and stair connect the painted end to the oval.
+ // Low side landing and stair connect the painted end to the oval.  A solid
+ // limestone plinth now carries the landing and the stair cheeks, so neither
+ // reads as floating when viewed from the lawn.
+ box(1.34,.96,6.54,stone,-12.7,.48,.15);
  box(1.2,.18,6.4,floor,-12.7,1.07,.15);
  for(let i=0;i<6;i++)box(.32,(i+1)*.175,2.1,stone,-15.1+i*.32,(i+1)*.0875,.2);
+ box(2.05,.34,.22,stone,-14.32,.17,-.88);box(2.05,.34,.22,stone,-14.32,.17,1.28);
  // Door frames and slim rail on the glass frontage.
  for(const x of [-2,2]){box(.045,2.18,.08,silver,x+.65,2.28,curve(x)+.07);box(.08,.24,.08,silver,x+.57,2.1,curve(x)+.14);}
  const railPoints=fasciaPoints.map(p=>new T.Vector3(p.x,2.17,p.z));root.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(railPoints),48,.028,6,false),silver));

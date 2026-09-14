@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=annotations1';
-import {approvedPalette,makeAvatarStudio,dressedBox,batchStatic} from './environment/approved-campus-kit.js?v=windows1';
+import {approvedPalette,makeAvatarStudio,dressedBox,batchStatic} from './environment/approved-campus-kit.js?v=walkthrough2';
 // One bounded, walkable precinct. Existing Studio interaction remains at (-12.4, 5).
 export function arrivalPrecinct(town,stoneTexture,sign,palette){
  const root=new THREE.Group();root.name='Arrival to Studio campus';town.add(root);
@@ -15,7 +15,7 @@ export function arrivalPrecinct(town,stoneTexture,sign,palette){
  // World-aligned paving keeps a consistent scale across turns and junctions.
  const paving=palette.paving;
  const border=mat(0x8c9186,.96);
- function ground(x,z,w,d,material,y=.065){
+ function ground(x,z,w,d,material,y=.105){
   const geo=new THREE.PlaneGeometry(w,d);geo.rotateX(-Math.PI/2);
   const uv=geo.attributes.uv,pos=geo.attributes.position;
   for(let i=0;i<uv.count;i++)uv.setXY(i,(pos.getX(i)+x)/3,(pos.getZ(i)+z)/3);
@@ -26,11 +26,11 @@ export function arrivalPrecinct(town,stoneTexture,sign,palette){
  ground(-7,13.55,4.5,12.9,paving);
  ground(-8.6,5,9.8,4.2,paving);
  ground(-2.875,18,3.75,3.6,paving);
- for(const x of [-9.16,-4.84])ground(x,13.55,.18,12.9,border,.067);
- for(const z of [8.8,11.8,14.8,17.8,19.9])ground(-7,z,4.14,.075,border,.068);
- for(const z of [16.29,19.71])ground(-2.875,z,3.75,.18,border,.067);
- for(const z of [2.99,7.01])ground(-8.6,z,9.8,.18,border,.067);
- ground(-10.9,5,.08,3.84,border,.068);
+ for(const x of [-9.16,-4.84])ground(x,13.55,.18,12.9,border,.107);
+ for(const z of [8.8,11.8,14.8,17.8,19.9])ground(-7,z,4.14,.075,border,.108);
+ for(const z of [16.29,19.71])ground(-2.875,z,3.75,.18,border,.107);
+ for(const z of [2.99,7.01])ground(-8.6,z,9.8,.18,border,.107);
+ ground(-10.9,5,.08,3.84,border,.108);
  function pergola(x,z,w,d){box(root,x,3.45,z-d/2,w,.16,.13,navy);box(root,x,3.45,z+d/2,w,.16,.13,navy);for(const dx of [-w/2+.15,w/2-.15])for(const dz of [-d/2+.15,d/2-.15])box(root,x+dx,1.72,z+dz,.13,3.44,.13,navy);for(let q=-w/2;q<w/2;q+=.28)box(root,x+q,3.58,z,.12,.16,d+.25,wood);}
  pergola(-7,18,5.4,3.6);pergola(-7,11.5,4.4,4.5);
  const welcome=sign('ARRIVAL GARDENS',2.8,'#f4e5c6','#29434a');welcome.position.set(-7,3.15,19.9);root.add(welcome);

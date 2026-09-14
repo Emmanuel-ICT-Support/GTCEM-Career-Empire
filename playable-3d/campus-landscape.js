@@ -1,5 +1,5 @@
-import {pavingNetwork} from './environment/paving-network.js?v=windows1';
-import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=windows1';
+import {pavingNetwork} from './environment/paving-network.js?v=walkthrough2';
+import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=walkthrough2';
 import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=annotations1';
 import {batchStatic} from './environment/static-batching.js?v=1';
 import * as THREE from 'three';
@@ -24,7 +24,10 @@ path([[-20,-22],[-8,-22],[5,-22],[18,-22]],3.2);
 path([[-11,-5],[-11,-14],[-11,-19],[-15,-22]],3.2);
 pavingPaths.finish();
 const plaza=new THREE.Mesh(new THREE.CircleGeometry(5.5,64),paving);plaza.rotation.x=-Math.PI/2;plaza.position.set(0,.09,4);plaza.receiveShadow=true;group.add(plaza);
-const water=new THREE.Mesh(new THREE.CircleGeometry(1,96),new THREE.MeshStandardMaterial({color:0x488c98,roughness:.28,metalness:.15}));water.rotation.x=-Math.PI/2;water.scale.set(17.156,4.746,1);water.position.set(0,.07,-28.582);water.material.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,0,1),26)];group.add(water);
+// A complete pond reads as water from every side.  The former clipped disc left
+// a thin, unexplained blue strip along the lawn at some viewpoints.
+const water=new THREE.Mesh(new THREE.CircleGeometry(1,96),new THREE.MeshStandardMaterial({color:0x488c98,roughness:.28,metalness:.15}));water.rotation.x=-Math.PI/2;water.scale.set(17.156,4.746,1);water.position.set(0,.07,-28.582);water.name='Southern oval pond water';group.add(water);
+const pondCoping=new THREE.Mesh(new THREE.RingGeometry(1.005,1.055,96),edge);pondCoping.rotation.x=-Math.PI/2;pondCoping.scale.set(17.156,4.746,1);pondCoping.position.set(0,.115,-28.582);pondCoping.name='Southern oval pond continuous limestone coping';pondCoping.receiveShadow=true;group.add(pondCoping);
 function add(id,x,z,scale=1,rotation=0){placements.push({id,x,z,scale,rotation});}
 // Keep a clear walking line around the Avatar Studio mural and its garden.
 const beds=[[-19,-8.6,7,2.3],[-16,-1.7,4.4,1.15],[7.5,-2.5,1.7,7],[15.7,-16.8,2.2,5],[3,-20,5,1.4],[-17,-19.5,5,1.5],[22,3,6,1.8]];
@@ -39,11 +42,12 @@ const planting=new THREE.Group();planting.name='Supporting campus native gardens
 const assetIds=[...new Set(placements.map(p=>p.id)),'garden','careers','workplace'];
 const loaded=new Map(await Promise.all(assetIds.map(async id=>[id,await loader.loadAsync(`./assets/${['garden','careers','workplace'].includes(id)?'campus-buildings/'+id+'-shared-textures':'campus-landscape/'+id}.glb`)])));
 for(const id of [...new Set(placements.map(p=>p.id))]){const asset=loaded.get(id);asset.scene=mergeStatic(asset.scene);if(id==='boulder-a'){const bounds=new THREE.Box3().setFromObject(asset.scene),c=bounds.getCenter(new THREE.Vector3()),size=bounds.getSize(new THREE.Vector3());const scale=1/Math.hypot(size.x,size.z);asset.scene.traverse(o=>{if(o.isMesh){o.geometry=o.geometry.clone();o.geometry.translate(-c.x,-bounds.min.y,-c.z);o.geometry.scale(scale,scale,scale);}});}asset.scene.updateMatrixWorld(true);const ps=placements.filter(p=>p.id===id);asset.scene.traverse(o=>{if(!o.isMesh)return;const inst=new THREE.InstancedMesh(o.geometry,o.material,ps.length);ps.forEach((p,i)=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(p.x,id==='boulder-a'?.40:.12,p.z),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),p.rotation),new THREE.Vector3(p.scale,p.scale,p.scale));m.multiply(o.matrixWorld);inst.setMatrixAt(i,m);});inst.castShadow=true;inst.receiveShadow=true;group.add(inst);});}
-const garden=loaded.get('garden');garden.scene.updateMatrixWorld(true);const shade=new THREE.Group();garden.scene.traverse(o=>{if(o.isMesh&&/shade|bench|table/i.test(o.name)){const m=new THREE.Mesh(o.geometry,o.material);m.applyMatrix4(o.matrixWorld);
-  // The imported benches faced away from their tables and sat too tightly
-  // together. Turn their backrests to the table and create a useful gap.
-  if(/^bench part/i.test(o.name)){m.rotateY(Math.PI);m.position.x+=/\.011$/.test(o.name)?-.72:.72;}
+const garden=loaded.get('garden');garden.scene.updateMatrixWorld(true);const shade=new THREE.Group();garden.scene.traverse(o=>{if(o.isMesh&&/shade|table/i.test(o.name)){const m=new THREE.Mesh(o.geometry,o.material);m.applyMatrix4(o.matrixWorld);
   m.castShadow=true;m.receiveShadow=true;shade.add(m);}});const bb=new THREE.Box3().setFromObject(shade),centre=bb.getCenter(new THREE.Vector3());shade.position.set(-centre.x,-bb.min.y,-centre.z);const normalized=new THREE.Group();normalized.add(shade);const batchedShade=batchStatic(normalized);for(const [x,z]of [[-17,-5],[10,-1]]){const n=batchedShade.clone(true);n.position.set(x,.1,z);group.add(n);for(const dx of [-3.5,3.5])for(const dz of [-2,2])colliders.push([x+dx,1.6,z+dz,.15,3.2,.15]);rect(x,z,8.2,5.2,paving,.105);}
+// The source benches contained mirrored, overlapping parts.  Replace them
+// with two single, clear benches aligned with their paving pads.
+function bench(x,z,turn=0){const seat=new THREE.Mesh(new THREE.BoxGeometry(2.15,.16,.48),palette.timber);seat.position.set(x,.55,z);seat.rotation.y=turn;seat.castShadow=seat.receiveShadow=true;group.add(seat);for(const dx of[-.72,.72]){const leg=new THREE.Mesh(new THREE.BoxGeometry(.18,.54,.38),edge);leg.position.set(x+Math.cos(turn)*dx,.27,z-Math.sin(turn)*dx);leg.rotation.y=turn;leg.castShadow=leg.receiveShadow=true;group.add(leg);}}
+bench(-17,-6.7,0);bench(11.7,-1,Math.PI/2);
 
 for(const p of placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')))colliders.push([p.x,1.5,p.z,.4,3,.4]);
 const buildings=[];
