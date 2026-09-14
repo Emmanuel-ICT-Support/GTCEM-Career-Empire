@@ -39,3 +39,13 @@
  .thumb-stick-knob{display:block;width:48px;height:48px;border:2px solid #fafff4;border-radius:50%;background:#edf4e4e8;box-shadow:0 2px 8px #173d3955;pointer-events:none}
  .thumb-stick.active{background:#244b3d88}.thumb-stick:focus-visible{outline:3px solid #ce9844;outline-offset:3px}
 }
+
+/* Mission details are optional on desktop too; movement always closes the card. */
+@media(min-width:621px) and (min-height:501px){
+ .arrival-mission{padding:0;width:230px;pointer-events:auto}
+ .arrival-mission>.mobile-panel-toggle{display:flex;justify-content:space-between;align-items:center;width:100%;min-height:44px;padding:10px 14px}
+ .arrival-mission:not(.mobile-expanded) #mission-details{display:none}
+ .arrival-mission.mobile-expanded{width:280px}
+ .arrival-mission #mission-details{padding:0 16px 14px}
+ .arrival-mission h2{font-size:20px}
+}

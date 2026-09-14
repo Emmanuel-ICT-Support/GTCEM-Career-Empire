@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="./style.css?v=est-access3">
   <script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.js","three/addons/":"./vendor/three/examples/jsm/","@dimforge/rapier3d-compat":"./vendor/rapier/rapier.mjs"}}</script>
   <script src="./vendor/lucide/lucide.min.js" defer></script>
-  <link rel="stylesheet" href="./mobile-play.css?v=3">
-  <script type="module" src="./mobile-play.js?v=1"></script>
+  <link rel="stylesheet" href="./mobile-play.css?v=annotations1">
+  <script type="module" src="./mobile-play.js?v=annotations1"></script>
 </head>
 <body>
   <main id="experience" aria-label="Career Empire 3D world">
@@ -24,7 +24,7 @@
       <div class="account"><label class="sr-only" for="profile">Local character</label><select id="profile"></select><button class="icon-button" id="new-profile" aria-label="New character" title="New character"><i data-lucide="user-round-plus"></i></button></div>
     </header>
     <section class="world-heading" id="world-heading"><div class="eyebrow" id="district-label">THE LEARNING DISTRICT</div><h1 id="location-title">Town Square</h1><div class="location-line"><span class="status-dot"></span><span id="location-subtitle">Home Base &middot; EST Prep</span></div></section>
-    <section class="arrival-mission" id="arrival-mission" aria-label="Your first day"><button class="mobile-panel-toggle" aria-expanded="false" aria-controls="mission-details" data-mobile-panel="arrival-mission">Find your place <span aria-hidden="true">⌄</span></button><div id="mission-details"><small>YOUR FIRST DAY</small><h2 id="mission-title">Find your place</h2><p id="mission-detail">Follow the shaded walk to Avatar Studio.</p><div class="mission-progress"><span id="mission-bar"></span></div><span id="mission-hint">WASD or arrow buttons to walk · drag to look</span></div></section>
+    <section class="arrival-mission" id="arrival-mission" aria-label="Your first day"><button class="mobile-panel-toggle" aria-expanded="false" aria-controls="mission-details" data-mobile-panel="arrival-mission"><span id="mission-summary">Find your place</span> <span aria-hidden="true">⌄</span></button><div id="mission-details"><small>YOUR FIRST DAY</small><h2 id="mission-title">Find your place</h2><p id="mission-detail">Follow the shaded walk to Avatar Studio.</p><div class="mission-progress"><span id="mission-bar"></span></div><span id="mission-hint">WASD or arrow buttons to walk · drag to look</span></div></section>
     <aside class="world-tools" id="world-tools" aria-label="World settings"><button class="mobile-panel-toggle" aria-expanded="false" aria-controls="settings-details" data-mobile-panel="world-tools">View &amp; phase <span aria-hidden="true">⌄</span></button><div id="settings-details">
       <label class="phase-control"><i data-lucide="sprout"></i><span><small>PHASE PREVIEW</small><select id="phase" aria-label="World phase"><option value="flourishing">Flourishing</option><option value="growth">Growth</option><option value="disrepair">Disrepair</option></select></span></label>
       <div class="tool-row"><button class="icon-button" id="aerial" aria-label="Aerial view" aria-pressed="false" title="Aerial view"><i data-lucide="scan-eye"></i></button><button class="icon-button" id="recenter" aria-label="Recenter camera" title="Recenter camera"><i data-lucide="focus"></i></button><label class="quality-control" title="Render quality"><i data-lucide="monitor"></i><select id="quality" aria-label="Render quality"><option value="auto">Auto</option><option value="low">Low</option><option value="high">High</option></select></label></div>
@@ -53,7 +53,7 @@
   </dialog></main>
   <section class="module-overlay" id="module-overlay" aria-label="EST Prep activity" hidden><header><div><i data-lucide="landmark"></i><strong>EST Prep</strong><span id="module-name"></span></div><button id="close-module"><i data-lucide="arrow-left"></i><span>Return to hall</span></button></header><iframe id="module-frame" title="Existing EST Prep learning module"></iframe></section>
   <dialog id="leave-dialog"><h2>Save your character?</h2><p>You have unsaved appearance changes.</p><div class="dialog-actions"><button id="keep-editing">Keep editing</button><button id="discard-changes">Discard</button><button class="primary" id="save-changes">Save</button></div></dialog>
-<script type="module" src="./app.js?v=load1-20260914"></script>
+<script type="module" src="./app.js?v=release2-20260914"></script>
 <dialog id="reflection-dialog" aria-labelledby="reflection-title"><p class="eyebrow">ECC CHAPEL</p><h2 id="reflection-title">A moment of stillness</h2><p>Let your shoulders soften. Notice the light around you.</p><p>Take a gentle breath, at your own pace.</p><p>What is one good thing you can carry into the rest of your day?</p><button id="close-reflection">Return to the Chapel</button></dialog>
 </body>
 </html>

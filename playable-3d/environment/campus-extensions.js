@@ -1,7 +1,7 @@
 import {pavingNetwork} from './paving-network.js?v=windows1';
 import * as T from 'three';
 import {dressedBox,planter,batchStatic} from './approved-campus-kit.js?v=windows1';
-import {addAuthoredGarden} from '../ecc-preview/authored-garden.js?v=windows1';
+import {addAuthoredGarden} from '../ecc-preview/authored-garden.js?v=annotations1';
 
 export function campusExtensions(root,p){
  const works=new T.Group();works.name='Approved standard campus connections';root.add(works);

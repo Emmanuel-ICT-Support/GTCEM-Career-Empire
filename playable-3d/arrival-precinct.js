@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=windows1';
+import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=annotations1';
 import {approvedPalette,makeAvatarStudio,dressedBox,batchStatic} from './environment/approved-campus-kit.js?v=windows1';
 // One bounded, walkable precinct. Existing Studio interaction remains at (-12.4, 5).
 export function arrivalPrecinct(town,stoneTexture,sign,palette){
@@ -35,19 +35,19 @@ export function arrivalPrecinct(town,stoneTexture,sign,palette){
  pergola(-7,18,5.4,3.6);pergola(-7,11.5,4.4,4.5);
  const welcome=sign('ARRIVAL GARDENS',2.8,'#f4e5c6','#29434a');welcome.position.set(-7,3.15,19.9);root.add(welcome);
  let seed=719;const random=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
- const walkBeds=[[-10.6,11.2,2.1,7],[-3.3,12,2.7,8],[-10.7,1,3,3],[-3.7,2,3.1,3.8],[-10.7,20.6,3.5,2.2]];
+ const walkBeds=[[-10.6,11.2,2.1,7],[-3.3,12,2.7,8],[-10.7,1,3,3],[-4.3,2,2.0,3.8],[-10.7,20.6,3.5,2.2]];
  for(const [x,z,w,d]of walkBeds){dressedBox(root,x,.22,z,w,.44,d,stone);dressedBox(root,x,.46,z,w+.05,.08,d+.05,stone);box(root,x,.505,z,w-.2,.025,d-.2,soil);}
  addAuthoredGarden(root,walkBeds.filter(b=>b[1]>3),{treeSites:[[-11.3,10,1.22,.7],[-2.8,13,1.34,2.3]],baseY:.52,density:4,detail:'supporting'});
  // Stone outcrops and seating frame the walkway, never obstruct its centre.
- for(const [x,z] of [[-10.6,9],[-3.3,10],[-3.5,15],[-10.5,2]]){const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(.65,1),mat(0xabaa91));rock.position.set(x,.6,z);rock.scale.set(1.3,.65,1);rock.castShadow=true;root.add(rock);}
- for(const z of [8,15]){box(root,-4.5,.55,z,.48,.13,2,wood);for(const dz of [-.7,.7])box(root,-4.5,.27,z+dz,.38,.5,.1,navy);}
+ for(const [x,z] of [[-10.6,9],[-3.3,10],[-3.3,15],[-10.7,1]]){const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(.38,0),stone.clone());rock.position.set(x,.55,z);rock.scale.set(1.05,.7,.85);rock.castShadow=true;root.add(rock);}
+ for(const z of [6.8,17.0]){box(root,-4.5,.55,z,.48,.13,2,wood);for(const dz of [-.7,.7])box(root,-4.5,.27,z+dz,.38,.5,.1,navy);}
  for(const z of [6.5,9,13.8,16.2]){box(root,-5,.36,z,.11,.72,.11,navy);box(root,-5,.67,z,.13,.1,.13,warm);}
- // Preserve the two accepted courtyard-facing beds exactly.
- addAuthoredGarden(root,[[-10.7,1,3,3],[-3.7,2,3.1,3.8]],{treeSites:[[-11,0,1.25,.4],[-3,1,1.38,2.3]],baseY:.5});
+ // Keep planting inside the resized courtyard-facing beds.
+ addAuthoredGarden(root,[[-10.7,1,3,3],[-4.3,2,2.0,3.8]],{treeSites:[[-11,0,1.25,.4],[-4.3,1,1.20,2.3]],baseY:.5});
  // Merge static surfaces by material to keep the scene affordable to render.
  // Spatially separate botanical instances and preserve individual glass sorting.
  const staticRoot=new THREE.Group();root.traverse(o=>{if(o.isMesh&&!o.isInstancedMesh){const copy=new THREE.Mesh(o.geometry,o.material);o.updateWorldMatrix(true,false);copy.matrix.copy(o.matrixWorld);copy.matrixAutoUpdate=false;copy.castShadow=o.castShadow;copy.receiveShadow=o.receiveShadow;staticRoot.add(copy);}});
  const originals=[];root.traverse(o=>{if(o.isMesh&&!o.isInstancedMesh)originals.push(o);});originals.forEach(o=>o.removeFromParent());town.add(batchStatic(staticRoot));
  // Existing tree assets supply detailed native canopies around the new courtyard.
- return {trees:[],colliders:[[-10.6,.22,11.2,2.1,.44,7],[-3.3,.22,12,2.7,.44,8],[-10.7,.22,1,3,.44,3],[-3.7,.22,2,3.1,.44,3.8]]};
+ return {trees:[],colliders:[[-10.6,.22,11.2,2.1,.44,7],[-3.3,.22,12,2.7,.44,8],[-10.7,.22,1,3,.44,3],[-4.3,.22,2,2.0,.44,3.8]]};
 }
