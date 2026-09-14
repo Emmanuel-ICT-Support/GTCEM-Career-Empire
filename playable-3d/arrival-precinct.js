@@ -31,7 +31,7 @@ export function arrivalPrecinct(town,stoneTexture,sign,palette){
  for(const z of [16.29,19.71])ground(-2.875,z,3.75,.18,border,.107);
  for(const z of [2.99,7.01])ground(-8.6,z,9.8,.18,border,.107);
  ground(-10.9,5,.08,3.84,border,.108);
- function pergola(x,z,w,d){box(root,x,3.45,z-d/2,w,.16,.13,navy);box(root,x,3.45,z+d/2,w,.16,.13,navy);for(const dx of [-w/2+.15,w/2-.15])for(const dz of [-d/2+.15,d/2-.15])box(root,x+dx,1.72,z+dz,.13,3.44,.13,navy);for(let q=-w/2;q<w/2;q+=.28)box(root,x+q,3.58,z,.12,.16,d+.25,wood);}
+ function pergola(x,z,w,d){const edgeX=w/2-.15,edgeZ=d/2-.15;for(const dx of [-edgeX,edgeX])for(const dz of [-edgeZ,edgeZ])box(root,x+dx,1.72,z+dz,.13,3.44,.13,navy);for(const dz of [-edgeZ,edgeZ])box(root,x,3.45,z+dz,w,.16,.16,wood);for(const dx of [-edgeX,edgeX])box(root,x+dx,3.45,z,.16,.16,d,wood);for(let q=-w/2+.2;q<w/2-.2;q+=.28)box(root,x+q,3.58,z,.12,.16,d+.25,wood);}
  pergola(-7,18,5.4,3.6);pergola(-7,11.5,4.4,4.5);
  const welcome=sign('ARRIVAL GARDENS',2.8,'#f4e5c6','#29434a');welcome.position.set(-7,3.15,19.9);root.add(welcome);
  let seed=719;const random=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
@@ -40,9 +40,8 @@ export function arrivalPrecinct(town,stoneTexture,sign,palette){
  addAuthoredGarden(root,walkBeds.filter(b=>b[1]>3),{treeSites:[[-11.3,10,1.22,.7],[-2.8,13,1.34,2.3]],baseY:.52,density:4,detail:'supporting'});
  // Stone outcrops and seating frame the walkway, never obstruct its centre.
  for(const [x,z] of [[-10.6,9],[-3.3,10],[-3.3,15],[-10.7,1]]){const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(.38,0),stone.clone());rock.position.set(x,.55,z);rock.scale.set(1.05,.7,.85);rock.castShadow=true;root.add(rock);}
- // Garden-side seats run along the planting edge, with their full depth on
- // paving rather than projecting into the adjacent bed.
- for(const z of [6.8,17.0]){box(root,-4.5,.55,z,2,.13,.48,wood);for(const dx of [-.7,.7])box(root,-4.5+dx,.27,z,.10,.5,.38,navy);}
+ // The old garden-side seats intersected the pergola posts and left users
+ // facing planting.  Keep this narrow paving route clear.
  for(const z of [6.5,9,13.8,16.2]){box(root,-5,.36,z,.11,.72,.11,navy);box(root,-5,.67,z,.13,.1,.13,warm);}
  // Keep planting inside the resized courtyard-facing beds.
  addAuthoredGarden(root,[[-10.7,1,3,3],[-4.3,2,2.0,3.8]],{treeSites:[[-11,0,1.25,.4],[-4.3,1,1.20,2.3]],baseY:.5});

@@ -1,17 +1,17 @@
 {
-  "release": "final-garden-clearance-20260914",
-  "changeId": "CE-CHANGE-20260914-53",
+  "release": "single-pond-clearance-20260914",
+  "changeId": "CE-CHANGE-20260914-54",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
-  "scope": "Careers desk opens automatically at its entrance, with button shortcut retained; imported shelter furniture, pond and misaligned garden handrails are removed; Arrival planter-side seating runs parallel to the bed.",
+  "scope": "Careers desk opens automatically at its entrance, with button shortcut retained; the SPACE display pond and its collision are removed while the southern oval pond remains; faulty Arrival seating is removed and pergola posts are fully connected.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "832460d169f93c48a92d0783b6e56b89d201a3659c21200bb78501bf3c2327a7"
+      "sha256": "93f9f4783fc28130990ae713153062441dc22f6e7b8d9ef7b4e443f26c1f15f3"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "b863cc2f6b01f79401e18264a6a9f11067f58e9067748a7b155b9c39190feda0"
+      "sha256": "e7632d0840be3c807eb75e7690eb22c55fadf3d020ab402b95975f4eaea4b340"
     },
     {
       "path": "assets/campus-buildings/careers-shared-textures.glb",
@@ -123,7 +123,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "1e4152cf83cc09ef828dc7d059ff539d215c26f38a660773b596230b212a9bda"
+      "sha256": "59858764b1d2475c2bb0325b7a2eb343ee928705f667b05115dbef52798ac2ed"
     },
     {
       "path": "chapel.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "d75b52840ca0dbe2211298df5ce46544be246109727b30fc2d12efdddf516059"
+      "sha256": "635fd2356c77826574bebc3f17053ca150b45377cc1bc0e5630275e050b0279c"
     },
     {
       "path": "joystick.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "26bdf67fc60569dbdde10b8e2560a799172d7a947ff5a16c14bbb9f96cda3af7"
+      "sha256": "6ca4772a35a4b6bdecdac0339676d0d5e6eb4943a6d34674e9bc7f60925da459"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",

@@ -3,7 +3,7 @@ import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=opt2-20260914';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createCampusLandscape} from './campus-landscape.js?v=final-garden-clearance-20260914';
+import {createCampusLandscape} from './campus-landscape.js?v=single-pond-clearance-20260914';
 import {arrivalPrecinct} from './arrival-precinct.js?v=final-garden-clearance-20260914';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
@@ -415,9 +415,6 @@ export async function createWorlds(onProgress=()=>{}){
       block(LEGACY.x,1,LEGACY.z,2.5,2,.18);
       for(const b of precinct.colliders)block(...b);
       world.createCollider(RAPIER.ColliderDesc.cylinder(.45,1.8).setTranslation(0,.45,4));
-      world.createCollider(RAPIER.ColliderDesc.cylinder(2,7.4).setTranslation(23,1,-10));
-
-
     }
     const body=world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(0,inside?.8:.9,inside?5:17));
     const collider=world.createCollider(RAPIER.ColliderDesc.capsule(.56,.20),body);

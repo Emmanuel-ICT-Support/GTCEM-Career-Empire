@@ -24,8 +24,10 @@ path([[-20,-22],[-8,-22],[5,-22],[18,-22]],3.2);
 path([[-11,-5],[-11,-14],[-11,-19],[-15,-22]],3.2);
 pavingPaths.finish();
 const plaza=new THREE.Mesh(new THREE.CircleGeometry(5.5,64),paving);plaza.rotation.x=-Math.PI/2;plaza.position.set(0,.09,4);plaza.receiveShadow=true;group.add(plaza);
-// Keep this southern lawn open.  The earlier display pond made the approach to
-// the building feel disconnected from the rest of the grounds.
+// Retain the southern oval pond.  This is separate from the display pond near
+// SPACE, which has been removed at the visitor's request.
+const water=new THREE.Mesh(new THREE.CircleGeometry(1,96),new THREE.MeshStandardMaterial({color:0x488c98,roughness:.28,metalness:.15}));water.rotation.x=-Math.PI/2;water.scale.set(17.156,4.746,1);water.position.set(0,.07,-28.582);water.name='Southern oval pond water';group.add(water);
+const pondCoping=new THREE.Mesh(new THREE.RingGeometry(1.005,1.055,96),edge);pondCoping.rotation.x=-Math.PI/2;pondCoping.scale.set(17.156,4.746,1);pondCoping.position.set(0,.115,-28.582);pondCoping.name='Southern oval pond continuous limestone coping';pondCoping.receiveShadow=true;group.add(pondCoping);
 function add(id,x,z,scale=1,rotation=0){placements.push({id,x,z,scale,rotation});}
 // Keep a clear walking line around the Avatar Studio mural and its garden.
 const beds=[[-19,-8.6,7,2.3],[-16,-1.7,4.4,1.15],[7.5,-2.5,1.7,7],[15.7,-16.8,2.2,5],[3,-20,5,1.4],[-17,-19.5,5,1.5],[22,3,6,1.8]];
