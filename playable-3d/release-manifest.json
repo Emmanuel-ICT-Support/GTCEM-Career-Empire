@@ -1,17 +1,17 @@
 {
-  "release": "careers-entry-bench-clearance-20260914",
-  "changeId": "CE-CHANGE-20260914-52",
+  "release": "final-garden-clearance-20260914",
+  "changeId": "CE-CHANGE-20260914-53",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
-  "scope": "Careers desk opens automatically at its entrance, with button shortcut retained; malformed imported picnic benches are removed and the campus walk-through cleanup remains included.",
+  "scope": "Careers desk opens automatically at its entrance, with button shortcut retained; imported shelter furniture, pond and misaligned garden handrails are removed; Arrival planter-side seating runs parallel to the bed.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "b8bd45177f230666f91dc43bb3d6d610891905b1b56628f9ee92b9f6906574df"
+      "sha256": "d3828ceaf541a0510f2170870900fd791d053b7c0df9ff604813db9d585bdecb"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "a659b843281b1e15a3a29bd53f32f53e8f9f3977affa08c2ce4800bf3c837fab"
+      "sha256": "b863cc2f6b01f79401e18264a6a9f11067f58e9067748a7b155b9c39190feda0"
     },
     {
       "path": "assets/campus-buildings/careers-shared-textures.glb",
@@ -123,7 +123,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "d41d2200cae33ddf5b1d6de41e9977b59e200644796863bf7de042cf8fdd570b"
+      "sha256": "1e4152cf83cc09ef828dc7d059ff539d215c26f38a660773b596230b212a9bda"
     },
     {
       "path": "chapel.js",
@@ -279,7 +279,7 @@
     },
     {
       "path": "environment/space-building.js",
-      "sha256": "e65d9b45edcb65bb18b680577957d1e9e335544dd4a66d909c85023161085a4c"
+      "sha256": "2d43498345d6de8f16447f99ab455caa3c55846a12c641dd85c7b19697aa1e27"
     },
     {
       "path": "environment/static-batching.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "a5cd9a3f8b91ee509662debf38f99f971326c7f7cb1ac1595046e0513c19ed91"
+      "sha256": "d75b52840ca0dbe2211298df5ce46544be246109727b30fc2d12efdddf516059"
     },
     {
       "path": "joystick.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "edd693fb1a6826d68d6980f23b7f4bf5f6a62ae3e348a9cc1a653c238e33e496"
+      "sha256": "26bdf67fc60569dbdde10b8e2560a799172d7a947ff5a16c14bbb9f96cda3af7"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
