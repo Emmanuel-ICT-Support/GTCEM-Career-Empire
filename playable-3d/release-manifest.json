@@ -1,13 +1,13 @@
 {
-  "release": "demo-shop-walkthrough-cleanup-20260914",
+  "release": "careers-entry-bench-clearance-20260914",
   "changeId": "CE-CHANGE-20260914-52",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
-  "scope": "Demo-only Careers shop and teacher feedback, plus a campus walk-through cleanup covering seating, rails, goalposts, water, paving, Media foundation and frontage planting.",
+  "scope": "Careers desk opens automatically at its entrance, with button shortcut retained; malformed imported picnic benches are removed and the campus walk-through cleanup remains included.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "c9b6f8be794981b0b641763721b7b99187804c3706acd0d336d040fea2d73262"
+      "sha256": "b8bd45177f230666f91dc43bb3d6d610891905b1b56628f9ee92b9f6906574df"
     },
     {
       "path": "arrival-precinct.js",
@@ -123,7 +123,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "38354414781dd09d1673e811d8fab5333f0d6451367a5bd880ebf28dfd4fc608"
+      "sha256": "d41d2200cae33ddf5b1d6de41e9977b59e200644796863bf7de042cf8fdd570b"
     },
     {
       "path": "chapel.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "85be2e036bec2175f29824fdb46d675e69e099d1776195cb555daf08e1b1d5bd"
+      "sha256": "a5cd9a3f8b91ee509662debf38f99f971326c7f7cb1ac1595046e0513c19ed91"
     },
     {
       "path": "joystick.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "e6e0b8a24ff05b9e1e5f90a134c092183da4805772dd382af0a3b0ac3a51f7a8"
+      "sha256": "edd693fb1a6826d68d6980f23b7f4bf5f6a62ae3e348a9cc1a653c238e33e496"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",

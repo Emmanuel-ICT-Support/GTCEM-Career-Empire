@@ -34,7 +34,7 @@ const bodyName=body=>OPTIONS.body.find(([id])=>id===body)?.[1] || 'avatar';
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4300);}
 function persist(){try{saveProfiles(localStorage,state);return true;}catch{toast('Your browser could not save this character. Keep this tab open.');return false;}}
 function populateProfiles(){$('profile').replaceChildren(...state.profiles.map(p=>new Option(p.name,p.id)));$('profile').value=state.activeId;$('character-caption').textContent=active().name;}
-let actorRequest=0,previewRequest=0,hallRequest=0,nearHall=false;
+let actorRequest=0,previewRequest=0,hallRequest=0,nearHall=false,nearCareers=false;
 async function updateActor(){
   const request=++actorRequest,profile=active();
   if(!hasCharacterKit(profile.body)){
@@ -124,7 +124,7 @@ function setLocation(title){$('location-title').textContent=title;$('district-la
 function leaveStudio(callback){if(dirty()){pendingLeave=callback;$('leave-dialog').showModal();}else callback();}
 function saveDraft(){if(!hasCharacterKit(draft.body)){toast('Wait for the selected body to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{localStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
 function openStudio(){if(mode==='studio')return;setMode('studio');}
-let enteringHall=false;
+let enteringHall=false,enteringCareers=false;
 async function enterHall(){
   if(enteringHall)return;enteringHall=true;
   const request=++hallRequest;toast('Opening EST Prep...');
@@ -134,8 +134,10 @@ async function enterHall(){
   worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');worlds.estVideo.prepare().catch(()=>{});toast('Choose Play EST video on the wall whenever you are ready.');
 }
 async function enterCareers(){
+  if(enteringCareers)return;enteringCareers=true;
   const request=++hallRequest;toast('Opening Careers Advice Centre...');
-  try{await worlds.ensureCareers();}catch{if(request===hallRequest)toast('Careers could not load. Please try again.');return;}
+  try{await worlds.ensureCareers();}catch{enteringCareers=false;if(request===hallRequest)toast('Careers could not load. Please try again.');return;}
+  enteringCareers=false;
   if(request!==hallRequest||mode!=='town')return;
   worlds.teleport(true,0,5);setMode('careers');
 }
@@ -205,7 +207,11 @@ function updateInteraction(){
     const approaching=Math.hypot(p.x-EST.x,p.z-EST.doorZ)<7;
     if(approaching&&!nearHall)worlds.ensureInterior().catch(()=>{});
     nearHall=approaching;
+    const approachingCareers=Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<7;
+    if(approachingCareers&&!nearCareers)worlds.ensureCareers().catch(()=>{});
+    nearCareers=approachingCareers;
     if(Math.hypot(p.x-EST.x,p.z-EST.doorZ)<1.1&&(keys.size||Math.hypot(joystick.x,joystick.z)>.1)&&!enteringHall){enterHall();return;}
+    if(Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<1.1&&(keys.size||Math.hypot(joystick.x,joystick.z)>.1)&&!enteringCareers){enterCareers();return;}
     if(Math.hypot(p.x-EST.x,p.z-EST.doorZ)<2.2)interaction={label:'Enter EST Prep',action:enterHall};
     else if(Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<2.2)interaction={label:'Enter Careers Advice Centre',action:enterCareers};
     else if(p.x>-13.6 && p.x<-10.8 && Math.abs(p.z-5)<1.45)interaction={label:'Open Avatar Studio',action:openStudio};
