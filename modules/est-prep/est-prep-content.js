@@ -407,8 +407,11 @@ function getArcFlow(config) {
     return state.arcFlows[config.type];
   }
 
-  if (existing.phase === "review") {
-    return state.arcFlows[config.type];
+  // Completed-step review uses a separate attempt, never overwriting earned answers.
+  // Also recover review states saved before review attempts were introduced.
+  if (existing.phase === "review" || existing.reviewing) {
+    existing.reviewing = true;
+    return existing;
   }
 
   if (existing.phase === "feedback") {
@@ -618,7 +621,7 @@ function renderArcTrainingBay(config, score) {
   const currentStep = steps[flow?.stepIndex || 0] || steps[0];
   const currentItem = currentStep?.items?.[flow?.itemIndex || 0] || null;
   const answerKey = currentItem ? getArcTrainingAnswerKey(config.type, currentItem.id) : "";
-  const currentAnswer = currentItem ? state.answers[answerKey] : "";
+  const currentAnswer = flow?.reviewing ? (flow.reviewAnswer || "") : (currentItem ? state.answers[answerKey] : "");
   const isCorrect = currentItem ? currentAnswer === currentItem.correct : false;
   const questionCount = currentStep?.items?.length || 0;
   const questionNumber = Math.min(questionCount || 1, (flow?.itemIndex || 0) + 1);
@@ -2177,7 +2180,6 @@ function submitContentAfterReview() {
 }
 
 function setTrainingChoice(groupKey, option) {
-  state.answers[groupKey] = option;
   const currentGroup = (state.stageDeck?.contentGroups || [])[state.contentGroupIndex];
   const trainingConfig = currentGroup ? getContentTrainingConfig(currentGroup.id) : null;
   if (trainingConfig && isArcTrainingType(trainingConfig.type) && groupKey.startsWith(`training-${trainingConfig.type}-`)) {
@@ -2186,7 +2188,9 @@ function setTrainingChoice(groupKey, option) {
     const step = trainingConfig.steps?.[flow?.stepIndex || 0];
     const item = step?.items?.find(entry => entry.id === itemId);
     if (item) {
+      if (!flow?.reviewing) state.answers[groupKey] = option;
       state.arcFlows[trainingConfig.type] = {
+        ...(flow?.reviewing ? { reviewing: true, reviewAnswer: option } : {}),
         phase: "feedback",
         stepIndex: flow?.stepIndex || 0,
         itemIndex: flow?.itemIndex || 0,
@@ -2197,6 +2201,7 @@ function setTrainingChoice(groupKey, option) {
       return;
     }
   }
+  state.answers[groupKey] = option;
   persistESTProgressSnapshot();
   renderContentStage();
   state.recentReward = {
@@ -2219,12 +2224,13 @@ function advanceArcCard(configType) {
   const currentStep = config.steps?.[flow.stepIndex];
   const currentItem = currentStep?.items?.[flow.itemIndex];
   if (!currentStep || !currentItem) return;
-  if (getArcItemAnswer(config, currentItem) !== currentItem.correct) return;
+  if ((flow.reviewing ? flow.reviewAnswer : getArcItemAnswer(config, currentItem)) !== currentItem.correct) return;
 
   const nextItemIndex = flow.itemIndex + 1;
   if (nextItemIndex < (currentStep.items || []).length) {
     state.arcFlows[config.type] = {
-      phase: "question",
+      ...(flow.reviewing ? { reviewing: true, reviewAnswer: null } : {}),
+      phase: flow.reviewing ? "review" : "question",
       stepIndex: flow.stepIndex,
       itemIndex: nextItemIndex,
       lastOutcome: null
@@ -2257,9 +2263,10 @@ function retryArcCard(configType) {
   const currentItem = currentStep?.items?.[flow.itemIndex];
   if (!currentItem) return;
   const answerKey = getArcTrainingAnswerKey(config.type, currentItem.id);
-  delete state.answers[answerKey];
+  if (!flow.reviewing) delete state.answers[answerKey];
   state.arcFlows[config.type] = {
-    phase: "question",
+    ...(flow.reviewing ? { reviewing: true, reviewAnswer: null } : {}),
+    phase: flow.reviewing ? "review" : "question",
     stepIndex: flow.stepIndex,
     itemIndex: flow.itemIndex,
     lastOutcome: null
@@ -2283,6 +2290,7 @@ function jumpArcStep(configType, stepIndex) {
   const firstPendingIndex = targetItems.findIndex(item => getArcItemAnswer(config, item) !== item.correct);
   const itemIndex = firstPendingIndex >= 0 ? firstPendingIndex : 0;
   state.arcFlows[config.type] = {
+    ...(targetStepState.complete ? { reviewing: true, reviewAnswer: null } : {}),
     phase: targetStepState.complete ? "review" : "question",
     stepIndex: targetStepIndex,
     itemIndex,
