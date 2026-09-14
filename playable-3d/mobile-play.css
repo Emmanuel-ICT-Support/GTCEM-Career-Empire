@@ -49,3 +49,11 @@
  .arrival-mission #mission-details{padding:0 16px 14px}
  .arrival-mission h2{font-size:20px}
 }
+
+/* Feedback stays in its own bottom row, clear of destinations and the joystick. */
+@media(max-width:620px),(max-height:500px) and (max-width:950px){
+ .destination-bar{bottom:calc(64px + env(safe-area-inset-bottom));width:max-content;max-width:calc(100% - 16px)}
+ .destination-bar button{padding:8px 6px;font-size:10px;gap:4px}.destination-bar .route-line{width:4px}
+ .movement{bottom:calc(126px + env(safe-area-inset-bottom))}
+ .interaction{bottom:calc(132px + env(safe-area-inset-bottom))}
+}

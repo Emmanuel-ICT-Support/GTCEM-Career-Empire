@@ -1,4 +1,5 @@
 (function attachCareerEmpireFeedback(windowObj, documentObj) {
+  const development = documentObj.body?.dataset.feedbackMode === "development";
   const FEEDBACK_FALLBACK_KEY = "career-empire-feedback-fallback";
   const AUTH_STATE_KEY = "career-empire-auth-demo";
   const PLAYER_SESSION_KEY = "career-empire-session";
@@ -164,6 +165,12 @@
         z-index: 9999;
         padding: 20px;
       }
+      dialog.ce-feedback-backdrop {
+        margin: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; border: 0; box-sizing: border-box;
+      }
+      dialog.ce-feedback-backdrop .ce-feedback-card { max-height: calc(100dvh - 40px); overflow-y: auto; box-sizing: border-box; }
+      dialog.ce-feedback-backdrop textarea { min-height: 80px; }
+      .ce-feedback-launcher { bottom: max(18px, env(safe-area-inset-bottom)); }
       .ce-feedback-backdrop.open {
         display: flex;
       }
@@ -275,7 +282,7 @@
   function getAppRootPrefix() {
     const path = windowObj.location.pathname;
     if (path.includes("/modules/")) return "../../";
-    if (path.includes("/auth/") || path.includes("/dashboards/") || path.includes("/shop/")) return "../";
+    if (path.includes("/auth/") || path.includes("/dashboards/") || path.includes("/shop/") || path.includes("/playable-3d/")) return "../";
     return "./";
   }
 
@@ -596,7 +603,7 @@
   }
 
   function createModal() {
-    const backdrop = documentObj.createElement("div");
+    const backdrop = documentObj.createElement(development ? "dialog" : "div");
     backdrop.className = "ce-feedback-backdrop";
     backdrop.innerHTML = `
       <div class="ce-feedback-card" role="dialog" aria-modal="true" aria-labelledby="ce-feedback-title">
@@ -631,6 +638,19 @@
         <div class="ce-feedback-status" id="ce-feedback-status"></div>
       </div>
     `;
+    if (development) {
+      backdrop.setAttribute("aria-labelledby", "ce-feedback-title");
+      backdrop.querySelector(".ce-feedback-card").removeAttribute("role");
+      backdrop.querySelector(".ce-feedback-card").removeAttribute("aria-modal");
+      backdrop.querySelector("#ce-feedback-title").textContent = "Feedback form";
+      backdrop.querySelector("p").textContent = "Help improve Career Empire. Answer any of these questions, then send your feedback for teacher review.";
+      backdrop.querySelector(".ce-feedback-grid").innerHTML = `
+        <p>Please leave out names, contact details and other personal information.</p>
+        <div><label for="ce-feedback-good">Which parts are good?</label><textarea id="ce-feedback-good" maxlength="2000" rows="3"></textarea></div>
+        <div><label for="ce-feedback-awful">Which parts are awful or not working well?</label><textarea id="ce-feedback-awful" maxlength="2000" rows="3"></textarea></div>
+        <div><label for="ce-feedback-message">What suggestions do you have to make it better?</label><textarea id="ce-feedback-message" maxlength="2000" rows="3"></textarea></div>`;
+      backdrop.querySelector("#ce-feedback-status").setAttribute("role", "status");
+    }
     documentObj.body.appendChild(backdrop);
     return backdrop;
   }
@@ -640,15 +660,19 @@
     if (supabase) {
       const { error } = await supabase.from("feedback_reports").insert(payload);
       if (error) throw error;
-      return;
+      return true;
     }
 
     const existing = readJsonStorage(FEEDBACK_FALLBACK_KEY, []);
     existing.push({ id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), ...payload });
     localStorage.setItem(FEEDBACK_FALLBACK_KEY, JSON.stringify(existing));
+    return false;
   }
 
   function init() {
+    // Embedded activities use the campus form, keeping one consistent launcher.
+    try { if (windowObj.parent !== windowObj && windowObj.parent.document.body.dataset.feedbackMode === "development") return; } catch (_) {}
+
     ensureStyles();
     initSessionBannerFallback();
     const launcher = documentObj.createElement("button");
@@ -667,16 +691,22 @@
 
     function openModal() {
       const identity = inferIdentity();
-      loginInput.value = identity.loginName;
-      messageInput.value = "";
+      if (loginInput) loginInput.value = identity.loginName;
+      modal.querySelectorAll("textarea").forEach(input => input.value = "");
       statusEl.textContent = "";
       modal.classList.add("open");
+      if (development) modal.showModal();
+      documentObj.dispatchEvent(new CustomEvent("ce-feedback-open"));
+      (modal.querySelector("textarea")).focus();
     }
 
     function closeModal() {
       modal.classList.remove("open");
+      if (development) modal.close();
+      launcher.focus();
     }
 
+    modal.addEventListener("cancel", event => { event.preventDefault(); closeModal(); });
     launcher.addEventListener("click", openModal);
     cancelButton.addEventListener("click", closeModal);
     modal.addEventListener("click", (event) => {
@@ -685,27 +715,30 @@
 
     submitButton.addEventListener("click", async () => {
       const identity = inferIdentity();
-      const message = messageInput.value.trim();
+      const answers = development ? [...modal.querySelectorAll("textarea")].filter(input => input.value.trim()) : [];
+      const message = development ? answers.map(input => `${modal.querySelector(`label[for="${input.id}"]`).textContent}\n${input.value.trim()}`).join("\n\n") : messageInput.value.trim();
       if (!message) {
         statusEl.textContent = "Please enter some feedback before sending.";
         return;
       }
 
+      if (submitButton.disabled) return;
+      submitButton.disabled = true;
       statusEl.textContent = "Sending...";
       try {
-        const reviewPayload = buildTeacherFeedbackMessage(typeInput.value, message, identity);
-        await submitFeedback({
+        const reviewPayload = buildTeacherFeedbackMessage((development ? "suggestion" : typeInput.value), message, identity);
+        const delivered = await submitFeedback({
           page_path: windowObj.location.pathname,
           actor_role: identity.actorRole,
           login_name: identity.loginName,
-          feedback_type: typeInput.value,
+          feedback_type: (development ? "suggestion" : typeInput.value),
           message: JSON.stringify(reviewPayload)
         });
-        statusEl.textContent = "Thank you. Your feedback has been saved for teacher review.";
-        setTimeout(closeModal, 700);
+        statusEl.textContent = delivered ? "Thank you. Your feedback has been sent for teacher review." : "Saved on this device only — it has not reached your teacher. Please try again when the connection is available.";
+        if (delivered) modal.querySelectorAll("textarea").forEach(input => input.value = "");
       } catch (error) {
         statusEl.textContent = error.message || "Feedback could not be saved.";
-      }
+      } finally { submitButton.disabled = false; }
     });
   }
 

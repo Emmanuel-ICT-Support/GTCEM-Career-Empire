@@ -1,13 +1,13 @@
 {
-  "release": "avatar-recovery-20260914",
-  "changeId": "CE-AVATAR-RECOVERY-20260914",
+  "release": "demo-shop-feedback-20260914",
+  "changeId": "CE-CHANGE-20260914-52",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "b0ffee210b2f7c9bb7b97cc5273bf08e41575e3e",
-  "scope": "Bound avatar download duration, offer in-place startup retry, and use visually reviewed 2K school-student textures.",
+  "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
+  "scope": "Demo-only $100,000 shop at the separate Careers Advice Centre desk, plus student development feedback using the existing teacher inbox.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "63027ce92e019a79cac74def7a28a0ac2c7115b0d8912e77df14eec77e81be3c"
+      "sha256": "c9b6f8be794981b0b641763721b7b99187804c3706acd0d336d040fea2d73262"
     },
     {
       "path": "arrival-precinct.js",
@@ -135,7 +135,7 @@
     },
     {
       "path": "destinations.js",
-      "sha256": "288115ac405d328babf70f8ef3d41c14912c4077a0233144c2d1e2f389fa8b40"
+      "sha256": "89a6b212d9c082b56169924dc1b51fa22be2bc4c891176b10e9b739f56f08d39"
     },
     {
       "path": "ecc-preview/admin-signage.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "03387c231a2d40b61334d36d4a61d3794477b73430c327e7793a6e96c01f691d"
+      "sha256": "30e93af61fab62d6fc6e56666b8a82267120acdfb8c0319e8fa352b28d1a86bf"
     },
     {
       "path": "joystick.js",
@@ -303,7 +303,7 @@
     },
     {
       "path": "mobile-play.css",
-      "sha256": "dc0bf6f8d26617ea1ee2706b6fc6cccbde189b33249e940356086951cee927a0"
+      "sha256": "b47857bf2319011bac542309fe99a398538334bf8ef820cc3ef8a8becea24447"
     },
     {
       "path": "mobile-play.js",
@@ -311,7 +311,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "908cbb5475993ccefa95a0f2fbe3344d48ac86ffc26d6cfc1ede67f59fd5c967"
+      "sha256": "ef77ea69a682c656bad3fb052c2944628c0610faf67df23de93424b471702ec5"
     },
     {
       "path": "vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "a8b9f8b55d6932e1d203ded1301e3e3ff933c0dc753f61cfcecb1a93a2316ae6"
+      "sha256": "dc7b69b9cd6aaed5c1bc416108848d7e882cfe89ebcb091b5ffefcc86c2c6be0"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",

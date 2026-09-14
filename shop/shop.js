@@ -1,3 +1,10 @@
+// A presentation wallet never reads or writes a student's saved economy.
+const PRESENTATION_DEMO = new URLSearchParams(window.location.search).get("demo") === "1";
+function createPresentationContext() {
+  return { presentationDemo: true, isDemo: true, studentId: null,
+    studentName: "Shop demonstration", schoolName: "Career Empire", classCode: "DEMO",
+    profile: { cumulative_net_worth: 100000, savings: 100000, annual_salary: 0 }, assets: [] };
+}
 const AUTH_DEMO_STATE_KEY = "career-empire-auth-demo";
 const FEEDBACK_FALLBACK_KEY = "career-empire-feedback-fallback";
 const PLAYER_SESSION_KEY = "career-empire-session";
@@ -421,6 +428,10 @@ function renderShopHero(context) {
     return;
   }
 
+  if (context.presentationDemo) {
+    badges.innerHTML = '<span class="badge">Practice money · resets on opening</span><span class="badge">Student accounts stay unchanged</span>';
+    return;
+  }
   badges.innerHTML = [
     `<span class="badge">Student: ${escapeHtml(context.studentName)}</span>`,
     `<span class="badge">School: ${escapeHtml(context.schoolName || "School not set")}</span>`,
@@ -447,7 +458,7 @@ function renderOwnedInventory(context) {
       <div class="inventory-empty-state">
         <img src="../Assets/Images and Animations/Global Shop/global-shop-student-hub.png" alt="">
         <strong>No items owned yet</strong>
-        <p>Use Megatrends or Lifelong Learning to build money, then buy your first upgrade here.</p>
+        <p>${context.presentationDemo ? "Choose any item in the shop to try your first purchase." : "Use Megatrends or Lifelong Learning to build money, then buy your first upgrade here."}</p>
       </div>
     `;
     return;
@@ -500,7 +511,7 @@ async function buyGlobalAsset(asset, context) {
   }
 
   const purchasedAsset = createPurchasedAsset(asset);
-  const nextAssets = mergeAssetLists([purchasedAsset], context.assets || []);
+  const nextAssets = context.presentationDemo ? [purchasedAsset, ...context.assets] : mergeAssetLists([purchasedAsset], context.assets || []);
   const nextNetWorth = Math.max(0, currentWorth - asset.cost);
   const nextSavings = Math.max(0, Number(context.profile.savings || 0) - asset.cost);
   const nextContext = {
@@ -512,6 +523,7 @@ async function buyGlobalAsset(asset, context) {
     },
     assets: nextAssets
   };
+  if (context.presentationDemo) { renderShopPage(nextContext); return; }
   persistLocalPurchase(context, nextAssets, nextNetWorth, nextSavings);
   pushEconomyLog({
     eventType: "purchase",
@@ -874,6 +886,22 @@ function renderShopPage(context) {
 }
 
 async function initShop() {
+  if (PRESENTATION_DEMO) {
+    document.body.dataset.feedbackMode = "development";
+    document.getElementById("shop-hero-title").textContent = "Try the shop with $100,000.";
+    document.getElementById("shop-hero-subtitle").textContent = "Explore the store with practice money. Purchases last until you reset or reopen this demo.";
+    document.querySelector(".shop-info-disclosure").remove();
+    document.querySelectorAll(".metric-note").forEach((note, index) => note.textContent = ["Practice budget for this visit", "Demo purchases for this visit", "Demo salary", "Remaining practice money"][index]);
+    document.querySelectorAll(".section-title p").forEach(note => { if (note.textContent.includes("Buy once")) note.textContent = "Try items with practice money"; });
+    document.querySelectorAll('.dashboard-nav a').forEach(link => { if (link.getAttribute("href") === "./index.html" || link.textContent.trim() === "Shop") link.href = "./index.html?demo=1"; });
+    const panel = document.querySelector(".shop-request-panel");
+    if (panel) {
+      panel.innerHTML = '<h2>Shop demo · $100,000</h2><p>Spend freely with practice money. Your balance and purchases reset every time you open or reload this demo.</p><button type="button" class="module-link" id="reset-shop-demo">Reset demo to $100,000</button>';
+      panel.querySelector("button").addEventListener("click", () => renderShopPage(createPresentationContext()));
+    }
+    renderShopPage(createPresentationContext());
+    return;
+  }
   renderShopPage(getLocalShopContext());
   createStoreRequestModal();
   bindStoreRequestActions();

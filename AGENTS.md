@@ -1,3 +1,7 @@
+# Demo shop and feedback — 14 September 2026
+
+Tania requests a resetting $100,000 demo shop connected to the separate Careers Advice Centre, plus a bottom-right student feedback form using the original teacher review channel. This bounded task implements that request; no new Initiative, avatar, Chapel or EST content changes. Demo purchases must remain memory-only and never affect student finances/inventory/ledger. Preserve the normal shop. Careers reuses the existing room model; no new visual assets. 33 unit checks and actual desktop/390px shop, room/door, feedback UI and mocked delivery checks pass. Live endpoint responds to a zero-row read; no live test feedback sent. Release checks/publication pending. See docs/demo-shop-feedback-20260914.md and canonical CE-CHANGE-20260914-52. Older holds below do not override this explicit new feature request.
+
 # Approved startup-performance publication — 14 September 2026
 
 Tania explicitly approved the tested loading patch for live publication. This task owns only on-demand avatar alternatives, EST poster and Chapel light-table loading, dependent cache keys and release hashes. Preserve separately authored local garden corrections. No appearance or saved-profile changes. See docs/load-performance-release-20260914.md. Deployment verification will be recorded in the canonical Blueprint; older release notes below are historical.
