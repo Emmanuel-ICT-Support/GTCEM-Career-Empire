@@ -1,13 +1,13 @@
 {
-  "release": "performance-20260914",
-  "changeId": "CE-OPTIMISATION-20260914",
+  "release": "avatar-recovery-20260914",
+  "changeId": "CE-AVATAR-RECOVERY-20260914",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "029badea74060157c1067c57d5527c7abba1be86",
-  "scope": "Performance optimisation: exact lossless image encodings, shared building textures and opt-in diagnostic pixel readback. Latest garden/access/flicker corrections and visuals retained.",
+  "baseCommit": "b0ffee210b2f7c9bb7b97cc5273bf08e41575e3e",
+  "scope": "Bound avatar download duration, offer in-place startup retry, and use visually reviewed 2K school-student textures.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "59a0e9c53b1174d57553fe7aec0162e4d0c7a436f456e7c42918233e9b4411ba"
+      "sha256": "63027ce92e019a79cac74def7a28a0ac2c7115b0d8912e77df14eec77e81be3c"
     },
     {
       "path": "arrival-precinct.js",
@@ -118,8 +118,8 @@
       "sha256": "57d8d0d877ca75b192b2e3e71d0e9aca97e308fc789ebbe5c8061f7021008134"
     },
     {
-      "path": "assets/player-schoolboy-repaired-20260910.glb",
-      "sha256": "fe6fa382bd5cbbee9ea5118203d178c160835bc4a6adeefc80a05f96e5f45e93"
+      "path": "assets/player-schoolboy-2k-20260914.glb",
+      "sha256": "692a721df0d1e341fb5996e6df0c7ac931d014a486b442533b60bb5d0c6d704c"
     },
     {
       "path": "campus-landscape.js",
@@ -131,7 +131,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "2bd6d306e9923229983d6f5e51c8f21ce19b726debbf232431614c839ae21820"
+      "sha256": "8ffe848ca2cf11c6fbc6535d06f98431e712f6267060d881ee0f2cb2796047cb"
     },
     {
       "path": "destinations.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "df244eaf2bcabbf42f0f6789c8c7052d0453c69bb76a89a18929482a051d92e5"
+      "sha256": "03387c231a2d40b61334d36d4a61d3794477b73430c327e7793a6e96c01f691d"
     },
     {
       "path": "joystick.js",
@@ -364,6 +364,10 @@
     {
       "path": "assets/campus-buildings/shared-textures/558d18f44b61d6b0.png",
       "sha256": "558d18f44b61d6b06c93a397395766a27238563cb3ed254c5f686ae8c897059a"
+    },
+    {
+      "path": "avatar-download.js",
+      "sha256": "968a23f2c0a742e502e094ea17b606efb36e0bd697f8b78ca72a4d9ea83f3100"
     }
   ],
   "estVideo": {

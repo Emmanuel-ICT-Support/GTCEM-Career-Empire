@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {clone} from 'three/addons/utils/SkeletonUtils.js';
+import {downloadAvatar} from './avatar-download.js?v=avatarfix1-20260914';
 import {SKIN} from './profiles.js';
 
 const loader = new GLTFLoader();
@@ -70,9 +71,9 @@ export function loadCharacterKit(body) {
     const url = body === 'jackettest' ? './assets/player-jacket-test-20260909.glb'
       : body === 'tripo' ? './assets/player-tripo-20260908.glb'
       : body === 'shirt' ? './assets/player-uniform-shirt-20260908.glb'
-      : body === 'schoolboy' ? './assets/player-schoolboy-repaired-20260910.glb?v=1'
+      : body === 'schoolboy' ? './assets/player-schoolboy-2k-20260914.glb'
       : `./assets/avatar-${body}.glb`;
-    kitLoads.set(body, loader.loadAsync(url).then(kit => {
+    kitLoads.set(body, downloadAvatar(url).then(data => loader.parseAsync(data, new URL('./assets/', location.href).href)).then(kit => {
       if (body === 'jackettest') {
         const source = kit.animations[0];
         if (!source) throw new Error('Jacket test animation is missing');
