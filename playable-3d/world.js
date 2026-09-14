@@ -1,6 +1,6 @@
 import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
-import {createESTWallVideo} from './est-wall-video.js?v=est-mobile-20260913';
-import {buildChapel} from './chapel.js?v=chapel2';
+import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
+import {buildChapel} from './chapel.js?v=load1-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=exterior5-20260913';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createCampusLandscape} from './campus-landscape.js?v=windows1';
@@ -259,7 +259,7 @@ export async function createWorlds(onProgress=()=>{}){
   const inner=new THREE.Group();interior.add(inner);
   let interiorLoad,currentPhase='flourishing';
   function ensureInterior(){
-    if(!interiorLoad)interiorLoad=loader.loadAsync('./assets/est-interior.glb').then(asset=>{
+    if(!interiorLoad)interiorLoad=Promise.all([loader.loadAsync('./assets/est-interior.glb'),estVideo.ensurePoster().catch(()=>{})]).then(([asset])=>{
       inner.add(consolidate(asset.scene));phase(currentPhase);
     }).catch(error=>{interiorLoad=null;throw error;});
     return interiorLoad;

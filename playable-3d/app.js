@@ -1,11 +1,11 @@
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
 import {integrateEnvironment} from './environment.js?v=windows1';
-import {CHAPEL} from './chapel.js?v=chapel2';
+import {CHAPEL} from './chapel.js?v=load1-20260914';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=chapel-interior-20260913';
+import {createWorlds} from './world.js?v=load1-20260914';
 import {LEGACY,EST} from './destinations.js?v=ecc1';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=20260910-schoolboy1';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
@@ -55,14 +55,6 @@ async function updatePreview(){
   const rotation=preview?.model.rotation.y || 0;
   preview?.dispose();preview=createCharacter(draft);preview.model.rotation.y=rotation;studio.add(preview.model);preview.setWalking(previewWalking);
   $('studio-caption').textContent=draft.name;$('edit-state').textContent=dirty()?'Unsaved':'Saved';$('undo').disabled=!undo.length;$('redo').disabled=!redo.length;$('save-avatar').disabled=false;
-}
-async function warmAvatarChoices(){
-  // Prepare the alternate choices after the town is ready, one at a time, so
-  // the first visit to Avatar Studio feels immediate without delaying entry.
-  for(const body of ['shirt','a','b']){
-    try{await loadCharacterKit(body);}catch{ /* The picker can retry a failed choice. */ }
-    await new Promise(resolve=>requestAnimationFrame(resolve));
-  }
 }
 function changeDraft(mutator){undo.push(copy(draft));if(undo.length>60)undo.shift();redo=[];mutator(draft);draft=normaliseProfile(draft);updatePreview();renderEditor();}
 function field(label,key,type='text',rows){
@@ -321,9 +313,7 @@ async function boot(){
     if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}
     animate();
     // All campus destinations are loaded before the interactive scene is revealed.
-    // Let the new player reach a stable town first. Choices then prepare in
-    // the background before they are likely to open Avatar Studio.
-    setTimeout(warmAvatarChoices,5000);
+    // Avatar alternatives load on selection through updatePreview/updateActor.
   }catch(error){console.error(error);$('loading-message').textContent=`The 3D district could not open. Reload to retry. ${error.message}`;$('loading').querySelector('progress').hidden=true;$('fallback-link').hidden=false;}
 }
 boot();
