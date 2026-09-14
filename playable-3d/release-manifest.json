@@ -1,13 +1,13 @@
 {
-  "release": "garden-pond-walkthrough-20260914",
-  "changeId": "CE-CHANGE-20260914-55",
+  "release": "admin-forecourt-clearance-20260914",
+  "changeId": "CE-CHANGE-20260914-56",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
-  "scope": "Walkthrough corrections: retain the Garden pond at its original lawn location while removing only the long southern pond between English/Media and Administration; complete the Arrival pergola frames, align clear backed benches along planter edges, remove football posts from the SPACE approach, and add walkable raised-terrace and step collision at SPACE.",
+  "scope": "Walkthrough corrections: retain the Garden pond at its original lawn location while removing only the long southern pond between English/Media and Administration; remove the faulty front-of-Administration pergola and bench assembly; retain the SPACE approach clearance plus walkable raised-terrace and step collision.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "808b719de1f3f9201111f786aff34f56e16d44d008bae5d9bcece2fe8f2e927e"
+      "sha256": "b12a0a621a9ca05fd10d326a70816226d747ec45a0261ab511d77007d0c5ab4d"
     },
     {
       "path": "arrival-precinct.js",
@@ -123,7 +123,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "9a06caf3d67ec9fcb307da62dfb05bfe67adac5e78998ad9b7cb02979544b80f"
+      "sha256": "dc59b25d091354c4ca9d4118a296f9c96a5a81e2c20c8f46d589291c011cc714"
     },
     {
       "path": "chapel.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "95124b2d846da64c30296940f2a38f1c727a117fd43e702b8ca0e4646ba3f87e"
+      "sha256": "3144b15ebc9143981d12e428af8ec8c4a52eb4b0bcec77e0d0a14dd206014045"
     },
     {
       "path": "joystick.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "ad93cbde315d979ee841b521507401483cd4113dc782f52baa4078b01428ed33"
+      "sha256": "2a39ef16828c44a66016b4511f8e978d11328ea2c14fd059f61f127124f97c69"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",

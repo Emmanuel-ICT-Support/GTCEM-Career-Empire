@@ -3,7 +3,7 @@ import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=terrace-walkability-20260914';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createCampusLandscape} from './campus-landscape.js?v=garden-pond-removal-20260914';
+import {createCampusLandscape} from './campus-landscape.js?v=admin-forecourt-clearance-20260914';
 import {arrivalPrecinct} from './arrival-precinct.js?v=final-garden-clearance-20260914';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
