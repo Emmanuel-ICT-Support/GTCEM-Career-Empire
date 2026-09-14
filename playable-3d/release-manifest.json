@@ -1,29 +1,29 @@
 {
-  "release": "garden-annotation-fixes-20260914",
-  "changeId": "CE-CHANGE-20260914-50",
+  "release": "performance-20260914",
+  "changeId": "CE-OPTIMISATION-20260914",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "7388cfa3bca6b58a06a88bf18f65e6d49dc17501",
-  "scope": "Garden rock containment, planter and bench clearance, duplicate surface removal, stable façade rendering, pond finish and collapsible mission card.",
+  "baseCommit": "029badea74060157c1067c57d5527c7abba1be86",
+  "scope": "Performance optimisation: exact lossless image encodings, shared building textures and opt-in diagnostic pixel readback. Latest garden/access/flicker corrections and visuals retained.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "14d1d3fe9edfb8776b9ea8439b76dd062082700be31f7342f0e7a90083b10431"
+      "sha256": "59a0e9c53b1174d57553fe7aec0162e4d0c7a436f456e7c42918233e9b4411ba"
     },
     {
       "path": "arrival-precinct.js",
       "sha256": "e6dcc074a33abbc79ecb483d156d96c42233a9a547836b2fc37c77932650c82f"
     },
     {
-      "path": "assets/campus-buildings/careers.glb",
-      "sha256": "c419c7fea6dfec869787bbb7bb977b4c69eaa5c8ada66d9e136f0fdd498793f4"
+      "path": "assets/campus-buildings/careers-shared-textures.glb",
+      "sha256": "2e393a8e73b42924060b2ecf69e17df21da29c76c4ca38c7387eb57958bae4c7"
     },
     {
-      "path": "assets/campus-buildings/garden.glb",
-      "sha256": "506eaebf8ed36cbeaf12637ec5dc4cbf9fc907df7a79c0d8f687253c81645c63"
+      "path": "assets/campus-buildings/garden-shared-textures.glb",
+      "sha256": "ae0870c81e7034fa79d56229c6299a7bbe61182ea9c457f6fdfc9a6bd7a34554"
     },
     {
-      "path": "assets/campus-buildings/workplace.glb",
-      "sha256": "e0978d287a56c32c91bf2b3edd4b90490286b413d6af75574edc94da758cc709"
+      "path": "assets/campus-buildings/workplace-shared-textures.glb",
+      "sha256": "e0d15596d016ec6fb912c9a62f0e030a6a37a2596dda856f135975d65a677972"
     },
     {
       "path": "assets/campus-landscape/boulder-a.glb",
@@ -123,11 +123,11 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "428d12b40240c88e517a94d122259513f29d25b129e8ab62e73304aee088dac8"
+      "sha256": "819a0b51e190039a6535e5347a305be50e93eabd54f3683fea5a99e77411c1d2"
     },
     {
       "path": "chapel.js",
-      "sha256": "d5b2c8d31c201c5578afaf167d300e312a68c9b114825cfa4e542063a6a677a9"
+      "sha256": "02ff6b89c8e505b8c1ebfcb8ac6b1687af7fc82b0421513a3cb5fe3f05ac8e82"
     },
     {
       "path": "characters.js",
@@ -139,19 +139,19 @@
     },
     {
       "path": "ecc-preview/admin-signage.js",
-      "sha256": "cbe6b41e65b25b47817ab56db171a74d05f90b323fb65f792ae8e147377ccdac"
+      "sha256": "37416928fd57f0868c1e9f819d12d1dd305c2238d247880d8ac86a803f34d2c2"
     },
     {
       "path": "ecc-preview/assets/ECC_Logo.png",
       "sha256": "211e78146e2b39d3fcee8a76109ac5572dfaac28b7fa60d38502af2716c80f0d"
     },
     {
-      "path": "ecc-preview/assets/admin-signage/cleaned-ecc-crest-source.png",
-      "sha256": "ea4b15c15cd68f70d14285bc89d6ea5d9d7c6b30edfca149bfccd925f616c036"
+      "path": "ecc-preview/assets/admin-signage/cleaned-ecc-crest-source-lossless.webp",
+      "sha256": "c9d1d3774373ffb11f045affee230e1038088638cb7d779cbdc22acaf4d97e7e"
     },
     {
-      "path": "ecc-preview/assets/authored-courtyard/chapel-etched-glass-v2.png",
-      "sha256": "4d91d224fec6b82bf07b5acea5fa14dc247799f0b0ff6701fd9f08e136905c45"
+      "path": "ecc-preview/assets/authored-courtyard/chapel-etched-glass-v2-lossless.webp",
+      "sha256": "f3f31325ccc6e500d9899ea58ecde6ed2ad50f0d94fac9960829a4ede682c7cf"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/chapel-recognition-source.png",
@@ -215,7 +215,7 @@
     },
     {
       "path": "ecc-preview/authored-courtyard.js",
-      "sha256": "53ea0562023a80309351a734d70978d7c80d177e9739af9d0dc784c6942c94aa"
+      "sha256": "544524661127adb659b056e3458423b31c290abd9c1fd2f129098052a9f42d26"
     },
     {
       "path": "ecc-preview/authored-garden.js",
@@ -235,11 +235,11 @@
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "a5a65778226eb98001d23eebc700f4310a6710a50b2829b1dd94317ee16bb1d7"
+      "sha256": "c48ed359dcd1673219257f8addceed6d567ea73bf750dfd9c15818ab3a3ffa40"
     },
     {
       "path": "environment.js",
-      "sha256": "cd73240a1d61e266ef7cdb1659304fecdd9f2ca588e648e4a53b34afcffb29a3"
+      "sha256": "0e4585af91cc5e9bd2b2a94e16a87ed28501fca00af3288634e3afca390b0852"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -250,8 +250,8 @@
       "sha256": "45a5a6fd0781cbeaa3d4b5dd037be582aa43763bc34c35967ad292a65e6fe2a1"
     },
     {
-      "path": "environment/assets/media-mural-sharp-v2.png",
-      "sha256": "9fbd27beb9735277fea7c49845127a2513603125ca43461039d89ba1b4a1bee2"
+      "path": "environment/assets/media-mural-sharp-v2-lossless.webp",
+      "sha256": "399295c8bc0d9d841231fa64cfd23da81adba3bf324c7bb135d1ffacccae18f4"
     },
     {
       "path": "environment/campus-extensions.js",
@@ -267,7 +267,7 @@
     },
     {
       "path": "environment/media-building.js",
-      "sha256": "a27789c5e8bc68303ca6566164745f618916cb72cb4620627cae3727003f121d"
+      "sha256": "c9a2ca6f2ed45bbd14cf1b98d73aa0bc5eadd2202b919df9e2a08326ed3b337c"
     },
     {
       "path": "environment/paving-network.js",
@@ -287,7 +287,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "884fd71c3558bcd0e1da3f36aaed7b282e485ba240d4c0a28769c60afbc84a09"
+      "sha256": "08774c18f8f362d15aef4724060c8dce538c7361f97d3864f73f9698c075fffb"
     },
     {
       "path": "est-wall-video.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "bf95956e896d759157dd3b0d84cd6d72f3bfcbae2a7609300a5eb38208b62494"
+      "sha256": "df244eaf2bcabbf42f0f6789c8c7052d0453c69bb76a89a18929482a051d92e5"
     },
     {
       "path": "joystick.js",
@@ -335,11 +335,35 @@
     },
     {
       "path": "world.js",
-      "sha256": "0e8505395620b660c20b4b0b2a70decb92aafd9479e56bbdf69bb2c1e0900518"
+      "sha256": "a8b9f8b55d6932e1d203ded1301e3e3ff933c0dc753f61cfcecb1a93a2316ae6"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
       "sha256": "0044d1d829db551f247b9ee3b77004d559621b35593bf4a2f791ddb1ba0c717e"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/29647e2a40f3b3a4.png",
+      "sha256": "29647e2a40f3b3a4df493c4baead5f77503866cdc3e2ecbf5354014b2a634bc1"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/4d90a7d0781d8038.png",
+      "sha256": "4d90a7d0781d8038eea5c24feef06e045cd1da322ce2401b123434f1aa83d22a"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/27ad0876b9c36991.png",
+      "sha256": "27ad0876b9c36991a91c3a5015fe7f6cd1aa81d694122e7e502cec6c0bb5192a"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/40936ed06fce1aa6.png",
+      "sha256": "40936ed06fce1aa6f8c8ef6e30f9714de61f1668673a3898237c0af14e3c0ae3"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/8d713e300bba6882.png",
+      "sha256": "8d713e300bba68825ded5a26fba0e4bea799a6f298afca5e9c6ea1b3aca7bb4f"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/558d18f44b61d6b0.png",
+      "sha256": "558d18f44b61d6b06c93a397395766a27238563cb3ed254c5f686ae8c897059a"
     }
   ],
   "estVideo": {

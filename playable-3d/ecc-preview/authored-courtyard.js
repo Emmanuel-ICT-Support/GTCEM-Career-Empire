@@ -1,4 +1,4 @@
-import {addAdminSignage} from './admin-signage.js?v=glass2';
+import {addAdminSignage} from './admin-signage.js?v=opt2-20260914';
 import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
 import {timberMap} from './hero-materials.js?v=authored1';
 import * as T from 'three';
@@ -35,7 +35,7 @@ export async function buildAuthoredCourtyard(doors){
  });
  // The original reference is archived; this isolated reconstruction contains
  // only etched glass artwork, so the exterior sculpture is genuinely separate.
- const recognition=await new T.TextureLoader().loadAsync(new URL('./assets/authored-courtyard/chapel-etched-glass-v2.png',import.meta.url).href);recognition.colorSpace=T.SRGBColorSpace;recognition.anisotropy=16;
+ const recognition=await new T.TextureLoader().loadAsync(new URL('./assets/authored-courtyard/chapel-etched-glass-v2-lossless.webp',import.meta.url).href);recognition.colorSpace=T.SRGBColorSpace;recognition.anisotropy=16;
  const recognitionPanel=new T.Mesh(new T.PlaneGeometry(1.60,2.40),new T.MeshPhysicalMaterial({map:recognition,roughness:.19,metalness:.08,envMap:hdr,envMapIntensity:.3,clearcoat:.8,clearcoatRoughness:.12}));recognitionPanel.name='Flush Chapel woman-and-branches etched glass';recognitionPanel.position.set(-6.38656901329193,2.10,1.9568375670574985);recognitionPanel.rotation.y=-0.13;root.add(recognitionPanel);
  const interior=await new T.TextureLoader().loadAsync(new URL('./assets/authored-courtyard/reception-backwall.jpg',import.meta.url).href);interior.colorSpace=T.SRGBColorSpace;interior.anisotropy=8;
  const roomArt=new T.MeshStandardMaterial({map:interior,emissiveMap:interior,emissive:0xffddb2,emissiveIntensity:.45,color:0xffffff,roughness:.95});

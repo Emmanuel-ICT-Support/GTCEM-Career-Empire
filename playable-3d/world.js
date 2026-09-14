@@ -1,9 +1,9 @@
 import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
 import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
-import {buildChapel} from './chapel.js?v=load1-20260914';
-import {buildExterior} from './ecc-preview/model.js?v=exterior5-20260913';
+import {buildChapel} from './chapel.js?v=opt2-20260914';
+import {buildExterior} from './ecc-preview/model.js?v=opt2-20260914';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createCampusLandscape} from './campus-landscape.js?v=annotations1';
+import {createCampusLandscape} from './campus-landscape.js?v=opt2-20260914';
 import {arrivalPrecinct} from './arrival-precinct.js?v=annotations1';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
@@ -190,9 +190,9 @@ export async function createWorlds(onProgress=()=>{}){
   // Daytime plaza PNG kit (procedural canvas fallback if a map is missing).
   // Per-tile UVs are 0–1, so repeat stays at 1 (seamless maps tile across instances).
   const texturesReady=Promise.all([
-    tryLoadPlazaMap('./assets/plaza/grass-ecc-campus-v1.png',1,1),
+    tryLoadPlazaMap('./assets/plaza/grass-ecc-campus-v1-lossless.webp',1,1),
     tryLoadPlazaMap('./assets/plaza/limestone-ecc-campus-v1.png',1,1),
-    tryLoadPlazaMap('./assets/plaza/asphalt_day.png',1,1),
+    tryLoadPlazaMap('./assets/plaza/asphalt_day-lossless.webp',1,1),
     tryLoadPlazaMap('./assets/plaza/asphalt_dash_overlay.png',1,8),
     tryLoadPlazaMap('./assets/plaza/crosswalk_overlay.png',1,1),
     tryLoadPlazaMap('./assets/plaza/curb_cyan_trim.png',12,1),

@@ -4,7 +4,7 @@ import {partitionInstances} from './environment/static-batching.js?v=1';
 import {polishGround} from './environment/ground-polish.js?v=3';
 import * as T from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
-import {addSurroundings} from './environment/surroundings.js?v=windows1';
+import {addSurroundings} from './environment/surroundings.js?v=opt2-20260914';
 export async function integrateEnvironment(world){
 const plantInstances=[];const basePhase=world.phase;let activePhase='flourishing';
 const presets={

@@ -40,7 +40,7 @@ export function buildMedia(palette){
  for(const x of [-11,-8,-5,5,8,11]){const shape=new T.Shape();shape.moveTo(-.5,0);shape.lineTo(.5,0);shape.lineTo(1.05,7.2);shape.lineTo(-.5,7.6);shape.closePath();for(const [y,h]of [[1.2,2.15],[4.15,2.05]]){const hole=new T.Path();hole.moveTo(-.25,y);hole.lineTo(-.25,y+h);hole.lineTo(.48,y+h);hole.lineTo(.48,y);hole.closePath();shape.holes.push(hole);}const geo=new T.ExtrudeGeometry(shape,{depth:.2,bevelEnabled:false});const o=new T.Mesh(geo,dark);o.rotation.y=Math.PI/2;o.position.set(x,0,curve(x)-.4);o.castShadow=true;root.add(o);}
  // Painted end faces toward SPACE after the building is rotated into the compact layout.
  box(.16,5.8,6.3,white,-12.06,3.9,.15);box(.16,5.8,6.3,white,12.06,3.9,.15);
- const muralTx=new T.TextureLoader().load('environment/assets/media-mural-sharp-v2.png');muralTx.colorSpace=T.SRGBColorSpace;muralTx.anisotropy=16;
+ const muralTx=new T.TextureLoader().load('environment/assets/media-mural-sharp-v2-lossless.webp');muralTx.colorSpace=T.SRGBColorSpace;muralTx.anisotropy=16;
  // Atlas keeps the tall wall, upper projecting panel and lower circular artwork distinct.
  for(const [z,width,y,height,x,uv]of [[-1.5,2.55,3.8,5.1,-12.17,[0,0,.397,1]],[1.55,2.65,4.6,3.2,-12.46,[.4,.383,.6,.617]],[1.55,2.65,2.02,1.85,-12.18,[.4,0,.6,.38]]]){
   box(.3,height,width,white,x+.17,y,z);const tex=muralTx.clone();tex.offset.set(uv[0],uv[1]);tex.repeat.set(uv[2],uv[3]);tex.needsUpdate=true;
