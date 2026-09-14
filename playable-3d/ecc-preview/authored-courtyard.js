@@ -12,10 +12,44 @@ export const courtyardObstacles=[{type:'circle',x:-6.479646327692871,z:2.6687790
 for(const [x,z,w,d] of [[-2.0,-.32,2,3.5],[3.25,.1,1.6,4.25]])for(const dx of [-w/2+.12,w/2-.12])for(const dz of [-d/2+.12,d/2-.12])courtyardObstacles.push({type:'box',x:x+dx,z:z+dz,w:.12,d:.12});
 function label(words,w,h,x,y,z,dark=false){const c=document.createElement('canvas');c.width=1024;c.height=Math.ceil(1024*h/w);const ctx=c.getContext('2d');ctx.fillStyle=dark?'#263e42':'#eee4c9';ctx.font=`500 ${c.height*.57}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(words,512,c.height/2,970);const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;const o=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map,transparent:true,depthWrite:false,roughness:.6}));o.position.set(x,y,z);return o;}
 async function maps(){const loader=new T.TextureLoader();const names=['sandstone-diffuse.jpg','sandstone-normal.jpg','sandstone-arm.jpg'];const [map,normalMap,packed]=await Promise.all(names.map(n=>loader.loadAsync(new URL('./assets/courtyard/'+n,import.meta.url).href)));map.colorSpace=T.SRGBColorSpace;for(const t of [map,normalMap,packed]){t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=8;}return {map,normalMap,packed};}
+// The supplied courtyard mesh combines its old benches with the surrounding
+// architecture. Remove only the low furniture triangles in their known zones,
+// then rebuild the benches as explicit, controllable scene objects below.
+const legacyBenchZones=[[-8.4,8.3,2.5,.95],[-6,8.3,2.5,.95],[5.7,7.7,2.7,.95],[9.3,3.7,.95,2.1]];
+function removeEmbeddedBenches(root){
+ root.updateMatrixWorld(true);
+ root.traverse(o=>{
+  if(!o.isMesh)return;
+  const original=o.geometry,source=original.index?original.toNonIndexed():original,position=source.getAttribute('position');
+  const kept=[];let removed=false;const point=new T.Vector3();
+  for(let i=0;i<position.count;i+=3){
+   point.set((position.getX(i)+position.getX(i+1)+position.getX(i+2))/3,(position.getY(i)+position.getY(i+1)+position.getY(i+2))/3,(position.getZ(i)+position.getZ(i+1)+position.getZ(i+2))/3).applyMatrix4(o.matrixWorld);
+   const isBench=point.y>.2&&point.y<1.35&&legacyBenchZones.some(([x,z,w,d])=>Math.abs(point.x-x)<w/2&&Math.abs(point.z-z)<d/2);
+   if(isBench){removed=true;continue;}kept.push(i,i+1,i+2);
+  }
+  if(!removed){if(source!==original)source.dispose();return;}
+  const geometry=new T.BufferGeometry();
+  for(const [name,attribute] of Object.entries(source.attributes)){
+   const values=[];for(const index of kept)for(let c=0;c<attribute.itemSize;c++)values.push(attribute.array[index*attribute.itemSize+c]);
+   geometry.setAttribute(name,new T.BufferAttribute(new attribute.array.constructor(values),attribute.itemSize,attribute.normalized));
+  }
+  geometry.computeBoundingBox();geometry.computeBoundingSphere();o.geometry=geometry;
+  if(source!==original)source.dispose();original.dispose();
+ });
+}
+function addBackedBench(root,x,z,length,rotation=0){
+ const seat=new T.MeshStandardMaterial({color:0x9b7046,roughness:.78}),base=new T.MeshStandardMaterial({color:0xd7cfbc,roughness:.9});
+ const bench=new T.Group();bench.name='Courtyard bench — clear planter-facing orientation';
+ const box=(w,h,d,material,px,py,pz)=>{const mesh=new T.Mesh(new T.BoxGeometry(w,h,d),material);mesh.position.set(px,py,pz);mesh.castShadow=mesh.receiveShadow=true;bench.add(mesh);};
+ box(length,.09,.48,seat,0,.53,0);box(length,.38,.08,seat,0,.76,.22);
+ for(const px of [-length/2+.28,length/2-.28])box(.28,.5,.38,base,px,.25,0);
+ bench.position.set(x,0,z);bench.rotation.y=rotation;root.add(bench);
+}
 export async function buildAuthoredCourtyard(doors){
  const [asset,stone,hdr,paving]=await Promise.all([new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(new URL('./assets/authored-courtyard/ecc-exterior-annotations.glb?v=1',import.meta.url).href),maps(),new HDRLoader().loadAsync(new URL('./assets/authored-courtyard/garden-reflections.hdr',import.meta.url).href),Promise.all(['diffuse','normal','arm'].map(n=>new T.TextureLoader().loadAsync(new URL('./assets/authored-courtyard/stone-surface-'+n+'.webp',import.meta.url).href)))]);
  hdr.mapping=T.EquirectangularReflectionMapping;for(const t of paving){t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(2,2);t.anisotropy=8;}paving[0].colorSpace=T.SRGBColorSpace;
  const woodMap=timberMap();const root=asset.scene;root.name='ECC authored arrival courtyard';
+ removeEmbeddedBenches(root);
  root.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;const m=o.material;m.name=m.name.replaceAll('_',' ');m.envMap=hdr;m.envMapIntensity=.16;
   if(/limestone|sandstone/.test(m.name)){m.map=stone.map;m.normalMap=stone.normalMap;m.normalScale.set(.18,.18);m.aoMap=stone.packed;m.aoMapIntensity=.35;m.roughnessMap=stone.packed;m.color.setHex(/cut/.test(m.name)?0xede1c3:0xffffff);m.roughness=1;}
   if(m.name==='ECC recessed limestone'){m.color.setHex(0x9aa99f);m.envMapIntensity=.05;}
@@ -46,6 +80,13 @@ export async function buildAuthoredCourtyard(doors){
  const chapelLabel=label('CHAPEL',.84,.21,-3.149907270545058,3.04,0.14099580783983612,true);chapelLabel.rotation.y=1.19;root.add(chapelLabel);
  welcomeDetails.add(label('WELCOME TO ECC',2.15,.24,0,.41,.331,true),label('Career Empire',1.05,.12,0,.18,.331,true));
  addAuthoredGarden(root,beds);
+ // Rebuilt seating sits on paving. The two benches identified in review have
+ // the requested orientations: the eastern bench is turned 90°, while the
+ // planter-side bench faces out toward the circulation path.
+ addBackedBench(root,-8.4,8.3,2.3,0);
+ addBackedBench(root,-6,8.3,2.3,Math.PI/2);
+ addBackedBench(root,5.7,7.7,2.5,Math.PI/2);
+ addBackedBench(root,9.3,3.7,1.9,Math.PI/2);
  for(const [x,y,z]of [[0,2.45,-3.1],[6.45,2.45,.4],[-4.0,2.45,.35]]){const l=new T.PointLight(0xffc17b,9,4.5,2);l.position.set(x,y,z);l.name='ECC warm recessed room light';root.add(l);}
  // Detailed rocks reused from the accepted kit; instance them within the planted areas.
  const rock=await new GLTFLoader().loadAsync(new URL('../assets/campus-landscape/boulder-a.glb',import.meta.url).href);rock.scene.updateMatrixWorld(true);const rockBounds=new T.Box3().setFromObject(rock.scene),rockCentre=rockBounds.getCenter(new T.Vector3()),rockSize=rockBounds.getSize(new T.Vector3()),rockDiameter=Math.hypot(rockSize.x,rockSize.z);
