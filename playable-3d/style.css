@@ -41,3 +41,5 @@
 
 #est-document-frame{overflow:auto;display:block;color:#203e38;background:#dce4df;padding:10px;align-self:stretch;min-height:0}
 #est-document-frame figure{margin:0 auto 18px;width:calc(100% * var(--document-zoom,1));max-width:none;background:white}#est-document-frame img{display:block;width:100%;height:auto}#est-document-frame figcaption{padding:8px;text-align:center;background:#f4f3e9}#est-documents label{display:block;text-align:center;margin:8px}#est-document-zoom{padding:6px;background:white;color:#203e38}
+
+@media(min-width:621px){.world-footer{right:132px}}
