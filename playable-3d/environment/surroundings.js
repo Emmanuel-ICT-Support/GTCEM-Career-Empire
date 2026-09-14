@@ -21,11 +21,10 @@ export async function addSurroundings(scene,palette){
  // Continue exactly the original 2-unit tile grid and material, excluding existing tiles.
  const positions=[];for(let x=-40;x<52;x+=2)for(let z=-78;z<38;z+=2){if(x>=-26&&x<28&&z>=-26&&z<28)continue;positions.push([x+1,z+1]);}
  const ground=new T.InstancedMesh(new T.PlaneGeometry(2,2),originalGrass,positions.length);ground.name='Continued campus grass tiles';const q=new T.Quaternion().setFromAxisAngle(new T.Vector3(1,0,0),-Math.PI/2);positions.forEach(([x,z],i)=>ground.setMatrixAt(i,new T.Matrix4().compose(new T.Vector3(x,0,z),q,new T.Vector3(1,1,1))));ground.receiveShadow=true;ground.computeBoundingSphere();root.add(ground);
- // Australian rules oval: continuous grass, oval perimeter, four posts at each end.
+ // Australian rules oval: continuous grass and a perimeter line. Goal posts are
+ // omitted because this shared pedestrian approach crosses the former end.
  const points=[];for(let i=0;i<=128;i++){const a=i/128*Math.PI*2;points.push(new T.Vector3(-4+14*Math.cos(a),.025,-54+9*Math.sin(a)));}
  const line=new T.Line(new T.BufferGeometry().setFromPoints(points),new T.LineBasicMaterial({color:0xeeeede,transparent:true,opacity:.55}));root.add(line);
- // Keep the football posts within the playing oval, clear of the perimeter path.
- const postMat=mat(0xe1e4dc);for(const x of [-16,8])for(const dz of [-3.8,-1.3,1.3,3.8]){const h=Math.abs(dz)<2?4:2.5;box(root,.12,h,.12,postMat,x,h/2,-54+dz);}
  const asset=await new GLTFLoader().loadAsync('./assets/campus-landscape/mature-eucalypt-a.glb');asset.scene=batchStatic(asset.scene);asset.scene.updateMatrixWorld(true);
  const bounds=new T.Box3().setFromObject(asset.scene),center=bounds.getCenter(new T.Vector3()),height=bounds.max.y-bounds.min.y;
  const normal=new T.Matrix4().makeTranslation(-center.x,-bounds.min.y,-center.z);

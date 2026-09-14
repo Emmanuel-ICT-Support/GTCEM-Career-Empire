@@ -24,10 +24,8 @@ path([[-20,-22],[-8,-22],[5,-22],[18,-22]],3.2);
 path([[-11,-5],[-11,-14],[-11,-19],[-15,-22]],3.2);
 pavingPaths.finish();
 const plaza=new THREE.Mesh(new THREE.CircleGeometry(5.5,64),paving);plaza.rotation.x=-Math.PI/2;plaza.position.set(0,.09,4);plaza.receiveShadow=true;group.add(plaza);
-// Retain the southern oval pond.  This is separate from the display pond near
-// SPACE, which has been removed at the visitor's request.
-const water=new THREE.Mesh(new THREE.CircleGeometry(1,96),new THREE.MeshStandardMaterial({color:0x488c98,roughness:.28,metalness:.15}));water.rotation.x=-Math.PI/2;water.scale.set(17.156,4.746,1);water.position.set(0,.07,-28.582);water.name='Southern oval pond water';group.add(water);
-const pondCoping=new THREE.Mesh(new THREE.RingGeometry(1.005,1.055,96),edge);pondCoping.rotation.x=-Math.PI/2;pondCoping.scale.set(17.156,4.746,1);pondCoping.position.set(0,.115,-28.582);pondCoping.name='Southern oval pond continuous limestone coping';pondCoping.receiveShadow=true;group.add(pondCoping);
+// The long southern display pond is intentionally removed. The smaller Garden
+// pond beside the buildings remains part of the active landscape.
 function add(id,x,z,scale=1,rotation=0){placements.push({id,x,z,scale,rotation});}
 // Keep a clear walking line around the Avatar Studio mural and its garden.
 const beds=[[-19,-8.6,7,2.3],[-16,-1.7,4.4,1.15],[7.5,-2.5,1.7,7],[15.7,-16.8,2.2,5],[3,-20,5,1.4],[-17,-19.5,5,1.5],[22,3,6,1.8]];
@@ -42,13 +40,28 @@ const planting=new THREE.Group();planting.name='Supporting campus native gardens
 const assetIds=[...new Set(placements.map(p=>p.id)),'careers','workplace'];
 const loaded=new Map(await Promise.all(assetIds.map(async id=>[id,await loader.loadAsync(`./assets/${['garden','careers','workplace'].includes(id)?'campus-buildings/'+id+'-shared-textures':'campus-landscape/'+id}.glb`)])));
 for(const id of [...new Set(placements.map(p=>p.id))]){const asset=loaded.get(id);asset.scene=mergeStatic(asset.scene);if(id==='boulder-a'){const bounds=new THREE.Box3().setFromObject(asset.scene),c=bounds.getCenter(new THREE.Vector3()),size=bounds.getSize(new THREE.Vector3());const scale=1/Math.hypot(size.x,size.z);asset.scene.traverse(o=>{if(o.isMesh){o.geometry=o.geometry.clone();o.geometry.translate(-c.x,-bounds.min.y,-c.z);o.geometry.scale(scale,scale,scale);}});}asset.scene.updateMatrixWorld(true);const ps=placements.filter(p=>p.id===id);asset.scene.traverse(o=>{if(!o.isMesh)return;const inst=new THREE.InstancedMesh(o.geometry,o.material,ps.length);ps.forEach((p,i)=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(p.x,id==='boulder-a'?.40:.12,p.z),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),p.rotation),new THREE.Vector3(p.scale,p.scale,p.scale));m.multiply(o.matrixWorld);inst.setMatrixAt(i,m);});inst.castShadow=true;inst.receiveShadow=true;group.add(inst);});}
-// The supplied shade model bundled its roof, table and benches together.  Use
-// a clean, furniture-free pergola instead, so no hidden seat can face a bed.
-function pergola(x,z){const post=(px,pz)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(.14,3.1,.14),palette.blue);o.position.set(px,1.65,pz);o.castShadow=o.receiveShadow=true;group.add(o);};const rail=(w,d,y)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,.16,d),palette.timber);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;group.add(o);};rect(x,z,8.2,5.2,paving,.105);for(const dx of[-3.7,3.7])for(const dz of[-2.25,2.25])post(x+dx,z+dz);rail(7.7,.18,3.3);for(let dx=-3.5;dx<=3.5;dx+=.28){const rib=new THREE.Mesh(new THREE.BoxGeometry(.11,.13,4.75),palette.timber);rib.position.set(x+dx,3.43,z);rib.castShadow=rib.receiveShadow=true;group.add(rib);}for(const dx of [-3.5,3.5])for(const dz of [-2,2])colliders.push([x+dx,1.6,z+dz,.15,3.2,.15]);}
+// The supplied shade model bundled its roof, table and benches together. Use
+// one complete frame: every post meets its perimeter beam, so there are no
+// floating poles or sky gaps at the roof line.
+function pergola(x,z){
+ const top=3.36,postHeight=3.42;
+ const post=(px,pz)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(.14,postHeight,.14),palette.blue);o.position.set(px,postHeight/2,pz);o.castShadow=o.receiveShadow=true;group.add(o);};
+ const beam=(w,d,px,pz)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,.18,d),palette.timber);o.position.set(px,top,pz);o.castShadow=o.receiveShadow=true;group.add(o);};
+ rect(x,z,8.2,5.2,paving,.105);
+ for(const dx of[-3.7,3.7])for(const dz of[-2.25,2.25])post(x+dx,z+dz);
+ beam(7.68,.20,x,z-2.25);beam(7.68,.20,x,z+2.25);beam(.20,4.68,x-3.7,z);beam(.20,4.68,x+3.7,z);
+ for(let dx=-3.5;dx<=3.5;dx+=.28){const rib=new THREE.Mesh(new THREE.BoxGeometry(.11,.13,4.72),palette.timber);rib.position.set(x+dx,3.52,z);rib.castShadow=rib.receiveShadow=true;group.add(rib);}
+ for(const dx of [-3.7,3.7])for(const dz of [-2.25,2.25])colliders.push([x+dx,postHeight/2,z+dz,.15,postHeight,.15]);
+}
 for(const [x,z]of [[-17,-5],[10,-1]])pergola(x,z);
-// Two conventional benches face their open paved areas, fully outside beds.
-function bench(x,z,turn=0){const seat=new THREE.Mesh(new THREE.BoxGeometry(2.15,.16,.48),palette.timber);seat.position.set(x,.55,z);seat.rotation.y=turn;seat.castShadow=seat.receiveShadow=true;group.add(seat);for(const dx of[-.72,.72]){const leg=new THREE.Mesh(new THREE.BoxGeometry(.18,.54,.38),edge);leg.position.set(x+Math.cos(turn)*dx,.27,z-Math.sin(turn)*dx);leg.rotation.y=turn;leg.castShadow=leg.receiveShadow=true;group.add(leg);}}
-bench(-17,-6.7,0);bench(11.7,-1,Math.PI/2);
+// Two backed benches are deliberately clear of both posts and planter soil.
+// Their long sides follow their adjacent planter edges and seats face the open paving.
+function bench(x,z,turn=0){
+ const seat=new THREE.Mesh(new THREE.BoxGeometry(2.15,.16,.48),palette.timber);seat.position.set(x,.55,z);seat.rotation.y=turn;seat.castShadow=seat.receiveShadow=true;group.add(seat);
+ const back=new THREE.Mesh(new THREE.BoxGeometry(2.15,.54,.11),palette.timber);back.position.set(x+Math.sin(turn)*.255,1.0,z+Math.cos(turn)*.255);back.rotation.y=turn;back.castShadow=back.receiveShadow=true;group.add(back);
+ for(const dx of[-.72,.72]){const leg=new THREE.Mesh(new THREE.BoxGeometry(.18,.54,.38),edge);leg.position.set(x+Math.cos(turn)*dx,.27,z-Math.sin(turn)*dx);leg.rotation.y=turn;leg.castShadow=leg.receiveShadow=true;group.add(leg);}
+}
+bench(-17,-6.25,Math.PI);bench(10.3,-1,-Math.PI/2);
 
 for(const p of placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')))colliders.push([p.x,1.5,p.z,.4,3,.4]);
 const buildings=[];

@@ -1,13 +1,13 @@
 {
-  "release": "single-pond-clearance-20260914",
-  "changeId": "CE-CHANGE-20260914-54",
+  "release": "garden-pond-walkthrough-20260914",
+  "changeId": "CE-CHANGE-20260914-55",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
-  "scope": "Careers desk opens automatically at its entrance, with button shortcut retained; the SPACE display pond and its collision are removed while the southern oval pond remains; faulty Arrival seating is removed and pergola posts are fully connected.",
+  "scope": "Walkthrough corrections: retain the Garden pond at its original lawn location while removing only the long southern pond between English/Media and Administration; complete the Arrival pergola frames, align clear backed benches along planter edges, remove football posts from the SPACE approach, and add walkable raised-terrace and step collision at SPACE.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "93f9f4783fc28130990ae713153062441dc22f6e7b8d9ef7b4e443f26c1f15f3"
+      "sha256": "808b719de1f3f9201111f786aff34f56e16d44d008bae5d9bcece2fe8f2e927e"
     },
     {
       "path": "arrival-precinct.js",
@@ -123,7 +123,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "59858764b1d2475c2bb0325b7a2eb343ee928705f667b05115dbef52798ac2ed"
+      "sha256": "9a06caf3d67ec9fcb307da62dfb05bfe67adac5e78998ad9b7cb02979544b80f"
     },
     {
       "path": "chapel.js",
@@ -239,7 +239,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "11abc14f90537b52739f5c986a2531702c06858888296f4d89738e6853d6c961"
+      "sha256": "8c8aa8f8122be79733ae228aa27e6e40ed86b5068453665c839d03910217764f"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -287,7 +287,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "1728c33129ff75c2828c1ed75cd1b616b101dafc849a2b90792b73fffe2a42c0"
+      "sha256": "608763bdf466adeddca8c8c50307eadd1b2a4e80622b64bd005d15e5b232af12"
     },
     {
       "path": "est-wall-video.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "635fd2356c77826574bebc3f17053ca150b45377cc1bc0e5630275e050b0279c"
+      "sha256": "95124b2d846da64c30296940f2a38f1c727a117fd43e702b8ca0e4646ba3f87e"
     },
     {
       "path": "joystick.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "6ca4772a35a4b6bdecdac0339676d0d5e6eb4943a6d34674e9bc7f60925da459"
+      "sha256": "ad93cbde315d979ee841b521507401483cd4113dc782f52baa4078b01428ed33"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",

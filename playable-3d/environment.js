@@ -4,7 +4,7 @@ import {partitionInstances} from './environment/static-batching.js?v=1';
 import {polishGround} from './environment/ground-polish.js?v=3';
 import * as T from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
-import {addSurroundings} from './environment/surroundings.js?v=walkthrough3';
+import {addSurroundings} from './environment/surroundings.js?v=walkthrough-clearance-20260914';
 export async function integrateEnvironment(world){
 const plantInstances=[];const basePhase=world.phase;let activePhase='flourishing';
 const presets={
@@ -61,10 +61,19 @@ world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(10.95,3.6,3.25
 // Newly accessible exteriors remain solid; the playing surface stays open.
 const block=(x,y,z,w,h,d)=>world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(w/2,h/2,d/2).setTranslation(x,y,z));
 block(18.68,2.8,-53,5.95,5.6,21.25);
+// SPACE has a real raised forecourt. Its top surface and shallow approach
+// are colliders too, so the character rises onto the orange terrace rather
+// than clipping through it or treating it as flat lawn.
+block(14.39,.23,-53,3.32,.46,23.15);
+block(12.92,.115,-58.1,1.15,.23,2.25);
+block(12.92,.23,-58.1,.82,.46,1.72);
+block(12.92,.345,-58.1,.52,.69,1.2);
+block(12.92,.115,-48.75,1.15,.23,2.25);
+block(12.92,.23,-48.75,.82,.46,1.72);
+block(12.92,.345,-48.75,.52,.69,1.2);
 block(18.4,3.5,-44.8,5.78,7,3.83);
 block(23.78,2.4,-44.755,2.98,4.8,3.74);
 block(43,1.4,-26,12,2.8,3);
-for(const x of [-16,8])for(const dz of [-3.8,-1.3,1.3,3.8]){const h=Math.abs(dz)<2?4:2.5;block(x,h/2,-54+dz,.12,h,.12);}
 for(const [x,z,w,d]of surroundings.userData.extraBeds)block(x,.22,z,w,.44,d);
 for(const {x,z} of surroundings.userData.treePlacements)world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cylinder(2,.28).setTranslation(x,2,z));
 
