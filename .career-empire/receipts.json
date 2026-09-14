@@ -189,5 +189,22 @@
       "playable-3d/assets/est-documents/vtcs/page-2.png": "100644:7bd164226e8d18e17d823bae32095cfd906c4bb8",
       "playable-3d/world.js": "100644:07e4515c15acd571e847b3db6232b5c0c525ae48"
     }
+  },
+  {
+    "changeId": "CE-LOAD-AUDIT-20260914",
+    "project": "game-live",
+    "reviewedAt": "2026-09-14",
+    "reviewEvidence": "User-approved startup performance release. 18 unit tests, 83 manifest hashes/29 local modules, browser avatar/Chapel/EST checks passed. No asset bytes or visual settings changed. Prior hosted arrival timeout remains disclosed. Canonical Blueprint docs/production/load-performance-20260914.md.",
+    "recordSha256": "8c83053a16eb31d29fff1589de16e298ab5e2e86a461caf4ce082a1546034ae6",
+    "files": {
+      "playable-3d/app.js": "100644:7d2e82abc9b4a3878e67bb30206c30afec897f27",
+      "playable-3d/world.js": "100644:f498e25df70920d1e8a56091532702fd29264070",
+      "playable-3d/chapel.js": "100644:fa8bd53005d30928e2e84b87d73febac1d9ca7da",
+      "playable-3d/est-wall-video.js": "100644:f03ceaf992b3cd9b37d6f5ad3b6b7a8e5b2ad923",
+      "playable-3d/index.html": "100644:9fcd584173e1e48a31064759bcde411d4b920064",
+      "playable-3d/release-manifest.json": "100644:c29c87117d1acca1f89c8c050e90d1d49ca3a75b",
+      "AGENTS.md": "100644:49bb0f95c1fb749953577b34976d1f2d27b52f6f",
+      "docs/load-performance-release-20260914.md": "100644:cf1662de477a2fb56d14b4ebf6df2bc2709bdd97"
+    }
   }
 ]

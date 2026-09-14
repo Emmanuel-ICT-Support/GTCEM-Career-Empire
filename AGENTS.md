@@ -1,3 +1,7 @@
+# Approved startup-performance publication — 14 September 2026
+
+Tania explicitly approved the tested loading patch for live publication. This task owns only on-demand avatar alternatives, EST poster and Chapel light-table loading, dependent cache keys and release hashes. Preserve separately authored local garden corrections. No appearance or saved-profile changes. See docs/load-performance-release-20260914.md. Deployment verification will be recorded in the canonical Blueprint; older release notes below are historical.
+
 # Approved Chapel interior publication — 13 September 2026
 
 Tania reviewed the final corrected side-perspective Chapel and explicitly approved it: “great! love it send to live if all good to go”. This separately authorises the new interior, superseding the earlier interior hold. Chapel task owns this bounded publication after the exterior release task closed; no further appearance work. Preserve the approved source, seven verified movement routes, 14 unit checks and final reference/evidence receipt. Publication verification is pending; do not infer live success from local checks. See docs/chapel-interior-upgrade-20260913.md. Older hold notes below are historical.

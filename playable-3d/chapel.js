@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {RectAreaLightUniformsLib} from 'three/addons/lights/RectAreaLightUniformsLib.js';
 function roundedBox(w,h,d,segments,r){const sh=new THREE.Shape(),x=-w/2,y=-h/2;sh.moveTo(x+r,y);sh.lineTo(x+w-r,y);sh.quadraticCurveTo(x+w,y,x+w,y+r);sh.lineTo(x+w,y+h-r);sh.quadraticCurveTo(x+w,y+h,x+w-r,y+h);sh.lineTo(x+r,y+h);sh.quadraticCurveTo(x,y+h,x,y+h-r);sh.lineTo(x,y+r);sh.quadraticCurveTo(x,y,x+r,y);const g=new THREE.ExtrudeGeometry(sh,{depth:d-.04,steps:1,bevelEnabled:true,bevelSegments:segments,bevelSize:.02,bevelThickness:.02,curveSegments:6});g.translate(0,0,-(d-.04)/2);return g;}
 /** ECC Chapel: reference-led architectural interior. Original reference JPEGs remain unchanged. */
 export const CHAPEL={x:-3.15,z:-8.8,entry:[0,5.7],reflection:[-6.2,2.4]};
@@ -9,6 +8,7 @@ export async function buildChapel(scene,physics){
  const loader=new THREE.TextureLoader();
  const altarPhoto=await loader.loadAsync(new URL('./assets/chapel/altar-reference.jpg',import.meta.url).href);
  for(const t of [altarPhoto]){t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;}
+ const {RectAreaLightUniformsLib}=await import('three/addons/lights/RectAreaLightUniformsLib.js');
  RectAreaLightUniformsLib.init();
  const mat=(color,roughness=.8)=>new THREE.MeshStandardMaterial({color,roughness});
  const ivory=mat(0xf1eee5),oak=mat(0xb88c57),stone=mat(0xd5c5a7),cloth=mat(0xfffaf0),chair=mat(0xddd8cc),dark=mat(0x26434a),gold=mat(0xb89c62,.4),glass=new THREE.MeshPhysicalMaterial({color:0xa6b4ae,roughness:.29,metalness:.12,clearcoat:.8,clearcoatRoughness:.2,envMapIntensity:.55});

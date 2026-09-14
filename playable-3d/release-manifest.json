@@ -1,13 +1,13 @@
 {
-  "release": "approved-chapel-interior-20260913",
-  "changeId": "CE-CHANGE-20260913-49",
+  "release": "load-performance-20260914",
+  "changeId": "CE-LOAD-AUDIT-20260914",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "1ca602a59ef16a1dc64f79e9185a9e395f81a023",
-  "scope": "Separately approved Chapel interior: broad side-perspective room, bounded raised clerestory, four lower timber ceiling wings, warm lights/reflections, 98 seats and ceiling camera. Retains approved exterior and existing gameplay.",
+  "baseCommit": "7388cfa3bca6b58a06a88bf18f65e6d49dc17501",
+  "scope": "Startup performance: on-demand avatar alternatives, EST poster and Chapel lighting tables. All approved visuals, asset bytes, saved profiles and activities retained.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "76a53eca5e978e5a7273d2fc240cc0db79dfe4bfcc7d00a7096d87713f1e43ed"
+      "sha256": "099e66a67e7f100bc9bd74504c80e612307d73caf64bcf64de5a082d4644950b"
     },
     {
       "path": "arrival-precinct.js",
@@ -127,7 +127,7 @@
     },
     {
       "path": "chapel.js",
-      "sha256": "4e057b3eb9800d7a94e65ae67ddffac0090891fe99e1ea9a1b1f788465361c30"
+      "sha256": "d5b2c8d31c201c5578afaf167d300e312a68c9b114825cfa4e542063a6a677a9"
     },
     {
       "path": "characters.js",
@@ -291,11 +291,11 @@
     },
     {
       "path": "est-wall-video.js",
-      "sha256": "3f9dbe36f85fe3360abef340090dfe6aff5f73902e860a125432615d3a1d9b09"
+      "sha256": "01dff693af85f4c15b86bda3a17e88fe9b0e49fe8c03e6079861f79d80ca9ea4"
     },
     {
       "path": "index.html",
-      "sha256": "0547bf2edb51990890c49b13839eee4e11bddf01534f36121858d356720182e3"
+      "sha256": "dbb26ab10f7212e02906c50ab64ea14130fedf9c23e7d7583da2e24df3009257"
     },
     {
       "path": "joystick.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "0b2baecd4b51a6ab1df963355f0552421f98cabff5854ad1f7096a104161f368"
+      "sha256": "14573413c000ea0bd33c05aa38b8b4d9d15b44426bf35e8f9d712a152a2f9f8d"
     }
   ],
   "estVideo": {
