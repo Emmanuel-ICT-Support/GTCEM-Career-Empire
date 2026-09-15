@@ -85,9 +85,10 @@ export async function buildAuthoredCourtyard(doors){
  addAuthoredGarden(root,beds);
  // Rebuilt seating sits on paving. The right-hand seat is an independent
  // bench, not inherited patio geometry, so its facing is explicit and stable.
- addBackedBench(root,-8.4,8.3,2.3,0);
- // Back toward the planter (west); seat faces the pedestrian paving (east).
- addBackedBench(root,-6,8.3,2.3,-Math.PI/2);
+ // Foreground planter bench: turn it to face outward toward the paving.
+ addBackedBench(root,-8.4,8.3,2.3,Math.PI);
+ // Background bench was correct before the prior correction; restore it.
+ addBackedBench(root,-6,8.3,2.3,Math.PI/2);
  addBackedBench(root,5.7,7.7,2.5,Math.PI/2);
  addBackedBench(root,9.3,3.7,1.9,Math.PI/2);
  for(const [x,y,z]of [[0,2.45,-3.1],[6.45,2.45,.4],[-4.0,2.45,.35]]){const l=new T.PointLight(0xffc17b,9,4.5,2);l.position.set(x,y,z);l.name='ECC warm recessed room light';root.add(l);}
