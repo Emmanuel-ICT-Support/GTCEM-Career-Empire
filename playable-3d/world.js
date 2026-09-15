@@ -1,10 +1,10 @@
 import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
 import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
-import {buildExterior} from './ecc-preview/model.js?v=courtyard-bench-targeted-orientation-20260915';
+import {buildExterior} from './ecc-preview/model.js?v=courtyard-bench-and-pole-20260915';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createCampusLandscape} from './campus-landscape.js?v=admin-forecourt-clearance-20260914';
-import {arrivalPrecinct} from './arrival-precinct.js?v=final-garden-clearance-20260914';
+import {arrivalPrecinct} from './arrival-precinct.js?v=courtyard-bench-and-pole-20260915';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
  * ~2wu tiles stamped from a 2D grid: grass / path / asphalt / plaza (+ curb overlays).

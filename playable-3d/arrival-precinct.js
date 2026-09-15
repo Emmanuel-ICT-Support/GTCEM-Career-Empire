@@ -40,9 +40,8 @@ export function arrivalPrecinct(town,stoneTexture,sign,palette){
  addAuthoredGarden(root,walkBeds.filter(b=>b[1]>3),{treeSites:[[-11.3,10,1.22,.7],[-2.8,13,1.34,2.3]],baseY:.52,density:4,detail:'supporting'});
  // Stone outcrops and seating frame the walkway, never obstruct its centre.
  for(const [x,z] of [[-10.6,9],[-3.3,10],[-3.3,15],[-10.7,1]]){const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(.38,0),stone.clone());rock.position.set(x,.55,z);rock.scale.set(1.05,.7,.85);rock.castShadow=true;root.add(rock);}
- // The old garden-side seats intersected the pergola posts and left users
- // facing planting.  Keep this narrow paving route clear.
- for(const z of [6.5,9,13.8,16.2]){box(root,-5,.36,z,.11,.72,.11,navy);box(root,-5,.67,z,.13,.1,.13,warm);}
+ // Remove the thin decorative posts along this route. Their overlapping
+ // geometry produced the reported Administration-side flicker.
  // Keep planting inside the resized courtyard-facing beds.
  addAuthoredGarden(root,[[-10.7,1,3,3],[-4.3,2,2.0,3.8]],{treeSites:[[-11,0,1.25,.4],[-4.3,1,1.20,2.3]],baseY:.5});
  // Merge static surfaces by material to keep the scene affordable to render.

@@ -1,17 +1,17 @@
 {
-  "release": "courtyard-bench-targeted-orientation-20260915",
-  "changeId": "CE-CHANGE-20260915-62",
+  "release": "courtyard-bench-and-pole-20260915",
+  "changeId": "CE-CHANGE-20260915-63",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
-  "scope": "Walkthrough corrections: retain the Garden pond at its original lawn location while removing only the long southern pond between English/Media and Administration; remove the faulty front-of-Administration pergola and bench assembly; independently orient the foreground patio bench outward toward paving and restore the background bench's original direction; retain the SPACE approach clearance plus walkable raised-terrace and step collision.",
+  "scope": "Walkthrough corrections: retain the Garden pond at its original lawn location while removing only the long southern pond between English/Media and Administration; restore the foreground patio bench's original direction, orient the bench behind the avatar with its back left and seat toward the right-hand path, and remove the unstable Administration-side decorative posts; retain the SPACE approach clearance plus walkable raised-terrace and step collision.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "b884af31b692bc9b0a143641dbeacf8f3602e31a01f7112f192fe39118045d13"
+      "sha256": "6bc89ea1222be6ef9cd00efa89247484b2cdc5d317eab2998d7565981f09865f"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "e7632d0840be3c807eb75e7690eb22c55fadf3d020ab402b95975f4eaea4b340"
+      "sha256": "bb9168795143d3fafff6c31775d5210a9dc952d41731b718b079e5c7a52fbdd6"
     },
     {
       "path": "assets/campus-buildings/careers-shared-textures.glb",
@@ -215,7 +215,7 @@
     },
     {
       "path": "ecc-preview/authored-courtyard.js",
-      "sha256": "b761979c938c528d3034b075a1696dc3caa3ee8ffb0a77b35534b97a3a61d223"
+      "sha256": "513ce799d1147ecfcb84c39844cfbc46af022ff8dc0f65226f5b139bbd08313b"
     },
     {
       "path": "ecc-preview/authored-garden.js",
@@ -235,7 +235,7 @@
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "b22f42c8870d85bd8237f29b9b5ecf6e6a3dc55d4b4b5c2f98f1cf8beda17e94"
+      "sha256": "fff98de1a5844015c66f9070a767842cdb159039b9fc2b3546fe1f362dc5d4c0"
     },
     {
       "path": "environment.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "b9fa2fac49a2f3b262a324c67b09689f62b8b75e85847b73a00133ba12b5caeb"
+      "sha256": "eae244633bf7cfa190001a12090b5f072a490173df18cbb260f9f7ed4a217e8c"
     },
     {
       "path": "joystick.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "2e3b6ac46dfa34a94f551a9ff09ca615bb7da73faa736a96ddbe68d5053f6dad"
+      "sha256": "ea21d12684d8e6d5787afbb604ab0ed609f84eb66f40c8d4089981aab9f3c84e"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
