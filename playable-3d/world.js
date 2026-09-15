@@ -1,10 +1,10 @@
 import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
 import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
-import {buildExterior} from './ecc-preview/model.js?v=courtyard-embedded-furniture-removed-20260915';
+import {buildExterior} from './ecc-preview/model.js?v=courtyard-obsolete-structures-removed-20260915';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createCampusLandscape} from './campus-landscape.js?v=admin-forecourt-clearance-20260914';
-import {arrivalPrecinct} from './arrival-precinct.js?v=courtyard-bench-and-pole-20260915';
+import {arrivalPrecinct} from './arrival-precinct.js?v=courtyard-obsolete-structures-removed-20260915';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
  * ~2wu tiles stamped from a 2D grid: grass / path / asphalt / plaza (+ curb overlays).
@@ -383,11 +383,9 @@ export async function createWorlds(onProgress=()=>{}){
   // forecourt and produced the reported flickering pole. They are omitted so
   // this area remains an open, stable pedestrian space.
   const lights=[];
-  for(const x of [6.7])for(const z of [1,10]){
-    for(let j=0;j<4;j++)box(town,1.7,.055,.095,basic(0x796549),x,.53,z+j*.11);
-    for(const dx of [-.67,.67])box(town,.055,.48,.43,materials.edge,x+dx,.25,z+.16);
-    box(town,1.7,.25,.065,basic(0x796549),x,.82,z+.4);
-  }
+  // Retired courtyard benches. These older world-level meshes were separate
+  // from the authored courtyard asset and were the final visible seat after
+  // the embedded furniture had been removed.
   const wear=new THREE.Group();town.add(wear);
   const crackMat=basic(0x5d6257);
   for(let i=0;i<45;i++){

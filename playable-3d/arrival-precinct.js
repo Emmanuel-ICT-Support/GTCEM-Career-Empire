@@ -32,7 +32,9 @@ export function arrivalPrecinct(town,stoneTexture,sign,palette){
  for(const z of [2.99,7.01])ground(-8.6,z,9.8,.18,border,.107);
  ground(-10.9,5,.08,3.84,border,.108);
  function pergola(x,z,w,d){const edgeX=w/2-.15,edgeZ=d/2-.15;for(const dx of [-edgeX,edgeX])for(const dz of [-edgeZ,edgeZ])box(root,x+dx,1.72,z+dz,.13,3.44,.13,navy);for(const dz of [-edgeZ,edgeZ])box(root,x,3.45,z+dz,w,.16,.16,wood);for(const dx of [-edgeX,edgeX])box(root,x+dx,3.45,z,.16,.16,d,wood);for(let q=-w/2+.2;q<w/2-.2;q+=.28)box(root,x+q,3.58,z,.12,.16,d+.25,wood);}
- pergola(-7,18,5.4,3.6);pergola(-7,11.5,4.4,4.5);
+ // The two inherited timber pergolas shared the faulty Administration-side
+ // post layout. Remove the complete obsolete structures rather than leaving
+ // isolated uprights after their seating has been cleared.
  const welcome=sign('ARRIVAL GARDENS',2.8,'#f4e5c6','#29434a');welcome.position.set(-7,3.15,19.9);root.add(welcome);
  let seed=719;const random=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
  const walkBeds=[[-10.6,11.2,2.1,7],[-3.3,12,2.7,8],[-10.7,1,3,3],[-4.3,2,2.0,3.8],[-10.7,20.6,3.5,2.2]];

@@ -1,17 +1,17 @@
 {
-  "release": "courtyard-embedded-furniture-removed-20260915",
-  "changeId": "CE-CHANGE-20260915-65",
+  "release": "courtyard-obsolete-structures-removed-20260915",
+  "changeId": "CE-CHANGE-20260915-66",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
-  "scope": "Walkthrough corrections: remove the two remaining embedded timber benches in the Arrival courtyard, retain the open walkable forecourt, and remove the old overlapping freestanding courtyard light assemblies that caused the Administration-side pole flicker. Retain the agreed pond and SPACE approach corrections.",
+  "scope": "Walkthrough corrections: remove the final older world-level Arrival bench and both obsolete pergola structures with their posts. This clears the remaining bench and Administration-side pole from the live courtyard while retaining the agreed pond and SPACE approach corrections.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "b13589fefd49c1fe94d1bae2a4885d8c2199f47a53cd9561bc5fa26d9df22d93"
+      "sha256": "fad7e6926d80e1fbc79ce4f21840773678514e40a7b23deac4df3591461f449e"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "bb9168795143d3fafff6c31775d5210a9dc952d41731b718b079e5c7a52fbdd6"
+      "sha256": "9653ca988917eaa6136e0b23d32f776929005ae9c7a76556a398a238a203d01c"
     },
     {
       "path": "assets/campus-buildings/careers-shared-textures.glb",
@@ -235,7 +235,7 @@
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "8511593b0d88c2dab712da59902793b4ff32937f0c1ffd82ae70bdcd258d28e4"
+      "sha256": "43d2bb3aca5ebffc1af16c6690f8704a1cd074e1815f20f37c805639b271d442"
     },
     {
       "path": "environment.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "d76ef49fddd08bd6eac06cd3cb1e0a6bf1d303951c11c38f9bb2b99ff36301ae"
+      "sha256": "701958da8b67e7a3a268a04bc340817d7c60d77ed4cd499e1f63839373b061e3"
     },
     {
       "path": "joystick.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "1cfa34e7ab13dd3b7d43867a5d2d564e5b5d976f61b928645014014c34cc93c1"
+      "sha256": "28f97e0eceb785ff3cc6760d10e66e11ce13cd3aa0ff8cfe7496f465cf963d5f"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
