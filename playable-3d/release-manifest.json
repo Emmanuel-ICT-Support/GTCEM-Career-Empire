@@ -1,13 +1,13 @@
 {
-  "release": "courtyard-benches-removed-20260915",
-  "changeId": "CE-CHANGE-20260915-64",
+  "release": "courtyard-embedded-furniture-removed-20260915",
+  "changeId": "CE-CHANGE-20260915-65",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
-  "scope": "Walkthrough corrections: retain the Garden pond at its original lawn location while removing only the long southern pond between English/Media and Administration; remove all three benches in the Arrival courtyard area, including their collision bodies, and retain the removal of unstable Administration-side decorative posts; retain the SPACE approach clearance plus walkable raised-terrace and step collision.",
+  "scope": "Walkthrough corrections: remove the two remaining embedded timber benches in the Arrival courtyard, retain the open walkable forecourt, and remove the old overlapping freestanding courtyard light assemblies that caused the Administration-side pole flicker. Retain the agreed pond and SPACE approach corrections.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "399d1ee2657cfcc77d06d6ef34674eaf06c3d153316306ce59fb677095c551e1"
+      "sha256": "b13589fefd49c1fe94d1bae2a4885d8c2199f47a53cd9561bc5fa26d9df22d93"
     },
     {
       "path": "arrival-precinct.js",
@@ -215,7 +215,7 @@
     },
     {
       "path": "ecc-preview/authored-courtyard.js",
-      "sha256": "ce963d8d6ad1fa26febd04ac67bdc7dcdd9de34fdbee8bdf4189048d935ae7c6"
+      "sha256": "3f2a8cb4c1c8de908d44b600e9b3083e7ab9c0e39884f30f3bbfd13fc7aebe03"
     },
     {
       "path": "ecc-preview/authored-garden.js",
@@ -235,7 +235,7 @@
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "0637cfa57f3cba200ea6496ea8b50049fb22203d2604ce37f6e8f81791af9052"
+      "sha256": "8511593b0d88c2dab712da59902793b4ff32937f0c1ffd82ae70bdcd258d28e4"
     },
     {
       "path": "environment.js",
@@ -295,7 +295,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "b7d2301d7f671f80c83dd54ad1cec9126c5dd4823d15f4d37938b230f96818ac"
+      "sha256": "d76ef49fddd08bd6eac06cd3cb1e0a6bf1d303951c11c38f9bb2b99ff36301ae"
     },
     {
       "path": "joystick.js",
@@ -335,7 +335,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "94edbbf8842651f4492bd72b7d70e0d1739f60e7784de8a8c4b911e274d88992"
+      "sha256": "1cfa34e7ab13dd3b7d43867a5d2d564e5b5d976f61b928645014014c34cc93c1"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",

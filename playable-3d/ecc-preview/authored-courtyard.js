@@ -8,7 +8,7 @@ import {addAuthoredGarden} from './authored-garden.js?v=annotations1';
 import {ECC_WELCOME} from './landmark-layout.js?v=exterior2';
 export {ECC_WELCOME};
 const beds=[[-8,5,2.8,4.6],[-6.3,-6.5,5,1.7],[7.2,10.9,4.7,2],[2.3,-.8,1.1,1.3],[-4.9,6.4,2.65,2.6],[5.8,5.2,3,2.6]];
-export const courtyardObstacles=[{type:'circle',x:-6.479646327692871,z:2.668779006744716,r:.30},{type:'circle',x:-10,z:-4,r:.3},{type:'box',x:0,z:-4.55,w:8,d:4.2},{type:'box',x:6.45,z:-1.45,w:4.4,d:6.4},{type:'chapel',x:-6,z:-1,r:3.05,doorAngle:1.19,doorHalf:.21},...beds.map(([x,z,w,d])=>({type:'box',x,z,w,d})),{type:'box',x:ECC_WELCOME.x,z:ECC_WELCOME.z,w:2.42,d:.72,yaw:ECC_WELCOME.yaw},...[ [9.3,3.7,.75,1.9] ].map(([x,z,w,d])=>({type:'box',x,z,w,d}))];
+export const courtyardObstacles=[{type:'circle',x:-6.479646327692871,z:2.668779006744716,r:.30},{type:'circle',x:-10,z:-4,r:.3},{type:'box',x:0,z:-4.55,w:8,d:4.2},{type:'box',x:6.45,z:-1.45,w:4.4,d:6.4},{type:'chapel',x:-6,z:-1,r:3.05,doorAngle:1.19,doorHalf:.21},...beds.map(([x,z,w,d])=>({type:'box',x,z,w,d})),{type:'box',x:ECC_WELCOME.x,z:ECC_WELCOME.z,w:2.42,d:.72,yaw:ECC_WELCOME.yaw}];
 for(const [x,z,w,d] of [[-2.0,-.32,2,3.5],[3.25,.1,1.6,4.25]])for(const dx of [-w/2+.12,w/2-.12])for(const dz of [-d/2+.12,d/2-.12])courtyardObstacles.push({type:'box',x:x+dx,z:z+dz,w:.12,d:.12});
 function label(words,w,h,x,y,z,dark=false){const c=document.createElement('canvas');c.width=1024;c.height=Math.ceil(1024*h/w);const ctx=c.getContext('2d');ctx.fillStyle=dark?'#263e42':'#eee4c9';ctx.font=`500 ${c.height*.57}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(words,512,c.height/2,970);const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;const o=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map,transparent:true,depthWrite:false,roughness:.6}));o.position.set(x,y,z);return o;}
 async function maps(){const loader=new T.TextureLoader();const names=['sandstone-diffuse.jpg','sandstone-normal.jpg','sandstone-arm.jpg'];const [map,normalMap,packed]=await Promise.all(names.map(n=>loader.loadAsync(new URL('./assets/courtyard/'+n,import.meta.url).href)));map.colorSpace=T.SRGBColorSpace;for(const t of [map,normalMap,packed]){t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=8;}return {map,normalMap,packed};}
@@ -27,7 +27,13 @@ function removeEmbeddedBenches(root){
    // A triangle that touches a bench zone belongs to the legacy furniture.
    // Removing by centroid left slivers at zone edges, visible as dark shards
    // on the paving. Include the whole triangle, with a small clearance.
-   const isBench=points.some(point=>point.y<1.6&&legacyBenchZones.some(([x,z,w,d])=>Math.abs(point.x-x)<w/2+.18&&Math.abs(point.z-z)<d/2+.18));
+   const inRecordedBenchZone=points.some(point=>point.y<1.6&&legacyBenchZones.some(([x,z,w,d])=>Math.abs(point.x-x)<w/2+.18&&Math.abs(point.z-z)<d/2+.18));
+   // The supplied patio merges two remaining bench boards into the wider
+   // timber primitive, outside its documented coordinate zones. Any low
+   // timber in this exterior is seating; trim it as well so no bench boards
+   // remain after the independently placed seating has been removed.
+   const isLowTimber=/warm[ _]timber/i.test(o.material.name)&&points.some(point=>point.y<1.6);
+   const isBench=inRecordedBenchZone||isLowTimber;
    if(isBench){removed=true;continue;}kept.push(i,i+1,i+2);
   }
   if(!removed){if(source!==original)source.dispose();return;}
@@ -86,7 +92,6 @@ export async function buildAuthoredCourtyard(doors){
  // The three courtyard benches beside the Arrival planter are deliberately
  // omitted. The embedded originals were removed above and their colliders are
  // likewise absent, leaving an open, walkable paved forecourt.
- addBackedBench(root,9.3,3.7,1.9,Math.PI/2);
  for(const [x,y,z]of [[0,2.45,-3.1],[6.45,2.45,.4],[-4.0,2.45,.35]]){const l=new T.PointLight(0xffc17b,9,4.5,2);l.position.set(x,y,z);l.name='ECC warm recessed room light';root.add(l);}
  // Detailed rocks reused from the accepted kit; instance them within the planted areas.
  const rock=await new GLTFLoader().loadAsync(new URL('../assets/campus-landscape/boulder-a.glb',import.meta.url).href);rock.scene.updateMatrixWorld(true);const rockBounds=new T.Box3().setFromObject(rock.scene),rockCentre=rockBounds.getCenter(new T.Vector3()),rockSize=rockBounds.getSize(new T.Vector3()),rockDiameter=Math.hypot(rockSize.x,rockSize.z);

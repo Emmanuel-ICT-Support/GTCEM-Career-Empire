@@ -1,7 +1,7 @@
 import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
 import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
-import {buildExterior} from './ecc-preview/model.js?v=courtyard-benches-removed-20260915';
+import {buildExterior} from './ecc-preview/model.js?v=courtyard-embedded-furniture-removed-20260915';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createCampusLandscape} from './campus-landscape.js?v=admin-forecourt-clearance-20260914';
 import {arrivalPrecinct} from './arrival-precinct.js?v=courtyard-bench-and-pole-20260915';
@@ -379,13 +379,10 @@ export async function createWorlds(onProgress=()=>{}){
   };pondMaterial.customProgramCacheKey=()=> 'garden-pond-ripples-v2';
   const bankMaterial=palette.stone.clone();const bank=mesh(town,new THREE.RingGeometry(7.5,7.95,96),bankMaterial,23,.12,-10);bank.name='Garden pond limestone coping';bank.rotation.x=-Math.PI/2;bank.scale.set(1,.75,1);
   const pondWall=mesh(town,new THREE.CylinderGeometry(7.5,7.5,.11,96,1,true),bankMaterial,23,.065,-10);pondWall.scale.z=.75;pondWall.material.side=THREE.DoubleSide;
+  // The old freestanding courtyard light assemblies overlapped the Arrival
+  // forecourt and produced the reported flickering pole. They are omitted so
+  // this area remains an open, stable pedestrian space.
   const lights=[];
-  for(const z of [-6,2,12,22])for(const x of [-5.7,5.7]){
-    mesh(town,new THREE.CylinderGeometry(.035,.065,2.7,8),basic(0x314442),x,1.35,z);
-    box(town,.30,.08,.30,basic(0x314442),x,2.99,z);box(town,.30,.08,.30,basic(0x314442),x,2.51,z);
-    const m=new THREE.MeshStandardMaterial({color:0xb9e3db,emissive:0x76c8c7,emissiveIntensity:1});lights.push(m);
-    box(town,.22,.33,.22,m,x,2.76,z);
-  }
   for(const x of [6.7])for(const z of [1,10]){
     for(let j=0;j<4;j++)box(town,1.7,.055,.095,basic(0x796549),x,.53,z+j*.11);
     for(const dx of [-.67,.67])box(town,.055,.48,.43,materials.edge,x+dx,.25,z+.16);

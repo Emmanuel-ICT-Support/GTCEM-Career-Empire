@@ -5,7 +5,7 @@ import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=courtyard-benches-removed-20260915';
+import {createWorlds} from './world.js?v=courtyard-embedded-furniture-removed-20260915';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=avatarfix1-20260914';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
