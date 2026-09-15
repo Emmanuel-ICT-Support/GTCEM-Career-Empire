@@ -8,7 +8,7 @@ import {addAuthoredGarden} from './authored-garden.js?v=annotations1';
 import {ECC_WELCOME} from './landmark-layout.js?v=exterior2';
 export {ECC_WELCOME};
 const beds=[[-8,5,2.8,4.6],[-6.3,-6.5,5,1.7],[7.2,10.9,4.7,2],[2.3,-.8,1.1,1.3],[-4.9,6.4,2.65,2.6],[5.8,5.2,3,2.6]];
-export const courtyardObstacles=[{type:'circle',x:-6.479646327692871,z:2.668779006744716,r:.30},{type:'circle',x:-10,z:-4,r:.3},{type:'circle',x:10.8,z:-3,r:.3},{type:'box',x:0,z:-4.55,w:8,d:4.2},{type:'box',x:6.45,z:-1.45,w:4.4,d:6.4},{type:'chapel',x:-6,z:-1,r:3.05,doorAngle:1.19,doorHalf:.21},...beds.map(([x,z,w,d])=>({type:'box',x,z,w,d})),{type:'box',x:ECC_WELCOME.x,z:ECC_WELCOME.z,w:2.42,d:.72,yaw:ECC_WELCOME.yaw},...[[-8.4,8.3,2.3,.75],[5.7,7.7,2.5,.75],[-6,8.3,2.3,.75],[9.3,3.7,.75,1.9]].map(([x,z,w,d])=>({type:'box',x,z,w,d}))];
+export const courtyardObstacles=[{type:'circle',x:-6.479646327692871,z:2.668779006744716,r:.30},{type:'circle',x:-10,z:-4,r:.3},{type:'box',x:0,z:-4.55,w:8,d:4.2},{type:'box',x:6.45,z:-1.45,w:4.4,d:6.4},{type:'chapel',x:-6,z:-1,r:3.05,doorAngle:1.19,doorHalf:.21},...beds.map(([x,z,w,d])=>({type:'box',x,z,w,d})),{type:'box',x:ECC_WELCOME.x,z:ECC_WELCOME.z,w:2.42,d:.72,yaw:ECC_WELCOME.yaw},...[[-8.4,8.3,2.3,.75],[-6,8.3,2.3,.75],[5.7,7.7,2.5,.75],[9.3,3.7,.75,1.9]].map(([x,z,w,d])=>({type:'box',x,z,w,d}))];
 for(const [x,z,w,d] of [[-2.0,-.32,2,3.5],[3.25,.1,1.6,4.25]])for(const dx of [-w/2+.12,w/2-.12])for(const dz of [-d/2+.12,d/2-.12])courtyardObstacles.push({type:'box',x:x+dx,z:z+dz,w:.12,d:.12});
 function label(words,w,h,x,y,z,dark=false){const c=document.createElement('canvas');c.width=1024;c.height=Math.ceil(1024*h/w);const ctx=c.getContext('2d');ctx.fillStyle=dark?'#263e42':'#eee4c9';ctx.font=`500 ${c.height*.57}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(words,512,c.height/2,970);const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;const o=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map,transparent:true,depthWrite:false,roughness:.6}));o.position.set(x,y,z);return o;}
 async function maps(){const loader=new T.TextureLoader();const names=['sandstone-diffuse.jpg','sandstone-normal.jpg','sandstone-arm.jpg'];const [map,normalMap,packed]=await Promise.all(names.map(n=>loader.loadAsync(new URL('./assets/courtyard/'+n,import.meta.url).href)));map.colorSpace=T.SRGBColorSpace;for(const t of [map,normalMap,packed]){t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=8;}return {map,normalMap,packed};}
@@ -83,12 +83,10 @@ export async function buildAuthoredCourtyard(doors){
  const chapelLabel=label('CHAPEL',.84,.21,-3.149907270545058,3.04,0.14099580783983612,true);chapelLabel.rotation.y=1.19;root.add(chapelLabel);
  welcomeDetails.add(label('WELCOME TO ECC',2.15,.24,0,.41,.331,true),label('Career Empire',1.05,.12,0,.18,.331,true));
  addAuthoredGarden(root,beds);
- // Rebuilt seating sits on paving. The two benches identified in review have
- // the requested orientations: the eastern bench is turned 90°, while the
- // planter-side bench faces out toward the circulation path.
+ // Rebuilt seating sits on paving. The right-hand seat is an independent
+ // bench, not inherited patio geometry, so its facing is explicit and stable.
  addBackedBench(root,-8.4,8.3,2.3,0);
- // Its long edge is perpendicular to the planter; face the paving, with the
- // back against the garden rather than toward the pedestrian route.
+ // Back toward the planter (west); seat faces the pedestrian paving (east).
  addBackedBench(root,-6,8.3,2.3,-Math.PI/2);
  addBackedBench(root,5.7,7.7,2.5,Math.PI/2);
  addBackedBench(root,9.3,3.7,1.9,Math.PI/2);
