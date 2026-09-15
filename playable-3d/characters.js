@@ -11,7 +11,7 @@ draco.setDecoderPath('./vendor/draco/');
 loader.setDRACOLoader(draco);
 const kits = {};
 const TARGET_HEIGHT = 1.7;
-const SIMPLE_BODIES = new Set(['tripo','shirt','schoolboy','jackettest']);
+const SIMPLE_BODIES = new Set(['tripo','shirt','schoolboy','jackettest','pantstest']);
 
 function normalizeHeight(model) {
   model.updateMatrixWorld(true);
@@ -68,7 +68,8 @@ export const hasCharacterKit = body => Boolean(kits[body]);
 export function loadCharacterKit(body) {
   if (!['a', 'b', ...SIMPLE_BODIES].includes(body)) return Promise.reject(new Error('Unknown avatar body'));
   if (!kitLoads.has(body)) {
-    const url = body === 'jackettest' ? './assets/player-jacket-test-20260909.glb'
+    const url = body === 'pantstest' ? './assets/player-pants-test-20260916.glb'
+      : body === 'jackettest' ? './assets/player-jacket-test-20260909.glb'
       : body === 'tripo' ? './assets/player-tripo-20260908.glb'
       : body === 'shirt' ? './assets/player-uniform-shirt-20260908.glb'
       : body === 'schoolboy' ? './assets/player-schoolboy-2k-20260914.glb'
@@ -163,7 +164,7 @@ function createSimpleTripoCharacter(profile) {
     node.castShadow = true;
     node.receiveShadow = true;
   });
-  const anim = bindClips(model, kit.animations || [], profile.body === 'jackettest' ? 1 : 1.8);
+  const anim = bindClips(model, kit.animations || [], ['jackettest','pantstest'].includes(profile.body) ? 1 : 1.8);
   anim.mixer.update(0);
   normalizeHeight(model);
   // Normalize the complete outfit first so jacket-off never changes avatar size.
