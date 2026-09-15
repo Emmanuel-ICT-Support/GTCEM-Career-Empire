@@ -1,13 +1,13 @@
 {
-  "release": "courtyard-obsolete-structures-removed-20260915",
-  "changeId": "CE-CHANGE-20260915-66",
+  "release": "pants-test-20260916",
+  "changeId": "CE-CHANGE-20260916-67",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "2dfdd557acdb04ee9f0739fb6f7af37e4315f577",
-  "scope": "Walkthrough corrections: remove the final older world-level Arrival bench and both obsolete pergola structures with their posts. This clears the remaining bench and Administration-side pole from the live courtyard while retaining the agreed pond and SPACE approach corrections.",
+  "baseCommit": "03d6eaa15029615156328f1fd3367d8f4b67088b",
+  "scope": "Add the matching-body Pants test avatar and unsaved Studio preview link; retain the latest published game. No pants removal on the masked outfit.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "fad7e6926d80e1fbc79ce4f21840773678514e40a7b23deac4df3591461f449e"
+      "sha256": "5fe79d59b176da66d92aba9fe813d8d83958f8a65712bb96875a93b35af64bca"
     },
     {
       "path": "arrival-precinct.js",
@@ -20,6 +20,30 @@
     {
       "path": "assets/campus-buildings/garden-shared-textures.glb",
       "sha256": "ae0870c81e7034fa79d56229c6299a7bbe61182ea9c457f6fdfc9a6bd7a34554"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/27ad0876b9c36991.png",
+      "sha256": "27ad0876b9c36991a91c3a5015fe7f6cd1aa81d694122e7e502cec6c0bb5192a"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/29647e2a40f3b3a4.png",
+      "sha256": "29647e2a40f3b3a4df493c4baead5f77503866cdc3e2ecbf5354014b2a634bc1"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/40936ed06fce1aa6.png",
+      "sha256": "40936ed06fce1aa6f8c8ef6e30f9714de61f1668673a3898237c0af14e3c0ae3"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/4d90a7d0781d8038.png",
+      "sha256": "4d90a7d0781d8038eea5c24feef06e045cd1da322ce2401b123434f1aa83d22a"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/558d18f44b61d6b0.png",
+      "sha256": "558d18f44b61d6b06c93a397395766a27238563cb3ed254c5f686ae8c897059a"
+    },
+    {
+      "path": "assets/campus-buildings/shared-textures/8d713e300bba6882.png",
+      "sha256": "8d713e300bba68825ded5a26fba0e4bea799a6f298afca5e9c6ea1b3aca7bb4f"
     },
     {
       "path": "assets/campus-buildings/workplace-shared-textures.glb",
@@ -118,8 +142,16 @@
       "sha256": "57d8d0d877ca75b192b2e3e71d0e9aca97e308fc789ebbe5c8061f7021008134"
     },
     {
+      "path": "assets/player-pants-test-20260916.glb",
+      "sha256": "2d5d3cb7db44aab51b70717f6638b2dedee56145897bd133eebcf6db043c9845"
+    },
+    {
       "path": "assets/player-schoolboy-2k-20260914.glb",
       "sha256": "692a721df0d1e341fb5996e6df0c7ac931d014a486b442533b60bb5d0c6d704c"
+    },
+    {
+      "path": "avatar-download.js",
+      "sha256": "968a23f2c0a742e502e094ea17b606efb36e0bd697f8b78ca72a4d9ea83f3100"
     },
     {
       "path": "campus-landscape.js",
@@ -131,7 +163,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "8ffe848ca2cf11c6fbc6535d06f98431e712f6267060d881ee0f2cb2796047cb"
+      "sha256": "307a4049971b547933225b986722ec13d339b45c7098712e11f977e0ef772a9b"
     },
     {
       "path": "destinations.js",
@@ -160,6 +192,10 @@
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-courtyard-compressed.glb",
       "sha256": "70a645c368bb55ad7c96a94fd5564c63e29e295bf1569a811211b72c3b9f9aa6"
+    },
+    {
+      "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
+      "sha256": "0044d1d829db551f247b9ee3b77004d559621b35593bf4a2f791ddb1ba0c717e"
     },
     {
       "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-v5-compressed.glb",
@@ -295,7 +331,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "701958da8b67e7a3a268a04bc340817d7c60d77ed4cd499e1f63839373b061e3"
+      "sha256": "85b629276c82e57f1717faf79ed4ebad63d52d927052c98acef0fbc6fbeb04e4"
     },
     {
       "path": "joystick.js",
@@ -308,6 +344,10 @@
     {
       "path": "mobile-play.js",
       "sha256": "733b5974ea0f06d9805dd4adfe5832cb877423a953c02af55f91d4e92c8830f1"
+    },
+    {
+      "path": "profiles.js",
+      "sha256": "bd37daecfbb77fb50561b9612bf61971f2c8309ad15a327d7d9f82d3a4b11d29"
     },
     {
       "path": "style.css",
@@ -336,38 +376,6 @@
     {
       "path": "world.js",
       "sha256": "28f97e0eceb785ff3cc6760d10e66e11ce13cd3aa0ff8cfe7496f465cf963d5f"
-    },
-    {
-      "path": "ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
-      "sha256": "0044d1d829db551f247b9ee3b77004d559621b35593bf4a2f791ddb1ba0c717e"
-    },
-    {
-      "path": "assets/campus-buildings/shared-textures/29647e2a40f3b3a4.png",
-      "sha256": "29647e2a40f3b3a4df493c4baead5f77503866cdc3e2ecbf5354014b2a634bc1"
-    },
-    {
-      "path": "assets/campus-buildings/shared-textures/4d90a7d0781d8038.png",
-      "sha256": "4d90a7d0781d8038eea5c24feef06e045cd1da322ce2401b123434f1aa83d22a"
-    },
-    {
-      "path": "assets/campus-buildings/shared-textures/27ad0876b9c36991.png",
-      "sha256": "27ad0876b9c36991a91c3a5015fe7f6cd1aa81d694122e7e502cec6c0bb5192a"
-    },
-    {
-      "path": "assets/campus-buildings/shared-textures/40936ed06fce1aa6.png",
-      "sha256": "40936ed06fce1aa6f8c8ef6e30f9714de61f1668673a3898237c0af14e3c0ae3"
-    },
-    {
-      "path": "assets/campus-buildings/shared-textures/8d713e300bba6882.png",
-      "sha256": "8d713e300bba68825ded5a26fba0e4bea799a6f298afca5e9c6ea1b3aca7bb4f"
-    },
-    {
-      "path": "assets/campus-buildings/shared-textures/558d18f44b61d6b0.png",
-      "sha256": "558d18f44b61d6b06c93a397395766a27238563cb3ed254c5f686ae8c897059a"
-    },
-    {
-      "path": "avatar-download.js",
-      "sha256": "968a23f2c0a742e502e094ea17b606efb36e0bd697f8b78ca72a4d9ea83f3100"
     }
   ],
   "estVideo": {

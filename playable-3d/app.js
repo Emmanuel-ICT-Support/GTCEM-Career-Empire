@@ -7,8 +7,8 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds} from './world.js?v=courtyard-obsolete-structures-removed-20260915';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=avatarfix1-20260914';
-import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=20260909-jackettest1';
+import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=pants-test-20260916';
+import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=pants-test-20260916';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
 // Pixel readback synchronises the GPU. Reserve it for explicit visual diagnostics.
@@ -83,7 +83,7 @@ function renderEditor(){
   if(editorTab==='identity'){
     root.append(field('Name','name'),field('Body','body','select',OPTIONS.body));
     if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='pantstest'?'Pants test: a complete matching avatar and outfit.':draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
     }else{
       root.append(field('Face','face','select',OPTIONS.face));
       const skin=document.createElement('div');skin.className='field';const label=document.createElement('span');label.textContent='Skin tone';skin.append(label);
@@ -97,7 +97,7 @@ function renderEditor(){
       root.append(field('Jacket','outer','select',[['blazer','Navy blazer'],['none','Off - inspect fit']]));
       const note=document.createElement('p');note.className='hint';note.textContent='Dressing test. Jacket-off reveals missing body areas. Walking preview uses a simple test cycle.';root.append(note);
     }else if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='schoolboy'?'This school-student model uses its own uniform and styling.':draft.body==='shirt'?'This test model includes a white shirt, short teal tie and black shorts.':'This is the normal reference avatar.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='pantstest'?'The pants stay on for this walking test. Changing clothes is not available for this outfit yet.':draft.body==='schoolboy'?'This school-student model uses its own uniform and styling.':draft.body==='shirt'?'This test model includes a white shirt, short teal tie and black shorts.':'This is the normal reference avatar.';root.append(note);
     }else{
       root.append(optionWithColour('Top','top'),optionWithColour('Bottom','bottom'),optionWithColour('Outer layer','outer'));
       const jumper=document.createElement('label');jumper.className='binary-field';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=draft.jumper;checkbox.addEventListener('change',()=>changeDraft(p=>p.jumper=checkbox.checked));jumper.append(checkbox,'Knit jumper');root.append(jumper);
@@ -353,6 +353,10 @@ async function boot(){
     if(new URLSearchParams(location.search).get('view')==='chapel-interior')await enterChapel();
     if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}
     animate();
+    if(new URLSearchParams(location.search).get('outfit')==='pants'){
+      try{await loadCharacterKit('pantstest');setMode('studio');changeDraft(p=>{p.body='pantstest';});}
+      catch{toast('Pants test could not load. Open Avatar Studio and select Pants test to retry.');}
+    }
     // All campus destinations are loaded before the interactive scene is revealed.
     // Avatar alternatives load on selection through updatePreview/updateActor.
   }catch(error){console.error(error);$('loading-message').textContent=`The 3D district could not open. Reload to retry. ${error.message}`;$('loading').querySelector('progress').hidden=true;$('fallback-link').hidden=false;const retry=$('avatar-retry');retry.textContent='Retry loading';retry.hidden=false;retry.onclick=()=>location.reload();}
