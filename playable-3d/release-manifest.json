@@ -1,13 +1,13 @@
 {
-  "release": "phone-opening-20260917",
-  "changeId": "CE-CHANGE-20260917-75",
+  "release": "flyover-20260917",
+  "changeId": "CE-CHANGE-20260917-76",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "e36aee182049f2960e6d181b08c6d3df18b3e595",
-  "scope": "Phone opening downloads: smaller phone texture/model variants, lossless desktop tree packing and temporary boot cache; preserve campus layout, all models and gameplay.",
+  "baseCommit": "82ba1d1ad0a8d5d54a38f96a6adf9722896a05f5",
+  "scope": "Approved flyover release: detached recording camera, shared input/render loop, exact return; preserve phone assets and existing gameplay.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "5263d0145d18ee342a250365540e690fe8559c6cd8b13167a5a6c4582d70305d"
+      "sha256": "fcde0648c46236dbf83169e2b5dde38c5c61301f62ff9255a73521ef3742f0f4"
     },
     {
       "path": "arrival-precinct.js",
@@ -331,7 +331,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "d8ae40976c73f26b60816f0ea815d2215fe7ed539973d80a9e068b737ebbe9b5"
+      "sha256": "df4edadb79034899a813207041ebfb58af6872ca21c81d6287552326a65b16fe"
     },
     {
       "path": "joystick.js",
@@ -520,6 +520,14 @@
     {
       "path": "assets/phone/workplace-mobile.glb",
       "sha256": "5d768bf8cb10bf68d45b73c8c44bed7a4b2332731c1db4c8d4ce2cc11baafd3d"
+    },
+    {
+      "path": "flyover.js",
+      "sha256": "a95585cbe56eefbbab2bd5b63a68b7f65623398cbb73942300f8838f79ef6cbc"
+    },
+    {
+      "path": "flyover.css",
+      "sha256": "e4bbe25e03beab5c19da2b247f4158e1809cf08b01b7c3885c5486d49d87b335"
     }
   ],
   "estVideo": {

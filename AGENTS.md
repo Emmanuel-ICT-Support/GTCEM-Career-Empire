@@ -363,3 +363,17 @@ Tania explicitly requests “Publish to live please” for BOTH tested teachers.
 
 ## Phone opening release candidate — 17 September 2026
 CE-CHANGE-20260917-75: Tania reports slow iPhone 17/mobile-data opening; desktop is fine. Phone-only smaller derivatives preserve full campus/triangle counts and avatar rig/animations; original desktop textures, teachers and sources retained. Controlled default-entry test 82.5s/38.9MB →35.6s/13.9MB. 35 unit checks and all 11 focused native-graphics scenarios pass. Full CI remains non-green: startup render timeout after 23 browser passes, 25 not run. Physical-phone acceptance and live verification pending; preserve separate Blueprint reader and unrelated work. Read docs/phone-opening-20260917.md.
+
+
+## Flyover implementation in progress — 17 September 2026
+Tania authorises detached recording navigation in the current pants-game checkout. Preserve phone startup, teachers, gameplay and lazy Studio. Shared camera/input/render loop; no extra assets. Read docs/flyover-20260917.md. Local checks pending; no publication or acceptance.
+
+
+## Flyover local validation — 17 September 2026
+CE-CHANGE-20260917-76: shared-camera flyover implemented with keyboard/touch controls, eased motion, clean recording view and exact return. Four focused browser scenarios, 35 unit tests and source checks pass; final button-placement recheck pending. No eager Studio, new game assets, commit or publication. Read docs/flyover-20260917.md. Preserve unrelated edits and all prior release evidence.
+
+Final flyover check: all four browser scenarios pass on the final controls/placement (24.6s); 35 existing unit tests and source checks pass. All 131 working-copy manifest hashes match, including the new camera module and styles. Desktop/phone screenshots inspected. No full hosted CI, physical-device acceptance or publication. Earlier pending placement notes are historical.
+
+
+## Flyover publication authorised — 17 September 2026
+Tania: “love it - send to live please”. This task owns the scoped CE-CHANGE-20260917-76 release. Publish tested flyover runtime, styles, index, manifest and regression test to the existing game destination. Current remote main 82ba1d1ad0a8d5d54a38f96a6adf9722896a05f5 has no file differences from tested local base 2b5ea2f94503b4817bb4f988325e0f766180d52a (GitHub comparison). Preserve unrelated edits. Prior local-only statements are historical; deployment and live verification pending. Separate Blueprint reader publication is not included.
