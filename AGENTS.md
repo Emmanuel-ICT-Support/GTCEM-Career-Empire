@@ -359,3 +359,7 @@ Saved Playwright regression passed on the final optimized assets (21.4 seconds):
 
 ## Teacher publication authorised — 17 September 2026
 Tania explicitly requests “Publish to live please” for BOTH tested teachers. Release owner: this task, CE-CHANGE-20260917-74. Remote main b4b22db1f3a0a4f1174ade4fbc94205ce3d4e166 has zero file differences from the tested source baseline 6fb20d0, verified through GitHub comparison after local fetch failed with unresolved deltas. Publish only teacher runtime, supplied game assets, regression test and this release documentation; preserve unrelated work. Prior no-publication statements describe historical checkpoints. Deployment and live verification pending.
+
+
+## Phone opening release candidate — 17 September 2026
+CE-CHANGE-20260917-75: Tania reports slow iPhone 17/mobile-data opening; desktop is fine. Phone-only smaller derivatives preserve full campus/triangle counts and avatar rig/animations; original desktop textures, teachers and sources retained. Controlled default-entry test 82.5s/38.9MB →35.6s/13.9MB. 35 unit checks and all 11 focused native-graphics scenarios pass. Full CI remains non-green: startup render timeout after 23 browser passes, 25 not run. Physical-phone acceptance and live verification pending; preserve separate Blueprint reader and unrelated work. Read docs/phone-opening-20260917.md.
