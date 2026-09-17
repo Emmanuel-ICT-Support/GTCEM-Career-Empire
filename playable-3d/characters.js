@@ -74,7 +74,7 @@ export function loadCharacterKit(body) {
       : body === 'shirt' ? './assets/player-uniform-shirt-20260908.glb'
       : body === 'schoolboy' ? './assets/player-schoolboy-2k-20260914.glb'
       : `./assets/avatar-${body}.glb`;
-    kitLoads.set(body, downloadAvatar(url).then(data => loader.parseAsync(data, new URL('./assets/', location.href).href)).then(kit => {
+    kitLoads.set(body, downloadAvatar(loader.manager.resolveURL(url)).then(data => loader.parseAsync(data, new URL('./assets/', location.href).href)).then(kit => {
       if (body === 'jackettest') {
         const source = kit.animations[0];
         if (!source) throw new Error('Jacket test animation is missing');

@@ -1,13 +1,13 @@
 {
-  "release": "teacher-npcs-20260917",
-  "changeId": "CE-CHANGE-20260917-74",
+  "release": "phone-opening-20260917",
+  "changeId": "CE-CHANGE-20260917-75",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "b4b22db1f3a0a4f1174ade4fbc94205ce3d4e166",
-  "scope": "Approved two-teacher NPC release candidate: bounded oval wandering, independent reactions and on-approach loading.",
+  "baseCommit": "e36aee182049f2960e6d181b08c6d3df18b3e595",
+  "scope": "Phone opening downloads: smaller phone texture/model variants, lossless desktop tree packing and temporary boot cache; preserve campus layout, all models and gameplay.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "52cde6c28d9cd197afae94bf75cb4e99464fdfffee533f578877927670f815a7"
+      "sha256": "5263d0145d18ee342a250365540e690fe8559c6cd8b13167a5a6c4582d70305d"
     },
     {
       "path": "arrival-precinct.js",
@@ -155,7 +155,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "dc59b25d091354c4ca9d4118a296f9c96a5a81e2c20c8f46d589291c011cc714"
+      "sha256": "d08ff416d784ec61998c95d1b6f88eb4babdb3fa8d465dc424cd00c7df56d2f7"
     },
     {
       "path": "chapel.js",
@@ -163,7 +163,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "307a4049971b547933225b986722ec13d339b45c7098712e11f977e0ef772a9b"
+      "sha256": "44bde519d0c594c7a0e8c7bb320f92ad974b4fbada74e8f94952b88fc8436a03"
     },
     {
       "path": "destinations.js",
@@ -275,7 +275,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "8c8aa8f8122be79733ae228aa27e6e40ed86b5068453665c839d03910217764f"
+      "sha256": "87b1d3921b492c365a6655b2a6d701392c16349f7614a963ebaf4fe3b0a93c8c"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -323,7 +323,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "608763bdf466adeddca8c8c50307eadd1b2a4e80622b64bd005d15e5b232af12"
+      "sha256": "9523f7089b71b094a3b59c3335bbb858673e9f62f02913c94357c6b7542325e9"
     },
     {
       "path": "est-wall-video.js",
@@ -331,7 +331,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "339ca0d0e9d0f3674259cb1f7e8bf81db06b8dfb57e8bb1c1d5448bb7189fbc0"
+      "sha256": "d8ae40976c73f26b60816f0ea815d2215fe7ed539973d80a9e068b737ebbe9b5"
     },
     {
       "path": "joystick.js",
@@ -375,7 +375,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "28f97e0eceb785ff3cc6760d10e66e11ce13cd3aa0ff8cfe7496f465cf963d5f"
+      "sha256": "6ce086b2f8e4e8c504a55a8143da9446a7460013731d540f7927632538593e70"
     },
     {
       "path": "studio.js",
@@ -392,6 +392,134 @@
     {
       "path": "assets/mr-psandodakis-20260917.glb",
       "sha256": "4b4f2d7e1a2e40ee713ac7b71cad051e3a0eb1fffca51cf0e38e920f6130f4e5"
+    },
+    {
+      "path": "assets/campus-landscape/mature-eucalypt-a-packed.glb",
+      "sha256": "2afc41bcb44d661efd39e8d3207f271c9e895ced711f8d34c35b32551d8d497f"
+    },
+    {
+      "path": "assets/campus-landscape/mature-eucalypt-b-packed.glb",
+      "sha256": "7b18cb7305f059d98fb19bb8b4b02a7348a40bc65dba145a6c9ccc3617e7d633"
+    },
+    {
+      "path": "assets/campus-landscape/small-multistem-a-packed.glb",
+      "sha256": "1ac8e61222a52960ba9cec4bf04609776c22ee505b47a54e76cc4d1101c4de75"
+    },
+    {
+      "path": "phone-assets.js",
+      "sha256": "6844d8afe03226d8f88a2d3a2745b956ccf89f676339900c8b6d057c2306f3f3"
+    },
+    {
+      "path": "assets/phone/15d504f1b759.webp",
+      "sha256": "e6434f05307f76ee70eb87d2c35dba072197f813b0e545b135fc6ce9cf44878e"
+    },
+    {
+      "path": "assets/phone/19ddc20ded77.webp",
+      "sha256": "61671df9bc085d76a643ec039a99aac6b6a55b86be424e8f4905ce923be2eef9"
+    },
+    {
+      "path": "assets/phone/1e50592a6a2b.webp",
+      "sha256": "6715b759ee9d28718154a8900f71669cd59cd2ce71bb219b7ddc8a893af15a9a"
+    },
+    {
+      "path": "assets/phone/3da032fd878b.webp",
+      "sha256": "a8b94fa6a6f7611d533110229efd76d3555f4ab8c0e8e8af9b01bb4a57d801f2"
+    },
+    {
+      "path": "assets/phone/6ceef6c83200.webp",
+      "sha256": "8a1ef8205dcc2ea61faac519fa81efe8785e11720488efb9d7a182048c2b5a9d"
+    },
+    {
+      "path": "assets/phone/78bc376d38e6.webp",
+      "sha256": "e645a43ce8625ee9782fc44902ea4ed1204b5264b770742441641cf188dc7b23"
+    },
+    {
+      "path": "assets/phone/7ad34dc0006b.webp",
+      "sha256": "367a09c0cf5a9865b24d00d3f10a0695f76993a257554657e0a60841e775793d"
+    },
+    {
+      "path": "assets/phone/9714666c1516.webp",
+      "sha256": "23b8a1590607843060d299e7076b3dbd1c12581fa72cf4baf22dd6ab84e62284"
+    },
+    {
+      "path": "assets/phone/9934c5250d1b.webp",
+      "sha256": "4b328a704301deadd6533cb154eaa09189ad08eca62b0e85a6f14cecabb8d1bc"
+    },
+    {
+      "path": "assets/phone/a6b40b7146e4.webp",
+      "sha256": "4cdc96c83ac15755efa35978e8b232362476d0cd43a6b7c007c39cf3509e8885"
+    },
+    {
+      "path": "assets/phone/a8fd2904ee35.webp",
+      "sha256": "60e1452df5be0ed027ef993870da251141100012d0b6cabad7d302996ef00119"
+    },
+    {
+      "path": "assets/phone/b3b814172ff1.webp",
+      "sha256": "8d97014cf761f566f577376fb8c23b0e0a0b0bbf0d0d0dfa6b644aa6a654a6e2"
+    },
+    {
+      "path": "assets/phone/c05044c0f2de.webp",
+      "sha256": "ecfbf22f530a1bd01b4bee25ac2136d396b109788b0e8cb24221d6d912e8ea7f"
+    },
+    {
+      "path": "assets/phone/cac32030d7a8.webp",
+      "sha256": "2ba4335e9f30849fabb1d1d571d3423401685a7dfe452619a90a8eab553ded58"
+    },
+    {
+      "path": "assets/phone/dc020861de72.webp",
+      "sha256": "8ef48a3ada6c0e6c80cd91c1ccc5bb2ce20057bca70a1d6e53832791b8d6698f"
+    },
+    {
+      "path": "assets/phone/df2ca8fa1a9c.webp",
+      "sha256": "9710675cb1ed6a26e019b9bb540e8a04f8ca8dd692ea87070c7082506633391d"
+    },
+    {
+      "path": "assets/phone/e774700facce.webp",
+      "sha256": "4105caaaea2b1a641ce25a88f6a4dbab9863b3ed0f8bb8759eb3630f8a795005"
+    },
+    {
+      "path": "assets/phone/ffc6ab32527d.webp",
+      "sha256": "b50cd878335bcb55171aed0355f4d51d9fcd95a2c53f51508612411c2cd263e0"
+    },
+    {
+      "path": "assets/phone/grass-ecc-campus-v1-mobile.webp",
+      "sha256": "03815e65d1980538421758a82de7d08cc092a502912fe6e4fd8fc340fe012520"
+    },
+    {
+      "path": "assets/phone/mature-eucalypt-a-mobile.glb",
+      "sha256": "34469aac0dc733bc42f7a29e15ff01df6bc8dc4614fa93c73ea6763d1b1ecefb"
+    },
+    {
+      "path": "assets/phone/mature-eucalypt-b-mobile.glb",
+      "sha256": "a6a1f92f9a3ef1d6a7dd649fd7a74a7b15086b58217a328143f3a754080c3d50"
+    },
+    {
+      "path": "assets/phone/reception-backwall-mobile.webp",
+      "sha256": "f094ade11c817d7ab74f70c960be69788789da54762d6dc2e411909729902b67"
+    },
+    {
+      "path": "assets/phone/small-multistem-a-mobile.glb",
+      "sha256": "08a46d9af70f3978a6aaa0d760565989731bb6fe9b7253f0874804a0a245cf05"
+    },
+    {
+      "path": "assets/phone/boulder-a-mobile.glb",
+      "sha256": "04a4d9bb3f30e030170fa7592a3c64572f7cc1b07323ae52f799a0b36587f6b4"
+    },
+    {
+      "path": "assets/phone/careers-mobile.glb",
+      "sha256": "e352d64afe4f62fb6b2b6c5b092eeccb92b2335a969a30e87e36bf889233fe1b"
+    },
+    {
+      "path": "assets/phone/garden-reflections-mobile.hdr",
+      "sha256": "08824f3cb532ea010133faee929c4b4f69ef9c2d7ed081095b4b28ed5d71ece7"
+    },
+    {
+      "path": "assets/phone/player-schoolboy-2k-20260914-mobile.glb",
+      "sha256": "6dd45b083d901f59047e094a2ececd2e8b2e555cf5a137d3a48200941b688e56"
+    },
+    {
+      "path": "assets/phone/workplace-mobile.glb",
+      "sha256": "5d768bf8cb10bf68d45b73c8c44bed7a4b2332731c1db4c8d4ce2cc11baafd3d"
     }
   ],
   "estVideo": {

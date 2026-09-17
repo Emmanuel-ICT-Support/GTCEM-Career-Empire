@@ -4,6 +4,7 @@ import {buildMedia} from './media-building.js?v=walkthrough3';
 import {buildSpace} from './space-building.js?v=walkthrough3';
 import * as T from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
 // Stage 2 composition study. Reference-derived silhouettes, not enterable buildings.
 export async function addSurroundings(scene,palette){
  const root=new T.Group();root.name='Approved campus surroundings and connections';scene.add(root);
@@ -25,7 +26,7 @@ export async function addSurroundings(scene,palette){
  // omitted because this shared pedestrian approach crosses the former end.
  const points=[];for(let i=0;i<=128;i++){const a=i/128*Math.PI*2;points.push(new T.Vector3(-4+14*Math.cos(a),.025,-54+9*Math.sin(a)));}
  const line=new T.Line(new T.BufferGeometry().setFromPoints(points),new T.LineBasicMaterial({color:0xeeeede,transparent:true,opacity:.55}));root.add(line);
- const asset=await new GLTFLoader().loadAsync('./assets/campus-landscape/mature-eucalypt-a.glb');asset.scene=batchStatic(asset.scene);asset.scene.updateMatrixWorld(true);
+ const asset=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('./assets/campus-landscape/mature-eucalypt-a-packed.glb');asset.scene=batchStatic(asset.scene);asset.scene.updateMatrixWorld(true);
  const bounds=new T.Box3().setFromObject(asset.scene),center=bounds.getCenter(new T.Vector3()),height=bounds.max.y-bounds.min.y;
  const normal=new T.Matrix4().makeTranslation(-center.x,-bounds.min.y,-center.z);
  // Staggered western and southern tree belt, outside the playing oval.

@@ -1,12 +1,13 @@
+import {configurePhoneAssets} from './phone-assets.js?v=phone-load-20260917';
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
-import {integrateEnvironment} from './environment.js?v=walkthrough-clearance-20260914';
+import {integrateEnvironment} from './environment.js?v=phone-load-20260917';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=courtyard-obsolete-structures-removed-20260915';
+import {createWorlds} from './world.js?v=phone-load-20260917';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=pants-test-20260916';
+import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=phone-load-20260917';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=pants-test-20260916';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
@@ -374,6 +375,10 @@ async function loadStartupCharacter(){
   }
 }
 async function boot(){
+  // Share immutable startup downloads across the campus builders. Release the
+  // temporary cache when construction finishes, so it cannot retain spare models.
+  configurePhoneAssets();
+  THREE.Cache.enabled=true;
   try{
     icons();renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.localClippingEnabled=true;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.03;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.autoClear=false;
     camera=new THREE.PerspectiveCamera(55,1,.08,220);
@@ -382,7 +387,7 @@ async function boot(){
     [worlds]=await Promise.all([createWorlds(message=>{if($('avatar-retry').hidden)$('loading-message').textContent=message;}),loadStartupCharacter()]);
     $('loading-message').textContent='Preparing your first view...';worlds.town.environment=environment.texture;worlds.town.environmentIntensity=.28;worlds.interior.environment=environment.texture;worlds.interior.environmentIntensity=.55;worlds.careers.environment=environment.texture;worlds.careers.environmentIntensity=.55;worlds.chapel.environment=environment.texture;worlds.chapel.environmentIntensity=.35;
     $('loading-message').textContent='Opening the complete campus and both outer buildings...';await worlds.loadScenery();if(worlds.scenery.status!=='ready')throw new Error('Campus buildings could not load. Reload to retry.');
-    await integrateEnvironment(worlds);
+    await integrateEnvironment(worlds);THREE.Cache.clear();THREE.Cache.enabled=false;
     worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');yaw=0;updateCamera(1,true);$('loading').hidden=true;icons();
     // A shareable, playable quality-review viewpoint; normal entry remains Arrival Gardens.
     const viewpoints={'teachers':{p:[-4,-49.8,0],name:'Meet your teachers · Oval'},'mr-middleton':{p:[-7,-50,0],name:'Mr Middleton · Oval'},'mr-psandodakis':{p:[-1,-50,0],name:'Mr Psandodakis · Oval'},'garden-pond':{p:[32,-10,Math.PI/2],name:'Garden pond'},'fountain-walk':{p:[-2.6,5.5,0],name:'Fountain walk'},'garden-benches':{p:[-5.8,-8,Math.PI/2],name:'Garden seating'},'chapel-exterior':{p:[-1.5,-4.5,.58],name:'Chapel exterior'},'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Home Economics'}};
@@ -396,6 +401,6 @@ async function boot(){
     }
     // All campus destinations are loaded before the interactive scene is revealed.
     // Avatar alternatives load on selection through updatePreview/updateActor.
-  }catch(error){console.error(error);$('loading-message').textContent=`The 3D district could not open. Reload to retry. ${error.message}`;$('loading').querySelector('progress').hidden=true;$('fallback-link').hidden=false;const retry=$('avatar-retry');retry.textContent='Retry loading';retry.hidden=false;retry.onclick=()=>location.reload();}
+  }catch(error){THREE.Cache.clear();THREE.Cache.enabled=false;console.error(error);$('loading-message').textContent=`The 3D district could not open. Reload to retry. ${error.message}`;$('loading').querySelector('progress').hidden=true;$('fallback-link').hidden=false;const retry=$('avatar-retry');retry.textContent='Retry loading';retry.hidden=false;retry.onclick=()=>location.reload();}
 }
 boot();
