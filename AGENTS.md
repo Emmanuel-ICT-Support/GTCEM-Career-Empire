@@ -333,3 +333,9 @@ Validation: 35 unit tests and development source checks pass. Desktop Studio ope
 Publication is authorised; pending upload/live receipt. Canonical evidence: private/production-evidence/2026-09-16/pants-game-release. Public Blueprint reader publication remains separate.
 
 Final local verification: 35 unit tests, source checks, 93 manifest hashes and 31 modules pass. Desktop and 390px Studio views rendered; unsaved opening, walk/turn, protected pants-on, save to world and reload checked without captured script errors or failed responses. All five outfit meshes stay visible with outer=none. Publication authorised; live receipt pending.
+
+
+## Saved-avatar startup — 17 September 2026
+CE-CHANGE-20260917-71: current startup already restores active saved profile and loads only its selected GLB. Studio preview scene and OrbitControls now load only on Studio entry; delayed-entry guard preserves return-to-town intent and pants draft link is retained. Seven scoped browser scenarios, 35 unit tests and source checks passed locally. No deployment or asset appearance change. Whole-campus boot, selected large jacket model and bundled legacy garment geometry remain costs. Preserve unrelated edits and original assets. See docs/production/avatar-startup-20260917.md in canonical Blueprint (game copy: docs/avatar-startup-20260917.md).
+
+Publication of the saved-avatar startup change explicitly authorised by Tania on 17 September. This task owns the bounded release; preserve unrelated edits. Verify Pages completion and served source plus Studio interactions before claiming live.

@@ -1,13 +1,13 @@
 {
-  "release": "pants-test-20260916",
-  "changeId": "CE-CHANGE-20260916-67",
+  "release": "lazy-studio-20260917",
+  "changeId": "CE-CHANGE-20260917-71",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "03d6eaa15029615156328f1fd3367d8f4b67088b",
-  "scope": "Add the matching-body Pants test avatar and unsaved Studio preview link; retain the latest published game. No pants removal on the masked outfit.",
+  "baseCommit": "b780fe1c4ddf5fcb59edcbcf2b329149652c9e70",
+  "scope": "Saved-avatar startup and on-demand Studio preview; no asset appearance changes.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "5fe79d59b176da66d92aba9fe813d8d83958f8a65712bb96875a93b35af64bca"
+      "sha256": "591905672233e3fbb9d3abbbef678dd564b9c257bf209b781f31966addd8151d"
     },
     {
       "path": "arrival-precinct.js",
@@ -331,7 +331,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "85b629276c82e57f1717faf79ed4ebad63d52d927052c98acef0fbc6fbeb04e4"
+      "sha256": "8a7be59f842c20a56caf9f4efa5c491b2bbe97f8d07bb867d259284d40c91514"
     },
     {
       "path": "joystick.js",
@@ -376,6 +376,10 @@
     {
       "path": "world.js",
       "sha256": "28f97e0eceb785ff3cc6760d10e66e11ce13cd3aa0ff8cfe7496f465cf963d5f"
+    },
+    {
+      "path": "studio.js",
+      "sha256": "845220ec47c3a4d9de85a416607835ad5e72676ca01952a7336494572d082204"
     }
   ],
   "estVideo": {
