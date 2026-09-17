@@ -1,0 +1,65 @@
+import * as THREE from 'three';
+
+// Uses the game's camera, input set and render loop. No assets or extra loop.
+export function createFlyover({camera, keys, canvas, root, canEnter, resetInput, fog}) {
+  let saved=null, yaw=0, pitch=0, targetYaw=0, targetPitch=0, pointer=null;
+  const velocity=new THREE.Vector3(), desired=new THREE.Vector3(), rotation=new THREE.Euler(0,0,0,'YXZ');
+  const held=new Set();
+  const button=document.createElement('button');
+  button.id='flyover-toggle';button.textContent='Flyover';button.setAttribute('aria-pressed','false');button.title='Flyover camera (F)';
+  root.append(button);
+  const worldTools=root.querySelector('#world-tools');
+  function placeButton(){button.style.top=saved?'':`${worldTools.offsetTop+worldTools.offsetHeight+12}px`;}
+  new ResizeObserver(placeButton).observe(worldTools);placeButton();
+  const panel=document.createElement('section');panel.id='flyover-panel';panel.hidden=true;panel.setAttribute('aria-label','Flyover recording controls');
+  panel.innerHTML=`<strong>Flyover camera</strong><p>WASD move · Q / E lower / rise<br>Drag to look · Arrow keys turn / tilt<br>F or Esc return · H hide controls<br>Touch: tap the view to show controls</p><label>Speed <input id="flyover-speed" type="range" min="1" max="40" value="10" step="1"><output id="flyover-speed-value">10 m/s</output></label><div class="flyover-pad"><button data-fly-key="KeyW" aria-label="Fly forward">Forward</button><button data-fly-key="KeyS" aria-label="Fly backward">Back</button><button data-fly-key="KeyA" aria-label="Fly left">Left</button><button data-fly-key="KeyD" aria-label="Fly right">Right</button><button data-fly-key="KeyE" aria-label="Raise camera">Rise</button><button data-fly-key="KeyQ" aria-label="Lower camera">Lower</button></div><div class="flyover-actions"><button id="flyover-bird">Bird’s-eye</button><button id="flyover-hide">Hide controls</button><button id="flyover-exit">Return to player</button></div>`;
+  root.append(panel);
+  const speed=panel.querySelector('input'), output=panel.querySelector('output');
+  speed.addEventListener('input',()=>output.value=`${speed.value} m/s`);
+  const hiddenUI=()=>document.body.classList.toggle('flyover-clean');
+  panel.querySelector('#flyover-hide').onclick=hiddenUI;
+  panel.querySelector('#flyover-bird').onclick=()=>{targetPitch=-Math.PI/2+.01;canvas.focus();};
+  panel.querySelector('#flyover-exit').onclick=exit;
+  button.onclick=()=>saved?exit():enter();
+  for(const control of panel.querySelectorAll('[data-fly-key]')){
+    control.addEventListener('pointerdown',e=>{e.preventDefault();control.setPointerCapture(e.pointerId);held.add(control.dataset.flyKey);});
+    for(const type of ['pointerup','pointercancel','lostpointercapture'])control.addEventListener(type,()=>held.delete(control.dataset.flyKey));
+    control.addEventListener('contextmenu',e=>e.preventDefault());
+  }
+  function stop(){keys.clear();held.clear();velocity.set(0,0,0);pointer=null;targetYaw=yaw;targetPitch=pitch;}
+  function enter(){
+    if(saved||!canEnter())return;
+    saved={position:camera.position.clone(),quaternion:camera.quaternion.clone(),far:camera.far,fov:camera.fov,zoom:camera.zoom,fog:fog()?{near:fog().near,far:fog().far}:null,focus:document.activeElement};
+    resetInput();stop();rotation.setFromQuaternion(camera.quaternion,'YXZ');yaw=targetYaw=rotation.y;pitch=targetPitch=rotation.x;
+    camera.far=600;camera.updateProjectionMatrix();if(fog()){fog().near=240;fog().far=550;}
+    document.body.classList.add('in-flyover');placeButton();panel.hidden=false;button.textContent='Return to player';button.setAttribute('aria-pressed','true');canvas.focus();
+  }
+  function exit(){
+    if(!saved)return;
+    const previous=saved;saved=null;stop();resetInput();camera.position.copy(previous.position);camera.quaternion.copy(previous.quaternion);camera.far=previous.far;camera.fov=previous.fov;camera.zoom=previous.zoom;camera.updateProjectionMatrix();if(previous.fog&&fog())Object.assign(fog(),previous.fog);
+    document.body.classList.remove('in-flyover','flyover-clean');placeButton();panel.hidden=true;button.textContent='Flyover';button.setAttribute('aria-pressed','false');previous.focus?.focus();
+  }
+  function keydown(e){
+    const editing=['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName);
+    if(saved&&e.code==='Escape'){e.preventDefault();exit();return true;}
+    if(editing)return Boolean(saved);
+    if(e.code==='KeyF'&&!e.repeat){e.preventDefault();saved?exit():enter();return true;}
+    if(!saved)return false;
+    if(e.code==='KeyH'&&!e.repeat){e.preventDefault();hiddenUI();}
+    if(['KeyW','KeyA','KeyS','KeyD','KeyQ','KeyE','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)){e.preventDefault();keys.add(e.code);}
+    return true;
+  }
+  function pointerdown(e){if(!saved)return false;canvas.focus();pointer={id:e.pointerId,x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,moved:false};canvas.setPointerCapture(e.pointerId);return true;}
+  function pointermove(e){if(!saved)return false;if(pointer?.id===e.pointerId){if(Math.hypot(e.clientX-pointer.startX,e.clientY-pointer.startY)>6)pointer.moved=true;targetYaw-=(e.clientX-pointer.x)*.004;targetPitch=THREE.MathUtils.clamp(targetPitch-(e.clientY-pointer.y)*.004,-Math.PI/2+.01,Math.PI/2-.01);pointer.x=e.clientX;pointer.y=e.clientY;}return true;}
+  function update(dt){
+    if(!saved)return;
+    const down=k=>keys.has(k)||held.has(k), axis=(a,b)=>Number(down(a))-Number(down(b));
+    targetYaw+=axis('ArrowLeft','ArrowRight')*dt*.8;targetPitch=THREE.MathUtils.clamp(targetPitch+axis('ArrowUp','ArrowDown')*dt*.8,-Math.PI/2+.01,Math.PI/2-.01);
+    const blend=1-Math.exp(-dt*8);yaw+=(targetYaw-yaw)*blend;pitch+=(targetPitch-pitch)*blend;camera.quaternion.setFromEuler(rotation.set(pitch,yaw,0));
+    // Horizontal translation stays predictable even when looking straight down.
+    const x=axis('KeyD','KeyA'),z=axis('KeyS','KeyW'),y=axis('KeyE','KeyQ');
+    desired.set(x*Math.cos(yaw)+z*Math.sin(yaw),y,-x*Math.sin(yaw)+z*Math.cos(yaw));if(desired.lengthSq()>1)desired.normalize();desired.multiplyScalar(Number(speed.value));velocity.lerp(desired,blend);camera.position.addScaledVector(velocity,dt);
+    camera.position.y=THREE.MathUtils.clamp(camera.position.y,.5,180);
+  }
+  return {get active(){return Boolean(saved);},enter,exit,stop,keydown,pointerdown,pointermove,pointerup(e){if(e?.type==='pointerup'&&e.pointerType==='touch'&&pointer&&!pointer.moved)document.body.classList.remove('flyover-clean');pointer=null;},update,refresh(){button.hidden=!saved&&!canEnter();}};
+}
