@@ -20,6 +20,35 @@ let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial
 let chapelTilt=0;
 let toastTimer,drag=null,lastTime=0,accumulator=0,metricsTime=0,frames=0,viewport={width:1,height:1};
 let tapMovement=null,watchingEST=false;
+const teachers=[];
+let teacherLoading=false,teacherAttempted=false;
+const teacherRay=new THREE.Raycaster(),teacherPointer=new THREE.Vector2();
+function updateTeacherLoading(){
+ if(mode!=='town'||document.hidden)return;
+ const p=actor.model.position,near=Math.hypot(p.x+4,p.z+54)<28;
+ if(!near){teacherAttempted=false;return;}
+ if(teachers.length===2||teacherLoading||teacherAttempted)return;
+ teacherLoading=true;teacherAttempted=true;
+ import('./teacher-npc.js?v=teachers-20260917').then(async m=>{
+  // Stagger decode/upload work and isolate each optional NPC's failure.
+  for(const config of m.TEACHERS)if(!teachers.some(n=>n.id===config.id)){
+   try{teachers.push(await m.createTeacherNPC(worlds,config));}
+   catch(error){console.warn(config.name+' could not load; return to the oval to retry.',error);}
+  }
+ }).catch(error=>console.warn('Teachers unavailable; return to the oval to retry.',error)).finally(()=>teacherLoading=false);
+}
+function greetTeacher(npc){if(mode==='town'&&npc?.react(actor.model.position))toast('Hello, '+npc.name+'!');}
+function tapTeacher(event){
+ if(mode!=='town'||feedbackOpen()||watchingEST||!$('module-overlay').hidden||$('reflection-dialog').open)return;
+ const r=canvas.getBoundingClientRect();teacherPointer.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);teacherRay.setFromCamera(teacherPointer,camera);
+ const candidates=teachers.filter(n=>n.near(actor.model.position,7));
+ const hits=candidates.flatMap(n=>teacherRay.intersectObject(n.root,true).map(hit=>({npc:n,hit}))).sort((a,b)=>a.hit.distance-b.hit.distance);
+ if(!hits.length)return;
+ const {npc,hit}=hits[0];
+ const visible=o=>{for(let n=o;n;n=n.parent)if(!n.visible)return false;return true;};
+ const blocker=teacherRay.intersectObjects(worlds.town.children.filter(o=>o!==actor.model&&o!==npc.root),true).find(h=>h.object.isMesh&&visible(h.object)&&h.distance<hit.distance-.05);
+ if(!blocker)greetTeacher(npc);
+}
 let moduleObserver=null,moduleTimer=null;
 const keys=new Set(),clock=new THREE.Clock(),lookAt=new THREE.Vector3(),desiredCamera=new THREE.Vector3();
 const active=()=>state.profiles.find(p=>p.id===state.activeId);
@@ -225,6 +254,7 @@ function updateInteraction(){
     if(Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<1.1&&(keys.size||Math.hypot(joystick.x,joystick.z)>.1)&&!enteringCareers){enterCareers();return;}
     if(Math.hypot(p.x-EST.x,p.z-EST.doorZ)<2.2)interaction={label:'Enter EST Prep',action:enterHall};
     else if(Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<2.2)interaction={label:'Enter Careers Advice Centre',action:enterCareers};
+    else if(teachers.some(n=>n.near(p,5))){const npc=teachers.filter(n=>n.near(p,5)).sort((a,b)=>a.root.position.distanceToSquared(p)-b.root.position.distanceToSquared(p))[0];interaction={label:'Say hello to '+npc.name,action:()=>greetTeacher(npc)};}
     else if(p.x>-13.6 && p.x<-10.8 && Math.abs(p.z-5)<1.45)interaction={label:'Open Avatar Studio',action:openStudio};
     else if(Math.hypot(p.x-CHAPEL.x,p.z-CHAPEL.z)<1.9)interaction={label:'Enter Chapel',action:enterChapel};
     else if(Math.hypot(p.x-LEGACY.x,p.z-LEGACY.z)<2.7)interaction={label:'Open Original Career Empire ↗',action:()=>window.open(LEGACY.url,'_blank','noopener,noreferrer')};
@@ -295,11 +325,11 @@ function bindEvents(){
   window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());document.addEventListener('visibilitychange',()=>{keys.clear();joystick.reset();accumulator=0;});window.addEventListener('resize',resize);
   window.addEventListener('beforeunload',e=>{if(dirty()){e.preventDefault();e.returnValue='';}});
   document.querySelectorAll('[data-key]').forEach(b=>{b.addEventListener('contextmenu',e=>e.preventDefault());b.addEventListener('dragstart',e=>e.preventDefault());b.addEventListener('selectstart',e=>e.preventDefault());let pressedAt=0;b.addEventListener('pointerdown',e=>{e.preventDefault();b.setPointerCapture(e.pointerId);pressedAt=performance.now();keys.add(b.dataset.key);b.classList.add('pressed');});const release=e=>{if(e.type==='pointerup'&&performance.now()-pressedAt<180)tapMovement={key:b.dataset.key,until:performance.now()+220};keys.delete(b.dataset.key);b.classList.remove('pressed');};b.addEventListener('pointerup',release);b.addEventListener('pointercancel',release);b.addEventListener('lostpointercapture',release);});
-  canvas.addEventListener('pointerdown',e=>{canvas.focus();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(drag && mode!=='studio'){yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='chapel')chapelTilt=THREE.MathUtils.clamp(drag.tilt+(e.clientY-drag.y)*.014,-1.6,4.5);}});canvas.addEventListener('pointerup',()=>drag=null);canvas.addEventListener('pointercancel',()=>drag=null);
+  canvas.addEventListener('pointerdown',e=>{canvas.focus();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt,moved:false};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(drag && mode!=='studio'){if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6)drag.moved=true;yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='chapel')chapelTilt=THREE.MathUtils.clamp(drag.tilt+(e.clientY-drag.y)*.014,-1.6,4.5);}});canvas.addEventListener('pointerup',e=>{if(drag&&!drag.moved)tapTeacher(e);drag=null;});canvas.addEventListener('pointercancel',()=>drag=null);
 }
 function animate(){
   requestAnimationFrame(animate);const now=clock.getElapsedTime(),dt=Math.min(now-lastTime,.08);lastTime=now;
-  if(!feedbackOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open){
+  if(!document.hidden&&!feedbackOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open){
     if(tapMovement){if(performance.now()<tapMovement.until)keys.add(tapMovement.key);else{keys.delete(tapMovement.key);tapMovement=null;}}
     let x=(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0),z=(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-(keys.has('KeyW')||keys.has('ArrowUp')?1:0);
     x+=joystick.x;z+=joystick.z;
@@ -307,9 +337,9 @@ function animate(){
     const speed=keys.has('ShiftLeft')||keys.has('ShiftRight')?4.6:2.8;
     const dx=(x*Math.cos(yaw)+z*Math.sin(yaw))*speed,dz=(-x*Math.sin(yaw)+z*Math.cos(yaw))*speed;
     accumulator=Math.min(accumulator+dt,.1);let travelled=0;
-    while(accumulator>=1/60){const previous=actor.model.position.clone();const next=worlds.move(space(),{x:dx/60,z:dz/60});actor.model.position.set(next.x,next.y,next.z);travelled+=Math.hypot(next.x-previous.x,next.z-previous.z);accumulator-=1/60;}
+    while(accumulator>=1/60){const previous=actor.model.position.clone();if(mode==='town')for(const npc of teachers)npc.fixedUpdate(1/60,previous);const next=worlds.move(space(),{x:dx/60,z:dz/60});actor.model.position.set(next.x,next.y,next.z);travelled+=Math.hypot(next.x-previous.x,next.z-previous.z);accumulator-=1/60;}
     actor.setWalking(Boolean(length && travelled>.001));if(length){const target=Math.atan2(dx,dz),difference=Math.atan2(Math.sin(target-actor.model.rotation.y),Math.cos(target-actor.model.rotation.y));actor.model.rotation.y+=difference*Math.min(1,dt*12);}
-    actor.update(dt);worlds.update(now,camera);updateInteraction();updateMission();
+    if(mode==='town'){updateTeacherLoading();for(const npc of teachers)npc.update(dt,actor.model.position);}actor.update(dt);worlds.update(now,camera);updateInteraction();updateMission();
   }else if(mode==='studio')preview?.update(dt);
   updateCamera(dt);positionESTPlayButton();renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   let scene=mode==='studio'?studio:activeScene();
@@ -323,7 +353,7 @@ function animate(){
       for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
       pixelColours=colours.size;
     }
-    const data={scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
+    const data={teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
     (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
     $('diagnostics').value=JSON.stringify(data);$('diagnostics').dataset.state=JSON.stringify(data);canvas.dataset.rendered='true';frames=0;metricsTime=now;
   }
@@ -355,7 +385,7 @@ async function boot(){
     await integrateEnvironment(worlds);
     worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();bindEvents();resize();setMode('town');yaw=0;updateCamera(1,true);$('loading').hidden=true;icons();
     // A shareable, playable quality-review viewpoint; normal entry remains Arrival Gardens.
-    const viewpoints={'garden-pond':{p:[32,-10,Math.PI/2],name:'Garden pond'},'fountain-walk':{p:[-2.6,5.5,0],name:'Fountain walk'},'garden-benches':{p:[-5.8,-8,Math.PI/2],name:'Garden seating'},'chapel-exterior':{p:[-1.5,-4.5,.58],name:'Chapel exterior'},'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Home Economics'}};
+    const viewpoints={'teachers':{p:[-4,-49.8,0],name:'Meet your teachers · Oval'},'mr-middleton':{p:[-7,-50,0],name:'Mr Middleton · Oval'},'mr-psandodakis':{p:[-1,-50,0],name:'Mr Psandodakis · Oval'},'garden-pond':{p:[32,-10,Math.PI/2],name:'Garden pond'},'fountain-walk':{p:[-2.6,5.5,0],name:'Fountain walk'},'garden-benches':{p:[-5.8,-8,Math.PI/2],name:'Garden seating'},'chapel-exterior':{p:[-1.5,-4.5,.58],name:'Chapel exterior'},'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Home Economics'}};
     const viewpoint=viewpoints[new URLSearchParams(location.search).get('view')];
     if(new URLSearchParams(location.search).get('view')==='chapel-interior')await enterChapel();
     if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}

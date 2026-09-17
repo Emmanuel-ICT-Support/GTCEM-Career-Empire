@@ -1,13 +1,13 @@
 {
-  "release": "lazy-studio-20260917",
-  "changeId": "CE-CHANGE-20260917-71",
+  "release": "teacher-npcs-20260917",
+  "changeId": "CE-CHANGE-20260917-74",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "b780fe1c4ddf5fcb59edcbcf2b329149652c9e70",
-  "scope": "Saved-avatar startup and on-demand Studio preview; no asset appearance changes.",
+  "baseCommit": "b4b22db1f3a0a4f1174ade4fbc94205ce3d4e166",
+  "scope": "Approved two-teacher NPC release candidate: bounded oval wandering, independent reactions and on-approach loading.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "591905672233e3fbb9d3abbbef678dd564b9c257bf209b781f31966addd8151d"
+      "sha256": "52cde6c28d9cd197afae94bf75cb4e99464fdfffee533f578877927670f815a7"
     },
     {
       "path": "arrival-precinct.js",
@@ -331,7 +331,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "8a7be59f842c20a56caf9f4efa5c491b2bbe97f8d07bb867d259284d40c91514"
+      "sha256": "339ca0d0e9d0f3674259cb1f7e8bf81db06b8dfb57e8bb1c1d5448bb7189fbc0"
     },
     {
       "path": "joystick.js",
@@ -380,6 +380,18 @@
     {
       "path": "studio.js",
       "sha256": "845220ec47c3a4d9de85a416607835ad5e72676ca01952a7336494572d082204"
+    },
+    {
+      "path": "teacher-npc.js",
+      "sha256": "dea800446710ba3b663b8f2623fc6db5c25c8ba4a088aa072d465708967a5c00"
+    },
+    {
+      "path": "assets/mr-middleton-20260917.glb",
+      "sha256": "4d73dbaeea72056618171fb72dc0d459e4161ba9c491ddbe8bb822a6c7c29d4c"
+    },
+    {
+      "path": "assets/mr-psandodakis-20260917.glb",
+      "sha256": "4b4f2d7e1a2e40ee713ac7b71cad051e3a0eb1fffca51cf0e38e920f6130f4e5"
     }
   ],
   "estVideo": {
