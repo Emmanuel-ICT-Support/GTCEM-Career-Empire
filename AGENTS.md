@@ -339,3 +339,23 @@ Final local verification: 35 unit tests, source checks, 93 manifest hashes and 3
 CE-CHANGE-20260917-71: current startup already restores active saved profile and loads only its selected GLB. Studio preview scene and OrbitControls now load only on Studio entry; delayed-entry guard preserves return-to-town intent and pants draft link is retained. Seven scoped browser scenarios, 35 unit tests and source checks passed locally. No deployment or asset appearance change. Whole-campus boot, selected large jacket model and bundled legacy garment geometry remain costs. Preserve unrelated edits and original assets. See docs/production/avatar-startup-20260917.md in canonical Blueprint (game copy: docs/avatar-startup-20260917.md).
 
 Publication of the saved-avatar startup change explicitly authorised by Tania on 17 September. This task owns the bounded release; preserve unrelated edits. Verify Pages completion and served source plus Studio interactions before claiming live.
+
+
+## Teacher NPC intake — 17 September 2026
+Inspected teacher T-pose reference, current Three.js/Rapier game, oval/Media layout, lazy Studio startup and existing GLB rigs/clips. Await a complete dressed, rigged teacher GLB from Tripo; Walk and Idle/Wait preferred but existing clips may be retargeted after actual rig validation. Do not fake likeness, add to player picker, preload Studio or import another avatar at runtime for animation. Bounded oval movement and collision integration remain planned, not implemented or published. See docs/production/teacher-npc-20260917.md. Preserve current runtime and unrelated edits.
+
+
+## Credit availability checkpoint
+Tania reports she has run out of Tripo credits. Asset generation is deferred; no purchase or substitute generation requested. Resume from the supplied teacher reference when a rigged teacher GLB is available. Test existing walk/idle clips first to avoid unnecessary animation-generation spend. Compatibility remains unverified. Game unchanged; no deployment.
+
+
+## Both teacher NPCs — 17 September 2026
+CE-CHANGE-20260917-74: Tania clarifies Middleton is brown-haired and Psandodakis is bald; keep BOTH supplied characters. This supersedes the mismatch/credit pause. Local oval NPCs have independent collision and on-approach loading, never Studio/player options. Middleton clicks cycle wave/laugh/look; Psandodakis nod/cheer/clap/dance. Local reactions, bounded movement, collision, phone tapping, Studio pause and missing-asset recovery checked. Originals preserved; Psandodakis game textures use 2K. No commit/publication or physical-device acceptance. Read docs/production/teacher-npcs-20260917.md; retain unrelated work.
+
+
+## Final local verification
+Saved Playwright regression passed on the final optimized assets (21.4 seconds): all seven reactions, repeat guard, two-NPC five-minute simulation, obstacle enclosure, mobile click, Studio pause, cold-start absence and isolated load retry. Minimum centre separation .624m in this run; both stayed inside the oval. All 35 existing unit tests, development source check, diff whitespace check and all 97 working-copy manifest hashes pass. Blueprint impact/integration entry and regenerated export parity pass. Visual close-up inspected for both supplied identities; no final user appearance acceptance, hosted CI, physical-device or public deployment claim. Local review link prepared in Codex.
+
+
+## Teacher publication authorised — 17 September 2026
+Tania explicitly requests “Publish to live please” for BOTH tested teachers. Release owner: this task, CE-CHANGE-20260917-74. Remote main b4b22db1f3a0a4f1174ade4fbc94205ce3d4e166 has zero file differences from the tested source baseline 6fb20d0, verified through GitHub comparison after local fetch failed with unresolved deltas. Publish only teacher runtime, supplied game assets, regression test and this release documentation; preserve unrelated work. Prior no-publication statements describe historical checkpoints. Deployment and live verification pending.
