@@ -11,3 +11,8 @@ Validation: 35 unit tests and development source checks pass. Desktop Studio ope
 Publication is authorised; pending upload/live receipt. Canonical evidence: private/production-evidence/2026-09-16/pants-game-release. Public Blueprint reader publication remains separate.
 
 Final local verification: 35 unit tests, source checks, 93 manifest hashes and 31 modules pass. Desktop and 390px Studio views rendered; unsaved opening, walk/turn, protected pants-on, save to world and reload checked without captured script errors or failed responses. All five outfit meshes stay visible with outer=none. Publication authorised; live receipt pending.
+
+
+## Separate pants workflow release — 19 September 2026
+
+Tania explicitly approves live publication of the proven Avatar Studio workflow. Pants test now loads the exact walking base and EveryWear pants as separate GLBs, binds the garment to the base bones, and offers Style > Pants On/Off. Full body remains intact. Native walk and front/rear/toggle behaviour were checked locally; rear waist/seat fit and knee/ankle folds remain known limitations and are disclosed in Studio. This is workflow acceptance, not final garment-fit acceptance. Preserve prior assets, newer game changes and all unrelated work.

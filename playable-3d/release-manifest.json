@@ -1,13 +1,12 @@
 {
-  "release": "flyover-20260917",
-  "changeId": "CE-CHANGE-20260917-76",
+  "release": "separate-pants-20260919",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "82ba1d1ad0a8d5d54a38f96a6adf9722896a05f5",
-  "scope": "Approved flyover release: detached recording camera, shared input/render loop, exact return; preserve phone assets and existing gameplay.",
+  "baseCommit": "12d782e917ca04296b49f0d44a9679bec5874155",
+  "scope": "User-approved separate pants workflow: exact walking base plus garment, shared bones, pants on/off and complete body. Rear waist fit remains a disclosed test limitation.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "fcde0648c46236dbf83169e2b5dde38c5c61301f62ff9255a73521ef3742f0f4"
+      "sha256": "1b801d1a9aefddb3e8f96c4789d0d78a6ed56fd12e198b6a5d539fd530a4a23c"
     },
     {
       "path": "arrival-precinct.js",
@@ -163,7 +162,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "44bde519d0c594c7a0e8c7bb320f92ad974b4fbada74e8f94952b88fc8436a03"
+      "sha256": "03d92c4c7a485de126b67ee8288aeae9d486d0d942f5eba2baebf72cacd2bfef"
     },
     {
       "path": "destinations.js",
@@ -331,7 +330,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "df4edadb79034899a813207041ebfb58af6872ca21c81d6287552326a65b16fe"
+      "sha256": "61f0021589a4d895db9b3ea00e8eab30c0eaab43c57edd4510c11f16d42fac37"
     },
     {
       "path": "joystick.js",
@@ -528,6 +527,14 @@
     {
       "path": "flyover.css",
       "sha256": "e4bbe25e03beab5c19da2b247f4158e1809cf08b01b7c3885c5486d49d87b335"
+    },
+    {
+      "path": "assets/studio-separate-pants.glb",
+      "sha256": "90f457d9a440000acf93dbb0f2ebf009d9a98c8fb6dada8b08857fb9465014e2"
+    },
+    {
+      "path": "assets/studio-walking-base.glb",
+      "sha256": "38631c75839ef638ce6821b9ccd7152cbc1f2ca75cd8c7d075c6c6847b732b3e"
     }
   ],
   "estVideo": {

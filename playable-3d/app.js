@@ -8,7 +8,7 @@ import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds} from './world.js?v=phone-load-20260917';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=phone-load-20260917';
+import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=separate-pants-20260919';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=pants-test-20260916';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
@@ -116,7 +116,7 @@ function renderEditor(){
   if(editorTab==='identity'){
     root.append(field('Name','name'),field('Body','body','select',OPTIONS.body));
     if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='pantstest'?'Pants test: a complete matching avatar and outfit.':draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='pantstest'?'Walking base with separate pants. Workflow test; garment fit is still being refined.':draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
     }else{
       root.append(field('Face','face','select',OPTIONS.face));
       const skin=document.createElement('div');skin.className='field';const label=document.createElement('span');label.textContent='Skin tone';skin.append(label);
@@ -126,7 +126,10 @@ function renderEditor(){
       const eye=document.createElement('label');eye.className='binary-field';eye.append('Eye colour',colour('Eye colour','eye'));root.append(eye);
     }
   }else if(editorTab==='style'){
-    if(draft.body==='jackettest'){
+    if(draft.body==='pantstest'){
+      root.append(field('Pants','outer','select',[['blazer','On'],['none','Off — inspect full body']]));
+      const note=document.createElement('p');note.className='hint';note.textContent='Pants workflow test. Full body retained; rear waistband fit still needs refinement.';root.append(note);
+    }else if(draft.body==='jackettest'){
       root.append(field('Jacket','outer','select',[['blazer','Navy blazer'],['none','Off - inspect fit']]));
       const note=document.createElement('p');note.className='hint';note.textContent='Dressing test. Jacket-off reveals missing body areas. Walking preview uses a simple test cycle.';root.append(note);
     }else if(simple){
@@ -404,7 +407,7 @@ async function boot(){
     if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}
     animate();
     if(new URLSearchParams(location.search).get('outfit')==='pants'){
-      try{if(await setMode('studio'))changeDraft(p=>{p.body='pantstest';});}
+      try{if(await setMode('studio'))changeDraft(p=>{p.body='pantstest';p.outer='blazer';});}
       catch{toast('Pants test could not load. Open Avatar Studio and select Pants test to retry.');}
     }
     // All campus destinations are loaded before the interactive scene is revealed.
