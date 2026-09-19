@@ -377,3 +377,8 @@ Final flyover check: all four browser scenarios pass on the final controls/place
 
 ## Flyover publication authorised — 17 September 2026
 Tania: “love it - send to live please”. This task owns the scoped CE-CHANGE-20260917-76 release. Publish tested flyover runtime, styles, index, manifest and regression test to the existing game destination. Current remote main 82ba1d1ad0a8d5d54a38f96a6adf9722896a05f5 has no file differences from tested local base 2b5ea2f94503b4817bb4f988325e0f766180d52a (GitHub comparison). Preserve unrelated edits. Prior local-only statements are historical; deployment and live verification pending. Separate Blueprint reader publication is not included.
+
+
+## Separate pants workflow release — 19 September 2026
+
+Tania explicitly approves live publication of the proven Avatar Studio workflow. Pants test now loads the exact walking base and EveryWear pants as separate GLBs, binds the garment to the base bones, and offers Style > Pants On/Off. Full body remains intact. Native walk and front/rear/toggle behaviour were checked locally; rear waist/seat fit and knee/ankle folds remain known limitations and are disclosed in Studio. This is workflow acceptance, not final garment-fit acceptance. Preserve prior assets, newer game changes and all unrelated work.

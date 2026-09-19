@@ -68,13 +68,26 @@ export const hasCharacterKit = body => Boolean(kits[body]);
 export function loadCharacterKit(body) {
   if (!['a', 'b', ...SIMPLE_BODIES].includes(body)) return Promise.reject(new Error('Unknown avatar body'));
   if (!kitLoads.has(body)) {
-    const url = body === 'pantstest' ? './assets/player-pants-test-20260916.glb'
+    const url = body === 'pantstest' ? './assets/studio-walking-base.glb'
       : body === 'jackettest' ? './assets/player-jacket-test-20260909.glb'
       : body === 'tripo' ? './assets/player-tripo-20260908.glb'
       : body === 'shirt' ? './assets/player-uniform-shirt-20260908.glb'
       : body === 'schoolboy' ? './assets/player-schoolboy-2k-20260914.glb'
       : `./assets/avatar-${body}.glb`;
-    kitLoads.set(body, downloadAvatar(loader.manager.resolveURL(url)).then(data => loader.parseAsync(data, new URL('./assets/', location.href).href)).then(kit => {
+    kitLoads.set(body, downloadAvatar(loader.manager.resolveURL(url)).then(data => loader.parseAsync(data, new URL('./assets/', location.href).href)).then(async kit => {
+      if (body === 'pantstest') {
+        const garment = await loader.loadAsync('./assets/studio-separate-pants.glb');
+        const baseBones = new Map();
+        kit.scene.traverse(n => { if(n.isBone) baseBones.set(n.name,n); });
+        kit.scene.updateMatrixWorld(true); garment.scene.updateMatrixWorld(true);
+        const meshes=[]; garment.scene.traverse(n=>{if(n.isSkinnedMesh)meshes.push(n);});
+        for(const mesh of meshes){
+          const bones=mesh.skeleton.bones.map(b=>{const target=baseBones.get(b.name);if(!target)throw new Error('Missing matching bone '+b.name);return target;});
+          const skeleton=new THREE.Skeleton(bones,mesh.skeleton.boneInverses.map(m=>m.clone()));
+          const bind=mesh.bindMatrix.clone();
+          kit.scene.attach(mesh);mesh.bind(skeleton,bind);mesh.userData.clothingSlot='pants';
+        }
+      }
       if (body === 'jackettest') {
         const source = kit.animations[0];
         if (!source) throw new Error('Jacket test animation is missing');
@@ -171,6 +184,7 @@ function createSimpleTripoCharacter(profile) {
   if (profile.body === 'jackettest') model.traverse(node => {
     if (node.isMesh && node.userData.clothingSlot === 'jacket') node.visible = profile.outer !== 'none';
   });
+  if(profile.body==='pantstest')model.traverse(n=>{if(n.userData.clothingSlot==='pants')n.visible=profile.outer!=='none';});
   const positioned = new THREE.Group();
   positioned.add(model);
   return {
