@@ -1,11 +1,11 @@
 import {test,expect} from './campus-fixtures.js';
 const key='career-empire-3d-profiles-v2-tripo';
-const avatarRequests=urls=>urls.filter(u=>/\/(?:player-[^/]+|avatar-[ab])\.glb(?:\?|$)/.test(u)).map(u=>new URL(u).pathname.split('/').pop());
+const avatarRequests=urls=>urls.filter(u=>/\/(?:player-[^/]+|studio-walking-base|avatar-[ab])\.glb(?:\?|$)/.test(u)).map(u=>new URL(u).pathname.split('/').pop());
 for(const body of ['schoolboy','pantstest','a'])test(`saved ${body}: boot, Studio edit, save and reload`,async({page})=>{
  test.setTimeout(180000);const requests=[],errors=[];
  page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(({key,body})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify({activeId:'saved',profiles:[{id:'other',name:'Other',body:'jackettest'},{id:'saved',name:'Saved player',body}]}));},{key,body});
- const asset={schoolboy:'player-schoolboy-2k-20260914.glb',pantstest:'player-pants-test-20260916.glb',a:'avatar-a.glb'}[body];
+ const asset={schoolboy:'player-schoolboy-2k-20260914.glb',pantstest:'studio-walking-base.glb',a:'avatar-a.glb'}[body];
  const start=Date.now();await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:120000});
  await expect(page.locator('#character-caption')).toHaveText('Saved player');
  expect(avatarRequests(requests)).toEqual([asset]);
@@ -40,6 +40,7 @@ test('leaving while Studio imports prevents a late unwanted entry',async({page})
 test('pants preview remains an unsaved Studio draft',async({page})=>{
  test.setTimeout(90000);await page.goto('/playable-3d/?outfit=pants');
  await expect(page.locator('#loading')).toBeHidden({timeout:60000});
+ await page.getByRole('button',{name:'Identity',exact:true}).click();
  await expect(page.getByLabel('Body',{exact:true})).toHaveValue('pantstest');
  await expect(page.locator('#save-avatar')).toBeEnabled({timeout:30000});
  expect(await page.evaluate(key=>localStorage.getItem(key),key)).toBeNull();

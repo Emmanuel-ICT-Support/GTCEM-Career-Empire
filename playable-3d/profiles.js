@@ -1,7 +1,11 @@
 export const STORAGE_KEY = 'career-empire-3d-profiles-v2-tripo';
 export const SKIN = { porcelain:'#edc9af', sand:'#d2a075', warm:'#b7774f', copper:'#955d3e', mahogany:'#65432f', deep:'#39281f' };
+export const PANTS_DEFAULTS = {chef:'#37424A',tradie:'#B18A54',suit:'#33465E',scrubs:'#397D88'};
+export const TOP_DEFAULTS = {scrubs:'#397D88',work:'#BC9864',chef:'#EEEDE5',suit:'#33465E'};
 export const OPTIONS = {
-  body: [['pantstest','Pants test'],['jackettest','White avatar - jacket test'],['schoolboy','School student'],['tripo','Base avatar'],['shirt','Shirt avatar (test)'],['a','Body A'],['b','Body B']],
+  workTop: [['scrubs','Hospital scrub top'],['work','Work shirt'],['chef','Chef jacket'],['suit','Suit jacket'],['none','No top']],
+  pantsStyle: [['chef','Chef pants'],['tradie','Tradie work pants'],['suit','Suit pants'],['scrubs','Hospital scrub pants']],
+  body: [['pantstest','Wardrobe base'],['jackettest','White avatar - jacket test'],['schoolboy','School student'],['tripo','Base avatar'],['shirt','Shirt avatar (test)'],['a','Body A'],['b','Body B']],
   face: [['soft','Soft'],['round','Round'],['defined','Defined']],
   hair: [['waves','Tousled'],['bob','Side-part bob'],['ponytail','Ponytail'],['none','No hair']],
   top: [['shirt','Shirt & tie'],['scrubs','Scrub top'],['chef','Chef jacket']],
@@ -13,9 +17,14 @@ export const DEFAULT_COLOURS = { hair:'#543321', eye:'#4a705e', top:'#e9ece5', b
 export function normaliseProfile(value = {}) {
   if(!value || typeof value!=='object' || Array.isArray(value))value={};
   const profile = { schemaVersion:1, id:String(value.id || 'avery'), name:String(value.name || 'Avery').slice(0,36),
-    body:'a', face:'soft', skin:'sand', hair:'waves', top:'shirt', bottom:'trousers', outer:'blazer', accessory:'backpack',
+    workTop:'scrubs', topColour:'#397D88', topColours:{...TOP_DEFAULTS}, pantsStyle:'scrubs', pantsColours:{...PANTS_DEFAULTS}, body:'a', face:'soft', skin:'sand', hair:'waves', top:'shirt', bottom:'trousers', outer:'blazer', accessory:'backpack',
     jumper:Boolean(value.jumper), colours:{...DEFAULT_COLOURS}, future:{occupation:'',training:'',strength:''} };
   for (const [key, entries] of Object.entries(OPTIONS)) if (entries.some(([id]) => id === value[key])) profile[key]=value[key];
+  for (const key of Object.keys(PANTS_DEFAULTS)) if (/^#[0-9a-f]{6}$/i.test(value.pantsColours?.[key] || '')) profile.pantsColours[key]=value.pantsColours[key].toUpperCase();
+  const activeTop=profile.workTop==='none'?'scrubs':profile.workTop;
+  if (/^#[0-9a-f]{6}$/i.test(value.topColour || '')) profile.topColours[activeTop]=value.topColour.toUpperCase();
+  for (const key of Object.keys(TOP_DEFAULTS)) if (/^#[0-9a-f]{6}$/i.test(value.topColours?.[key] || '')) profile.topColours[key]=value.topColours[key].toUpperCase();
+  profile.topColour=profile.workTop==='none'&&/^#[0-9a-f]{6}$/i.test(value.topColour || '') ? value.topColour.toUpperCase() : profile.topColours[activeTop];
   if (Object.hasOwn(SKIN,value.skin)) profile.skin=value.skin;
   for (const key of Object.keys(DEFAULT_COLOURS)) if (/^#[0-9a-f]{6}$/i.test(value.colours?.[key] || '')) profile.colours[key]=value.colours[key];
   for (const key of Object.keys(profile.future)) profile.future[key]=String(value.future?.[key] || '').slice(0,500);

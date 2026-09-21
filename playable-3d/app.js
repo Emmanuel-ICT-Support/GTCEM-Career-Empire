@@ -8,8 +8,8 @@ import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds} from './world.js?v=phone-load-20260917';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadCharacterKit,hasCharacterKit,createCharacter,isSimpleBody} from './characters.js?v=separate-pants-20260919';
-import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=pants-test-20260916';
+import {loadProfileKit,createCharacter,isSimpleBody} from './characters.js?v=wardrobe-live-20260921';
+import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=wardrobe-live-20260921';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
 // Pixel readback synchronises the GPU. Reserve it for explicit visual diagnostics.
@@ -18,6 +18,7 @@ const joystick=createJoystick($('movement'));
 const icons=()=>window.lucide?.createIcons();
 const state=loadProfiles(localStorage);
 let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flourishing',draft,editorTab='identity';
+let wardrobeSection='pants';
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
 let chapelTilt=0,flyover;
 function resetNavigationInput(){keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
@@ -70,11 +71,8 @@ function populateProfiles(){$('profile').replaceChildren(...state.profiles.map(p
 let actorRequest=0,previewRequest=0,hallRequest=0,nearHall=false,nearCareers=false;
 async function updateActor(){
   const request=++actorRequest,profile=active();
-  if(!hasCharacterKit(profile.body)){
-    toast('Loading your character...');
-    try{await loadCharacterKit(profile.body);}catch{toast('Character could not load. Select the profile again to retry.');return;}
-    if(request!==actorRequest)return;
-  }
+  try{await loadProfileKit(profile);}catch{toast('Character could not load. Select the profile again to retry.');return;}
+  if(request!==actorRequest)return;
   const position=actor?.model.position.clone() || worlds.position(false),rotation=actor?.model.rotation.y ?? Math.PI;
   actor?.dispose();actor=createCharacter(active());actor.model.position.copy(position);actor.model.rotation.y=rotation;
   activeScene().add(actor.model);populateProfiles();
@@ -83,11 +81,9 @@ async function updatePreview(){
   const request=++previewRequest;
   $('undo').disabled=!undo.length;$('redo').disabled=!redo.length;
   $('save-avatar').disabled=true;
-  if(!hasCharacterKit(draft.body)){
-    $('edit-state').textContent=`Preparing ${bodyName(draft.body)}…`;
-    try{await loadCharacterKit(draft.body);}catch{if(request===previewRequest&&mode==='studio')$('edit-state').textContent='This avatar could not load. Select it again to retry.';return;}
-    if(request!==previewRequest||mode!=='studio')return;
-  }
+  $('edit-state').textContent='Preparing your outfit…';
+  try{await loadProfileKit(draft);}catch{if(request===previewRequest&&mode==='studio')$('edit-state').textContent='Outfit could not load. Choose it again to retry.';return;}
+  if(request!==previewRequest||mode!=='studio')return;
   const rotation=preview?.model.rotation.y || 0;
   preview?.dispose();preview=createCharacter(draft);preview.model.rotation.y=rotation;studio.add(preview.model);preview.setWalking(previewWalking);
   $('studio-caption').textContent=draft.name;$('edit-state').textContent=dirty()?'Unsaved':'Saved';$('undo').disabled=!undo.length;$('redo').disabled=!redo.length;$('save-avatar').disabled=false;
@@ -109,6 +105,29 @@ function colour(label,key){
   input.addEventListener('change',()=>changeDraft(p=>p.colours[key]=input.value));return input;
 }
 function optionWithColour(label,key,colourKey=key){const row=document.createElement('div');row.className='field-row';row.append(field(label,key,'select',OPTIONS[key]),colour(`${label} colour`,colourKey));return row;}
+function wardrobeCategoryCards(){
+  const nav=document.createElement('div');nav.className='wardrobe-categories';nav.setAttribute('role','group');nav.setAttribute('aria-label','Clothing sections');
+  for(const [key,title,thumb] of [['tops','Tops','top-'+(draft.workTop==='none'?'scrubs':draft.workTop)],['pants','Pants','pants-'+draft.pantsStyle]]){
+    const b=document.createElement('button');b.type='button';b.className='wardrobe-category';b.dataset.section=key;b.setAttribute('aria-label',title);b.setAttribute('aria-pressed',wardrobeSection===key);
+    const img=document.createElement('img');img.src='./wardrobe-thumbnails/'+thumb+'.png?v=wardrobe-live-20260921';img.alt='';img.width=62;img.height=68;
+    const text=document.createElement('span');text.textContent=title;b.append(img,text);
+    b.addEventListener('click',()=>{wardrobeSection=key;renderEditor();document.querySelector('[data-section="'+key+'"]').focus({preventScroll:true});});nav.append(b);
+  }
+  return nav;
+}
+function garmentCards(section){
+  const grid=document.createElement('div');grid.className='garment-grid';grid.setAttribute('role','group');grid.setAttribute('aria-label',section==='tops'?'Choose a top':'Choose pants');
+  const options=section==='tops'?OPTIONS.workTop:[...OPTIONS.pantsStyle,['none','No pants']];
+  for(const [key,title] of options){
+    const selected=section==='tops'?draft.workTop===key:(key==='none'?draft.outer==='none':draft.outer!=='none'&&draft.pantsStyle===key);
+    const b=document.createElement('button');b.type='button';b.className='garment-card';b.dataset.garment=section+'-'+key;b.setAttribute('aria-label',title);b.setAttribute('aria-pressed',selected);
+    if(key==='none'){b.classList.add('is-empty');const empty=document.createElement('span');empty.className='garment-empty';empty.innerHTML='<i data-lucide="minus"></i>';b.append(empty);}
+    else{const img=document.createElement('img');img.src='./wardrobe-thumbnails/'+(section==='tops'?'top-':'pants-')+key+'.png?v=wardrobe-live-20260921';img.alt='';img.width=120;img.height=132;img.loading='lazy';b.append(img);}
+    const label=document.createElement('span');label.textContent=title;b.append(label);
+    b.addEventListener('click',()=>{if(selected){updatePreview();return;}changeDraft(p=>{if(section==='tops'){p.workTop=key;if(key!=='none')p.topColour=p.topColours[key];}else if(key==='none')p.outer='none';else{p.pantsStyle=key;p.outer='blazer';}});document.querySelector('[data-garment="'+section+'-'+key+'"]').focus({preventScroll:true});});grid.append(b);
+  }
+  return grid;
+}
 function renderEditor(){
   const root=$('editor-fields');root.replaceChildren();
   document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===editorTab);b.setAttribute('aria-pressed',b.dataset.tab===editorTab);});
@@ -116,7 +135,7 @@ function renderEditor(){
   if(editorTab==='identity'){
     root.append(field('Name','name'),field('Body','body','select',OPTIONS.body));
     if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='pantstest'?'Walking base with separate pants. Workflow test; garment fit is still being refined.':draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='pantstest'?'Choose ready-made clothes and their colours in Style.':draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
     }else{
       root.append(field('Face','face','select',OPTIONS.face));
       const skin=document.createElement('div');skin.className='field';const label=document.createElement('span');label.textContent='Skin tone';skin.append(label);
@@ -127,8 +146,32 @@ function renderEditor(){
     }
   }else if(editorTab==='style'){
     if(draft.body==='pantstest'){
-      root.append(field('Pants','outer','select',[['blazer','On'],['none','Off — inspect full body']]));
-      const note=document.createElement('p');note.className='hint';note.textContent='Pants workflow test. Full body retained; rear waistband fit still needs refinement.';root.append(note);
+      root.append(wardrobeCategoryCards());
+      if(wardrobeSection==='tops'){
+      root.append(garmentCards('tops'));
+      const controls=document.createElement('div');controls.className='field-row';controls.hidden=draft.workTop==='none';
+      const picker=document.createElement('input');picker.type='color';picker.className='colour-input';picker.value=draft.topColour;picker.setAttribute('aria-label','Top colour');picker.title='Top colour';
+      picker.addEventListener('change',()=>changeDraft(p=>{p.topColour=picker.value.toUpperCase();p.topColours[p.workTop==='none'?'scrubs':p.workTop]=p.topColour;}));
+      const label=document.createElement('label');label.className='field';label.style.flex='1';const title=document.createElement('span');title.textContent='Top hex colour';
+      const hex=document.createElement('input');hex.type='text';hex.value=draft.topColour;hex.maxLength=7;hex.spellcheck=false;hex.setAttribute('aria-label','Top hex colour');
+      const error=document.createElement('small');error.setAttribute('role','status');error.style.color='#a32d25';
+      const applyHex=()=>{const value=hex.value.trim().replace(/^#?/,'#').toUpperCase();if(!/^#[0-9A-F]{6}$/.test(value)){hex.setAttribute('aria-invalid','true');error.textContent='Use six hex digits, for example #397D88.';return;}if(value===draft.topColour){hex.value=value;hex.removeAttribute('aria-invalid');error.textContent='';return;}changeDraft(p=>{p.topColour=value;p.topColours[p.workTop==='none'?'scrubs':p.workTop]=value;});};
+      hex.addEventListener('change',applyHex);hex.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();applyHex();}});
+      label.append(title,hex,error);controls.append(label,picker);root.append(controls);
+      }
+      if(wardrobeSection==='pants'){
+      root.append(garmentCards('pants'));
+      const controls=document.createElement('div');controls.className='field-row';
+      const picker=document.createElement('input');picker.type='color';picker.className='colour-input';picker.value=draft.pantsColours[draft.pantsStyle];picker.setAttribute('aria-label','Pants colour');picker.title='Pants colour';
+      picker.addEventListener('change',()=>changeDraft(p=>{p.pantsColours[p.pantsStyle]=picker.value.toUpperCase();}));
+      const label=document.createElement('label');label.className='field';label.style.flex='1';const title=document.createElement('span');title.textContent='Hex colour';
+      const hex=document.createElement('input');hex.type='text';hex.value=draft.pantsColours[draft.pantsStyle];hex.maxLength=7;hex.spellcheck=false;hex.setAttribute('aria-label','Pants hex colour');
+      const error=document.createElement('small');error.setAttribute('role','status');error.style.color='#a32d25';
+      const applyHex=()=>{const value=hex.value.trim().replace(/^#?/,'#').toUpperCase();if(!/^#[0-9A-F]{6}$/.test(value)){hex.setAttribute('aria-invalid','true');error.textContent='Use six hex digits, for example #397D88.';return;}if(value===draft.pantsColours[draft.pantsStyle]){hex.value=value;hex.removeAttribute('aria-invalid');error.textContent='';return;}changeDraft(p=>{p.pantsColours[p.pantsStyle]=value;});};
+      hex.addEventListener('change',applyHex);hex.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();applyHex();}});
+      label.append(title,hex,error);controls.append(label,picker);root.append(controls);
+      }
+      const note=document.createElement('p');note.className='hint';note.textContent='Each style remembers its colour. Save to keep your choices.';root.append(note);
     }else if(draft.body==='jackettest'){
       root.append(field('Jacket','outer','select',[['blazer','Navy blazer'],['none','Off - inspect fit']]));
       const note=document.createElement('p');note.className='hint';note.textContent='Dressing test. Jacket-off reveals missing body areas. Walking preview uses a simple test cycle.';root.append(note);
@@ -143,10 +186,28 @@ function renderEditor(){
   }else root.append(field('Future occupation','occupation','textarea'),field('Training pathway','training','textarea'),field('A strength I bring','strength','textarea'));
   icons();
 }
-let studioLoad,modeRequest=0;
+let studioLoad,modeRequest=0,campusLoad,campusReady=false;
+async function ensureCampus(){
+  if(campusReady)return;
+  campusLoad ||= (async()=>{
+    THREE.Cache.enabled=true;
+    try{
+      await worlds.loadScenery();
+      if(worlds.scenery.status!=='ready')throw new Error('Campus buildings could not load. Reload to retry.');
+      await integrateEnvironment(worlds);worlds.phase(phase);campusReady=true;
+    }finally{THREE.Cache.clear();THREE.Cache.enabled=false;}
+  })();
+  await campusLoad;
+}
 async function setMode(next){
   flyover?.exit();
   const request=++modeRequest;
+  if(next!=='studio'&&!campusReady){
+    toast('Opening the campus…');
+    try{await ensureCampus();}catch{toast('The campus could not load. Reload to retry.');return false;}
+    if(request!==modeRequest)return false;
+    clearTimeout(toastTimer);$('toast').hidden=true;
+  }
   if(next==='studio'&&!studio){
     try{
       studioLoad ||= import('./studio.js?v=lazy-20260917').then(({createStudio})=>{
@@ -171,7 +232,7 @@ async function setMode(next){
 }
 function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='careers'?'EXPLORE YOUR FUTURE':mode==='chapel'?'A PLACE TO PAUSE':mode==='interior'?'THE LEARNING HALL':'CAREER EMPIRE · YOUR FIRST DAY';$('location-subtitle').textContent=mode==='careers'?'Visit the SHOP DEMO desk on your left':mode==='chapel'?'Quiet reflection · Drag down to look up':mode==='interior'?'CORE / TERM / VTCS / BOSS':title==='Home Base'?'ECC welcome / Chapel / Campus paths':'Arrival Gardens / Avatar Studio';}
 function leaveStudio(callback){if(dirty()){pendingLeave=callback;$('leave-dialog').showModal();}else callback();}
-function saveDraft(){if(!hasCharacterKit(draft.body)){toast('Wait for the selected body to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{localStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
+function saveDraft(){if($('save-avatar').disabled){toast('Wait for the selected outfit to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{localStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
 function openStudio(){if(mode==='studio')return;setMode('studio');}
 let enteringHall=false,enteringCareers=false;
 async function enterHall(){
@@ -358,6 +419,7 @@ function animate(){
   if(mode==='studio'){const mobile=isMobile();renderer.setViewport(0,mobile?viewport.height*.43:0,mobile?viewport.width:viewport.width-(viewport.width>900?364:316),mobile?viewport.height*.57:viewport.height);}
   renderer.toneMappingExposure=mode==='town'?1:1.03;
   renderer.render(scene,camera);frames++;
+  if(!canvas.dataset.firstFrameMs)canvas.dataset.firstFrameMs=String(Math.round(performance.now()));
   if(now-metricsTime>1){
     let pixelColours=null;
     if(pixelDiagnostics){
@@ -367,12 +429,16 @@ function animate(){
     }
     const data={teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
     (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
+    if(mode==='studio'&&draft?.body==='pantstest'){
+      data.wardrobe={top:draft.workTop,pants:draft.outer==='none'?'none':draft.pantsStyle,topHex:draft.topColour,necklineVisible:false,visibleTops:[]};
+      preview?.model.traverse(o=>{if(!o.isMesh||!o.visible)return;if(o.userData.clothingSlot==='necklineSkin')data.wardrobe.necklineVisible=true;if(o.userData.clothingSlot==='workTop'&&!data.wardrobe.visibleTops.includes(o.userData.topStyle))data.wardrobe.visibleTops.push(o.userData.topStyle);});
+    }
     $('diagnostics').value=JSON.stringify(data);$('diagnostics').dataset.state=JSON.stringify(data);canvas.dataset.rendered='true';frames=0;metricsTime=now;
   }
 }
 async function loadStartupCharacter(){
   for(;;){
-    try{await loadCharacterKit(active().body);return;}
+    try{await loadProfileKit(active());return;}
     catch(error){
       $('loading-message').textContent='Your avatar could not finish loading. Check your connection and try again.';
       $('loading').querySelector('progress').hidden=true;
@@ -386,6 +452,7 @@ async function loadStartupCharacter(){
   }
 }
 async function boot(){
+  const studioFirst=['wardrobe','scrubs','pants'].includes(new URLSearchParams(location.search).get('outfit'));
   // Share immutable startup downloads across the campus builders. Release the
   // temporary cache when construction finishes, so it cannot retain spare models.
   configurePhoneAssets();
@@ -394,23 +461,26 @@ async function boot(){
     icons();renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.localClippingEnabled=true;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.03;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.autoClear=false;
     camera=new THREE.PerspectiveCamera(55,1,.08,220);
     const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();const environment=pmrem.fromScene(room,.04);room.dispose();pmrem.dispose();
-    $('loading-message').textContent='Loading your character and learning district...';
+    $('loading-message').textContent=studioFirst?'Opening your wardrobe…':'Loading your character and learning district...';
     [worlds]=await Promise.all([createWorlds(message=>{if($('avatar-retry').hidden)$('loading-message').textContent=message;}),loadStartupCharacter()]);
     $('loading-message').textContent='Preparing your first view...';worlds.town.environment=environment.texture;worlds.town.environmentIntensity=.28;worlds.interior.environment=environment.texture;worlds.interior.environmentIntensity=.55;worlds.careers.environment=environment.texture;worlds.careers.environmentIntensity=.55;worlds.chapel.environment=environment.texture;worlds.chapel.environmentIntensity=.35;
-    $('loading-message').textContent='Opening the complete campus and both outer buildings...';await worlds.loadScenery();if(worlds.scenery.status!=='ready')throw new Error('Campus buildings could not load. Reload to retry.');
-    await integrateEnvironment(worlds);THREE.Cache.clear();THREE.Cache.enabled=false;
-    worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');updateActor();flyover=createFlyover({camera,keys,canvas,root:$('experience'),canEnter:canFlyover,resetInput:resetNavigationInput,fog:()=>worlds.town.fog});bindEvents();resize();setMode('town');yaw=0;updateCamera(1,true);$('loading').hidden=true;icons();
+    if(!studioFirst){$('loading-message').textContent='Opening the complete campus and both outer buildings...';await ensureCampus();}
+    else{THREE.Cache.clear();THREE.Cache.enabled=false;}
+    worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');await updateActor();flyover=createFlyover({camera,keys,canvas,root:$('experience'),canEnter:canFlyover,resetInput:resetNavigationInput,fog:()=>worlds.town.fog});bindEvents();resize();
+    if(studioFirst){
+      if(!await setMode('studio'))throw new Error('Avatar Studio could not load.');
+      if(draft.body!=='pantstest'){draft.body='pantstest';await updatePreview();}
+      editorTab='style';renderEditor();
+    }else{await setMode('town');yaw=0;updateCamera(1,true);}
+    $('loading').hidden=true;icons();
     // A shareable, playable quality-review viewpoint; normal entry remains Arrival Gardens.
     const viewpoints={'teachers':{p:[-4,-49.8,0],name:'Meet your teachers · Oval'},'mr-middleton':{p:[-7,-50,0],name:'Mr Middleton · Oval'},'mr-psandodakis':{p:[-1,-50,0],name:'Mr Psandodakis · Oval'},'garden-pond':{p:[32,-10,Math.PI/2],name:'Garden pond'},'fountain-walk':{p:[-2.6,5.5,0],name:'Fountain walk'},'garden-benches':{p:[-5.8,-8,Math.PI/2],name:'Garden seating'},'chapel-exterior':{p:[-1.5,-4.5,.58],name:'Chapel exterior'},'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Home Economics'}};
     const viewpoint=viewpoints[new URLSearchParams(location.search).get('view')];
     if(new URLSearchParams(location.search).get('view')==='chapel-interior')await enterChapel();
     if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}
     animate();
-    if(new URLSearchParams(location.search).get('outfit')==='pants'){
-      try{if(await setMode('studio'))changeDraft(p=>{p.body='pantstest';p.outer='blazer';});}
-      catch{toast('Pants test could not load. Open Avatar Studio and select Pants test to retry.');}
-    }
-    // All campus destinations are loaded before the interactive scene is revealed.
+    // Wardrobe entry defers campus scenery until Town is selected.
+    // Normal town entry still loads every campus destination before reveal.
     // Avatar alternatives load on selection through updatePreview/updateActor.
   }catch(error){THREE.Cache.clear();THREE.Cache.enabled=false;console.error(error);$('loading-message').textContent=`The 3D district could not open. Reload to retry. ${error.message}`;$('loading').querySelector('progress').hidden=true;$('fallback-link').hidden=false;const retry=$('avatar-retry');retry.textContent='Retry loading';retry.hidden=false;retry.onclick=()=>location.reload();}
 }

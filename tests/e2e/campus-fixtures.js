@@ -3,7 +3,7 @@ import {test as base,expect} from '@playwright/test';
 // Native platform rendering; keep full production graphics in these tests.
 // Only the trusted local test server is opened by these campus scenarios.
 export const test=base.extend({
-  launchOptions: async ({},use)=>use({args:process.platform==='darwin'
+  launchOptions: async ({browserName},use)=>use({args:process.platform==='darwin'&&browserName==='chromium'
     ? ['--use-angle=metal']
     : []}),
   campusDiagnostics: [async ({page},use,testInfo)=>{
