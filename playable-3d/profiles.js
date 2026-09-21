@@ -2,7 +2,11 @@ export const STORAGE_KEY = 'career-empire-3d-profiles-v2-tripo';
 export const SKIN = { porcelain:'#edc9af', sand:'#d2a075', warm:'#b7774f', copper:'#955d3e', mahogany:'#65432f', deep:'#39281f' };
 export const PANTS_DEFAULTS = {chef:'#37424A',tradie:'#B18A54',suit:'#33465E',scrubs:'#397D88'};
 export const TOP_DEFAULTS = {scrubs:'#397D88',work:'#BC9864',chef:'#EEEDE5',suit:'#33465E'};
+export const HAIR_DEFAULTS = {sweep:'#543321',curls:'#30251F',bob:'#70412D',ponytail:'#543321'};
+export const SHOE_DEFAULTS = {trainers:'#647D91',boots:'#AD8049',dress:'#302B29',clogs:'#397D88'};
 export const OPTIONS = {
+  hairStyle: [['sweep','Short sweep'],['curls','Soft curls'],['bob','Side-part bob'],['ponytail','Ponytail'],['none','No hair']],
+  shoeStyle: [['trainers','Trainers'],['boots','Work boots'],['dress','Dress shoes'],['clogs','Clogs'],['none','Bare feet']],
   workTop: [['scrubs','Hospital scrub top'],['work','Work shirt'],['chef','Chef jacket'],['suit','Suit jacket'],['none','No top']],
   pantsStyle: [['chef','Chef pants'],['tradie','Tradie work pants'],['suit','Suit pants'],['scrubs','Hospital scrub pants']],
   body: [['pantstest','Dress ups'],['jackettest','White avatar - jacket test'],['schoolboy','School student'],['tripo','Base avatar'],['shirt','Shirt avatar (test)'],['a','Body A'],['b','Body B']],
@@ -18,8 +22,11 @@ export function normaliseProfile(value = {}) {
   if(!value || typeof value!=='object' || Array.isArray(value))value={};
   const profile = { schemaVersion:1, id:String(value.id || 'avery'), name:String(value.name || 'Avery').slice(0,36),
     workTop:'scrubs', topColour:'#397D88', topColours:{...TOP_DEFAULTS}, pantsStyle:'scrubs', pantsColours:{...PANTS_DEFAULTS}, body:'a', face:'soft', skin:'sand', hair:'waves', top:'shirt', bottom:'trousers', outer:'blazer', accessory:'backpack',
+    hairStyle:'none', shoeStyle:'none', hairColours:{...HAIR_DEFAULTS}, shoeColours:{...SHOE_DEFAULTS},
     jumper:Boolean(value.jumper), colours:{...DEFAULT_COLOURS}, future:{occupation:'',training:'',strength:''} };
   for (const [key, entries] of Object.entries(OPTIONS)) if (entries.some(([id]) => id === value[key])) profile[key]=value[key];
+  for(const [field,defaults] of [['hairColours',HAIR_DEFAULTS],['shoeColours',SHOE_DEFAULTS]])
+    for(const key of Object.keys(defaults)) if(/^#[0-9a-f]{6}$/i.test(value[field]?.[key] || '')) profile[field][key]=value[field][key].toUpperCase();
   for (const key of Object.keys(PANTS_DEFAULTS)) if (/^#[0-9a-f]{6}$/i.test(value.pantsColours?.[key] || '')) profile.pantsColours[key]=value.pantsColours[key].toUpperCase();
   const activeTop=profile.workTop==='none'?'scrubs':profile.workTop;
   if (/^#[0-9a-f]{6}$/i.test(value.topColour || '')) profile.topColours[activeTop]=value.topColour.toUpperCase();
