@@ -24,7 +24,11 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] }
+      use: {
+        ...devices["Desktop Chrome"],
+        // Keep real game graphics on the Mac's native renderer, including older tests.
+        launchOptions: {args:process.platform==='darwin'?['--use-angle=metal']:[]}
+      }
     }
   ]
 });

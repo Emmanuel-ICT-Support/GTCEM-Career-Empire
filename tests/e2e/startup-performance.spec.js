@@ -8,7 +8,9 @@ test('normal play avoids GPU pixel probes and uses shared building textures',asy
  await page.waitForTimeout(2200);expect(await page.evaluate(()=>window.pixelReadbacks)).toBe(0);
  const state=()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state));const start=await state();expect(start.pixelColours).toBeNull();
  await page.keyboard.down('w');await page.waitForTimeout(1000);await page.keyboard.up('w');await expect.poll(async()=>start.position[2]-(await state()).position[2]).toBeGreaterThan(.5);
- for(const name of ['garden','careers','workplace'])expect(requests.some(u=>u.includes('/'+name+'-shared-textures.glb'))).toBe(true);
+ // The obsolete standalone garden model was removed with the courtyard cleanup.
+ for(const name of ['careers','workplace'])expect(requests.some(u=>u.includes('/'+name+'-shared-textures.glb'))).toBe(true);
+ expect(requests.some(u=>u.includes('/garden-shared-textures.glb'))).toBe(false);
  expect(requests.some(u=>/\/(garden|careers|workplace)\.glb(?:\?|$)/.test(u))).toBe(false);
  expect(new Set(requests.filter(u=>u.includes('/shared-textures/'))).size).toBe(6);
  expect(errors).toEqual([]);

@@ -1,12 +1,12 @@
 {
-  "release": "separate-pants-20260919",
+  "release": "wardrobe-live-20260921",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "12d782e917ca04296b49f0d44a9679bec5874155",
-  "scope": "User-approved separate pants workflow: exact walking base plus garment, shared bones, pants on/off and complete body. Rear waist fit remains a disclosed test limitation.",
+  "baseCommit": "3a3535f256498e8cab701164c27adf98a3fb4f3b",
+  "scope": "Approved four pants and four tops on the unchanged canonical avatar, thumbnail wardrobe, per-style hex colours and selected-garment loading. Physical-phone acceptance is separate.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "1b801d1a9aefddb3e8f96c4789d0d78a6ed56fd12e198b6a5d539fd530a4a23c"
+      "sha256": "5816f785c7781fdf9d543db9e9705c617e177e4d502abda50f6d8b844fae8679"
     },
     {
       "path": "arrival-precinct.js",
@@ -53,8 +53,16 @@
       "sha256": "70941240610426afe513e2e1ef096b6ffc9a0ff0843378fe8d346d8ca69eff00"
     },
     {
+      "path": "assets/campus-landscape/mature-eucalypt-a-packed.glb",
+      "sha256": "2afc41bcb44d661efd39e8d3207f271c9e895ced711f8d34c35b32551d8d497f"
+    },
+    {
       "path": "assets/campus-landscape/mature-eucalypt-a.glb",
       "sha256": "7573a54bc3221a2fcf9172be4f4c409cb96594282b78bebe71dcc515fcd006f1"
+    },
+    {
+      "path": "assets/campus-landscape/mature-eucalypt-b-packed.glb",
+      "sha256": "7b18cb7305f059d98fb19bb8b4b02a7348a40bc65dba145a6c9ccc3617e7d633"
     },
     {
       "path": "assets/campus-landscape/mature-eucalypt-b.glb",
@@ -67,6 +75,10 @@
     {
       "path": "assets/campus-landscape/silver-shrub.glb",
       "sha256": "99e931a4c90e4550d7d685004d97863d7187eeb61688fffcafe7c396fe0054e0"
+    },
+    {
+      "path": "assets/campus-landscape/small-multistem-a-packed.glb",
+      "sha256": "1ac8e61222a52960ba9cec4bf04609776c22ee505b47a54e76cc4d1101c4de75"
     },
     {
       "path": "assets/campus-landscape/small-multistem-a.glb",
@@ -141,12 +153,176 @@
       "sha256": "57d8d0d877ca75b192b2e3e71d0e9aca97e308fc789ebbe5c8061f7021008134"
     },
     {
+      "path": "assets/hospital-scrub-top.glb",
+      "sha256": "34d11bf9d1ac4100140b03f448f08107d4cb388563bf4f68887eb6fd652374b0"
+    },
+    {
+      "path": "assets/mr-middleton-20260917.glb",
+      "sha256": "4d73dbaeea72056618171fb72dc0d459e4161ba9c491ddbe8bb822a6c7c29d4c"
+    },
+    {
+      "path": "assets/mr-psandodakis-20260917.glb",
+      "sha256": "4b4f2d7e1a2e40ee713ac7b71cad051e3a0eb1fffca51cf0e38e920f6130f4e5"
+    },
+    {
+      "path": "assets/neckline-skin.glb",
+      "sha256": "06e0e2fe84d1fd6eb1c67b1f413ff224e2b07054427155b73e4ae7c2f385e9ab"
+    },
+    {
+      "path": "assets/occupational-pants-chef.glb",
+      "sha256": "dadc8548259f503c8ce881d3e8ce64332d64a96b45e23c73b8702e1447f498ab"
+    },
+    {
+      "path": "assets/occupational-pants-scrubs.glb",
+      "sha256": "fc3ed1c6ee4c327f6e0f22bcad90a8909851bb15ddca1947dc8457a8fa32a981"
+    },
+    {
+      "path": "assets/occupational-pants-suit.glb",
+      "sha256": "4e25b12a8bd8760db54720390d35099fc3f1a303e3724ed9d80e1423996480fe"
+    },
+    {
+      "path": "assets/occupational-pants-tradie.glb",
+      "sha256": "cecf2768bf5816859e29eb43f75a486029e824771aa7fdf2a67f141a13d4feab"
+    },
+    {
+      "path": "assets/occupational-top-chef.glb",
+      "sha256": "1d488cddc1c8c564020a6a6354a311ca19fda05e58ae287e1311bf840980889e"
+    },
+    {
+      "path": "assets/occupational-top-suit.glb",
+      "sha256": "655e5d6948574477e406a2914692f15b79f1ca0c845aa4badb935ecec9b29329"
+    },
+    {
+      "path": "assets/occupational-top-work.glb",
+      "sha256": "ca989ceea847a37b1fdf832127d604fd7893db995ba3d5bf41a336f2f7cad407"
+    },
+    {
+      "path": "assets/phone/15d504f1b759.webp",
+      "sha256": "e6434f05307f76ee70eb87d2c35dba072197f813b0e545b135fc6ce9cf44878e"
+    },
+    {
+      "path": "assets/phone/19ddc20ded77.webp",
+      "sha256": "61671df9bc085d76a643ec039a99aac6b6a55b86be424e8f4905ce923be2eef9"
+    },
+    {
+      "path": "assets/phone/1e50592a6a2b.webp",
+      "sha256": "6715b759ee9d28718154a8900f71669cd59cd2ce71bb219b7ddc8a893af15a9a"
+    },
+    {
+      "path": "assets/phone/3da032fd878b.webp",
+      "sha256": "a8b94fa6a6f7611d533110229efd76d3555f4ab8c0e8e8af9b01bb4a57d801f2"
+    },
+    {
+      "path": "assets/phone/6ceef6c83200.webp",
+      "sha256": "8a1ef8205dcc2ea61faac519fa81efe8785e11720488efb9d7a182048c2b5a9d"
+    },
+    {
+      "path": "assets/phone/78bc376d38e6.webp",
+      "sha256": "e645a43ce8625ee9782fc44902ea4ed1204b5264b770742441641cf188dc7b23"
+    },
+    {
+      "path": "assets/phone/7ad34dc0006b.webp",
+      "sha256": "367a09c0cf5a9865b24d00d3f10a0695f76993a257554657e0a60841e775793d"
+    },
+    {
+      "path": "assets/phone/9714666c1516.webp",
+      "sha256": "23b8a1590607843060d299e7076b3dbd1c12581fa72cf4baf22dd6ab84e62284"
+    },
+    {
+      "path": "assets/phone/9934c5250d1b.webp",
+      "sha256": "4b328a704301deadd6533cb154eaa09189ad08eca62b0e85a6f14cecabb8d1bc"
+    },
+    {
+      "path": "assets/phone/a6b40b7146e4.webp",
+      "sha256": "4cdc96c83ac15755efa35978e8b232362476d0cd43a6b7c007c39cf3509e8885"
+    },
+    {
+      "path": "assets/phone/a8fd2904ee35.webp",
+      "sha256": "60e1452df5be0ed027ef993870da251141100012d0b6cabad7d302996ef00119"
+    },
+    {
+      "path": "assets/phone/b3b814172ff1.webp",
+      "sha256": "8d97014cf761f566f577376fb8c23b0e0a0b0bbf0d0d0dfa6b644aa6a654a6e2"
+    },
+    {
+      "path": "assets/phone/boulder-a-mobile.glb",
+      "sha256": "04a4d9bb3f30e030170fa7592a3c64572f7cc1b07323ae52f799a0b36587f6b4"
+    },
+    {
+      "path": "assets/phone/c05044c0f2de.webp",
+      "sha256": "ecfbf22f530a1bd01b4bee25ac2136d396b109788b0e8cb24221d6d912e8ea7f"
+    },
+    {
+      "path": "assets/phone/cac32030d7a8.webp",
+      "sha256": "2ba4335e9f30849fabb1d1d571d3423401685a7dfe452619a90a8eab553ded58"
+    },
+    {
+      "path": "assets/phone/careers-mobile.glb",
+      "sha256": "e352d64afe4f62fb6b2b6c5b092eeccb92b2335a969a30e87e36bf889233fe1b"
+    },
+    {
+      "path": "assets/phone/dc020861de72.webp",
+      "sha256": "8ef48a3ada6c0e6c80cd91c1ccc5bb2ce20057bca70a1d6e53832791b8d6698f"
+    },
+    {
+      "path": "assets/phone/df2ca8fa1a9c.webp",
+      "sha256": "9710675cb1ed6a26e019b9bb540e8a04f8ca8dd692ea87070c7082506633391d"
+    },
+    {
+      "path": "assets/phone/e774700facce.webp",
+      "sha256": "4105caaaea2b1a641ce25a88f6a4dbab9863b3ed0f8bb8759eb3630f8a795005"
+    },
+    {
+      "path": "assets/phone/ffc6ab32527d.webp",
+      "sha256": "b50cd878335bcb55171aed0355f4d51d9fcd95a2c53f51508612411c2cd263e0"
+    },
+    {
+      "path": "assets/phone/garden-reflections-mobile.hdr",
+      "sha256": "08824f3cb532ea010133faee929c4b4f69ef9c2d7ed081095b4b28ed5d71ece7"
+    },
+    {
+      "path": "assets/phone/grass-ecc-campus-v1-mobile.webp",
+      "sha256": "03815e65d1980538421758a82de7d08cc092a502912fe6e4fd8fc340fe012520"
+    },
+    {
+      "path": "assets/phone/mature-eucalypt-a-mobile.glb",
+      "sha256": "34469aac0dc733bc42f7a29e15ff01df6bc8dc4614fa93c73ea6763d1b1ecefb"
+    },
+    {
+      "path": "assets/phone/mature-eucalypt-b-mobile.glb",
+      "sha256": "a6a1f92f9a3ef1d6a7dd649fd7a74a7b15086b58217a328143f3a754080c3d50"
+    },
+    {
+      "path": "assets/phone/player-schoolboy-2k-20260914-mobile.glb",
+      "sha256": "6dd45b083d901f59047e094a2ececd2e8b2e555cf5a137d3a48200941b688e56"
+    },
+    {
+      "path": "assets/phone/reception-backwall-mobile.webp",
+      "sha256": "f094ade11c817d7ab74f70c960be69788789da54762d6dc2e411909729902b67"
+    },
+    {
+      "path": "assets/phone/small-multistem-a-mobile.glb",
+      "sha256": "08a46d9af70f3978a6aaa0d760565989731bb6fe9b7253f0874804a0a245cf05"
+    },
+    {
+      "path": "assets/phone/workplace-mobile.glb",
+      "sha256": "5d768bf8cb10bf68d45b73c8c44bed7a4b2332731c1db4c8d4ce2cc11baafd3d"
+    },
+    {
       "path": "assets/player-pants-test-20260916.glb",
       "sha256": "2d5d3cb7db44aab51b70717f6638b2dedee56145897bd133eebcf6db043c9845"
     },
     {
       "path": "assets/player-schoolboy-2k-20260914.glb",
       "sha256": "692a721df0d1e341fb5996e6df0c7ac931d014a486b442533b60bb5d0c6d704c"
+    },
+    {
+      "path": "assets/studio-separate-pants.glb",
+      "sha256": "90f457d9a440000acf93dbb0f2ebf009d9a98c8fb6dada8b08857fb9465014e2"
+    },
+    {
+      "path": "assets/studio-walking-base.glb",
+      "sha256": "38631c75839ef638ce6821b9ccd7152cbc1f2ca75cd8c7d075c6c6847b732b3e"
     },
     {
       "path": "avatar-download.js",
@@ -162,7 +338,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "03d92c4c7a485de126b67ee8288aeae9d486d0d942f5eba2baebf72cacd2bfef"
+      "sha256": "aa3b38c0562dfda96ab0795eee7765585ddb87c1e7f521ea87bc1ac7b3671c0b"
     },
     {
       "path": "destinations.js",
@@ -329,8 +505,16 @@
       "sha256": "01dff693af85f4c15b86bda3a17e88fe9b0e49fe8c03e6079861f79d80ca9ea4"
     },
     {
+      "path": "flyover.css",
+      "sha256": "e4bbe25e03beab5c19da2b247f4158e1809cf08b01b7c3885c5486d49d87b335"
+    },
+    {
+      "path": "flyover.js",
+      "sha256": "a95585cbe56eefbbab2bd5b63a68b7f65623398cbb73942300f8838f79ef6cbc"
+    },
+    {
       "path": "index.html",
-      "sha256": "61f0021589a4d895db9b3ea00e8eab30c0eaab43c57edd4510c11f16d42fac37"
+      "sha256": "7feb97806063cb721ec7bdc547972ea37740d9142e3024483ef71522c6c9eb1b"
     },
     {
       "path": "joystick.js",
@@ -345,12 +529,24 @@
       "sha256": "733b5974ea0f06d9805dd4adfe5832cb877423a953c02af55f91d4e92c8830f1"
     },
     {
+      "path": "phone-assets.js",
+      "sha256": "6844d8afe03226d8f88a2d3a2745b956ccf89f676339900c8b6d057c2306f3f3"
+    },
+    {
       "path": "profiles.js",
-      "sha256": "bd37daecfbb77fb50561b9612bf61971f2c8309ad15a327d7d9f82d3a4b11d29"
+      "sha256": "d22df5bcc92a26c94dd2b2bf89ef7f33aa7effe93b00c702fc2d7578e78c33f0"
+    },
+    {
+      "path": "studio.js",
+      "sha256": "845220ec47c3a4d9de85a416607835ad5e72676ca01952a7336494572d082204"
     },
     {
       "path": "style.css",
       "sha256": "ef77ea69a682c656bad3fb052c2944628c0610faf67df23de93424b471702ec5"
+    },
+    {
+      "path": "teacher-npc.js",
+      "sha256": "dea800446710ba3b663b8f2623fc6db5c25c8ba4a088aa072d465708967a5c00"
     },
     {
       "path": "vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
@@ -373,168 +569,44 @@
       "sha256": "d7053cfc4019f520335ae07e0fe82b4ef5a66b6766e8b253d066616184995e89"
     },
     {
+      "path": "wardrobe-cards.css",
+      "sha256": "12bb2d0f128f4ac1a20c58cba6692220b4a57b951ec53759c828db79396f7623"
+    },
+    {
+      "path": "wardrobe-thumbnails/pants-chef.png",
+      "sha256": "2dc2eec972304f3f0e75797c734d5ea85b11284e04ed8670b7c956b7d0f11cee"
+    },
+    {
+      "path": "wardrobe-thumbnails/pants-scrubs.png",
+      "sha256": "ddb0dd24e8de9f741c3e84094ae5c7ec66b9d145dbe466c338cf5d9b9f48da0b"
+    },
+    {
+      "path": "wardrobe-thumbnails/pants-suit.png",
+      "sha256": "7ba8f2b4f0dc52b65b46757a65fdc0ea7a2b34bb43e0cbdead2239ac76c83957"
+    },
+    {
+      "path": "wardrobe-thumbnails/pants-tradie.png",
+      "sha256": "ea7c550b1ef0b5528507c89a89548b18bf156b8f101b5e83b5bffb0df3bf1fdd"
+    },
+    {
+      "path": "wardrobe-thumbnails/top-chef.png",
+      "sha256": "ffec0503dce22e0a8e9cd45bf95c133c3eefd659b6780b7498ce38557ee27b5a"
+    },
+    {
+      "path": "wardrobe-thumbnails/top-scrubs.png",
+      "sha256": "770b9c87547daff39e84919492c655044d99d49de25c6a61333c4e99ac40de48"
+    },
+    {
+      "path": "wardrobe-thumbnails/top-suit.png",
+      "sha256": "057a1722b2bfd8ae82fa89d07d3cab5e782acea0282a5e983c37a1c54a1e0af9"
+    },
+    {
+      "path": "wardrobe-thumbnails/top-work.png",
+      "sha256": "f939043ad79229f297a733ae4f969570b709c5903b375636a358cb3f5f9de1a8"
+    },
+    {
       "path": "world.js",
       "sha256": "6ce086b2f8e4e8c504a55a8143da9446a7460013731d540f7927632538593e70"
-    },
-    {
-      "path": "studio.js",
-      "sha256": "845220ec47c3a4d9de85a416607835ad5e72676ca01952a7336494572d082204"
-    },
-    {
-      "path": "teacher-npc.js",
-      "sha256": "dea800446710ba3b663b8f2623fc6db5c25c8ba4a088aa072d465708967a5c00"
-    },
-    {
-      "path": "assets/mr-middleton-20260917.glb",
-      "sha256": "4d73dbaeea72056618171fb72dc0d459e4161ba9c491ddbe8bb822a6c7c29d4c"
-    },
-    {
-      "path": "assets/mr-psandodakis-20260917.glb",
-      "sha256": "4b4f2d7e1a2e40ee713ac7b71cad051e3a0eb1fffca51cf0e38e920f6130f4e5"
-    },
-    {
-      "path": "assets/campus-landscape/mature-eucalypt-a-packed.glb",
-      "sha256": "2afc41bcb44d661efd39e8d3207f271c9e895ced711f8d34c35b32551d8d497f"
-    },
-    {
-      "path": "assets/campus-landscape/mature-eucalypt-b-packed.glb",
-      "sha256": "7b18cb7305f059d98fb19bb8b4b02a7348a40bc65dba145a6c9ccc3617e7d633"
-    },
-    {
-      "path": "assets/campus-landscape/small-multistem-a-packed.glb",
-      "sha256": "1ac8e61222a52960ba9cec4bf04609776c22ee505b47a54e76cc4d1101c4de75"
-    },
-    {
-      "path": "phone-assets.js",
-      "sha256": "6844d8afe03226d8f88a2d3a2745b956ccf89f676339900c8b6d057c2306f3f3"
-    },
-    {
-      "path": "assets/phone/15d504f1b759.webp",
-      "sha256": "e6434f05307f76ee70eb87d2c35dba072197f813b0e545b135fc6ce9cf44878e"
-    },
-    {
-      "path": "assets/phone/19ddc20ded77.webp",
-      "sha256": "61671df9bc085d76a643ec039a99aac6b6a55b86be424e8f4905ce923be2eef9"
-    },
-    {
-      "path": "assets/phone/1e50592a6a2b.webp",
-      "sha256": "6715b759ee9d28718154a8900f71669cd59cd2ce71bb219b7ddc8a893af15a9a"
-    },
-    {
-      "path": "assets/phone/3da032fd878b.webp",
-      "sha256": "a8b94fa6a6f7611d533110229efd76d3555f4ab8c0e8e8af9b01bb4a57d801f2"
-    },
-    {
-      "path": "assets/phone/6ceef6c83200.webp",
-      "sha256": "8a1ef8205dcc2ea61faac519fa81efe8785e11720488efb9d7a182048c2b5a9d"
-    },
-    {
-      "path": "assets/phone/78bc376d38e6.webp",
-      "sha256": "e645a43ce8625ee9782fc44902ea4ed1204b5264b770742441641cf188dc7b23"
-    },
-    {
-      "path": "assets/phone/7ad34dc0006b.webp",
-      "sha256": "367a09c0cf5a9865b24d00d3f10a0695f76993a257554657e0a60841e775793d"
-    },
-    {
-      "path": "assets/phone/9714666c1516.webp",
-      "sha256": "23b8a1590607843060d299e7076b3dbd1c12581fa72cf4baf22dd6ab84e62284"
-    },
-    {
-      "path": "assets/phone/9934c5250d1b.webp",
-      "sha256": "4b328a704301deadd6533cb154eaa09189ad08eca62b0e85a6f14cecabb8d1bc"
-    },
-    {
-      "path": "assets/phone/a6b40b7146e4.webp",
-      "sha256": "4cdc96c83ac15755efa35978e8b232362476d0cd43a6b7c007c39cf3509e8885"
-    },
-    {
-      "path": "assets/phone/a8fd2904ee35.webp",
-      "sha256": "60e1452df5be0ed027ef993870da251141100012d0b6cabad7d302996ef00119"
-    },
-    {
-      "path": "assets/phone/b3b814172ff1.webp",
-      "sha256": "8d97014cf761f566f577376fb8c23b0e0a0b0bbf0d0d0dfa6b644aa6a654a6e2"
-    },
-    {
-      "path": "assets/phone/c05044c0f2de.webp",
-      "sha256": "ecfbf22f530a1bd01b4bee25ac2136d396b109788b0e8cb24221d6d912e8ea7f"
-    },
-    {
-      "path": "assets/phone/cac32030d7a8.webp",
-      "sha256": "2ba4335e9f30849fabb1d1d571d3423401685a7dfe452619a90a8eab553ded58"
-    },
-    {
-      "path": "assets/phone/dc020861de72.webp",
-      "sha256": "8ef48a3ada6c0e6c80cd91c1ccc5bb2ce20057bca70a1d6e53832791b8d6698f"
-    },
-    {
-      "path": "assets/phone/df2ca8fa1a9c.webp",
-      "sha256": "9710675cb1ed6a26e019b9bb540e8a04f8ca8dd692ea87070c7082506633391d"
-    },
-    {
-      "path": "assets/phone/e774700facce.webp",
-      "sha256": "4105caaaea2b1a641ce25a88f6a4dbab9863b3ed0f8bb8759eb3630f8a795005"
-    },
-    {
-      "path": "assets/phone/ffc6ab32527d.webp",
-      "sha256": "b50cd878335bcb55171aed0355f4d51d9fcd95a2c53f51508612411c2cd263e0"
-    },
-    {
-      "path": "assets/phone/grass-ecc-campus-v1-mobile.webp",
-      "sha256": "03815e65d1980538421758a82de7d08cc092a502912fe6e4fd8fc340fe012520"
-    },
-    {
-      "path": "assets/phone/mature-eucalypt-a-mobile.glb",
-      "sha256": "34469aac0dc733bc42f7a29e15ff01df6bc8dc4614fa93c73ea6763d1b1ecefb"
-    },
-    {
-      "path": "assets/phone/mature-eucalypt-b-mobile.glb",
-      "sha256": "a6a1f92f9a3ef1d6a7dd649fd7a74a7b15086b58217a328143f3a754080c3d50"
-    },
-    {
-      "path": "assets/phone/reception-backwall-mobile.webp",
-      "sha256": "f094ade11c817d7ab74f70c960be69788789da54762d6dc2e411909729902b67"
-    },
-    {
-      "path": "assets/phone/small-multistem-a-mobile.glb",
-      "sha256": "08a46d9af70f3978a6aaa0d760565989731bb6fe9b7253f0874804a0a245cf05"
-    },
-    {
-      "path": "assets/phone/boulder-a-mobile.glb",
-      "sha256": "04a4d9bb3f30e030170fa7592a3c64572f7cc1b07323ae52f799a0b36587f6b4"
-    },
-    {
-      "path": "assets/phone/careers-mobile.glb",
-      "sha256": "e352d64afe4f62fb6b2b6c5b092eeccb92b2335a969a30e87e36bf889233fe1b"
-    },
-    {
-      "path": "assets/phone/garden-reflections-mobile.hdr",
-      "sha256": "08824f3cb532ea010133faee929c4b4f69ef9c2d7ed081095b4b28ed5d71ece7"
-    },
-    {
-      "path": "assets/phone/player-schoolboy-2k-20260914-mobile.glb",
-      "sha256": "6dd45b083d901f59047e094a2ececd2e8b2e555cf5a137d3a48200941b688e56"
-    },
-    {
-      "path": "assets/phone/workplace-mobile.glb",
-      "sha256": "5d768bf8cb10bf68d45b73c8c44bed7a4b2332731c1db4c8d4ce2cc11baafd3d"
-    },
-    {
-      "path": "flyover.js",
-      "sha256": "a95585cbe56eefbbab2bd5b63a68b7f65623398cbb73942300f8838f79ef6cbc"
-    },
-    {
-      "path": "flyover.css",
-      "sha256": "e4bbe25e03beab5c19da2b247f4158e1809cf08b01b7c3885c5486d49d87b335"
-    },
-    {
-      "path": "assets/studio-separate-pants.glb",
-      "sha256": "90f457d9a440000acf93dbb0f2ebf009d9a98c8fb6dada8b08857fb9465014e2"
-    },
-    {
-      "path": "assets/studio-walking-base.glb",
-      "sha256": "38631c75839ef638ce6821b9ccd7152cbc1f2ca75cd8c7d075c6c6847b732b3e"
     }
   ],
   "estVideo": {
