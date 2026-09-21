@@ -1,3 +1,7 @@
+# Faster first playable view — 21 September 2026
+
+Tania explicitly authorises the recommended staged game opening. CE-CHANGE-20260921-77 continues after the published Dress ups rename. The selected avatar and Arrival Gardens open first; original textures and distant campus load after first paint. Preserve the clear arrival movement boundary until all colliders are ready, guarded destination changes, background retry, saved profiles, exact avatar and approved artwork. Source/staged package, 40 unit and eight final Safari scenarios pass; broad Chromium checks and their test corrections are recorded without a single-run full-CI claim. See docs/first-play-20260921.md. Live verification and final physical-phone acceptance remain separate; Tania owns the phone check. Earlier complete-campus-at-boot wording is historical.
+
 # Dress ups and loading follow-up — 21 September 2026
 
 Tania confirms the new live Studio is visible and requests renaming “Wardrobe base” to “Dress ups”. Continue her authorised loading/release checks. Preserve saved IDs, exact avatar and accepted wardrobe. Only active worn clothes load; independent campus downloads now overlap, with a bounded automatic retry for stalled clothing. 40 unit checks and 17 focused browser scenarios pass. Full-suite/public follow-up verification pending; physical phone remains Tania’s check. Read docs/game-entry-loading-20260921.md and canonical CE-CHANGE-20260921-77. The initial wardrobe is already live via PR #25 with 152 verified public hashes; prior pending wording is historical.
@@ -390,3 +394,19 @@ Tania: “love it - send to live please”. This task owns the scoped CE-CHANGE-
 ## Separate pants workflow release — 19 September 2026
 
 Tania explicitly approves live publication of the proven Avatar Studio workflow. Pants test now loads the exact walking base and EveryWear pants as separate GLBs, binds the garment to the base bones, and offers Style > Pants On/Off. Full body remains intact. Native walk and front/rear/toggle behaviour were checked locally; rear waist/seat fit and knee/ankle folds remain known limitations and are disclosed in Studio. This is workflow acceptance, not final garment-fit acceptance. Preserve prior assets, newer game changes and all unrelated work.
+
+
+## Final live verification checkpoint
+
+“Dress ups” was visibly confirmed selected under Identity > Body in the actual live in-app browser. Existing user profiles/tab were not saved or modified. Pages and all 152 public hashes pass. Live Safari-engine Studio checks: 3/3 pass, desktop first frame 5.652s, phone-size first frame 3.908s. Normal-game Safari-engine checks: 2/2 pass; desktop cold 11.416s/cached 7.722s, phone-size cold 12.880s/cached 16.705s. These are measured browser runs, not physical-device guarantees.
+
+Chromium fresh-network checks remain inconsistent: three Studio navigation load-event timeouts, normal-game desktop avatar timeout, phone cold 60.94s/cached 2.60s. Preserve both sets of evidence; do not generalise Safari success into cross-browser readiness or treat Chrome timing as unused wardrobe downloads. No full hosted CI, physical-phone or student acceptance is claimed. The rename/publication request is complete; loading reliability remains open. Exact receipts: canonical Blueprint private/production-evidence/2026-09-21/wardrobe-release/receipt.json.
+
+
+## Initial-opening explanation — 21 September 2026
+
+Tania asks whether initial game entry can autoload quickly and what causes the delay. Rechecked released app.js/world.js and saved public-browser receipts. Startup already runs automatically and loads only the active avatar and worn outfit. It withholds the first playable view until createWorlds, scenery, both outer buildings and integrateEnvironment finish; normal entry awaits ensureCampus before revealing the game. Independent downloads now overlap, but this whole-campus readiness gate remains.
+
+Latest normal-game WebKit runs: desktop 28.95 MB, last recorded resource completed about 6.41s, first frame 10.26s, ready 11.42s; phone-sized default avatar 8.10 MB, last recorded resource about 3.71s, first frame 12.32s, ready 12.88s. This shows preparation/rendering work after downloads as well as network cost; it does not isolate a precise CPU/GPU breakdown. Chromium still showed 60.94s phone entry and a desktop avatar timeout; its browser/network-specific cause is not established. These are the prior release-check runs, not new physical-device measurements.
+
+Recommended next architecture: make the selected character, starting-area visuals and essential collision ready first; reveal a usable game and stream distant/detail assets afterwards, keeping nearby routes safe and preserving final artwork. Do not preload the entire wardrobe or simply lift all loading gates. A short first-play target must be measured before it is promised. This turn documents the explanation/recommendation only; no runtime change or new deployment.

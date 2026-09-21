@@ -6,7 +6,7 @@ test('normal play avoids GPU pixel probes and uses shared building textures',asy
  await page.addInitScript(()=>{window.pixelReadbacks=0;const read=WebGL2RenderingContext.prototype.readPixels;WebGL2RenderingContext.prototype.readPixels=function(...args){window.pixelReadbacks++;return read.apply(this,args);};});
  await page.goto('/playable-3d/');await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true',{timeout:60000});
  await page.waitForTimeout(2200);expect(await page.evaluate(()=>window.pixelReadbacks)).toBe(0);
- const state=()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state));const start=await state();expect(start.pixelColours).toBeNull();
+ const state=()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state));await expect.poll(async()=>(await state()).campusReady,{timeout:60000}).toBe(true);const start=await state();expect(start.pixelColours).toBeNull();
  await page.keyboard.down('w');await page.waitForTimeout(1000);await page.keyboard.up('w');await expect.poll(async()=>start.position[2]-(await state()).position[2]).toBeGreaterThan(.5);
  // The obsolete standalone garden model was removed with the courtyard cleanup.
  for(const name of ['careers','workplace'])expect(requests.some(u=>u.includes('/'+name+'-shared-textures.glb'))).toBe(true);

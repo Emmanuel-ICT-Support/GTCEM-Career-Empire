@@ -5,6 +5,7 @@ test('courtyard review opens the playable world and survives quality, resize and
  test.setTimeout(180000);const errors=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
  await page.goto('/playable-3d/?view=ecc-courtyard&diagnostics=pixels');await expect(page.locator('#loading')).toBeHidden({timeout:90000});
+ await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');
  await expect.poll(async()=>(await state(page)).position[2]).toBeCloseTo(-2.8,1);
  await expect.poll(async()=>(await state(page)).pixelColours).toBeGreaterThan(150);
  await page.keyboard.down('KeyD');await page.waitForTimeout(500);await page.keyboard.up('KeyD');

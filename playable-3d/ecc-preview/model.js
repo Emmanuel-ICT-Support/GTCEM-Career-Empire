@@ -1,4 +1,4 @@
-import {buildAuthoredCourtyard} from './authored-courtyard.js?v=entry-load-20260921';
+import {buildAuthoredCourtyard} from './authored-courtyard.js?v=first-play-20260921';
 import * as T from 'three';
 import {addCourtyardArchitecture,addCourtyardPlanting} from './courtyard-detail.js?v=courtyard1';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -25,8 +25,8 @@ function material(kind,color=0xffffff){const map=texture(kind);return new T.Mesh
 function uvWorld(g,scale=2){const p=g.attributes.position,n=g.attributes.normal,u=[];for(let i=0;i<p.count;i++){const nx=Math.abs(n.getX(i)),ny=Math.abs(n.getY(i)),nz=Math.abs(n.getZ(i));u.push((nx>nz?p.getZ(i):p.getX(i))/scale,(ny>.7?p.getZ(i):p.getY(i))/scale);}g.setAttribute('uv',new T.Float32BufferAttribute(u,2));return g;}
 export function consolidate(root){root.updateMatrixWorld(true);const buckets=new Map();root.traverse(o=>{if(!o.isMesh||o.isInstancedMesh)return;const m=o.material;if(Array.isArray(m))return;const g=o.geometry.clone().applyMatrix4(o.matrixWorld);if(!g.attributes.uv)g.setAttribute('uv',new T.Float32BufferAttribute(new Float32Array(g.attributes.position.count*2),2));const key=m.uuid;if(!buckets.has(key))buckets.set(key,{m,gs:[]});buckets.get(key).gs.push(g.index?g.toNonIndexed():g);});const result=new T.Group();for(const {m,gs}of buckets.values()){const g=mergeGeometries(gs,false);if(!g)throw Error('Unable to merge exterior material');const mesh=new T.Mesh(g,m);mesh.castShadow=!m.transparent;mesh.receiveShadow=true;result.add(mesh);}return result;}
 
-export async function buildExterior({inGame=false}={}){
- if(inGame)return buildAuthoredCourtyard(DOORS);
+export async function buildExterior({inGame=false,textures}={}){
+ if(inGame)return buildAuthoredCourtyard(DOORS,{textures});
  const source=new T.Group();source.name='ECC exterior candidate 01';const obstacles=[];
  const m={stone:material('stone'),brick:material('brick'),red:material('red'),roof:material('roof'),paving:material('stone',0xe7dfca),white:new T.MeshStandardMaterial({color:0xe6e4d8,roughness:.72}),teal:new T.MeshStandardMaterial({color:0x326c78,roughness:.58}),navy:new T.MeshStandardMaterial({color:0x304c54,roughness:.5}),wood:new T.MeshStandardMaterial({color:0x886344,roughness:.75}),soil:new T.MeshStandardMaterial({color:0x594d3b,roughness:1}),glass:new T.MeshPhysicalMaterial({color:0x9cb6b7,metalness:.1,roughness:.18,transparent:true,opacity:.38,side:T.DoubleSide}),darkglass:new T.MeshStandardMaterial({color:0x304a49,metalness:.22,roughness:.22,side:T.DoubleSide}),warm:new T.MeshStandardMaterial({color:0xf5d7a5,emissive:0xffd9a3,emissiveIntensity:.8}),grass:new T.MeshStandardMaterial({color:0x828d64,roughness:1})};
  await upgradeMaterials(m);

@@ -1,10 +1,11 @@
-import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
+import {approvedPalette} from './environment/approved-campus-kit.js?v=first-play-20260921';
 import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
-import {buildExterior} from './ecc-preview/model.js?v=entry-load-20260921';
+import {buildExterior} from './ecc-preview/model.js?v=first-play-20260921';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createCampusLandscape,loadCampusAssets} from './campus-landscape.js?v=entry-load-20260921';
-import {arrivalPrecinct} from './arrival-precinct.js?v=courtyard-obsolete-structures-removed-20260915';
+import {createDeferredTextures} from './deferred-textures.js?v=first-play-20260921';
+import {createCampusLandscape} from './campus-landscape.js?v=first-play-20260921';
+import {arrivalPrecinct} from './arrival-precinct.js?v=first-play-20260921';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
  * ~2wu tiles stamped from a 2D grid: grass / path / asphalt / plaza (+ curb overlays).
@@ -97,7 +98,8 @@ function campusSkyTexture(){
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.mapping=THREE.EquirectangularReflectionMapping;return t;
 }
 /** Try plaza PNG maps; resolve null on miss so caller can keep procedural fallback. */
-function tryLoadPlazaMap(url,repeatX=1,repeatY=1){
+function tryLoadPlazaMap(url,repeatX=1,repeatY=1,textures){
+  if(textures)return textures.load(new THREE.TextureLoader(),url,{transparent:/overlay|curb/.test(url),colour:url.includes('grass')?'#b6c0a7':url.includes('asphalt')?'#32343a':'#9c9c92'}).then(t=>{t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=8;t.repeat.set(repeatX,repeatY);return t;});
   return new Promise(resolve=>{
     const loader=new THREE.TextureLoader();
     loader.load(url,t=>{
@@ -176,29 +178,29 @@ function buildTileKits(town,materials){
   return {kits,buckets};
 }
 
-export async function createWorlds(onProgress=()=>{},{preloadCampus=false}={}){
+export async function createWorlds(onProgress=()=>{}){
   const physicsReady=RAPIER.init();
   const loader=new GLTFLoader();
   const draco=new DRACOLoader();
   // Decoder matches three r180 / gltf-transform Draco meshes; CDN keeps vendor tree light.
   draco.setDecoderPath('./vendor/draco/');
   loader.setDRACOLoader(draco);
-  const exteriorReady=buildExterior({inGame:true});
-  const campusAssetsReady=preloadCampus?loadCampusAssets().catch(()=>null):Promise.resolve(null);
+  const textures=createDeferredTextures();
+  const exteriorReady=buildExterior({inGame:true,textures});
   // The new Studio is native geometry; optional scenery must not block startup.
   const studioReady=Promise.resolve({scene:new THREE.Group()});
   onProgress('Loading plaza textures and town buildings...');
   // Daytime plaza PNG kit (procedural canvas fallback if a map is missing).
   // Per-tile UVs are 0–1, so repeat stays at 1 (seamless maps tile across instances).
   const texturesReady=Promise.all([
-    tryLoadPlazaMap('./assets/plaza/grass-ecc-campus-v1-lossless.webp',1,1),
-    tryLoadPlazaMap('./assets/plaza/limestone-ecc-campus-v1.png',1,1),
-    tryLoadPlazaMap('./assets/plaza/asphalt_day-lossless.webp',1,1),
-    tryLoadPlazaMap('./assets/plaza/asphalt_dash_overlay.png',1,8),
-    tryLoadPlazaMap('./assets/plaza/crosswalk_overlay.png',1,1),
-    tryLoadPlazaMap('./assets/plaza/curb_cyan_trim.png',12,1),
+    tryLoadPlazaMap('./assets/plaza/grass-ecc-campus-v1-lossless.webp',1,1,textures),
+    tryLoadPlazaMap('./assets/plaza/limestone-ecc-campus-v1.png',1,1,textures),
+    tryLoadPlazaMap('./assets/plaza/asphalt_day-lossless.webp',1,1,textures),
+    tryLoadPlazaMap('./assets/plaza/asphalt_dash_overlay.png',1,8,textures),
+    tryLoadPlazaMap('./assets/plaza/crosswalk_overlay.png',1,1,textures),
+    tryLoadPlazaMap('./assets/plaza/curb_cyan_trim.png',12,1,textures),
   ]);
-  const [outerAsset,studioAsset,,maps,campusAssets]=await Promise.all([exteriorReady,studioReady,physicsReady,texturesReady,campusAssetsReady]);
+  const [outerAsset,studioAsset,,maps]=await Promise.all([exteriorReady,studioReady,physicsReady,texturesReady]);
   const [grassMap,stoneMap,asphaltMap,dashMap,crosswalkMap,curbMap]=maps;
   onProgress('Building the learning district...');
   const town=new THREE.Scene(),interior=new THREE.Scene();
@@ -459,22 +461,24 @@ export async function createWorlds(onProgress=()=>{},{preloadCampus=false}={}){
   let importedTrees,importedModern,importedFuture,sceneryLoad;
   function loadScenery(){
     if(sceneryLoad)return sceneryLoad;
-    scenery.status='loading';
+    scenery.status='loading';scenery.errors=[];
     const trees=Promise.resolve();
     // Avatar Studio is now a native campus building, so the old generic city model is retired.
     const building=Promise.resolve().then(()=>{scenery.home=true;});
-    const district=createCampusLandscape(town,townPhysics,palette,campusAssets).then(result=>{Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);console.warn('Campus details unavailable; main destinations remain usable',error);});
-    sceneryLoad=Promise.all([trees,building,district]).then(()=>{scenery.status=scenery.errors.length?'fallback':'ready';});
+    const district=createCampusLandscape(town,townPhysics,palette).then(result=>{Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);throw error;});
+    sceneryLoad=Promise.all([trees,building,district]).then(()=>{scenery.status='landscape-ready';}).catch(error=>{scenery.status='fallback';sceneryLoad=null;throw error;});
     return sceneryLoad;
   }
   const campus={buildings:[],placements:[],colliders:0};
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
-  return {careers,ensureCareers,shopDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  let arrivalOnly=true;
+  return {loadDetailTextures:()=>textures.start(),openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){pondTime.value=time;if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
     move(inside,delta){const physics=physical(inside);physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
+      if(!inside&&arrivalOnly){next.x=Math.max(-8.8,Math.min(-5.2,next.x));next.z=Math.max(7.3,Math.min(29,next.z));}
       next.x=Math.max(inside==='chapel'?-10.5:inside?-6.9:-38,Math.min(inside==='chapel'?10.5:inside?6.9:50,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-76,Math.min(inside==='chapel'?8.3:inside?6.9:36,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
     position(inside){const p=physical(inside).body.translation();return new THREE.Vector3(p.x,p.y-.785,p.z);},
     teleport(inside,x,z){const p=physical(inside);p.verticalVelocity=0;p.body.setTranslation({x,y:inside?.8:.9,z},true);p.body.setNextKinematicTranslation({x,y:inside?.8:.9,z});p.world.step();}

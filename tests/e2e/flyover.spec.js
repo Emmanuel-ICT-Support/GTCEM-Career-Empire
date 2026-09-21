@@ -4,6 +4,7 @@ async function setup(page){
  const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/app.js?*',async route=>{const response=await route.fetch();await route.fulfill({response,body:(await response.text())+`\nwindow.__flyTest={snapshot:()=>({camera:camera.position.toArray(),quaternion:camera.quaternion.toArray(),actor:actor.model.position.toArray(),rotation:actor.model.rotation.toArray(),physics:worlds.position(false),yaw,aerial,far:camera.far,fog:[worlds.town.fog.near,worlds.town.fog.far],active:flyover.active}),exit:()=>flyover.exit()};`});});
  await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:90000});
+ await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}').campusReady),{timeout:90000}).toBe(true);
  return {requests,errors};
 }
 const snap=page=>page.evaluate(()=>window.__flyTest.snapshot());

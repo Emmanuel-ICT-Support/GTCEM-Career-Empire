@@ -43,3 +43,7 @@
 #est-document-frame figure{margin:0 auto 18px;width:calc(100% * var(--document-zoom,1));max-width:none;background:white}#est-document-frame img{display:block;width:100%;height:auto}#est-document-frame figcaption{padding:8px;text-align:center;background:#f4f3e9}#est-documents label{display:block;text-align:center;margin:8px}#est-document-zoom{padding:6px;background:white;color:#203e38}
 
 @media(min-width:621px){.world-footer{right:132px}}
+
+.campus-progress{position:absolute;top:94px;left:50%;width:max-content;transform:translateX(-50%);z-index:20;max-width:calc(100% - 32px);padding:9px 14px;border-radius:12px;background:#fffffff2;color:#29434a;box-shadow:0 3px 15px #233d431a;font-size:13px;display:flex;align-items:center;gap:10px}.campus-progress[hidden],.in-studio .campus-progress{display:none}.campus-progress button{white-space:nowrap;padding:6px 10px;border-radius:7px;border:1px solid #b7c8bd;background:#fff;color:#29434a;cursor:pointer}
+
+@media(max-width:620px){.campus-progress{top:150px;font-size:12px}}

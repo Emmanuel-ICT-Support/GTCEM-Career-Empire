@@ -1,16 +1,16 @@
 {
-  "release": "dressups-entry-20260921",
+  "release": "first-play-20260921",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "3a2e83c77c407a87f1f1eafb21a3ef7201c5d5fa",
-  "scope": "Dress ups label; parallel independent campus downloads with unchanged artwork; bounded stalled-avatar retry. Selected-only avatar and garment loading retained.",
+  "baseCommit": "5d69f22365a492c3aa55efca1f068fabe77e9c97",
+  "scope": "Selected avatar and playable Arrival Gardens first; deferred full-detail textures and distant campus, guarded destinations and retry; original artwork and saved profiles preserved.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "fe4c22943439aa3c3a01fc99f48727b50345f264630742b9e4c9c58731e6b635"
+      "sha256": "99669cf81fe51a475e77635bdf06e6f227b744324a562237255722d0577ac84e"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "9653ca988917eaa6136e0b23d32f776929005ae9c7a76556a398a238a203d01c"
+      "sha256": "6b9f1786369e6bbfba9e8cefda8ca09f8ce74e585d58ace6b2a3062896f566f5"
     },
     {
       "path": "assets/campus-buildings/careers-shared-textures.glb",
@@ -330,7 +330,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "ee5d66cc48d39d618907e58ee2c171d6cf4eadee2f710246a5d3f7dbf8c07ffc"
+      "sha256": "3d1754f0d9d844c2b99a3308432e4a418ad37138347c6fff967e01beb39f67cd"
     },
     {
       "path": "chapel.js",
@@ -339,6 +339,10 @@
     {
       "path": "characters.js",
       "sha256": "9a49ec368db452d4852b658499b836db692837c8d92294d07503b73c51c58870"
+    },
+    {
+      "path": "deferred-textures.js",
+      "sha256": "c7d3d4d8967e1084f6acd3218e74fcbc314575808316032511c79697213bb73c"
     },
     {
       "path": "destinations.js",
@@ -426,7 +430,7 @@
     },
     {
       "path": "ecc-preview/authored-courtyard.js",
-      "sha256": "9f00e20402a59727f48e42fd119ab529849f80514a4a4a0377ccf71164a99f7c"
+      "sha256": "03d865f4cc9a837f97686eae1acd46452d073865cda324b57a3d6f62ef183fa1"
     },
     {
       "path": "ecc-preview/authored-garden.js",
@@ -446,15 +450,15 @@
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "af470f4e6b32ec031d8a6671725964b9d720901af987d2cbede3737a7274455d"
+      "sha256": "93d75ff7fe9417140ae411ddae6a8dc478d5aef7fb3d990adce38f454bbe8f35"
     },
     {
       "path": "environment.js",
-      "sha256": "87b1d3921b492c365a6655b2a6d701392c16349f7614a963ebaf4fe3b0a93c8c"
+      "sha256": "3defaaa1725a1864e3c92876731bcffa8870d812b0f6e0650d9eacf8b6a94543"
     },
     {
       "path": "environment/approved-campus-kit.js",
-      "sha256": "30a1069add10fdc9dbe8c45f5daae1c02db4b379432e0905b028ac20f1fed9df"
+      "sha256": "315dfcd52d260cdd93dcf546138c40223b13ab68b292a0bb638e6673c03bfb75"
     },
     {
       "path": "environment/assets/SPACE-reference.jpg",
@@ -498,7 +502,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "9523f7089b71b094a3b59c3335bbb858673e9f62f02913c94357c6b7542325e9"
+      "sha256": "1d50a7133b76a3098af6cd6bf673aaca2719631b0b0e9dfe4022d78c34a30fab"
     },
     {
       "path": "est-wall-video.js",
@@ -514,7 +518,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "8216b0cfc3e781175dec556bb581f8c9cd1cbaf4c614efbdc916d1a65a20167c"
+      "sha256": "ff51f94a8c472dfda1798b7d073ad02e2191e87ae0e3f222d7466dfc81c1d066"
     },
     {
       "path": "joystick.js",
@@ -542,7 +546,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "ef77ea69a682c656bad3fb052c2944628c0610faf67df23de93424b471702ec5"
+      "sha256": "2e57640fdefb14c07f1f7b5c5444b7689a37589a22cb405bf1ad0098e4f028c3"
     },
     {
       "path": "teacher-npc.js",
@@ -606,7 +610,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "1c4e25bbda51b1b25dc69a23f15362db05bf493f48eac5a26027d2c2d961e53e"
+      "sha256": "6cf55e694821c71591efa1053dda0ea9f736943c0e11b0ce6d2fe3e4f8e7d396"
     }
   ],
   "estVideo": {

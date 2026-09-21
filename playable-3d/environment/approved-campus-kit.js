@@ -3,7 +3,7 @@ import {batchStatic} from './static-batching.js?v=1';
 
 // Reuse the exact accepted courtyard maps and HDR; no second texture download.
 export function approvedPalette(courtyard){
- let interior;const found=new Map();courtyard.traverse(o=>{if(o.isMesh)for(const m of(Array.isArray(o.material)?o.material:[o.material])){found.set(m.name,m);if(m.map?.image?.src?.includes('reception-backwall'))interior=m;}});
+ let interior;const found=new Map();courtyard.traverse(o=>{if(o.isMesh)for(const m of(Array.isArray(o.material)?o.material:[o.material])){found.set(m.name,m);if(m.name==='ECC reception artwork'||m.map?.image?.src?.includes('reception-backwall'))interior=m;}});
  const copy=(name,fallback)=>found.has(name)?found.get(name).clone():new T.MeshStandardMaterial({color:fallback,roughness:.8});
  const stone=copy('ECC cut limestone',0xe5dcc2);const masonry=found.get('ECC warm sandstone')||[...found.values()].find(m=>/sandstone|limestone/.test(m.name)&&m.map);
  if(masonry){stone.map=masonry.map;stone.normalMap=masonry.normalMap;stone.normalScale.set(.18,.18);stone.roughnessMap=masonry.roughnessMap;stone.aoMap=masonry.aoMap;stone.aoMapIntensity=.35;stone.envMap=masonry.envMap;}stone.color.setHex(0xeee6d0);stone.roughness=.94;stone.name='Approved campus sandstone';
