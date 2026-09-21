@@ -8,11 +8,14 @@
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./style.css?v=demo-20260914">
   <script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.js","three/addons/":"./vendor/three/examples/jsm/","@dimforge/rapier3d-compat":"./vendor/rapier/rapier.mjs"}}</script>
-  <script src="./vendor/lucide/lucide.min.js?v=wardrobe-live-20260921" defer></script>
+  <link rel="modulepreload" href="./vendor/three/build/three.module.js">
+  <link rel="modulepreload" href="./vendor/three/build/three.core.js">
+  <link rel="modulepreload" href="./vendor/rapier/rapier.mjs">
+  <script src="./vendor/lucide/lucide.min.js?v=dressups-entry-20260921" defer></script>
   <link rel="stylesheet" href="./mobile-play.css?v=demo-20260914">
   <script type="module" src="./mobile-play.js?v=annotations1"></script>
   <link rel="stylesheet" href="./flyover.css?v=flyover-20260917">
-  <link rel="stylesheet" href="./wardrobe-cards.css?v=wardrobe-live-20260921">
+  <link rel="stylesheet" href="./wardrobe-cards.css?v=dressups-entry-20260921">
 </head>
 <body data-feedback-mode="development">
   <main id="experience" aria-label="Career Empire 3D world">
@@ -55,11 +58,11 @@
   </dialog></main>
   <section class="module-overlay" id="module-overlay" aria-label="EST Prep activity" hidden><header><div><i data-lucide="landmark"></i><strong id="module-heading">EST Prep</strong><span id="module-name"></span></div><button id="close-module"><i data-lucide="arrow-left"></i><span>Return to hall</span></button></header><iframe id="module-frame" title="Existing EST Prep learning module"></iframe></section>
   <dialog id="leave-dialog"><h2>Save your character?</h2><p>You have unsaved appearance changes.</p><div class="dialog-actions"><button id="keep-editing">Keep editing</button><button id="discard-changes">Discard</button><button class="primary" id="save-changes">Save</button></div></dialog>
-<script type="module" src="./app.js?v=wardrobe-live-20260921"></script>
+<script type="module" src="./app.js?v=dressups-entry-20260921"></script>
 <dialog id="reflection-dialog" aria-labelledby="reflection-title"><p class="eyebrow">ECC CHAPEL</p><h2 id="reflection-title">A moment of stillness</h2><p>Let your shoulders soften. Notice the light around you.</p><p>Take a gentle breath, at your own pace.</p><p>What is one good thing you can carry into the rest of your day?</p><button id="close-reflection">Return to the Chapel</button></dialog>
 <script src="../config/supabase-config.js"></script>
 <script src="../src/services/supabase-browser.js"></script>
 <script src="../src/services/response-moderation.js?v=teacher-written-filter-v1"></script>
-<script src="../src/services/feedback-widget.js?v=wardrobe-live-20260921"></script>
+<script src="../src/services/feedback-widget.js?v=dressups-entry-20260921"></script>
 </body>
 </html>

@@ -6,10 +6,10 @@ import {integrateEnvironment} from './environment.js?v=phone-load-20260917';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=phone-load-20260917';
+import {createWorlds} from './world.js?v=entry-load-20260921';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadProfileKit,createCharacter,isSimpleBody} from './characters.js?v=wardrobe-live-20260921';
-import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=wardrobe-live-20260921';
+import {loadProfileKit,createCharacter,isSimpleBody} from './characters.js?v=dressups-entry-20260921';
+import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=dressups-entry-20260921';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
 // Pixel readback synchronises the GPU. Reserve it for explicit visual diagnostics.
@@ -109,7 +109,7 @@ function wardrobeCategoryCards(){
   const nav=document.createElement('div');nav.className='wardrobe-categories';nav.setAttribute('role','group');nav.setAttribute('aria-label','Clothing sections');
   for(const [key,title,thumb] of [['tops','Tops','top-'+(draft.workTop==='none'?'scrubs':draft.workTop)],['pants','Pants','pants-'+draft.pantsStyle]]){
     const b=document.createElement('button');b.type='button';b.className='wardrobe-category';b.dataset.section=key;b.setAttribute('aria-label',title);b.setAttribute('aria-pressed',wardrobeSection===key);
-    const img=document.createElement('img');img.src='./wardrobe-thumbnails/'+thumb+'.png?v=wardrobe-live-20260921';img.alt='';img.width=62;img.height=68;
+    const img=document.createElement('img');img.src='./wardrobe-thumbnails/'+thumb+'.png?v=dressups-entry-20260921';img.alt='';img.width=62;img.height=68;
     const text=document.createElement('span');text.textContent=title;b.append(img,text);
     b.addEventListener('click',()=>{wardrobeSection=key;renderEditor();document.querySelector('[data-section="'+key+'"]').focus({preventScroll:true});});nav.append(b);
   }
@@ -122,7 +122,7 @@ function garmentCards(section){
     const selected=section==='tops'?draft.workTop===key:(key==='none'?draft.outer==='none':draft.outer!=='none'&&draft.pantsStyle===key);
     const b=document.createElement('button');b.type='button';b.className='garment-card';b.dataset.garment=section+'-'+key;b.setAttribute('aria-label',title);b.setAttribute('aria-pressed',selected);
     if(key==='none'){b.classList.add('is-empty');const empty=document.createElement('span');empty.className='garment-empty';empty.innerHTML='<i data-lucide="minus"></i>';b.append(empty);}
-    else{const img=document.createElement('img');img.src='./wardrobe-thumbnails/'+(section==='tops'?'top-':'pants-')+key+'.png?v=wardrobe-live-20260921';img.alt='';img.width=120;img.height=132;img.loading='lazy';b.append(img);}
+    else{const img=document.createElement('img');img.src='./wardrobe-thumbnails/'+(section==='tops'?'top-':'pants-')+key+'.png?v=dressups-entry-20260921';img.alt='';img.width=120;img.height=132;img.loading='lazy';b.append(img);}
     const label=document.createElement('span');label.textContent=title;b.append(label);
     b.addEventListener('click',()=>{if(selected){updatePreview();return;}changeDraft(p=>{if(section==='tops'){p.workTop=key;if(key!=='none')p.topColour=p.topColours[key];}else if(key==='none')p.outer='none';else{p.pantsStyle=key;p.outer='blazer';}});document.querySelector('[data-garment="'+section+'-'+key+'"]').focus({preventScroll:true});});grid.append(b);
   }
@@ -462,7 +462,7 @@ async function boot(){
     camera=new THREE.PerspectiveCamera(55,1,.08,220);
     const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();const environment=pmrem.fromScene(room,.04);room.dispose();pmrem.dispose();
     $('loading-message').textContent=studioFirst?'Opening your wardrobe…':'Loading your character and learning district...';
-    [worlds]=await Promise.all([createWorlds(message=>{if($('avatar-retry').hidden)$('loading-message').textContent=message;}),loadStartupCharacter()]);
+    [worlds]=await Promise.all([createWorlds(message=>{if($('avatar-retry').hidden)$('loading-message').textContent=message;},{preloadCampus:!studioFirst}),loadStartupCharacter()]);
     $('loading-message').textContent='Preparing your first view...';worlds.town.environment=environment.texture;worlds.town.environmentIntensity=.28;worlds.interior.environment=environment.texture;worlds.interior.environmentIntensity=.55;worlds.careers.environment=environment.texture;worlds.careers.environmentIntensity=.55;worlds.chapel.environment=environment.texture;worlds.chapel.environmentIntensity=.35;
     if(!studioFirst){$('loading-message').textContent='Opening the complete campus and both outer buildings...';await ensureCampus();}
     else{THREE.Cache.clear();THREE.Cache.enabled=false;}

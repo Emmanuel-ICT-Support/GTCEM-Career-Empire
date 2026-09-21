@@ -19,8 +19,8 @@ function crestMaterial(map) {
   return new T.MeshBasicMaterial({map,alphaTest:.08,alphaToCoverage:true,toneMapped:false});
 }
 
-export async function addAdminSignage(root, reflections, welcome) {
-  const source = await new T.TextureLoader().loadAsync(new URL('./assets/admin-signage/cleaned-ecc-crest-source-lossless.webp',import.meta.url).href);
+export async function addAdminSignage(root, reflections, welcome, preloadedSource) {
+  const source = preloadedSource || await new T.TextureLoader().loadAsync(new URL('./assets/admin-signage/cleaned-ecc-crest-source-lossless.webp',import.meta.url).href);
   const texture=crispCrest(source);source.dispose();
   const crest = new T.Mesh(new T.PlaneGeometry(.71,1.01),crestMaterial(texture));
   crest.name='Admin gable — supplied cleaned ECC crest';crest.position.set(0,4.08,-1.685);root.add(crest);

@@ -1,4 +1,4 @@
-import {addAdminSignage} from './admin-signage.js?v=opt2-20260914';
+import {addAdminSignage} from './admin-signage.js?v=entry-load-20260921';
 import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
 import {timberMap} from './hero-materials.js?v=authored1';
 import * as T from 'three';
@@ -55,7 +55,17 @@ function addBackedBench(root,x,z,length,rotation=0){
  bench.position.set(x,0,z);bench.rotation.y=rotation;root.add(bench);
 }
 export async function buildAuthoredCourtyard(doors){
- const [asset,stone,hdr,paving]=await Promise.all([new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(new URL('./assets/authored-courtyard/ecc-exterior-annotations.glb?v=1',import.meta.url).href),maps(),new HDRLoader().loadAsync(new URL('./assets/authored-courtyard/garden-reflections.hdr',import.meta.url).href),Promise.all(['diffuse','normal','arm'].map(n=>new T.TextureLoader().loadAsync(new URL('./assets/authored-courtyard/stone-surface-'+n+'.webp',import.meta.url).href)))]);
+ // All independent courtyard downloads begin together; geometry and artwork stay unchanged.
+ const textureLoader=new T.TextureLoader();
+ const [asset,stone,hdr,paving,recognition,interior,crest,rock]=await Promise.all([
+  new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(new URL('./assets/authored-courtyard/ecc-exterior-annotations.glb?v=1',import.meta.url).href),
+  maps(),new HDRLoader().loadAsync(new URL('./assets/authored-courtyard/garden-reflections.hdr',import.meta.url).href),
+  Promise.all(['diffuse','normal','arm'].map(n=>textureLoader.loadAsync(new URL('./assets/authored-courtyard/stone-surface-'+n+'.webp',import.meta.url).href))),
+  textureLoader.loadAsync(new URL('./assets/authored-courtyard/chapel-etched-glass-v2-lossless.webp',import.meta.url).href),
+  textureLoader.loadAsync(new URL('./assets/authored-courtyard/reception-backwall.jpg',import.meta.url).href),
+  textureLoader.loadAsync(new URL('./assets/admin-signage/cleaned-ecc-crest-source-lossless.webp',import.meta.url).href),
+  new GLTFLoader().loadAsync(new URL('../assets/campus-landscape/boulder-a.glb',import.meta.url).href)
+ ]);
  hdr.mapping=T.EquirectangularReflectionMapping;for(const t of paving){t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(2,2);t.anisotropy=8;}paving[0].colorSpace=T.SRGBColorSpace;
  const woodMap=timberMap();const root=asset.scene;root.name='ECC authored arrival courtyard';
  removeEmbeddedBenches(root);
@@ -78,13 +88,13 @@ export async function buildAuthoredCourtyard(doors){
  });
  // The original reference is archived; this isolated reconstruction contains
  // only etched glass artwork, so the exterior sculpture is genuinely separate.
- const recognition=await new T.TextureLoader().loadAsync(new URL('./assets/authored-courtyard/chapel-etched-glass-v2-lossless.webp',import.meta.url).href);recognition.colorSpace=T.SRGBColorSpace;recognition.anisotropy=16;
+ recognition.colorSpace=T.SRGBColorSpace;recognition.anisotropy=16;
  const recognitionPanel=new T.Mesh(new T.PlaneGeometry(1.60,2.40),new T.MeshPhysicalMaterial({map:recognition,roughness:.19,metalness:.08,envMap:hdr,envMapIntensity:.3,clearcoat:.8,clearcoatRoughness:.12}));recognitionPanel.name='Flush Chapel woman-and-branches etched glass';recognitionPanel.position.set(-6.38656901329193,2.10,1.9568375670574985);recognitionPanel.rotation.y=-0.13;root.add(recognitionPanel);
- const interior=await new T.TextureLoader().loadAsync(new URL('./assets/authored-courtyard/reception-backwall.jpg',import.meta.url).href);interior.colorSpace=T.SRGBColorSpace;interior.anisotropy=8;
+ interior.colorSpace=T.SRGBColorSpace;interior.anisotropy=8;
  const roomArt=new T.MeshStandardMaterial({map:interior,emissiveMap:interior,emissive:0xffddb2,emissiveIntensity:.45,color:0xffffff,roughness:.95});
  for(const [x,z,w]of [[0,-5.72,3.03],[-2.78,-5.19,1.98],[2.78,-5.19,1.98],[6.45,-1.69,3.2]]){const panel=new T.Mesh(new T.PlaneGeometry(w,2.75),roomArt);panel.name='Recessed reception background texture';panel.position.set(x,1.48,z);root.add(panel);}
  const crossLight=new T.PointLight(0xffd6a0,.65,2.2,2);crossLight.position.set(-6+Math.sin(.5)*2.55,1.90,-1+Math.cos(.5)*2.55);crossLight.name='Chapel restrained warm recess light';root.add(crossLight);
- const welcomeDetails=await addAdminSignage(root,hdr,ECC_WELCOME);
+ const welcomeDetails=await addAdminSignage(root,hdr,ECC_WELCOME,crest);
  root.add(label('STUDENT SERVICES',3.55,.26,6.45,3.77,2.602));
  const chapelLabel=label('CHAPEL',.84,.21,-3.149907270545058,3.04,0.14099580783983612,true);chapelLabel.rotation.y=1.19;root.add(chapelLabel);
  welcomeDetails.add(label('WELCOME TO ECC',2.15,.24,0,.41,.331,true),label('Career Empire',1.05,.12,0,.18,.331,true));
@@ -94,7 +104,7 @@ export async function buildAuthoredCourtyard(doors){
  // likewise absent, leaving an open, walkable paved forecourt.
  for(const [x,y,z]of [[0,2.45,-3.1],[6.45,2.45,.4],[-4.0,2.45,.35]]){const l=new T.PointLight(0xffc17b,9,4.5,2);l.position.set(x,y,z);l.name='ECC warm recessed room light';root.add(l);}
  // Detailed rocks reused from the accepted kit; instance them within the planted areas.
- const rock=await new GLTFLoader().loadAsync(new URL('../assets/campus-landscape/boulder-a.glb',import.meta.url).href);rock.scene.updateMatrixWorld(true);const rockBounds=new T.Box3().setFromObject(rock.scene),rockCentre=rockBounds.getCenter(new T.Vector3()),rockSize=rockBounds.getSize(new T.Vector3()),rockDiameter=Math.hypot(rockSize.x,rockSize.z);
+ rock.scene.updateMatrixWorld(true);const rockBounds=new T.Box3().setFromObject(rock.scene),rockCentre=rockBounds.getCenter(new T.Vector3()),rockSize=rockBounds.getSize(new T.Vector3()),rockDiameter=Math.hypot(rockSize.x,rockSize.z);
  rock.scene.traverse(o=>{if(!o.isMesh)return;const sites=[[-7.7,3.5,.7],[-8.5,5.7,.55],[-6.5,-6.5,.5],[6.6,11,.55],[7.9,10.8,.35],[-5.25,5.95,.40],[-4.45,6.90,.28],[5.35,4.50,.34],[6.6,5.3,.40]];const geo=o.geometry.clone().applyMatrix4(o.matrixWorld);geo.translate(-rockCentre.x,-rockBounds.min.y,-rockCentre.z);geo.scale(1/rockDiameter,1/rockDiameter,1/rockDiameter);const inst=new T.InstancedMesh(geo,o.material,sites.length);inst.name='ECC garden stone outcrops';const d=new T.Object3D();sites.forEach(([x,z,s],i)=>{d.position.set(x,.36,z);d.rotation.y=i*1.71;d.scale.setScalar(s);d.updateMatrix();inst.setMatrixAt(i,d.matrix);});inst.castShadow=inst.receiveShadow=true;root.add(inst);});
  return {root,architecture:root,obstacles:courtyardObstacles,doors,materials:{},plantInstances:root.userData.plantInstances||0};
 }

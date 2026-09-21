@@ -1,12 +1,12 @@
 {
-  "release": "wardrobe-live-20260921",
+  "release": "dressups-entry-20260921",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "3a3535f256498e8cab701164c27adf98a3fb4f3b",
-  "scope": "Approved four pants and four tops on the unchanged canonical avatar, thumbnail wardrobe, per-style hex colours and selected-garment loading. Physical-phone acceptance is separate.",
+  "baseCommit": "3a2e83c77c407a87f1f1eafb21a3ef7201c5d5fa",
+  "scope": "Dress ups label; parallel independent campus downloads with unchanged artwork; bounded stalled-avatar retry. Selected-only avatar and garment loading retained.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "5816f785c7781fdf9d543db9e9705c617e177e4d502abda50f6d8b844fae8679"
+      "sha256": "fe4c22943439aa3c3a01fc99f48727b50345f264630742b9e4c9c58731e6b635"
     },
     {
       "path": "arrival-precinct.js",
@@ -326,11 +326,11 @@
     },
     {
       "path": "avatar-download.js",
-      "sha256": "968a23f2c0a742e502e094ea17b606efb36e0bd697f8b78ca72a4d9ea83f3100"
+      "sha256": "3ea778d4f26a147cfa2994c25be6e5caee123d46460ca52691a97d06564a17cb"
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "d08ff416d784ec61998c95d1b6f88eb4babdb3fa8d465dc424cd00c7df56d2f7"
+      "sha256": "ee5d66cc48d39d618907e58ee2c171d6cf4eadee2f710246a5d3f7dbf8c07ffc"
     },
     {
       "path": "chapel.js",
@@ -338,7 +338,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "aa3b38c0562dfda96ab0795eee7765585ddb87c1e7f521ea87bc1ac7b3671c0b"
+      "sha256": "9a49ec368db452d4852b658499b836db692837c8d92294d07503b73c51c58870"
     },
     {
       "path": "destinations.js",
@@ -346,7 +346,7 @@
     },
     {
       "path": "ecc-preview/admin-signage.js",
-      "sha256": "37416928fd57f0868c1e9f819d12d1dd305c2238d247880d8ac86a803f34d2c2"
+      "sha256": "41c988c7519f63496fd76eb8f0e5487bea5beff7aa8211e4f7d44172f07e7bb0"
     },
     {
       "path": "ecc-preview/assets/ECC_Logo.png",
@@ -426,7 +426,7 @@
     },
     {
       "path": "ecc-preview/authored-courtyard.js",
-      "sha256": "3f2a8cb4c1c8de908d44b600e9b3083e7ab9c0e39884f30f3bbfd13fc7aebe03"
+      "sha256": "9f00e20402a59727f48e42fd119ab529849f80514a4a4a0377ccf71164a99f7c"
     },
     {
       "path": "ecc-preview/authored-garden.js",
@@ -446,7 +446,7 @@
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "43d2bb3aca5ebffc1af16c6690f8704a1cd074e1815f20f37c805639b271d442"
+      "sha256": "af470f4e6b32ec031d8a6671725964b9d720901af987d2cbede3737a7274455d"
     },
     {
       "path": "environment.js",
@@ -514,7 +514,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "7feb97806063cb721ec7bdc547972ea37740d9142e3024483ef71522c6c9eb1b"
+      "sha256": "8216b0cfc3e781175dec556bb581f8c9cd1cbaf4c614efbdc916d1a65a20167c"
     },
     {
       "path": "joystick.js",
@@ -534,7 +534,7 @@
     },
     {
       "path": "profiles.js",
-      "sha256": "d22df5bcc92a26c94dd2b2bf89ef7f33aa7effe93b00c702fc2d7578e78c33f0"
+      "sha256": "848cdaf72a52429d381cea56ba62c2db3f3b547fa029a5c74d4b94b757e71b17"
     },
     {
       "path": "studio.js",
@@ -606,7 +606,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "6ce086b2f8e4e8c504a55a8143da9446a7460013731d540f7927632538593e70"
+      "sha256": "1c4e25bbda51b1b25dc69a23f15362db05bf493f48eac5a26027d2c2d961e53e"
     }
   ],
   "estVideo": {

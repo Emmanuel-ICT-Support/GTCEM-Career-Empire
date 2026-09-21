@@ -16,4 +16,15 @@ describe('avatar download recovery',()=>{
  it('rejects HTTP errors without leaving a timer',async()=>{
   vi.useFakeTimers();await expect(downloadAvatar('avatar.glb',{fetchImpl:async()=>({ok:false,status:404})})).rejects.toThrow('404');expect(vi.getTimerCount()).toBe(0);
  });
+ it('retries a stalled connection once within the overall deadline',async()=>{
+  vi.useFakeTimers();let attempts=0;
+  const result=downloadAvatar('avatar.glb',{headerTimeoutMs:100,fetchImpl:async(_,options)=>{
+   attempts++;if(attempts===1)return new Promise((_,reject)=>options.signal.addEventListener('abort',()=>reject(new Error('stalled'))));
+   return {ok:true,arrayBuffer:async()=>new ArrayBuffer(2)};
+  }});
+  await vi.advanceTimersByTimeAsync(100);expect((await result).byteLength).toBe(2);expect(attempts).toBe(2);expect(vi.getTimerCount()).toBe(0);
+ });
+ it('bounds transient failures and never loops indefinitely',async()=>{
+  let attempts=0;await expect(downloadAvatar('avatar.glb',{fetchImpl:async()=>{attempts++;throw new TypeError('Network unavailable');}})).rejects.toThrow('Network unavailable');expect(attempts).toBe(2);
+ });
 });

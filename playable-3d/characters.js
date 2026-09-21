@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {clone} from 'three/addons/utils/SkeletonUtils.js';
-import {downloadAvatar} from './avatar-download.js?v=avatarfix1-20260914';
-import {SKIN} from './profiles.js?v=wardrobe-live-20260921';
+import {downloadAvatar} from './avatar-download.js?v=entry-load-20260921';
+import {SKIN} from './profiles.js?v=dressups-entry-20260921';
 
 const loader = new GLTFLoader();
 const draco = new DRACOLoader();
@@ -101,7 +101,7 @@ const wardrobeLoads = new Map();
 async function loadWardrobeItem(kit, slot, style, filename) {
   const key=slot+':'+style;
   if(!wardrobeLoads.has(key)) {
-    const request=downloadAvatar(loader.manager.resolveURL('./assets/'+filename+'?v=wardrobe-live-20260921'))
+    const request=downloadAvatar(loader.manager.resolveURL('./assets/'+filename+'?v=dressups-entry-20260921'))
       .then(data=>loader.parseAsync(data,new URL('./assets/',location.href).href))
       .then(garment=>{
         const baseBones=new Map();kit.scene.traverse(n=>{if(n.isBone)baseBones.set(n.name,n);});
