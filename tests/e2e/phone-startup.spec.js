@@ -8,7 +8,7 @@ async function cacheProbe(page){await page.route('**/app.js?*',async route=>{con
 test('phone opening uses smaller phone assets once and releases startup cache',async({page})=>{
  test.setTimeout(120000);await page.setViewportSize({width:390,height:844});await cacheProbe(page);
  const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
- await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:90000});
+ await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:90000});await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}').campusReady),{timeout:90000}).toBe(true);
  for(const id of ['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a']){
   expect(requests.filter(u=>u.endsWith('/'+id+'-mobile.glb'))).toHaveLength(1);
   expect(requests.some(u=>u.endsWith('/'+id+'.glb')||u.endsWith('/'+id+'-packed.glb'))).toBe(false);
@@ -22,12 +22,12 @@ test('phone opening uses smaller phone assets once and releases startup cache',a
  expect(errors).toEqual([]);
 });
 
-test('failed phone tree load clears temporary cache and supports existing reload retry',async({page})=>{
+test('failed phone tree load clears temporary cache and supports retry without reloading the character',async({page})=>{
  test.setTimeout(120000);await cacheProbe(page);let fail=true;
  await page.route('**/mature-eucalypt-b-mobile.glb',route=>fail?route.abort():route.continue());
- await page.goto('/playable-3d/');await expect(page.locator('#avatar-retry')).toHaveText('Retry loading',{timeout:90000});
+ await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:90000});await expect(page.locator('#campus-retry')).toBeVisible({timeout:90000});
  expect(await page.evaluate(()=>({enabled:window.__startupCache.enabled,count:Object.keys(window.__startupCache.files).length}))).toEqual({enabled:false,count:0});
- fail=false;await page.locator('#avatar-retry').click();await expect(page.locator('#loading')).toBeHidden({timeout:90000});
+ fail=false;await page.locator('#campus-retry').click();await expect(page.locator('#loading')).toBeHidden({timeout:90000});await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}').campusReady),{timeout:90000}).toBe(true);
  expect(await page.evaluate(()=>window.__startupCache.enabled)).toBe(false);
 });
 
@@ -36,7 +36,7 @@ test.describe('desktop asset selection',()=>{
  test.use({hasTouch:false,isMobile:false,viewport:{width:1280,height:800}});
  test('desktop retains original textures and full-detail packed geometry',async({page})=>{
   test.setTimeout(120000);const requests=[];page.on('request',r=>requests.push(r.url()));
-  await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:90000});
+  await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:90000});await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}').campusReady),{timeout:90000}).toBe(true);
   expect(requests.some(u=>u.includes('/assets/phone/'))).toBe(false);
   expect(requests.some(u=>u.endsWith('/mature-eucalypt-a-packed.glb'))).toBe(true);
   expect(requests.some(u=>u.endsWith('/grass-ecc-campus-v1-lossless.webp'))).toBe(true);

@@ -1,5 +1,5 @@
 import {pavingNetwork} from './environment/paving-network.js?v=walkthrough2';
-import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=walkthrough2';
+import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=first-play-20260921';
 import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=annotations1';
 import {batchStatic} from './environment/static-batching.js?v=1';
 import * as THREE from 'three';
@@ -17,6 +17,7 @@ export async function loadCampusAssets(){
  return new Map(await Promise.all(ids.map(async id=>[id,await loader.loadAsync(`./assets/${['careers','workplace'].includes(id)?'campus-buildings/'+id+'-shared-textures':'campus-landscape/'+id+(['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a'].includes(id)?'-packed':'')}.glb`)])));
 }
 export async function createCampusLandscape(scene,physics,palette,preloadedAssets){
+const loaded=preloadedAssets || await loadCampusAssets();
 const group=new THREE.Group();group.name='Campus landscape';scene.add(group);
 const placements=[];const colliders=[];
 const paving=palette.paving,soil=palette.soil,edge=palette.stone;
@@ -44,7 +45,6 @@ beds.forEach(([x,z,w,d],j)=>{rect(x,z,w,d,soil,.1);colliders.push([x,.25,z,w,.5,
 for(let i=placements.length-1;i>=0;i--)if(/shrub|grass|flower/.test(placements[i].id))placements.splice(i,1);
 for(const [x,z,w,d]of beds)planter(group,x,z,w,d,palette);
 const planting=new THREE.Group();planting.name='Supporting campus native gardens';group.add(planting);addAuthoredGarden(planting,beds,{treeSites:[],baseY:.43,density:3.5,detail:'supporting'});
-const loaded=preloadedAssets || await loadCampusAssets();
 for(const id of [...new Set(placements.map(p=>p.id))]){const asset=loaded.get(id);asset.scene=mergeStatic(asset.scene);if(id==='boulder-a'){const bounds=new THREE.Box3().setFromObject(asset.scene),c=bounds.getCenter(new THREE.Vector3()),size=bounds.getSize(new THREE.Vector3());const scale=1/Math.hypot(size.x,size.z);asset.scene.traverse(o=>{if(o.isMesh){o.geometry=o.geometry.clone();o.geometry.translate(-c.x,-bounds.min.y,-c.z);o.geometry.scale(scale,scale,scale);}});}asset.scene.updateMatrixWorld(true);const ps=placements.filter(p=>p.id===id);asset.scene.traverse(o=>{if(!o.isMesh)return;const inst=new THREE.InstancedMesh(o.geometry,o.material,ps.length);ps.forEach((p,i)=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(p.x,id==='boulder-a'?.40:.12,p.z),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),p.rotation),new THREE.Vector3(p.scale,p.scale,p.scale));m.multiply(o.matrixWorld);inst.setMatrixAt(i,m);});inst.castShadow=true;inst.receiveShadow=true;group.add(inst);});}
 // The front-of-Administration pergola and benches were visually unreliable in
 // review. Leave this constrained forecourt open until a replacement layout is

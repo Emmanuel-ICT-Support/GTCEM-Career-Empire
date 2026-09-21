@@ -11,7 +11,7 @@ const beds=[[-8,5,2.8,4.6],[-6.3,-6.5,5,1.7],[7.2,10.9,4.7,2],[2.3,-.8,1.1,1.3],
 export const courtyardObstacles=[{type:'circle',x:-6.479646327692871,z:2.668779006744716,r:.30},{type:'circle',x:-10,z:-4,r:.3},{type:'box',x:0,z:-4.55,w:8,d:4.2},{type:'box',x:6.45,z:-1.45,w:4.4,d:6.4},{type:'chapel',x:-6,z:-1,r:3.05,doorAngle:1.19,doorHalf:.21},...beds.map(([x,z,w,d])=>({type:'box',x,z,w,d})),{type:'box',x:ECC_WELCOME.x,z:ECC_WELCOME.z,w:2.42,d:.72,yaw:ECC_WELCOME.yaw}];
 for(const [x,z,w,d] of [[-2.0,-.32,2,3.5],[3.25,.1,1.6,4.25]])for(const dx of [-w/2+.12,w/2-.12])for(const dz of [-d/2+.12,d/2-.12])courtyardObstacles.push({type:'box',x:x+dx,z:z+dz,w:.12,d:.12});
 function label(words,w,h,x,y,z,dark=false){const c=document.createElement('canvas');c.width=1024;c.height=Math.ceil(1024*h/w);const ctx=c.getContext('2d');ctx.fillStyle=dark?'#263e42':'#eee4c9';ctx.font=`500 ${c.height*.57}px Arial`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(words,512,c.height/2,970);const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;const o=new T.Mesh(new T.PlaneGeometry(w,h),new T.MeshStandardMaterial({map,transparent:true,depthWrite:false,roughness:.6}));o.position.set(x,y,z);return o;}
-async function maps(){const loader=new T.TextureLoader();const names=['sandstone-diffuse.jpg','sandstone-normal.jpg','sandstone-arm.jpg'];const [map,normalMap,packed]=await Promise.all(names.map(n=>loader.loadAsync(new URL('./assets/courtyard/'+n,import.meta.url).href)));map.colorSpace=T.SRGBColorSpace;for(const t of [map,normalMap,packed]){t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=8;}return {map,normalMap,packed};}
+async function maps(textures){const loader=new T.TextureLoader();const names=['sandstone-diffuse.jpg','sandstone-normal.jpg','sandstone-arm.jpg'];const [map,normalMap,packed]=await Promise.all(names.map(n=>textures?textures.load(loader,new URL('./assets/courtyard/'+n,import.meta.url).href,{normal:n.includes('normal')}):loader.loadAsync(new URL('./assets/courtyard/'+n,import.meta.url).href)));map.colorSpace=T.SRGBColorSpace;for(const t of [map,normalMap,packed]){t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=8;}return {map,normalMap,packed};}
 // The supplied courtyard mesh combines its old benches with the surrounding
 // architecture. Remove only the low furniture triangles in their known zones,
 // then rebuild the benches as explicit, controllable scene objects below.
@@ -54,15 +54,16 @@ function addBackedBench(root,x,z,length,rotation=0){
  for(const px of [-length/2+.28,length/2-.28])box(.28,.5,.38,base,px,.25,0);
  bench.position.set(x,0,z);bench.rotation.y=rotation;root.add(bench);
 }
-export async function buildAuthoredCourtyard(doors){
+export async function buildAuthoredCourtyard(doors,{textures}={}){
  // All independent courtyard downloads begin together; geometry and artwork stay unchanged.
  const textureLoader=new T.TextureLoader();
+ const load=(loader,url,options)=>textures?textures.load(loader,url,options):loader.loadAsync(url);
  const [asset,stone,hdr,paving,recognition,interior,crest,rock]=await Promise.all([
   new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(new URL('./assets/authored-courtyard/ecc-exterior-annotations.glb?v=1',import.meta.url).href),
-  maps(),new HDRLoader().loadAsync(new URL('./assets/authored-courtyard/garden-reflections.hdr',import.meta.url).href),
-  Promise.all(['diffuse','normal','arm'].map(n=>textureLoader.loadAsync(new URL('./assets/authored-courtyard/stone-surface-'+n+'.webp',import.meta.url).href))),
-  textureLoader.loadAsync(new URL('./assets/authored-courtyard/chapel-etched-glass-v2-lossless.webp',import.meta.url).href),
-  textureLoader.loadAsync(new URL('./assets/authored-courtyard/reception-backwall.jpg',import.meta.url).href),
+  maps(textures),load(new HDRLoader(),new URL('./assets/authored-courtyard/garden-reflections.hdr',import.meta.url).href,{hdr:true}),
+  Promise.all(['diffuse','normal','arm'].map(n=>load(textureLoader,new URL('./assets/authored-courtyard/stone-surface-'+n+'.webp',import.meta.url).href,{normal:n==='normal'}))),
+  load(textureLoader,new URL('./assets/authored-courtyard/chapel-etched-glass-v2-lossless.webp',import.meta.url).href),
+  load(textureLoader,new URL('./assets/authored-courtyard/reception-backwall.jpg',import.meta.url).href),
   textureLoader.loadAsync(new URL('./assets/admin-signage/cleaned-ecc-crest-source-lossless.webp',import.meta.url).href),
   new GLTFLoader().loadAsync(new URL('../assets/campus-landscape/boulder-a.glb',import.meta.url).href)
  ]);
@@ -92,6 +93,7 @@ export async function buildAuthoredCourtyard(doors){
  const recognitionPanel=new T.Mesh(new T.PlaneGeometry(1.60,2.40),new T.MeshPhysicalMaterial({map:recognition,roughness:.19,metalness:.08,envMap:hdr,envMapIntensity:.3,clearcoat:.8,clearcoatRoughness:.12}));recognitionPanel.name='Flush Chapel woman-and-branches etched glass';recognitionPanel.position.set(-6.38656901329193,2.10,1.9568375670574985);recognitionPanel.rotation.y=-0.13;root.add(recognitionPanel);
  interior.colorSpace=T.SRGBColorSpace;interior.anisotropy=8;
  const roomArt=new T.MeshStandardMaterial({map:interior,emissiveMap:interior,emissive:0xffddb2,emissiveIntensity:.45,color:0xffffff,roughness:.95});
+ roomArt.name='ECC reception artwork';
  for(const [x,z,w]of [[0,-5.72,3.03],[-2.78,-5.19,1.98],[2.78,-5.19,1.98],[6.45,-1.69,3.2]]){const panel=new T.Mesh(new T.PlaneGeometry(w,2.75),roomArt);panel.name='Recessed reception background texture';panel.position.set(x,1.48,z);root.add(panel);}
  const crossLight=new T.PointLight(0xffd6a0,.65,2.2,2);crossLight.position.set(-6+Math.sin(.5)*2.55,1.90,-1+Math.cos(.5)*2.55);crossLight.name='Chapel restrained warm recess light';root.add(crossLight);
  const welcomeDetails=await addAdminSignage(root,hdr,ECC_WELCOME,crest);

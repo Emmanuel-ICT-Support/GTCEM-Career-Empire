@@ -10,7 +10,7 @@ async function metrics(page,info,label){const data=await page.evaluate(()=>({fir
 
 test('wardrobe opens without campus or unselected clothes, saves colours and returns to Town',async({page},info)=>{
  test.setTimeout(150000);const requested=[],errors=[];page.on('request',r=>requested.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
- await page.goto(wardrobeURL);await ready(page);
+ await page.goto(wardrobeURL,{waitUntil:'domcontentloaded'});await ready(page);
  expect((await state(page)).scenery.status).toBe('pending');
  expect(requested.some(u=>/occupational-top-(work|chef|suit)|occupational-pants-(chef|tradie|suit)|mature-eucalypt|campus-buildings/.test(u))).toBe(false);
  expect(requested.filter(u=>u.includes('hospital-scrub-top.glb'))).toHaveLength(1);
@@ -25,7 +25,7 @@ test('wardrobe opens without campus or unselected clothes, saves colours and ret
  for(const label of ['Chef pants','Tradie work pants','Suit pants','Hospital scrub pants'])await choose(page,label);
  const pants=page.getByRole('textbox',{name:'Pants hex colour',exact:true});await pants.fill('#567890');await pants.press('Tab');
  await expect(page.locator('#save-avatar')).toBeEnabled();await page.locator('#save-avatar').click();
- await expect.poll(async()=>(await state(page)).mode,{timeout:90000}).toBe('town');expect((await state(page)).scenery.status).toBe('ready');
+ await expect.poll(async()=>(await state(page)).mode,{timeout:90000}).toBe('town');await expect.poll(async()=>(await state(page)).campusReady,{timeout:90000}).toBe(true);
  await page.reload();await expect(page.locator('#loading')).toBeHidden({timeout:90000});
  await expect.poll(async()=>(await state(page)).wardrobe?.visibleTops).toEqual(['suit']);
  expect((await state(page)).wardrobe.topHex).toBe('#ABCDEF');
@@ -36,7 +36,7 @@ test('wardrobe opens without campus or unselected clothes, saves colours and ret
 test('failed garment remains retryable and rapid choices cannot display the wrong top',async({page})=>{
  test.setTimeout(90000);let fail=true;
  await page.route('**/occupational-top-work.glb?*',route=>fail?route.abort():route.continue());
- await page.goto(wardrobeURL);await ready(page);await page.getByRole('button',{name:'Tops',exact:true}).click();
+ await page.goto(wardrobeURL,{waitUntil:'domcontentloaded'});await ready(page);await page.getByRole('button',{name:'Tops',exact:true}).click();
  await page.getByRole('button',{name:'Work shirt',exact:true}).click();await expect(page.locator('#edit-state')).toContainText('could not load');await expect(page.locator('#save-avatar')).toBeDisabled();
  fail=false;await choose(page,'Work shirt','work');
  await page.getByRole('button',{name:'Suit jacket',exact:true}).click();await page.getByRole('button',{name:'Chef jacket',exact:true}).click();
@@ -48,7 +48,7 @@ test('failed garment remains retryable and rapid choices cannot display the wron
 test.describe('phone-size wardrobe',()=>{
  test.use({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
  test('portrait and landscape controls stay usable with native walking and saved hex colours',async({page},info)=>{
-  test.setTimeout(120000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(wardrobeURL);await ready(page);await metrics(page,info,'phone-cold-studio');
+  test.setTimeout(120000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(wardrobeURL,{waitUntil:'domcontentloaded'});await ready(page);await metrics(page,info,'phone-cold-studio');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.getByRole('button',{name:'Tops',exact:true}).tap();await choose(page,'Work shirt','work');
   const hex=page.getByRole('textbox',{name:'Top hex colour',exact:true});await hex.fill('#FF9900');await hex.press('Tab');await page.getByRole('button',{name:'Walking preview',exact:true}).tap();

@@ -7,7 +7,7 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
 // Stage 2 composition study. Reference-derived silhouettes, not enterable buildings.
 export async function addSurroundings(scene,palette){
- const root=new T.Group();root.name='Approved campus surroundings and connections';scene.add(root);
+ const root=new T.Group();root.name='Approved campus surroundings and connections';
  const mat=c=>new T.MeshStandardMaterial({color:c,roughness:.88});
  const stone=mat(0xc4bda7),glass=mat(0x668992),fin=mat(0x454c4b),roof=mat(0xb8c6c4),blue=mat(0x31596f);
  function box(g,w,h,d,m,x,y,z){const o=new T.Mesh(new T.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.receiveShadow=true;g.add(o);return o;}
@@ -37,5 +37,5 @@ export async function addSurroundings(scene,palette){
  for(let i=0;i<14;i++)trees.push({x:-27+i*4.1,z:-72+(i%2)*.5,h:6.5+(i%3)*.35});
  root.userData.treePlacements=trees;
  asset.scene.traverse(o=>{if(!o.isMesh)return;const geo=o.geometry.clone().applyMatrix4(o.matrixWorld).applyMatrix4(normal);const inst=new T.InstancedMesh(geo,o.material,trees.length);inst.name='Oval edge eucalypts';trees.forEach(({x,z,h},i)=>{const scale=h/height;inst.setMatrixAt(i,new T.Matrix4().compose(new T.Vector3(x,0,z),new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),i*1.7),new T.Vector3(scale,scale,scale)));});inst.castShadow=inst.receiveShadow=true;inst.computeBoundingSphere();root.add(inst);});
- return root;
+ scene.add(root);return root;
 }

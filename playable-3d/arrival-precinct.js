@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=annotations1';
-import {approvedPalette,makeAvatarStudio,dressedBox,batchStatic} from './environment/approved-campus-kit.js?v=walkthrough2';
+import {approvedPalette,makeAvatarStudio,dressedBox,batchStatic} from './environment/approved-campus-kit.js?v=first-play-20260921';
 // One bounded, walkable precinct. Existing Studio interaction remains at (-12.4, 5).
 export function arrivalPrecinct(town,stoneTexture,sign,palette){
  const root=new THREE.Group();root.name='Arrival to Studio campus';town.add(root);

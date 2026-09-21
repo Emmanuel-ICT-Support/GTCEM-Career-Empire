@@ -1,10 +1,10 @@
 import {shadowAnchor} from './shadow-anchor.js';
-import {approvedPalette} from './environment/approved-campus-kit.js?v=walkthrough2';
+import {approvedPalette} from './environment/approved-campus-kit.js?v=first-play-20260921';
 import {partitionInstances} from './environment/static-batching.js?v=1';
 import {polishGround} from './environment/ground-polish.js?v=3';
 import * as T from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
-import {addSurroundings} from './environment/surroundings.js?v=phone-load-20260917';
+import {addSurroundings} from './environment/surroundings.js?v=first-play-20260921';
 export async function integrateEnvironment(world){
 const plantInstances=[];const basePhase=world.phase;let activePhase='flourishing';
 const presets={
