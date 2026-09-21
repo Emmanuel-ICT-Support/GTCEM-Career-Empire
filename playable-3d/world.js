@@ -1,9 +1,9 @@
 import {approvedPalette} from './environment/approved-campus-kit.js?v=windows1';
 import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
-import {buildExterior} from './ecc-preview/model.js?v=courtyard-obsolete-structures-removed-20260915';
+import {buildExterior} from './ecc-preview/model.js?v=entry-load-20260921';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createCampusLandscape} from './campus-landscape.js?v=phone-load-20260917';
+import {createCampusLandscape,loadCampusAssets} from './campus-landscape.js?v=entry-load-20260921';
 import {arrivalPrecinct} from './arrival-precinct.js?v=courtyard-obsolete-structures-removed-20260915';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
@@ -176,7 +176,7 @@ function buildTileKits(town,materials){
   return {kits,buckets};
 }
 
-export async function createWorlds(onProgress=()=>{}){
+export async function createWorlds(onProgress=()=>{},{preloadCampus=false}={}){
   const physicsReady=RAPIER.init();
   const loader=new GLTFLoader();
   const draco=new DRACOLoader();
@@ -184,6 +184,7 @@ export async function createWorlds(onProgress=()=>{}){
   draco.setDecoderPath('./vendor/draco/');
   loader.setDRACOLoader(draco);
   const exteriorReady=buildExterior({inGame:true});
+  const campusAssetsReady=preloadCampus?loadCampusAssets().catch(()=>null):Promise.resolve(null);
   // The new Studio is native geometry; optional scenery must not block startup.
   const studioReady=Promise.resolve({scene:new THREE.Group()});
   onProgress('Loading plaza textures and town buildings...');
@@ -197,7 +198,7 @@ export async function createWorlds(onProgress=()=>{}){
     tryLoadPlazaMap('./assets/plaza/crosswalk_overlay.png',1,1),
     tryLoadPlazaMap('./assets/plaza/curb_cyan_trim.png',12,1),
   ]);
-  const [outerAsset,studioAsset,,maps]=await Promise.all([exteriorReady,studioReady,physicsReady,texturesReady]);
+  const [outerAsset,studioAsset,,maps,campusAssets]=await Promise.all([exteriorReady,studioReady,physicsReady,texturesReady,campusAssetsReady]);
   const [grassMap,stoneMap,asphaltMap,dashMap,crosswalkMap,curbMap]=maps;
   onProgress('Building the learning district...');
   const town=new THREE.Scene(),interior=new THREE.Scene();
@@ -462,7 +463,7 @@ export async function createWorlds(onProgress=()=>{}){
     const trees=Promise.resolve();
     // Avatar Studio is now a native campus building, so the old generic city model is retired.
     const building=Promise.resolve().then(()=>{scenery.home=true;});
-    const district=createCampusLandscape(town,townPhysics,palette).then(result=>{Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);console.warn('Campus details unavailable; main destinations remain usable',error);});
+    const district=createCampusLandscape(town,townPhysics,palette,campusAssets).then(result=>{Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);console.warn('Campus details unavailable; main destinations remain usable',error);});
     sceneryLoad=Promise.all([trees,building,district]).then(()=>{scenery.status=scenery.errors.length?'fallback':'ready';});
     return sceneryLoad;
   }

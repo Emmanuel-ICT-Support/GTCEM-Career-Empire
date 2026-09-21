@@ -1,3 +1,7 @@
+# Dress ups and loading follow-up — 21 September 2026
+
+Tania confirms the new live Studio is visible and requests renaming “Wardrobe base” to “Dress ups”. Continue her authorised loading/release checks. Preserve saved IDs, exact avatar and accepted wardrobe. Only active worn clothes load; independent campus downloads now overlap, with a bounded automatic retry for stalled clothing. 40 unit checks and 17 focused browser scenarios pass. Full-suite/public follow-up verification pending; physical phone remains Tania’s check. Read docs/game-entry-loading-20260921.md and canonical CE-CHANGE-20260921-77. The initial wardrobe is already live via PR #25 with 152 verified public hashes; prior pending wording is historical.
+
 # Approved wardrobe release — 21 September 2026
 
 Tania explicitly authorises publishing the reviewed wardrobe to the existing live game, then desktop/laptop and mobile-browser verification. CE-CHANGE-20260921-77 owns this bounded release. Four pants, four tops, thumbnail cards, per-style hex colours, cosmetic neckline insert and on-demand garment loading are included. Preserve the exact canonical avatar, original assets, existing production profile storage key and unrelated campus work. Hair and shoes remain future work. Tania will perform the final physical-phone check; automated mobile emulation is not physical-device or student acceptance. Read docs/wardrobe-release-20260921.md. Publication and final receipts remain pending until verified; older wardrobe holds below are historical and superseded by this explicit approval.

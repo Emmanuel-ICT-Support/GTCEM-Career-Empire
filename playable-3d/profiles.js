@@ -5,7 +5,7 @@ export const TOP_DEFAULTS = {scrubs:'#397D88',work:'#BC9864',chef:'#EEEDE5',suit
 export const OPTIONS = {
   workTop: [['scrubs','Hospital scrub top'],['work','Work shirt'],['chef','Chef jacket'],['suit','Suit jacket'],['none','No top']],
   pantsStyle: [['chef','Chef pants'],['tradie','Tradie work pants'],['suit','Suit pants'],['scrubs','Hospital scrub pants']],
-  body: [['pantstest','Wardrobe base'],['jackettest','White avatar - jacket test'],['schoolboy','School student'],['tripo','Base avatar'],['shirt','Shirt avatar (test)'],['a','Body A'],['b','Body B']],
+  body: [['pantstest','Dress ups'],['jackettest','White avatar - jacket test'],['schoolboy','School student'],['tripo','Base avatar'],['shirt','Shirt avatar (test)'],['a','Body A'],['b','Body B']],
   face: [['soft','Soft'],['round','Round'],['defined','Defined']],
   hair: [['waves','Tousled'],['bob','Side-part bob'],['ponytail','Ponytail'],['none','No hair']],
   top: [['shirt','Shirt & tie'],['scrubs','Scrub top'],['chef','Chef jacket']],

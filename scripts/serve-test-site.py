@@ -46,5 +46,11 @@ class Handler(SimpleHTTPRequestHandler):
             output.write(block)
             remaining -= len(block)
 
+class TestServer(ThreadingHTTPServer):
+    # ES-module startup opens many parallel requests; the default backlog of five
+    # resets legitimate browser downloads and leaves the import graph incomplete.
+    request_queue_size = 128
+    daemon_threads = True
+
 if __name__ == '__main__':
-    ThreadingHTTPServer(('127.0.0.1', int(sys.argv[1])), Handler).serve_forever()
+    TestServer(('127.0.0.1', int(sys.argv[1])), Handler).serve_forever()
