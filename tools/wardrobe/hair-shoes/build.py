@@ -43,12 +43,12 @@ def radial_hits(tree,c,d,side):
   start=p+d*.00002;travel+=.00002
   if travel>=.14:break
  return hits
-def fit_footwear(points):
+def fit_footwear(points,arch=True):
  result=[]
  for xyz in points:
   p=Vector(xyz)
   # A gentle inner-arch taper keeps the passing foot clear of the loose chef hem.
-  if p.z<.030:
+  if arch and p.z<.030:
    side=1 if p.x>0 else -1;cx=np.interp(p.z,levels,foot_centres[side][:,0])
    inner=max(0,min(1,(abs(cx)-abs(p.x))/.04))**2
    fade=max(0,min(1,(.030-p.z)/.018))
@@ -88,7 +88,7 @@ class Builder:
    rings.append([p+r*(u*cos(a*2*pi/sides)+v*sin(a*2*pi/sides)) for a in range(sides)])
   self.rings(rings,m,True,True)
  def object(self,name,hair=False):
-  if not hair:self.v=fit_footwear(self.v)
+  if not hair:weight_positions=fit_footwear(self.v,arch=False);self.v=fit_footwear(self.v)
   me=bpy.data.meshes.new(name);me.from_pydata(self.v,[],self.f);me.update();ob=bpy.data.objects.new(name,me);bpy.context.collection.objects.link(ob)
   for m in M:me.materials.append(m)
   for f,mi in zip(me.polygons,self.mi):f.material_index=mi;f.use_smooth=True
@@ -112,7 +112,7 @@ class Builder:
    if hair:weights={'Head':1.0}
    else:
     weights={}
-    for co,index,d in kd.find_n(v.co,4):
+    for co,index,d in kd.find_n(weight_positions[v.index],4):
      fac=1/max(.0007,d)**2
      for g in base.data.vertices[index].groups:
       n=base.vertex_groups[g.group].name;weights[n]=weights.get(n,0)+g.weight*fac
@@ -195,7 +195,13 @@ def shoes(style):
    return [Vector((cx+(rx+add)*math.copysign(abs(cos(a))**.78,cos(a)),cy+(ry+add)*math.copysign(abs(sin(a))**.78,sin(a)),z)) for a in np.linspace(0,2*pi,64,endpoint=False)]
   solepar=params[0].copy();solepar[2]+=.001;solepar[3]+=.001
   soleMat=7 if style in ['boots','dress'] else 6
-  b.rings([ring(-.005,solepar),ring(-.003,solepar,.001),ring(.003,solepar,.001),ring(.008,solepar)],soleMat,True)
+  b.rings([ring(-.005,solepar),ring(-.003,solepar,.001),ring(.003,solepar,.001),ring(.008,solepar)],soleMat)
+  # Interior sole vertices carry local foot weights; a single large n-gon can
+  # fold through the foot when its distant perimeter vertices bend differently.
+  bottom=[]
+  for u in np.linspace(.02,1,14):
+   par=solepar.copy();par[2:]*=u;bottom.append(ring(-.005,par))
+  b.rings(bottom,soleMat,True)
   upper=[ring(float(z),p) for z,p in zip(zs,params)];b.rings(upper,3)
   # Narrow padded welt and a turned rim; the ankle opening is real.
   b.tube(ring(.008,solepar)+[ring(.008,solepar)[0]],.0013,4 if style=='boots' else soleMat,8)

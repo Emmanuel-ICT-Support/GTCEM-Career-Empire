@@ -420,3 +420,8 @@ Tania asks to proceed with hair and shoes. Build four initial hairstyles (short 
 ## Hair/shoe release and worktree retirement authorised
 
 Tania explicitly confirms in the Mac storage task: retain this worktree until hair/shoes are complete and uploaded to the existing live game, then retire it. CE-CHANGE-20260921-78. Supersedes the initial local-only plan below. Verify scoped fit/runtime checks and public deployment first. Preserve all unique source, authored assets, ignored/untracked evidence and required recovery history. Remove only this exact worktree through Git management once no active work depends on it. The canonical project, source assets and other worktrees remain. Physical-phone/student acceptance is Tania's.
+
+
+## Hair and shoe final candidate checks
+
+CE-CHANGE-20260921-78: four hairstyles and four shoes, selected-only downloads, remembered hex colours and thumbnail sections. Canonical body plus nine existing clothing/neckline assets are byte-identical to the prior live release. Final assets pass 47 rest/native-walk poses with 40 finite-edge body/garment comparisons per pose, zero crossings; eight 41-bone GLB round trips pass. Final Chrome/Safari desktop and phone-size cases pass 4/4. Earlier local serial full suite passes 42 unit/63 browser, before final sole topology, separately rechecked. Keep hosted CI, public deployment and physical-device acceptance distinct. The canonical Blueprint records final publication and conditional retirement; authoring masters/evidence remain outside this temporary worktree.

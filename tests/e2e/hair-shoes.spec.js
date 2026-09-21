@@ -1,4 +1,7 @@
-import {test,expect} from '@playwright/test';
+import {test,expect as baseExpect} from '@playwright/test';
+// Hosted software rendering needs longer functional waits than native GPU runs.
+const expect=baseExpect.configure({timeout:30000});
+test.setTimeout(240000);
 const wardrobeURL=process.env.CE_WARDROBE_URL||'/playable-3d/?outfit=wardrobe';
 const state=p=>p.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
 async function ready(p){await expect(p.locator('#loading')).toBeHidden({timeout:90000});await expect(p.locator('#save-avatar')).toBeEnabled({timeout:30000});await expect.poll(async()=>(await state(p)).wardrobe?.visibleTops).toEqual(['scrubs']);}
@@ -23,6 +26,7 @@ test('lazy choices, stable body scale, colours, removal and saved reload',async(
  await page.getByRole('button',{name:'Walking preview',exact:true}).click();await page.screenshot({path:info.outputPath('front.png')});
  await page.getByRole('button',{name:'Turn avatar around',exact:true}).click();await page.screenshot({path:info.outputPath('rear.png')});
  await page.locator('#save-avatar').click();await expect.poll(async()=>(await state(page)).mode,{timeout:90000}).toBe('town');
+ await expect.poll(async()=>(await state(page)).campusReady,{timeout:90000}).toBe(true);
  requests.length=0;await page.reload({waitUntil:'domcontentloaded'});await ready(page);
  expect(requests.filter(u=>/assets\/(hair-|shoes-)/.test(u)).map(u=>u.split('/').pop().split('?')[0]).sort()).toEqual(['hair-ponytail.glb','shoes-clogs.glb']);
  await expect.poll(async()=>(await state(page)).wardrobe.visibleHair).toEqual(['ponytail']);

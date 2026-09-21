@@ -334,19 +334,19 @@
     },
     {
       "path": "assets/shoes-boots.glb",
-      "sha256": "6a7fd3e770a9be6f7e47e75d7ec7539be1ede9329385ad8751df919d9ead3910"
+      "sha256": "163c0b81b4b97627966fd52b2a91698d4bd891335308a01e23fd7399626080a9"
     },
     {
       "path": "assets/shoes-clogs.glb",
-      "sha256": "d4bdd7431308f5cad80a3516a88faff4db726e65d913b281ad54b40af6c9f53e"
+      "sha256": "8c079b1103d68406ca6f4bd767495ea2c91b77299d467112ea7d7621bb713c58"
     },
     {
       "path": "assets/shoes-dress.glb",
-      "sha256": "9c2aa991154e865f58680ce06e8fce6779668dc18dfb5af2a924e785d515d0df"
+      "sha256": "7c3f29cb7441a92f7a64b0bbbe79ec753f6f09c03e9f2ab1973f96d78ef2434a"
     },
     {
       "path": "assets/shoes-trainers.glb",
-      "sha256": "bdf1bad64569f463d6a40d905ce9dd331d0bb3f695e691f51e86ddef1db252d9"
+      "sha256": "7fe26b1ad615c2a593df561c9dfc9d04afbea43a34b76ddf7fe0db0128fb31f9"
     },
     {
       "path": "assets/studio-separate-pants.glb",
@@ -610,19 +610,19 @@
     },
     {
       "path": "wardrobe-thumbnails/hair-bob.png",
-      "sha256": "4f70e9725a33d6b313e039e00fdff728b62c158baa0a7e35395a47274d5888f8"
+      "sha256": "32d0f98e5ce4fa5f17ea87c615a02bb5a08ee2d4ec35d3348990dcd3c0dab054"
     },
     {
       "path": "wardrobe-thumbnails/hair-curls.png",
-      "sha256": "5d8b50fb2011485f77c0997a257a8cbcd1901eb2c244254dbdda1ed665dd418a"
+      "sha256": "e062234e8254650c67a5d782c465bc73e044cb9bafbd87c83c98c4a21fb613c2"
     },
     {
       "path": "wardrobe-thumbnails/hair-ponytail.png",
-      "sha256": "b7d44962a09439f444e31d8ba57e6abea43687082569c3b0d9daad4326d25da8"
+      "sha256": "42e88634931b9ab75779c9ae03317581140d759d6e2bd24b596c128fd687407d"
     },
     {
       "path": "wardrobe-thumbnails/hair-sweep.png",
-      "sha256": "71bb2fe47a049cb91e7c0d6a7eb426e108cad6f306e754cb23ab14ec0c064c71"
+      "sha256": "373f21ad687346be20d199a7d543b4f6f72057a480e5b10ea7583702e308a44b"
     },
     {
       "path": "wardrobe-thumbnails/pants-chef.png",
@@ -642,19 +642,19 @@
     },
     {
       "path": "wardrobe-thumbnails/shoes-boots.png",
-      "sha256": "5279a652e3344fc80f5d132f8d3cdbeede3ff5852ecc7625cbfc6194840930cc"
+      "sha256": "2bbad347426452b09980fe36c529b15b8f24da1c79c4b8b23f27393d428a9532"
     },
     {
       "path": "wardrobe-thumbnails/shoes-clogs.png",
-      "sha256": "611e6354cf799610f7eebc6570865fa5c2499ffd3eaf68c7a46b610ad902fecb"
+      "sha256": "cae57fa2028e4305e3aa07887b337abe7816332dac8007c03d4c116baf223757"
     },
     {
       "path": "wardrobe-thumbnails/shoes-dress.png",
-      "sha256": "d862c330c9b5316f0d4515dd8982d7363de2237623860c78d44881b30deb6366"
+      "sha256": "58a16e394ea44c94f7cf65d869f5d2e4af7fa2a29dc7114b2689c1cee3c2ac87"
     },
     {
       "path": "wardrobe-thumbnails/shoes-trainers.png",
-      "sha256": "8c4fe59779410bbdc8b4e09d2f7d262cd34b90c43bf20bb4f4c36cb4a75e1a20"
+      "sha256": "c5629b51ea782665b6061932ebb746baeeb314a3c72dd59a35f51dd546bb5b27"
     },
     {
       "path": "wardrobe-thumbnails/top-chef.png",
