@@ -7,6 +7,9 @@ const state=p=>p.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state|
 async function ready(p){await expect(p.locator('#loading')).toBeHidden({timeout:90000});await expect(p.locator('#save-avatar')).toBeEnabled({timeout:30000});await expect.poll(async()=>(await state(p)).wardrobe?.visibleTops).toEqual(['scrubs']);}
 async function choose(p,label,key,value){await p.getByRole('button',{name:label,exact:true}).click();await expect(p.locator('#save-avatar')).toBeEnabled({timeout:30000});await expect.poll(async()=>(await state(p)).wardrobe?.[key]).toEqual(value);}
 test('lazy choices, stable body scale, colours, removal and saved reload',async({page},info)=>{
+ // This visits all eight styles plus removal, undo and reload. Hosted software
+ // rendering takes 20-25 seconds per transition; keep individual waits bounded.
+ test.setTimeout(600000);
  const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
  await page.goto(wardrobeURL,{waitUntil:'domcontentloaded'});await ready(page);
  expect(requests.some(u=>/assets\/(hair-|shoes-)/.test(u))).toBe(false);
