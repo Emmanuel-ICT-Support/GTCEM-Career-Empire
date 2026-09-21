@@ -1,12 +1,12 @@
 {
-  "release": "first-play-20260921",
+  "release": "hair-shoes-20260921",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "5d69f22365a492c3aa55efca1f068fabe77e9c97",
-  "scope": "Selected avatar and playable Arrival Gardens first; deferred full-detail textures and distant campus, guarded destinations and retry; original artwork and saved profiles preserved.",
+  "baseCommit": "596f27bfb12d55e6036270595f8562001fa59e08",
+  "scope": "Four fitted hairstyles and four shoe styles, section thumbnails and remembered hex colours. Canonical body, approved clothes and selected-only staged startup preserved.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "99669cf81fe51a475e77635bdf06e6f227b744324a562237255722d0577ac84e"
+      "sha256": "4e9bf5333ae1eacf0a23351422c127c2f0d964f7eb63fde2b62f4d5dfa1f7444"
     },
     {
       "path": "arrival-precinct.js",
@@ -151,6 +151,22 @@
     {
       "path": "assets/est-exterior.glb",
       "sha256": "57d8d0d877ca75b192b2e3e71d0e9aca97e308fc789ebbe5c8061f7021008134"
+    },
+    {
+      "path": "assets/hair-bob.glb",
+      "sha256": "6ceb08dd97a616d11b29f3c4079bfd21e0ed96aea76f059770f4bc7b4fecf1c3"
+    },
+    {
+      "path": "assets/hair-curls.glb",
+      "sha256": "3ff18ca7bd18223e06d7eb48df9a1b20811f09e6965e597e0525d1298b254743"
+    },
+    {
+      "path": "assets/hair-ponytail.glb",
+      "sha256": "d00c8cbf6be54c1231bfbaef1ab97f05ab77ab8565b3541696b6f4eb4a73b4be"
+    },
+    {
+      "path": "assets/hair-sweep.glb",
+      "sha256": "7e2c04b75344c0bf07d4539cbbd36bbd160f7b6d99353e92c0fe112475492563"
     },
     {
       "path": "assets/hospital-scrub-top.glb",
@@ -317,6 +333,22 @@
       "sha256": "692a721df0d1e341fb5996e6df0c7ac931d014a486b442533b60bb5d0c6d704c"
     },
     {
+      "path": "assets/shoes-boots.glb",
+      "sha256": "163c0b81b4b97627966fd52b2a91698d4bd891335308a01e23fd7399626080a9"
+    },
+    {
+      "path": "assets/shoes-clogs.glb",
+      "sha256": "8c079b1103d68406ca6f4bd767495ea2c91b77299d467112ea7d7621bb713c58"
+    },
+    {
+      "path": "assets/shoes-dress.glb",
+      "sha256": "7c3f29cb7441a92f7a64b0bbbe79ec753f6f09c03e9f2ab1973f96d78ef2434a"
+    },
+    {
+      "path": "assets/shoes-trainers.glb",
+      "sha256": "7fe26b1ad615c2a593df561c9dfc9d04afbea43a34b76ddf7fe0db0128fb31f9"
+    },
+    {
       "path": "assets/studio-separate-pants.glb",
       "sha256": "90f457d9a440000acf93dbb0f2ebf009d9a98c8fb6dada8b08857fb9465014e2"
     },
@@ -338,7 +370,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "9a49ec368db452d4852b658499b836db692837c8d92294d07503b73c51c58870"
+      "sha256": "d3013a50f3a5f739bfe900523bd80bf1eac777bf42b48b7c6824ef63a1e3b503"
     },
     {
       "path": "deferred-textures.js",
@@ -518,7 +550,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "ff51f94a8c472dfda1798b7d073ad02e2191e87ae0e3f222d7466dfc81c1d066"
+      "sha256": "3d6271d9a42cb97fca8b656557dd5d3c5d9d316ed02fc1855c1ad0d6044c5979"
     },
     {
       "path": "joystick.js",
@@ -538,7 +570,7 @@
     },
     {
       "path": "profiles.js",
-      "sha256": "848cdaf72a52429d381cea56ba62c2db3f3b547fa029a5c74d4b94b757e71b17"
+      "sha256": "b35405f758fd8e8d42b102fa2eba4624cd4e54418a5af9dc4dc9a02db7ee7053"
     },
     {
       "path": "studio.js",
@@ -574,7 +606,23 @@
     },
     {
       "path": "wardrobe-cards.css",
-      "sha256": "12bb2d0f128f4ac1a20c58cba6692220b4a57b951ec53759c828db79396f7623"
+      "sha256": "d98665b18dc69118cc46c173cfbe46116a1f4b07453f14e0a9ee84422a8b9fd1"
+    },
+    {
+      "path": "wardrobe-thumbnails/hair-bob.png",
+      "sha256": "32d0f98e5ce4fa5f17ea87c615a02bb5a08ee2d4ec35d3348990dcd3c0dab054"
+    },
+    {
+      "path": "wardrobe-thumbnails/hair-curls.png",
+      "sha256": "e062234e8254650c67a5d782c465bc73e044cb9bafbd87c83c98c4a21fb613c2"
+    },
+    {
+      "path": "wardrobe-thumbnails/hair-ponytail.png",
+      "sha256": "42e88634931b9ab75779c9ae03317581140d759d6e2bd24b596c128fd687407d"
+    },
+    {
+      "path": "wardrobe-thumbnails/hair-sweep.png",
+      "sha256": "373f21ad687346be20d199a7d543b4f6f72057a480e5b10ea7583702e308a44b"
     },
     {
       "path": "wardrobe-thumbnails/pants-chef.png",
@@ -591,6 +639,22 @@
     {
       "path": "wardrobe-thumbnails/pants-tradie.png",
       "sha256": "ea7c550b1ef0b5528507c89a89548b18bf156b8f101b5e83b5bffb0df3bf1fdd"
+    },
+    {
+      "path": "wardrobe-thumbnails/shoes-boots.png",
+      "sha256": "2bbad347426452b09980fe36c529b15b8f24da1c79c4b8b23f27393d428a9532"
+    },
+    {
+      "path": "wardrobe-thumbnails/shoes-clogs.png",
+      "sha256": "cae57fa2028e4305e3aa07887b337abe7816332dac8007c03d4c116baf223757"
+    },
+    {
+      "path": "wardrobe-thumbnails/shoes-dress.png",
+      "sha256": "58a16e394ea44c94f7cf65d869f5d2e4af7fa2a29dc7114b2689c1cee3c2ac87"
+    },
+    {
+      "path": "wardrobe-thumbnails/shoes-trainers.png",
+      "sha256": "c5629b51ea782665b6061932ebb746baeeb314a3c72dd59a35f51dd546bb5b27"
     },
     {
       "path": "wardrobe-thumbnails/top-chef.png",

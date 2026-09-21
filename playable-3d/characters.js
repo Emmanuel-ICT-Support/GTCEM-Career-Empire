@@ -3,7 +3,7 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {clone} from 'three/addons/utils/SkeletonUtils.js';
 import {downloadAvatar} from './avatar-download.js?v=entry-load-20260921';
-import {SKIN} from './profiles.js?v=dressups-entry-20260921';
+import {SKIN} from './profiles.js?v=hair-shoes-20260921';
 
 const loader = new GLTFLoader();
 const draco = new DRACOLoader();
@@ -14,16 +14,22 @@ const kits = {};
 const TARGET_HEIGHT = 1.7;
 const SIMPLE_BODIES = new Set(['tripo','shirt','schoolboy','jackettest','pantstest']);
 
-function normalizeHeight(model) {
+function normalizeHeight(model, bodyOnly = false) {
   model.updateMatrixWorld(true);
   model.traverse(node => { if (node.isSkinnedMesh) node.skeleton.update(); });
-  const box = new THREE.Box3().setFromObject(model, true);
+  const bounds = () => {
+    if(!bodyOnly)return new THREE.Box3().setFromObject(model,true);
+    const box=new THREE.Box3();
+    model.traverse(n=>{if(n.isMesh&&!n.userData.clothingSlot)box.union(new THREE.Box3().setFromObject(n,true));});
+    return box;
+  };
+  const box = bounds();
   const size = box.getSize(new THREE.Vector3());
   const scale = TARGET_HEIGHT / Math.max(size.y, 0.001);
   model.scale.multiplyScalar(scale);
   model.updateMatrixWorld(true);
   model.traverse(node => { if (node.isSkinnedMesh) node.skeleton.update(); });
-  box.setFromObject(model, true);
+  box.copy(bounds());
   model.position.y -= box.min.y;
   return scale;
 }
@@ -101,12 +107,14 @@ const wardrobeLoads = new Map();
 async function loadWardrobeItem(kit, slot, style, filename) {
   const key=slot+':'+style;
   if(!wardrobeLoads.has(key)) {
-    const request=downloadAvatar(loader.manager.resolveURL('./assets/'+filename+'?v=dressups-entry-20260921'))
+    const version=['hair','shoes'].includes(slot)?'hair-shoes-20260921':'dressups-entry-20260921';
+    const request=downloadAvatar(loader.manager.resolveURL('./assets/'+filename+'?v='+version))
       .then(data=>loader.parseAsync(data,new URL('./assets/',location.href).href))
       .then(garment=>{
         const baseBones=new Map();kit.scene.traverse(n=>{if(n.isBone)baseBones.set(n.name,n);});
         kit.scene.updateMatrixWorld(true);garment.scene.updateMatrixWorld(true);
         const meshes=[];garment.scene.traverse(n=>{if(n.isSkinnedMesh)meshes.push(n);});
+        if(!meshes.length)throw new Error('Wardrobe asset has no fitted meshes');
         const bindings=meshes.map(mesh=>({mesh,bones:mesh.skeleton.bones.map(b=>{
           const target=baseBones.get(b.name);if(!target)throw new Error('Missing wardrobe bone '+b.name);return target;
         })}));
@@ -114,6 +122,7 @@ async function loadWardrobeItem(kit, slot, style, filename) {
           const skeleton=new THREE.Skeleton(bones,mesh.skeleton.boneInverses.map(m=>m.clone()));
           const bind=mesh.bindMatrix.clone();kit.scene.attach(mesh);mesh.bind(skeleton,bind);
           mesh.userData.clothingSlot=slot;
+          mesh.userData.itemStyle=style;
           if(slot==='pants')mesh.userData.pantsStyle=style;
           if(slot==='workTop')mesh.userData.topStyle=style;
         }
@@ -126,6 +135,8 @@ export async function loadProfileKit(profile) {
   const kit=await loadCharacterKit(profile.body);
   if(profile.body!=='pantstest')return kit;
   const pending=[];
+  if(profile.hairStyle && profile.hairStyle!=='none')pending.push(loadWardrobeItem(kit,'hair',profile.hairStyle,'hair-'+profile.hairStyle+'.glb'));
+  if(profile.shoeStyle && profile.shoeStyle!=='none')pending.push(loadWardrobeItem(kit,'shoes',profile.shoeStyle,'shoes-'+profile.shoeStyle+'.glb'));
   if(profile.outer!=='none')pending.push(loadWardrobeItem(kit,'pants',profile.pantsStyle,'occupational-pants-'+profile.pantsStyle+'.glb'));
   if(profile.workTop!=='none'){
     const filename=profile.workTop==='scrubs'?'hospital-scrub-top.glb':'occupational-top-'+profile.workTop+'.glb';
@@ -207,7 +218,7 @@ function createSimpleTripoCharacter(profile) {
   });
   const anim = bindClips(model, kit.animations || [], ['jackettest','pantstest'].includes(profile.body) ? 1 : 1.8);
   anim.mixer.update(0);
-  normalizeHeight(model);
+  normalizeHeight(model,profile.body==='pantstest');
   // Normalize the complete outfit first so jacket-off never changes avatar size.
   if (profile.body === 'jackettest') model.traverse(node => {
     if (node.isMesh && node.userData.clothingSlot === 'jacket') node.visible = profile.outer !== 'none';
@@ -264,7 +275,26 @@ function createSimpleTripoCharacter(profile) {
   });
   if(profile.body==='pantstest')model.traverse(n=>{
     if(n.userData.clothingSlot==='necklineSkin')n.visible=profile.workTop!=='none';
+    const slot=n.userData.clothingSlot;
+    if(!n.isMesh || !['hair','shoes'].includes(slot))return;
+    const style=n.userData.itemStyle,selected=slot==='hair'?profile.hairStyle:profile.shoeStyle;
+    n.visible=selected===style;
+    const tint=source=>{
+      if(!materialCopies.has(source)){
+        const material=source.clone();
+        if(/^(Hair|Shoe)_(Main|Trim|Shadow)(?:\.|$)/.test(material.name)){
+          material.color.set((slot==='hair'?profile.hairColours:profile.shoeColours)[style]);
+          if(/_Trim/.test(material.name))material.color.multiplyScalar(.8);
+          if(/_Shadow/.test(material.name))material.color.multiplyScalar(.55);
+        }
+        materialCopies.set(source,material);
+      }
+      return materialCopies.get(source);
+    };
+    n.material=Array.isArray(n.material)?n.material.map(tint):tint(n.material);
   });
+  // Sole clearance is a translation, never a change to the canonical proportions.
+  if(profile.body==='pantstest' && profile.shoeStyle && profile.shoeStyle!=='none')model.position.y+=.009;
   const positioned = new THREE.Group();
   positioned.add(model);
   return {

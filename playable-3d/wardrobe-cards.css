@@ -17,3 +17,10 @@
 .garment-card.is-empty{grid-column:1/-1;min-height:38px;flex-direction:row;justify-content:center;gap:8px;padding:6px}
 .garment-card.is-empty .garment-empty{width:20px;height:20px;margin:0}
 .garment-card.is-empty .garment-empty svg{width:18px;height:18px}
+
+/* Compact section thumbnails leave room for the garment choices on phones. */
+.wardrobe-categories{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.wardrobe-category{flex-direction:column;gap:2px;padding:5px 2px;font-size:12px;min-width:0;min-height:70px}
+.wardrobe-category[aria-pressed=true]{padding:4px 1px}
+.wardrobe-category img{width:40px;height:42px}
+@media(max-width:600px){.wardrobe-category img{height:36px}.wardrobe-category{min-height:64px}}

@@ -8,8 +8,8 @@ import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds} from './world.js?v=first-play-20260921';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadProfileKit,createCharacter,isSimpleBody} from './characters.js?v=dressups-entry-20260921';
-import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=dressups-entry-20260921';
+import {loadProfileKit,createCharacter,isSimpleBody} from './characters.js?v=hair-shoes-20260921';
+import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=hair-shoes-20260921';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
 // Pixel readback synchronises the GPU. Reserve it for explicit visual diagnostics.
@@ -107,26 +107,37 @@ function colour(label,key){
 function optionWithColour(label,key,colourKey=key){const row=document.createElement('div');row.className='field-row';row.append(field(label,key,'select',OPTIONS[key]),colour(`${label} colour`,colourKey));return row;}
 function wardrobeCategoryCards(){
   const nav=document.createElement('div');nav.className='wardrobe-categories';nav.setAttribute('role','group');nav.setAttribute('aria-label','Clothing sections');
-  for(const [key,title,thumb] of [['tops','Tops','top-'+(draft.workTop==='none'?'scrubs':draft.workTop)],['pants','Pants','pants-'+draft.pantsStyle]]){
+  for(const [key,title,thumb] of [['tops','Tops','top-'+(draft.workTop==='none'?'scrubs':draft.workTop)],['pants','Pants','pants-'+draft.pantsStyle],['hair','Hair','hair-'+(draft.hairStyle==='none'?'sweep':draft.hairStyle)],['shoes','Shoes','shoes-'+(draft.shoeStyle==='none'?'trainers':draft.shoeStyle)]]){
     const b=document.createElement('button');b.type='button';b.className='wardrobe-category';b.dataset.section=key;b.setAttribute('aria-label',title);b.setAttribute('aria-pressed',wardrobeSection===key);
-    const img=document.createElement('img');img.src='./wardrobe-thumbnails/'+thumb+'.png?v=dressups-entry-20260921';img.alt='';img.width=62;img.height=68;
+    const img=document.createElement('img');img.src='./wardrobe-thumbnails/'+thumb+'.png?v=hair-shoes-20260921';img.alt='';img.width=62;img.height=68;
     const text=document.createElement('span');text.textContent=title;b.append(img,text);
     b.addEventListener('click',()=>{wardrobeSection=key;renderEditor();document.querySelector('[data-section="'+key+'"]').focus({preventScroll:true});});nav.append(b);
   }
   return nav;
 }
 function garmentCards(section){
-  const grid=document.createElement('div');grid.className='garment-grid';grid.setAttribute('role','group');grid.setAttribute('aria-label',section==='tops'?'Choose a top':'Choose pants');
-  const options=section==='tops'?OPTIONS.workTop:[...OPTIONS.pantsStyle,['none','No pants']];
+  const grid=document.createElement('div');grid.className='garment-grid';grid.setAttribute('role','group');grid.setAttribute('aria-label',({tops:'Choose a top',pants:'Choose pants',hair:'Choose hair',shoes:'Choose shoes'})[section]);
+  const options=({tops:OPTIONS.workTop,pants:[...OPTIONS.pantsStyle,['none','No pants']],hair:OPTIONS.hairStyle,shoes:OPTIONS.shoeStyle})[section];
   for(const [key,title] of options){
-    const selected=section==='tops'?draft.workTop===key:(key==='none'?draft.outer==='none':draft.outer!=='none'&&draft.pantsStyle===key);
+    const selected=section==='hair'?draft.hairStyle===key:section==='shoes'?draft.shoeStyle===key:section==='tops'?draft.workTop===key:(key==='none'?draft.outer==='none':draft.outer!=='none'&&draft.pantsStyle===key);
     const b=document.createElement('button');b.type='button';b.className='garment-card';b.dataset.garment=section+'-'+key;b.setAttribute('aria-label',title);b.setAttribute('aria-pressed',selected);
     if(key==='none'){b.classList.add('is-empty');const empty=document.createElement('span');empty.className='garment-empty';empty.innerHTML='<i data-lucide="minus"></i>';b.append(empty);}
-    else{const img=document.createElement('img');img.src='./wardrobe-thumbnails/'+(section==='tops'?'top-':'pants-')+key+'.png?v=dressups-entry-20260921';img.alt='';img.width=120;img.height=132;img.loading='lazy';b.append(img);}
+    else{const img=document.createElement('img');img.src='./wardrobe-thumbnails/'+({tops:'top-',pants:'pants-',hair:'hair-',shoes:'shoes-'})[section]+key+'.png?v=hair-shoes-20260921';img.alt='';img.width=120;img.height=132;img.loading='lazy';b.append(img);}
     const label=document.createElement('span');label.textContent=title;b.append(label);
-    b.addEventListener('click',()=>{if(selected){updatePreview();return;}changeDraft(p=>{if(section==='tops'){p.workTop=key;if(key!=='none')p.topColour=p.topColours[key];}else if(key==='none')p.outer='none';else{p.pantsStyle=key;p.outer='blazer';}});document.querySelector('[data-garment="'+section+'-'+key+'"]').focus({preventScroll:true});});grid.append(b);
+    b.addEventListener('click',()=>{if(selected){updatePreview();return;}changeDraft(p=>{if(section==='hair')p.hairStyle=key;else if(section==='shoes')p.shoeStyle=key;else if(section==='tops'){p.workTop=key;if(key!=='none')p.topColour=p.topColours[key];}else if(key==='none')p.outer='none';else{p.pantsStyle=key;p.outer='blazer';}});document.querySelector('[data-garment="'+section+'-'+key+'"]').focus({preventScroll:true});});grid.append(b);
   }
   return grid;
+}
+function accessoryColourControls(section){
+  const isHair=section==='hair',style=draft[isHair?'hairStyle':'shoeStyle'],field=isHair?'hairColours':'shoeColours',title=isHair?'Hair':'Shoe';
+  const controls=document.createElement('div');controls.className='field-row';controls.hidden=style==='none';if(style==='none')return controls;
+  const label=document.createElement('label');label.className='field';label.style.flex='1';const caption=document.createElement('span');caption.textContent=title+' hex colour';
+  const hex=document.createElement('input');hex.type='text';hex.value=draft[field][style];hex.maxLength=7;hex.spellcheck=false;hex.setAttribute('aria-label',title+' hex colour');
+  const error=document.createElement('small');error.setAttribute('role','status');error.style.color='#a32d25';
+  const apply=()=>{const value=hex.value.trim().replace(/^#?/,'#').toUpperCase();if(!/^#[0-9A-F]{6}$/.test(value)){hex.setAttribute('aria-invalid','true');error.textContent='Use six hex digits, for example #543321.';return;}hex.removeAttribute('aria-invalid');error.textContent='';hex.value=value;if(value!==draft[field][style])changeDraft(p=>{p[field][style]=value;});};
+  hex.addEventListener('change',apply);hex.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();apply();}});
+  const picker=document.createElement('input');picker.type='color';picker.className='colour-input';picker.value=draft[field][style];picker.setAttribute('aria-label',title+' colour');picker.addEventListener('change',()=>changeDraft(p=>{p[field][style]=picker.value.toUpperCase();}));
+  label.append(caption,hex,error);controls.append(label,picker);return controls;
 }
 function renderEditor(){
   const root=$('editor-fields');root.replaceChildren();
@@ -135,7 +146,7 @@ function renderEditor(){
   if(editorTab==='identity'){
     root.append(field('Name','name'),field('Body','body','select',OPTIONS.body));
     if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='pantstest'?'Choose ready-made clothes and their colours in Style.':draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='pantstest'?'Choose clothes, hair, shoes and their colours in Style.':draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
     }else{
       root.append(field('Face','face','select',OPTIONS.face));
       const skin=document.createElement('div');skin.className='field';const label=document.createElement('span');label.textContent='Skin tone';skin.append(label);
@@ -147,6 +158,7 @@ function renderEditor(){
   }else if(editorTab==='style'){
     if(draft.body==='pantstest'){
       root.append(wardrobeCategoryCards());
+      if(['hair','shoes'].includes(wardrobeSection)){root.append(garmentCards(wardrobeSection),accessoryColourControls(wardrobeSection));}
       if(wardrobeSection==='tops'){
       root.append(garmentCards('tops'));
       const controls=document.createElement('div');controls.className='field-row';controls.hidden=draft.workTop==='none';
@@ -446,8 +458,8 @@ function animate(){
     const data={campusReady,arrivalRestricted:worlds.arrivalOnly,teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
     (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
     if(mode==='studio'&&draft?.body==='pantstest'){
-      data.wardrobe={top:draft.workTop,pants:draft.outer==='none'?'none':draft.pantsStyle,topHex:draft.topColour,necklineVisible:false,visibleTops:[]};
-      preview?.model.traverse(o=>{if(!o.isMesh||!o.visible)return;if(o.userData.clothingSlot==='necklineSkin')data.wardrobe.necklineVisible=true;if(o.userData.clothingSlot==='workTop'&&!data.wardrobe.visibleTops.includes(o.userData.topStyle))data.wardrobe.visibleTops.push(o.userData.topStyle);});
+      data.wardrobe={top:draft.workTop,pants:draft.outer==='none'?'none':draft.pantsStyle,topHex:draft.topColour,necklineVisible:false,visibleTops:[],hair:draft.hairStyle,shoes:draft.shoeStyle,hairHex:draft.hairColours[draft.hairStyle],shoeHex:draft.shoeColours[draft.shoeStyle],visibleHair:[],visibleShoes:[],bodyScale:preview?.model.children[0]?.scale.y};
+      preview?.model.traverse(o=>{if(!o.isMesh||!o.visible)return;if(o.userData.clothingSlot==='necklineSkin')data.wardrobe.necklineVisible=true;for(const [slot,key]of [['hair','visibleHair'],['shoes','visibleShoes']])if(o.userData.clothingSlot===slot&&!data.wardrobe[key].includes(o.userData.itemStyle))data.wardrobe[key].push(o.userData.itemStyle);if(o.userData.clothingSlot==='workTop'&&!data.wardrobe.visibleTops.includes(o.userData.topStyle))data.wardrobe.visibleTops.push(o.userData.topStyle);});
     }
     $('diagnostics').value=JSON.stringify(data);$('diagnostics').dataset.state=JSON.stringify(data);canvas.dataset.rendered='true';frames=0;metricsTime=now;
   }

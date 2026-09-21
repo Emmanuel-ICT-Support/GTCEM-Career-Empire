@@ -410,3 +410,18 @@ Tania asks whether initial game entry can autoload quickly and what causes the d
 Latest normal-game WebKit runs: desktop 28.95 MB, last recorded resource completed about 6.41s, first frame 10.26s, ready 11.42s; phone-sized default avatar 8.10 MB, last recorded resource about 3.71s, first frame 12.32s, ready 12.88s. This shows preparation/rendering work after downloads as well as network cost; it does not isolate a precise CPU/GPU breakdown. Chromium still showed 60.94s phone entry and a desktop avatar timeout; its browser/network-specific cause is not established. These are the prior release-check runs, not new physical-device measurements.
 
 Recommended next architecture: make the selected character, starting-area visuals and essential collision ready first; reveal a usable game and stream distant/detail assets afterwards, keeping nearby routes safe and preserving final artwork. Do not preload the entire wardrobe or simply lift all loading gates. A short first-play target must be measured before it is promised. This turn documents the explanation/recommendation only; no runtime change or new deployment.
+
+
+## Hair and shoes authorised — 21 September 2026
+
+Tania asks to proceed with hair and shoes. Build four initial hairstyles (short sweep, curls, bob, ponytail) and four shoe styles (trainers, work boots, dress shoes, clogs) against the exact canonical Pants Test body. Add section thumbnails and remembered hex colours; selected assets only, preserving staged game startup and existing profiles. Keep full body and approved garments unchanged. Check rest/native walk, ankle and collar interfaces, GLB rig compatibility, scale stability and desktop/phone-size controls. New art is a local review candidate; no live publication or physical-device acceptance is claimed. Authoring: work/hair-shoes; game: work/wardrobe-live-20260921, branch feat/dressups-hair-shoes-20260921. Source body SHA256 38631c75839ef638ce6821b9ccd7152cbc1f2ca75cd8c7d075c6c6847b732b3e. Security/privacy scope: synthetic authored assets and existing local profile preferences only, no new service, student-data flow, permission or tracking.
+
+
+## Hair/shoe release and worktree retirement authorised
+
+Tania explicitly confirms in the Mac storage task: retain this worktree until hair/shoes are complete and uploaded to the existing live game, then retire it. CE-CHANGE-20260921-78. Supersedes the initial local-only plan below. Verify scoped fit/runtime checks and public deployment first. Preserve all unique source, authored assets, ignored/untracked evidence and required recovery history. Remove only this exact worktree through Git management once no active work depends on it. The canonical project, source assets and other worktrees remain. Physical-phone/student acceptance is Tania's.
+
+
+## Hair and shoe final candidate checks
+
+CE-CHANGE-20260921-78: four hairstyles and four shoes, selected-only downloads, remembered hex colours and thumbnail sections. Canonical body plus nine existing clothing/neckline assets are byte-identical to the prior live release. Final assets pass 47 rest/native-walk poses with 40 finite-edge body/garment comparisons per pose, zero crossings; eight 41-bone GLB round trips pass. Final Chrome/Safari desktop and phone-size cases pass 4/4. Earlier local serial full suite passes 42 unit/63 browser, before final sole topology, separately rechecked. Keep hosted CI, public deployment and physical-device acceptance distinct. The canonical Blueprint records final publication and conditional retirement; authoring masters/evidence remain outside this temporary worktree.
