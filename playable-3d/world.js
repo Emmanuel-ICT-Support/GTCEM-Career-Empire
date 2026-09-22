@@ -262,7 +262,9 @@ export async function createWorlds(onProgress=()=>{}){
   const inner=new THREE.Group();interior.add(inner);
   let interiorLoad,currentPhase='flourishing';
   function ensureInterior(){
-    if(!interiorLoad)interiorLoad=Promise.all([loader.loadAsync('./assets/est-interior.glb'),estVideo.ensurePoster().catch(()=>{})]).then(([asset])=>{
+    // The decorative poster must never hold the learning room closed.
+    estVideo.ensurePoster().catch(()=>{});
+    if(!interiorLoad)interiorLoad=loader.loadAsync('./assets/est-interior.glb').then(asset=>{
       inner.add(consolidate(asset.scene));phase(currentPhase);
     }).catch(error=>{interiorLoad=null;throw error;});
     return interiorLoad;

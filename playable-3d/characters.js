@@ -324,3 +324,13 @@ export function createCharacter(profile) {
 export function isSimpleBody(body) {
   return SIMPLE_BODIES.has(body);
 }
+
+// Temporary, download-free stand-in. Never write this choice into the profile.
+export function createFallbackCharacter() {
+  const model=new THREE.Group();model.name='Temporary avatar';model.userData.fallback=true;
+  const material=new THREE.MeshStandardMaterial({color:0x397d88,roughness:.9});
+  const body=new THREE.Mesh(new THREE.CapsuleGeometry(.23,.77,4,8),material);body.position.y=.69;
+  const head=new THREE.Mesh(new THREE.SphereGeometry(.18,12,8),material);head.position.y=1.43;
+  model.add(body,head);let walking=false,time=0;
+  return {model,clips:{},setWalking(value){walking=value;},update(dt){time+=dt;body.rotation.z=walking?Math.sin(time*10)*.04:0;},dispose(){model.removeFromParent();body.geometry.dispose();head.geometry.dispose();material.dispose();}};
+}
