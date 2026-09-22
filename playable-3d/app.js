@@ -6,9 +6,9 @@ import {afterFirstPaint} from './deferred-textures.js?v=first-play-20260921';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=first-play-20260921';
+import {createWorlds} from './world.js?v=curriculum-first-20260922';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadProfileKit,createCharacter,isSimpleBody} from './characters.js?v=hair-shoes-20260921';
+import {loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=curriculum-first-20260922';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=hair-shoes-20260921';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
@@ -69,13 +69,23 @@ function toast(message){$('toast').textContent=message;$('toast').hidden=false;c
 function persist(){try{saveProfiles(localStorage,state);return true;}catch{toast('Your browser could not save this character. Keep this tab open.');return false;}}
 function populateProfiles(){$('profile').replaceChildren(...state.profiles.map(p=>new Option(p.name,p.id)));$('profile').value=state.activeId;$('character-caption').textContent=active().name;}
 let actorRequest=0,previewRequest=0,hallRequest=0,nearHall=false,nearCareers=false;
-async function updateActor(){
-  const request=++actorRequest,profile=active();
-  try{await loadProfileKit(profile);}catch{toast('Character could not load. Select the profile again to retry.');return;}
-  if(request!==actorRequest)return;
-  const position=actor?.model.position.clone() || worlds.position(false),rotation=actor?.model.rotation.y ?? Math.PI;
-  actor?.dispose();actor=createCharacter(active());actor.model.position.copy(position);actor.model.rotation.y=rotation;
-  activeScene().add(actor.model);populateProfiles();
+async function updateActor(ready){
+  const request=++actorRequest,profile=copy(active());
+  $('retry-saved-avatar').hidden=true;
+  try{
+    if(ready){if(!await ready)throw new Error('Avatar unavailable');}else await loadProfileKit(profile);
+    if(request!==actorRequest)return;
+    // Construct before disposing the current actor, so a bad optional model
+    // cannot remove the player's working fallback or interrupt navigation.
+    const replacement=createCharacter(profile);
+    const position=actor.model.position.clone(),rotation=actor.model.rotation.y;
+    actor.dispose();actor=replacement;actor.model.position.copy(position);actor.model.rotation.y=rotation;
+    activeScene().add(actor.model);populateProfiles();
+  }catch{
+    if(request!==actorRequest)return;
+    $('retry-saved-avatar').hidden=false;
+    toast('Your saved avatar could not load. You can keep exploring. Use Retry saved avatar beside your profile to try again.');
+  }
 }
 async function updatePreview(){
   const request=++previewRequest;
@@ -207,7 +217,7 @@ function campusNotice(message,failed=false){
 async function ensureCampus(){
   if(campusReady)return;
   if(campusLoad)return campusLoad;
-  campusNotice('Opening the rest of campus… Arrival Gardens and Dress ups are ready.');worlds.scenery.status='loading';
+  campusNotice('Campus scenery is getting ready. EST Prep, Careers and Chapel are available below.');worlds.scenery.status='loading';
   campusLoad=(async()=>{
     THREE.Cache.enabled=true;
     try{
@@ -224,7 +234,7 @@ async function ensureCampus(){
       worlds.scenery.errors=[];canvas.dataset.campusReadyMs=String(Math.round(performance.now()));
       campusNotice('Campus ready');
     }catch(error){
-      worlds.scenery.status='fallback';campusNotice('Some areas could not open. Arrival Gardens and Dress ups are available.',true);
+      worlds.scenery.status='fallback';campusNotice('Some campus scenery could not load. EST Prep, Careers and Chapel are still available below.',true);
       throw error;
     }finally{THREE.Cache.clear();THREE.Cache.enabled=false;campusLoad=null;}
   })();
@@ -235,14 +245,16 @@ async function setMode(next){
   flyover?.exit();
   const request=++modeRequest;
   if(next==='town'&&!campusReady&&canvas.dataset.firstFrameMs&&worlds.scenery.status==='pending')openCampusInBackground();
-  if(next==='studio'&&!studio){
+  if(next==='studio'){
+    toast('Avatar Studio is getting ready. The studio is still setting things up. Explore Career Empire and pop back in a few minutes.');
     try{
       studioLoad ||= import('./studio.js?v=lazy-20260917').then(({createStudio})=>{
         ({studio,orbit}=createStudio(camera,canvas,{texture:worlds.town.environment}));
       }).catch(error=>{studioLoad=null;throw error;});
-      studioLoadPending=true;await studioLoad;studioLoadPending=false;
+      studioLoadPending=true;await Promise.all([studioLoad,loadProfileKit(copy(active()))]);studioLoadPending=false;
       if(request!==modeRequest)return false;
-    }catch{studioLoadPending=false;toast('Avatar Studio could not load. Open it again to retry.');return false;}
+      clearTimeout(toastTimer);$('toast').hidden=true;
+    }catch{studioLoadPending=false;if(request===modeRequest)toast('Avatar Studio is getting ready. The studio is still setting things up. Explore Career Empire and pop back in a few minutes.');return false;}
   }
   if(watchingEST)closeESTVideo();worlds?.estVideo.pause();hallRequest++;previewRequest++;keys.clear();joystick.reset();tapMovement=null;document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;$('experience').classList.toggle('in-chapel',next==='chapel');
   const inStudio=next==='studio';$('experience').classList.toggle('in-studio',inStudio);$('arrival-mission').hidden=inStudio||next==='interior'||next==='careers'||next==='chapel';$('est-watch').hidden=true;
@@ -265,7 +277,7 @@ let enteringHall=false,enteringCareers=false;
 async function enterHall(){
   if(enteringHall)return;enteringHall=true;
   const request=++hallRequest;toast('Opening EST Prep...');
-  try{await ensureCampus();if(request!==hallRequest||mode!=='town'){enteringHall=false;return;}await worlds.ensureInterior();}catch{enteringHall=false;if(request===hallRequest)toast('EST Prep could not load. Choose Enter EST Prep to retry.');return;}
+  try{await worlds.ensureInterior();}catch{enteringHall=false;if(request===hallRequest)toast('EST Prep could not load. Choose Enter EST Prep to retry.');return;}
   enteringHall=false;
   if(request!==hallRequest||mode!=='town')return;
   worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');worlds.estVideo.prepare().catch(()=>{});toast('Choose Play EST video on the wall whenever you are ready.');
@@ -273,13 +285,13 @@ async function enterHall(){
 async function enterCareers(){
   if(enteringCareers)return;enteringCareers=true;
   const request=++hallRequest;toast('Opening Careers Advice Centre...');
-  try{await ensureCampus();if(request!==hallRequest||mode!=='town'){enteringCareers=false;return;}await worlds.ensureCareers();}catch{enteringCareers=false;if(request===hallRequest)toast('Careers could not load. Please try again.');return;}
+  try{await worlds.ensureCareers();}catch{enteringCareers=false;if(request===hallRequest)toast('Careers could not load. Please try again.');return;}
   enteringCareers=false;
   if(request!==hallRequest||mode!=='town')return;
   worlds.teleport(true,0,5);setMode('careers');
 }
-async function enterChapel(){const request=++hallRequest;toast('Opening the Chapel...');try{await ensureCampus();if(request!==hallRequest||mode!=='town')return;await worlds.ensureChapel();if(!worlds.chapel.userData.reflectionProbe){const target=new THREE.WebGLCubeRenderTarget(128,{type:THREE.HalfFloatType});const probe=new THREE.CubeCamera(.1,35,target);probe.position.set(0,2.2,-2);probe.update(renderer,worlds.chapel);worlds.chapel.environment=target.texture;worlds.chapel.environmentIntensity=.45;worlds.chapel.userData.reflectionProbe=target;}}catch{if(request===hallRequest)toast('Chapel could not load. Try entering again.');return;}if(request!==hallRequest||mode!=='town')return;worlds.teleport('chapel',...CHAPEL.entry);setMode('chapel');}
-function leaveChapel(){setMode('town');worlds.teleport(false,CHAPEL.x,CHAPEL.z);actor.model.position.copy(worlds.position(false));yaw=1.1;clearTimeout(toastTimer);$('toast').hidden=true;updateCamera(1,true);}
+async function enterChapel(){const request=++hallRequest;toast('Opening the Chapel...');try{await worlds.ensureChapel();if(!worlds.chapel.userData.reflectionProbe){const target=new THREE.WebGLCubeRenderTarget(128,{type:THREE.HalfFloatType});const probe=new THREE.CubeCamera(.1,35,target);probe.position.set(0,2.2,-2);probe.update(renderer,worlds.chapel);worlds.chapel.environment=target.texture;worlds.chapel.environmentIntensity=.45;worlds.chapel.userData.reflectionProbe=target;}}catch{if(request===hallRequest)toast('Chapel could not load. Try entering again.');return;}if(request!==hallRequest||mode!=='town')return;worlds.teleport('chapel',...CHAPEL.entry);setMode('chapel');}
+function leaveChapel(){setMode('town');worlds.teleport(false,...(campusReady?[CHAPEL.x,CHAPEL.z]:[-7,23.3]));actor.model.position.copy(worlds.position(false));yaw=1.1;clearTimeout(toastTimer);$('toast').hidden=true;updateCamera(1,true);}
 function closeESTVideo(){documentRequest++;if(document.fullscreenElement)document.exitFullscreen?.();$('est-document-frame').replaceChildren();$('est-video-dialog').close();watchingEST=false;worlds.estVideo.pause();$('est-video-controls').hidden=true;keys.clear();joystick.reset();tapMovement=null;canvas.focus();}
 function showESTFilm(){documentRequest++; $('est-documents').hidden=true;$('est-document-frame').hidden=true;$('est-document-frame').replaceChildren();$('est-source-title').hidden=true;worlds.estVideo.video.hidden=false;$('est-film-controls').hidden=false; }
 function watchESTVideo(){watchingEST=true;$('est-video-zoom').value='1';$('est-media-slot').classList.remove('zoomed');const media=worlds.estVideo.video;media.hidden=false;media.controls=true;$('est-media-slot').append(media);showESTFilm();$('est-video-dialog').showModal();$('interact').hidden=true;$('est-watch').hidden=true;interaction=null;clearTimeout(toastTimer);$('toast').hidden=true;keys.clear();joystick.reset();tapMovement=null;actor.setWalking(false);$('est-video-controls').hidden=false;$('est-video-play').textContent='Play';$('est-video-status').textContent='Loading the video for smooth playback and seeking…';worlds.estVideo.play().catch(()=>{$('est-video-status').textContent='Video could not load. Choose Play to retry.';});}
@@ -296,7 +308,7 @@ function positionESTPlayButton(){const button=$('est-watch');if(mode!=='interior
 
 function reflect(){keys.clear();joystick.reset();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
 function returnTown(){if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='careers')destination('careers');else if(mode==='interior')destination('est');else setMode('town');}
-function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=async()=>{await setMode('town');const request=modeRequest;try{await ensureCampus();}catch{return;}if(request!==modeRequest||mode!=='town')return;worlds.teleport(false,which==='careers'?CAREERS.x:which==='est'?EST.x:ECC_HOME.x,which==='careers'?CAREERS.z:which==='est'?EST.z:ECC_HOME.z);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:Math.PI;yaw=which==='careers'?CAREERS.yaw:which==='est'?EST.yaw:ECC_HOME.yaw;setLocation(which==='careers'?CAREERS.name:which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
+function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=async()=>{await setMode('town');if(which==='home'&&!campusReady){const request=modeRequest;try{await ensureCampus();}catch{return;}if(request!==modeRequest||mode!=='town')return;}if(!campusReady){worlds.teleport(false,-7,23.3);actor.model.position.copy(worlds.position(false));updateCamera(1,true);return;}worlds.teleport(false,which==='careers'?CAREERS.x:which==='est'?EST.x:ECC_HOME.x,which==='careers'?CAREERS.z:which==='est'?EST.z:ECC_HOME.z);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:Math.PI;yaw=which==='careers'?CAREERS.yaw:which==='est'?EST.yaw:ECC_HOME.yaw;setLocation(which==='careers'?CAREERS.name:which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
 function resetStudioCamera(){const distance=isMobile()?4.25:4.0;camera.position.set(.12,portrait?1.63:1.3,portrait?1.8:distance);orbit.target.set(0,portrait?1.48:.95,0);orbit.minDistance=1.15;orbit.maxDistance=5.2;orbit.maxPolarAngle=Math.PI*.59;orbit.minPolarAngle=Math.PI*.28;orbit.update();}
 function resize(){
   if(!renderer)return;viewport={width:window.innerWidth,height:$('experience').clientHeight};renderer.setSize(viewport.width,viewport.height,false);
@@ -387,6 +399,7 @@ function closeModule(){moduleObserver?.disconnect();clearTimeout(moduleTimer);$(
 function phaseChange(name){if(!Object.hasOwn(PHASES,name))return;phase=name;worlds.phase(name);$('phase').value=name;}
 function qualityChange(){const q=$('quality').value;renderer.setPixelRatio(q==='low'?1:q==='high'?Math.min(devicePixelRatio,2):Math.min(devicePixelRatio,1.5));renderer.shadowMap.enabled=q!=='low';resize();}
 function bindEvents(){
+  $('retry-saved-avatar').addEventListener('click',()=>updateActor());
   document.addEventListener('ce-feedback-open',()=>{flyover?.stop();keys.clear();joystick.reset();tapMovement=null;actor?.setWalking(false);worlds.estVideo.pause();});
   $('careers-destination').addEventListener('click',()=>{const go=()=>{setMode('town');enterCareers();};if(mode==='studio')leaveStudio(go);else go();});
   $('est-video-close').addEventListener('click',closeESTVideo);
@@ -412,7 +425,7 @@ function bindEvents(){
   $('interact').addEventListener('click',()=>interaction?.action());$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
   $('campus-retry').addEventListener('click',openCampusInBackground);
   $('aerial').addEventListener('click',async()=>{const request=modeRequest;if(mode==='town'&&!campusReady){try{await ensureCampus();}catch{return;}if(request!==modeRequest)return;}aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
-  $('profile').addEventListener('change',()=>{const id=$('profile').value;$('profile').value=state.activeId;const change=()=>{state.activeId=id;persist();updateActor();if(mode==='studio')setMode('studio');};if(mode==='studio')leaveStudio(change);else change();});
+  $('profile').addEventListener('change',()=>{const id=$('profile').value;$('profile').value=state.activeId;if(id===state.activeId){updateActor();return;}const change=()=>{state.activeId=id;persist();updateActor();if(mode==='studio')setMode('studio');};if(mode==='studio')leaveStudio(change);else change();});
   $('new-profile').addEventListener('click',()=>{const add=()=>{if(state.profiles.length>=24){toast('This browser already has 24 characters.');return;}const p=normaliseProfile({id:crypto.randomUUID(),name:`Character ${state.profiles.length+1}`});state.profiles.push(p);state.activeId=p.id;persist();updateActor();setMode('studio');};if(mode==='studio')leaveStudio(add);else add();});
   document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{editorTab=b.dataset.tab;renderEditor();}));
   $('save-avatar').addEventListener('click',()=>{if(saveDraft()){setMode('town');toast(`${active().name} saved in this browser`);}});
@@ -455,28 +468,13 @@ function animate(){
       for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
       pixelColours=colours.size;
     }
-    const data={campusReady,arrivalRestricted:worlds.arrivalOnly,teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
+    const data={avatarFallback:Boolean(actor.model.userData.fallback),campusReady,arrivalRestricted:worlds.arrivalOnly,teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
     (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
     if(mode==='studio'&&draft?.body==='pantstest'){
       data.wardrobe={top:draft.workTop,pants:draft.outer==='none'?'none':draft.pantsStyle,topHex:draft.topColour,necklineVisible:false,visibleTops:[],hair:draft.hairStyle,shoes:draft.shoeStyle,hairHex:draft.hairColours[draft.hairStyle],shoeHex:draft.shoeColours[draft.shoeStyle],visibleHair:[],visibleShoes:[],bodyScale:preview?.model.children[0]?.scale.y};
       preview?.model.traverse(o=>{if(!o.isMesh||!o.visible)return;if(o.userData.clothingSlot==='necklineSkin')data.wardrobe.necklineVisible=true;for(const [slot,key]of [['hair','visibleHair'],['shoes','visibleShoes']])if(o.userData.clothingSlot===slot&&!data.wardrobe[key].includes(o.userData.itemStyle))data.wardrobe[key].push(o.userData.itemStyle);if(o.userData.clothingSlot==='workTop'&&!data.wardrobe.visibleTops.includes(o.userData.topStyle))data.wardrobe.visibleTops.push(o.userData.topStyle);});
     }
     $('diagnostics').value=JSON.stringify(data);$('diagnostics').dataset.state=JSON.stringify(data);canvas.dataset.rendered='true';frames=0;metricsTime=now;
-  }
-}
-async function loadStartupCharacter(){
-  for(;;){
-    try{await loadProfileKit(active());return;}
-    catch(error){
-      $('loading-message').textContent='Your avatar could not finish loading. Check your connection and try again.';
-      $('loading').querySelector('progress').hidden=true;
-      $('fallback-link').hidden=false;
-      const retry=$('avatar-retry');retry.hidden=false;
-      await new Promise(resolve=>{retry.onclick=()=>{retry.onclick=null;retry.hidden=true;resolve();};});
-      $('fallback-link').hidden=true;
-      $('loading').querySelector('progress').hidden=false;
-      $('loading-message').textContent='Retrying your avatar download...';
-    }
   }
 }
 async function boot(){
@@ -490,15 +488,12 @@ async function boot(){
     camera=new THREE.PerspectiveCamera(55,1,.08,220);
     const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();const environment=pmrem.fromScene(room,.04);room.dispose();pmrem.dispose();
     $('loading-message').textContent=studioFirst?'Opening your wardrobe…':'Loading your character and learning district...';
-    [,worlds]=await Promise.all([loadStartupCharacter(),createWorlds(message=>{if($('avatar-retry').hidden)$('loading-message').textContent=message;})]);
+    const avatarReady=loadProfileKit(copy(active())).then(()=>true,()=>false);
+    worlds=await createWorlds(message=>{$('loading-message').textContent=message;});
     $('loading-message').textContent='Preparing your first view...';worlds.town.environment=environment.texture;worlds.town.environmentIntensity=.28;worlds.interior.environment=environment.texture;worlds.interior.environmentIntensity=.55;worlds.careers.environment=environment.texture;worlds.careers.environmentIntensity=.55;worlds.chapel.environment=environment.texture;worlds.chapel.environmentIntensity=.35;
     THREE.Cache.clear();THREE.Cache.enabled=false;
-    worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');await updateActor();flyover=createFlyover({camera,keys,canvas,root:$('experience'),canEnter:canFlyover,resetInput:resetNavigationInput,fog:()=>worlds.town.fog});bindEvents();resize();
-    if(studioFirst){
-      if(!await setMode('studio'))throw new Error('Avatar Studio could not load.');
-      if(draft.body!=='pantstest'){draft.body='pantstest';await updatePreview();}
-      editorTab='style';renderEditor();
-    }else{await setMode('town');yaw=0;updateCamera(1,true);}
+    worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');actor=createFallbackCharacter();actor.model.position.copy(worlds.position(false));worlds.town.add(actor.model);populateProfiles();updateActor(avatarReady);flyover=createFlyover({camera,keys,canvas,root:$('experience'),canEnter:canFlyover,resetInput:resetNavigationInput,fog:()=>worlds.town.fog});bindEvents();resize();
+    await setMode('town');yaw=0;updateCamera(1,true);
     // A shareable, playable quality-review viewpoint; normal entry remains Arrival Gardens.
     const viewpoints={'teachers':{p:[-4,-49.8,0],name:'Meet your teachers · Oval'},'mr-middleton':{p:[-7,-50,0],name:'Mr Middleton · Oval'},'mr-psandodakis':{p:[-1,-50,0],name:'Mr Psandodakis · Oval'},'garden-pond':{p:[32,-10,Math.PI/2],name:'Garden pond'},'fountain-walk':{p:[-2.6,5.5,0],name:'Fountain walk'},'garden-benches':{p:[-5.8,-8,Math.PI/2],name:'Garden seating'},'chapel-exterior':{p:[-1.5,-4.5,.58],name:'Chapel exterior'},'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Home Economics'}};
     const view=new URLSearchParams(location.search).get('view');
@@ -507,7 +502,10 @@ async function boot(){
     if(!completeView){
       $('loading').hidden=true;icons();animate();
       if(!studioFirst)afterFirstPaint().then(openCampusInBackground);
-      else $('campus-progress').hidden=true;
+      else {
+        $('campus-progress').hidden=true;
+        setMode('studio').then(async opened=>{if(!opened){openCampusInBackground();return;}if(draft.body!=='pantstest'){draft.body='pantstest';await updatePreview();}if(mode==='studio'){editorTab='style';renderEditor();}});
+      }
     }else await ensureCampus();
     if(new URLSearchParams(location.search).get('view')==='chapel-interior')await enterChapel();
     if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}

@@ -1,12 +1,12 @@
 {
-  "release": "hair-shoes-20260921",
+  "release": "curriculum-first-20260922",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "596f27bfb12d55e6036270595f8562001fa59e08",
-  "scope": "Four fitted hairstyles and four shoe styles, section thumbnails and remembered hex colours. Canonical body, approved clothes and selected-only staged startup preserved.",
+  "baseCommit": "0886faf8f37f898d072f678b517f826ac07a197b",
+  "scope": "Independent curriculum room access, nonblocking saved-avatar fallback/retry and on-demand Studio readiness. Existing artwork and selected-only wardrobe downloads preserved.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "4e9bf5333ae1eacf0a23351422c127c2f0d964f7eb63fde2b62f4d5dfa1f7444"
+      "sha256": "9433ae3b7e5dcc35573720b9c84083d08926164d59333330f03e340c511d67e6"
     },
     {
       "path": "arrival-precinct.js",
@@ -370,7 +370,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "d3013a50f3a5f739bfe900523bd80bf1eac777bf42b48b7c6824ef63a1e3b503"
+      "sha256": "f2df93277c912e53838549b0c7856ea93092f19266ff295a6d05818014be9972"
     },
     {
       "path": "deferred-textures.js",
@@ -550,7 +550,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "3d6271d9a42cb97fca8b656557dd5d3c5d9d316ed02fc1855c1ad0d6044c5979"
+      "sha256": "f902f7a4eba3025062daf0733d54843aad4015a862d632cf5733a43b36fb6b9f"
     },
     {
       "path": "joystick.js",
@@ -674,7 +674,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "6cf55e694821c71591efa1053dda0ea9f736943c0e11b0ce6d2fe3e4f8e7d396"
+      "sha256": "92d6f66f52d814c787df8bda1a170a3104ff8ab945d0bda898fff8e0467ebe49"
     }
   ],
   "estVideo": {
