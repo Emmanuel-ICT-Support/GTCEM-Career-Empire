@@ -28,7 +28,7 @@ test('startup loads only the active avatar and keeps the studio and hall usable'
   await page.locator('#undo').click();
   await expect(page.getByLabel('Body',{exact:true})).toHaveValue('a');
   await page.locator('#save-avatar').click();
-  await page.locator('#est-destination').click();
+  await page.locator('#places-toggle').click();await page.locator('#est-destination').click();
   await expect.poll(()=>requests.some(u=>u.endsWith('est-interior.glb'))).toBeTruthy();
   await expect(page.locator('#est-video-dialog')).not.toBeVisible();
   await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive EST Prep hall',{timeout:30000});

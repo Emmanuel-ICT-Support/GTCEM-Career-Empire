@@ -4,7 +4,7 @@ import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=first-play-20260921';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createDeferredTextures} from './deferred-textures.js?v=first-play-20260921';
-import {createCampusLandscape} from './campus-landscape.js?v=first-play-20260921';
+import {createCampusLandscape} from './campus-landscape.js?v=student-usability-20260924';
 import {arrivalPrecinct} from './arrival-precinct.js?v=first-play-20260921';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
@@ -423,10 +423,24 @@ export async function createWorlds(onProgress=()=>{}){
         }
       }
   }
+  // Use the rendered path triangles, including parent transforms, as the
+  // walking surface. Previously these 7.5–19.5cm rises had no collider.
+  const walkingSurfaces=new WeakSet();
+  function addWalkingSurfaces(root){
+    root.updateWorldMatrix(true,true);
+    root.traverse(mesh=>{
+      if(!mesh.isMesh||!mesh.userData.walkable||walkingSurfaces.has(mesh))return;
+      const geometry=mesh.geometry.clone().applyMatrix4(mesh.matrixWorld);
+      const vertices=new Float32Array(geometry.attributes.position.array);
+      const indices=geometry.index?new Uint32Array(geometry.index.array):Uint32Array.from({length:vertices.length/3},(_,i)=>i);
+      townPhysics.world.createCollider(RAPIER.ColliderDesc.trimesh(vertices,indices));
+      walkingSurfaces.add(mesh);geometry.dispose();
+    });
+  }
   function loadExterior(){
     if(!exteriorLoad)exteriorLoad=buildExterior({inGame:true,textures}).then(asset=>{
       addExteriorColliders(townPhysics.world,asset.obstacles);
-      outerAsset.root.add(asset.root);outerAsset.obstacles=asset.obstacles;
+      outerAsset.root.add(asset.root);outerAsset.obstacles=asset.obstacles;addWalkingSurfaces(asset.root);
       // Arrival materials and their clones retain identity while receiving the
       // accepted courtyard artwork; later buildings use this same palette.
       const ready=approvedPalette(est),seen=new Set();
@@ -493,7 +507,7 @@ export async function createWorlds(onProgress=()=>{}){
     const trees=Promise.resolve();
     // Avatar Studio is now a native campus building, so the old generic city model is retired.
     const building=Promise.resolve().then(()=>{scenery.home=true;});
-    const district=loadExterior().then(()=>createCampusLandscape(town,townPhysics,palette)).then(result=>{Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);throw error;});
+    const district=loadExterior().then(()=>createCampusLandscape(town,townPhysics,palette)).then(result=>{addWalkingSurfaces(result.group);Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);throw error;});
     sceneryLoad=Promise.all([loadExterior(),trees,building,district]).then(()=>{scenery.status='landscape-ready';}).catch(error=>{scenery.status='fallback';sceneryLoad=null;throw error;});
     return sceneryLoad;
   }
@@ -501,13 +515,21 @@ export async function createWorlds(onProgress=()=>{}){
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {campusGrass:materials.grass,campusPalette:palette,loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){pondTime.value=time;if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
     move(inside,delta){const physics=physical(inside);physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
       if(!inside&&arrivalOnly){next.x=Math.max(-8.8,Math.min(-5.2,next.x));next.z=Math.max(7.3,Math.min(29,next.z));}
       next.x=Math.max(inside==='chapel'?-10.5:inside?-6.9:-38,Math.min(inside==='chapel'?10.5:inside?6.9:50,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-76,Math.min(inside==='chapel'?8.3:inside?6.9:36,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
+    protectCamera(inside,position,target){
+      const physics=physical(inside),origin={x:position.x,y:position.y+1.35,z:position.z};
+      const dx=target.x-origin.x,dy=target.y-origin.y,dz=target.z-origin.z,length=Math.hypot(dx,dy,dz);
+      if(length<.01)return;
+      const direction={x:dx/length,y:dy/length,z:dz/length};
+      const hit=physics.world.castRay(new RAPIER.Ray(origin,direction),length,true,undefined,undefined,physics.collider,physics.body);
+      if(hit){const distance=Math.max(.05,hit.timeOfImpact-.3);target.set(origin.x+direction.x*distance,origin.y+direction.y*distance,origin.z+direction.z*distance);}
+    },
     position(inside){const p=physical(inside).body.translation();return new THREE.Vector3(p.x,p.y-.785,p.z);},
     teleport(inside,x,z){const p=physical(inside);p.verticalVelocity=0;p.body.setTranslation({x,y:inside?.8:.9,z},true);p.body.setNextKinematicTranslation({x,y:inside?.8:.9,z});p.world.step();}
   };

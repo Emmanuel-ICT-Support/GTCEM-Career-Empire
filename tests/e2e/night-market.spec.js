@@ -15,7 +15,7 @@ for(const width of [1280,390])test(`legacy night market complete loop and saved 
  await page.screenshot({path:info.outputPath('first-shift-complete.png')});
  await page.reload();await expect(page.locator('#market-hud')).toBeVisible({timeout:30000});await expect(page.locator('#market-balance')).toContainText('Wallet $18.00');
  await walkUntil(page,'w',/Talk to Mara/);await page.locator('#interact').click();await expect(page.locator('#market-dialog')).toContainText('already paid');await expect(page.getByRole('button',{name:'Finish the shift · receive $18',exact:true})).toHaveCount(0);await page.getByRole('button',{name:'Back to the market',exact:true}).click();
- await page.locator('#market-card > summary').click();await page.locator('#market-exit').click();await expect.poll(async()=>(await data(page)).mode).toBe('town');await page.locator('#est-destination').click();await expect.poll(async()=>(await data(page)).mode,{timeout:20000}).toBe('interior');
+ await page.locator('#market-card > summary').click();await page.locator('#market-exit').click();await expect.poll(async()=>(await data(page)).mode).toBe('town');await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await data(page)).mode,{timeout:20000}).toBe('interior');
  await page.locator('#night-market-entry').click();await expect(page.locator('#market-balance')).toContainText('Wallet $18.00');
  expect(await page.evaluate(()=>localStorage.getItem('career-empire-3d-profiles-v2-tripo'))).toBe(profile);expect(errors).toEqual([]);
 });
@@ -23,5 +23,5 @@ test('ordinary entry never requests the market modules',async({page})=>{
  test.setTimeout(60000);const requests=[];page.on('request',r=>requests.push(r.url()));await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:30000});expect(requests.some(u=>/night-market\.(js|css)|night-market-state/.test(u))).toBe(false);await expect(page.locator('#market-hud')).toHaveCount(0);
 });
 test('market failure leaves campus and curriculum reachable',async({page})=>{
- test.setTimeout(60000);await page.route('**/night-market.js?*',r=>r.abort());await page.goto(path);await expect(page.locator('#loading')).toBeHidden({timeout:30000});await expect(page.locator('#toast')).toContainText('night market could not open');await page.locator('#est-destination').click();await expect.poll(async()=>(await data(page)).mode,{timeout:20000}).toBe('interior');
+ test.setTimeout(60000);await page.route('**/night-market.js?*',r=>r.abort());await page.goto(path);await expect(page.locator('#loading')).toBeHidden({timeout:30000});await expect(page.locator('#toast')).toContainText('night market could not open');await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await data(page)).mode,{timeout:20000}).toBe('interior');
 });

@@ -12,7 +12,7 @@ async function hold(page,key,ms=400){await page.keyboard.down(key);await page.wa
 
 test('flyover detaches, eases, records cleanly and restores exact prior camera and player state',async({page})=>{
  test.setTimeout(120000);await page.setViewportSize({width:1440,height:900});const {requests,errors}=await setup(page);
- const entry=await page.locator('#flyover-toggle').boundingBox(),tools=await page.locator('#world-tools').boundingBox();expect(entry.y).toBeGreaterThan(tools.y+tools.height);await page.screenshot({path:'coverage/browser-evidence/flyover-entry.png'});await page.locator('#aerial').click();await page.waitForTimeout(1400);
+ const entry=await page.locator('#flyover-toggle').boundingBox(),tools=await page.locator('#world-tools').boundingBox();expect(entry.y).toBeLessThan((await page.locator('.topbar').boundingBox()).height);await page.screenshot({path:'coverage/browser-evidence/flyover-entry.png'});await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.waitForTimeout(1400);
  // Read state and click synchronously, avoiding a follow-camera frame between them.
  const before=await page.evaluate(()=>{const s=window.__flyTest.snapshot();document.querySelector('#flyover-toggle').click();return s;});
  await expect(page.locator('#flyover-panel')).toBeVisible();await hold(page,'e');const raised=await snap(page);expect(raised.camera[1]).toBeGreaterThan(before.camera[1]);
@@ -31,8 +31,8 @@ test('flyover detaches, eases, records cleanly and restores exact prior camera a
 test('focus-safe shortcuts, repeated entry and normal destinations remain available',async({page})=>{
  test.setTimeout(120000);await setup(page);await page.locator('#scene').focus();await page.keyboard.press('f');expect((await snap(page)).active).toBe(true);
  await page.locator('#flyover-speed').focus();await page.keyboard.press('e');await page.keyboard.press('Escape');expect((await snap(page)).active).toBe(false);
- await page.locator('#flyover-toggle').click();await page.locator('#flyover-exit').click();await page.locator('#home-destination').click();expect((await snap(page)).active).toBe(false);
- await page.locator('#chapel-destination').click();await expect(page.locator('#experience')).toHaveClass(/in-chapel/,{timeout:30000});await expect(page.locator('#flyover-toggle')).toBeHidden();await page.locator('#scene').focus();await page.keyboard.press('f');expect((await snap(page)).active).toBe(false);
+ await page.locator('#flyover-toggle').click();await page.locator('#flyover-exit').click();await page.locator('#places-toggle').click();await page.locator('#home-destination').click();expect((await snap(page)).active).toBe(false);
+ await page.locator('#places-toggle').click();await page.locator('#chapel-destination').click();await expect(page.locator('#experience')).toHaveClass(/in-chapel/,{timeout:30000});await expect(page.locator('#flyover-toggle')).toBeHidden();await page.locator('#scene').focus();await page.keyboard.press('f');expect((await snap(page)).active).toBe(false);
 });
 
 test.describe('touch flyover',()=>{

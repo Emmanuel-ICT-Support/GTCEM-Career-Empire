@@ -3,7 +3,7 @@ import {test,expect} from './campus-fixtures.js';
 test('arrival walk reaches Studio and retains first-day completion after reload',async({page})=>{
  test.setTimeout(180000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('/playable-3d/');await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true',{timeout:60000});
- await page.locator('#recenter').click();
+ await page.locator('#world-tools summary').click();await page.locator('#recenter').click();
  const walkTo=async(axis,target)=>{
   for(let i=0;i<25;i++){
    const data=JSON.parse(await page.locator('#diagnostics').getAttribute('data-state'));

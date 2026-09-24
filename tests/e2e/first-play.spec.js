@@ -16,7 +16,7 @@ test('Arrival is playable while distant models and textures wait, then opens the
   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);
   await page.keyboard.down('Shift');await page.keyboard.down('w');await page.waitForTimeout(5000);await page.keyboard.up('w');await page.keyboard.up('Shift');
   expect((await state(page)).position[2]).toBeGreaterThanOrEqual(7.29);
-  await page.locator('#home-destination').click();
+  await page.locator('#places-toggle').click();await page.locator('#home-destination').click();
   await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled();
   await expect(page.locator('#campus-progress')).toBeHidden();
   await page.locator('#save-avatar').click();await expect.poll(async()=>(await state(page)).mode).toBe('town');
@@ -33,7 +33,7 @@ test('Arrival is playable while distant models and textures wait, then opens the
   const timing=await page.evaluate(()=>({first:Number(document.querySelector('#scene').dataset.firstFrameMs),optional:performance.getEntriesByType('resource').filter(r=>/mature-eucalypt-a-packed|grass-ecc-campus-v1-lossless/.test(r.name)).map(r=>r.startTime)}));
   expect(timing.optional.length).toBeGreaterThan(0);expect(timing.optional.every(t=>t>=timing.first)).toBe(true);
   expect((await state(page)).arrivalRestricted).toBe(false);expect((await state(page)).scenery.trees).toBe(19);
-  await page.locator('#home-destination').click();await expect.poll(async()=>(await state(page)).position[0]).toBeCloseTo(1.385,1);
+  await page.locator('#places-toggle').click();await page.locator('#home-destination').click();await expect.poll(async()=>(await state(page)).position[0]).toBeCloseTo(1.385,1);
   await page.screenshot({path:info.outputPath('complete-campus.png')});
   expect(requests.some(u=>/mr-middleton|occupational-top-chef/.test(u))).toBe(false);expect(errors).toEqual([]);
  }finally{release();}

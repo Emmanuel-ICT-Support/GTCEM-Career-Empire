@@ -1,8 +1,8 @@
 {
-  "release": "market-student-playtest-20260924",
+  "release": "student-usability-20260924",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "8363c061eb7f1e5856c75873e5d4fc7c34e04734",
-  "scope": "Authorised live release: clear market signs and food, shallow serving counter, queue-first trial flow, removed Home Economics sign, top-navigation My Life, batched food rendering. Existing progressive startup and saves preserved.",
+  "baseCommit": "8863c0bce72d08e9798803155fd00f710f703607",
+  "scope": "Responsive My Life and Back to game; progressive canonical Studio preview/retry; matched paving and camera collision; top banner Phase, Flyover, Feedback, Explore/View and all-location Places menu. Existing assets, gameplay and saves retained.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "2852202faa6de22a58adc58cc80099dc63e7b427b62a34ae8d7fb55cb51207ab"
+      "sha256": "6753f8370acad49e7dda80e2f8854a8a0acc6c381fc6ee31d96615c8a5208762"
     },
     {
       "path": "arrival-precinct.js",
@@ -394,7 +394,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "3d1754f0d9d844c2b99a3308432e4a418ad37138347c6fff967e01beb39f67cd"
+      "sha256": "d4dc9263ab7b16e2d984cf05b33719b7f585fb2d5c3bc715074649c10338acfd"
     },
     {
       "path": "chapel.js",
@@ -402,7 +402,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "f2df93277c912e53838549b0c7856ea93092f19266ff295a6d05818014be9972"
+      "sha256": "7def3784f5b79b29aed15caad7a1e331d018af06d34bef8782f9babb3735b74b"
     },
     {
       "path": "deferred-textures.js",
@@ -518,7 +518,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "4ec96a94f8e90114a23f7bd883514d1bb6a386bddb7a0db2f8391c4982dfb685"
+      "sha256": "3cd33b9494a317432399f1b52935e18ed7cb18777456a007be3ac83f964a837e"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -534,7 +534,7 @@
     },
     {
       "path": "environment/campus-extensions.js",
-      "sha256": "ea9065220168b24de441a355de90174ae617b0524c9df622ff7eea74a556af92"
+      "sha256": "7d64457b0bdc37b37c778004a9a254a5cc70c0fc5e199704c3898837831c5dca"
     },
     {
       "path": "environment/ground-polish.js",
@@ -550,7 +550,7 @@
     },
     {
       "path": "environment/paving-network.js",
-      "sha256": "bb703d63fd8be54d7ea15349225b3aaca106636e473ef15e32b6f13b0727f044"
+      "sha256": "fae11730dcfbcc9842b35587d04dc3b445c240f73ec52d0ae836dab5c7ad5762"
     },
     {
       "path": "environment/paving-polygons.js",
@@ -566,7 +566,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "c8846f084eab2286336520d3cfdf5729ab645a2928d74e18287b330a2ba5f569"
+      "sha256": "921caba0131934b7f7615567c9340a4247321a907495a161cc55e26ab3191736"
     },
     {
       "path": "est-wall-video.js",
@@ -578,11 +578,11 @@
     },
     {
       "path": "flyover.js",
-      "sha256": "a95585cbe56eefbbab2bd5b63a68b7f65623398cbb73942300f8838f79ef6cbc"
+      "sha256": "aa9f2e1f3d6bba32a67e1141eabf5644000f8ddae06a35dbb53f084d1fbd5cc0"
     },
     {
       "path": "index.html",
-      "sha256": "5c99da4aea966ca9dba280f5f1e414c3017b33fa19887051c0468a7c86ad9bad"
+      "sha256": "a761f711c0a66084940c33909f45e9bb0ca3ab9dca1b0806c5a991c978466cd8"
     },
     {
       "path": "joystick.js",
@@ -618,11 +618,11 @@
     },
     {
       "path": "night-market.css",
-      "sha256": "309a0ba00dd5d6461c3dbb29687fd713d3ecc7610aae560797496ebb5decc354"
+      "sha256": "b6a41449fa31e01606b3ea703d66c4dbc51a34e64af04404a8e5471322f1025f"
     },
     {
       "path": "night-market.js",
-      "sha256": "5a0916365a9ab05811aa9db24fe20c5bb09911459ff32d50c9cbca0ee0b744ab"
+      "sha256": "52d721fb80474afd68f2ee6169ffdadd3c87369c29b8b3a7fa12912d40f34e51"
     },
     {
       "path": "phone-assets.js",
@@ -734,7 +734,27 @@
     },
     {
       "path": "world.js",
-      "sha256": "5d3b09e161c42dff222ada85ae7abc193d3f04e4212c173f70d22fe4e313f11e"
+      "sha256": "6bbeb3d5eedcf9ebb7c469a30bf84e121caf68be07c81bcf5e07b56a69b4dd9a"
+    },
+    {
+      "path": "../economy-lab/index.html",
+      "sha256": "290abd4990b942153f3c92673f004a48d1cf1f8032ccc6648636946ad4e8426f"
+    },
+    {
+      "path": "../economy-lab/app.mjs",
+      "sha256": "70a03cf788974da657b05ac1d77c4769d7cba5c31e1d0248ab0bfa2416791046"
+    },
+    {
+      "path": "../economy-lab/style.css",
+      "sha256": "32433cf5e1af340b518976bb955c037b687f89f19ceb3e2c6529cafc5c4679a0"
+    },
+    {
+      "path": "header-controls.css",
+      "sha256": "d2c9f62e83ca99a600ceecdb2daa933dd12f41c2d3ac58072ea15c7b8206c8a9"
+    },
+    {
+      "path": "../src/services/feedback-widget.js",
+      "sha256": "90bad9446f2e31fcf75b36eac271b50de898222999ed709dd925aacd91a542b0"
     }
   ],
   "estVideo": {

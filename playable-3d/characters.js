@@ -131,8 +131,9 @@ async function loadWardrobeItem(kit, slot, style, filename) {
   }
   return wardrobeLoads.get(key);
 }
-export async function loadProfileKit(profile) {
+export async function loadProfileKit(profile,onBaseReady) {
   const kit=await loadCharacterKit(profile.body);
+  onBaseReady?.();
   if(profile.body!=='pantstest')return kit;
   const pending=[];
   if(profile.hairStyle && profile.hairStyle!=='none')pending.push(loadWardrobeItem(kit,'hair',profile.hairStyle,'hair-'+profile.hairStyle+'.glb'));
@@ -311,7 +312,7 @@ function createSimpleTripoCharacter(profile) {
         if(material.userData.ownedCheckTexture)material.map?.dispose();
         material.dispose();
       }
-      model.removeFromParent();
+      positioned.removeFromParent();
     }
   };
 }

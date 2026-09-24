@@ -94,8 +94,9 @@ for(const b of document.querySelectorAll('[data-open]'))b.onclick=()=>openPanel(
 const workLibrary=mountWork({review:reviewMode,onChange:state=>{const active=state.entries.filter(x=>!x.archived);const latest=[...active].sort((a,b)=>Date.parse(b.revisions.at(-1).at)-Date.parse(a.revisions.at(-1).at))[0]?.revisions.at(-1);$('recent-work-title').textContent=latest?.title||'Your activity records, together.';$('recent-work-detail').textContent=latest?`Last saved ${new Date(latest.at).toLocaleString()} · ${latest.status==='finished'?'Finished by you':'Draft'}. Open the saved record to review it.`:'Save your market case note from the activity to review it here.';$('continue-work').textContent=latest?'Review my work →':'View my work →';$('progress-work-summary').textContent=`My work: ${active.filter(x=>x.revisions.at(-1).status==='finished').length} marked finished by you · ${active.filter(x=>x.revisions.at(-1).status==='draft').length} drafts. These labels do not award money, badges or assessment credit.`;}});
 $('continue-work').onclick=()=>{workLibrary.resumeLatest();openPanel('work');};
 if(reviewMode){document.querySelector('.practice-tag').textContent='REVIEW MODE';$('scene-hint').textContent='Temporary review world · Your saved Economy Lab is untouched';}
-selectPanel('overview');
+selectPanel(document.querySelector('[data-panel][aria-pressed="true"]')?.dataset.panel||'overview');
 
 render();
+$('tracker-loading').hidden=true;$('visit-home').disabled=false;
 // Home Base loads only when requested; saved-work access does not depend on 3D.
 

@@ -7,10 +7,9 @@ export function createFlyover({camera, keys, canvas, root, canEnter, resetInput,
   const held=new Set();
   const button=document.createElement('button');
   button.id='flyover-toggle';button.textContent='Flyover';button.setAttribute('aria-pressed','false');button.title='Flyover camera (F)';
-  root.append(button);
-  const worldTools=root.querySelector('#world-tools');
-  function placeButton(){button.style.top=saved?'':`${worldTools.offsetTop+worldTools.offsetHeight+12}px`;}
-  new ResizeObserver(placeButton).observe(worldTools);placeButton();
+  const dock=root.querySelector('#flyover-slot');
+  function placeButton(){(saved?root:dock||root).append(button);button.style.top=saved?'16px':'';}
+  placeButton();
   const panel=document.createElement('section');panel.id='flyover-panel';panel.hidden=true;panel.setAttribute('aria-label','Flyover recording controls');
   panel.innerHTML=`<strong>Flyover camera</strong><p>WASD move · Q / E lower / rise<br>Drag to look · Arrow keys turn / tilt<br>F or Esc return · H hide controls<br>Touch: tap the view to show controls</p><label>Speed <input id="flyover-speed" type="range" min="1" max="40" value="10" step="1"><output id="flyover-speed-value">10 m/s</output></label><div class="flyover-pad"><button data-fly-key="KeyW" aria-label="Fly forward">Forward</button><button data-fly-key="KeyS" aria-label="Fly backward">Back</button><button data-fly-key="KeyA" aria-label="Fly left">Left</button><button data-fly-key="KeyD" aria-label="Fly right">Right</button><button data-fly-key="KeyE" aria-label="Raise camera">Rise</button><button data-fly-key="KeyQ" aria-label="Lower camera">Lower</button></div><div class="flyover-actions"><button id="flyover-bird">Bird’s-eye</button><button id="flyover-hide">Hide controls</button><button id="flyover-exit">Return to player</button></div>`;
   root.append(panel);
