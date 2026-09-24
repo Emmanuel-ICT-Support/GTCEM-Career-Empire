@@ -560,3 +560,39 @@ Tania approves replacing obsolete floating block guitars and asks for grass area
 Four flush lawn pockets added beside Little Finds, behind stalls/stage and near entrance; actual game shares existing campus grass material/texture by reference without extra downloads. Module fixture uses a plain green fallback. Central queue, collection, setup and stage routes remain paved; no new grass collisions. Original avatar/economy/saves unchanged.
 
 JavaScript syntax and diff whitespace checks pass. Focused real-WebGL graphics check passed after equipment change and again after lawns, verifying all14 independently rigged actors, feet/heights/facing/animation and lazy asset loading. Overview and stage close-up visually inspected. Earlier full desktop/390 mission checks not rerun for this decorative change. Updated local182-asset manifest hashes/cache keys; no staged-package/full-CI, physical-device or public deployment claim. Review URL revision=lawns. Do not reload the user's active review tab automatically; review progress is in memory. Evidence /tmp/market-lawns.log and /tmp/market-stage-equipment.png.
+
+
+## My Life and Sunday Markets release — 24 September 2026
+Tania repeats explicit publication request. PR31 merged at2026-09-24T04:47:29Z to8363c061eb7f1e5856c75873e5d4fc7c34e04734, source d3cf8c5d69aebf16161b5ca36b29858c347033f5. Includes quick My Life button, right-hand Careers Centre desk, read-only activity library, exploration badges/$100 one-time bonuses, same-origin market work transfer and latest authorised stage/NPC/lawn changes. Existing startup gate preserved. Market owner confirmed source frozen.182 exact asset hashes/46 reachable modules,76 game unit tests and6 exploration tests pass; source checks pass. Latest market task evidence:13 flows across targeted runs, final desktop/390 mission/graphics/fallback checks, and focused final lawn render; decorative changes did not get another complete journey suite.
+
+Publication decision uses existing targeted browser evidence plus exact package checks and explicit repeated release authorisation. Additional browser inspection in this task remains unavailable through the security service; no workaround used. Earlier full-CI failure compared directly against production: both fail hair-shoes.spec.js:32 on the same90000ms campus-ready assertion. This is a known baseline failure, not a full-CI pass. New postmerge CI pending. GitHub Pages run35957146043 started for the merge; final hosting confirmation pending at this checkpoint. No Department approval, student authentication or physical-school-device acceptance implied. localhost8792/8793 work is not migrated to public storage. Market wallet, original showroom and My Life demo wallet remain explicitly separate. No user saves reset.
+
+
+Release confirmation: GitHub Pages run35957146043 completed SUCCESS for merge8363c061eb7f1e5856c75873e5d4fc7c34e04734. Live game: https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/ ; direct My Life: https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/economy-lab/ . This confirms hosting deployment, not a new public browser/physical-device acceptance run. Postmerge full CI remains separate; known baseline failure documented above.
+
+
+## Market stall/HUD/sign refinement — 24 September 2026
+
+Tania requests recognisable food, shallow counter, Mara/Sam clearance and separate My Life navigation; follow-up removes obsolete Home Economics sign. Existing night-market checkout; local native geometry and layout only, saves/gameplay unchanged. Validation in progress, no publication. Read canonical docs/production/market-stall-refinement-20260924.md.
+
+
+## Market refinement validated locally — 24 September 2026
+
+Nine scoped browser scenarios (final seven rerun after canopy collisions),76 unit checks and183 local hashes pass. Recognisable rice bowls/bags, narrow counter and clear staff aisle, My Life in top navigation, obsolete Home Economics sign removed; heading Market Courtyard, legacy view URL retained. Fresh local review at8795 opened with user saves untouched. No publication. Canonical docs/production/market-stall-refinement-20260924.md and local docs/market-stall-refinement-20260924.md record evidence and handoff.
+
+
+## Queue observation bug — follow-up
+
+Tania reports Watch the queue does nothing before showing What you observed. Root cause: observation only added a slight oscillation, then revision-3 trial placement overwrote every customer position in the same frame; a four-second timer still committed observation and showed the summary. Bounded local repair gives the observation final ownership of customer transforms, staged nine-second movement into the wrong queue, phone/walk-up/ready-food labels, visible captions and temporary overview framing. Replay is available and does not add events/pay/badges; original opening example is explicitly distinguished from the user's latest trial. Camera/input return after close; no saved-progress reset, new economy or new asset download. Desktop/phone movement and legacy mission checks in progress. Existing stall/HUD/sign fixes preserved, no live publication.
+
+
+### 24 September — queue-first review correction
+Latest Tania flow: set plan at Test bench -> watch queue/test changes -> discuss with Mara. Implemented in existing night-market branch fix/market-stall-hud-20260924; no pretrial share gate, no fabricated share event, historic saves retained. Sign text now mounted clear of board; moving nine-second queue/trials. Seven targeted browser and34 market unit checks pass. See market-stall-refinement-20260924.md for scope/evidence. Local preview8795 only; no deployment/acceptance claim. Preserve all preceding stall/HUD/sign fixes and user saves.
+
+Final follow-up: both complete keyboard-walking shifts pass (desktop1280 and phone390,1.7m), including physical return to Mara after trial, reflection/My work transfer, crew pass and campus return. Current source/release checks pass (182 reachable release hashes,46 local modules). Fresh unplayed preview opened in a separate in-app tab at ?experience=sunday-markets&market-review=1&revision=queue-first; prior user tab retained. No publication.
+
+
+## Student playtest publication authorised — 24 September 2026
+Tania explicitly requests live publication and optimisation, checking market sign visibility, removed Home Economics sign and My Life in main gameplay. Preserve existing production target/main, startup asset gates, artwork and saved profiles. Static food parts now batch by material and share geometry: fixed-view market calls317 to185 (42% reduction), identical465634 rendered triangles. 77 unit tests pass; desktop/tablet/phone HUD overlap checks, market graphics/fallback and curriculum loading checks in release run. First frames580ms desktop/552ms phone with optional assets blocked locally; not school-network timings. Canonical CE-CHANGE-20260924-85 records evidence. Deployment/public verification follows; user has already authorised publication.
+
+Release validation checkpoint:13 current browser checks and77 unit tests pass; exact staged183 assets/47 modules checked. Trial sign-focus follow-up also hides nonessential labels and separates phone/walk-up labels. Syncing main reapplied sparse settings and omitted tracked economy-lab locally, causing404 before game startup; repaired with sparse-checkout add economy-lab, preserving source. This was a local checkout omission, not a published code failure. Final signage/entrance rerun and deployment receipt follow.

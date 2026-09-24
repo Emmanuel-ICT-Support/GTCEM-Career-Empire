@@ -46,3 +46,5 @@ describe('agency and learning record',()=>{
   s=applyEvent(s,plan({helper:'greet'}));expect(applyEvent(s,'run-trial')).toBe(s);s=applyEvent(applyEvent(s,'consolidate'),'pay');expect(s.wallet).toBe(1800);
  });
 });
+
+it('tests directly after planning and preserves review/pay gates without inventing a Mara conversation',()=>{const events=['accept',plan({sign:'pickup',position:'approach'}),'run-trial'];const s=run(...events);expect(s.shared).toBe(false);expect(s.trials).toHaveLength(1);expect(applyEvent(s,'pay').paid).toBe(false);expect(decodeSave(JSON.stringify({version:3,events}))).toEqual(s);expect(run(...events,...closeShift).wallet).toBe(1800);expect(run('run-trial').trials).toHaveLength(0);});

@@ -1,0 +1,22 @@
+import {test,expect} from './campus-fixtures.js';
+for(const width of [1280,390])test(`opening queue visibly moves before summary and replays without rewards at ${width}`,async({page},info)=>{
+ test.setTimeout(60000);await page.setViewportSize({width,height:844});
+ await page.route('**/app.js?*',async r=>{const response=await r.fetch();await r.fulfill({response,body:(await response.text())+'\nwindow.queueReview=()=>({market:nightMarket,camera});'});});
+ await page.goto('/playable-3d/?experience=sunday-markets&market-review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});
+ await page.evaluate(()=>queueReview().market.interaction({x:0,z:-3.6}).action());await page.getByRole('button',{name:'Take the shift',exact:true}).click();
+ await page.evaluate(()=>queueReview().market.interaction({x:-3,z:4}).action());await page.getByRole('button',{name:'Watch the queue',exact:true}).click();
+ await expect(page.locator('#market-dialog')).not.toBeVisible();
+ const positions=()=>page.evaluate(()=>queueReview().market.scene.children.filter(o=>o.name.startsWith('Market actor / customer')).slice(0,6).map(o=>o.position.toArray()));
+ const start=await positions();
+ await expect.poll(async()=>Math.max(...(await positions()).map((p,i)=>Math.hypot(p[0]-start[i][0],p[2]-start[i][2]))),{timeout:5000}).toBeGreaterThan(1);
+ await expect(page.locator('#market-dialog')).not.toBeVisible();
+ await expect(page.locator('#market-objective')).toContainText(/Opening queue|ordering queue|food is ready/);
+ await page.screenshot({path:info.outputPath(`queue-in-motion-${width}.png`)});
+ await expect(page.locator('#market-dialog')).toContainText('What you observed',{timeout:12000});
+ const before=await page.evaluate(()=>queueReview().market.snapshot());expect(before.observed).toBe(true);expect(before.wallet).toBe(0);expect(before.trials).toHaveLength(0);
+ await page.getByRole('button',{name:'Watch again',exact:true}).click();await expect(page.locator('#market-dialog')).not.toBeVisible();
+ await page.evaluate(()=>{const {market,camera}=queueReview();market.update(10,10,camera);});
+ await expect(page.locator('#market-dialog')).toContainText('What you observed');
+ const after=await page.evaluate(()=>queueReview().market.snapshot());expect(after.events).toEqual(before.events);expect(after.wallet).toBe(before.wallet);expect(after.badges).toEqual(before.badges);
+ await page.getByRole('button',{name:'Back to the market',exact:true}).click();expect(await page.evaluate(()=>queueReview().market.observing)).toBe(false);
+});

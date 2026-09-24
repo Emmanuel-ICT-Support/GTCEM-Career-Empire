@@ -15,7 +15,7 @@ for(const width of [1280,390])test(`research mission and pass ${width}`,async({p
  const tick=async()=>page.evaluate(()=>market.update(6,6,camera));
  await visit(0,-3.6);await click('Take the shift');
  await visit(-2,-.2);await click('Ask: “What information would help you?”');await close();
- await visit(-3,4);await click('Watch the queue');await tick();await expect(page.locator('#market-dialog')).toContainText('bags sat at collection');await close();
+ await visit(-3,4);await click('Watch the queue');await page.evaluate(()=>market.update(10,10,camera));await expect(page.locator('#market-dialog')).toContainText('bags sat at collection');await close();
  await visit(1.5,-3.3);await click('Record the workflow clue');
  await visit(0,-3.6);await click('Propose: separate ordering and pickup with a visible sign');
  await visit(4.2,-1.8);await click('Place the sign on the counter');

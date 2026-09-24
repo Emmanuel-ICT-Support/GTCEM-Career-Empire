@@ -1,12 +1,16 @@
 {
-  "release": "sunday-markets-lawns-local-20260924",
+  "release": "market-student-playtest-20260924",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "3cba2aef347beadd1115eeb27d11809ae568b810",
-  "scope": "Local Sunday Markets graphics: campus kit surroundings and seven optimised supplied NPC models, preserving market gameplay and same-origin My work. Not publicly deployed.",
+  "baseCommit": "8363c061eb7f1e5856c75873e5d4fc7c34e04734",
+  "scope": "Authorised live release: clear market signs and food, shallow serving counter, queue-first trial flow, removed Home Economics sign, top-navigation My Life, batched food rendering. Existing progressive startup and saves preserved.",
   "files": [
     {
+      "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
+      "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
+    },
+    {
       "path": "app.js",
-      "sha256": "3c0ae2f90ca7e75e0c6d96b0f9f89e9ef1688427dfdc724e40c386eb4be83eb4"
+      "sha256": "c4b9fa8311190db92cc86b59843e58d1473bdb753359e211c7130893ab9959cf"
     },
     {
       "path": "arrival-precinct.js",
@@ -171,6 +175,34 @@
     {
       "path": "assets/hospital-scrub-top.glb",
       "sha256": "34d11bf9d1ac4100140b03f448f08107d4cb388563bf4f68887eb6fd652374b0"
+    },
+    {
+      "path": "assets/market-npcs/customer-a.glb",
+      "sha256": "02c806fc0770b9fcbc18250ee7fb9e60d640e39acd757f10bb7ea63404d59dee"
+    },
+    {
+      "path": "assets/market-npcs/customer-b.glb",
+      "sha256": "fc79fb59df9a2690210a787448ca400838d53953172e71a9cc87ecdab543b824"
+    },
+    {
+      "path": "assets/market-npcs/customer-c.glb",
+      "sha256": "7d62ece0cafcf545df342b1e65513831bd90a2b5802ce2ac8582bc74fb8284fd"
+    },
+    {
+      "path": "assets/market-npcs/customer-d.glb",
+      "sha256": "9809ab28c562ff6f1c41bb85eabcb19dc6f1882cbc7ee828fe03591473782d39"
+    },
+    {
+      "path": "assets/market-npcs/customer-e.glb",
+      "sha256": "c81e6659b8da8665773f7e5a72ee2041f6bc5d03b811b5b7391ad51876aadda0"
+    },
+    {
+      "path": "assets/market-npcs/mara.glb",
+      "sha256": "2575e6804baad0d6d15c69e5d1543dbba38f039d3df2a0aadb64dd7a8867468a"
+    },
+    {
+      "path": "assets/market-npcs/sam.glb",
+      "sha256": "c237091c8ed3b34a746aaee5c1a90f90bac8fa10e3dcfa524cde60c5ce8b0ac9"
     },
     {
       "path": "assets/mr-middleton-20260917.glb",
@@ -486,7 +518,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "3defaaa1725a1864e3c92876731bcffa8870d812b0f6e0650d9eacf8b6a94543"
+      "sha256": "4ec96a94f8e90114a23f7bd883514d1bb6a386bddb7a0db2f8391c4982dfb685"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -502,7 +534,7 @@
     },
     {
       "path": "environment/campus-extensions.js",
-      "sha256": "958f4aeb68490a04a473c3d8f5360a9ea28f9bcff8bccb43ddb5c9814beafa66"
+      "sha256": "ea9065220168b24de441a355de90174ae617b0524c9df622ff7eea74a556af92"
     },
     {
       "path": "environment/ground-polish.js",
@@ -534,7 +566,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "1d50a7133b76a3098af6cd6bf673aaca2719631b0b0e9dfe4022d78c34a30fab"
+      "sha256": "c8846f084eab2286336520d3cfdf5729ab645a2928d74e18287b330a2ba5f569"
     },
     {
       "path": "est-wall-video.js",
@@ -550,11 +582,23 @@
     },
     {
       "path": "index.html",
-      "sha256": "03f672fac139320d624a84a51745cf1918ea6c77b63684e59c577a623cd42797"
+      "sha256": "5c99da4aea966ca9dba280f5f1e414c3017b33fa19887051c0468a7c86ad9bad"
     },
     {
       "path": "joystick.js",
       "sha256": "70a748903a79f15a5582d83fa282c407a0414e3e94ecb9ecc63397d5a1385613"
+    },
+    {
+      "path": "market-characters.js",
+      "sha256": "27099f84d9307016e370b8193255148886ad18f933addf0d9cc7210d612baf74"
+    },
+    {
+      "path": "market-food.js",
+      "sha256": "e50734bd175770224d80d429a8c7873b0f0ddea476b1bde27b858f9b11196f3c"
+    },
+    {
+      "path": "market-surroundings.js",
+      "sha256": "a8722d42dc7f962fa6d36622b3212f5d34aa92a480aed43194ad852e89219e4e"
     },
     {
       "path": "mobile-play.css",
@@ -565,8 +609,12 @@
       "sha256": "733b5974ea0f06d9805dd4adfe5832cb877423a953c02af55f91d4e92c8830f1"
     },
     {
+      "path": "night-market-agency.js",
+      "sha256": "918d0b3403ab11d267ba128c1af343f5a0187d4e52ba927b51a188c3bcccb83d"
+    },
+    {
       "path": "night-market-state.js",
-      "sha256": "92c3ac41338711deddee764916fad23a00b94b0c5a58d829b4c0b7edb6757e1b"
+      "sha256": "0edebb9b8447e979b20c52ff297d56e5e875b23bd6e4e3cd21e3889b1220a0b0"
     },
     {
       "path": "night-market.css",
@@ -574,7 +622,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "024128b0c0b8ff0a982068a1379aaa6c32e8ab6acd86aeacaa581a23586ac05b"
+      "sha256": "5a0916365a9ab05811aa9db24fe20c5bb09911459ff32d50c9cbca0ee0b744ab"
     },
     {
       "path": "phone-assets.js",
@@ -590,7 +638,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "2e57640fdefb14c07f1f7b5c5444b7689a37589a22cb405bf1ad0098e4f028c3"
+      "sha256": "9b1b9eb9c35bcf0b6c90134ef3a0383221b1cc446e72bb5d679cbd79a8456359"
     },
     {
       "path": "teacher-npc.js",
@@ -687,50 +735,6 @@
     {
       "path": "world.js",
       "sha256": "5d3b09e161c42dff222ada85ae7abc193d3f04e4212c173f70d22fe4e313f11e"
-    },
-    {
-      "path": "night-market-agency.js",
-      "sha256": "918d0b3403ab11d267ba128c1af343f5a0187d4e52ba927b51a188c3bcccb83d"
-    },
-    {
-      "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
-      "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
-    },
-    {
-      "path": "market-characters.js",
-      "sha256": "27099f84d9307016e370b8193255148886ad18f933addf0d9cc7210d612baf74"
-    },
-    {
-      "path": "market-surroundings.js",
-      "sha256": "0a2e2ede9a3b2535cf6f36250e313195f78454b938f2845f14c183a1f582d4c2"
-    },
-    {
-      "path": "assets/market-npcs/customer-c.glb",
-      "sha256": "7d62ece0cafcf545df342b1e65513831bd90a2b5802ce2ac8582bc74fb8284fd"
-    },
-    {
-      "path": "assets/market-npcs/customer-b.glb",
-      "sha256": "fc79fb59df9a2690210a787448ca400838d53953172e71a9cc87ecdab543b824"
-    },
-    {
-      "path": "assets/market-npcs/customer-a.glb",
-      "sha256": "02c806fc0770b9fcbc18250ee7fb9e60d640e39acd757f10bb7ea63404d59dee"
-    },
-    {
-      "path": "assets/market-npcs/customer-e.glb",
-      "sha256": "c81e6659b8da8665773f7e5a72ee2041f6bc5d03b811b5b7391ad51876aadda0"
-    },
-    {
-      "path": "assets/market-npcs/customer-d.glb",
-      "sha256": "9809ab28c562ff6f1c41bb85eabcb19dc6f1882cbc7ee828fe03591473782d39"
-    },
-    {
-      "path": "assets/market-npcs/sam.glb",
-      "sha256": "c237091c8ed3b34a746aaee5c1a90f90bac8fa10e3dcfa524cde60c5ce8b0ac9"
-    },
-    {
-      "path": "assets/market-npcs/mara.glb",
-      "sha256": "2575e6804baad0d6d15c69e5d1543dbba38f039d3df2a0aadb64dd7a8867468a"
     }
   ],
   "estVideo": {
