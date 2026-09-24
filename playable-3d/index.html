@@ -13,10 +13,10 @@
   <link rel="modulepreload" href="./vendor/rapier/rapier.mjs">
   <script src="./vendor/lucide/lucide.min.js?v=dressups-entry-20260921" defer></script>
   <link rel="stylesheet" href="./mobile-play.css?v=demo-20260914">
-  <script type="module" src="./mobile-play.js?v=annotations1"></script>
+  <script type="module" src="./mobile-play.js?v=compact-banner-20260924"></script>
   <link rel="stylesheet" href="./flyover.css?v=flyover-20260917">
   <link rel="stylesheet" href="./wardrobe-cards.css?v=hair-shoes-20260921">
-  <link rel="stylesheet" href="./header-controls.css?v=student-usability-20260924">
+  <link rel="stylesheet" href="./header-controls.css?v=compact-banner-20260924">
 </head>
 <body data-feedback-mode="development">
   <main id="experience" aria-label="Career Empire 3D world">
@@ -24,16 +24,11 @@
     <canvas id="scene" aria-label="Interactive 3D town" tabindex="0"></canvas>
     <header class="topbar">
       <a class="brand" href="../" aria-label="Career Empire home"><span class="brand-mark"><i data-lucide="landmark"></i></span><span>CAREER<br><strong>EMPIRE</strong></span></a>
-      <nav class="mode-switch" aria-label="View">
-        <button id="town-view" class="active" aria-pressed="true" aria-label="Town" title="Town"><i data-lucide="map"></i><span>Town</span></button>
-        <button id="studio-view" aria-pressed="false" aria-label="Avatar Studio" title="Avatar Studio"><i data-lucide="user-round-pen"></i><span>Avatar Studio</span></button>
-        <a href="../economy-lab/" class="my-life-link" id="my-life-link"><i data-lucide="notebook-pen"></i><span>My Life</span></a>
-      </nav>
       <div class="account"><label class="sr-only" for="profile">Local character</label><select id="profile"></select><button class="icon-button" id="retry-saved-avatar" aria-label="Retry saved avatar" title="Retry saved avatar" hidden><i data-lucide="refresh-cw"></i></button><button class="icon-button" id="new-profile" aria-label="New character" title="New character"><i data-lucide="user-round-plus"></i></button></div>
-<div class="header-controls" id="header-controls">
+<div class="header-controls" id="header-controls"><a href="../economy-lab/" class="my-life-link" id="my-life-link"><i data-lucide="notebook-pen"></i><span>My Life</span></a>
        <div id="header-phase"><label class="phase-control"><i data-lucide="sprout"></i><span><small>PHASE PREVIEW</small><select id="phase" aria-label="World phase"><option value="flourishing">Flourishing</option><option value="growth">Growth</option><option value="disrepair">Disrepair</option></select></span></label></div><span id="flyover-slot"></span>
-       <details id="destination-menu" class="header-menu"><summary id="places-toggle">Places <span aria-hidden="true">⌄</span></summary><div class="destination-bar" id="destination-bar" aria-label="Destinations"><button id="home-destination" title="Return to the ECC welcome sign"><i data-lucide="house"></i><span>Home Base</span></button><button id="est-destination"><i data-lucide="landmark"></i><span>Enter EST Prep</span></button><button id="careers-destination"><i data-lucide="briefcase-business"></i><span>Careers Centre</span></button><button id="chapel-destination"><i data-lucide="church"></i><span>Chapel</span></button><button id="studio-destination">Avatar Studio</button><button id="market-destination">Markets</button><button id="oval-destination">Oval</button><button id="media-destination">English &amp; Media</button><button id="space-destination">SPACE</button></div></details>
-       <section class="arrival-mission" id="arrival-mission" aria-label="Your first day"><button class="mobile-panel-toggle" aria-expanded="false" aria-controls="mission-details" data-mobile-panel="arrival-mission"><span id="mission-summary">Find your place</span> <span aria-hidden="true">⌄</span></button><div id="mission-details"><small>YOUR FIRST DAY</small><h2 id="mission-title">Find your place</h2><p id="mission-detail">Follow the shaded walk to Avatar Studio.</p><div class="mission-progress"><span id="mission-bar"></span></div><span id="mission-hint">WASD or arrow buttons to walk · drag to look</span></div></section>
+       <details id="destination-menu" class="header-menu"><summary id="places-toggle">Find your place <span aria-hidden="true">⌄</span></summary><div class="destination-bar" id="destination-bar" aria-label="Destinations"><button id="town-view" class="active" aria-pressed="true" aria-label="Town" title="Town"><i data-lucide="map"></i><span>Town</span></button><button id="studio-view" aria-pressed="false" aria-label="Avatar Studio" title="Avatar Studio"><i data-lucide="user-round-pen"></i><span>Avatar Studio</span></button><button id="home-destination" title="Return to the ECC welcome sign"><i data-lucide="house"></i><span>Home Base</span></button><button id="est-destination"><i data-lucide="landmark"></i><span>Enter EST Prep</span></button><button id="careers-destination"><i data-lucide="briefcase-business"></i><span>Careers Centre</span></button><button id="chapel-destination"><i data-lucide="church"></i><span>Chapel</span></button><button id="market-destination">Markets</button><button id="oval-destination">Oval</button><button id="media-destination">English &amp; Media</button><button id="space-destination">SPACE</button>       <section class="arrival-mission" id="arrival-mission" aria-label="Your first day"><button class="mobile-panel-toggle" aria-expanded="false" aria-controls="mission-details" data-mobile-panel="arrival-mission"><span id="mission-summary">Find your place</span> <span aria-hidden="true">⌄</span></button><div id="mission-details"><small>YOUR FIRST DAY</small><h2 id="mission-title">Find your place</h2><p id="mission-detail">Follow the shaded walk to Avatar Studio.</p><div class="mission-progress"><span id="mission-bar"></span></div><span id="mission-hint">WASD or arrow buttons to walk · drag to look</span></div></section></div></details>
+
        <details class="header-menu" id="world-tools"><summary>View <span aria-hidden="true">⌄</span></summary><div id="settings-details"><div class="tool-row"><button class="icon-button" id="aerial" aria-label="Aerial view" aria-pressed="false" title="Aerial view"><i data-lucide="scan-eye"></i></button><button class="icon-button" id="recenter" aria-label="Recenter camera" title="Recenter camera"><i data-lucide="focus"></i></button><label class="quality-control" title="Render quality"><i data-lucide="monitor"></i><select id="quality" aria-label="Render quality"><option value="auto">Auto</option><option value="low">Low</option><option value="high">High</option></select></label></div></div></details>
        <span data-feedback-slot></span>
       </div>
@@ -64,11 +59,11 @@
   </dialog></main>
   <section class="module-overlay" id="module-overlay" aria-label="EST Prep activity" hidden><header><div><i data-lucide="landmark"></i><strong id="module-heading">EST Prep</strong><span id="module-name"></span></div><button id="close-module"><i data-lucide="arrow-left"></i><span>Return to hall</span></button></header><iframe id="module-frame" title="Existing EST Prep learning module"></iframe></section>
   <dialog id="leave-dialog"><h2>Save your character?</h2><p>You have unsaved appearance changes.</p><div class="dialog-actions"><button id="keep-editing">Keep editing</button><button id="discard-changes">Discard</button><button class="primary" id="save-changes">Save</button></div></dialog>
-<script type="module" src="./app.js?v=student-usability-20260924"></script>
+<script type="module" src="./app.js?v=compact-banner-20260924"></script>
 <dialog id="reflection-dialog" aria-labelledby="reflection-title"><p class="eyebrow">ECC CHAPEL</p><h2 id="reflection-title">A moment of stillness</h2><p>Let your shoulders soften. Notice the light around you.</p><p>Take a gentle breath, at your own pace.</p><p>What is one good thing you can carry into the rest of your day?</p><button id="close-reflection">Return to the Chapel</button></dialog>
 <script src="../config/supabase-config.js"></script>
 <script src="../src/services/supabase-browser.js"></script>
 <script src="../src/services/response-moderation.js?v=teacher-written-filter-v1"></script>
-<script src="../src/services/feedback-widget.js?v=student-usability-20260924"></script>
+<script src="../src/services/feedback-widget.js?v=compact-banner-20260924"></script>
 </body>
 </html>

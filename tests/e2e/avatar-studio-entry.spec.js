@@ -9,7 +9,7 @@ test('Home Base returns to ECC welcome; Studio remains separate',async({page})=>
  await expect.poll(async()=>JSON.parse(await page.locator('#diagnostics').getAttribute('data-state')).position[2]).toBeCloseTo(-.877,1);
  await expect(page.locator('#studio-panel')).toBeHidden();
  await expect(page.locator('#location-title')).toHaveText('Home Base');
- await page.locator('#studio-view').click();
+ await page.locator('#places-toggle').click();await page.locator('#studio-view').click();
  await expect(page.locator('#save-avatar')).toBeEnabled();
  await page.locator('#save-avatar').click();
  await expect(page.locator('#studio-panel')).toBeHidden();

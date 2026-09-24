@@ -6,7 +6,7 @@ test('jacket test supports outfit visibility, walking and saved profiles', async
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.goto('/playable-3d/');
   await expect(page.locator('#loading')).toBeHidden({timeout:120000});
-  await page.getByRole('button',{name:'Avatar Studio',exact:true}).click();
+  await page.locator('#places-toggle').click();await page.getByRole('button',{name:'Avatar Studio',exact:true}).click();
   await page.getByLabel('Body',{exact:true}).selectOption('jackettest');
   await expect(page.locator('#save-avatar')).toBeEnabled({timeout:90000});
   await page.locator('[data-tab="style"]').click();
@@ -27,7 +27,7 @@ test('jacket test supports outfit visibility, walking and saved profiles', async
   await expect(page.locator('#studio-panel')).toBeHidden();
   await page.reload();
   await expect(page.locator('#loading')).toBeHidden({timeout:120000});
-  await page.getByRole('button',{name:'Avatar Studio',exact:true}).click();
+  await page.locator('#places-toggle').click();await page.getByRole('button',{name:'Avatar Studio',exact:true}).click();
   await expect(page.getByLabel('Body',{exact:true})).toHaveValue('jackettest');
   await page.locator('[data-tab="style"]').click();
   await expect(page.getByLabel('Jacket',{exact:true})).toHaveValue('blazer');

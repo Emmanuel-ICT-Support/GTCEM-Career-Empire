@@ -17,7 +17,7 @@ test('startup loads only the active avatar and keeps the studio and hall usable'
   expect(requests.some(u=>/player-uniform-shirt|avatar-[ab]\.glb/.test(u))).toBeFalsy();
   expect(requests.some(u=>u.endsWith('est-interior.glb'))).toBeFalsy();
   for(const name of ['grass-ecc-campus-v1-lossless.webp','limestone-ecc-campus-v1.png','asphalt_day-lossless.webp','asphalt_dash_overlay.png','crosswalk_overlay.png','curb_cyan_trim.png'])expect(requests.some(u=>u.endsWith(name))).toBeTruthy();
-  await page.locator('#studio-view').click();
+  await page.locator('#places-toggle').click();await page.locator('#studio-view').click();
   await page.getByLabel('Body',{exact:true}).selectOption('shirt');
   await expect.poll(()=>requests.some(u=>u.endsWith('player-uniform-shirt-20260908.glb'))).toBeTruthy();
   await expect(page.locator('#editor-fields .hint')).toContainText('Shirt avatar test model');
@@ -33,7 +33,7 @@ test('startup loads only the active avatar and keeps the studio and hall usable'
   await expect(page.locator('#est-video-dialog')).not.toBeVisible();
   await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive EST Prep hall',{timeout:30000});
   await page.locator('#phase').selectOption('growth');
-  await page.locator('#town-view').click();
+  await page.locator('#places-toggle').click();await page.locator('#town-view').click();
   await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive 3D town');
   expect(requests.filter(u=>u.endsWith('est-interior.glb'))).toHaveLength(1);
   expect(requests.filter(u=>u.endsWith('avatar-a.glb'))).toHaveLength(1);
@@ -48,7 +48,7 @@ test('a saved active avatar can still be changed in the studio',async({page})=>{
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
   expect(requests.some(u=>u.includes('avatar-b.glb'))).toBeTruthy();
   expect(requests.some(u=>u.includes('player-schoolboy-2k-20260914.glb'))).toBeFalsy();
-  await page.locator('#studio-view').click();
+  await page.locator('#places-toggle').click();await page.locator('#studio-view').click();
   await page.getByLabel('Body',{exact:true}).selectOption('a');
   await expect(page.locator('#edit-state')).toHaveText('Unsaved',{timeout:30000});
   await page.locator('#save-avatar').click();

@@ -1,8 +1,8 @@
 {
-  "release": "student-usability-20260924",
+  "release": "compact-banner-20260924",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "8863c0bce72d08e9798803155fd00f710f703607",
-  "scope": "Responsive My Life and Back to game; progressive canonical Studio preview/retry; matched paving and camera collision; top banner Phase, Flyover, Feedback, Explore/View and all-location Places menu. Existing assets, gameplay and saves retained.",
+  "baseCommit": "c6efeb0768f2d144b9ed2419e1fae472f4681881",
+  "scope": "Single-row desktop banner: My Life before Flourishing; Town, Avatar Studio and all destinations inside Find your place. Existing gameplay, original assets, saves and loading gates preserved.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "6753f8370acad49e7dda80e2f8854a8a0acc6c381fc6ee31d96615c8a5208762"
+      "sha256": "ed6ddf6966a58a63401c115c216a73d354331c54f8b17ef2013df72d0403fd0f"
     },
     {
       "path": "arrival-precinct.js",
@@ -582,7 +582,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "a761f711c0a66084940c33909f45e9bb0ca3ab9dca1b0806c5a991c978466cd8"
+      "sha256": "2a7979af256896090fb067321c2aaf5337f79d508aedf9bef46a940433721126"
     },
     {
       "path": "joystick.js",
@@ -606,7 +606,7 @@
     },
     {
       "path": "mobile-play.js",
-      "sha256": "733b5974ea0f06d9805dd4adfe5832cb877423a953c02af55f91d4e92c8830f1"
+      "sha256": "03aa2d4436bfb0865d45c6cd8d5da26c59bd63049e3e976e86f8f494d4b21411"
     },
     {
       "path": "night-market-agency.js",
@@ -750,7 +750,7 @@
     },
     {
       "path": "header-controls.css",
-      "sha256": "d2c9f62e83ca99a600ceecdb2daa933dd12f41c2d3ac58072ea15c7b8206c8a9"
+      "sha256": "f6bad2e707d118488354a75e9b56456cb11fb6bfac43e337f9b842d203621b7c"
     },
     {
       "path": "../src/services/feedback-widget.js",
