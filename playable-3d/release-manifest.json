@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "app.js",
-      "sha256": "9433ae3b7e5dcc35573720b9c84083d08926164d59333330f03e340c511d67e6"
+      "sha256": "4a38ec4bad991773a507ab1057e6a684b483112a0b948f5e0783448c62c34307"
     },
     {
       "path": "arrival-precinct.js",
@@ -550,7 +550,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "f902f7a4eba3025062daf0733d54843aad4015a862d632cf5733a43b36fb6b9f"
+      "sha256": "29606692943860daa02c4bfe56b3b25b08a6ab2e9922f4a7837c63f559658a0c"
     },
     {
       "path": "joystick.js",
@@ -674,7 +674,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "92d6f66f52d814c787df8bda1a170a3104ff8ab945d0bda898fff8e0467ebe49"
+      "sha256": "63f69b82a7bace730a9bdc701753c52496f8df86244c812e195769f48693d79d"
     }
   ],
   "estVideo": {
