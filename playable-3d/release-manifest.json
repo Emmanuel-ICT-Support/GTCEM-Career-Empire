@@ -1,12 +1,12 @@
 {
-  "release": "curriculum-first-20260922",
+  "release": "sunday-markets-lawns-local-20260924",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "0886faf8f37f898d072f678b517f826ac07a197b",
-  "scope": "Independent curriculum room access, nonblocking saved-avatar fallback/retry and on-demand Studio readiness. Existing artwork and selected-only wardrobe downloads preserved.",
+  "baseCommit": "3cba2aef347beadd1115eeb27d11809ae568b810",
+  "scope": "Local Sunday Markets graphics: campus kit surroundings and seven optimised supplied NPC models, preserving market gameplay and same-origin My work. Not publicly deployed.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "4a38ec4bad991773a507ab1057e6a684b483112a0b948f5e0783448c62c34307"
+      "sha256": "3c0ae2f90ca7e75e0c6d96b0f9f89e9ef1688427dfdc724e40c386eb4be83eb4"
     },
     {
       "path": "arrival-precinct.js",
@@ -550,7 +550,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "29606692943860daa02c4bfe56b3b25b08a6ab2e9922f4a7837c63f559658a0c"
+      "sha256": "03f672fac139320d624a84a51745cf1918ea6c77b63684e59c577a623cd42797"
     },
     {
       "path": "joystick.js",
@@ -563,6 +563,18 @@
     {
       "path": "mobile-play.js",
       "sha256": "733b5974ea0f06d9805dd4adfe5832cb877423a953c02af55f91d4e92c8830f1"
+    },
+    {
+      "path": "night-market-state.js",
+      "sha256": "92c3ac41338711deddee764916fad23a00b94b0c5a58d829b4c0b7edb6757e1b"
+    },
+    {
+      "path": "night-market.css",
+      "sha256": "309a0ba00dd5d6461c3dbb29687fd713d3ecc7610aae560797496ebb5decc354"
+    },
+    {
+      "path": "night-market.js",
+      "sha256": "024128b0c0b8ff0a982068a1379aaa6c32e8ab6acd86aeacaa581a23586ac05b"
     },
     {
       "path": "phone-assets.js",
@@ -674,7 +686,51 @@
     },
     {
       "path": "world.js",
-      "sha256": "63f69b82a7bace730a9bdc701753c52496f8df86244c812e195769f48693d79d"
+      "sha256": "5d3b09e161c42dff222ada85ae7abc193d3f04e4212c173f70d22fe4e313f11e"
+    },
+    {
+      "path": "night-market-agency.js",
+      "sha256": "918d0b3403ab11d267ba128c1af343f5a0187d4e52ba927b51a188c3bcccb83d"
+    },
+    {
+      "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
+      "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
+    },
+    {
+      "path": "market-characters.js",
+      "sha256": "27099f84d9307016e370b8193255148886ad18f933addf0d9cc7210d612baf74"
+    },
+    {
+      "path": "market-surroundings.js",
+      "sha256": "0a2e2ede9a3b2535cf6f36250e313195f78454b938f2845f14c183a1f582d4c2"
+    },
+    {
+      "path": "assets/market-npcs/customer-c.glb",
+      "sha256": "7d62ece0cafcf545df342b1e65513831bd90a2b5802ce2ac8582bc74fb8284fd"
+    },
+    {
+      "path": "assets/market-npcs/customer-b.glb",
+      "sha256": "fc79fb59df9a2690210a787448ca400838d53953172e71a9cc87ecdab543b824"
+    },
+    {
+      "path": "assets/market-npcs/customer-a.glb",
+      "sha256": "02c806fc0770b9fcbc18250ee7fb9e60d640e39acd757f10bb7ea63404d59dee"
+    },
+    {
+      "path": "assets/market-npcs/customer-e.glb",
+      "sha256": "c81e6659b8da8665773f7e5a72ee2041f6bc5d03b811b5b7391ad51876aadda0"
+    },
+    {
+      "path": "assets/market-npcs/customer-d.glb",
+      "sha256": "9809ab28c562ff6f1c41bb85eabcb19dc6f1882cbc7ee828fe03591473782d39"
+    },
+    {
+      "path": "assets/market-npcs/sam.glb",
+      "sha256": "c237091c8ed3b34a746aaee5c1a90f90bac8fa10e3dcfa524cde60c5ce8b0ac9"
+    },
+    {
+      "path": "assets/market-npcs/mara.glb",
+      "sha256": "2575e6804baad0d6d15c69e5d1543dbba38f039d3df2a0aadb64dd7a8867468a"
     }
   ],
   "estVideo": {
