@@ -105,7 +105,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
 
  for(const x of [5.5,8.5]){box(.09,2.5,.09,x,1.25,7,'#b39a77');lanterns.push(orb(.2,x,2.5,7,'#ffd578',scene,true));}
 
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=market-lawns-20260924',import.meta.url).href;document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=student-usability-20260924',import.meta.url).href;document.head.append(css);
  const hud=document.createElement('section');hud.id='market-hud';hud.hidden=true;hud.setAttribute('aria-label','Live Music and Sunday Markets practice');
  hud.innerHTML='<details id="market-card"><summary>Your first gig <span aria-hidden="true">⌄</span></summary><div class="market-card-details"><div class="market-kicker">SUNDAY MARKET / LOCAL PRACTICE</div><h2>Your first gig</h2><div class="market-balance" id="market-balance"></div><div class="market-tools"><button id="market-journal">Journal & map</button><button id="market-exit">Return to campus</button></div><p class="market-status" id="market-status" role="status"></p></div></details><p id="market-objective" aria-live="polite"></p><button id="market-test" hidden>Watch a test group</button><button id="market-replay" hidden>Start a fresh shift…</button>';
  document.getElementById('experience').append(hud);

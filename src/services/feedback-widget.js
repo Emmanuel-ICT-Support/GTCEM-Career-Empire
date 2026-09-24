@@ -679,7 +679,7 @@
     launcher.className = "ce-feedback-launcher";
     launcher.type = "button";
     launcher.textContent = "Feedback";
-    documentObj.body.appendChild(launcher);
+    (documentObj.querySelector("[data-feedback-slot]") || documentObj.body).appendChild(launcher);
 
     const modal = createModal();
     const typeInput = modal.querySelector("#ce-feedback-type");

@@ -1,5 +1,5 @@
 import {createExplorer} from '../economy-lab/exploration.mjs';
-import {createFlyover} from './flyover.js?v=flyover-20260917';
+import {createFlyover} from './flyover.js?v=student-usability-20260924';
 import {configurePhoneAssets} from './phone-assets.js?v=phone-load-20260917';
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
@@ -66,6 +66,7 @@ let moduleObserver=null,moduleTimer=null;
 const keys=new Set(),clock=new THREE.Clock(),lookAt=new THREE.Vector3(),desiredCamera=new THREE.Vector3();
 const active=()=>state.profiles.find(p=>p.id===state.activeId);
 const copy=value=>structuredClone(value);
+let headerHeight=88;
 const isMobile=()=>window.innerWidth<=620;
 const space=()=>mode==='chapel'?'chapel':mode==='interior'||mode==='careers';
 const feedbackOpen=()=>Boolean(document.querySelector('dialog.ce-feedback-backdrop[open]'));
@@ -255,7 +256,7 @@ async function ensureCampus(){
       if(!environmentReady){
         const {integrateEnvironment}=await import('./environment.js?v=student-usability-20260924');
         const before=new Set(worlds.town.children);
-        try{await integrateEnvironment(worlds);environmentReady=true;}
+        try{await integrateEnvironment(worlds);worlds.syncWalkingSurfaces();environmentReady=true;}
         catch(error){for(const child of [...worlds.town.children])if(!before.has(child))child.removeFromParent();throw error;}
       }
       worlds.phase(phase);worlds.openCampus();campusReady=true;worlds.scenery.status='ready';const marketSign=sign('LIVE MUSIC & SUNDAY MARKETS',5);marketSign.position.set(43,2.1,-23.1);marketSign.scale.y=.5;worlds.town.add(marketSign);const invitation=sign('Food, music — a few stallholders could use a hand',5);invitation.position.set(43,1.45,-23.1);invitation.scale.y=.5;worlds.town.add(invitation);
@@ -287,7 +288,7 @@ async function setMode(next){
   if(watchingEST)closeESTVideo();worlds?.estVideo.pause();hallRequest++;previewRequest++;keys.clear();joystick.reset();tapMovement=null;document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;$('experience').classList.toggle('in-chapel',next==='chapel');
   nightMarket?.setVisible(next==='market');
   const inStudio=next==='studio';$('experience').classList.toggle('in-studio',inStudio);$('arrival-mission').hidden=inStudio||next==='interior'||next==='careers'||next==='chapel';$('est-watch').hidden=true;
-  for(const id of ['world-heading','world-tools','destination-bar','movement','world-footer'])$(id).hidden=inStudio;
+  for(const id of ['world-heading','world-tools','movement','world-footer'])$(id).hidden=inStudio;
   for(const id of ['studio-heading','studio-panel','studio-view-tools'])$(id).hidden=!inStudio;
   $('interact').hidden=true;interaction=null;$('aerial').setAttribute('aria-label',next==='chapel'?'Chapel overview':'Aerial view');
   $('town-view').classList.toggle('active',!inStudio&&next!=='market');$('town-view').setAttribute('aria-pressed',!inStudio&&next!=='market');
@@ -342,16 +343,25 @@ function reflect(){keys.clear();joystick.reset();tapMovement=null;$('reflection-
 let marketOpening=false;
 async function openMarket(){
  if(marketOpening)return;marketOpening=true;
- try{if(!nightMarket){const {createNightMarket}=await import('./night-market.js?v=market-student-playtest-20260924');nightMarket=createNightMarket({campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:localStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}await setMode('market');}
+ try{if(!nightMarket){const {createNightMarket}=await import('./night-market.js?v=student-usability-20260924');nightMarket=createNightMarket({campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:localStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}await setMode('market');}
  catch(error){console.warn('Market unavailable',error);toast('The market could not open. Campus activities remain available.');}finally{marketOpening=false;}
 }
 function returnTown(){if(mode==='market'){setMode('town').then(async()=>{const request=modeRequest;try{await ensureCampus();}catch{toast('Campus scenery is unavailable. Other campus activities remain accessible.');return;}if(mode!=='town'||request!==modeRequest)return;worlds.teleport(false,43,-19.3);actor.model.position.copy(worlds.position(false));yaw=0;updateCamera(1,true);setLocation('Market Courtyard');});}else if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='careers')destination('careers');else if(mode==='interior')destination('est');else setMode('town');}
 function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=async()=>{await setMode('town');if(which==='home'&&!campusReady){const request=modeRequest;try{await ensureCampus();}catch{return;}if(request!==modeRequest||mode!=='town')return;}if(!campusReady){worlds.teleport(false,-7,23.3);actor.model.position.copy(worlds.position(false));updateCamera(1,true);return;}worlds.teleport(false,which==='careers'?CAREERS.x:which==='est'?EST.x:ECC_HOME.x,which==='careers'?CAREERS.z:which==='est'?EST.z:ECC_HOME.z);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:Math.PI;yaw=which==='careers'?CAREERS.yaw:which==='est'?EST.yaw:ECC_HOME.yaw;setLocation(which==='careers'?CAREERS.name:which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
+async function campusSpot(x,z,heading,angle=0){
+  const go=async()=>{await setMode('town');const request=modeRequest;
+    try{await ensureCampus();}catch{return;}
+    if(request!==modeRequest||mode!=='town')return;
+    worlds.teleport(false,x,z);actor.model.position.copy(worlds.position(false));yaw=angle;
+    setLocation(heading);updateCamera(1,true);
+  };
+  if(mode==='studio')leaveStudio(go);else await go();
+}
 function resetStudioCamera(){const distance=isMobile()?4.25:4.0;camera.position.set(.12,portrait?1.63:1.3,portrait?1.8:distance);orbit.target.set(0,portrait?1.48:.95,0);orbit.minDistance=1.15;orbit.maxDistance=5.2;orbit.maxPolarAngle=Math.PI*.59;orbit.minPolarAngle=Math.PI*.28;orbit.update();}
 function resize(){
   if(!renderer)return;viewport={width:window.innerWidth,height:$('experience').clientHeight};renderer.setSize(viewport.width,viewport.height,false);
   const mobile=isMobile();const width=mode==='studio'&&!mobile?viewport.width-(viewport.width>900?364:316):viewport.width;
-  const height=mode==='studio'&&mobile?viewport.height*.57:viewport.height;
+  const height=mode==='studio'?Math.max(1,viewport.height*(mobile?.57:1)-headerHeight):viewport.height;
   camera.aspect=width/height;camera.fov=mode==='studio'?36:mode==='chapel'?(mobile?70:64):mobile?62:55;camera.updateProjectionMatrix();
   if(mode==='studio')resetStudioCamera();
 }
@@ -453,6 +463,20 @@ function closeModule(){moduleObserver?.disconnect();clearTimeout(moduleTimer);$(
 function phaseChange(name){if(!Object.hasOwn(PHASES,name))return;phase=name;worlds.phase(name);$('phase').value=name;}
 function qualityChange(){const q=$('quality').value;renderer.setPixelRatio(q==='low'?1:q==='high'?Math.min(devicePixelRatio,2):Math.min(devicePixelRatio,1.5));renderer.shadowMap.enabled=q!=='low';resize();}
 function bindEvents(){
+  const header=document.querySelector('.topbar');
+  new ResizeObserver(()=>{const height=header.offsetHeight;document.documentElement.style.setProperty('--game-header-height',height+'px');if(headerHeight!==height){headerHeight=height;resize();}}).observe(header);
+  const menus=[...header.querySelectorAll('details')];
+  menus.forEach(menu=>menu.addEventListener('toggle',()=>{if(menu.open){for(const other of menus)if(other!==menu)other.open=false;$('arrival-mission').classList.remove('mobile-expanded');$('arrival-mission').querySelector('button').setAttribute('aria-expanded','false');}}));
+  $('arrival-mission').querySelector('button').addEventListener('click',()=>menus.forEach(menu=>menu.open=false));
+  document.addEventListener('click',e=>{if(!header.contains(e.target))menus.forEach(menu=>menu.open=false);});
+  header.addEventListener('keydown',e=>{if(e.key==='Escape')menus.forEach(menu=>menu.open=false);});
+  $('destination-bar').addEventListener('click',e=>{if(e.target.closest('button')){$('destination-menu').open=false;canvas.focus();}});
+  $('studio-destination').addEventListener('click',openStudio);
+  $('market-destination').addEventListener('click',()=>mode==='studio'?leaveStudio(openMarket):openMarket());
+  $('oval-destination').addEventListener('click',()=>campusSpot(-4,-49.8,'Oval'));
+  $('media-destination').addEventListener('click',()=>campusSpot(-4,-45,'English and Media',Math.PI));
+  $('space-destination').addEventListener('click',()=>campusSpot(7,-53,'SPACE',-Math.PI/2));
+
   $('retry-saved-avatar').addEventListener('click',()=>updateActor());
   document.addEventListener('ce-feedback-open',()=>{flyover?.stop();keys.clear();joystick.reset();tapMovement=null;actor?.setWalking(false);worlds.estVideo.pause();});
   $('careers-destination').addEventListener('click',()=>{const go=()=>{setMode('town');enterCareers();};if(mode==='studio')leaveStudio(go);else go();});
@@ -512,7 +536,7 @@ function animate(){
   if(mode==='market')nightMarket.update(dt,now,camera);
   updateCamera(dt);positionESTPlayButton();renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   let scene=mode==='studio'?studio:activeScene();
-  if(mode==='studio'){const mobile=isMobile();renderer.setViewport(0,mobile?viewport.height*.43:0,mobile?viewport.width:viewport.width-(viewport.width>900?364:316),mobile?viewport.height*.57:viewport.height);}
+  if(mode==='studio'){const mobile=isMobile();renderer.setViewport(0,mobile?viewport.height*.43:0,mobile?viewport.width:viewport.width-(viewport.width>900?364:316),Math.max(1,viewport.height*(mobile?.57:1)-headerHeight));}
   renderer.toneMappingExposure=mode==='town'?1:1.03;
   renderer.render(scene,camera);frames++;
   if(!canvas.dataset.firstFrameMs)canvas.dataset.firstFrameMs=String(Math.round(performance.now()));

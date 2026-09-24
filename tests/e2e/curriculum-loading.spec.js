@@ -9,7 +9,7 @@ test('curriculum rooms remain accessible when campus decoration and Studio fail'
  await expect(page.locator('#loading')).toBeHidden({timeout:30000});
  await page.locator('#studio-view').click();
  await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');
- await page.locator('#est-destination').click();
+ await page.locator('#places-toggle').click();await page.locator('#est-destination').click();
  await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
  await page.locator('#scene').focus();await page.keyboard.down('w');
  try{await expect(page.locator('#interact')).toContainText('Open EST Prep',{timeout:10000});}finally{await page.keyboard.up('w');}
@@ -18,8 +18,8 @@ test('curriculum rooms remain accessible when campus decoration and Studio fail'
  await expect(page.frameLocator('#module-frame').locator('body')).toContainText('EST');
  await page.locator('#close-module').click();
  await page.locator('#town-view').click();await expect.poll(async()=>(await state(page)).mode).toBe('town');
- await page.locator('#careers-destination').click();await expect.poll(async()=>(await state(page)).mode).toBe('careers');
- await page.locator('#chapel-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:15000}).toBe('chapel');
+ await page.locator('#places-toggle').click();await page.locator('#careers-destination').click();await expect.poll(async()=>(await state(page)).mode).toBe('careers');
+ await page.locator('#places-toggle').click();await page.locator('#chapel-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:15000}).toBe('chapel');
  await page.locator('#town-view').click();await expect.poll(async()=>(await state(page)).mode).toBe('town');
  await page.screenshot({path:info.outputPath('curriculum-available.png')});expect(errors).toEqual([]);
 });
@@ -37,7 +37,7 @@ for(const width of [1280,390])test(`slow saved avatar, Studio and poster never g
   const start=(await state(page)).position[2];await page.keyboard.down('w');await page.waitForTimeout(650);await page.keyboard.up('w');
   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);
   await page.locator('#studio-view').click();await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');
-  await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
+  await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
   const timing=await page.evaluate(()=>({firstFrameMs:Number(document.querySelector('#scene').dataset.firstFrameMs),curriculumMs:performance.now()}));
   await writeFile(info.outputPath('timing.json'),JSON.stringify(timing,null,2));
   await info.attach('first-play-timing',{body:JSON.stringify(timing),contentType:'application/json'});
@@ -59,7 +59,7 @@ test('failed avatar keeps fallback playable, retry restores saved avatar without
  await page.route('**/player-schoolboy*.glb',r=>fail?r.abort():r.continue());
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:15000});
  await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);
- await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
+ await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
  fail=false;await page.getByRole('button',{name:'Retry saved avatar',exact:true}).click();
  await expect.poll(async()=>(await state(page)).avatarFallback,{timeout:15000}).toBe(false);
  expect((await state(page)).mode).toBe('interior');
@@ -75,7 +75,7 @@ test('unavailable saved clothing uses fallback and never fetches other outfits',
  await page.route('**/occupational-top-chef.glb?*',r=>fail?r.abort():r.continue());
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:15000});
  await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);
- await page.locator('#careers-destination').click();await expect.poll(async()=>(await state(page)).mode).toBe('careers');
+ await page.locator('#places-toggle').click();await page.locator('#careers-destination').click();await expect.poll(async()=>(await state(page)).mode).toBe('careers');
  expect(requests.some(u=>/hospital-scrub-top|occupational-top-(work|suit)|occupational-pants-(chef|tradie|scrubs)|hair-(sweep|curls|ponytail)\.glb|shoes-(trainers|dress|clogs)\.glb/.test(u))).toBe(false);
  fail=false;await page.getByRole('button',{name:'Retry saved avatar',exact:true}).click();await expect.poll(async()=>(await state(page)).avatarFallback,{timeout:15000}).toBe(false);
  expect((await state(page)).mode).toBe('careers');expect(await page.evaluate(()=>localStorage.getItem('career-empire-3d-profiles-v2-tripo'))).toBe(saved);

@@ -10,11 +10,11 @@ test('courtyard review opens the playable world and survives quality, resize and
  await expect.poll(async()=>(await state(page)).pixelColours).toBeGreaterThan(150);
  await page.keyboard.down('KeyD');await page.waitForTimeout(500);await page.keyboard.up('KeyD');
  await expect.poll(async()=>(await state(page)).position[0]).toBeGreaterThan(.2);
- await page.locator('#quality').selectOption('low');await expect.poll(async()=>(await state(page)).pixelColours).toBeGreaterThan(150);
+ await page.locator('#world-tools summary').click();await page.locator('#quality').selectOption('low');await expect.poll(async()=>(await state(page)).pixelColours).toBeGreaterThan(150);
  await page.setViewportSize({width:390,height:844});await page.locator('#quality').selectOption('auto',{force:true});
  await expect.poll(async()=>(await state(page)).pixelColours).toBeGreaterThan(150);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- await page.locator('#chapel-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive ECC Chapel',{timeout:30000});
+ await page.locator('#places-toggle').click();await page.locator('#chapel-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive ECC Chapel',{timeout:30000});
  await page.locator('#town-view').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive 3D town');
  expect(errors).toEqual([]);
 });

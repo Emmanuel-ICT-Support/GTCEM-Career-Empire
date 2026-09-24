@@ -515,7 +515,7 @@ export async function createWorlds(onProgress=()=>{}){
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {campusGrass:materials.grass,campusPalette:palette,loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){pondTime.value=time;if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},

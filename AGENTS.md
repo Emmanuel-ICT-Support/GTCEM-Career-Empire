@@ -624,3 +624,18 @@ Studio previously waited for the complete selected outfit before replacing its p
 Some rendered campus paths were 7.5–19.5cm above flat physics ground. Tagged path triangles now create matching static walking surfaces, including parent transforms. Follow camera now checks existing physics walls after smoothing and shortens its distance when obstructed. Camera/feet and actual wardrobe checks are in progress; no live fix or complete review is claimed yet.
 
 Security/privacy impact unchanged: no new collection, providers, data locations, access, retention, permissions, save schema or student AI. Existing anonymous saves, gameplay, market rewards, full canonical avatar and original assets preserved. PR33 contains the verified My Life navigation fix and is not published yet.
+
+
+## Annotated banner decluttering
+Tania's six browser comments request phase/Flourishing, Flyover, Feedback and the Explore card at the top, and a top dropdown for all major places. Existing buttons now live inside a keyboard-accessible Places menu: Home Base, EST Prep, Careers Centre, Chapel, Avatar Studio, Markets, Oval, English and Media, SPACE. Existing navigation/unsaved-Studio guards are retained. Feedback is mounted in an optional header slot; other pages retain their original launcher. Phase, Flyover, Explore and View controls wrap in the banner on narrow screens. Original assets, gameplay, feedback provider and data handling remain unchanged.
+
+Initial three-width browser checks pass (1280/854/390,23.4s); screenshots reviewed. Corrected Feedback text contrast found visually. Expanded checks cover every destination, Flyover return, phase, My Life, curriculum fallback and wardrobe. Related older tests now open Places/View before selecting the same destination/control. No final deployment claim.
+
+The earlier final Studio/navigation run passed10 checks in1.6m, plus77 unit checks and existing My Life/wardrobe checks. Saved Dress ups now opens with the base even if selected clothing fails; the closed/loading fallback remains for unavailable Studio/base. Tagged northern-extension paving is also registered after environment integration, not only the initial landscape.
+
+
+Final local release checkpoint: 77 unit checks pass. The broader header/curriculum/Flyover/My Life/wardrobe run passed16 of17, exposing an old Markets stylesheet that hid the moved destination list. That rule is corrected, market HUD follows banner height, and the final8 focused tests pass in1.3m, including all9 menu destinations, desktop854/1280 and phone390 layouts, phone portrait/landscape Studio, every body choice with failed saved clothing, real paving/camera tests and visible/replayable queue observation. Earlier final10 Studio/curriculum/full-accessory checks passed. My Life4 delayed/failed-module/market-bridge checks remain passed. Physical Studio/Careers/EST/northern routes passed.
+
+Studio rendering now reserves the banner height so wrapping navigation cannot cover the model. Desktop view controls sit left of the avatar's feet. Dropdowns are mutually exclusive, close on outside click/Escape/selection, and destination selection returns keyboard focus to the canvas. Cache versions and exact release manifest include new CSS and the shared feedback launcher. No artwork/GLBs/save-schema/economy changes.
+
+Hosted result for earlier My Life-only6cbde11 (35964121097) failed the same hair-shoes.spec.js:32 campus-ready90000ms timeout as production, confirmed from its log. Final expanded candidate hosted/public verification is separate and pending; no full CI or physical student-device acceptance is claimed.

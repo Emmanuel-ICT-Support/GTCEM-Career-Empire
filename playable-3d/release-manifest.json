@@ -2,7 +2,7 @@
   "release": "student-usability-20260924",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "8863c0bce72d08e9798803155fd00f710f703607",
-  "scope": "My Life responsive tabs and return; progressive Studio preview and recovery; paving and camera collision fixes. Canonical assets and saves retained.",
+  "scope": "Responsive My Life and Back to game; progressive canonical Studio preview/retry; matched paving and camera collision; top banner Phase, Flyover, Feedback, Explore/View and all-location Places menu. Existing assets, gameplay and saves retained.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "abf0d48fde13a437ce38a5c374ff9ec817a5d82e520db5f1f512d49275775e92"
+      "sha256": "6753f8370acad49e7dda80e2f8854a8a0acc6c381fc6ee31d96615c8a5208762"
     },
     {
       "path": "arrival-precinct.js",
@@ -578,11 +578,11 @@
     },
     {
       "path": "flyover.js",
-      "sha256": "a95585cbe56eefbbab2bd5b63a68b7f65623398cbb73942300f8838f79ef6cbc"
+      "sha256": "aa9f2e1f3d6bba32a67e1141eabf5644000f8ddae06a35dbb53f084d1fbd5cc0"
     },
     {
       "path": "index.html",
-      "sha256": "7a38cc27ba79cbf0bba1c4097037ca9ed760d19f8aa7aadf9c1114a94d4d0613"
+      "sha256": "a761f711c0a66084940c33909f45e9bb0ca3ab9dca1b0806c5a991c978466cd8"
     },
     {
       "path": "joystick.js",
@@ -618,11 +618,11 @@
     },
     {
       "path": "night-market.css",
-      "sha256": "309a0ba00dd5d6461c3dbb29687fd713d3ecc7610aae560797496ebb5decc354"
+      "sha256": "b6a41449fa31e01606b3ea703d66c4dbc51a34e64af04404a8e5471322f1025f"
     },
     {
       "path": "night-market.js",
-      "sha256": "5a0916365a9ab05811aa9db24fe20c5bb09911459ff32d50c9cbca0ee0b744ab"
+      "sha256": "52d721fb80474afd68f2ee6169ffdadd3c87369c29b8b3a7fa12912d40f34e51"
     },
     {
       "path": "phone-assets.js",
@@ -734,7 +734,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "37fa9b9d54e9b98e3a39545217047d78fd950f47759be1a9a13bd84bdce61c98"
+      "sha256": "6bbeb3d5eedcf9ebb7c469a30bf84e121caf68be07c81bcf5e07b56a69b4dd9a"
     },
     {
       "path": "../economy-lab/index.html",
@@ -747,6 +747,14 @@
     {
       "path": "../economy-lab/style.css",
       "sha256": "32433cf5e1af340b518976bb955c037b687f89f19ceb3e2c6529cafc5c4679a0"
+    },
+    {
+      "path": "header-controls.css",
+      "sha256": "d2c9f62e83ca99a600ceecdb2daa933dd12f41c2d3ac58072ea15c7b8206c8a9"
+    },
+    {
+      "path": "../src/services/feedback-widget.js",
+      "sha256": "90bad9446f2e31fcf75b36eac271b50de898222999ed709dd925aacd91a542b0"
     }
   ],
   "estVideo": {
