@@ -19,3 +19,8 @@ body{background:#eaf0e8}button{border-radius:6px;font-weight:600}button:hover:no
 
 /* Preserve the original shop artwork framing. */
 .collection-preview{background:#102622}.collection-preview img{height:auto;aspect-ratio:900/560;border-radius:5px}.belonging img{height:auto;aspect-ratio:900/560;object-fit:contain;border-radius:6px;background:#102622}
+
+/* Keep navigation usable while optional modules and artwork load. */
+.back-to-game{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1px solid #bbc7bd;border-radius:6px;color:#243f38;background:#f7f9f4;text-decoration:none;font-weight:600;white-space:nowrap;margin-left:auto}
+.topbar .practice-tag{margin-left:0}#tracker-loading{margin:0;padding:12px 24px;background:#fff3d6;color:#243f38;font-size:13px}
+@media(max-width:720px){.topbar{gap:8px;padding:10px 12px}.topbar .practice-tag{display:none}.topbar .brand{font-size:10px;gap:6px}.topbar .brand-mark{display:none}.topbar button{min-width:0;padding:10px}.back-to-game{font-size:12px;padding:8px}.topbar .brand small{font-size:8px}}

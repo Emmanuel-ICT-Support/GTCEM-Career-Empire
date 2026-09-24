@@ -1,8 +1,8 @@
 {
-  "release": "market-student-playtest-20260924",
+  "release": "my-life-responsive-20260924",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "8363c061eb7f1e5856c75873e5d4fc7c34e04734",
-  "scope": "Authorised live release: clear market signs and food, shallow serving counter, queue-first trial flow, removed Home Economics sign, top-navigation My Life, batched food rendering. Existing progressive startup and saves preserved.",
+  "scope": "My Life tab navigation independent of delayed tracker modules; permanent Back to game, parallel small-module preload and lower-priority artwork. Previous market release and saves preserved.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -735,6 +735,18 @@
     {
       "path": "world.js",
       "sha256": "5d3b09e161c42dff222ada85ae7abc193d3f04e4212c173f70d22fe4e313f11e"
+    },
+    {
+      "path": "../economy-lab/index.html",
+      "sha256": "290abd4990b942153f3c92673f004a48d1cf1f8032ccc6648636946ad4e8426f"
+    },
+    {
+      "path": "../economy-lab/app.mjs",
+      "sha256": "70a03cf788974da657b05ac1d77c4769d7cba5c31e1d0248ab0bfa2416791046"
+    },
+    {
+      "path": "../economy-lab/style.css",
+      "sha256": "32433cf5e1af340b518976bb955c037b687f89f19ceb3e2c6529cafc5c4679a0"
     }
   ],
   "estVideo": {
