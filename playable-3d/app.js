@@ -467,11 +467,9 @@ function bindEvents(){
   new ResizeObserver(()=>{const height=header.offsetHeight;document.documentElement.style.setProperty('--game-header-height',height+'px');if(headerHeight!==height){headerHeight=height;resize();}}).observe(header);
   const menus=[...header.querySelectorAll('details')];
   menus.forEach(menu=>menu.addEventListener('toggle',()=>{if(menu.open){for(const other of menus)if(other!==menu)other.open=false;$('arrival-mission').classList.remove('mobile-expanded');$('arrival-mission').querySelector('button').setAttribute('aria-expanded','false');}}));
-  $('arrival-mission').querySelector('button').addEventListener('click',()=>menus.forEach(menu=>menu.open=false));
   document.addEventListener('click',e=>{if(!header.contains(e.target))menus.forEach(menu=>menu.open=false);});
   header.addEventListener('keydown',e=>{if(e.key==='Escape')menus.forEach(menu=>menu.open=false);});
-  $('destination-bar').addEventListener('click',e=>{if(e.target.closest('button')){$('destination-menu').open=false;canvas.focus();}});
-  $('studio-destination').addEventListener('click',openStudio);
+  $('destination-bar').addEventListener('click',e=>{if(e.target.closest('button')&&!e.target.closest('#arrival-mission')){$('destination-menu').open=false;canvas.focus();}});
   $('market-destination').addEventListener('click',()=>mode==='studio'?leaveStudio(openMarket):openMarket());
   $('oval-destination').addEventListener('click',()=>campusSpot(-4,-49.8,'Oval'));
   $('media-destination').addEventListener('click',()=>campusSpot(-4,-45,'English and Media',Math.PI));

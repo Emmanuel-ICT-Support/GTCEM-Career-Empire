@@ -639,3 +639,11 @@ Final local release checkpoint: 77 unit checks pass. The broader header/curricul
 Studio rendering now reserves the banner height so wrapping navigation cannot cover the model. Desktop view controls sit left of the avatar's feet. Dropdowns are mutually exclusive, close on outside click/Escape/selection, and destination selection returns keyboard focus to the canvas. Cache versions and exact release manifest include new CSS and the shared feedback launcher. No artwork/GLBs/save-schema/economy changes.
 
 Hosted result for earlier My Life-only6cbde11 (35964121097) failed the same hair-shoes.spec.js:32 campus-ready90000ms timeout as production, confirmed from its log. Final expanded candidate hosted/public verification is separate and pending; no full CI or physical student-device acceptance is claimed.
+
+
+## Compact banner refinement — 24 September
+Tania requests Town and Avatar Studio inside Find your place, removing separate navigation and placing My Life immediately before Flourishing so desktop controls fit one row. Existing checkout continues from deployed PR33 (merge c6efeb0, Pages35967520103 successful). All18 changed public files matched; fresh public browser campus-ready probe timed out at60seconds, so full live interaction acceptance remains incomplete. Hosted PR33 retains known approved hair/shoes campus timeout.
+
+Implementing one travel dropdown with Town, Studio and all existing destinations; guidance remains available within that dropdown. Compact desktop row, readable wrapping phone controls, existing unsaved appearance guards and background asset loading preserved. No new artwork, data collection or save changes. Follow-up visual/navigation checks and release receipt pending.
+
+Compact banner final local verification:10 browser scenarios pass in1.4m at1280/854/390, including all10 destinations, guidance open/close, Studio saved-profile edits and return during import, unsaved draft preservation and My Life delayed/failed module navigation.77 unit checks and source checks pass. Desktop854 screenshot confirms one66px row, My Life directly before Flourishing; phone wraps accessibly. No new assets. The initial obsolete test expected removed studio-destination; corrected to use the actual menu control, final run passes.

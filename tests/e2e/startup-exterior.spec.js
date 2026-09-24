@@ -22,7 +22,7 @@ test('failed courtyard keeps curriculum usable and retry opens campus once',asyn
  await expect(page.locator('#campus-retry')).toBeVisible({timeout:30000});
  await expect.poll(async()=>(await state()).arrivalRestricted).toBe(true);
  await page.locator('#places-toggle').click();await page.locator('#careers-destination').click();await expect.poll(async()=>(await state()).mode).toBe('careers');
- fail=false;await page.locator('#town-view').click();await page.locator('#campus-retry').click();
+ fail=false;await page.locator('#places-toggle').click();await page.locator('#town-view').click();await page.locator('#campus-retry').click();
  await expect.poll(async()=>(await state()).campusReady,{timeout:45000}).toBe(true);
  expect((await state()).arrivalRestricted).toBe(false);
  const finished=await page.evaluate(()=>window.exteriorCheck());expect(finished.children).toBe(1);expect(finished.colliders).toBeGreaterThan(20);

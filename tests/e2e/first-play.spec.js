@@ -17,7 +17,7 @@ test('Arrival is playable while distant models and textures wait, then opens the
   await page.keyboard.down('Shift');await page.keyboard.down('w');await page.waitForTimeout(5000);await page.keyboard.up('w');await page.keyboard.up('Shift');
   expect((await state(page)).position[2]).toBeGreaterThanOrEqual(7.29);
   await page.locator('#places-toggle').click();await page.locator('#home-destination').click();
-  await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled();
+  await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled();
   await expect(page.locator('#campus-progress')).toBeHidden();
   await page.locator('#save-avatar').click();await expect.poll(async()=>(await state(page)).mode).toBe('town');
   expect((await state(page)).campusReady).toBe(false);
@@ -26,7 +26,7 @@ test('Arrival is playable while distant models and textures wait, then opens the
   const notice=await page.locator('#campus-progress').boundingBox();
   expect(notice.x).toBeGreaterThanOrEqual(0);expect(notice.x+notice.width).toBeLessThanOrEqual(390);
   const controls=await page.locator('#world-tools').boundingBox();expect(notice.y).toBeGreaterThanOrEqual(controls.y+controls.height);
-  await expect(page.locator('#studio-view')).toBeInViewport();
+  await expect(page.locator('#places-toggle')).toBeInViewport();
   await page.screenshot({path:info.outputPath('playable-arrival-phone.png')});
   await page.setViewportSize({width:1280,height:720});
   release();await expect.poll(async()=>(await state(page)).campusReady,{timeout:60000}).toBe(true);
@@ -48,7 +48,7 @@ test('background failure keeps Arrival and Studio usable; retry does not duplica
  await expect(page.locator('#campus-retry')).toBeVisible({timeout:60000});
  await expect.poll(async()=>(await state(page)).arrivalRestricted).toBe(true);
  const before=await page.evaluate(()=>window.inspectCampus());expect(before.groups).toBe(0);
- await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled();await page.locator('#save-avatar').click();
+ await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled();await page.locator('#save-avatar').click();
  fail=false;await page.locator('#campus-retry').click();await expect.poll(async()=>(await state(page)).campusReady,{timeout:60000}).toBe(true);
  const after=await page.evaluate(()=>window.inspectCampus());expect(after.groups).toBe(1);expect(after.colliders).toBeGreaterThan(before.colliders);expect(avatars).toBe(1);
  await expect(page.locator('#campus-progress')).toBeHidden();

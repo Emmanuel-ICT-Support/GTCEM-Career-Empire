@@ -7,7 +7,7 @@ test('curriculum rooms remain accessible when campus decoration and Studio fail'
  await page.route('**/studio.js?*',r=>r.abort());
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});
  await expect(page.locator('#loading')).toBeHidden({timeout:30000});
- await page.locator('#studio-view').click();
+ await page.locator('#places-toggle').click();await page.locator('#studio-view').click();
  await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');
  await page.locator('#places-toggle').click();await page.locator('#est-destination').click();
  await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
@@ -17,10 +17,10 @@ test('curriculum rooms remain accessible when campus decoration and Studio fail'
  await page.locator('#interact').click();await expect(page.locator('#module-overlay')).toBeVisible();
  await expect(page.frameLocator('#module-frame').locator('body')).toContainText('EST');
  await page.locator('#close-module').click();
- await page.locator('#town-view').click();await expect.poll(async()=>(await state(page)).mode).toBe('town');
+ await page.locator('#places-toggle').click();await page.locator('#town-view').click();await expect.poll(async()=>(await state(page)).mode).toBe('town');
  await page.locator('#places-toggle').click();await page.locator('#careers-destination').click();await expect.poll(async()=>(await state(page)).mode).toBe('careers');
  await page.locator('#places-toggle').click();await page.locator('#chapel-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:15000}).toBe('chapel');
- await page.locator('#town-view').click();await expect.poll(async()=>(await state(page)).mode).toBe('town');
+ await page.locator('#places-toggle').click();await page.locator('#town-view').click();await expect.poll(async()=>(await state(page)).mode).toBe('town');
  await page.screenshot({path:info.outputPath('curriculum-available.png')});expect(errors).toEqual([]);
 });
 
@@ -36,7 +36,7 @@ for(const width of [1280,390])test(`slow saved avatar, Studio and poster never g
   await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);
   const start=(await state(page)).position[2];await page.keyboard.down('w');await page.waitForTimeout(650);await page.keyboard.up('w');
   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);
-  await page.locator('#studio-view').click();await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');
+  await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');
   await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
   const timing=await page.evaluate(()=>({firstFrameMs:Number(document.querySelector('#scene').dataset.firstFrameMs),curriculumMs:performance.now()}));
   await writeFile(info.outputPath('timing.json'),JSON.stringify(timing,null,2));
@@ -47,7 +47,7 @@ for(const width of [1280,390])test(`slow saved avatar, Studio and poster never g
   expect((await state(page)).mode).toBe('interior');await expect(page.locator('#studio-panel')).toBeHidden();
   expect(await page.evaluate(()=>localStorage.getItem('career-empire-3d-profiles-v2-tripo'))).toBe(saved);
   expect(requests.some(u=>/avatar-[ab]\.glb|occupational-|hair-.*\.glb|shoes-.*\.glb/.test(u))).toBe(false);
-  await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled({timeout:15000});
+  await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled({timeout:15000});
   expect(errors).toEqual([]);
  }finally{release();}
 });

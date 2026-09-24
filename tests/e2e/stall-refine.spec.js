@@ -3,7 +3,7 @@ for(const width of [1280,768,390])test(`My Life stays separate from phase and ac
  test.setTimeout(60000);await page.setViewportSize({width,height:844});
  await page.goto('/playable-3d/?review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});
  const link=page.getByRole('link',{name:'My Life',exact:true});await expect(link).toBeVisible();await expect(link).toBeInViewport();
- const bounds=await link.boundingBox();for(const selector of ['#world-tools','.account','#studio-view']){const other=await page.locator(selector).boundingBox();expect(bounds.x+ bounds.width<=other.x||other.x+other.width<=bounds.x||bounds.y+bounds.height<=other.y||other.y+other.height<=bounds.y).toBe(true);}
+ const bounds=await link.boundingBox();for(const selector of ['#world-tools','.account','#places-toggle']){const other=await page.locator(selector).boundingBox();expect(bounds.x+ bounds.width<=other.x||other.x+other.width<=bounds.x||bounds.y+bounds.height<=other.y||other.y+other.height<=bounds.y).toBe(true);}
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:info.outputPath(`hud-${width}.png`)});
  await link.click();await expect(page).toHaveURL(/economy-lab/);
