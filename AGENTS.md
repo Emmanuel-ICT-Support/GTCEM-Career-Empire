@@ -429,3 +429,18 @@ CE-CHANGE-20260921-78: four hairstyles and four shoes, selected-only downloads, 
 ## Curriculum-first loading — 22 September 2026
 
 CE-CHANGE-20260922-79 / PROD-20260922-LOADING-01: Tania approves Curriculum-First Progressive Loading. Optional cosmetics must never gate core navigation or learning. EST/Careers/Chapel entry no longer awaits campus decoration; poster loading is independent; temporary download-free avatar preserves saved settings and is replaced in the current room. Failed avatar has an explicit retry control. Studio remains on demand with friendly readiness feedback and cancellation. Preserve safe exterior boundaries, saved-profile schema, current wardrobe/artwork and separate unpublished hair refinements. No new gameplay, data service or curriculum content. Read docs/curriculum-first-progressive-loading-20260922.md. Local tests and controlled speed evidence recorded there; no live/hosted-CI/physical-device claim. Baseline is current main 0886faf, not the older pants-game checkout.
+
+
+## Live release verification — 22 September 2026
+
+Tania explicitly authorised merge to live. PR #29 merged at 2026-09-22T09:50:49Z to 3cba2aef347beadd1115eeb27d11809ae568b810; its tree matches tested source 93986277de8183a261402be660aa51db15527952. Pages deployment 35712692629 succeeded. Four changed public runtime files plus release-manifest match exact hashes. Fresh public Chromium desktop and 390px fault-injected runs pass EST/module, Careers, Chapel, movement, profile preservation and Studio normal/deferred/failure checks; first frames 4.597s and 2.850s respectively. The fault run deliberately blocks saved avatar, Studio, decorative tree and video poster. These are browser checks, not physical-phone guarantees. Two additional local hair/shoe flows pass in 30.4s. PR CI has the same full-campus-readiness timeout as prior main (42 unit/23 browser pass; 44 not run); postmerge CI remains in progress, no full pass claimed. No new artwork or further runtime changes. Separate Blueprint reader is not published and review hashes remain stale. Earlier draft/unmerged/no-deployment notes are historical. Canonical Blueprint retains the release receipt. These post-release notes are local documentation; deployed runtime remains the tested merge.
+
+
+## Startup asset gate final local checkpoint — 24 September 2026
+
+Existing game-loading checkout now defers courtyard/crest/boulder while preserving original palette, colliders and arrival bounds. Final 10 browser / 42 unit checks and 168 asset hashes pass. Controlled eight-second courtyard delay: first frame 8877ms to 371ms. Existing live main 3cba2ae unchanged; no publication. Read docs/startup-asset-gate-20260924.md. Blueprint exports current; release-review hash remains stale. Preserve existing unrelated edits and source art.
+
+
+## Live publication authorised — 24 September 2026
+
+Tania explicitly requests publishing this tested loading fix to the existing live game. Publish only the scoped startup code, release hashes, tests and handoff; preserve unrelated work and existing artwork. Deployment/public verification pending.

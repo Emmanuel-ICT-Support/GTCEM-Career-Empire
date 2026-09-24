@@ -10,7 +10,7 @@ test('Arrival is playable while distant models and textures wait, then opens the
   await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});
   await expect(page.locator('#loading')).toBeHidden({timeout:45000});
   await expect.poll(async()=>(await state(page)).mode).toBe('town');
-  expect((await state(page)).campusReady).toBe(false);expect((await state(page)).arrivalRestricted).toBe(true);
+  expect((await state(page)).campusReady).toBe(false);await expect.poll(async()=>(await state(page)).arrivalRestricted).toBe(true);
   const start=(await state(page)).position[2];
   await page.keyboard.down('w');await page.waitForTimeout(700);await page.keyboard.up('w');
   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);
@@ -46,7 +46,7 @@ test('background failure keeps Arrival and Studio usable; retry does not duplica
  page.on('request',r=>{if(r.url().includes('/player-schoolboy'))avatars++;});
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:45000});
  await expect(page.locator('#campus-retry')).toBeVisible({timeout:60000});
- expect((await state(page)).arrivalRestricted).toBe(true);
+ await expect.poll(async()=>(await state(page)).arrivalRestricted).toBe(true);
  const before=await page.evaluate(()=>window.inspectCampus());expect(before.groups).toBe(0);
  await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled();await page.locator('#save-avatar').click();
  fail=false;await page.locator('#campus-retry').click();await expect.poll(async()=>(await state(page)).campusReady,{timeout:60000}).toBe(true);
@@ -60,7 +60,7 @@ test('a failed detail texture retries in place after the landscape has already l
  await page.route('**/grass-ecc-campus-v1-lossless.webp',route=>fail?route.abort():route.continue());
  await page.route('**/app.js?*',async route=>{const response=await route.fetch();await route.fulfill({response,body:(await response.text())+'\nwindow.finishedMaterials=()=>({groups:worlds.town.children.filter(o=>o.name==="Campus landscape").length,materials:(()=>{const rows=[];worlds.town.traverse(o=>{if(o.isMesh&&o.material?.name==="Approved campus sandstone")rows.push([o.material.map?.image?.width,o.material.normalMap?.image?.width,o.material.envMap?.image?.width]);});return rows;})()});'});});
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:45000});
- await expect(page.locator('#campus-retry')).toBeVisible({timeout:60000});expect((await state(page)).arrivalRestricted).toBe(true);
+ await expect(page.locator('#campus-retry')).toBeVisible({timeout:60000});await expect.poll(async()=>(await state(page)).arrivalRestricted).toBe(true);
  expect((await page.evaluate(()=>window.finishedMaterials())).groups).toBe(1);
  fail=false;await page.locator('#campus-retry').click();await expect.poll(async()=>(await state(page)).campusReady,{timeout:60000}).toBe(true);
  const final=await page.evaluate(()=>window.finishedMaterials());expect(final.groups).toBe(1);expect(final.materials.length).toBeGreaterThan(0);

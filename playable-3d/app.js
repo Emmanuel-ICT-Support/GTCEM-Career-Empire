@@ -6,7 +6,7 @@ import {afterFirstPaint} from './deferred-textures.js?v=first-play-20260921';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds} from './world.js?v=curriculum-first-20260922';
+import {createWorlds} from './world.js?v=arrival-assets-20260924';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=curriculum-first-20260922';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=hair-shoes-20260921';
