@@ -1,12 +1,12 @@
 {
-  "release": "curriculum-first-20260922",
+  "release": "sunday-markets-local-20260924",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "0886faf8f37f898d072f678b517f826ac07a197b",
-  "scope": "Independent curriculum room access, nonblocking saved-avatar fallback/retry and on-demand Studio readiness. Existing artwork and selected-only wardrobe downloads preserved.",
+  "baseCommit": "3cba2aef347beadd1115eeb27d11809ae568b810",
+  "scope": "Unpublished daytime Sunday Markets with Home Economics entrance, optional Initiative guide and existing reference sheet; local explicit My work bridge to port 8792. Account, public deployment and production bridge packaging excluded.",
   "files": [
     {
       "path": "app.js",
-      "sha256": "9433ae3b7e5dcc35573720b9c84083d08926164d59333330f03e340c511d67e6"
+      "sha256": "0bdd67a72c67226f2fa0b89ff4436fa8bbe88c7a142aab71d8e2eff307118da6"
     },
     {
       "path": "arrival-precinct.js",
@@ -550,7 +550,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "f902f7a4eba3025062daf0733d54843aad4015a862d632cf5733a43b36fb6b9f"
+      "sha256": "50aafe2fff0077ea4a79c4c80f7aaf12412a6e6c5fafeed6ca5d5dbe4d6cbee3"
     },
     {
       "path": "joystick.js",
@@ -563,6 +563,18 @@
     {
       "path": "mobile-play.js",
       "sha256": "733b5974ea0f06d9805dd4adfe5832cb877423a953c02af55f91d4e92c8830f1"
+    },
+    {
+      "path": "night-market-state.js",
+      "sha256": "92c3ac41338711deddee764916fad23a00b94b0c5a58d829b4c0b7edb6757e1b"
+    },
+    {
+      "path": "night-market.css",
+      "sha256": "309a0ba00dd5d6461c3dbb29687fd713d3ecc7610aae560797496ebb5decc354"
+    },
+    {
+      "path": "night-market.js",
+      "sha256": "e8ec4ea6d41f59c245b9f676a5bab74f43c6722f796e4d92d36ee4fbe3a4967b"
     },
     {
       "path": "phone-assets.js",
@@ -675,6 +687,14 @@
     {
       "path": "world.js",
       "sha256": "92d6f66f52d814c787df8bda1a170a3104ff8ab945d0bda898fff8e0467ebe49"
+    },
+    {
+      "path": "night-market-agency.js",
+      "sha256": "918d0b3403ab11d267ba128c1af343f5a0187d4e52ba927b51a188c3bcccb83d"
+    },
+    {
+      "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
+      "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
     }
   ],
   "estVideo": {

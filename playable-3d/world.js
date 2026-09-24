@@ -273,6 +273,8 @@ export async function createWorlds(onProgress=()=>{}){
   careers.add(new THREE.HemisphereLight(0xe2eeee,0x6c6a55,2.2));
   const careersSun=new THREE.DirectionalLight(0xffe8c7,2);careersSun.position.set(-5,9,6);careers.add(careersSun);
   const careersTitle=sign('CAREERS ADVICE CENTRE',6);careersTitle.position.set(0,5.65,-6.48);careers.add(careersTitle);
+  const myLifeDesk={x:3.5,z:1.5};
+  const myLifeSign=sign('MY LIFE',1.8);myLifeSign.position.set(myLifeDesk.x,1.65,myLifeDesk.z+.1);careers.add(myLifeSign);
   const shopDesk={x:-3.5,z:1.5};
   const shopSign=sign('SHOP DEMO',1.8);shopSign.position.set(shopDesk.x,1.65,shopDesk.z+.1);careers.add(shopSign);
   const shopHint=sign('$100,000 PRACTICE MONEY',5);shopHint.position.set(0,3.6,-6.48);careers.add(shopHint);
@@ -475,7 +477,7 @@ export async function createWorlds(onProgress=()=>{}){
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {loadDetailTextures:()=>textures.start(),openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {loadDetailTextures:()=>textures.start(),openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){pondTime.value=time;if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
