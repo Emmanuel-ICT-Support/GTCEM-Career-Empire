@@ -340,7 +340,7 @@ function updateCamera(dt,snap=false){
   const p=actor.model.position;
   if(mode==='market'&&nightMarket?.observing){
     const distance=Math.max(8,6/camera.aspect);
-    desiredCamera.set(.5,4.4,distance);lookAt.set(-.3,1,-1.5);
+    desiredCamera.set(.5,4.4+(distance-8)*.75,distance);lookAt.set(-.3,1,-1.5);
     camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*5));camera.lookAt(lookAt);return;
   }
   if(watchingEST){const viewingDistance=Math.max(7.9,6.8/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect));desiredCamera.set(0,3.3,-6.48+viewingDistance);lookAt.set(0,3.3,-6.48);camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);return;}
