@@ -1,20 +1,23 @@
 import * as THREE from 'three';
-import {createPracticeStore,VALUES,BADGES,MARKET_SHOP} from './night-market-state.js?v=market-payoff-20260924';
-import {PLAN_OPTIONS,NOTE_FIELDS,describePlan,evaluatePlan,caseNoteText} from './night-market-agency.js?v=market-payoff-20260924';
+import {createPracticeStore,VALUES,BADGES,MARKET_SHOP} from './night-market-state.js?v=market-lawns-20260924';
+import {PLAN_OPTIONS,NOTE_FIELDS,describePlan,evaluatePlan,caseNoteText} from './night-market-agency.js?v=market-lawns-20260924';
+import {marketCharacters} from './market-characters.js?v=market-lawns-20260924';
+import {marketSurroundings} from './market-surroundings.js?v=market-lawns-20260924';
 const money=n=>'$'+(n/100).toFixed(2);
-// Temporary native geometry: no commissioned assets, accounts or curriculum writes.
-export function createNightMarket({storage,onPause,onClose,onExit}){
+// Campus materials and locally optimised NPCs; practice state remains independent.
+export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,campusGrass}){
  const reviewMode=new URLSearchParams(location.search).get('market-review')==='1';
  const reviewData=new Map();
  if(reviewMode)storage={getItem:k=>reviewData.get(k)??null,setItem:(k,v)=>reviewData.set(k,v),removeItem:k=>reviewData.delete(k)};
  const store=createPracticeStore(storage),scene=new THREE.Scene();let celebrationTime=0;
  scene.background=new THREE.Color('#b9dce3');scene.fog=new THREE.Fog('#b9dce3',24,58);
- scene.add(new THREE.HemisphereLight('#c3e6ea','#8d9271',2.3));
- const sun=new THREE.DirectionalLight('#ffe1a1',2.1);sun.position.set(-9,14,6);scene.add(sun);
+ scene.add(new THREE.HemisphereLight('#e1f2ff','#98b697',1.15));
+ const sun=new THREE.DirectionalLight('#ffdfb2',3.2);sun.position.set(-16,24,18);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-18,right:18,top:18,bottom:-18,near:1,far:70});sun.shadow.normalBias=.035;scene.add(sun);
  const mats=new Map(),obstacles=[],customers=[],lanterns=[],labels=[];
- const mat=(colour,glow=false)=>{const key=colour+glow;if(!mats.has(key))mats.set(key,new THREE.MeshStandardMaterial({color:colour,roughness:.85,...(glow?{emissive:colour,emissiveIntensity:.7}:{})}));return mats.get(key);};
- function box(w,h,d,x,y,z,c,parent=scene){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat(c));m.position.set(x,y,z);parent.add(m);return m;}
- function orb(r,x,y,z,c,parent=scene,glow=false){const m=new THREE.Mesh(new THREE.SphereGeometry(r,12,8),mat(c,glow));m.position.set(x,y,z);parent.add(m);return m;}
+ const cast=marketCharacters();let visitor=0;
+ const mat=(colour,glow=false)=>{const campusKey={'#80654c':'timber','#dbc7a2':'timber','#387f7b':'blue','#38716b':'blue','#b7a784':'stone','#b4a17d':'timber'}[colour];if(!glow&&campusPalette&&campusKey)return campusPalette[campusKey];const key=colour+glow;if(!mats.has(key))mats.set(key,new THREE.MeshStandardMaterial({color:colour,roughness:.85,...(glow?{emissive:colour,emissiveIntensity:.7}:{})}));return mats.get(key);};
+ function box(w,h,d,x,y,z,c,parent=scene){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat(c));m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;parent.add(m);return m;}
+ function orb(r,x,y,z,c,parent=scene,glow=false){const m=new THREE.Mesh(new THREE.SphereGeometry(r,12,8),mat(c,glow));m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;parent.add(m);return m;}
  function label(text,x,y,z,width=3,colour='#fcf0d5'){
   const c=document.createElement('canvas');c.width=768;c.height=192;const ctx=c.getContext('2d');
   ctx.fillStyle='#183b3b';ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='#bfa878';ctx.lineWidth=7;ctx.strokeRect(4,4,760,184);
@@ -25,18 +28,12 @@ export function createNightMarket({storage,onPause,onClose,onExit}){
  function changeLabel(sprite,text){
   if(sprite.userData.text===text)return;sprite.userData.text=text;const c=sprite.userData.labelCanvas,ctx=c.getContext('2d');ctx.fillStyle='#183b3b';ctx.fillRect(0,0,768,192);ctx.strokeStyle='#bfa878';ctx.lineWidth=7;ctx.strokeRect(4,4,760,184);ctx.font='bold 40px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fcf0d5';ctx.fillText(text,384,96,718);sprite.material.map.needsUpdate=true;
  }
- function npc(x,z,colour){const g=new THREE.Group();g.position.set(x,0,z);box(.45,.72,.28,0,1.08,0,colour,g);orb(.22,0,1.67,0,'#c99575',g);for(const side of [-1,1]){box(.16,.65,.19,side*.13,.41,0,'#263d46',g);box(.13,.58,.16,side*.31,1.05,0,colour,g);}scene.add(g);return g;}
- function stall(x,z,title,colour){
-  box(4,.95,1.5,x,.48,z,'#80654c');box(4.25,.12,1.7,x,1,z,'#dbc7a2');
-  for(const side of [-1,1])box(.12,2.8,.12,x+side*1.9,1.4,z,'#ad9270');
-  box(4.5,.18,2.5,x,2.8,z,colour);label(title,x,2.25,z+.85,3.5);
-  obstacles.push({x,z,w:4.1,d:1.65});
- }
- box(25,.2,29,0,-.11,0,'#657572');box(8,.025,26,0,.01,0,'#c5bea9');
- for(let z=-12;z<=12;z+=2)box(8,.012,.025,0,.028,z,'#9e9c8f');
- stall(0,-5,'01 / JUNIPER KITCHEN','#387f7b');stall(-8,0,'03 / LITTLE FINDS','#b77a54');
- npc(0,-5.7,'#e8c56a');label('MARA / STALLHOLDER',0,3.45,-5,2.5);
- const helper=npc(1.1,-5.8,'#68b5ae');const helperLabel=label('SAM / JUNIPER CREW',1.1,2.3,-5.8,2.5);
+ function npc(x,z,colour,id,facing=Math.PI){const g=new THREE.Group();g.position.set(x,0,z);box(.45,.72,.28,0,1.08,0,colour,g);orb(.22,0,1.67,0,'#c99575',g);for(const side of [-1,1]){box(.16,.65,.19,side*.13,.41,0,'#263d46',g);box(.13,.58,.16,side*.31,1.05,0,colour,g);}scene.add(g);cast.register(g,id||['customer-a','customer-b','customer-c','customer-d','customer-e'][visitor++%5],{facing});return g;}
+ function stall(x,z){obstacles.push({x,z,w:4.1,d:1.65});}
+ marketSurroundings(scene,obstacles,campusPalette,campusGrass);
+ stall(0,-5);stall(-8,0);
+ npc(-.5,-5.85,'#e8c56a','mara',0);label('MARA',-.5,2.08,-5.85,1.15);
+ const helper=npc(1.1,-5.8,'#68b5ae','sam',0);const helperLabel=label('SAM / JUNIPER CREW',1.1,2.3,-5.8,1.8);
  for(const [x,z]of [[-2,-1],[-3,1],[-2,2.5]])customers.push(npc(x,z,'#a1a7c4'));
  const trialBags=Array.from({length:6},(_,i)=>box(.22,.25,.22,-1.3+(i%3)*.3,1.18,-5+Math.floor(i/3)*.3,'#d7b977'));
  const extraCustomers=[npc(-3,3.5,'#a1a7c4'),npc(-1,2,'#c9b17c'),npc(-1,3.5,'#c9b17c')];
@@ -50,22 +47,47 @@ export function createNightMarket({storage,onPause,onClose,onExit}){
  const collectionLabel=label('JUNIPER / COLLECT HERE',2.8,1.65,-4.4,2.5);
  const sign=new THREE.Group();box(.09,1.5,.09,0,.75,0,'#d2b983',sign);box(1.2,.45,.10,0,1.35,0,'#f9db85',sign);scene.add(sign);
  const signText=label('PICK UP HERE  >',0,1.5,0,1.6);sign.visible=false;signText.visible=false;
+ // Keep the complete stage cluster together when changing its placement.
+ const beforeStage=new Set(scene.children),stageObstacleStart=obstacles.length;
  // A small stage, not a concert production. All forms remain replaceable.
- box(5,.5,3.5,0,.25,-11,'#3b5359');obstacles.push({x:0,z:-11,w:5,d:3.5});
- box(6,.16,3.8,0,3.4,-11,'#a3a387');for(const x of [-2.8,2.8])box(.12,3.4,.12,x,1.7,-11,'#52646a');
- label('THE LATE SHIFT / SOUND CHECK',0,3,-9.6,4.5);
+ obstacles.push({x:0,z:-11,w:5,d:3.5});
+
+
  const crewRibbon=label('CREW / YOUR FIRST GIG',4,2.3,-10,2.6);
  const celebrationLights=[-2,-1,1,2].map((x,i)=>orb(.18,x,3,-10,['#e8b96e','#77d6cd','#e8b96e','#77d6cd'][i],scene,true));
  const ticket=box(.65,.035,.32,-6.6,.7,7,'#edcb80');
  const stageGlow=orb(.22,0,3.2,-11,'#ffdb87',scene,true);
- const performer=npc(0,-11,'#c9976b');performer.position.y=.5;
- const band=[npc(-1.3,-11,'#699d93'),npc(1.3,-11,'#ac7890')];band.forEach((p,i)=>{p.position.y=.5;box(.5,.35,.12,0,1.15,.2,i?'#a67e49':'#496677',p);box(.1,.7,.1,.22,1.55,.2,'#dbc7a2',p);});
+ const performer=npc(0,-11,'#c9976b',undefined,0);performer.position.y=.5;
+ const band=[npc(-1.3,-11,'#699d93',undefined,0),npc(1.3,-11,'#ac7890',undefined,0)];band.forEach(p=>p.position.y=.5);
+ // Freestanding sound-check equipment; no props attached to idle character rigs.
+ const keyboard=new THREE.Group();keyboard.name='Stage keyboard and X stand';keyboard.position.set(-1.3,.5,-10.45);scene.add(keyboard);
+ box(1.12,.11,.38,0,.9,0,'#253237',keyboard);
+ for(let i=0;i<21;i++)box(.047,.025,.24,-.5+i*.05,.97,.045,'#f1ede2',keyboard);
+ for(let i=0;i<20;i++)if(![2,6].includes(i%7))box(.028,.035,.14,-.475+i*.05,1,-.005,'#182326',keyboard);
+ for(const side of [-1,1]){const leg=box(.035,.91,.065,0,.44,0,'#344349',keyboard);leg.rotation.z=side*.58;box(.5,.035,.42,side*.22,.018,0,'#344349',keyboard);}
+ box(.1,.018,.025,.41,.975,-.14,'#7badac',keyboard);
+ function microphone(x){
+  const stand=new THREE.Group();stand.name='Stage microphone stand';stand.position.set(x,.5,-10.5);scene.add(stand);
+  const base=new THREE.Mesh(new THREE.CylinderGeometry(.15,.17,.035,16),mat('#253237'));base.position.y=.02;stand.add(base);
+  box(.025,1.28,.025,0,.66,0,'#4c595d',stand);
+  const boom=box(.025,.3,.025,0,1.34,-.08,'#4c595d',stand);boom.rotation.x=-.7;
+  const capsule=orb(.045,0,1.45,-.18,'#848c8c',stand);capsule.scale.set(.75,.75,1.65);
+ }
+ microphone(0);microphone(1.3);
  const thanks=label('THANK YOU, JUNIPER CREW',2.5,3.9,-10.8,4.5);thanks.visible=false;
  const audience=[npc(-3.7,-6.8,'#8eacbb'),npc(-4.4,-6.2,'#c6aa75'),npc(-3.2,-7.3,'#aaa0bd')];audience.forEach(p=>p.visible=false);
 
  for(const x of [-2,2])box(.6,1,.6,x,1,-10.8,'#243537');
- label('FREE / STAGE BREAK',-5,2.1,-8,3);
- box(2,.45,.7,-5,.23,-8.8,'#b4a17d');obstacles.push({x:-5,z:-8.8,w:2,d:.7});
+ const stageBreakLabel=label('FREE / STAGE BREAK',-5,2.1,-8,3);
+ const stageBench=box(2,.45,.7,-5,.23,-8.8,'#b4a17d');obstacles.push({x:-5,z:-8.8,w:2,d:.7});
+ // Juniper is centred at (0,-5); the stage now faces the same entrance from its right.
+ for(const child of scene.children)if(!beforeStage.has(child)&&child!==ticket){child.position.x+=8;child.position.z+=6;}
+ for(const obstacle of obstacles.slice(stageObstacleStart)){obstacle.x+=8;obstacle.z+=6;}
+ crewRibbon.position.set(9.3,2.3,-2.8);thanks.position.set(8,3.9,-4.8);
+ audience.forEach((p,i)=>p.position.set(6.3+i*.9,0,-1.8-(i%2)*.3));
+ stageBench.position.set(6.5,.23,1);stageBreakLabel.position.set(6.5,2.1,1);
+ Object.assign(obstacles.at(-1),{x:6.5,z:1});
+
  box(1,1.3,.55,7,.65,6,'#38716b');label('05 / SAVE & CONTRIBUTE',7,2.2,6,3.5);obstacles.push({x:7,z:6,w:1,d:.55});
  box(2,.65,1,-7,.33,7,'#b7a784');label('YOUR MARKET SHELF',-7,1.75,7,3.5);obstacles.push({x:-7,z:7,w:2,d:1});
  const keepsake=new THREE.Group();box(.3,.5,.3,0,.3,0,'#efc36b',keepsake);orb(.14,0,.65,0,'#ffdf98',keepsake,true);keepsake.position.set(-7,.68,7);scene.add(keepsake);
@@ -73,10 +95,10 @@ export function createNightMarket({storage,onPause,onClose,onExit}){
  const savingsTokens=[];for(let i=0;i<3;i++)savingsTokens.push(box(.25,.09,.25,6.7+i*.3,1.37,6,'#f4ce80'));
  for(const x of [-10,10])for(let z=-12;z<=10;z+=5.5){box(.13,4,.13,x,2,z,'#8d8971');orb(.14,x,3.85,z,'#ffe0a1',scene,true);}
  for(let i=0;i<17;i++){const x=-10+i*1.25,y=3.9-.6*Math.sin(Math.PI*i/16);orb(.085,x,y,4,'#ffdd93',scene,true);}
- for(const x of [-10,10])for(const z of [-10,9]){box(1.4,.5,1.4,x,.25,z,'#947e60');box(.2,2,.2,x,1.2,z,'#8f765b');orb(1,x,2.2,z,'#426757');}
+
  for(const x of [5.5,8.5]){box(.09,2.5,.09,x,1.25,7,'#b39a77');lanterns.push(orb(.2,x,2.5,7,'#ffd578',scene,true));}
- label('SUNDAY MARKETS',-9,3.2,5,2.8);
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=market-payoff-20260924',import.meta.url).href;document.head.append(css);
+
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=market-lawns-20260924',import.meta.url).href;document.head.append(css);
  const hud=document.createElement('section');hud.id='market-hud';hud.hidden=true;hud.setAttribute('aria-label','Live Music and Sunday Markets practice');
  hud.innerHTML='<details id="market-card"><summary>Your first gig <span aria-hidden="true">⌄</span></summary><div class="market-card-details"><div class="market-kicker">SUNDAY MARKET / LOCAL PRACTICE</div><h2>Your first gig</h2><div class="market-balance" id="market-balance"></div><div class="market-tools"><button id="market-journal">Journal & map</button><button id="market-exit">Return to campus</button></div><p class="market-status" id="market-status" role="status"></p></div></details><p id="market-objective" aria-live="polite"></p><button id="market-replay" hidden>Start a fresh shift…</button>';
  document.getElementById('experience').append(hud);
@@ -217,7 +239,7 @@ export function createNightMarket({storage,onPause,onClose,onExit}){
   ]);
   if(!s.reviewed)return show('Try your idea, then check it','Mara: “Yes, let’s test that. Keep the ordering counter open and the walkway clear. Come back when you have seen what helps.”',[],s.proposal==='sign'?'Use the setup station to the right of the path. Choose a sign position, then watch the next group of customers.':'Agree the collection role with Sam, then watch the next group of customers at the setup station.');
   if(!s.paid)return show('You made a difference',s.proposal==='sign'?'Mara: “You checked the workflow, spoke up, and tested a sign customers could actually see.”':'Mara: “You checked the workflow and gave Sam a clear role. Customers now know which queue they need.”',[
-   ['Finish the shift · receive $18 and crew pass',()=>{if(commit('pay','Paid $18 after $2 community tax. Crew pass earned.'))show('Your first gig — earned','Your Initiative and Problem solving game badges remember what you did. Your crew pass is ready at the right side of the stage.',[['Explore the market',close],['Open my journal',journal]],'$20 gross − $2 community tax = $18 net. The pass is an extra thank-you; your wages are yours to save, spend or give.');else journal();}]
+   ['Finish the shift · receive $18 and crew pass',()=>{if(commit('pay','Paid $18 after $2 community tax. Crew pass earned.'))show('Your first gig — earned','Your Initiative and Problem solving game badges remember what you did. Your crew pass is ready at the front-right corner of the stage.',[['Explore the market',close],['Open my journal',journal]],'$20 gross − $2 community tax = $18 net. The pass is an extra thank-you; your wages are yours to save, spend or give.');else journal();}]
   ]);
   show('Shift complete — enjoy your day','Your wages have already been paid. Take your crew pass to the stage-side spot, or enjoy the free music area.',[['Open my journal',journal]]);
  }
@@ -299,7 +321,7 @@ export function createNightMarket({storage,onPause,onClose,onExit}){
  function journal(){
   const s=store.state,badges=s.badges.map(b=>BADGES[b].join(': ')).join(' ');
   show('Your market journal',`${s.paid?'First shift complete.':s.accepted?'Shift in progress.':'A first opportunity is waiting.'} Wallet ${money(s.wallet)} · Savings ${money(s.savings)}. ${s.rested?'You took a free break.':''} ${s.encore?'Ticket stub: MY FIRST GIG — Juniper Kitchen crew.':s.pass?'Crew pass: ready to use beside the stage.':''} ${badges||'Game badges will describe the skills you practise.'}`,[
-   ['Where do I go?',()=>show('Around the market','Walk forward to Mara at 01 / Juniper Kitchen. The waiting customer is on the left of the path; Sam works at Juniper Kitchen. The observation spot is left of the entrance path; the Juniper work bench is beside the right-hand end of the stall. The crew-pass spot is to the right of the stage. Little Finds is to the left. Save & Contribute and your market shelf are near the entrance. The stage break is at the far-left end.',[], 'Use WASD / arrow keys or the movement controls. Drag to look. Walk close, then press E or tap the interaction button. All activities are untimed.')],
+   ['Where do I go?',()=>show('Around the market','Walk forward to Mara at 01 / Juniper Kitchen. The waiting customer is on the left of the path; Sam works at Juniper Kitchen. The observation spot is left of the entrance path; the Juniper work bench is beside the right-hand end of the stall. The concert stage is to the right of Juniper Kitchen; the crew-pass spot is at its front-right corner. Little Finds is to the left. Save & Contribute and your market shelf are near the entrance. The free stage-break bench is in front of the concert stage.',[], 'Use WASD / arrow keys or the movement controls. Drag to look. Walk close, then press E or tap the interaction button. All activities are untimed.')],
    ['My first gig / case note',caseNote,s.revision!==3],
    ['Optional thinking guide',thinkingGuide],
    ['Initiative / reference sheet',initiativeSheet],
@@ -308,7 +330,7 @@ export function createNightMarket({storage,onPause,onClose,onExit}){
  }
  hud.querySelector('#market-replay').onclick=restartPractice;hud.querySelector('#market-journal').onclick=journal;hud.querySelector('#market-exit').onclick=onExit;
  function sync(){
-  const s=store.state;hud.querySelector('#market-objective').textContent=!s.accepted?'Start: meet Mara at Juniper Kitchen.':s.revision===1?'Earlier practice saved. Continue it, or start a fresh revised shift.':!s.proposal?`Investigate: customer ${s.listened?'✓':'—'} · queue ${s.observed?'✓':'—'} · Sam’s workflow ${s.learned?'✓':'—'}. Then propose an idea to Mara.`:!s.placed?(s.proposal==='helper'?'Agree Sam’s role, then visit the setup station.':'Place your sign at the Juniper work bench beside the stall.'):!s.solution?(s.tested?'Trial: customers missed the counter sign. Revise at the setup station.':'Try it with the next customers at the setup station.'):!s.reviewed?'Check the result: speak to the customer at collection.':!s.paid?'Return to Mara for your wages and crew pass.':!s.encore?'Shift complete! Use your crew pass at the right side of the stage.':'First gig complete. Ticket saved in your journal. Enjoy the market.';
+  const s=store.state;hud.querySelector('#market-objective').textContent=!s.accepted?'Start: meet Mara at Juniper Kitchen.':s.revision===1?'Earlier practice saved. Continue it, or start a fresh revised shift.':!s.proposal?`Investigate: customer ${s.listened?'✓':'—'} · queue ${s.observed?'✓':'—'} · Sam’s workflow ${s.learned?'✓':'—'}. Then propose an idea to Mara.`:!s.placed?(s.proposal==='helper'?'Agree Sam’s role, then visit the setup station.':'Place your sign at the Juniper work bench beside the stall.'):!s.solution?(s.tested?'Trial: customers missed the counter sign. Revise at the setup station.':'Try it with the next customers at the setup station.'):!s.reviewed?'Check the result: speak to the customer at collection.':!s.paid?'Return to Mara for your wages and crew pass.':!s.encore?'Shift complete! Use your crew pass at the front-right corner of the stage.':'First gig complete. Ticket saved in your journal. Enjoy the market.';
   if(s.revision===3)hud.querySelector('#market-objective').textContent=!s.accepted?'Start: meet Mara at Juniper Kitchen.':s.paid?'Shift complete. Your case note and crew pass are in the journal.':testing>0?'The next customers are arriving. Watch what happens.':s.trials.length?'Your goal: make service smoother. Compare results, investigate, revise or hand over to Mara.':'Your goal: make service smoother. Investigate or design an arrangement — you choose.';
   hud.querySelector('#market-replay').hidden=!s.paid;if(reviewMode)hud.querySelector('.market-kicker').textContent='FRESH REVIEW / NOT SAVED';
   hud.querySelector('#market-balance').textContent=`Wallet ${money(s.wallet)} · Saved ${money(s.savings)} · ${s.badges.length} game badges`;
@@ -327,22 +349,23 @@ export function createNightMarket({storage,onPause,onClose,onExit}){
   if(store.error)announce(store.error);
  }
  label('OBSERVE THE QUEUE',-3,1.7,4,2.1);label('JUNIPER / WORK BENCH',4.2,1.35,-2.65,2.3);
- const spots=[{x:-3,z:4,label:'Observe the queue',action:observe},{x:4.2,z:-1.8,label:'Set up & test',action:setup},{x:4,z:-9,label:'Use crew pass',action:crew},{x:0,z:-3.6,label:'Talk to Mara',action:mara},{x:-2,z:-.2,label:'Talk to the waiting customer',action:customer},{x:1.5,z:-3.3,label:'Ask Sam',action:sam},{x:-6,z:1.2,label:'Browse Little Finds',action:shop},{x:6.5,z:4.7,label:'Save & contribute',action:bank},{x:-5,z:-7,label:'Take a stage break',action:stage},{x:-7,z:5.7,label:'My market shelf',action:()=>show('A place for your story',[store.state.encore?'Your earned first-gig ticket stub.':'',store.state.keepsake?'Your purchased amber lantern.':'',store.state.purchases.includes('plant')?'Your purchased little green plant.':''].filter(Boolean).join(' ')||'Your shelf is ready for a keepsake. You do not need to buy anything to belong here.')}];
+ const spots=[{x:-3,z:4,label:'Observe the queue',action:observe},{x:4.2,z:-1.8,label:'Set up & test',action:setup},{x:9,z:-1.8,label:'Use crew pass',action:crew},{x:0,z:-3.6,label:'Talk to Mara',action:mara},{x:-2,z:-.2,label:'Talk to the waiting customer',action:customer},{x:1.5,z:-3.3,label:'Ask Sam',action:sam},{x:-6,z:1.2,label:'Browse Little Finds',action:shop},{x:6.5,z:4.7,label:'Save & contribute',action:bank},{x:6.5,z:2.4,label:'Take a stage break',action:stage},{x:-7,z:5.7,label:'My market shelf',action:()=>show('A place for your story',[store.state.encore?'Your earned first-gig ticket stub.':'',store.state.keepsake?'Your purchased amber lantern.':'',store.state.purchases.includes('plant')?'Your purchased little green plant.':''].filter(Boolean).join(' ')||'Your shelf is ready for a keepsake. You do not need to buy anything to belong here.')}];
  sync();if(store.state.solution)customerProgress=1;
  return {
   scene,spawn:new THREE.Vector3(0,0,7.5),isOpen:()=>dialog.open,
-  setVisible(value){visible=value;hud.hidden=!value;document.getElementById('experience').classList.toggle('in-market',value);if(!value){watching=0;testing=0;close();stopMusic();}else{store.reload();sync();announce(store.error||lastAnnounced||(store.state.paid?'Resuming a completed practice shift.':'Walk close to Mara, then press E or tap Talk to Mara.'));}},
+  setVisible(value){visible=value;hud.hidden=!value;document.getElementById('experience').classList.toggle('in-market',value);if(!value){watching=0;testing=0;close();stopMusic();}else{cast.start();store.reload();sync();announce(store.error||lastAnnounced||(store.state.paid?'Resuming a completed practice shift.':'Walk close to Mara, then press E or tap Talk to Mara.'));}},
   interaction(p){if(dialog.open)return null;const current=store.state;const spot=spots.map(s=>s.action===customer&&current.revision!==3&&current.solution?{...s,x:2.8,z:-2}:s.action===sam&&current.revision===3?{...s,x:current.plan.helper==='greet'?1.5:current.plan.helper==='collect'?collection.position.x:1.5,z:current.plan.helper==='greet'?-1.6:current.plan.helper==='collect'?collection.position.z+.9:-3.3}:s.action===sam&&(current.placed==='assign-helper'||current.solution==='helper')?{...s,x:1.5,z:-2.3}:s).map(s=>({...s,distance:Math.hypot(s.x-p.x,s.z-p.z)})).sort((a,b)=>a.distance-b.distance)[0];return spot.distance<2.25?spot:null;},
   move(p,delta){const next={x:p.x,y:0,z:p.z},valid=(x,z)=>Math.abs(x)<11.4&&z>-12.7&&z<11.7&&!obstacles.some(o=>Math.abs(x-o.x)<o.w/2+.3&&Math.abs(z-o.z)<o.d/2+.3);if(valid(p.x+delta.x,p.z))next.x+=delta.x;if(valid(next.x,p.z+delta.z))next.z+=delta.z;return next;},
   update(dt,t,camera){if(!visible)return;for(const {sprite,width}of labels){const factor=Math.min(1,camera.position.distanceTo(sprite.position)/12);sprite.scale.set(width*factor,width*factor/4,1);}const s=store.state;
    if(!dialog.open&&watching>0){watching+=dt;if(watching>=4){watching=0;if(commit('observe','Queue clue: phone customers join ordering; the counter is hidden behind people.'))show('What you observed','Phone customers waited in the ordering queue while their bags sat at collection. From behind the queue, the counter is hard to see.');}}
    if(!dialog.open&&testing>0){testing+=dt;customerProgress=Math.min(1,testing/4);if(testing>=5){testing=0;if(s.revision===3){if(commit('run-trial','This group has finished. What do you notice in the results?'))trialResults();}else if(commit('test',s.placed==='place-counter'?'Customers still cannot see the sign. Revise and try again.':'Customers found collection. Ask them what helped.'))show('Trial result',store.state.solution?'The customers reached collection without joining the ordering queue. Check with the customer to review the result.':'The sign was hidden behind the queue. Customers still joined ordering. Change the position at the setup station and try again — no pay lost.');}}
    if(s.solution||(s.revision===3&&s.trials.length))customerProgress=Math.min(1,customerProgress+dt*.28);customers.forEach((g,i)=>{const start=[[-2,-1],[-3,1],[-2,2.5]][i];const progress=(s.solution||(testing>0&&s.placed!=='place-counter'))?Math.max(0,Math.min(1,customerProgress*1.4-i*.18)):0;g.position.x=THREE.MathUtils.lerp(start[0],2.8,progress);g.position.z=THREE.MathUtils.lerp(start[1],-3.3+i*.75,progress)+(watching>0?Math.sin(watching*.8+i)*.35:0);});if(s.revision===3){const outcome=testing>0?evaluatePlan(s.plan):(s.tested?s.trials.at(-1)?.outcome:null);const moving=testing>0||Boolean(outcome);[...customers,...extraCustomers].forEach((g,i)=>{
-    const start={x:i<4?-2-(i%2)*.6:-.7,z:1+Math.floor(i/2)*1.3};const reached=outcome&&(i<4?i<outcome.pickup:i-4<outcome.ordering);const dest=reached?(i<4?{x:s.plan.collection==='front'?0:2.8,z:(s.plan.collection==='front'?-2.6:-3.2)+(i%2)*.35}:{x:-.6,z:s.plan.collection==='front'?-2.5:-3.5}):{x:-2+(i%2)*.4,z:-.4+Math.floor(i/2)*.8};
+    const start={x:i<4?-2-(i%2)*.9:-.6,z:1+(i<4?Math.floor(i/2):i-4)*1.3};const reached=outcome&&(i<4?i<outcome.pickup:i-4<outcome.ordering);const dest=reached?(i<4?{x:s.plan.collection==='front'?.4:3.05,z:(s.plan.collection==='front'?-2.6:-3.1)+i*.8}:{x:-1.25,z:(s.plan.collection==='front'?-2.5:-3.5)+(i-4)*.9}):{x:-2-(i%2)*.9,z:-.4+Math.floor(i/2)*1.05};
     const progress=moving?Math.min(1,Math.max(0,customerProgress*1.4-i*.08)):0;g.position.set(THREE.MathUtils.lerp(start.x,dest.x,progress),0,THREE.MathUtils.lerp(start.z,dest.z,progress));
    });}
    celebrationTime=Math.max(0,celebrationTime-dt);changeLabel(thanks,celebrationTime>0?'THIS ONE IS FOR THE JUNIPER CREW!':'YOUR FIRST GIG / CREW MEMORY');const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;band.forEach((p,i)=>p.rotation.z=reduced?0:Math.sin(t*2+i)*.035);audience.forEach((p,i)=>{p.rotation.z=!reduced&&celebrationTime>0?Math.sin(t*3+i)*.07:0;});
+   cast.update(dt,reduced);
    performer.rotation.z=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:Math.sin(t*2)*.03;},
-  journal,caseNote,snapshot:()=>({practice:true,...store.state,storageError:store.error})
+  journal,caseNote,snapshot:()=>({visuals:cast.snapshot(),practice:true,...store.state,storageError:store.error})
  };
 }

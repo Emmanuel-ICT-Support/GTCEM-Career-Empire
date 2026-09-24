@@ -2,7 +2,7 @@ import {test,expect} from './campus-fixtures.js';
 // Isolated real module/DOM/scene integration. Separate from full avatar navigation.
 for(const width of [1280,390])test(`research mission and pass ${width}`,async({page})=>{
  await page.setViewportSize({width,height:844});
- await page.route('**/market-test',r=>r.fulfill({contentType:'text/html',body:`<html><head><script type="importmap">{"imports":{"three":"/playable-3d/vendor/three/build/three.module.js"}}</script></head><body><main id="experience"><canvas id="scene" tabindex="0"></canvas></main></body></html>`}));
+ await page.route('**/market-test',r=>r.fulfill({contentType:'text/html',body:`<html><head><script type="importmap">{"imports":{"three":"/playable-3d/vendor/three/build/three.module.js","three/addons/":"/playable-3d/vendor/three/examples/jsm/"}}</script></head><body><main id="experience"><canvas id="scene" tabindex="0"></canvas></main></body></html>`}));
  await page.goto('/market-test');
  await page.evaluate(async()=>{
   const {createNightMarket}=await import('/playable-3d/night-market.js');const THREE=await import('three');
@@ -26,7 +26,7 @@ for(const width of [1280,390])test(`research mission and pass ${width}`,async({p
  expect((await page.evaluate(()=>market.snapshot())).paid).toBe(false);
  await visit(2.8,-2);await click('People got the right information before choosing a queue');await close();
  await visit(0,-3.6);await click('Finish the shift · receive $18 and crew pass');await click('Explore the market');
- await visit(4,-9);await click('Use my crew pass');
+ await visit(9,-1.8);await click('Use my crew pass');
  const s=await page.evaluate(()=>market.snapshot());expect(s.wallet).toBe(1800);expect(s.badges).toEqual(['initiative','problem','adapting']);expect(s.encore).toBe(true);
  await page.evaluate(()=>market.journal());await expect(page.locator('#market-dialog')).toContainText('Ticket stub: MY FIRST GIG');
  expect(await page.locator('#market-dialog').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);
