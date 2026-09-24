@@ -1,4 +1,4 @@
-import {pavingNetwork} from './paving-network.js?v=walkthrough2';
+import {pavingNetwork} from './paving-network.js?v=student-usability-20260924';
 import * as T from 'three';
 import {dressedBox,planter,batchStatic} from './approved-campus-kit.js?v=walkthrough2';
 import {addAuthoredGarden} from '../ecc-preview/authored-garden.js?v=annotations1';

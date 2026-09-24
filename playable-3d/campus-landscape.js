@@ -1,4 +1,4 @@
-import {pavingNetwork} from './environment/paving-network.js?v=walkthrough2';
+import {pavingNetwork} from './environment/paving-network.js?v=student-usability-20260924';
 import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=first-play-20260921';
 import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=annotations1';
 import {batchStatic} from './environment/static-batching.js?v=1';
@@ -21,7 +21,7 @@ const loaded=preloadedAssets || await loadCampusAssets();
 const group=new THREE.Group();group.name='Campus landscape';scene.add(group);
 const placements=[];const colliders=[];
 const paving=palette.paving,soil=palette.soil,edge=palette.stone;
-function rect(x,z,w,d,material,y=.095){const geo=new THREE.PlaneGeometry(w,d);geo.rotateX(-Math.PI/2);const uv=geo.attributes.uv,pos=geo.attributes.position;for(let i=0;i<uv.count;i++)uv.setXY(i,(pos.getX(i)+x)/3,(pos.getZ(i)+z)/3);const m=new THREE.Mesh(geo,material);m.position.set(x,y,z);m.receiveShadow=true;group.add(m);return m;}
+function rect(x,z,w,d,material,y=.095){const geo=new THREE.PlaneGeometry(w,d);geo.rotateX(-Math.PI/2);const uv=geo.attributes.uv,pos=geo.attributes.position;for(let i=0;i<uv.count;i++)uv.setXY(i,(pos.getX(i)+x)/3,(pos.getZ(i)+z)/3);const m=new THREE.Mesh(geo,material);m.position.set(x,y,z);m.userData.walkable=material===paving;m.receiveShadow=true;group.add(m);return m;}
 const pavingPaths=pavingNetwork(group,paving);const path=pavingPaths.path;
 path([[-7,25],[-7,18],[-7,8],[-6,5],[-6,2],[-6,-1],[-3,-4],[0,-8.4]],4.2);
 path([[-7,5],[-12.4,5]],4);path([[-7,18],[-13,18],[-13,12],[-19,12],[-19,14.8]],3.2);
@@ -31,7 +31,7 @@ path([[9,8],[10,2],[11,-5],[13,-9],[13,-16],[9,-20],[0,-22]],3.2);
 path([[-20,-22],[-8,-22],[5,-22],[18,-22]],3.2);
 path([[-11,-5],[-11,-14],[-11,-19],[-15,-22]],3.2);
 pavingPaths.finish();
-const plaza=new THREE.Mesh(new THREE.CircleGeometry(5.5,64),paving);plaza.rotation.x=-Math.PI/2;plaza.position.set(0,.09,4);plaza.receiveShadow=true;group.add(plaza);
+const plaza=new THREE.Mesh(new THREE.CircleGeometry(5.5,64),paving);plaza.rotation.x=-Math.PI/2;plaza.position.set(0,.09,4);plaza.receiveShadow=true;plaza.userData.walkable=true;group.add(plaza);
 // The long southern display pond is intentionally removed. The smaller Garden
 // pond beside the buildings remains part of the active landscape.
 function add(id,x,z,scale=1,rotation=0){placements.push({id,x,z,scale,rotation});}

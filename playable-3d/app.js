@@ -7,9 +7,9 @@ import {afterFirstPaint} from './deferred-textures.js?v=first-play-20260921';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds,sign} from './world.js?v=market-lawns-20260924';
+import {createWorlds,sign} from './world.js?v=student-usability-20260924';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=curriculum-first-20260922';
+import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=student-usability-20260924';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=hair-shoes-20260921';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
@@ -95,16 +95,37 @@ async function updateActor(ready){
   }
 }
 async function updatePreview(){
-  const request=++previewRequest;
+  const request=++previewRequest,profile=copy(draft);
+  const current=()=>request===previewRequest&&mode==='studio';
+  const show=()=>{
+    if(!current())return;
+    // Keep the working preview until its replacement has been constructed.
+    const replacement=createCharacter(profile);
+    replacement.model.rotation.y=preview?.model.rotation.y||0;
+    preview?.dispose();preview=replacement;studio.add(preview.model);
+    preview.setWalking(previewWalking);$('studio-caption').textContent=profile.name;
+    canvas.dataset.previewBody=profile.body;
+  };
   $('undo').disabled=!undo.length;$('redo').disabled=!redo.length;
-  $('save-avatar').disabled=true;
-  $('edit-state').textContent='Preparing your outfit…';
-  try{await loadProfileKit(draft);}catch{if(request===previewRequest&&mode==='studio')$('edit-state').textContent='Outfit could not load. Choose it again to retry.';return;}
-  if(request!==previewRequest||mode!=='studio')return;
-  const rotation=preview?.model.rotation.y || 0;
-  preview?.dispose();preview=createCharacter(draft);preview.model.rotation.y=rotation;studio.add(preview.model);preview.setWalking(previewWalking);
-  $('studio-caption').textContent=draft.name;$('edit-state').textContent=dirty()?'Unsaved':'Saved';$('undo').disabled=!undo.length;$('redo').disabled=!redo.length;$('save-avatar').disabled=false;
+  $('save-avatar').disabled=true;$('retry-outfit').hidden=true;
+  $('edit-state').textContent='Loading avatar…';
+  try{
+    await loadProfileKit(profile,()=>{
+      show();
+      if(current())$('edit-state').textContent='Avatar ready · loading selected clothing…';
+    });
+    if(!current())return;
+    show();$('edit-state').textContent=dirty()?'Unsaved':'Saved';
+    $('save-avatar').disabled=false;
+  }catch{
+    if(current()){
+      $('edit-state').textContent='Outfit could not load completely. Retry or choose another option.';
+      $('retry-outfit').hidden=false;
+    }
+  }
 }
+$('retry-outfit').addEventListener('click',updatePreview);
+
 function changeDraft(mutator){undo.push(copy(draft));if(undo.length>60)undo.shift();redo=[];mutator(draft);draft=normaliseProfile(draft);updatePreview();renderEditor();}
 function field(label,key,type='text',rows){
   const wrapper=document.createElement('label');wrapper.className='field';
@@ -232,7 +253,7 @@ async function ensureCampus(){
       const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
       await new Promise(resolve=>setTimeout(resolve,0));
       if(!environmentReady){
-        const {integrateEnvironment}=await import('./environment.js?v=stall-refine-20260924');
+        const {integrateEnvironment}=await import('./environment.js?v=student-usability-20260924');
         const before=new Set(worlds.town.children);
         try{await integrateEnvironment(worlds);environmentReady=true;}
         catch(error){for(const child of [...worlds.town.children])if(!before.has(child))child.removeFromParent();throw error;}
@@ -258,7 +279,7 @@ async function setMode(next){
       studioLoad ||= import('./studio.js?v=lazy-20260917').then(({createStudio})=>{
         ({studio,orbit}=createStudio(camera,canvas,{texture:worlds.town.environment}));
       }).catch(error=>{studioLoad=null;throw error;});
-      studioLoadPending=true;await Promise.all([studioLoad,loadProfileKit(copy(active()))]);studioLoadPending=false;
+      studioLoadPending=true;await Promise.all([studioLoad,loadCharacterKit(active().body)]);studioLoadPending=false;
       if(request!==modeRequest)return false;
       clearTimeout(toastTimer);$('toast').hidden=true;
     }catch{studioLoadPending=false;if(request===modeRequest)toast('Avatar Studio is getting ready. The studio is still setting things up. Explore Career Empire and pop back in a few minutes.');return false;}
@@ -356,8 +377,15 @@ function updateCamera(dt,snap=false){
     desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+(mode==='interior'||mode==='careers'?3:1.95),p.z+Math.cos(yaw)*distance);
     lookAt.set(p.x-Math.sin(yaw)*(mode==='chapel'?5:1.1),p.y+(mode==='chapel'?2.75+chapelTilt:1.55),p.z-Math.cos(yaw)*(mode==='chapel'?5:1.1));
   }
+  if(mode==='interior'||mode==='careers'){desiredCamera.x=THREE.MathUtils.clamp(desiredCamera.x,-6.65,6.65);desiredCamera.z=THREE.MathUtils.clamp(desiredCamera.z,-6.55,6.75);}
   if(mode==='chapel'){desiredCamera.x=THREE.MathUtils.clamp(desiredCamera.x,-10.5,10.5);desiredCamera.z=THREE.MathUtils.clamp(desiredCamera.z,-8.05,8.05);}
-  camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);
+  camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));
+  // Resolve after smoothing too: an old camera position may be across a wall.
+  if(!aerial&&mode!=='market'){
+    worlds.protectCamera(space(),p,camera.position);
+    if((mode==='interior'||mode==='careers')||camera.position.distanceTo(p)<3.5)lookAt.set(p.x,p.y+.9,p.z);
+  }
+  camera.lookAt(lookAt);
 }
 function updateMission(){
  if(mode!=='town')return;
@@ -533,7 +561,7 @@ async function boot(){
       else if(!studioFirst)afterFirstPaint().then(openCampusInBackground);
       else {
         $('campus-progress').hidden=true;
-        setMode('studio').then(async opened=>{if(!opened){openCampusInBackground();return;}if(draft.body!=='pantstest'){draft.body='pantstest';await updatePreview();}if(mode==='studio'){editorTab='style';renderEditor();}});
+        setMode('studio').then(async opened=>{if(!opened){openCampusInBackground();return;}if(mode==='studio'){draft.body='pantstest';editorTab='style';renderEditor();updatePreview();}});
       }
     }else await ensureCampus();
     if(!marketRequested&&new URLSearchParams(location.search).get('view')==='chapel-interior')await enterChapel();

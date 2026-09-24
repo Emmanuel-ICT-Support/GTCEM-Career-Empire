@@ -1,8 +1,8 @@
 {
-  "release": "my-life-responsive-20260924",
+  "release": "student-usability-20260924",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "8363c061eb7f1e5856c75873e5d4fc7c34e04734",
-  "scope": "My Life tab navigation independent of delayed tracker modules; permanent Back to game, parallel small-module preload and lower-priority artwork. Previous market release and saves preserved.",
+  "baseCommit": "8863c0bce72d08e9798803155fd00f710f703607",
+  "scope": "My Life responsive tabs and return; progressive Studio preview and recovery; paving and camera collision fixes. Canonical assets and saves retained.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "2852202faa6de22a58adc58cc80099dc63e7b427b62a34ae8d7fb55cb51207ab"
+      "sha256": "abf0d48fde13a437ce38a5c374ff9ec817a5d82e520db5f1f512d49275775e92"
     },
     {
       "path": "arrival-precinct.js",
@@ -394,7 +394,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "3d1754f0d9d844c2b99a3308432e4a418ad37138347c6fff967e01beb39f67cd"
+      "sha256": "d4dc9263ab7b16e2d984cf05b33719b7f585fb2d5c3bc715074649c10338acfd"
     },
     {
       "path": "chapel.js",
@@ -402,7 +402,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "f2df93277c912e53838549b0c7856ea93092f19266ff295a6d05818014be9972"
+      "sha256": "7def3784f5b79b29aed15caad7a1e331d018af06d34bef8782f9babb3735b74b"
     },
     {
       "path": "deferred-textures.js",
@@ -518,7 +518,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "4ec96a94f8e90114a23f7bd883514d1bb6a386bddb7a0db2f8391c4982dfb685"
+      "sha256": "3cd33b9494a317432399f1b52935e18ed7cb18777456a007be3ac83f964a837e"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -534,7 +534,7 @@
     },
     {
       "path": "environment/campus-extensions.js",
-      "sha256": "ea9065220168b24de441a355de90174ae617b0524c9df622ff7eea74a556af92"
+      "sha256": "7d64457b0bdc37b37c778004a9a254a5cc70c0fc5e199704c3898837831c5dca"
     },
     {
       "path": "environment/ground-polish.js",
@@ -550,7 +550,7 @@
     },
     {
       "path": "environment/paving-network.js",
-      "sha256": "bb703d63fd8be54d7ea15349225b3aaca106636e473ef15e32b6f13b0727f044"
+      "sha256": "fae11730dcfbcc9842b35587d04dc3b445c240f73ec52d0ae836dab5c7ad5762"
     },
     {
       "path": "environment/paving-polygons.js",
@@ -566,7 +566,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "c8846f084eab2286336520d3cfdf5729ab645a2928d74e18287b330a2ba5f569"
+      "sha256": "921caba0131934b7f7615567c9340a4247321a907495a161cc55e26ab3191736"
     },
     {
       "path": "est-wall-video.js",
@@ -582,7 +582,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "5c99da4aea966ca9dba280f5f1e414c3017b33fa19887051c0468a7c86ad9bad"
+      "sha256": "7a38cc27ba79cbf0bba1c4097037ca9ed760d19f8aa7aadf9c1114a94d4d0613"
     },
     {
       "path": "joystick.js",
@@ -734,7 +734,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "5d3b09e161c42dff222ada85ae7abc193d3f04e4212c173f70d22fe4e313f11e"
+      "sha256": "37fa9b9d54e9b98e3a39545217047d78fd950f47759be1a9a13bd84bdce61c98"
     },
     {
       "path": "../economy-lab/index.html",

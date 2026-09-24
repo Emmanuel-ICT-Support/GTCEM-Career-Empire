@@ -17,7 +17,7 @@ export function pavingNetwork(root,material,y=.085){
  function finish(){
   const positions=[],uv=[];const polygons=mergePavingPolygons(pieces);
   for(const p of polygons)for(let i=1;i<p.length-1;i++)for(const a of [p[0],p[i+1],p[i]]){positions.push(a[0],y,a[1]);uv.push(a[0]/3,a[1]/3);}
-  const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2));geo.computeVertexNormals();const mesh=new T.Mesh(geo,material);mesh.name='Joined campus paving — single surface';mesh.receiveShadow=true;root.add(mesh);return mesh;
+  const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2));geo.computeVertexNormals();const mesh=new T.Mesh(geo,material);mesh.name='Joined campus paving — single surface';mesh.userData.walkable=true;mesh.receiveShadow=true;root.add(mesh);return mesh;
  }
  return {path,finish};
 }
