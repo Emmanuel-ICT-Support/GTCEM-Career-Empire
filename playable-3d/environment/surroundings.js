@@ -1,4 +1,4 @@
-import {campusExtensions} from './campus-extensions.js?v=walkthrough2';
+import {campusExtensions} from './campus-extensions.js?v=stall-refine-20260924';
 import {batchStatic} from './static-batching.js?v=1';
 import {buildMedia} from './media-building.js?v=walkthrough3';
 import {buildSpace} from './space-building.js?v=walkthrough3';

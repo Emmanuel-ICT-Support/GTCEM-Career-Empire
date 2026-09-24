@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {JUNIPER} from './market-food.js?v=stall-refine-20260924';
 import {approvedPalette,dressedBox,planter,batchStatic} from './environment/approved-campus-kit.js?v=first-play-20260921';
 import {addCourtyardPlanting} from './ecc-preview/courtyard-detail.js';
 
@@ -24,10 +25,11 @@ export function marketSurroundings(scene,obstacles,campusPalette,campusGrass){
  // A limestone garden boundary makes this a courtyard attached to the campus.
  box(0,.45,-13.4,25,.9,.35);box(-12.2,.45,-1,.35,.9,25);box(12.2,.45,-1,.35,.9,25);
  for(const x of [-12.2,12.2])for(const z of [-12.5,-5,3,11])box(x,.65,z,.55,1.3,.55);
- function stall(x,z,name){
-  box(x,.46,z,4,.92,1.5,p.stone);box(x,1,z,4.28,.14,1.72,p.timber);
-  for(let k=-1.8;k<=1.8;k+=.18)box(x+k,.48,z+.765,.07,.78,.035,p.timber);
-  for(const dx of [-1.92,1.92])for(const dz of [-.74,.74])box(x+dx,1.46,z+dz,.095,2.92,.095,p.blue);
+ function stall(x,z,name,serving=false){
+  const depth=serving?JUNIPER.depth:1.72,top=serving?JUNIPER.top:1.07;
+  box(x,(top-.14)/2,z,4,top-.14,depth-.16,p.stone);box(x,top-.07,z,4.28,.14,depth,p.timber);
+  for(let k=-1.8;k<=1.8;k+=.18)box(x+k,(top-.14)/2,z+(depth-.16)/2+.015,.07,top-.28,.035,p.timber);
+  for(const dx of [-1.92,1.92])for(const dz of [-.74,.74]){box(x+dx,1.46,z+dz,.095,2.92,.095,p.blue);if(serving)obstacles.push({x:x+dx,z:z+dz,w:.095,d:.095});}
   for(const dx of [-1,1]){const roof=box(x+dx*1.14,2.96,z,2.38,.07,2.8,canvas);roof.rotation.z=-dx*.12;}
   box(x,2.74,z+1.4,4.6,.28,.055,green);plaque(name,x,2.73,z+1.44,3.6,.37);
   // Back worktop behind staff, leaving their body positions unobstructed.
@@ -35,14 +37,10 @@ export function marketSurroundings(scene,obstacles,campusPalette,campusGrass){
   for(const dx of [-1.2,1.2])box(x+dx,.93,z-1.62,.48,.08,.32,p.plaster);
   obstacles.push({x,z:z-1.65,w:3.8,d:.5});
  }
- stall(0,-5,'JUNIPER KITCHEN');stall(-8,0,'LITTLE FINDS');
- plaque('RICE BOWLS  ·  ORDER HERE',-.65,.57,-4.2,2.35,.3);
+ stall(0,-5,'JUNIPER KITCHEN',true);stall(-8,0,'LITTLE FINDS');
+ plaque('RICE BOWLS  ·  ORDER HERE',-.65,.51,JUNIPER.z+JUNIPER.depth/2+.02,2.35,.3);
  // Small food props: bowls, produce crates, utensils and a card terminal.
- for(const x of [-1.4,-.9,-.4]){
-  const bowl=new THREE.Mesh(new THREE.CylinderGeometry(.17,.11,.1,14),p.plaster);bowl.position.set(x,1.13,-4.7);architecture.add(bowl);
-  const rice=new THREE.Mesh(new THREE.SphereGeometry(.135,12,6),new THREE.MeshStandardMaterial({color:'#e6dcb8',roughness:1}));rice.scale.y=.28;rice.position.set(x,1.18,-4.7);architecture.add(rice);
- }
- box(1.45,1.12,-4.7,.23,.15,.2,p.blue);
+ box(1.45,JUNIPER.top+.075,-4.9,.23,.15,.2,p.blue);
  for(const x of [-8.9,-8.2,-7.5]){box(x,1.2,.05,.27,.27,.27,p.roof);const plant=new THREE.Mesh(new THREE.SphereGeometry(.23,8,6),green);plant.scale.y=1.4;plant.position.set(x,1.51,.05);architecture.add(plant);}
  // Timber concert deck and campus-blue framing, still to Juniper's right.
  box(8,.24,-5,5,.48,3.5,p.timber);

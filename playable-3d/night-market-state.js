@@ -28,7 +28,7 @@ export function applyEvent(previous,type){
    }else if(kind==='share-plan'){
     if(s.shared||s.paid)return previous;s.shared=true;
    }else if(kind==='run-trial'){
-    if(!s.shared||s.paid||s.tested||s.trials.length>=12)return previous;
+    if(s.paid||s.tested||s.trials.length>=12)return previous;
     const outcome=evaluatePlan(s.plan);s.trials.push({plan:{...s.plan},outcome,inspected:false});s.tested=true;s.reviewed=false;s.consolidated=false;s.solution=outcome.effective?'arrangement':null;if(!outcome.effective)s.attempted=true;
     if(Object.keys(DEFAULT_PLAN).some(k=>s.plan[k]!==DEFAULT_PLAN[k]))badge('initiative');
    }else if(kind==='inspect-trial'){

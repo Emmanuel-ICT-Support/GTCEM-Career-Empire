@@ -47,3 +47,8 @@
 .campus-progress{position:absolute;top:94px;left:50%;width:max-content;transform:translateX(-50%);z-index:20;max-width:calc(100% - 32px);padding:9px 14px;border-radius:12px;background:#fffffff2;color:#29434a;box-shadow:0 3px 15px #233d431a;font-size:13px;display:flex;align-items:center;gap:10px}.campus-progress[hidden],.in-studio .campus-progress{display:none}.campus-progress button{white-space:nowrap;padding:6px 10px;border-radius:7px;border:1px solid #b7c8bd;background:#fff;color:#29434a;cursor:pointer}
 
 @media(max-width:620px){.campus-progress{top:150px;font-size:12px}}
+
+/* My Life belongs beside the main views, outside the phase/settings panel. */
+.mode-switch .my-life-link{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 14px;color:var(--ink);font-size:13px;font-weight:600;text-decoration:none;border-radius:5px;white-space:nowrap}
+.mode-switch .my-life-link:hover{background:#e0eadd}.mode-switch .my-life-link:focus-visible{outline:2px solid #37604b;outline-offset:2px}.my-life-link svg{width:18px;height:18px}
+@media(max-width:620px),(max-height:500px) and (max-width:950px){.mode-switch .my-life-link{width:56px;min-width:56px;padding:6px 3px;font-size:11px;line-height:1.2}.mode-switch .my-life-link svg{display:none}}
