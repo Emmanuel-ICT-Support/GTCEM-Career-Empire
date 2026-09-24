@@ -186,7 +186,9 @@ export async function createWorlds(onProgress=()=>{}){
   draco.setDecoderPath('./vendor/draco/');
   loader.setDRACOLoader(draco);
   const textures=createDeferredTextures();
-  const exteriorReady=buildExterior({inGame:true,textures});
+  // Full courtyard assets are optional until the arrival boundary opens.
+  let exteriorLoad;
+  const outerAsset={root:new THREE.Group(),obstacles:[]};
   // The new Studio is native geometry; optional scenery must not block startup.
   const studioReady=Promise.resolve({scene:new THREE.Group()});
   onProgress('Loading plaza textures and town buildings...');
@@ -200,7 +202,7 @@ export async function createWorlds(onProgress=()=>{}){
     tryLoadPlazaMap('./assets/plaza/crosswalk_overlay.png',1,1,textures),
     tryLoadPlazaMap('./assets/plaza/curb_cyan_trim.png',12,1,textures),
   ]);
-  const [outerAsset,studioAsset,,maps]=await Promise.all([exteriorReady,studioReady,physicsReady,texturesReady]);
+  const [studioAsset,,maps]=await Promise.all([studioReady,physicsReady,texturesReady]);
   const [grassMap,stoneMap,asphaltMap,dashMap,crosswalkMap,curbMap]=maps;
   onProgress('Building the learning district...');
   const town=new THREE.Scene(),interior=new THREE.Scene();
@@ -254,7 +256,9 @@ export async function createWorlds(onProgress=()=>{}){
 
   const est=outerAsset.root;est.name='ECC Campus Hub';est.position.set(0,.12,-11);town.add(est);
   const home=consolidate(studioAsset.scene);home.name='ECC Avatar Studio';home.position.set(-17,0,5);home.rotation.y=-Math.PI/2;home.visible=false;town.add(home);
-  const palette=approvedPalette(est);const precinct=arrivalPrecinct(town,stoneTex,sign,palette);
+  const palette=approvedPalette(est);palette.interior=palette.interior.clone();
+  for(const [key,material] of Object.entries(palette))material.userData.deferredPalette=key;
+  const precinct=arrivalPrecinct(town,stoneTex,sign,palette);
   const legacySign=sign('ORIGINAL CAREER EMPIRE',3.1,'#f2e4bd','#29434a');legacySign.position.set(LEGACY.x,1.72,LEGACY.z);town.add(legacySign);
   const legacyHint=sign('OPEN THE ORIGINAL GAME',2.65,'#e6d9b9','#29434a');legacyHint.position.set(LEGACY.x,.92,LEGACY.z);town.add(legacyHint);
   for(const dx of [-1.1,1.1])box(town,.1,1.95,.1,basic(0x304c54),LEGACY.x+dx,.975,LEGACY.z-.16);
@@ -408,6 +412,35 @@ export async function createWorlds(onProgress=()=>{}){
     for(const y of [1.8,3.6,5.4])box(restorations,.9,.08,5.5,basic(0x9a8b67),x,y,-13.5);
   }
   // Flat walkable ground + building / prop colliders (same bounds as before).
+  function addExteriorColliders(world,obstacles){
+      for(const b of obstacles){
+        if(b.type==='box'){const desc=RAPIER.ColliderDesc.cuboid(b.w/2,1.8,b.d/2).setTranslation(b.x,1.8,b.z-11);if(b.yaw)desc.setRotation({x:0,y:Math.sin(b.yaw/2),z:0,w:Math.cos(b.yaw/2)});world.createCollider(desc);}
+        if(b.type==='circle')world.createCollider(RAPIER.ColliderDesc.cylinder(2,b.r).setTranslation(b.x,2,b.z-11));
+        if(b.type==='chapel'){
+          // Full exterior wall collision, preserving the recessed doorway but not opening an unfinished interior.
+          for(let i=0;i<64;i++){const angle=i*Math.PI*2/64-Math.PI;if(Math.abs(angle-b.doorAngle)<b.doorHalf)continue;const x=b.x+Math.sin(angle)*(b.r-.1),z=b.z-11+Math.cos(angle)*(b.r-.1);world.createCollider(RAPIER.ColliderDesc.cuboid(.19,2.2,.14).setTranslation(x,2.2,z).setRotation({x:0,y:Math.sin(angle/2),z:0,w:Math.cos(angle/2)}));}
+          world.createCollider(RAPIER.ColliderDesc.cylinder(2.2,b.r-.65).setTranslation(b.x,2.2,b.z-11));
+        }
+      }
+  }
+  function loadExterior(){
+    if(!exteriorLoad)exteriorLoad=buildExterior({inGame:true,textures}).then(asset=>{
+      addExteriorColliders(townPhysics.world,asset.obstacles);
+      outerAsset.root.add(asset.root);outerAsset.obstacles=asset.obstacles;
+      // Arrival materials and their clones retain identity while receiving the
+      // accepted courtyard artwork; later buildings use this same palette.
+      const ready=approvedPalette(est),seen=new Set();
+      function hydrate(material){
+        const key=material.userData.deferredPalette;if(!key||seen.has(material))return;
+        seen.add(material);const side=material.side;
+        material.copy(ready[key]);if(key==='glass'&&material!==palette[key])material.side=side;material.onBeforeCompile=ready[key].onBeforeCompile;
+        material.customProgramCacheKey=ready[key].customProgramCacheKey;material.needsUpdate=true;
+      }
+      town.traverse(o=>{if(o.isMesh)for(const m of(Array.isArray(o.material)?o.material:[o.material]))hydrate(m);});
+      Object.values(palette).forEach(hydrate);
+    }).catch(error=>{exteriorLoad=null;throw error;});
+    return exteriorLoad;
+  }
   function physics(inside){
     const world=new RAPIER.World({x:0,y:-9.81,z:0});
     const block=(x,y,z,w,h,d)=>world.createCollider(RAPIER.ColliderDesc.cuboid(w/2,h/2,d/2).setTranslation(x,y,z));
@@ -417,15 +450,6 @@ export async function createWorlds(onProgress=()=>{}){
       for(const s of stations)block(s.x,.65,s.z,2.35,1.3,1.1);
     }else if(!inside){
       block(0,.08,-7.6,19,.16,19);
-      for(const b of outerAsset.obstacles){
-        if(b.type==='box'){const desc=RAPIER.ColliderDesc.cuboid(b.w/2,1.8,b.d/2).setTranslation(b.x,1.8,b.z-11);if(b.yaw)desc.setRotation({x:0,y:Math.sin(b.yaw/2),z:0,w:Math.cos(b.yaw/2)});world.createCollider(desc);}
-        if(b.type==='circle')world.createCollider(RAPIER.ColliderDesc.cylinder(2,b.r).setTranslation(b.x,2,b.z-11));
-        if(b.type==='chapel'){
-          // Full exterior wall collision, preserving the recessed doorway but not opening an unfinished interior.
-          for(let i=0;i<64;i++){const angle=i*Math.PI*2/64-Math.PI;if(Math.abs(angle-b.doorAngle)<b.doorHalf)continue;const x=b.x+Math.sin(angle)*(b.r-.1),z=b.z-11+Math.cos(angle)*(b.r-.1);world.createCollider(RAPIER.ColliderDesc.cuboid(.19,2.2,.14).setTranslation(x,2.2,z).setRotation({x:0,y:Math.sin(angle/2),z:0,w:Math.cos(angle/2)}));}
-          world.createCollider(RAPIER.ColliderDesc.cylinder(2.2,b.r-.65).setTranslation(b.x,2.2,b.z-11));
-        }
-      }
       block(-17,2,5,7.2,4,6.2);
       block(LEGACY.x,1,LEGACY.z,2.5,2,.18);
       for(const b of precinct.colliders)block(...b);
@@ -469,15 +493,15 @@ export async function createWorlds(onProgress=()=>{}){
     const trees=Promise.resolve();
     // Avatar Studio is now a native campus building, so the old generic city model is retired.
     const building=Promise.resolve().then(()=>{scenery.home=true;});
-    const district=createCampusLandscape(town,townPhysics,palette).then(result=>{Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);throw error;});
-    sceneryLoad=Promise.all([trees,building,district]).then(()=>{scenery.status='landscape-ready';}).catch(error=>{scenery.status='fallback';sceneryLoad=null;throw error;});
+    const district=loadExterior().then(()=>createCampusLandscape(town,townPhysics,palette)).then(result=>{Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);throw error;});
+    sceneryLoad=Promise.all([loadExterior(),trees,building,district]).then(()=>{scenery.status='landscape-ready';}).catch(error=>{scenery.status='fallback';sceneryLoad=null;throw error;});
     return sceneryLoad;
   }
   const campus={buildings:[],placements:[],colliders:0};
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {loadDetailTextures:()=>textures.start(),openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){pondTime.value=time;if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},

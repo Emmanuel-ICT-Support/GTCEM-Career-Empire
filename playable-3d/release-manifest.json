@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "app.js",
-      "sha256": "0bdd67a72c67226f2fa0b89ff4436fa8bbe88c7a142aab71d8e2eff307118da6"
+      "sha256": "f9a04af10b5dd165f57eb98b0f6c329271fff7f2ca5a38bea7ea79b463167e8e"
     },
     {
       "path": "arrival-precinct.js",
@@ -550,7 +550,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "50aafe2fff0077ea4a79c4c80f7aaf12412a6e6c5fafeed6ca5d5dbe4d6cbee3"
+      "sha256": "62547793391b1c7b045d8349392d851952189f11986920d1dc40633045c77873"
     },
     {
       "path": "joystick.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "92d6f66f52d814c787df8bda1a170a3104ff8ab945d0bda898fff8e0467ebe49"
+      "sha256": "3400cd6443222f5c37891189c3e2224b3aa0968aa98f1cd5f7b1b1a6149fed8c"
     },
     {
       "path": "night-market-agency.js",
