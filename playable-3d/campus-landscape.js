@@ -1,7 +1,7 @@
 import {pavingNetwork} from './environment/paving-network.js?v=student-usability-20260924';
 import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=first-play-20260921';
 import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=annotations1';
-import {batchStatic} from './environment/static-batching.js?v=1';
+import {batchStatic,partitionInstances} from './environment/static-batching.js?v=1';
 import * as THREE from 'three';
 import {EST} from './destinations.js?v=ecc1';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -46,6 +46,9 @@ for(let i=placements.length-1;i>=0;i--)if(/shrub|grass|flower/.test(placements[i
 for(const [x,z,w,d]of beds)planter(group,x,z,w,d,palette);
 const planting=new THREE.Group();planting.name='Supporting campus native gardens';group.add(planting);addAuthoredGarden(planting,beds,{treeSites:[],baseY:.43,density:3.5,detail:'supporting'});
 for(const id of [...new Set(placements.map(p=>p.id))]){const asset=loaded.get(id);asset.scene=mergeStatic(asset.scene);if(id==='boulder-a'){const bounds=new THREE.Box3().setFromObject(asset.scene),c=bounds.getCenter(new THREE.Vector3()),size=bounds.getSize(new THREE.Vector3());const scale=1/Math.hypot(size.x,size.z);asset.scene.traverse(o=>{if(o.isMesh){o.geometry=o.geometry.clone();o.geometry.translate(-c.x,-bounds.min.y,-c.z);o.geometry.scale(scale,scale,scale);}});}asset.scene.updateMatrixWorld(true);const ps=placements.filter(p=>p.id===id);asset.scene.traverse(o=>{if(!o.isMesh)return;const inst=new THREE.InstancedMesh(o.geometry,o.material,ps.length);ps.forEach((p,i)=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(p.x,id==='boulder-a'?.40:.12,p.z),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),p.rotation),new THREE.Vector3(p.scale,p.scale,p.scale));m.multiply(o.matrixWorld);inst.setMatrixAt(i,m);});inst.castShadow=true;inst.receiveShadow=true;group.add(inst);});}
+// Cull off-screen plants as soon as they appear, without waiting for the rest
+// of campus assets and textures. Existing full-detail matrices/materials stay intact.
+partitionInstances(group,{filter:o=>!o.userData.distanceDetail});
 // The front-of-Administration pergola and benches were visually unreliable in
 // review. Leave this constrained forecourt open until a replacement layout is
 // commissioned, rather than retaining furniture that obstructs planting.
