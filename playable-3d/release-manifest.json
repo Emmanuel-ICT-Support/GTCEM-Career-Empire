@@ -1,8 +1,8 @@
 {
-  "release": "echo-staged-20260925",
+  "release": "echo-performance-20260925",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "c1b8a5d",
-  "scope": "Existing current game plus Echo onboarding, shared first-day guidance and ECC Resources point; course documents pending.",
+  "scope": "Existing Echo guide and campus preserved; adaptive Auto render resolution, hidden-tab suspension, shadow reuse and earlier full-detail plant culling.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "78b804137ea288c96e4ea5de5ad4422c834db3c1866cdb59e2210fee71d2c240"
+      "sha256": "bbee6f37565742c5671f274b20b5ebf8b31773443d0eba744ed6ea2daf2cc265"
     },
     {
       "path": "arrival-precinct.js",
@@ -394,7 +394,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "d4dc9263ab7b16e2d984cf05b33719b7f585fb2d5c3bc715074649c10338acfd"
+      "sha256": "0596d6c240f9246ab74004a7a695e799d7eed95357947c1adf3403242168221c"
     },
     {
       "path": "chapel.js",
@@ -582,7 +582,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "6614ab6b4fbf4f10eca7d8ea1972805813d1b613a344931eed14e917131bfffc"
+      "sha256": "41300b6c5d00500569db629f41ab32dbcf27d69520276d315a83fcddc263d6dc"
     },
     {
       "path": "joystick.js",
@@ -734,7 +734,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "6bbeb3d5eedcf9ebb7c469a30bf84e121caf68be07c81bcf5e07b56a69b4dd9a"
+      "sha256": "b9f0ac74efc1ab4976c2078bba574ad723020337ae4294bdb9f984a07093d587"
     },
     {
       "path": "../economy-lab/index.html",
@@ -767,6 +767,10 @@
     {
       "path": "echo-guide.css",
       "sha256": "a9ceb06932499063a5554c2a77bb41245e8ca6c5d20d9c8c63d6b20d7e5a414b"
+    },
+    {
+      "path": "render-budget.js",
+      "sha256": "cec60683d634311c97f2d229730f96e52ef48f61cfc96f7091b17b4d81f1a49f"
     }
   ],
   "estVideo": {
