@@ -1,8 +1,8 @@
 {
-  "release": "gameplay-guidance-20260925",
+  "release": "echo-staged-20260925",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "6f4487b9a99c5cdd8ac88b3a48646344e44fb99a",
-  "scope": "Restore first-day guidance to gameplay, use Places for destinations, and move the original-game link into the compact banner. Gameplay, assets and saves unchanged.",
+  "baseCommit": "c1b8a5d",
+  "scope": "Existing current game plus Echo onboarding, shared first-day guidance and ECC Resources point; course documents pending.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "ed6ddf6966a58a63401c115c216a73d354331c54f8b17ef2013df72d0403fd0f"
+      "sha256": "78b804137ea288c96e4ea5de5ad4422c834db3c1866cdb59e2210fee71d2c240"
     },
     {
       "path": "arrival-precinct.js",
@@ -582,7 +582,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "b55ecccf4d875db7ffd79279d2f711f94b6811a4bed4d80ec71c85fdd395203b"
+      "sha256": "6614ab6b4fbf4f10eca7d8ea1972805813d1b613a344931eed14e917131bfffc"
     },
     {
       "path": "joystick.js",
@@ -755,6 +755,18 @@
     {
       "path": "../src/services/feedback-widget.js",
       "sha256": "90bad9446f2e31fcf75b36eac271b50de898222999ed709dd925aacd91a542b0"
+    },
+    {
+      "path": "echo-guide.js",
+      "sha256": "d2dd538fc60372595c710092305515f176619e7a2e65b2b448aaa6b08ee4aefa"
+    },
+    {
+      "path": "echo-state.js",
+      "sha256": "8c09078ff70f8c3f51e740078edb5cc374b6543d8983b15d2f3933512e596525"
+    },
+    {
+      "path": "echo-guide.css",
+      "sha256": "a9ceb06932499063a5554c2a77bb41245e8ca6c5d20d9c8c63d6b20d7e5a414b"
     }
   ],
   "estVideo": {
@@ -764,6 +776,6 @@
     "width": 1280,
     "height": 720
   },
-  "status": "Final appearance explicitly accepted by Tania; source, 14 unit tests, seven physics routes and browser checks pass. Publication verification pending.",
+  "status": "Approved release candidate",
   "pilotBaseCommit": "a2794e42c359ed930124e34b459d71bcc35216ef"
 }

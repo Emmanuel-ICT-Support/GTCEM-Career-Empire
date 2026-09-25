@@ -1,3 +1,19 @@
+## Approved staged Echo release — 25 September 2026
+
+Tania explicitly approves implementing action-paced Echo guidance with task skips and publishing to the existing live game: “Great do that please and send to live”. Current sequence supersedes earlier avatar-first/eleven-consecutive-page notes: welcome and experiential year → Course Documents beside Echo → approved AI/application message and persona → Avatar Studio → portfolio, encouragement and exploration → Market Experience → journey. Each task pauses Next; perform it or Skip for now. Skipping advances guidance only, keeps a revisit action and does not record completion. Documents remain unavailable and a point visit is not proof of reading. First-day card is hidden while Echo speaks and restored on close to avoid competing panels. Local-character convenience state version2, review isolation and storage-failure fallback remain; no student-account claim. Existing native mesh/scene/asset pipeline unchanged. Release checks and live verification pending.
+
+## Echo message 4 approved and implemented — 25 September 2026
+
+Tania approves the proposed concise AI/information/application wording: “yes gtreat im happy with that”. Replaced only message 4 in the existing eleven-step sequence. Text: “AI and technology make information easier to find. The challenge is knowing what you need, checking what you find, and putting it into practice. Here, you’ll learn through experiences—and discover questions you hadn’t thought to ask.” No added page, mission/state change or public release. This supersedes the preceding proposed-only wording status.
+
+## Course Documents moved beside Echo — 25 September 2026
+
+Tania requests renaming ECC Resources to **Careers and Employability Course Documents** and placing it at the front beside Echo. The same pedestal/sign and collider move to (-5.35,0,21.3) in Arrival Gardens, near Echo (-5.85,0,22.7); no duplicate point. The three-line physical sign uses the full name. Echo dialogue, first-day card, Places entry and document panel agree. Places returns to normal arrival (-7,23.3); documents access no longer waits for distant campus scenery. Current documents remain pending. Local revision only; verification follows.
+
+## Echo in-world onboarding — 25 September 2026
+
+CE-CHANGE-20260925-93 / V2-D19. Tania requests local implementation of small floating Echo beside the normal ECC avatar, short optional dialogue and shared first-day guidance; later explicitly authorises a small ECC Resources point and synchronised mission card. Read docs/production/echo-onboarding-20260925.md (game: docs/echo-onboarding-20260925.md). Preserve year-map work and current game c1b8a5d. Sprout/Moss/Bloom remain future discovery concepts. Local native mesh is for visual review, not an exact recovered image or accepted final asset. Resources documents are pending; visits/dialogue do not prove course or market completion. No public release or whole-governance clearance. Review flags isolate guide/exploration state, not avatar saves. Next: review appearance, confirm course documents, then separately review release.
+
 # Faster first playable view — 21 September 2026
 
 Tania explicitly authorises the recommended staged game opening. CE-CHANGE-20260921-77 continues after the published Dress ups rename. The selected avatar and Arrival Gardens open first; original textures and distant campus load after first paint. Preserve the clear arrival movement boundary until all colliders are ready, guarded destination changes, background retry, saved profiles, exact avatar and approved artwork. Source/staged package, 40 unit and eight final Safari scenarios pass; broad Chromium checks and their test corrections are recorded without a single-run full-CI claim. See docs/first-play-20260921.md. Live verification and final physical-phone acceptance remain separate; Tania owns the phone check. Earlier complete-campus-at-boot wording is historical.
