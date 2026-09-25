@@ -1,8 +1,8 @@
 {
-  "release": "compact-banner-20260924",
+  "release": "gameplay-guidance-20260925",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "c6efeb0768f2d144b9ed2419e1fae472f4681881",
-  "scope": "Single-row desktop banner: My Life before Flourishing; Town, Avatar Studio and all destinations inside Find your place. Existing gameplay, original assets, saves and loading gates preserved.",
+  "baseCommit": "6f4487b9a99c5cdd8ac88b3a48646344e44fb99a",
+  "scope": "Restore first-day guidance to gameplay, use Places for destinations, and move the original-game link into the compact banner. Gameplay, assets and saves unchanged.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -582,7 +582,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "2a7979af256896090fb067321c2aaf5337f79d508aedf9bef46a940433721126"
+      "sha256": "b55ecccf4d875db7ffd79279d2f711f94b6811a4bed4d80ec71c85fdd395203b"
     },
     {
       "path": "joystick.js",
@@ -750,7 +750,7 @@
     },
     {
       "path": "header-controls.css",
-      "sha256": "f6bad2e707d118488354a75e9b56456cb11fb6bfac43e337f9b842d203621b7c"
+      "sha256": "b1f91df7f1c126b13b18421eb31f0965c09510876274d881e4383684f554d196"
     },
     {
       "path": "../src/services/feedback-widget.js",
