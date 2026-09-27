@@ -25,6 +25,11 @@ for(const width of [1280,390])test(`playable suit shadows follow every walking f
  await page.setViewportSize({width,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/playable-3d/app.js*',async r=>{const response=await r.fetch();const source=(await response.text()).replace('renderer.render(scene,camera);frames++;',`window.__suitFrames?.push({shadow:renderer.shadowMap.needsUpdate,weight:actor.clips.walk?.getEffectiveWeight()||0,time:performance.now(),position:actor.model.position.toArray(),yaw:actor.model.rotation.y,changed:playerShadowChanged,quality:document.querySelector('#quality').value});renderer.render(scene,camera);frames++;`);await r.fulfill({response,body:source+'\nwindow.__suitFrames=[];'});});
  await page.goto('/playable-3d/?review=1',{waitUntil:'domcontentloaded'});await page.locator('#helper-picker [data-continue]').click();await page.waitForFunction(()=>{const d=JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}');return d.entryReady&&!d.avatarFallback;},null,{timeout:90000});
- await page.keyboard.down('KeyW');await page.waitForTimeout(1300);await page.screenshot({path:`evidence/movement/suit-walking-${width}.png`});await page.keyboard.up('KeyW');await page.waitForFunction(()=>window.__suitFrames.slice(-10).some(f=>f.weight===0&&!f.shadow),null,{timeout:5000});
+ // End input inside the page: tracing/screenshot latency must not extend a walk
+ // into distant-campus loading and change the scene under this bounded check.
+ await page.evaluate(()=>{window.dispatchEvent(new KeyboardEvent('keydown',{code:'KeyW'}));setTimeout(()=>window.dispatchEvent(new KeyboardEvent('keyup',{code:'KeyW'})),1300);});
+ await page.waitForFunction(()=>window.__suitFrames.some(f=>f.weight>.01));
+ await page.waitForFunction(()=>window.__suitFrames.slice(-10).some(f=>f.weight===0&&!f.shadow),null,{timeout:10000});
+ await page.screenshot({path:`evidence/movement/suit-walking-${width}.png`});
  const frames=await page.evaluate(()=>window.__suitFrames);const moving=frames.filter(f=>f.weight>.01);expect(moving.length).toBeGreaterThan(5);expect(moving.every(f=>f.shadow)).toBe(true);expect(frames.slice(-10).some(f=>!f.shadow)).toBe(true);expect(errors).toEqual([]);console.log('SUIT_PLAYABLE',JSON.stringify({width,movingFrames:moving.length,staleMovingFrames:moving.filter(f=>!f.shadow).length}));
 });
