@@ -1,4 +1,4 @@
-import {test as base,expect} from '@playwright/test';
+import {test as base,expect} from './helper-fixtures.js';
 
 // Native platform rendering; keep full production graphics in these tests.
 // Only the trusted local test server is opened by these campus scenarios.

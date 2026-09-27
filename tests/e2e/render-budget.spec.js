@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './helper-fixtures.js';
 test('Auto keeps controls available, manual quality works, and hidden views stop rendering',async({page})=>{
  test.setTimeout(120000);
  await page.addInitScript(()=>{window.testHidden=false;Object.defineProperty(document,'hidden',{get:()=>window.testHidden,configurable:true});});

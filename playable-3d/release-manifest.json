@@ -1,16 +1,32 @@
 {
-  "release": "echo-sharp-reflections-20260927",
+  "release": "helper-selector-20260927",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "c1b8a5d",
-  "scope": "Restore fixed sharp Auto resolution; entry artwork, paths and lighting first; saved Echo stage prepares Studio and Market; other campus loads later or on demand. Valid neutral reflection placeholder avoids transient PMREM shader failure while original HDR loads.",
+  "baseCommit": "3681d57b92441d7ae9065dde2093d033bcc2b6b8",
+  "scope": "Seven 2D helper portraits, local per-character choice, selected-only model loading and transform animation. Preserve sharp staged world entry and existing guide tasks.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
       "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
     },
     {
+      "path": "../economy-lab/app.mjs",
+      "sha256": "70a03cf788974da657b05ac1d77c4769d7cba5c31e1d0248ab0bfa2416791046"
+    },
+    {
+      "path": "../economy-lab/index.html",
+      "sha256": "290abd4990b942153f3c92673f004a48d1cf1f8032ccc6648636946ad4e8426f"
+    },
+    {
+      "path": "../economy-lab/style.css",
+      "sha256": "32433cf5e1af340b518976bb955c037b687f89f19ceb3e2c6529cafc5c4679a0"
+    },
+    {
+      "path": "../src/services/feedback-widget.js",
+      "sha256": "90bad9446f2e31fcf75b36eac271b50de898222999ed709dd925aacd91a542b0"
+    },
+    {
       "path": "app.js",
-      "sha256": "31ad41e7567ae1a1002e4706619f2108964697675c1667358e673bd7a9ded36b"
+      "sha256": "c0b42ce969e0333235731722dc6f6ce80e5fe1edb72b0c011587048a51f36018"
     },
     {
       "path": "arrival-precinct.js",
@@ -171,6 +187,62 @@
     {
       "path": "assets/hair-sweep.glb",
       "sha256": "7e2c04b75344c0bf07d4539cbbd36bbd160f7b6d99353e92c0fe112475492563"
+    },
+    {
+      "path": "assets/helpers/atlas.glb",
+      "sha256": "dd72f89abcef2dee99893c420d62bc3b743fa43949bbc0216f4a23aff5bee07b"
+    },
+    {
+      "path": "assets/helpers/atlas.png",
+      "sha256": "9e49ecbb6fae5b6dd8ddf61397a00da37ecd653ecf034a6ac41292af787b3a70"
+    },
+    {
+      "path": "assets/helpers/bloom.glb",
+      "sha256": "fe9b02cc2f63402303ac1a687c9874552a9b630eb577f175f4a4096a3cf478d7"
+    },
+    {
+      "path": "assets/helpers/bloom.png",
+      "sha256": "5f8deaf26250159fa3b3b367e94dcd36280636b2e0306cce924dd16b0692fe34"
+    },
+    {
+      "path": "assets/helpers/echo.glb",
+      "sha256": "9aae3d290a4b5fc5b678d92328628e6d188cfff3da8241803c622ecf098850a0"
+    },
+    {
+      "path": "assets/helpers/echo.png",
+      "sha256": "c7263c55d99ff4d0697a1c88fb9ca11009823b936842fb154a0806d2bdb0084a"
+    },
+    {
+      "path": "assets/helpers/moss.glb",
+      "sha256": "8a7665499b6e7f13ad1d0297ac3748d34745f40c97e29169be3e3de652d47492"
+    },
+    {
+      "path": "assets/helpers/moss.png",
+      "sha256": "5f136f9f3ad4d180f250b1bc5faeb1608fdf72d75390310ce407533ec32464d5"
+    },
+    {
+      "path": "assets/helpers/pax.glb",
+      "sha256": "98f73617ad1ee04f078655b2eaa9cb769e72a29804815a484963876ab6927cfc"
+    },
+    {
+      "path": "assets/helpers/pax.png",
+      "sha256": "f413c35aec92b7762f49cfc475eea67a3df57714e9a6385a3d2630b4ca8147c8"
+    },
+    {
+      "path": "assets/helpers/spark.glb",
+      "sha256": "46e875b41787dc6df953cb7c917aa2937950d66ac6bb765d1914c94a4d4e7e84"
+    },
+    {
+      "path": "assets/helpers/spark.png",
+      "sha256": "bed3dce78d495e436bf5be508419e5087a97eedd7a3cb8ba323a339f759a720c"
+    },
+    {
+      "path": "assets/helpers/sprout.glb",
+      "sha256": "018fa84641f655a6ce906fd95e566b003907f055b575178a3388754d655f623e"
+    },
+    {
+      "path": "assets/helpers/sprout.png",
+      "sha256": "9491466db57e5fd329669336cb64401d5b2d6e5f1ea9db86db4c259024f40373"
     },
     {
       "path": "assets/hospital-scrub-top.glb",
@@ -517,6 +589,18 @@
       "sha256": "93d75ff7fe9417140ae411ddae6a8dc478d5aef7fb3d990adce38f454bbe8f35"
     },
     {
+      "path": "echo-guide.css",
+      "sha256": "a9ceb06932499063a5554c2a77bb41245e8ca6c5d20d9c8c63d6b20d7e5a414b"
+    },
+    {
+      "path": "echo-guide.js",
+      "sha256": "387cef2513d95bce44dac3392c5fb31ec07e6e52dcbf7a4e33ca2ee1b6d1710a"
+    },
+    {
+      "path": "echo-state.js",
+      "sha256": "2ba0da51110fe75b631c85a3bdab62b81d7f8effe322a470c7d3441b1ffa2ac0"
+    },
+    {
       "path": "environment.js",
       "sha256": "649ace0da64841ca8f3c6da8a849996a4b7ac65c9ba65321ce47880fd25087f1"
     },
@@ -581,8 +665,28 @@
       "sha256": "aa9f2e1f3d6bba32a67e1141eabf5644000f8ddae06a35dbb53f084d1fbd5cc0"
     },
     {
+      "path": "header-controls.css",
+      "sha256": "b1f91df7f1c126b13b18421eb31f0965c09510876274d881e4383684f554d196"
+    },
+    {
+      "path": "helper-model.js",
+      "sha256": "fbc96ad0636bd80599fa8f74bd0cd99f3d29441ff0f8991acc23ebcf352a3650"
+    },
+    {
+      "path": "helper-picker.css",
+      "sha256": "372f0798ec2f1b5a2843921f4c8723fffae1b39a6e129168c44c124af21c740b"
+    },
+    {
+      "path": "helper-picker.js",
+      "sha256": "69f6573a0a15ae46e4949706d8c83c017c188b0d2d8baeb1cb7b759013e0c89c"
+    },
+    {
+      "path": "helper-state.js",
+      "sha256": "741dbeec243529e23a69c65617751cc8378190c42cbc727b35a619a45f62d833"
+    },
+    {
       "path": "index.html",
-      "sha256": "1afa8ae84417267584dcaff9f6b1eefcd1df752fd3557c9da49908dcc930a531"
+      "sha256": "15e46162b883e0b2a6606291c6080b60ca680ca1f0be530e3800a97de57b7706"
     },
     {
       "path": "joystick.js",
@@ -735,38 +839,6 @@
     {
       "path": "world.js",
       "sha256": "9fa92d0b79916b589764258659dab9576aa7f5ba6d0cea2b952dddad1400dd91"
-    },
-    {
-      "path": "../economy-lab/index.html",
-      "sha256": "290abd4990b942153f3c92673f004a48d1cf1f8032ccc6648636946ad4e8426f"
-    },
-    {
-      "path": "../economy-lab/app.mjs",
-      "sha256": "70a03cf788974da657b05ac1d77c4769d7cba5c31e1d0248ab0bfa2416791046"
-    },
-    {
-      "path": "../economy-lab/style.css",
-      "sha256": "32433cf5e1af340b518976bb955c037b687f89f19ceb3e2c6529cafc5c4679a0"
-    },
-    {
-      "path": "header-controls.css",
-      "sha256": "b1f91df7f1c126b13b18421eb31f0965c09510876274d881e4383684f554d196"
-    },
-    {
-      "path": "../src/services/feedback-widget.js",
-      "sha256": "90bad9446f2e31fcf75b36eac271b50de898222999ed709dd925aacd91a542b0"
-    },
-    {
-      "path": "echo-guide.js",
-      "sha256": "c475d249fbd8dda3073be2cd64041962f4982e632c929ea0a03ebb38ab07b996"
-    },
-    {
-      "path": "echo-state.js",
-      "sha256": "2ba0da51110fe75b631c85a3bdab62b81d7f8effe322a470c7d3441b1ffa2ac0"
-    },
-    {
-      "path": "echo-guide.css",
-      "sha256": "a9ceb06932499063a5554c2a77bb41245e8ca6c5d20d9c8c63d6b20d7e5a414b"
     }
   ],
   "estVideo": {

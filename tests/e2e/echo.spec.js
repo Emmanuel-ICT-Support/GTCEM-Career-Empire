@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './helper-fixtures.js';
 const entry='/playable-3d/';
 async function boot(page,query=''){
  await page.route('**/app.js?*',async r=>{const response=await r.fetch();await r.fulfill({response,body:await response.text()+'\nwindow.__echoTest={get echo(){return echo},get actor(){return actor},get camera(){return camera},get worlds(){return worlds},get renderer(){return renderer},get teachers(){return teachers},get nightMarket(){return nightMarket},updateCamera};'});});

@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './helper-fixtures.js';
 
 test('sharp entry prepares the next task without loading distant campus or recording completion',async({page})=>{
  test.setTimeout(120000);const requests=[];page.on('request',r=>requests.push(r.url()));
