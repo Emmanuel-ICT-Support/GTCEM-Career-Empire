@@ -6,7 +6,10 @@ export function createDeferredTextures(){
   const jobs=[];let running;
   function load(loader,url,{normal=false,transparent=false,hdr=false,colour='#ffffff'}={}){
     let texture;
-    if(hdr)texture=new THREE.DataTexture(new Uint16Array([15360,15360,15360,15360]),1,1,THREE.RGBAFormat,THREE.HalfFloatType);
+    // PMREM derives its cube size from width/4; a 1px HDR creates an invalid
+    // subpixel cube and integer shader constants. Keep the same neutral white
+    // fallback at the minimum 16px cube size until the original HDR arrives.
+    if(hdr)texture=new THREE.DataTexture(new Uint16Array(64*32*4).fill(15360),64,32,THREE.RGBAFormat,THREE.HalfFloatType);
     else{
       const canvas=document.createElement('canvas');canvas.width=canvas.height=1;
       const ctx=canvas.getContext('2d');ctx.fillStyle=normal?'#8080ff':colour;
