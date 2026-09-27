@@ -36,3 +36,13 @@ export function arrivalGuidance({state}){
  if(TASK_STEPS.includes(step))return {title:ECHO_STEPS[step][0],detail:ECHO_STEPS[step][1],progress:Math.round(step/11*75)};
  return {title:step===10?'Your Year 12 journey begins':'Your next step with Echo',detail:step===10?'Explore freely. Revisit skipped tasks through Places or Echo. Course documents remain pending until your teacher confirms them.':'Talk to Echo for your next short message, or explore freely. Course Documents is beside Echo at the front.',progress:Math.round(step/11*75)};
 }
+
+// Preparation follows guidance, including explicit skips, without recording a
+// visit or completion. Account-backed progress can later provide this same state.
+export function nextPreparation(state){
+ const step=resumeStep(state);
+ if(state.marketVisited||step>=10)return 'campus';
+ if(state.avatarSaved||step>=6)return 'market';
+ if(state.resourcesVisited||step>=3)return 'studio';
+ return null;
+}

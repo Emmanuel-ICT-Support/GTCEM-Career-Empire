@@ -25,7 +25,7 @@ test('wardrobe opens without campus or unselected clothes, saves colours and ret
  for(const label of ['Chef pants','Tradie work pants','Suit pants','Hospital scrub pants'])await choose(page,label);
  const pants=page.getByRole('textbox',{name:'Pants hex colour',exact:true});await pants.fill('#567890');await pants.press('Tab');
  await expect(page.locator('#save-avatar')).toBeEnabled();await page.locator('#save-avatar').click();
- await expect.poll(async()=>(await state(page)).mode,{timeout:90000}).toBe('town');await expect.poll(async()=>(await state(page)).campusReady,{timeout:90000}).toBe(true);
+ await expect.poll(async()=>(await state(page)).mode,{timeout:90000}).toBe('town');await expect.poll(async()=>(await state(page)).entryReady,{timeout:90000}).toBe(true);
  await page.reload();await expect(page.locator('#loading')).toBeHidden({timeout:90000});
  await expect.poll(async()=>(await state(page)).wardrobe?.visibleTops).toEqual(['suit']);
  expect((await state(page)).wardrobe.topHex).toBe('#ABCDEF');

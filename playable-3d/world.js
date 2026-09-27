@@ -4,8 +4,8 @@ import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=first-play-20260921';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createDeferredTextures} from './deferred-textures.js?v=first-play-20260921';
-import {createCampusLandscape} from './campus-landscape.js?v=adaptive-20260925';
-import {arrivalPrecinct} from './arrival-precinct.js?v=first-play-20260921';
+import {createCampusLandscape,createCampusPaths} from './campus-landscape.js?v=sharp-entry-20260925';
+import {arrivalPrecinct} from './arrival-precinct.js?v=sharp-entry-20260925-first-play-20260921';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
  * ~2wu tiles stamped from a 2D grid: grass / path / asphalt / plaza (+ curb overlays).
@@ -515,12 +515,12 @@ export async function createWorlds(onProgress=()=>{}){
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadEntry:async()=>{await loadExterior();await textures.start();createCampusPaths(town,palette);addWalkingSurfaces(town);},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){pondTime.value=time;if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
     move(inside,delta){const physics=physical(inside);physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
-      if(!inside&&arrivalOnly){next.x=Math.max(-8.8,Math.min(-5.2,next.x));next.z=Math.max(7.3,Math.min(29,next.z));}
+      if(!inside&&arrivalOnly){next.x=Math.max(-13,Math.min(-5.2,next.x));next.z=Math.max(3.5,Math.min(29,next.z));}
       next.x=Math.max(inside==='chapel'?-10.5:inside?-6.9:-38,Math.min(inside==='chapel'?10.5:inside?6.9:50,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-76,Math.min(inside==='chapel'?8.3:inside?6.9:36,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
     protectCamera(inside,position,target){
       const physics=physical(inside),origin={x:position.x,y:position.y+1.35,z:position.z};

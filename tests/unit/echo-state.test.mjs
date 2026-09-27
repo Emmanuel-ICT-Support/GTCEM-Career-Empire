@@ -23,3 +23,16 @@ it('task gates resume only on observed activity, never on skip',()=>{
  expect(arrivalGuidance({state:store.read('one')}).progress).toBeLessThan(100);
  expect(arrivalGuidance({state:store.read('one')}).detail).toContain('pending');
 });
+
+import {nextPreparation} from '../../playable-3d/echo-state.js';
+it('prepares the next activity from the same saved guidance, including skips',()=>{
+ const store=createEchoStore();const fresh=store.read('a');
+ expect(nextPreparation(fresh)).toBe(null);
+ expect(nextPreparation({...fresh,resourcesVisited:true})).toBe('studio');
+ expect(nextPreparation({...fresh,step:3,skippedTasks:[2]})).toBe('studio');
+ expect(nextPreparation({...fresh,avatarSaved:true})).toBe('market');
+ expect(nextPreparation({...fresh,step:6,skippedTasks:[2,5]})).toBe('market');
+ expect(nextPreparation({...fresh,marketVisited:true})).toBe('campus');
+ expect(store.read('a')).toEqual(fresh);
+ expect(nextPreparation(store.read('b'))).toBe(null);
+});

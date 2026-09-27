@@ -16,12 +16,11 @@ export async function loadCampusAssets(){
  const ids=['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a','boulder-a','careers','workplace'];
  return new Map(await Promise.all(ids.map(async id=>[id,await loader.loadAsync(`./assets/${['careers','workplace'].includes(id)?'campus-buildings/'+id+'-shared-textures':'campus-landscape/'+id+(['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a'].includes(id)?'-packed':'')}.glb`)])));
 }
-export async function createCampusLandscape(scene,physics,palette,preloadedAssets){
-const loaded=preloadedAssets || await loadCampusAssets();
-const group=new THREE.Group();group.name='Campus landscape';scene.add(group);
-const placements=[];const colliders=[];
-const paving=palette.paving,soil=palette.soil,edge=palette.stone;
-function rect(x,z,w,d,material,y=.095){const geo=new THREE.PlaneGeometry(w,d);geo.rotateX(-Math.PI/2);const uv=geo.attributes.uv,pos=geo.attributes.position;for(let i=0;i<uv.count;i++)uv.setXY(i,(pos.getX(i)+x)/3,(pos.getZ(i)+z)/3);const m=new THREE.Mesh(geo,material);m.position.set(x,y,z);m.userData.walkable=material===paving;m.receiveShadow=true;group.add(m);return m;}
+// The accepted path network belongs to entry, not to distant tree downloads.
+export function createCampusPaths(scene,palette){
+ if(scene.getObjectByName('Campus walking paths'))return;
+ const group=new THREE.Group();group.name='Campus walking paths';scene.add(group);
+ const paving=palette.paving;
 const pavingPaths=pavingNetwork(group,paving);const path=pavingPaths.path;
 path([[-7,25],[-7,18],[-7,8],[-6,5],[-6,2],[-6,-1],[-3,-4],[0,-8.4]],4.2);
 path([[-7,5],[-12.4,5]],4);path([[-7,18],[-13,18],[-13,12],[-19,12],[-19,14.8]],3.2);
@@ -32,6 +31,14 @@ path([[-20,-22],[-8,-22],[5,-22],[18,-22]],3.2);
 path([[-11,-5],[-11,-14],[-11,-19],[-15,-22]],3.2);
 pavingPaths.finish();
 const plaza=new THREE.Mesh(new THREE.CircleGeometry(5.5,64),paving);plaza.rotation.x=-Math.PI/2;plaza.position.set(0,.09,4);plaza.receiveShadow=true;plaza.userData.walkable=true;group.add(plaza);
+}
+export async function createCampusLandscape(scene,physics,palette,preloadedAssets){
+const loaded=preloadedAssets || await loadCampusAssets();
+const group=new THREE.Group();group.name='Campus landscape';scene.add(group);
+const placements=[];const colliders=[];
+const paving=palette.paving,soil=palette.soil,edge=palette.stone;
+function rect(x,z,w,d,material,y=.095){const geo=new THREE.PlaneGeometry(w,d);geo.rotateX(-Math.PI/2);const uv=geo.attributes.uv,pos=geo.attributes.position;for(let i=0;i<uv.count;i++)uv.setXY(i,(pos.getX(i)+x)/3,(pos.getZ(i)+z)/3);const m=new THREE.Mesh(geo,material);m.position.set(x,y,z);m.userData.walkable=material===paving;m.receiveShadow=true;group.add(m);return m;}
+createCampusPaths(scene,palette);
 // The long southern display pond is intentionally removed. The smaller Garden
 // pond beside the buildings remains part of the active landscape.
 function add(id,x,z,scale=1,rotation=0){placements.push({id,x,z,scale,rotation});}

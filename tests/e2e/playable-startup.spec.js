@@ -11,7 +11,7 @@ test('startup loads only the active avatar and keeps the studio and hall usable'
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
   await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');
   expect(requests.some(u=>u.includes('player-schoolboy-2k-20260914.glb'))).toBeTruthy();
-  await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state).campusReady),{timeout:90000}).toBe(true);
+  await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state).campusReady),{timeout:90000}).toBe(true);
   expect(requests.some(u=>u.endsWith('campus-buildings/careers-shared-textures.glb'))).toBeTruthy();
   expect(requests.some(u=>u.endsWith('campus-buildings/workplace-shared-textures.glb'))).toBeTruthy();
   expect(requests.some(u=>/player-uniform-shirt|avatar-[ab]\.glb/.test(u))).toBeFalsy();

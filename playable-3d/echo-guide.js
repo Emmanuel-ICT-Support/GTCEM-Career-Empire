@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {createEchoStore,ECHO_STEPS,arrivalGuidance,TASK_STEPS,taskDone,resumeStep} from './echo-state.js?v=echo-staged-20260925';
+import {createEchoStore,ECHO_STEPS,arrivalGuidance,TASK_STEPS,taskDone,resumeStep,nextPreparation} from './echo-state.js?v=sharp-entry-20260925';
 
 // Replaceable visual root: no player rig, collider, texture or external service.
 export function createEchoModel(){
@@ -67,6 +67,7 @@ export function createEchoGuide({scene,physics,canvas,profile,onPause,onAction,r
  const point=new THREE.Vector3(),ray=new THREE.Raycaster(),mouse=new THREE.Vector2();
  return {root:model.root,resources,showResources,resourcesNear:p=>Math.hypot(p.x-resources.position.x,p.z-resources.position.z)<2.8,open,show,close,near:p=>Math.hypot(p.x-model.root.position.x,p.z-model.root.position.z)<3.5,
   status:()=>store.read(profile()).status,
+  nextPreparation:()=>nextPreparation(store.read(profile())),
   guidance:options=>{const saved=store.read(profile());if(options.avatarSaved&&!saved.avatarSaved)store.write(profile(),{...saved,avatarSaved:true});return arrivalGuidance({...options,state:store.read(profile())});},
   markMarketVisited(){const saved=store.read(profile());store.write(profile(),{...saved,status:saved.status==='new'?'reading':saved.status,marketVisited:true});},
   tap(event,camera){if(!model.root.visible)return false;const r=canvas.getBoundingClientRect();mouse.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);ray.setFromCamera(mouse,camera);const resourceHit=resourceAvailable?ray.intersectObject(resources,true)[0]:null;const echoHit=available?ray.intersectObject(model.body,true)[0]:null;const isResource=resourceHit&&(!echoHit||resourceHit.distance<echoHit.distance);const hit=isResource?resourceHit:echoHit;if(!hit)return false;const target=isResource?resources:model.root;const blocked=ray.intersectObjects(scene.children.filter(o=>o!==target),true).some(h=>{if(h.distance>=hit.distance-.03||!h.object.isMesh)return false;for(let n=h.object;n;n=n.parent)if(!n.visible)return false;return true;});if(blocked)return false;if(isResource)showResources();else show();return true;},

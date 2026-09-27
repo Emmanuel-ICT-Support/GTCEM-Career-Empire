@@ -1,3 +1,19 @@
+Final sharp-entry candidate: all17additional compatibility checks pass (4.3m), bringing scoped coverage to39distinct browser scenarios across runs, plus85unit/coverage checks and191exact staged hashes/49modules. Full local CI remains blocked by occupied port4273; no full hosted-pass claim. Original sharpness restored; final desktop entry17–19FPS. Release/public verification follows.
+
+27 September checkpoint: sharp entry fixed ratio1.5,17–19FPS at1440×1000; improvement over prior7–8 but not fully smooth.85unit checks,19focused scenarios,3first-play recovery scenarios and191staged hashes pass; final compatibility checks/release pending. Canonical scan still needs attention. See Echo note for exact limits.
+
+Sharp-entry candidate: fixed ratio1.5 cap; entry artwork/paths/lighting first, Echo v2 stage prepares Studio then shared Market kits; distant campus later/on demand. Seven scoped browser checks pass; final verification and publication pending. See the Echo implementation note. No new art or student-account state.
+
+## Sharp entry and stage-aware loading — 25 September 2026
+
+Tania rejects PR37 automatic resolution reduction: the softened world is unacceptable. This supersedes its visual acceptance, not the recorded measurements. Requested direction: preserve sharp 3D rendering; prioritise Arrival Gardens, Echo and Course Documents, then Avatar Studio, then Market; use existing local-character guidance progress to prepare the next task. Distant campus must not compete with entry; explicit free exploration remains available on demand. Investigating download/build cost separately from persistent rendering cost. No new visual assets or world redesign. Implementation, full-resolution performance and release verification pending; do not claim fixed yet.
+
+## LIVE performance repair — 25 September 2026
+
+PR37 merged as9ca5152d5c85cb70baea0575b8dff71c71f62c0a at07:26:17Z. Testedfddbdc8 and merge trees match9aa1c233cf1eb3983b5be532ffe75e006ad08163. Pages36107629332 succeeded; all six changed public runtime files match tested hashes. Refreshed the existing live in-app browser tab: two live DOM snapshots showed34FPS and24FPS versus7FPS before, Auto ratio0.65, campusReadytrue, arrivalRestrictedfalse,3,026,752main-pass triangles and no scenery errors. This is a measured snapshot of the user's actual tab, not a sustained all-device performance guarantee. Prior isolated idle test improved7–8 to28–30FPS;87unit/coverage,6focused browser checks and192package hashes pass. Required full local CI failed to bind occupied browser port4273 after passing checks/coverage; no full-suite pass claimed. Postmerge CI36107630167 is separate.
+
+The original world/Echo geometry, materials, textures and gameplay remain. Auto adapts world resolution, reuses shadows at2Hz idle/10Hz active, and stops hidden-tab rendering; manual High retains full-resolution/per-frame shadows. Existing off-screen plant batching begins earlier. World sharpness can soften in Auto; interface text remains sharp. No save/login/economy changes. School course documents are still pending. Canonical source/exports and AGENTS updated; this game publication does not publish the Blueprint reader. Evidence: private/production-evidence/2026-09-25/echo/echo-performance-release.json.
+
 Final performance candidate:6 focused browser checks pass in2.2m,87 unit/coverage checks pass, source checks and192 exact package hashes pass. Required npm run ci reaches successful check/coverage, then cannot bind occupied local test port4273; existing preview8794 supplied the successful focused browser run. No full-CI pass claimed. Auto pixel changes avoid resetting the Studio camera. Release/public verification follows.
 
 ## Performance repair candidate — measured 25 September 2026
