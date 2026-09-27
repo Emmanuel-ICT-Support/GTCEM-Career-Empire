@@ -1,4 +1,4 @@
-import {test,expect as baseExpect} from '@playwright/test';
+import {test,expect as baseExpect} from './helper-fixtures.js';
 // Hosted software rendering needs longer functional waits than native GPU runs.
 const expect=baseExpect.configure({timeout:30000});
 test.setTimeout(240000);

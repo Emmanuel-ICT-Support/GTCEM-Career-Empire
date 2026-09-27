@@ -1,3 +1,7 @@
+## Seven selected-only helpers — 27 September 2026
+
+CE-CHANGE-20260927-96. Current user explicitly authorises seven portrait choices and live publication after checks. Echo, Sprout, Moss, Bloom, Spark, Pax, Atlas only. Preserve existing Echo appearance and supplied GLBs; never preload the set. Choice is browser-local per character, selected GLB loads only after Continue, native Echo recovers failures. Preserve latest sharp staged entry and teaching/task state. See docs/helper-selector-20260927.md for asset metrics, tests and release status. 88units/coverage,7helper browser scenarios and13world regressions pass.209staged hashes/52modules verified. Full local CI browser bind4273 blocked; scoped8796 passes. Publication/public verification pending.
+
 Reflection follow-up verified: the native shader regression fails with the original1×1 placeholder and passes with64×32; four staged-entry/retry/persistence scenarios pass again (5checks,2.0m).85unit/coverage and191staged hashes pass. Full CI browser bind remains blocked by occupied4273. Release verification follows.
 
 ## Live sharp entry and reflection follow-up — 27 September 2026

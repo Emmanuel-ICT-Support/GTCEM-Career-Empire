@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './helper-fixtures.js';
 
 test('normal play avoids GPU pixel probes and uses shared building textures',async({page})=>{
  test.setTimeout(90000);const requests=[],errors=[];

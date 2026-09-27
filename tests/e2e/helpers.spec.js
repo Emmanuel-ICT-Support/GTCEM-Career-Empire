@@ -1,0 +1,28 @@
+import {test,expect} from '@playwright/test';
+test.setTimeout(120000);
+const entry='/playable-3d/';
+const helperRequests=page=>{const requests=[];page.on('request',r=>{if(/\/helpers\/.*\.glb/.test(r.url()))requests.push(r.url().split('/').pop());});return requests;};
+async function ready(page,id){await page.waitForFunction(id=>{const d=JSON.parse(document.querySelector('#diagnostics').value||'{}');return d.echo?.helper===id&&d.echo.helperStatus==='ready';},id,{timeout:90000});}
+async function choose(page,id){await page.locator(`#helper-picker input[value="${id}"]`).check();await page.locator('#helper-picker [data-continue]').click();}
+for(const width of [1280,390])test(`portrait selection, persistence and world at ${width}px`,async({page},info)=>{
+ await page.setViewportSize({width,height:844});const requests=helperRequests(page);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(entry);await expect(page.locator('#helper-picker')).toBeVisible();await expect(page.locator('.helper-card')).toHaveCount(7);await page.waitForFunction(()=>[...document.querySelectorAll('.helper-card img')].every(i=>i.complete&&i.naturalWidth>0));expect(requests).toEqual([]);expect(await page.locator('canvas').count()).toBe(1);await page.screenshot({path:info.outputPath(`picker-${width}.png`)});await choose(page,'moss');await ready(page,'moss');expect(requests).toEqual(['moss.glb']);await page.locator('#echo-cue').click();await expect(page.locator('[data-message]')).toContainText('I’m Moss');await page.keyboard.press('Escape');await page.screenshot({path:info.outputPath(`world-${width}.png`)});await page.reload();await ready(page,'moss');await expect(page.locator('#helper-picker')).not.toBeVisible();expect(requests.every(r=>r==='moss.glb')).toBe(true);expect(errors).toEqual([]);
+});
+test('switching loads only committed choice; cancel and all seven models work',async({page})=>{
+ const requests=helperRequests(page);await page.goto(entry);await choose(page,'echo');await ready(page,'echo');
+ for(const id of ['sprout','bloom','spark','pax','atlas']){await page.locator('#choose-helper').click();const n=requests.length;await page.locator(`#helper-picker input[value="${id}"]`).check();expect(requests.length).toBe(n);await page.locator('#helper-picker [data-continue]').click();await ready(page,id);expect(requests.at(-1)).toBe(id+'.glb');}
+ await page.locator('#choose-helper').click();await page.locator('#helper-picker input[value="moss"]').check();await page.locator('[data-cancel]').click();await ready(page,'atlas');expect(requests).not.toContain('moss.glb');
+});
+test('missing helper falls back without blocking world; retry succeeds',async({page})=>{
+ const requests=helperRequests(page);await page.route('**/helpers/pax.glb',r=>r.abort());await page.goto(entry);await choose(page,'pax');await page.waitForFunction(()=>JSON.parse(document.querySelector('#diagnostics').value||'{}').echo?.helperStatus==='failed',null,{timeout:90000});await expect(page.locator('#loading')).toBeHidden();await page.locator('#echo-cue').click();await expect(page.locator('#echo-dialogue')).toBeVisible();expect(requests).toEqual(['pax.glb']);await page.keyboard.press('Escape');await page.unroute('**/helpers/pax.glb');await page.locator('#choose-helper').click();await page.locator('[data-continue]').click();await ready(page,'pax');
+});
+test('reduced motion and character choices stay isolated',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto(entry);await choose(page,'bloom');await ready(page,'bloom');expect(await page.evaluate(()=>JSON.parse(document.querySelector('#diagnostics').value).echo.bob)).toBe(0);await page.locator('#new-profile').click();await expect(page.locator('#helper-picker')).toBeVisible();await choose(page,'spark');await page.locator('#profile').selectOption({index:0});await page.waitForTimeout(500);const values=await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('ce-helper-v1:')).map(k=>localStorage.getItem(k)).sort());expect(values).toEqual(['bloom','spark']);
+});
+test('phone scrolling, keyboard choice and rapid replacement keep latest guide',async({page})=>{
+ await page.setViewportSize({width:390,height:640});const requests=helperRequests(page);await page.goto(entry);await choose(page,'atlas');await ready(page,'atlas');
+ await page.route('**/helpers/moss.glb',async r=>{await new Promise(resolve=>setTimeout(resolve,2000));try{await r.continue();}catch{}});
+ await page.locator('#choose-helper').click();await choose(page,'moss');await page.locator('#choose-helper').click();await page.locator('input[value="pax"]').focus();await page.keyboard.press('Space');await page.locator('[data-continue]').click();await ready(page,'pax');await page.waitForTimeout(2200);await ready(page,'pax');expect(requests.every(r=>['atlas.glb','moss.glb','pax.glb'].includes(r))).toBe(true);
+});
+test('denied choice storage remains playable and reports tab-only choice',async({page})=>{
+ await page.addInitScript(()=>{const set=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){if(k.startsWith('ce-helper-v1:'))throw new DOMException('Denied','QuotaExceededError');return set.call(this,k,v);};});await page.goto(entry);await choose(page,'spark');await ready(page,'spark');await page.locator('#choose-helper').click();await choose(page,'atlas');await ready(page,'atlas');await expect(page.locator('#toast')).toContainText('Browser storage is unavailable');await page.reload();await expect(page.locator('#helper-picker')).toBeVisible();
+});
