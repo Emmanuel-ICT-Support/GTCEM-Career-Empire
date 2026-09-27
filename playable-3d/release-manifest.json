@@ -1,8 +1,8 @@
 {
-  "release": "echo-performance-20260925",
+  "release": "echo-sharp-entry-20260925",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "c1b8a5d",
-  "scope": "Existing Echo guide and campus preserved; adaptive Auto render resolution, hidden-tab suspension, shadow reuse and earlier full-detail plant culling.",
+  "scope": "Restore fixed sharp Auto resolution; entry artwork, paths and lighting first; saved Echo stage prepares Studio and Market; other campus loads later or on demand.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,11 +10,11 @@
     },
     {
       "path": "app.js",
-      "sha256": "bbee6f37565742c5671f274b20b5ebf8b31773443d0eba744ed6ea2daf2cc265"
+      "sha256": "7e1466f0ed69beae8ea80c96d86e89d2e9ed264e3da2a8c43b3c89313c8cab9e"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "6b9f1786369e6bbfba9e8cefda8ca09f8ce74e585d58ace6b2a3062896f566f5"
+      "sha256": "8e5de951d89df8dc0db129df1cef8d55d93402f3ada402bd9037aec3498de1f0"
     },
     {
       "path": "assets/campus-buildings/careers-shared-textures.glb",
@@ -394,7 +394,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "0596d6c240f9246ab74004a7a695e799d7eed95357947c1adf3403242168221c"
+      "sha256": "14a03316e07026095be6c821dafa60a9ad4bd46cc04357b691a496ba0282af85"
     },
     {
       "path": "chapel.js",
@@ -518,7 +518,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "3cd33b9494a317432399f1b52935e18ed7cb18777456a007be3ac83f964a837e"
+      "sha256": "649ace0da64841ca8f3c6da8a849996a4b7ac65c9ba65321ce47880fd25087f1"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -582,7 +582,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "41300b6c5d00500569db629f41ab32dbcf27d69520276d315a83fcddc263d6dc"
+      "sha256": "1f8a053853bef4a0ae845518f5823cb111482aee83e53162aa2836545501887e"
     },
     {
       "path": "joystick.js",
@@ -590,7 +590,7 @@
     },
     {
       "path": "market-characters.js",
-      "sha256": "27099f84d9307016e370b8193255148886ad18f933addf0d9cc7210d612baf74"
+      "sha256": "73c5ad00ade7f2824ca73eed2bf3729d7d17e2eadc3a9731c54d653be027fd79"
     },
     {
       "path": "market-food.js",
@@ -622,7 +622,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "52d721fb80474afd68f2ee6169ffdadd3c87369c29b8b3a7fa12912d40f34e51"
+      "sha256": "8a801f920e9e7386dbd7798376a35137f56a2dbe583684b5f2394129ba198aa0"
     },
     {
       "path": "phone-assets.js",
@@ -734,7 +734,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "b9f0ac74efc1ab4976c2078bba574ad723020337ae4294bdb9f984a07093d587"
+      "sha256": "c6eae5faf8cf2371c2834ddc61b6b28732771686ace24b5df22338d3c793c996"
     },
     {
       "path": "../economy-lab/index.html",
@@ -758,19 +758,15 @@
     },
     {
       "path": "echo-guide.js",
-      "sha256": "e536767d74243140f4086f4b8b68238b824e7d78d84edf0201ce88a55664eb0c"
+      "sha256": "c475d249fbd8dda3073be2cd64041962f4982e632c929ea0a03ebb38ab07b996"
     },
     {
       "path": "echo-state.js",
-      "sha256": "8c09078ff70f8c3f51e740078edb5cc374b6543d8983b15d2f3933512e596525"
+      "sha256": "2ba0da51110fe75b631c85a3bdab62b81d7f8effe322a470c7d3441b1ffa2ac0"
     },
     {
       "path": "echo-guide.css",
       "sha256": "a9ceb06932499063a5554c2a77bb41245e8ca6c5d20d9c8c63d6b20d7e5a414b"
-    },
-    {
-      "path": "render-budget.js",
-      "sha256": "cec60683d634311c97f2d229730f96e52ef48f61cfc96f7091b17b4d81f1a49f"
     }
   ],
   "estVideo": {

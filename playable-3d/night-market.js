@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import {JUNIPER,riceBowl,takeawayBag} from './market-food.js?v=market-student-playtest-20260924';
 import {createPracticeStore,VALUES,BADGES,MARKET_SHOP} from './night-market-state.js?v=market-student-playtest-20260924';
 import {PLAN_OPTIONS,NOTE_FIELDS,describePlan,evaluatePlan,caseNoteText} from './night-market-agency.js?v=market-lawns-20260924';
-import {marketCharacters} from './market-characters.js?v=market-lawns-20260924';
+import {marketCharacters} from './market-characters.js?v=sharp-entry-20260925';
 import {marketSurroundings} from './market-surroundings.js?v=stall-refine-20260924';
 const money=n=>'$'+(n/100).toFixed(2);
 // Campus materials and locally optimised NPCs; practice state remains independent.

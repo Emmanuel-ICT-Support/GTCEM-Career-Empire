@@ -3,6 +3,7 @@ const state=p=>p.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state|
 for(const width of [1280,854,390])test(`banner controls are clear and destinations work at ${width}`,async({page},info)=>{
  test.setTimeout(150000);await page.setViewportSize({width,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('/playable-3d/?review=1&market-review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});
+ await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();
  await expect.poll(async()=>(await state(page)).campusReady,{timeout:60000}).toBe(true);
  for(const selector of ['#phase','#flyover-toggle','#places-toggle','.ce-feedback-launcher','.legacy-link']){
   await expect(page.locator(selector)).toBeInViewport();

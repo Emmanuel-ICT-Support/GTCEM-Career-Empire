@@ -7,7 +7,8 @@ test('Auto keeps controls available, manual quality works, and hidden views stop
  await page.locator('#echo-cue').click();await page.locator('[data-next]').click();await expect(page.locator('#echo-dialogue h2')).toHaveText('A different kind of year');await page.keyboard.press('Escape');
  await page.locator('#world-tools summary').click();await page.locator('#quality').selectOption('low');expect(await page.evaluate(()=>window.renderProbe.shadows)).toBe(false);
  await page.locator('#quality').selectOption('high');expect(await page.evaluate(()=>window.renderProbe.shadows)).toBe(true);
- await page.locator('#quality').selectOption('auto');expect(await page.evaluate(()=>window.renderProbe.ratio)).toBeLessThanOrEqual(1);
+ await page.locator('#quality').selectOption('auto');expect(await page.evaluate(()=>window.renderProbe.ratio)).toBe(await page.evaluate(()=>Math.min(devicePixelRatio,1.5)));
+ await page.waitForTimeout(5000);expect(await page.evaluate(()=>window.renderProbe.ratio)).toBe(await page.evaluate(()=>Math.min(devicePixelRatio,1.5)));
  const start=await page.evaluate(()=>{window.testHidden=true;document.dispatchEvent(new Event('visibilitychange'));return window.renderProbe.frame;});await page.waitForTimeout(800);expect(await page.evaluate(()=>window.renderProbe.frame)).toBe(start);
  await page.evaluate(()=>{window.testHidden=false;document.dispatchEvent(new Event('visibilitychange'));});await expect.poll(()=>page.evaluate(()=>window.renderProbe.frame)).toBeGreaterThan(start);
 });

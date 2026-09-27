@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {partitionInstances} from './environment/static-batching.js?v=1';
 import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=annotations1';
 import {approvedPalette,makeAvatarStudio,dressedBox,batchStatic} from './environment/approved-campus-kit.js?v=first-play-20260921';
 // One bounded, walkable precinct. Existing Studio interaction remains at (-12.4, 5).
@@ -50,6 +51,7 @@ export function arrivalPrecinct(town,stoneTexture,sign,palette){
  // Spatially separate botanical instances and preserve individual glass sorting.
  const staticRoot=new THREE.Group();root.traverse(o=>{if(o.isMesh&&!o.isInstancedMesh){const copy=new THREE.Mesh(o.geometry,o.material);o.updateWorldMatrix(true,false);copy.matrix.copy(o.matrixWorld);copy.matrixAutoUpdate=false;copy.castShadow=o.castShadow;copy.receiveShadow=o.receiveShadow;staticRoot.add(copy);}});
  const originals=[];root.traverse(o=>{if(o.isMesh&&!o.isInstancedMesh)originals.push(o);});originals.forEach(o=>o.removeFromParent());town.add(batchStatic(staticRoot));
+ partitionInstances(root,{filter:o=>!o.userData.distanceDetail});
  // Existing tree assets supply detailed native canopies around the new courtyard.
  return {trees:[],colliders:[[-10.6,.22,11.2,2.1,.44,7],[-3.3,.22,12,2.7,.44,8],[-10.7,.22,1,3,.44,3],[-4.3,.22,2,2.0,.44,3.8]]};
 }

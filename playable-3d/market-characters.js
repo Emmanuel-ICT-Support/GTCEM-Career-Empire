@@ -2,10 +2,25 @@ import * as THREE from 'three';
 import {GLTFLoader} from './vendor/three/examples/jsm/loaders/GLTFLoader.js';
 import {clone} from './vendor/three/examples/jsm/utils/SkeletonUtils.js';
 
+// Parsed delivery kits are shared by preparation and actual market entry.
+// No practice store, scene, animation or completion state is created here.
+const preparedKits=new Map();
+function characterKit(id){
+ if(!preparedKits.has(id))preparedKits.set(id,new GLTFLoader().loadAsync(new URL(`./assets/market-npcs/${id}.glb`,import.meta.url).href).catch(error=>{preparedKits.delete(id);throw error;}));
+ return preparedKits.get(id);
+}
+export async function prepareMarketCharacters(shouldContinue=()=>true){
+ for(const id of ['mara','sam','customer-a','customer-b','customer-c','customer-d','customer-e']){
+  if(!shouldContinue())return false;
+  await characterKit(id);
+  await new Promise(resolve=>setTimeout(resolve,100));
+ }
+ return true;
+}
+
 // Market-only delivery copies. Originals and the player's wardrobe are untouched.
 export function marketCharacters(){
- const loader=new GLTFLoader(),cache=new Map(),actors=[],states=new Map();let loading;
- const url=id=>new URL(`./assets/market-npcs/${id}.glb`,import.meta.url).href;
+ const actors=[],states=new Map();let loading;
  function register(anchor,id,{height=1.72,facing=0}={}){
   const fallback=[...anchor.children];anchor.name=`Market actor / ${id}`;
   actors.push({anchor,id,height,facing,fallback,last:anchor.position.clone(),loaded:false,mixer:null,walking:false});
@@ -13,7 +28,7 @@ export function marketCharacters(){
  async function load(id){
   states.set(id,'loading');
   try{
-   const kit=cache.get(id)||await loader.loadAsync(url(id));cache.set(id,kit);
+   const kit=await characterKit(id);
    for(const a of actors.filter(a=>a.id===id&&!a.loaded)){
     const model=clone(kit.scene);model.updateMatrixWorld(true);model.traverse(o=>{if(o.isSkinnedMesh)o.skeleton.update();});
     const bounds=new THREE.Box3().setFromObject(model,true),height=bounds.max.y-bounds.min.y;
