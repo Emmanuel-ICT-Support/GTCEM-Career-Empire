@@ -1,8 +1,8 @@
 {
-  "release": "echo-sharp-entry-20260925",
+  "release": "echo-sharp-reflections-20260927",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "c1b8a5d",
-  "scope": "Restore fixed sharp Auto resolution; entry artwork, paths and lighting first; saved Echo stage prepares Studio and Market; other campus loads later or on demand.",
+  "scope": "Restore fixed sharp Auto resolution; entry artwork, paths and lighting first; saved Echo stage prepares Studio and Market; other campus loads later or on demand. Valid neutral reflection placeholder avoids transient PMREM shader failure while original HDR loads.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "7e1466f0ed69beae8ea80c96d86e89d2e9ed264e3da2a8c43b3c89313c8cab9e"
+      "sha256": "31ad41e7567ae1a1002e4706619f2108964697675c1667358e673bd7a9ded36b"
     },
     {
       "path": "arrival-precinct.js",
@@ -406,7 +406,7 @@
     },
     {
       "path": "deferred-textures.js",
-      "sha256": "c7d3d4d8967e1084f6acd3218e74fcbc314575808316032511c79697213bb73c"
+      "sha256": "b55f16c0552ebc2a563d6fd9373b85b8da5dcf9e6782be2087fa64009b9d7cb8"
     },
     {
       "path": "destinations.js",
@@ -582,7 +582,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "1f8a053853bef4a0ae845518f5823cb111482aee83e53162aa2836545501887e"
+      "sha256": "1afa8ae84417267584dcaff9f6b1eefcd1df752fd3557c9da49908dcc930a531"
     },
     {
       "path": "joystick.js",
@@ -734,7 +734,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "c6eae5faf8cf2371c2834ddc61b6b28732771686ace24b5df22338d3c793c996"
+      "sha256": "9fa92d0b79916b589764258659dab9576aa7f5ba6d0cea2b952dddad1400dd91"
     },
     {
       "path": "../economy-lab/index.html",

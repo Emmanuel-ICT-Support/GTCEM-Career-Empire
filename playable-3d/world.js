@@ -3,7 +3,7 @@ import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=first-play-20260921';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createDeferredTextures} from './deferred-textures.js?v=first-play-20260921';
+import {createDeferredTextures} from './deferred-textures.js?v=entry-reflections-20260927';
 import {createCampusLandscape,createCampusPaths} from './campus-landscape.js?v=sharp-entry-20260925';
 import {arrivalPrecinct} from './arrival-precinct.js?v=sharp-entry-20260925-first-play-20260921';
 /**

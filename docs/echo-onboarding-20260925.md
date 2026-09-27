@@ -1,3 +1,11 @@
+Reflection follow-up verified: the native shader regression fails with the original1×1 placeholder and passes with64×32; four staged-entry/retry/persistence scenarios pass again (5checks,2.0m).85unit/coverage and191staged hashes pass. Full CI browser bind remains blocked by occupied4273. Release verification follows.
+
+## Live sharp entry and reflection follow-up — 27 September 2026
+
+PR38 merged as b33a6b39c1f5ce03357b59f28c801a1515da6bb0; tested7a6a614 and merge share tree0dff6c6e730e0548ee03956ce8ea22896601cb83. Pages36282570635 succeeded and all11changed public runtime files match. Actual user tab after reload: entryReadytrue, campusReadyfalse, ratio1.5,30–37FPS,1,133,818triangles and136calls; Echo opens normally. This replaces rejected PR37 automatic blur.39focused browser scenarios and85units passed locally; hosted CI remains separate.
+
+Live console verification caught a transient reflection shader error before the original HDR finishes. Root cause confirmed in bundled Three PMREM: a1×1 HDR fallback yields a subpixel cube and invalid integer GLSL texture-height constant. A focused native renderer test reproduces the same error before repair. Bounded follow-up uses a neutral white64×32 half-float placeholder (16KB, no download), retaining texture identity and swapping to the original artwork as before. No world/style/resolution change. Also aligns the brief pre-Echo fallback message with Documents → Studio → Market. Follow-up tests/publication pending; do not claim error-free final release yet.
+
 Final sharp-entry candidate: all17additional compatibility checks pass (4.3m), bringing scoped coverage to39distinct browser scenarios across runs, plus85unit/coverage checks and191exact staged hashes/49modules. Full local CI remains blocked by occupied port4273; no full hosted-pass claim. Original sharpness restored; final desktop entry17–19FPS. Release/public verification follows.
 
 ## Sharp-entry verification checkpoint — 27 September 2026

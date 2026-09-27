@@ -3,11 +3,11 @@ import {createFlyover} from './flyover.js?v=student-usability-20260924';
 import {configurePhoneAssets} from './phone-assets.js?v=phone-load-20260917';
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
-import {afterFirstPaint} from './deferred-textures.js?v=first-play-20260921';
+import {afterFirstPaint} from './deferred-textures.js?v=entry-reflections-20260927';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds,sign} from './world.js?v=sharp-entry-20260925';
+import {createWorlds,sign} from './world.js?v=entry-reflections-20260927';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=student-usability-20260924';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=hair-shoes-20260921';
@@ -434,7 +434,7 @@ function updateMission(){
  if(mode!=='town')return;
  let done=false;try{done=localStorage.getItem('ce-arrival-complete-'+state.activeId)==='1';}catch{}
  const distance=Math.hypot(actor.model.position.x+12.4,actor.model.position.z-5);
- const guidance=echo?.guidance({avatarSaved:done,nearEcho:echo.near(actor.model.position),distance})||{title:'Mission 1 · Your avatar',detail:'Visit Avatar Studio, choose your look and Save & return. Then inspect Careers and Employability Course Documents beside Echo.',progress:25};
+ const guidance=echo?.guidance({avatarSaved:done,nearEcho:echo.near(actor.model.position),distance})||{title:'Your first day',detail:'Start with Careers and Employability Course Documents, then Avatar Studio and the Market Experience. Echo will guide you through each step.',progress:0};
  if($('mission-title').textContent!==guidance.title){$('mission-title').textContent=guidance.title;$('mission-summary').textContent=guidance.title;}
  if($('mission-detail').textContent!==guidance.detail)$('mission-detail').textContent=guidance.detail;
  $('mission-bar').style.width=guidance.progress+'%';$('mission-bar').parentElement.setAttribute('aria-label','Orientation guidance; course documents still pending');
