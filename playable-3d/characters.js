@@ -50,10 +50,12 @@ function bindClips(model, animations, walkSpeed = 1.8) {
   }
   if (clips.idle) clips.idle.play();
   let motion = 'idle';
+  let gaitSpeed = walkSpeed;
   return {
     mixer,
     clips,
-    setWalking(value) {
+    setWalking(value, speed = 2.8) {
+      gaitSpeed = walkSpeed * Math.max(0, speed) / 2.8;
       const next = value ? 'walk' : 'idle';
       if (motion === next) return;
       clips[next]?.reset().fadeIn(0.18).play();
@@ -61,7 +63,9 @@ function bindClips(model, animations, walkSpeed = 1.8) {
       motion = next;
     },
     update(dt) {
-      mixer.update(dt * (motion === 'walk' ? walkSpeed : 1));
+      // Only the walk action changes rate; fades and idle retain real-time timing.
+      clips.walk?.setEffectiveTimeScale(gaitSpeed);
+      mixer.update(dt);
     },
     disposeMixer() {
       mixer.stopAllAction();

@@ -1,8 +1,8 @@
 {
-  "release": "helper-selector-20260927",
+  "release": "avatar-travel-20260927",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "3681d57b92441d7ae9065dde2093d033bcc2b6b8",
-  "scope": "Seven 2D helper portraits, local per-character choice, selected-only model loading and transform animation. Preserve sharp staged world entry and existing guide tasks.",
+  "baseCommit": "79131181a7682cb7916ebf6f78aaca5e5ee7be4b",
+  "scope": "Player locomotion, gait timing and current-pose suit shadows; preserve world, helpers and NPC assets.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "c0b42ce969e0333235731722dc6f6ce80e5fe1edb72b0c011587048a51f36018"
+      "sha256": "1b09c44c6d4145044836aa0a46ba66d13d28d2a4325628b45b7f2b1a379a813b"
     },
     {
       "path": "arrival-precinct.js",
@@ -474,7 +474,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "7def3784f5b79b29aed15caad7a1e331d018af06d34bef8782f9babb3735b74b"
+      "sha256": "6b12e7801c391376d13eed3c4467ba1bc2bb15b36d922a52b5377b4b8b9139b8"
     },
     {
       "path": "deferred-textures.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "15e46162b883e0b2a6606291c6080b60ca680ca1f0be530e3800a97de57b7706"
+      "sha256": "7f3b20bdd169b6c3a0a62874ba3650b3b3fb953423e8c8cd2ac6d5c199926434"
     },
     {
       "path": "joystick.js",
@@ -839,6 +839,10 @@
     {
       "path": "world.js",
       "sha256": "9fa92d0b79916b589764258659dab9576aa7f5ba6d0cea2b952dddad1400dd91"
+    },
+    {
+      "path": "locomotion.js",
+      "sha256": "fc62c2bd6f803807d0fc807d0538e46382d175a2551feb6149563c0486b3b7b8"
     }
   ],
   "estVideo": {
