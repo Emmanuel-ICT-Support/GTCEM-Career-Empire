@@ -1,8 +1,12 @@
+## Verified live helpers — 27 September 2026
+
+PR #40 merged as 79131181a7682cb7916ebf6f78aaca5e5ee7be4b from tested ebf933cef47505e13da3a3e120d855e3414992c0. Trees match 6d01211e66f277ebba66ffc029739464656d8219. Pages run 36286178336 succeeded. All 22 changed public runtime/model/portrait files match the tested bytes. Fresh 1280px and 390px public sessions verified seven portraits, no helper GLB before Continue, only chosen Moss/Spark downloaded, dialogue and reload persistence; no console/page errors. Local 88 unit/coverage and 20 distinct browser scenarios passed. Hosted CI 36286178652 completed with failure: 88 units passed and 23 browser checks passed, then the Echo scenario timed out at 180 seconds while clicking the guide cue; 97 later checks did not run. Prior main CI 36283044211 also timed out at 180 seconds in the same scenario, at its Next button. This is not an identical-click comparison or a full-CI pass. Local native-renderer Echo and public chooser/dialogue checks passed. Physical-device/student acceptance untested. Canonical Blueprint CE-CHANGE-20260927-96 and evidence/helpers/release-report.md hold the closure. These are local post-release documentation notes; deployed runtime remains the tested merge.
+
 ## Seven selected-only helpers — 27 September 2026
 
 CE-CHANGE-20260927-96. Current user explicitly authorises seven portrait choices and live publication after checks. Echo, Sprout, Moss, Bloom, Spark, Pax, Atlas only. Preserve existing Echo appearance and supplied GLBs; never preload the set. Choice is browser-local per character, selected GLB loads only after Continue, native Echo recovers failures. Preserve latest sharp staged entry and teaching/task state. See docs/helper-selector-20260927.md for asset metrics, tests and release status. 88units/coverage,7helper browser scenarios and13world regressions pass.209staged hashes/52modules verified. Full local CI browser bind4273 blocked; scoped8796 passes. Publication/public verification pending.
 
-Reflection follow-up verified: the native shader regression fails with the original1×1 placeholder and passes with64×32; four staged-entry/retry/persistence scenarios pass again (5checks,2.0m).85unit/coverage and191staged hashes pass. Full CI browser bind remains blocked by occupied4273. Release verification follows.
+Reflection follow-up verified: the native shader regression fails with the original1×1 placeholder and passes with64×32; four staged-entry/retry/persistence scenarios pass again (5checks,2.0m).85unit/coverage and191staged hashes pass. Full CI browser bind remains blocked by occupied 4273. Release verification follows.
 
 ## Live sharp entry and reflection follow-up — 27 September 2026
 
@@ -725,3 +729,17 @@ Final LIVE compact banner receipt: Pages35974034727 succeeded for6f4487b. All5 c
 Tania screenshot shows the first-day guidance clipped inside the travel menu. She requests keeping Find your place on the gameplay screen and moving Original Career Empire into the top panel. Continuing the canonical checkout from deployed6f4487b, preserving prior local publication receipts. Restore first-day guidance as a separate lower-right gameplay card (expanded desktop, collapsible phone), rename travel dropdown Places, move the existing original-game link into the banner with its original target/new-tab behavior. Preserve all10 destinations, My Life/phase order, Studio guards, gameplay, saves and optional loading. No new visual assets or data changes. Scoped desktop/phone visual and interaction verification in progress; publication receipt to follow within existing authorized release work.
 
 25 September local verification: source checks and3 full banner/destination browser scenarios pass27.4s at1280/854/390. Screenshots inspected: full guidance text in gameplay, no horizontal menu clipping, all10 places reachable, My Life/phase order retained and original-game link in the header. Desktop remains66px/one row; phone guidance collapses away from movement controls. Unchanged scripts keep prior cache versions; only the changed stylesheet is cache-busted. Release/public verification follows.
+
+## Player travel timing repair — 27 September 2026
+
+CE-CHANGE-20260927-98. Local movement/animation repair on the verified PR40 helper tree; see docs/avatar-travel-20260927.md for cause, exact changes and validation. Preserve opening-recovery's newer staged work and all world/helper/NPC assets. New locomotion.js provides bounded starts/stops and frame-independent turning; app keeps gait state between physics ticks and interpolates only rendering; characters scales walk action by resolved speed. 91 units, eight distinct scoped native-browser scenarios and 210 working-tree manifest hashes pass. Final 8 FPS and 30/60/144 Hz real-clip comparison pass. No public deployment or physical-device acceptance claim.
+
+Integration dry-run: movement-runtime.patch conflicts with opening-recovery app.js/index.html. Do not apply wholesale or overwrite newer chapter/world hooks. Sibling source remains untouched; merge-aware integration and its tests are still required before a combined release.
+
+Suit flicker follow-up: confirmed10Hz cached shadows could reuse previous skeleton pose data for one frame in bundled Three, plus stale self-shadows. Refresh every moving/blending-player frame and when player transforms change; retain idle reuse. Original avatar/suit/world/helper/NPC assets unchanged. Preview restored with independent local server on8811 and verified in-app. See existing movement record and suit regression evidence; no public deployment.
+
+User review — 27 September 2026: Tania reports “much better!” after viewing the local movement and suit-shadow repair. This is positive visual feedback on the local preview, not authorisation to publish or proof of physical-device/full-game acceptance.
+
+## Authorised live release — 27 September 2026
+
+After positive preview feedback, Tania explicitly requests “send to live please”. This supersedes earlier no-publication instructions for this scoped repair. Current remote main verified as79131181a7682cb7916ebf6f78aaca5e5ee7be4b, same runtime tree as the reviewed helper-release base. Publish movement and suit-shadow repair only; preserve separately staged opening-recovery work. Live release and public verification pending.

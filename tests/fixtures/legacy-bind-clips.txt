@@ -1,0 +1,35 @@
+function bindClips(model, animations, walkSpeed = 1.8) {
+  const mixer = new THREE.AnimationMixer(model);
+  const clips = {};
+  for (const clip of animations) {
+    const name = /walk/i.test(clip.name) ? 'walk' : 'idle';
+    clips[name] = mixer.clipAction(clip);
+  }
+  if (!clips.idle && clips.walk) {
+    const walk = animations.find(clip => /walk/i.test(clip.name));
+    const tracks = walk.tracks.map(track => new track.constructor(
+      track.name, [0], Array.from(track.values.slice(0, track.getValueSize()))
+    ));
+    clips.idle = mixer.clipAction(new THREE.AnimationClip('idle', 1, tracks));
+  }
+  if (clips.idle) clips.idle.play();
+  let motion = 'idle';
+  return {
+    mixer,
+    clips,
+    setWalking(value) {
+      const next = value ? 'walk' : 'idle';
+      if (motion === next) return;
+      clips[next]?.reset().fadeIn(0.18).play();
+      clips[motion]?.fadeOut(0.18);
+      motion = next;
+    },
+    update(dt) {
+      mixer.update(dt * (motion === 'walk' ? walkSpeed : 1));
+    },
+    disposeMixer() {
+      mixer.stopAllAction();
+      mixer.uncacheRoot(model);
+    }
+  };
+}

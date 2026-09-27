@@ -1,3 +1,4 @@
+import {createLocomotion, STEP, turnTowards} from './locomotion.js?v=travel-20260927';
 import {createHelperPicker} from './helper-picker.js?v=helpers-20260927';
 import {createExplorer} from '../economy-lab/exploration.mjs';
 import {createFlyover} from './flyover.js?v=student-usability-20260924';
@@ -10,7 +11,7 @@ import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds,sign} from './world.js?v=entry-reflections-20260927';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=student-usability-20260924';
+import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=travel-20260927';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=hair-shoes-20260921';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
@@ -24,9 +25,12 @@ let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flouris
 let wardrobeSection='pants';
 let nightMarket=null;
 let echo=null;
+const locomotion=createLocomotion();
+let renderMotion=null;
 const helperPicker=createHelperPicker({profile:()=>state.activeId,onOpen:()=>{echo?.close();if(actor)resetNavigationInput();},onChange:(helper,persistent)=>{echo?.selectHelper(helper);if(!persistent&&actor)toast('Your guide is selected for this tab. Browser storage is unavailable.');}});
 document.getElementById('choose-helper').onclick=()=>helperPicker.choose(true);
-let shadowScene=null,shadowTime=-Infinity;
+let shadowScene=null,shadowTime=-Infinity,shadowActor=null,shadowActorYaw=0;
+const shadowActorPosition=new THREE.Vector3();
 function echoAction(action){if(action==='studio')openStudio();else if(action==='market')openMarket();else visitResources();}
 async function visitResources(){await setMode('town');worlds.teleport(false,-7,23.3);actor.model.position.copy(worlds.position(false));yaw=0;aerial=false;setLocation('Course Documents · Arrival Gardens');updateCamera(1,true);echo?.showResources();}
 function loadEcho(){import('./echo-guide.js?v=helpers-20260927').then(m=>{echo=m.createEchoGuide({scene:worlds.town,physics:worlds.townPhysics.world,canvas,profile:()=>state.activeId,helper:()=>helperPicker.selected(),onPause:()=>{resetNavigationInput();actor.setWalking(false);},onAction:echoAction,review:new URLSearchParams(location.search).get('echo-review')==='1'});if(mode==='market')echo.markMarketVisited();}).catch(error=>console.warn('Echo unavailable; campus remains playable.',error));}
@@ -34,7 +38,7 @@ const marketRequested=new URLSearchParams(location.search).get('experience') && 
 const marketDialogOpen=()=>Boolean(nightMarket?.isOpen());
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
 let chapelTilt=0,flyover;
-function resetNavigationInput(){keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
+function resetNavigationInput(){renderMotion=null;locomotion.reset();keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
 function canFlyover(){return !echo?.open()&&mode==='town'&&campusReady&&!enteringHall&&!enteringCareers&&!studioLoadPending&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!$('leave-dialog').open;}
 let studioLoadPending=false;
 const explorationReview=new URLSearchParams(location.search).get('market-review')==='1'||new URLSearchParams(location.search).get('review')==='1';
@@ -320,7 +324,7 @@ async function setMode(next){
       clearTimeout(toastTimer);$('toast').hidden=true;
     }catch{studioLoadPending=false;if(request===modeRequest)toast('Avatar Studio is getting ready. The studio is still setting things up. Explore Career Empire and pop back in a few minutes.');return false;}
   }
-  if(watchingEST)closeESTVideo();worlds?.estVideo.pause();hallRequest++;previewRequest++;keys.clear();joystick.reset();tapMovement=null;document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;$('experience').classList.toggle('in-chapel',next==='chapel');
+  if(watchingEST)closeESTVideo();worlds?.estVideo.pause();hallRequest++;previewRequest++;resetNavigationInput();actor?.setWalking(false);document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;$('experience').classList.toggle('in-chapel',next==='chapel');
   nightMarket?.setVisible(next==='market');
   echo?.close();if(next==='market')echo?.markMarketVisited();
   const inStudio=next==='studio';$('experience').classList.toggle('in-studio',inStudio);$('arrival-mission').hidden=inStudio||next==='interior'||next==='careers'||next==='chapel';$('est-watch').hidden=true;
@@ -547,13 +551,13 @@ function bindEvents(){
   $('turn-avatar').addEventListener('click',()=>{if(preview)preview.model.rotation.y+=Math.PI;});$('pose-avatar').addEventListener('click',()=>{previewWalking=!previewWalking;preview?.setWalking(previewWalking);$('pose-avatar').setAttribute('aria-pressed',previewWalking);});$('portrait-view').addEventListener('click',()=>{portrait=!portrait;$('portrait-view').setAttribute('aria-pressed',portrait);resetStudioCamera();});
   $('close-module').addEventListener('click',closeModule);
   window.addEventListener('keydown',e=>{if(helperPicker.open()||echo?.open()||feedbackOpen()||marketDialogOpen())return;if(flyover?.keydown(e))return;if(watchingEST){if(e.code==='Escape')closeESTVideo();return;}if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)||$('leave-dialog').open||(!$('module-overlay').hidden||$('reflection-dialog').open))return;if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','ShiftLeft','ShiftRight'].includes(e.code)){e.preventDefault();keys.add(e.code);}if(e.code==='KeyE')interaction?.action();});
-  window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>{keys.clear();flyover?.stop();});document.addEventListener('visibilitychange',()=>{flyover?.stop();keys.clear();joystick.reset();accumulator=0;});window.addEventListener('resize',resize);
+  window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>{resetNavigationInput();actor?.setWalking(false);flyover?.stop();});document.addEventListener('visibilitychange',()=>{flyover?.stop();resetNavigationInput();actor?.setWalking(false);lastTime=clock.getElapsedTime();});window.addEventListener('resize',resize);
   window.addEventListener('beforeunload',e=>{if(dirty()){e.preventDefault();e.returnValue='';}});
   document.querySelectorAll('[data-key]').forEach(b=>{b.addEventListener('contextmenu',e=>e.preventDefault());b.addEventListener('dragstart',e=>e.preventDefault());b.addEventListener('selectstart',e=>e.preventDefault());let pressedAt=0;b.addEventListener('pointerdown',e=>{e.preventDefault();b.setPointerCapture(e.pointerId);pressedAt=performance.now();keys.add(b.dataset.key);b.classList.add('pressed');});const release=e=>{if(e.type==='pointerup'&&performance.now()-pressedAt<180)tapMovement={key:b.dataset.key,until:performance.now()+220};keys.delete(b.dataset.key);b.classList.remove('pressed');};b.addEventListener('pointerup',release);b.addEventListener('pointercancel',release);b.addEventListener('lostpointercapture',release);});
   canvas.addEventListener('pointerdown',e=>{if(flyover?.pointerdown(e))return;canvas.focus();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt,moved:false};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(flyover?.pointermove(e))return;if(drag && mode!=='studio'){if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6)drag.moved=true;yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='chapel')chapelTilt=THREE.MathUtils.clamp(drag.tilt+(e.clientY-drag.y)*.014,-1.6,4.5);}});canvas.addEventListener('pointerup',e=>{if(flyover?.active){flyover.pointerup(e);return;}if(drag&&!drag.moved)tapTeacher(e);drag=null;});canvas.addEventListener('pointercancel',()=>{drag=null;flyover?.pointerup();});canvas.addEventListener('lostpointercapture',()=>{drag=null;flyover?.pointerup();});
 }
 function animate(){
-  requestAnimationFrame(animate);const now=clock.getElapsedTime(),elapsed=now-lastTime,dt=Math.min(elapsed,.08);lastTime=now;
+  requestAnimationFrame(animate);const now=clock.getElapsedTime(),elapsed=now-lastTime,dt=Math.min(elapsed,.25);lastTime=now;
   // Background game tabs must not compete with the visible game for the GPU.
   if(document.hidden){accumulator=0;frames=0;metricsTime=now;return;}
   flyover?.refresh();
@@ -564,22 +568,43 @@ function animate(){
     let x=(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0),z=(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-(keys.has('KeyW')||keys.has('ArrowUp')?1:0);
     x+=joystick.x;z+=joystick.z;
     const length=Math.hypot(x,z);if(length>1){x/=length;z/=length;}
-    const speed=keys.has('ShiftLeft')||keys.has('ShiftRight')?4.6:2.8;
-    const dx=(x*Math.cos(yaw)+z*Math.sin(yaw))*speed,dz=(-x*Math.sin(yaw)+z*Math.cos(yaw))*speed;
-    accumulator=Math.min(accumulator+dt,.1);let travelled=0;
-    while(accumulator>=1/60){const previous=actor.model.position.clone();if(mode==='town')for(const npc of teachers)npc.fixedUpdate(1/60,previous);const next=mode==='market'?nightMarket.move(previous,{x:dx/60,z:dz/60}):worlds.move(space(),{x:dx/60,z:dz/60});actor.model.position.set(next.x,next.y,next.z);travelled+=Math.hypot(next.x-previous.x,next.z-previous.z);accumulator-=1/60;}
-    actor.setWalking(Boolean(length && travelled>.001));if(length){const target=Math.atan2(dx,dz),difference=Math.atan2(Math.sin(target-actor.model.rotation.y),Math.cos(target-actor.model.rotation.y));actor.model.rotation.y+=difference*Math.min(1,dt*12);}
+    const running=keys.has('ShiftLeft')||keys.has('ShiftRight');
+    // Interpolate rendering between physics poses, without feeding the visual
+    // position back into collision or Market movement. External teleports reset it.
+    if(!renderMotion||renderMotion.shown.distanceToSquared(actor.model.position)>1e-10){
+      renderMotion={previous:actor.model.position.clone(),current:actor.model.position.clone(),shown:actor.model.position.clone()};
+    }
+    accumulator=Math.min(accumulator+dt,.25);let travelled=0,steps=0;
+    while(accumulator>=STEP){
+      const previous=renderMotion.current.clone();
+      const delta=locomotion.step(x,z,yaw,running);
+      if(mode==='town')for(const npc of teachers)npc.fixedUpdate(STEP,previous);
+      const next=mode==='market'?nightMarket.move(previous,delta):worlds.move(space(),delta);
+      renderMotion.previous.copy(previous);renderMotion.current.set(next.x,next.y,next.z);
+      const movedX=next.x-previous.x,movedZ=next.z-previous.z;
+      travelled+=Math.hypot(movedX,movedZ);
+      actor.model.rotation.y=turnTowards(actor.model.rotation.y,movedX,movedZ,STEP);
+      accumulator-=STEP;steps++;
+    }
+    actor.model.position.lerpVectors(renderMotion.previous,renderMotion.current,accumulator/STEP);
+    renderMotion.shown.copy(actor.model.position);
+    // A render frame with no physics tick is not a stop. Never restart its walk.
+    if(steps)actor.setWalking(travelled/(steps*STEP)>.03,travelled/(steps*STEP));
     if(mode==='town'){if(entryReady&&!campusReady&&actor.model.position.z<4.5&&worlds.scenery.status==='pending')openCampusInBackground();updateTeacherLoading();for(const npc of teachers)npc.update(dt,actor.model.position);}actor.update(dt);prepareNextTask(now);worlds.update(now,camera);updateInteraction();updateMission();
-  }else if(mode==='studio')preview?.update(dt);
+  }else {renderMotion=null;locomotion.reset();accumulator=0;actor.setWalking(false);if(mode==='studio')preview?.update(dt);}
   if(mode==='market')nightMarket.update(dt,now,camera);
   updateCamera(dt);echo?.update(dt,actor.model.position,camera,mode==='town'&&!helperPicker.open()&&!aerial&&!flyover?.active&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open);positionESTPlayButton();renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   let scene=mode==='studio'?studio:activeScene();
   if(mode==='studio'){const mobile=isMobile();renderer.setViewport(0,mobile?viewport.height*.43:0,mobile?viewport.width:viewport.width-(viewport.width>900?364:316),Math.max(1,viewport.height*(mobile?.57:1)-headerHeight));}
   renderer.toneMappingExposure=mode==='town'?1:1.03;
-  // Reuse the sun shadow texture between updates; keep full geometry and shadow quality.
+  // A moving/skinned player needs current-pose shadows every rendered frame.
+  // Reusing a map also reuses the previous shadow-pass skeleton cache for one
+  // frame in this Three build, making the suit jump as well as its self-shadow.
+  const playerShadowChanged=shadowActor!==actor||shadowActorPosition.distanceToSquared(actor.model.position)>1e-10||shadowActorYaw!==actor.model.rotation.y||Boolean(actor.clips.walk?.enabled&&actor.clips.walk.getEffectiveWeight()>.0001);
+  // Retain idle-world reuse and the original map resolution.
   renderer.shadowMap.autoUpdate=false;
-  renderer.shadowMap.needsUpdate=$('quality').value!=='auto'||shadowScene!==scene||now-shadowTime>=((mode!=='town'||keys.size||joystick.x||joystick.z||flyover?.active||teachers.length)?.1:.5);
-  if(renderer.shadowMap.needsUpdate){shadowScene=scene;shadowTime=now;}
+  renderer.shadowMap.needsUpdate=playerShadowChanged||$('quality').value!=='auto'||shadowScene!==scene||now-shadowTime>=((mode!=='town'||keys.size||joystick.x||joystick.z||flyover?.active||teachers.length)?.1:.5);
+  if(renderer.shadowMap.needsUpdate){shadowScene=scene;shadowTime=now;shadowActor=actor;shadowActorPosition.copy(actor.model.position);shadowActorYaw=actor.model.rotation.y;}
   renderer.render(scene,camera);frames++;
   if(!canvas.dataset.firstFrameMs)canvas.dataset.firstFrameMs=String(Math.round(performance.now()));
   if(now-metricsTime>1){

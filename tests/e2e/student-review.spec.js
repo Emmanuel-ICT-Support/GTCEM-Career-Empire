@@ -23,7 +23,7 @@ test('real paving supports feet and camera stays inside room walls',async({page}
  await page.route('**/review-harness',r=>r.fulfill({contentType:'text/html',body:'<script type="importmap">{"imports":{"three":"/playable-3d/vendor/three/build/three.module.js","three/addons/":"/playable-3d/vendor/three/examples/jsm/","@dimforge/rapier3d-compat":"/playable-3d/vendor/rapier/rapier.mjs"}}</script><base href="/playable-3d/">'}));
  await page.goto('/review-harness');
  const result=await page.evaluate(async()=>{
-  const {createWorlds}=await import('/playable-3d/world.js');const T=await import('three');const w=await createWorlds(()=>{});await w.loadScenery();w.openCampus();
+  const {createWorlds}=await import('/playable-3d/world.js');const T=await import('three');const w=await createWorlds(()=>{});await w.loadEntry();await w.loadScenery();w.openCampus();
   const feet=[];for(const [x,z]of [[-7,18],[-13,12],[-19,12],[15,8]]){w.teleport(false,x,z);for(let i=0;i<90;i++)w.move(false,{x:0,z:0});feet.push(w.position(false).toArray());}
   const cameras=[];for(const [x,z,dx,dz]of [[6,0,4,0],[-6,0,-4,0],[0,-6,0,-4],[0,6,0,4]]){w.teleport(true,x,z);const target=new T.Vector3(x+dx,3,z+dz);w.protectCamera(true,new T.Vector3(x,0,z),target);cameras.push(target.toArray());}
   return {feet,cameras};
