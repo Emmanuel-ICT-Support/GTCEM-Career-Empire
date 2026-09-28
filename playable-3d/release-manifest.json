@@ -1,8 +1,8 @@
 {
-  "release": "avatar-travel-20260927",
+  "release": "guidance-choice-20260928",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "79131181a7682cb7916ebf6f78aaca5e5ee7be4b",
-  "scope": "Player locomotion, gait timing and current-pose suit shadows; preserve world, helpers and NPC assets.",
+  "baseCommit": "bc954a974edd3d8205854a63d4b2cffc38c99a5e",
+  "scope": "Optional companion, friendly creature or phone/journal guidance; preserve shared progress, selected-only loading and existing world/travel.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "1b09c44c6d4145044836aa0a46ba66d13d28d2a4325628b45b7f2b1a379a813b"
+      "sha256": "ed9cb033234587f1fee7894051c36ef5e8dcad0fa6fe3b6c6567f318b0d98a60"
     },
     {
       "path": "arrival-precinct.js",
@@ -594,7 +594,7 @@
     },
     {
       "path": "echo-guide.js",
-      "sha256": "387cef2513d95bce44dac3392c5fb31ec07e6e52dcbf7a4e33ca2ee1b6d1710a"
+      "sha256": "ae40f2dfd46c65656bd4f7ca390d6f47bdc2737a3aed5287db101e8490d1db93"
     },
     {
       "path": "echo-state.js",
@@ -670,23 +670,23 @@
     },
     {
       "path": "helper-model.js",
-      "sha256": "fbc96ad0636bd80599fa8f74bd0cd99f3d29441ff0f8991acc23ebcf352a3650"
+      "sha256": "bd69014edbe067b926b21415f594cdfb1b688f60ff5a997b62a7e6f3a7597b18"
     },
     {
       "path": "helper-picker.css",
-      "sha256": "372f0798ec2f1b5a2843921f4c8723fffae1b39a6e129168c44c124af21c740b"
+      "sha256": "2fd6696d72828e813f8b09df9ef9b596a573f1a046ad52effff8a4637679713d"
     },
     {
       "path": "helper-picker.js",
-      "sha256": "69f6573a0a15ae46e4949706d8c83c017c188b0d2d8baeb1cb7b759013e0c89c"
+      "sha256": "f2b51a7f6184a2217ffe8d77de517b47e192f5cbe3dfbfec4f9bc71823b1d923"
     },
     {
       "path": "helper-state.js",
-      "sha256": "741dbeec243529e23a69c65617751cc8378190c42cbc727b35a619a45f62d833"
+      "sha256": "91b9e917718d5364226d33ea647e5a92ec69a480a9a0366ef480863daf828feb"
     },
     {
       "path": "index.html",
-      "sha256": "7f3b20bdd169b6c3a0a62874ba3650b3b3fb953423e8c8cd2ac6d5c199926434"
+      "sha256": "ebec01a5321b0dd1314c254ee2ed4fda213a7e867edf32a4363bcdcc400a22c2"
     },
     {
       "path": "joystick.js",

@@ -1,5 +1,5 @@
 import {createLocomotion, STEP, turnTowards} from './locomotion.js?v=travel-20260927';
-import {createHelperPicker} from './helper-picker.js?v=helpers-20260927';
+import {createHelperPicker} from './helper-picker.js?v=guidance-20260928';
 import {createExplorer} from '../economy-lab/exploration.mjs';
 import {createFlyover} from './flyover.js?v=student-usability-20260924';
 import {configurePhoneAssets} from './phone-assets.js?v=phone-load-20260917';
@@ -27,13 +27,14 @@ let nightMarket=null;
 let echo=null;
 const locomotion=createLocomotion();
 let renderMotion=null;
-const helperPicker=createHelperPicker({profile:()=>state.activeId,onOpen:()=>{echo?.close();if(actor)resetNavigationInput();},onChange:(helper,persistent)=>{echo?.selectHelper(helper);if(!persistent&&actor)toast('Your guide is selected for this tab. Browser storage is unavailable.');}});
+const helperPicker=createHelperPicker({profile:()=>state.activeId,onOpen:()=>{echo?.close();if(actor)resetNavigationInput();},onChange:(helper,persistent)=>{echo?.selectHelper(helper);if(!persistent&&actor)toast('Your guidance preference is selected for this tab. Browser storage is unavailable.');}});
 document.getElementById('choose-helper').onclick=()=>helperPicker.choose(true);
+document.getElementById('guidance-help').onclick=()=>{if(echo)echo.showHelp();else toast('Guidance is preparing. Try again in a moment.');};
 let shadowScene=null,shadowTime=-Infinity,shadowActor=null,shadowActorYaw=0;
 const shadowActorPosition=new THREE.Vector3();
 function echoAction(action){if(action==='studio')openStudio();else if(action==='market')openMarket();else visitResources();}
 async function visitResources(){await setMode('town');worlds.teleport(false,-7,23.3);actor.model.position.copy(worlds.position(false));yaw=0;aerial=false;setLocation('Course Documents · Arrival Gardens');updateCamera(1,true);echo?.showResources();}
-function loadEcho(){import('./echo-guide.js?v=helpers-20260927').then(m=>{echo=m.createEchoGuide({scene:worlds.town,physics:worlds.townPhysics.world,canvas,profile:()=>state.activeId,helper:()=>helperPicker.selected(),onPause:()=>{resetNavigationInput();actor.setWalking(false);},onAction:echoAction,review:new URLSearchParams(location.search).get('echo-review')==='1'});if(mode==='market')echo.markMarketVisited();}).catch(error=>console.warn('Echo unavailable; campus remains playable.',error));}
+function loadEcho(){import('./echo-guide.js?v=guidance-20260928').then(m=>{echo=m.createEchoGuide({scene:worlds.town,physics:worlds.townPhysics.world,canvas,profile:()=>state.activeId,helper:()=>helperPicker.selected(),onPause:()=>{resetNavigationInput();actor.setWalking(false);},onAction:echoAction,review:new URLSearchParams(location.search).get('echo-review')==='1'});if(mode==='market')echo.markMarketVisited();}).catch(error=>console.warn('Echo unavailable; campus remains playable.',error));}
 const marketRequested=new URLSearchParams(location.search).get('experience') && ['night-market','sunday-markets'].includes(new URLSearchParams(location.search).get('experience'));
 const marketDialogOpen=()=>Boolean(nightMarket?.isOpen());
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
@@ -324,7 +325,7 @@ async function setMode(next){
       clearTimeout(toastTimer);$('toast').hidden=true;
     }catch{studioLoadPending=false;if(request===modeRequest)toast('Avatar Studio is getting ready. The studio is still setting things up. Explore Career Empire and pop back in a few minutes.');return false;}
   }
-  if(watchingEST)closeESTVideo();worlds?.estVideo.pause();hallRequest++;previewRequest++;resetNavigationInput();actor?.setWalking(false);document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;$('experience').classList.toggle('in-chapel',next==='chapel');
+  if(watchingEST)closeESTVideo();worlds?.estVideo.pause();hallRequest++;previewRequest++;resetNavigationInput();actor?.setWalking(false);document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;$('guidance-help').hidden=next!=='town';$('experience').classList.toggle('in-chapel',next==='chapel');
   nightMarket?.setVisible(next==='market');
   echo?.close();if(next==='market')echo?.markMarketVisited();
   const inStudio=next==='studio';$('experience').classList.toggle('in-studio',inStudio);$('arrival-mission').hidden=inStudio||next==='interior'||next==='careers'||next==='chapel';$('est-watch').hidden=true;
@@ -438,10 +439,12 @@ function updateCamera(dt,snap=false){
   camera.lookAt(lookAt);
 }
 function updateMission(){
+ $('guidance-help').textContent=helperPicker.selected().id==='journal'?'Journal':helperPicker.selected().id==='none'?'Help':'What next?';
+ $('guidance-help').hidden=mode!=='town';
  if(mode!=='town')return;
  let done=false;try{done=localStorage.getItem('ce-arrival-complete-'+state.activeId)==='1';}catch{}
  const distance=Math.hypot(actor.model.position.x+12.4,actor.model.position.z-5);
- const guidance=echo?.guidance({avatarSaved:done,nearEcho:echo.near(actor.model.position),distance})||{title:'Your first day',detail:'Start with Careers and Employability Course Documents, then Avatar Studio and the Market Experience. Echo will guide you through each step.',progress:0};
+ const guidance=echo?.guidance({avatarSaved:done,nearEcho:echo.near(actor.model.position),distance})||{title:'Your first day',detail:'Start with Careers and Employability Course Documents, then Avatar Studio and the Market Experience. Open guidance whenever you need your next step.',progress:0};
  if($('mission-title').textContent!==guidance.title){$('mission-title').textContent=guidance.title;$('mission-summary').textContent=guidance.title;}
  if($('mission-detail').textContent!==guidance.detail)$('mission-detail').textContent=guidance.detail;
  $('mission-bar').style.width=guidance.progress+'%';$('mission-bar').parentElement.setAttribute('aria-label','Orientation guidance; course documents still pending');
@@ -660,7 +663,7 @@ async function boot(){
     if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}
     if(completeView){$('loading').hidden=true;icons();animate();}
     afterFirstPaint().then(loadEcho);
-    if(!helperPicker.store.persistent)toast('Your guide is selected for this tab. Browser storage is unavailable.');
+    if(!helperPicker.store.persistent)toast('Your guidance preference is selected for this tab. Browser storage is unavailable.');
     // Wardrobe entry defers campus detail until Town is selected.
     // Normal entry is playable in Arrival Gardens while distant detail streams.
     // Avatar alternatives load on selection through updatePreview/updateActor.
