@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tripo QA - Interim Haired Wetsuit (Mixamo)</title>
+  <style>
+    :root {
+      --bg: #0b0e14;
+      --panel: rgba(12, 16, 24, 0.88);
+      --border: #2a3344;
+      --text: #e8eef8;
+      --muted: #8b97ab;
+      --accent: #5ec8ff;
+      --warn: #ffb020;
+      --btn: #1a2333;
+      --btn-hover: #243044;
+      --btn-active: #2f6fed;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; height: 100%; background: var(--bg); color: var(--text);
+      font: 13px/1.45 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      overflow: hidden;
+    }
+    #c { display: block; width: 100%; height: 100%; }
+    .hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+    .hud > * { pointer-events: auto; }
+    .banner {
+      position: absolute; top: 12px; left: 12px; right: 12px; max-width: 720px;
+      padding: 10px 14px; background: var(--panel); border: 1px solid var(--border);
+      border-left: 3px solid var(--warn); border-radius: 8px; backdrop-filter: blur(8px);
+    }
+    .banner strong { color: var(--warn); letter-spacing: 0.02em; }
+    .banner .sub { color: var(--muted); margin-top: 2px; font-size: 12px; }
+    .panel {
+      position: absolute; bottom: 12px; left: 12px; width: min(360px, calc(100vw - 24px));
+      padding: 12px 14px; background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; backdrop-filter: blur(8px);
+    }
+    .panel h2 {
+      margin: 0 0 8px; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); font-weight: 600;
+    }
+    #status {
+      margin: 0 0 12px; white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px; color: var(--text); line-height: 1.5;
+    }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; }
+    button {
+      appearance: none; border: 1px solid var(--border); background: var(--btn);
+      color: var(--text); padding: 8px 14px; border-radius: 7px; cursor: pointer;
+      font: inherit; font-weight: 600;
+    }
+    button:hover { background: var(--btn-hover); }
+    button.active { background: var(--btn-active); border-color: #4a86f7; }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .hint {
+      position: absolute; bottom: 12px; right: 12px; padding: 8px 12px;
+      background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--muted); font-size: 12px; max-width: 220px;
+    }
+    .hint kbd {
+      display: inline-block; padding: 1px 5px; border: 1px solid var(--border);
+      border-radius: 4px; background: var(--btn); color: var(--accent);
+      font-family: inherit; font-size: 11px;
+    }
+    #err {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      padding: 16px 20px; background: #2a1216; border: 1px solid #6b2a32;
+      border-radius: 10px; color: #ffb4bc; max-width: 90vw; display: none; white-space: pre-wrap;
+    }
+  </style>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div class="hud">
+    <div class="banner">
+      <strong>TRIPO INTERIM - Haired Wetsuit / Mixamo bones</strong>
+      <div class="sub">QA viewer | loads <code>./player.glb</code> | not production Avatar Studio kit (Blender bones + slot materials)</div>
+    </div>
+    <div class="panel">
+      <h2>Status</h2>
+      <pre id="status">Loading player.glb...</pre>
+      <div class="row">
+        <button type="button" id="btn-idle" disabled>Idle</button>
+        <button type="button" id="btn-walk" disabled>Walk</button>
+      </div>
+    </div>
+    <div class="hint">
+      Orbit: drag | Zoom: wheel<br>
+      Move: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
+    </div>
+  </div>
+  <div id="err"></div>
+  <script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const TARGET_HEIGHT = 1.7;
+const MOVE_SPEED = 2.4;
+
+const canvas = document.getElementById('c');
+const statusEl = document.getElementById('status');
+const errEl = document.getElementById('err');
+const btnIdle = document.getElementById('btn-idle');
+const btnWalk = document.getElementById('btn-walk');
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight, false);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.shadowMap.enabled = true;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0b0e14);
+scene.fog = new THREE.Fog(0x0b0e14, 12, 40);
+
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.05, 100);
+camera.position.set(2.4, 1.6, 3.2);
+
+const controls = new OrbitControls(camera, canvas);
+controls.target.set(0, 0.9, 0);
+controls.enableDamping = true;
+controls.maxPolarAngle = Math.PI * 0.49;
+controls.minDistance = 0.8;
+controls.maxDistance = 14;
+
+scene.add(new THREE.HemisphereLight(0xb8c8e0, 0x1a1e28, 0.85));
+const key = new THREE.DirectionalLight(0xffffff, 1.35);
+key.position.set(3.5, 7, 2.5);
+key.castShadow = true;
+key.shadow.mapSize.set(1024, 1024);
+key.shadow.camera.near = 0.5;
+key.shadow.camera.far = 24;
+key.shadow.camera.left = -6;
+key.shadow.camera.right = 6;
+key.shadow.camera.top = 6;
+key.shadow.camera.bottom = -6;
+scene.add(key);
+const fill = new THREE.DirectionalLight(0x6a8cff, 0.35);
+fill.position.set(-4, 2, -2);
+scene.add(fill);
+
+const ground = new THREE.Mesh(
+  new THREE.CircleGeometry(18, 64),
+  new THREE.MeshStandardMaterial({ color: 0x151b26, roughness: 0.95, metalness: 0.05 })
+);
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+
+const grid = new THREE.GridHelper(18, 36, 0x2a3344, 0x1a2230);
+grid.position.y = 0.002;
+scene.add(grid);
+
+const keys = Object.create(null);
+window.addEventListener('keydown', (e) => {
+  keys[e.code] = true;
+  if (['KeyW', 'KeyA', 'KeyS', 'KeyD'].includes(e.code)) e.preventDefault();
+});
+window.addEventListener('keyup', (e) => { keys[e.code] = false; });
+
+let mixer = null;
+let actions = {};
+let currentAction = null;
+let root = null;
+let modelScale = 1;
+let rawHeight = 0;
+let animNames = [];
+const clock = new THREE.Clock();
+
+function setStatus() {
+  const anims = animNames.length ? animNames.join(', ') : '(none)';
+  const playing = currentAction ? currentAction.getClip().name : '-';
+  statusEl.textContent =
+    'Model: ./player.glb\n' +
+    'Mark: Tripo interim haired wetsuit / Mixamo bones\n' +
+    'Raw height: ' + rawHeight.toFixed(3) + ' m\n' +
+    'Scale: ' + modelScale.toFixed(4) + ' -> ~' + TARGET_HEIGHT + ' m\n' +
+    'Animations: ' + anims + '\n' +
+    'Playing: ' + playing;
+}
+
+function findClipKey(re) {
+  return Object.keys(actions).find((k) => re.test(k)) || null;
+}
+
+function play(name) {
+  const next = actions[name];
+  if (!next) return;
+  if (currentAction === next) return;
+  if (currentAction) currentAction.fadeOut(0.2);
+  next.reset().fadeIn(0.2).play();
+  currentAction = next;
+  const idleKey = findClipKey(/idle/i);
+  const walkKey = findClipKey(/walk/i);
+  btnIdle.classList.toggle('active', name === idleKey);
+  btnWalk.classList.toggle('active', name === walkKey);
+  setStatus();
+}
+
+btnIdle.addEventListener('click', () => {
+  const k = findClipKey(/idle/i);
+  if (k) play(k);
+});
+btnWalk.addEventListener('click', () => {
+  const k = findClipKey(/walk/i);
+  if (k) play(k);
+});
+
+const loader = new GLTFLoader();
+loader.load(
+  './player.glb',
+  (gltf) => {
+    root = gltf.scene;
+    root.traverse((o) => {
+      if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; }
+    });
+    root.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(root);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    rawHeight = size.y || 1;
+    modelScale = TARGET_HEIGHT / rawHeight;
+    root.scale.setScalar(modelScale);
+    root.updateMatrixWorld(true);
+    const box2 = new THREE.Box3().setFromObject(root);
+    root.position.y -= box2.min.y;
+    scene.add(root);
+    animNames = (gltf.animations || []).map((c) => c.name);
+    if (gltf.animations && gltf.animations.length) {
+      mixer = new THREE.AnimationMixer(root);
+      for (const clip of gltf.animations) {
+        actions[clip.name] = mixer.clipAction(clip);
+      }
+      btnIdle.disabled = !findClipKey(/idle/i);
+      btnWalk.disabled = !findClipKey(/walk/i);
+      const idleKey = findClipKey(/idle/i);
+      const walkKey = findClipKey(/walk/i);
+      if (idleKey) play(idleKey);
+      else if (walkKey) play(walkKey);
+      else play(animNames[0]);
+    }
+    setStatus();
+  },
+  undefined,
+  (err) => {
+    console.error(err);
+    errEl.style.display = 'block';
+    errEl.textContent = 'Failed to load ./player.glb\n' + (err && err.message ? err.message : String(err));
+    statusEl.textContent = 'Load error';
+  }
+);
+
+function onResize() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h, false);
+}
+window.addEventListener('resize', onResize);
+
+function updateMove(dt) {
+  if (!root) return;
+  let dx = 0, dz = 0;
+  if (keys.KeyW) dz -= 1;
+  if (keys.KeyS) dz += 1;
+  if (keys.KeyA) dx -= 1;
+  if (keys.KeyD) dx += 1;
+  if (dx === 0 && dz === 0) return;
+  const len = Math.hypot(dx, dz) || 1;
+  dx /= len; dz /= len;
+  const forward = new THREE.Vector3();
+  camera.getWorldDirection(forward);
+  forward.y = 0;
+  forward.normalize();
+  const right = new THREE.Vector3().crossVectors(forward, new THREE.Vector3(0, 1, 0)).normalize();
+  const move = new THREE.Vector3().addScaledVector(right, dx).addScaledVector(forward, dz).multiplyScalar(MOVE_SPEED * dt);
+  root.position.add(move);
+  const face = move.clone().normalize();
+  if (face.lengthSq() > 0) root.rotation.y = Math.atan2(face.x, face.z);
+  controls.target.set(root.position.x, root.position.y + 0.9, root.position.z);
+  const walkKey = findClipKey(/walk/i);
+  if (walkKey && currentAction !== actions[walkKey]) play(walkKey);
+}
+
+window.addEventListener('keyup', (e) => {
+  if (!['KeyW', 'KeyA', 'KeyS', 'KeyD'].includes(e.code)) return;
+  const moving = keys.KeyW || keys.KeyA || keys.KeyS || keys.KeyD;
+  if (!moving) {
+    const idleKey = findClipKey(/idle/i);
+    if (idleKey) play(idleKey);
+  }
+});
+
+function frame() {
+  requestAnimationFrame(frame);
+  const dt = clock.getDelta();
+  updateMove(dt);
+  if (mixer) mixer.update(dt);
+  controls.update();
+  renderer.render(scene, camera);
+}
+frame();
+  </script>
+</body>
+</html>
