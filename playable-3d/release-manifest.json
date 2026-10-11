@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "c524a4156a0c13bd697e8dc09b762983d4d20a40a044c1a707b953e29048b52c"
+      "sha256": "3cc26e027bb401bf1e4e26eada7811082a781ce070ad933822a5cd7fa77596e5"
     },
     {
       "path": "arrival-precinct.js",
@@ -850,7 +850,7 @@
     },
     {
       "path": "discovery-opening.css",
-      "sha256": "8493434acf8dc13d3ea33fb78657475ae4a8ab3a305764383f12851c03e4f5a4"
+      "sha256": "171ba47312614c5c7929165cc1811616d265e909bc2ac713e70eb1de8c4b05e3"
     },
     {
       "path": "discovery-state.mjs",

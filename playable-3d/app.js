@@ -658,7 +658,7 @@ function setupExplorationMenus(){
  $('studio-view').hidden=true;
  const character=document.createElement('button');character.textContent='Character';character.onclick=openWholeCharacterChoice;list.append(character);
  const all=document.createElement('a');all.href='?mode=full';all.textContent='All campus activities';list.append(all);
- const trail=$('discovery');const more=document.createElement('details');more.id='exploration-trail-options';more.innerHTML='<summary>Picture trail</summary>';more.append(trail);trail.hidden=false;list.append(more);
+ const trail=$('discovery');const more=document.createElement('details');more.id='exploration-trail-options';more.innerHTML='<summary>Picture trail</summary>';more.append(trail);trail.hidden=false;list.append(more);list.append($('discovery-still').closest('label'));
  const help=document.createElement('button');help.id='exploration-help';help.textContent='Help';help.onclick=()=>{options.open=false;explorationTools?.close();$('discovery-help').click();};$('header-controls').prepend(help);
  options.addEventListener('toggle',()=>{if(options.open){explorationTools?.close();resetNavigationInput();}});
 }
