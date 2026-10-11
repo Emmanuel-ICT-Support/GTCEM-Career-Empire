@@ -1,8 +1,8 @@
 {
-  "release": "whole-character-studio-20261011",
+  "release": "named-students-20261011",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "45e00405704475ad84632a27c931650717adb0e8",
-  "scope": "Quiet campus exploration, automatic picture trail, map, existing-wallet initiative rewards, outdoor camera/path fixes and silent intro without Avatar Studio; preserve saved players. Optional named whole-character Avatar Studio with selected-only GLBs and on-demand Test characters.",
+  "scope": "Eight supplied named whole characters with their own idle/walk clips and selected-only loading; lazy Test characters and existing saves; preserve quiet exploration, picture trail, map, wallet and silent intro.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "d0775e48416d294143484e9f58461adba674aa1d2a1a02e5e3bc06c7cda58878"
+      "sha256": "720655f60ac1ef2d48d385ab638fa62bdeffb70cc7afe90235b3c0298c680b54"
     },
     {
       "path": "arrival-precinct.js",
@@ -474,7 +474,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "64d2c7f8bcb8832c11846c3ec646497ad3128fd0a1e8e38701e99236170f44f5"
+      "sha256": "238e33ee247b6c3069463fbf6ff167375c46a6e66f3381f196a530671e9c5aa0"
     },
     {
       "path": "deferred-textures.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "501f0efd049238569c902a249b170a2c4137750376d7f22b0b58fe88f08ea403"
+      "sha256": "d3e44a45792aff10c9231ab527f6645ecbfc8d44817f32a0685c9e9235f4f143"
     },
     {
       "path": "joystick.js",
@@ -734,7 +734,7 @@
     },
     {
       "path": "profiles.js",
-      "sha256": "7b4c5390bd2d24ac5c105cacca808389af286adccd88fae861f60b5d3cd50567"
+      "sha256": "4730b30f5bcd27729fd23d1ebbfa6a910c75a39f3a3aca63ec406642cf9184af"
     },
     {
       "path": "studio.js",

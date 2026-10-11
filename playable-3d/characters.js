@@ -1,11 +1,11 @@
-import {wholeAvatar} from './whole-avatar-catalog.mjs?v=whole-person-20261011';
-import {selectAvatarClips} from './avatar-clips.mjs?v=whole-person-20261011';
+import {wholeAvatar} from './whole-avatar-catalog.mjs?v=named-students-20261011';
+import {selectAvatarClips} from './avatar-clips.mjs?v=named-students-20261011';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {clone} from 'three/addons/utils/SkeletonUtils.js';
 import {downloadAvatar} from './avatar-download.js?v=entry-load-20260921';
-import {SKIN} from './profiles.js?v=whole-person-20261011';
+import {SKIN} from './profiles.js?v=named-students-20261011';
 
 const loader = new GLTFLoader();
 const draco = new DRACOLoader();

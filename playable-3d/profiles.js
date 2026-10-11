@@ -1,4 +1,4 @@
-import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=whole-person-20261011';
+import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
 export const STORAGE_KEY = 'career-empire-3d-profiles-v2-tripo';
 export const SKIN = { porcelain:'#edc9af', sand:'#d2a075', warm:'#b7774f', copper:'#955d3e', mahogany:'#65432f', deep:'#39281f' };
 export const PANTS_DEFAULTS = {chef:'#37424A',tradie:'#B18A54',suit:'#33465E',scrubs:'#397D88'};

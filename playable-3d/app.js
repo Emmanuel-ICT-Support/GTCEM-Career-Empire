@@ -1,5 +1,5 @@
 import {createExplorationTools} from './exploration-tools.mjs?v=initiative-20261011';
-import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=whole-person-20261011';
+import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
 import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
 import {keepOutdoorClearance,keepChapelClearance} from './camera-clearance.mjs?v=default-exploration-20261011';
@@ -17,8 +17,8 @@ import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds,sign} from './world.js?v=default-exploration-20261011';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=whole-person-20261011';
-import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=whole-person-20261011';
+import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=named-students-20261011';
+import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=named-students-20261011';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
 // Pixel readback synchronises the GPU. Reserve it for explicit visual diagnostics.
@@ -219,7 +219,7 @@ function renderEditor(){
     tests.addEventListener('toggle',async()=>{
       if(!tests.open || tests.dataset.loaded)return;
       tests.dataset.loaded='loading';
-      try{const {TEST_AVATARS}=await import('./test-avatar-catalog.mjs?v=whole-person-20261011');
+      try{const {TEST_AVATARS}=await import('./test-avatar-catalog.mjs?v=named-students-20261011');
         if(!tests.isConnected)return;
         tests.append(field('Test character','body','select',TEST_AVATARS));tests.dataset.loaded='ready';
       }catch{delete tests.dataset.loaded;const note=document.createElement('p');note.textContent='Could not load test choices. Close and reopen to retry.';tests.append(note);}
