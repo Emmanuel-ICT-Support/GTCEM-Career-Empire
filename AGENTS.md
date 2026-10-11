@@ -1,3 +1,7 @@
+## 11 October — scoped silent discovery intro release
+
+Approved GitHub Pages publication targets the existing game repository main/root. See docs/curiosity-intro-20261011.md. Discovery URL adds silent intro and approved quiet Chapel/mural/route/mobile fixes; general entry and current production locomotion/guidance/avatar persistence retained. Editable video sources and Library receipts remain outside this public release. Local QA complete; hosted CI/deployment verification follows.
+
 ## Optional guidance — 28 September 2026
 
 CE-CHANGE-20260928-98: opening choice of No companion, Friendly creature (existing seven portraits), or Phone / journal. Same shared guidance and task progress; change later through Guidance options. None/journal fetch zero creature GLBs; selected creature only after Continue. New ce-guidance-v2 browser-local preference prompts returning characters once, retaining the old choice and learning state. No new artwork or world redesign. Preserve live PR41 travel fixes and the separate unpublished opportunities work. 92 units, 19 scoped browser checks, and 210 exact staged hashes pass. Full local CI passes 62 browser checks then fails Chapel return-position; exact live bc954a9 reproduces the same failure (71 later checks not run). See docs/guidance-choice-20260928.md. Publication receipt follows; no full-suite or physical-device acceptance claim.
