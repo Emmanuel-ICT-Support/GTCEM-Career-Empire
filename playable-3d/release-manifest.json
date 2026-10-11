@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "786c4ddca540c3510cef33e6b88af130c93b958d973747d78730447b580cc42c"
+      "sha256": "eff101c912a4dd8c744e766e612cbf8aa0222b1cc31dc34a3ce37ea9d44676a9"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "6fd9f00d7877961f93792cede38d0e11f7f421f21889c45860dc3c68482207e1"
+      "sha256": "407837d9be18bcf2521cb64f299421d824c885b06eeeea5297f4bd4a28fda5d4"
     },
     {
       "path": "joystick.js",

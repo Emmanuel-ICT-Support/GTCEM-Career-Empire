@@ -26,7 +26,7 @@ const joystick=createJoystick($('movement'));
 const icons=()=>window.lucide?.createIcons();
 const entryParams=new URLSearchParams(location.search);
 const isolatedDiscovery=entryParams.get('review')==='1'&&entryParams.get('discovery')==='1';
-const discoveryReview=entryParams.get('discovery')==='1'&&!entryParams.has('experience')&&!entryParams.has('outfit');
+const discoveryReview=entryParams.get('mode')!=='full'&&!entryParams.has('experience')&&!entryParams.has('outfit')&&!entryParams.has('view');
 const reviewProfiles={getItem:()=>null,setItem:()=>{}};
 const state=loadProfiles(isolatedDiscovery?reviewProfiles:{getItem:key=>localStorage.getItem(key)});
 let discovery=null,intro=null,revealCameraStart=null;
