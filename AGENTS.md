@@ -1,3 +1,11 @@
+## Named student release candidate — 11 October 2026
+
+User explicitly authorizes all eight named Studio characters and live publication. Integrated worker bfa3aa1 atop PR45 on release/named-students-20261011; fresh catalog/module tag prevents cached empty PR45 catalog. Test characters remain collapsed and selected-only. Complete native check/116 units plus71 browser scenarios pass, including all five named scenarios; remaining71 stop at a Chapel return assertion reproduced identically on exact PR45. No full-CI pass; hosted baseline Echo timeout remains. Tracked Echo/config unchanged. See docs/whole-character-studio-20261011.md and source/runtime evidence. Combined public acceptance pending.
+
+## 11 October — isolated whole-character Studio candidate
+
+Based on deployed exploration main45e0040. Eight supplied whole characters keep exact names, unchanged own rigs/maps/clips and selected-only downloads. Old bodies remain under explicitly opened Test characters; recognized saved IDs persist. Optional canonical Options → Character enters Studio without changing intro/taster startup. Safe idle/walk classification, uniform1.7-height normalization, fallback recovery and shared-resource ownership are covered. All116units and four focused native-Chrome browser scenarios pass; 16desktop idle/walk and simulated-phone screenshots inspected internally. Physical phone/full-CI/hosted acceptance not claimed; sparse low-disk checkout blocks unrelated EST reference checks. No push/merge/deploy. Source manifest, network/rig evidence and release-owner handoff: docs/whole-character-studio-20261011.md.
+
 ## 11 October — scoped silent discovery intro release
 
 Approved GitHub Pages publication targets the existing game repository main/root. See docs/curiosity-intro-20261011.md. Discovery URL adds silent intro and approved quiet Chapel/mural/route/mobile fixes; general entry and current production locomotion/guidance/avatar persistence retained. Editable video sources and Library receipts remain outside this public release. Local QA complete; hosted CI/deployment verification follows.

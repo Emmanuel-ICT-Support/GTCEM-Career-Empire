@@ -1,15 +1,34 @@
+import {wholeAvatar} from './whole-avatar-catalog.mjs?v=named-students-20261011';
+import {selectAvatarClips} from './avatar-clips.mjs?v=named-students-20261011';
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {clone} from 'three/addons/utils/SkeletonUtils.js';
 import {downloadAvatar} from './avatar-download.js?v=entry-load-20260921';
-import {SKIN} from './profiles.js?v=hair-shoes-20260921';
+import {SKIN} from './profiles.js?v=named-students-20261011';
 
 const loader = new GLTFLoader();
 const draco = new DRACOLoader();
 draco.setDecoderPath('./vendor/draco/');
 loader.setDRACOLoader(draco);
 const kits = {};
+const kitUsers=new Map();
+function retainKit(body){kitUsers.set(body,(kitUsers.get(body)||0)+1);}
+function releaseKit(body){
+ const count=(kitUsers.get(body)||1)-1;kitUsers.set(body,count);
+ if(count || !wholeAvatar(body))return;
+ // Save starts actor replacement asynchronously and then removes the preview.
+ // Give that same loaded kit a turn to acquire its new owner before eviction.
+ setTimeout(()=>{
+  if(kitUsers.get(body))return;
+  const kit=kits[body];if(!kit)return;
+  const geometries=new Set(),materials=new Set(),textures=new Set();
+  kit.scene.traverse(n=>{if(n.geometry)geometries.add(n.geometry);for(const m of (Array.isArray(n.material)?n.material:[n.material]))if(m)materials.add(m);});
+  for(const m of materials)for(const v of Object.values(m))if(v?.isTexture)textures.add(v);
+  for(const item of [...geometries,...materials,...textures])item.dispose();
+  delete kits[body];kitLoads.delete(body);kitUsers.delete(body);
+ },0);
+}
 // Approved wardrobe assets are the production defaults on every entry route.
 const TARGET_HEIGHT = 1.7;
 const SIMPLE_BODIES = new Set(['tripo','shirt','schoolboy','jackettest','pantstest']);
@@ -37,12 +56,10 @@ function normalizeHeight(model, bodyOnly = false) {
 function bindClips(model, animations, walkSpeed = 1.8) {
   const mixer = new THREE.AnimationMixer(model);
   const clips = {};
-  for (const clip of animations) {
-    const name = /walk/i.test(clip.name) ? 'walk' : 'idle';
-    clips[name] = mixer.clipAction(clip);
-  }
+  const selected=selectAvatarClips(animations);
+  for (const [name,clip] of Object.entries(selected)) if(clip) clips[name]=mixer.clipAction(clip);
   if (!clips.idle && clips.walk) {
-    const walk = animations.find(clip => /walk/i.test(clip.name));
+    const walk = selected.walk;
     const tracks = walk.tracks.map(track => new track.constructor(
       track.name, [0], Array.from(track.values.slice(0, track.getValueSize()))
     ));
@@ -77,14 +94,14 @@ function bindClips(model, animations, walkSpeed = 1.8) {
 const kitLoads = new Map();
 export const hasCharacterKit = body => Boolean(kits[body]);
 export function loadCharacterKit(body) {
-  if (!['a', 'b', ...SIMPLE_BODIES].includes(body)) return Promise.reject(new Error('Unknown avatar body'));
+  if (!wholeAvatar(body) && !['a', 'b', ...SIMPLE_BODIES].includes(body)) return Promise.reject(new Error('Unknown avatar body'));
   if (!kitLoads.has(body)) {
-    const url = body === 'pantstest' ? './assets/studio-walking-base.glb'
+    const url = wholeAvatar(body)?.model || (body === 'pantstest' ? './assets/studio-walking-base.glb'
       : body === 'jackettest' ? './assets/player-jacket-test-20260909.glb'
       : body === 'tripo' ? './assets/player-tripo-20260908.glb'
       : body === 'shirt' ? './assets/player-uniform-shirt-20260908.glb'
       : body === 'schoolboy' ? './assets/player-schoolboy-2k-20260914.glb'
-      : `./assets/avatar-${body}.glb`;
+      : `./assets/avatar-${body}.glb`);
     kitLoads.set(body, downloadAvatar(loader.manager.resolveURL(url)).then(data => loader.parseAsync(data, new URL('./assets/', location.href).href)).then(async kit => {
       if (body === 'jackettest') {
         const source = kit.animations[0];
@@ -300,6 +317,8 @@ function createSimpleTripoCharacter(profile) {
   });
   // Sole clearance is a translation, never a change to the canonical proportions.
   if(profile.body==='pantstest' && profile.shoeStyle && profile.shoeStyle!=='none')model.position.y+=.009;
+  retainKit(profile.body);
+  let disposed=false;
   const positioned = new THREE.Group();
   positioned.add(model);
   return {
@@ -311,23 +330,29 @@ function createSimpleTripoCharacter(profile) {
     setWalking: anim.setWalking,
     update: anim.update,
     dispose() {
+      if(disposed)return;disposed=true;
       anim.disposeMixer();
+      if(wholeAvatar(profile.body)){
+        const skeletons=new Set();model.traverse(n=>{if(n.isSkinnedMesh)skeletons.add(n.skeleton);});
+        for(const skeleton of skeletons)skeleton.dispose();
+      }
       for (const material of materialCopies.values()) {
         if(material.userData.ownedCheckTexture)material.map?.dispose();
         material.dispose();
       }
       positioned.removeFromParent();
+      releaseKit(profile.body);
     }
   };
 }
 
 export function createCharacter(profile) {
-  if (SIMPLE_BODIES.has(profile.body)) return createSimpleTripoCharacter(profile);
+  if (isSimpleBody(profile.body)) return createSimpleTripoCharacter(profile);
   return createModularCharacter(profile);
 }
 
 export function isSimpleBody(body) {
-  return SIMPLE_BODIES.has(body);
+  return Boolean(wholeAvatar(body)) || SIMPLE_BODIES.has(body);
 }
 
 // Temporary, download-free stand-in. Never write this choice into the profile.

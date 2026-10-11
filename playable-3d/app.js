@@ -1,5 +1,5 @@
 import {createExplorationTools} from './exploration-tools.mjs?v=initiative-20261011';
-import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=whole-person-20261011';
+import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
 import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
 import {keepOutdoorClearance,keepChapelClearance} from './camera-clearance.mjs?v=default-exploration-20261011';
@@ -17,8 +17,8 @@ import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds,sign} from './world.js?v=default-exploration-20261011';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=travel-20260927';
-import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=hair-shoes-20260921';
+import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=named-students-20261011';
+import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=named-students-20261011';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
 // Pixel readback synchronises the GPU. Reserve it for explicit visual diagnostics.
@@ -134,6 +134,7 @@ async function updatePreview(){
     preview.setWalking(previewWalking);$('studio-caption').textContent=profile.name;
     canvas.dataset.previewBody=profile.body;
   };
+  if(!preview){preview=createFallbackCharacter();studio.add(preview.model);preview.setWalking(previewWalking);}
   $('undo').disabled=!undo.length;$('redo').disabled=!redo.length;
   $('save-avatar').disabled=true;$('retry-outfit').hidden=true;
   $('edit-state').textContent='Loading avatar…';
@@ -210,9 +211,21 @@ function renderEditor(){
   document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===editorTab);b.setAttribute('aria-pressed',b.dataset.tab===editorTab);});
   const simple=isSimpleBody(draft.body);
   if(editorTab==='identity'){
-    root.append(field('Name','name'),field('Body','body','select',OPTIONS.body));
+    const choices=WHOLE_AVATARS.map(({id,name})=>[id,name]);
+    if(!choices.some(([id])=>id===draft.body))choices.unshift([draft.body,'Current: '+bodyName(draft.body)+' (test)']);
+    root.append(field('Name','name'),field('Character','body','select',choices));
+    const tests=document.createElement('details');
+    const summary=document.createElement('summary');summary.textContent='Test characters';tests.append(summary);
+    tests.addEventListener('toggle',async()=>{
+      if(!tests.open || tests.dataset.loaded)return;
+      tests.dataset.loaded='loading';
+      try{const {TEST_AVATARS}=await import('./test-avatar-catalog.mjs?v=named-students-20261011');
+        if(!tests.isConnected)return;
+        tests.append(field('Test character','body','select',TEST_AVATARS));tests.dataset.loaded='ready';
+      }catch{delete tests.dataset.loaded;const note=document.createElement('p');note.textContent='Could not load test choices. Close and reopen to retry.';tests.append(note);}
+    });root.append(tests);
     if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='pantstest'?'Choose clothes, hair, shoes and their colours in Style.':draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=WHOLE_AVATARS.some(item=>item.id===draft.body)?'This whole character keeps their own appearance and animations.':draft.body==='pantstest'?'Choose clothes, hair, shoes and their colours in Style.':draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
     }else{
       root.append(field('Face','face','select',OPTIONS.face));
       const skin=document.createElement('div');skin.className='field';const label=document.createElement('span');label.textContent='Skin tone';skin.append(label);
@@ -254,7 +267,7 @@ function renderEditor(){
       root.append(field('Jacket','outer','select',[['blazer','Navy blazer'],['none','Off - inspect fit']]));
       const note=document.createElement('p');note.className='hint';note.textContent='Dressing test. Jacket-off reveals missing body areas. Walking preview uses a simple test cycle.';root.append(note);
     }else if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=draft.body==='pantstest'?'The pants stay on for this walking test. Changing clothes is not available for this outfit yet.':draft.body==='schoolboy'?'This school-student model uses its own uniform and styling.':draft.body==='shirt'?'This test model includes a white shirt, short teal tie and black shorts.':'This is the normal reference avatar.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=WHOLE_AVATARS.some(item=>item.id===draft.body)?'This character comes with their own outfit.':draft.body==='pantstest'?'The pants stay on for this walking test. Changing clothes is not available for this outfit yet.':draft.body==='schoolboy'?'This school-student model uses its own uniform and styling.':draft.body==='shirt'?'This test model includes a white shirt, short teal tie and black shorts.':'This is the normal reference avatar.';root.append(note);
     }else{
       root.append(optionWithColour('Top','top'),optionWithColour('Bottom','bottom'),optionWithColour('Outer layer','outer'));
       const jumper=document.createElement('label');jumper.className='binary-field';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=draft.jumper;checkbox.addEventListener('change',()=>changeDraft(p=>p.jumper=checkbox.checked));jumper.append(checkbox,'Knit jumper');root.append(jumper);
@@ -332,7 +345,7 @@ async function setMode(next){
       studioLoad ||= import('./studio.js?v=lazy-20260917').then(({createStudio})=>{
         ({studio,orbit}=createStudio(camera,canvas,{texture:worlds.town.environment}));
       }).catch(error=>{studioLoad=null;throw error;});
-      studioLoadPending=true;await Promise.all([studioLoad,loadCharacterKit(active().body)]);studioLoadPending=false;
+      studioLoadPending=true;await Promise.all([studioLoad,loadCharacterKit(active().body).catch(()=>null)]);studioLoadPending=false;
       if(request!==modeRequest)return false;
       clearTimeout(toastTimer);$('toast').hidden=true;
     }catch{studioLoadPending=false;if(request===modeRequest)toast('Avatar Studio is getting ready. The studio is still setting things up. Explore Career Empire and pop back in a few minutes.');return false;}
@@ -639,7 +652,7 @@ function animate(){
       for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
       pixelColours=colours.size;
     }
-    const data={entryReady,preparingNextTask:preparing,renderRatio:renderer.getPixelRatio(),discovery:discovery?.snapshot(),intro:intro?.snapshot(),echo:echo?.snapshot(),...(mode==='market'?{market:nightMarket.snapshot()}:{}),avatarFallback:Boolean(actor.model.userData.fallback),campusReady,arrivalRestricted:worlds.arrivalOnly,teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
+    const data={entryReady,preparingNextTask:preparing,renderRatio:renderer.getPixelRatio(),discovery:discovery?.snapshot(),intro:intro?.snapshot(),echo:echo?.snapshot(),...(mode==='market'?{market:nightMarket.snapshot()}:{}),avatarFallback:Boolean(actor.model.userData.fallback),avatarBody:actor.profile?.body||null,campusReady,arrivalRestricted:worlds.arrivalOnly,teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
     (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
     if(mode==='studio'&&draft?.body==='pantstest'){
       data.wardrobe={top:draft.workTop,pants:draft.outer==='none'?'none':draft.pantsStyle,topHex:draft.topColour,necklineVisible:false,visibleTops:[],hair:draft.hairStyle,shoes:draft.shoeStyle,hairHex:draft.hairColours[draft.hairStyle],shoeHex:draft.shoeColours[draft.shoeStyle],visibleHair:[],visibleShoes:[],bodyScale:preview?.model.children[0]?.scale.y};
@@ -654,7 +667,7 @@ function setupExplorationMenus(){
  const list=$('exploration-option-list');
  for(const selector of ['#destination-menu','#world-tools','#choose-helper','#my-life-link','.legacy-link']){const item=document.querySelector(selector);if(item){item.hidden=false;list.append(item);}}
  $('choose-helper').textContent='Optional companion';
- // Character editing is replaced in this route by a whole-person chooser boundary.
+ // Optional character editing keeps the quiet exploration entry.
  $('studio-view').hidden=true;
  const character=document.createElement('button');character.textContent='Character';character.onclick=openWholeCharacterChoice;list.append(character);
  const all=document.createElement('a');all.href='?mode=full';all.textContent='All campus activities';list.append(all);
@@ -663,8 +676,8 @@ function setupExplorationMenus(){
  options.addEventListener('toggle',()=>{if(options.open){explorationTools?.close();resetNavigationInput();}});
 }
 function openWholeCharacterChoice(){
- let panel=$('whole-character-choice');if(!panel){panel=document.createElement('dialog');panel.id='whole-character-choice';panel.innerHTML='<h2>Your character</h2><p>Keep exploring with your current character. More whole-person characters will be available here.</p><button type="button">Back to exploring</button>';panel.querySelector('button').onclick=()=>panel.close();document.body.append(panel);}
- resetNavigationInput();panel.showModal();
+ const options=$('exploration-options');if(options)options.open=false;
+ explorationTools?.close();resetNavigationInput();openStudio();
 }
 
 async function boot(){
