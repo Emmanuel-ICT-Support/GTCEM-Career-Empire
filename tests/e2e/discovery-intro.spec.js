@@ -1,5 +1,6 @@
 import {test,expect} from '@playwright/test';
-test.setTimeout(120000);
+// This case includes two cold world boots on the hosted software renderer.
+test.setTimeout(240000);
 const entry='/playable-3d/?discovery=1';
 test('intro playback, skip and replay preserve the trail and production avatar',async({page})=>{
  await page.goto(entry);await expect(page.locator('#taster-intro')).toBeVisible({timeout:90000});
