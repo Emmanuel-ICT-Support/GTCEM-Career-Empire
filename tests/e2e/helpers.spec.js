@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test.setTimeout(120000);
-const entry='/playable-3d/';
+const entry='/playable-3d/?mode=full';
 const helperRequests=page=>{const requests=[];page.on('request',r=>{if(/\/helpers\/.*\.glb/.test(r.url()))requests.push(r.url().split('/').pop());});return requests;};
 async function ready(page,id){await page.waitForFunction(id=>{const d=JSON.parse(document.querySelector('#diagnostics').value||'{}');return d.echo?.helper===id&&d.echo.helperStatus==='ready';},id,{timeout:90000});}
 async function choose(page,id){await page.locator('[name="guidance"][value="creature"]').check();await page.locator(`#helper-picker input[value="${id}"]`).check();await page.locator('#helper-picker [data-continue]').click();}
