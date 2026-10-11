@@ -279,7 +279,7 @@ async function ensureCampus(){
       const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
       await new Promise(resolve=>setTimeout(resolve,0));
       if(!environmentReady){
-        const {integrateEnvironment}=await import('./environment.js?v=sharp-entry-20260925');
+        const {integrateEnvironment}=await import('./environment.js?v=mural-floor-20261011');
         const before=new Set(worlds.town.children);
         try{await integrateEnvironment(worlds);worlds.syncWalkingSurfaces();environmentReady=true;}
         catch(error){for(const child of [...worlds.town.children])if(!before.has(child))child.removeFromParent();throw error;}
@@ -301,7 +301,7 @@ async function prepareEntry(){
  if(entryReady)return;
  if(entryLoad)return entryLoad;
  campusNotice('Preparing Arrival Gardens…');
- entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await import('./environment.js?v=sharp-entry-20260925');await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;entryReadyAt=clock.getElapsedTime();$('campus-progress').hidden=true;if(discoveryReview)openCampusInBackground();}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
+ entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await import('./environment.js?v=mural-floor-20261011');await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;entryReadyAt=clock.getElapsedTime();$('campus-progress').hidden=true;if(discoveryReview)openCampusInBackground();}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
  return entryLoad;
 }
 function prepareNextTask(now){

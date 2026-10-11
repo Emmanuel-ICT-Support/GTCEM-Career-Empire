@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "e2f72a96b14322204cd0c6d3114e1a52025e5a22b6425f28abf9946a0d749005"
+      "sha256": "786c4ddca540c3510cef33e6b88af130c93b958d973747d78730447b580cc42c"
     },
     {
       "path": "arrival-precinct.js",
@@ -602,7 +602,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "649ace0da64841ca8f3c6da8a849996a4b7ac65c9ba65321ce47880fd25087f1"
+      "sha256": "eaef55cad90bc2f2bf219f0cf2e89fc3ca827605db2b24d47bf64b75ec70a6b5"
     },
     {
       "path": "environment/approved-campus-kit.js",
