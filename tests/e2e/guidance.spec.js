@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test.setTimeout(120000);
-const entry='/playable-3d/';
+const entry='/playable-3d/?mode=full';
 async function ready(page,id){await page.waitForFunction(id=>JSON.parse(document.querySelector('#diagnostics').value||'{}').echo?.helper===id,id,{timeout:90000});}
 async function choose(page,id){await page.locator(`[name="guidance"][value="${id}"]`).check();await page.locator('[data-continue]').click();}
 for(const width of [1280,390])for(const mode of ['none','journal'])test(`${mode} at ${width}: no models, guidance, persistence`,async({page},info)=>{
