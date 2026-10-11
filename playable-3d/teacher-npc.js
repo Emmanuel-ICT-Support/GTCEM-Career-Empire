@@ -38,17 +38,19 @@ export async function createTeacherNPC(worlds,config=TEACHERS[0]){
  const controller=world.createCharacterController(.025);controller.enableSnapToGround(.25);controller.setSlideEnabled(true);
  root.position.set(config.spawn.x,0,config.spawn.z);worlds.town.add(root);
  let state='idle',timer=3,target=null,reaction=0,blocked=0;
- actions.idle.play();
+ actions.idle.play();mixer.update(.1);if(config.fixed)root.rotation.y=Math.PI;
  function play(next){if(state===next)return;actions[state].fadeOut(.22);const a=actions[next];a.reset().setLoop(config.reactions.includes(next)?THREE.LoopOnce:THREE.LoopRepeat,Infinity);a.clampWhenFinished=true;a.fadeIn(.22).play();state=next;}
  function pause(){target=null;blocked=0;timer=5+Math.random()*11;play('idle');}
  function chooseTarget(){const angle=Math.random()*Math.PI*2,r=Math.sqrt(Math.random())*.92;target={x:CENTER.x+Math.cos(angle)*RX*r,z:CENTER.z+Math.sin(angle)*RZ*r};timer=18;play('walk');}
  function turn(x,z,dt){const angle=Math.atan2(x,z),delta=Math.atan2(Math.sin(angle-root.rotation.y),Math.cos(angle-root.rotation.y));root.rotation.y+=delta*Math.min(1,dt*5);}
  return {
   root,id:config.id,name:config.name,
+  stagePose(x,z,walking,dt){root.position.set(x,0,z);root.rotation.y=Math.PI;body.setTranslation({x,y:HALF+RADIUS+.025,z},true);body.setNextKinematicTranslation({x,y:HALF+RADIUS+.025,z});play(walking?'walk':'idle');mixer.update(dt);},
   near(p,d=5){return Math.hypot(p.x-root.position.x,p.z-root.position.z)<d;},
   react(p){if(config.reactions.includes(state))return false;if(!this.near(p,7))return false;target=null;const next=config.reactions[reaction++%config.reactions.length];play(next);timer=actions[next].getClip().duration;turn(p.x-root.position.x,p.z-root.position.z,1);return true;},
   fixedUpdate(dt,p){
    if(!this.near(p,42))return;
+   if(config.fixed)return;
    timer-=dt;
    if(timer<=0){if(state==='idle')chooseTarget();else pause();}
    let dx=0,dz=0;
@@ -64,7 +66,7 @@ export async function createTeacherNPC(worlds,config=TEACHERS[0]){
    body.setNextKinematicTranslation({x,y:pos.y+move.y,z});
    root.position.set(x,pos.y+move.y-HALF-RADIUS-.025,z);
   },
-  update(dt,p){if(this.near(p,42))mixer.update(dt);},
+  update(dt,p){if(this.near(p,42))mixer.update(config.reduced?0:dt);},
   snapshot(){return {id:config.id,name:config.name,state,position:root.position.toArray(),target,remaining:timer,reactions:reaction};},
   dispose(){mixer.stopAllAction();mixer.uncacheRoot(model);world.removeCharacterController(controller);world.removeRigidBody(body);root.removeFromParent();const textures=new Set(),materials=new Set(),geometries=new Set();model.traverse(o=>{if(o.isMesh){geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.add(m);for(const v of Object.values(m))if(v?.isTexture)textures.add(v);}}});textures.forEach(t=>t.dispose());materials.forEach(m=>m.dispose());geometries.forEach(g=>g.dispose());}
  };

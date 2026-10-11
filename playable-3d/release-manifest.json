@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "ed9cb033234587f1fee7894051c36ef5e8dcad0fa6fe3b6c6567f318b0d98a60"
+      "sha256": "06366c00f52e33e14e46552811b4d10a93f3afa8761ee2e7611b23a609fe27d3"
     },
     {
       "path": "arrival-precinct.js",
@@ -630,7 +630,7 @@
     },
     {
       "path": "environment/media-building.js",
-      "sha256": "bc2202aa39231182830f1a8e9cc7af5b5b0d20d73c8127edabe9d29bf1b522dc"
+      "sha256": "93b82c33d9e5cb6f6d3a528691ef0b8eb41270af2bf6595768b6a965f23a5ea8"
     },
     {
       "path": "environment/paving-network.js",
@@ -650,7 +650,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "921caba0131934b7f7615567c9340a4247321a907495a161cc55e26ab3191736"
+      "sha256": "1337007ff03a4c2fc26ae589fd89e979e37bad80d2ee0b59fdd80cbfd89e126f"
     },
     {
       "path": "est-wall-video.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "41697976ee377d059c8fdac2cc8ec9d673ab2d61033df21c76b1ecf1358649ed"
+      "sha256": "6fd9f00d7877961f93792cede38d0e11f7f421f21889c45860dc3c68482207e1"
     },
     {
       "path": "joystick.js",
@@ -746,7 +746,7 @@
     },
     {
       "path": "teacher-npc.js",
-      "sha256": "dea800446710ba3b663b8f2623fc6db5c25c8ba4a088aa072d465708967a5c00"
+      "sha256": "481648bb33716e2e2a3b629663d492ec50d8808ca2f0b1add47acc4e19ae98f0"
     },
     {
       "path": "vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
@@ -843,6 +843,58 @@
     {
       "path": "locomotion.js",
       "sha256": "fc62c2bd6f803807d0fc807d0538e46382d175a2551feb6149563c0486b3b7b8"
+    },
+    {
+      "path": "discovery-opening.js",
+      "sha256": "f473f7af5a929fe248055a1781561a77fd6ce622909b767e8849a143e66efba7"
+    },
+    {
+      "path": "discovery-opening.css",
+      "sha256": "4426c4e9f9f401f00e42c5a3e329b6dd3a56ba6d71ad3c90bfb916e81fe85e9a"
+    },
+    {
+      "path": "discovery-state.mjs",
+      "sha256": "5ed085a7616db1ecb655b6251321db3d10d156fd6623c4a8703c395fc3c12ed5"
+    },
+    {
+      "path": "camera-clearance.mjs",
+      "sha256": "cfe360657f5bb84c3ccc959e528b4d6080cc5b1686dbbe9a3f96522901ec46c5"
+    },
+    {
+      "path": "reveal-layout.mjs",
+      "sha256": "f7c6d323820a2662564c4a386890233cb5bdcd88a91ef80cd46172809007b53a"
+    },
+    {
+      "path": "scout-framing.mjs",
+      "sha256": "aba66ab28764f27f9afcc5a77047633efd49424fe4e1b799f55b32c1f0d89ac9"
+    },
+    {
+      "path": "intro-taster.mjs",
+      "sha256": "7da5bf09033e11d7d490e0f0cdc6044ab099327f0e57501632d98377f174a2fe"
+    },
+    {
+      "path": "intro-taster.css",
+      "sha256": "835f23fe93caca6ef6258f39671c6a90e5510bce78156908019344a6570b1ce0"
+    },
+    {
+      "path": "discovery-assets/parcel-clue.jpg",
+      "sha256": "d30417c50a870cc6d2da20d65cc2e314d0c96d5aa930921ed99d11bc486acbed"
+    },
+    {
+      "path": "discovery-assets/chapel-clue.jpg",
+      "sha256": "a7c42c6813f8c97aef625696b2d9fd371d157c4f073ad355012b37b1ff08f686"
+    },
+    {
+      "path": "discovery-assets/oval-clue.jpg",
+      "sha256": "5c8ac1fca3fa2bf9091890bab75481ce8e2f8f781cdd9eafdb22fafe39ef488a"
+    },
+    {
+      "path": "taster-assets/career-empire-intro.mp4",
+      "sha256": "89dd260a980bb61557175bd0d326673a6f365108f9e49b60095dd1a8a58dd30b"
+    },
+    {
+      "path": "taster-assets/intro-poster.jpg",
+      "sha256": "67e42da6f78f36af98172dffa3057a40ca937a89185cf0a860e2c74e794801d5"
     }
   ],
   "estVideo": {

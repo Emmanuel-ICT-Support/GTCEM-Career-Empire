@@ -1,0 +1,9 @@
+import {test} from 'vitest';
+import assert from 'node:assert/strict';
+import {normalise,advance,visitChapel,collectShot,restart} from '../../playable-3d/discovery-state.mjs';
+const shot={label:'Orange detail',image:'data:image/jpeg;base64,eA=='};
+test('fresh forward route requires doorway checkpoint then mural before oval',()=>{let s=advance(normalise(null),'parcel');assert.equal(s.destination,'chapel');assert.equal(collectShot(s,'mural',shot),s);assert.equal(advance(s,'oval'),s);s=visitChapel(s);assert.equal(s.step,1);assert.equal(s.destination,'mural');assert.equal(advance(s,'oval'),s);s=collectShot(s,'mural',shot);assert.equal(s.step,3);assert.equal(advance(s,'oval').step,4);});
+test('repeated doorway/exit checkpoints are idempotent and cannot regress a mural finish',()=>{let s=visitChapel(advance(normalise(null),'parcel'));assert.equal(visitChapel(s),s);s=collectShot(s,'mural',shot);assert.equal(visitChapel(s),s);assert.equal(s.step,3);});
+test('legacy chapel-only save keeps image but proceeds to mural; input is untouched',()=>{const old={step:3,shots:{chapel:shot}},copy=JSON.stringify(old),s=normalise(old);assert.equal(s.step,1);assert.equal(s.destination,'mural');assert.deepEqual(s.shots.chapel,shot);assert.equal(JSON.stringify(old),copy);});
+test('legacy mural progress and final souvenir survive normalisation',()=>{assert.equal(normalise({step:3,shots:{mural:shot}}).step,3);const old={step:4,shots:{chapel:shot},souvenir:'data:image/png;base64,eA==',style:'comedy'};const s=normalise(old);assert.equal(s.step,4);assert.equal(s.souvenir,old.souvenir);assert.equal(s.style,'comedy');});
+test('explicit replay resets checkpoint while retaining the established souvenir policy',()=>{const s=restart(normalise({step:4,shots:{mural:shot},souvenir:'data:image/png;base64,eA=='}));assert.equal(s.step,0);assert.equal(s.chapelVisited,false);assert.deepEqual(s.shots,{});assert.equal(s.souvenir,'data:image/png;base64,eA==');});

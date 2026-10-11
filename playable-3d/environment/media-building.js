@@ -9,14 +9,15 @@ export function buildMedia(palette){
  const c=document.createElement('canvas');c.width=c.height=128;const ctx=c.getContext('2d');ctx.fillStyle='#33353a';ctx.fillRect(0,0,128,128);let seed=271;for(let i=0;i<2600;i++){seed=(1664525*seed+1013904223)>>>0;const x=seed%128;seed=(1664525*seed+1013904223)>>>0;const y=seed%128;ctx.fillStyle=['#7b7b74','#aaa497','#575963'][i%3];ctx.fillRect(x,y,1,1);}const tx=new T.CanvasTexture(c);tx.colorSpace=T.SRGBColorSpace;tx.wrapS=tx.wrapT=T.RepeatWrapping;tx.repeat.set(2,4);const dark=new T.MeshStandardMaterial({map:tx,roughness:.9});
  function box(w,h,d,m,x,y,z){const geometry=m===glass?new T.PlaneGeometry(w<d?d:w,h):new T.BoxGeometry(w,h,d);if(m===glass&&w<d)geometry.rotateY(Math.PI/2);const o=new T.Mesh(geometry,m);o.position.set(x,y,z);if(m===stone||m===wood){const uv=o.geometry.attributes.uv,n=o.geometry.attributes.normal;for(let i=0;i<uv.count;i++)uv.setXY(i,uv.getX(i)*(Math.abs(n.getX(i))>.5?d:w)/2,uv.getY(i)*(Math.abs(n.getY(i))>.5?d:h)/2);}o.castShadow=!m.transparent;o.receiveShadow=true;root.add(o);return o;}
  const curve=x=>3.9-2.6*(x/12)**2;
- function curvedSlab(y,depth,extra,material){const shape=new T.Shape();shape.moveTo(-12.3,-3.05);shape.lineTo(12.3,-3.05);for(let i=24;i>=0;i--){const x=-12.3+i*24.6/24;shape.lineTo(x,curve(x)+extra);}shape.closePath();const slab=new T.Mesh(new T.ExtrudeGeometry(shape,{depth,bevelEnabled:false}),material);slab.rotation.x=Math.PI/2;slab.position.y=y;slab.castShadow=slab.receiveShadow=true;root.add(slab);}
+ function curvedSlab(y,depth,extra,material,end=12.3){const shape=new T.Shape();shape.moveTo(-end,-3.05);shape.lineTo(end,-3.05);for(let i=24;i>=0;i--){const x=-end+i*2*end/24;shape.lineTo(x,curve(x)+extra);}shape.closePath();const slab=new T.Mesh(new T.ExtrudeGeometry(shape,{depth,bevelEnabled:false}),material);slab.rotation.x=Math.PI/2;slab.position.y=y;slab.castShadow=slab.receiveShadow=true;root.add(slab);}
  curvedSlab(6.69,.22,.55,white);
  const fasciaPoints=[];for(let i=0;i<=48;i++){const x=-12.3+i*24.6/48;fasciaPoints.push(new T.Vector3(x,6.59,curve(x)+.55));}const fascia=new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(fasciaPoints),48,.14,10,false),silver);root.add(fascia);
  // Raised limestone plinth, rear wall, visible floor and shallow furnishing establish depth behind glass.
  curvedSlab(1.05,1.05,.52,stone);box(24,5.4,.18,back,0,3.8,-2.9);
  const display=learningDisplays();
  for(const [level,y]of [1.1,3.85].entries()){
-  curvedSlab(y,.16,.13,floor);
+  // Keep floor edges inside the painted end walls; an overhang cuts through the mural.
+  curvedSlab(y,.16,.13,floor,12.06);
   for(const [i,x]of [-8,-4,0,4,8].entries()){
    // Displays sit inside the rooms, with desks and chairs in front for parallax.
    box(1.20,1.95,.09,wood,x,y+1.43,-2.68);display(root,(i+level*2)%6,1.10,1.78,x,y+1.43,-2.62);
