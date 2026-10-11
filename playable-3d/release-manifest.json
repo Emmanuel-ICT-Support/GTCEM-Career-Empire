@@ -1,8 +1,8 @@
 {
-  "release": "default-exploration-20261011",
+  "release": "whole-character-studio-20261011",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "edc0f027474ed64cd35a9a112d9a70e5c518c842",
-  "scope": "Quiet campus exploration, automatic picture trail, map, existing-wallet initiative rewards, outdoor camera/path fixes and silent intro without Avatar Studio; preserve saved players.",
+  "baseCommit": "45e00405704475ad84632a27c931650717adb0e8",
+  "scope": "Quiet campus exploration, automatic picture trail, map, existing-wallet initiative rewards, outdoor camera/path fixes and silent intro without Avatar Studio; preserve saved players. Optional named whole-character Avatar Studio with selected-only GLBs and on-demand Test characters.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "3cc26e027bb401bf1e4e26eada7811082a781ce070ad933822a5cd7fa77596e5"
+      "sha256": "d0775e48416d294143484e9f58461adba674aa1d2a1a02e5e3bc06c7cda58878"
     },
     {
       "path": "arrival-precinct.js",
@@ -474,7 +474,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "6b12e7801c391376d13eed3c4467ba1bc2bb15b36d922a52b5377b4b8b9139b8"
+      "sha256": "64d2c7f8bcb8832c11846c3ec646497ad3128fd0a1e8e38701e99236170f44f5"
     },
     {
       "path": "deferred-textures.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "1dc1a362635d1d7e54ffb2d4e4bd5dcbbc69e2d351d4efc6660f0cae6dca4830"
+      "sha256": "501f0efd049238569c902a249b170a2c4137750376d7f22b0b58fe88f08ea403"
     },
     {
       "path": "joystick.js",
@@ -734,7 +734,7 @@
     },
     {
       "path": "profiles.js",
-      "sha256": "b35405f758fd8e8d42b102fa2eba4624cd4e54418a5af9dc4dc9a02db7ee7053"
+      "sha256": "7b4c5390bd2d24ac5c105cacca808389af286adccd88fae861f60b5d3cd50567"
     },
     {
       "path": "studio.js",
@@ -910,7 +910,7 @@
     },
     {
       "path": "whole-avatar-catalog.mjs",
-      "sha256": "fc70660b51ea7c715a129c172b26c05740b2607e4dcdf3aed2569a1fb3fa659e"
+      "sha256": "7f321224541db8b4c806f55ef24c10f83856b52861be3660598313f9fc78fe03"
     },
     {
       "path": "../economy-lab/economy.mjs",
@@ -919,6 +919,46 @@
     {
       "path": "../economy-lab/exploration.mjs",
       "sha256": "9719d5bd0a1001ad91d415117c9bc6b37c0059322d76c0abf8a3276ac779a40f"
+    },
+    {
+      "path": "avatar-clips.mjs",
+      "sha256": "ef6ea0d063bdfe3fa0e77a3782e0c42cb7b9f67f11361334e8bcfea008eecbb5"
+    },
+    {
+      "path": "test-avatar-catalog.mjs",
+      "sha256": "e34e790b68de2fd9305ed26c994b764c33fcec6c757712165b3b53d109cb9f9c"
+    },
+    {
+      "path": "assets/whole-characters/diego.glb",
+      "sha256": "ea73fb10c8aee15e1243b439b62aaebe5fa2744e3004eac640383e2481099c0e"
+    },
+    {
+      "path": "assets/whole-characters/taj.glb",
+      "sha256": "df7844769c8bf95130a2f52c2eecb5bb704ed17ce1bc9dd3c7468a565e15087a"
+    },
+    {
+      "path": "assets/whole-characters/antonio.glb",
+      "sha256": "a988469a4376c86cb051bdc104bf63c1934771ff42091043c07bf7cb3baa09a4"
+    },
+    {
+      "path": "assets/whole-characters/che.glb",
+      "sha256": "7e2acd2445335d233ca971a742a86fa8561d64b58357903dc3aba1369a49405e"
+    },
+    {
+      "path": "assets/whole-characters/hannah.glb",
+      "sha256": "89dce2f261671199bb86bd8ce5c207048389ae315141e2e84bc04389ea2423d1"
+    },
+    {
+      "path": "assets/whole-characters/lilly.glb",
+      "sha256": "ba4ee19df1314c5bac6c8b8af68f11ba1ad2bdb5ed8c0132153fcdfd17223b93"
+    },
+    {
+      "path": "assets/whole-characters/cerys.glb",
+      "sha256": "4c4126df6ba37b41a3196e5e89bc6967d1b12c31b39486e3f30e5db3f3cdd2a9"
+    },
+    {
+      "path": "assets/whole-characters/sienna.glb",
+      "sha256": "c2275fc00fad061270eb3e135a3838c30eaa6a5437d28b85e81fb4b24b368989"
     }
   ],
   "estVideo": {

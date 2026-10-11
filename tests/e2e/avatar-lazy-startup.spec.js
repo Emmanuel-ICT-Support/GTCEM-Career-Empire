@@ -1,3 +1,4 @@
+import {selectTestCharacter} from './avatar-choice.js';
 import {test,expect} from './campus-fixtures.js';
 const key='career-empire-3d-profiles-v2-tripo';
 const avatarRequests=urls=>urls.filter(u=>/\/(?:player-[^/]+|studio-walking-base|avatar-[ab])\.glb(?:\?|$)/.test(u)).map(u=>new URL(u).pathname.split('/').pop());
@@ -13,7 +14,7 @@ for(const body of ['schoolboy','pantstest','a'])test(`saved ${body}: boot, Studi
  console.log(JSON.stringify({body,readyMs:Date.now()-start,bootAvatars:avatarRequests(requests)}));
  await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled({timeout:15000});
  expect(requests.some(u=>u.includes('/studio.js'))).toBe(true);
- await page.getByLabel('Body', {exact:true}).selectOption('b');
+ await selectTestCharacter(page,'b');
  await expect(page.locator('#save-avatar')).toBeEnabled({timeout:30000});
  expect(avatarRequests(requests)).toEqual([asset,'avatar-b.glb']);
  await page.locator('#save-avatar').click();await expect(page.locator('#studio-panel')).toBeHidden();
@@ -41,7 +42,7 @@ test('pants preview remains an unsaved Studio draft',async({page})=>{
  test.setTimeout(90000);await page.goto('/playable-3d/?outfit=pants');
  await expect(page.locator('#loading')).toBeHidden({timeout:60000});
  await page.getByRole('button',{name:'Identity',exact:true}).click();
- await expect(page.getByLabel('Body',{exact:true})).toHaveValue('pantstest');
+ await expect(page.getByLabel('Character',{exact:true})).toHaveValue('pantstest');
  await expect(page.locator('#save-avatar')).toBeEnabled({timeout:30000});
  expect(await page.evaluate(key=>localStorage.getItem(key),key)).toBeNull();
  await page.locator('#save-avatar').click();await expect(page.locator('#studio-panel')).toBeHidden();

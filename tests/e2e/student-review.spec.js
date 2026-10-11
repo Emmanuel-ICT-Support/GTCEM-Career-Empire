@@ -1,3 +1,4 @@
+import {selectTestCharacter} from './avatar-choice.js';
 import {test,expect} from './campus-fixtures.js';
 test.setTimeout(120000);
 const diagnostics=page=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
@@ -39,7 +40,7 @@ test('saved Dress ups enters Studio despite failed clothing; body dropdown choic
  await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#studio-panel')).toBeVisible({timeout:30000});
  await expect(page.locator('#scene')).toHaveAttribute('data-preview-body','pantstest');await expect(page.locator('#retry-outfit')).toBeVisible();
  for(const body of ['a','b','tripo','shirt','jackettest','schoolboy']){
-  await page.getByLabel('Body',{exact:true}).selectOption(body);
+  await selectTestCharacter(page,body);
   await expect(page.locator('#scene')).toHaveAttribute('data-preview-body',body,{timeout:30000});await expect(page.locator('#save-avatar')).toBeEnabled();
  }
  await page.screenshot({path:info.outputPath('body-dropdown.png')});

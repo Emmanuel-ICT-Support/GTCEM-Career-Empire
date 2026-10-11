@@ -1,3 +1,7 @@
+## 11 October — isolated whole-character Studio candidate
+
+Based on deployed exploration main45e0040. Eight supplied whole characters keep exact names, unchanged own rigs/maps/clips and selected-only downloads. Old bodies remain under explicitly opened Test characters; recognized saved IDs persist. Optional canonical Options → Character enters Studio without changing intro/taster startup. Safe idle/walk classification, uniform1.7-height normalization, fallback recovery and shared-resource ownership are covered. All116units and four focused native-Chrome browser scenarios pass; 16desktop idle/walk and simulated-phone screenshots inspected internally. Physical phone/full-CI/hosted acceptance not claimed; sparse low-disk checkout blocks unrelated EST reference checks. No push/merge/deploy. Source manifest, network/rig evidence and release-owner handoff: docs/whole-character-studio-20261011.md.
+
 ## 11 October — scoped silent discovery intro release
 
 Approved GitHub Pages publication targets the existing game repository main/root. See docs/curiosity-intro-20261011.md. Discovery URL adds silent intro and approved quiet Chapel/mural/route/mobile fixes; general entry and current production locomotion/guidance/avatar persistence retained. Editable video sources and Library receipts remain outside this public release. Local QA complete; hosted CI/deployment verification follows.

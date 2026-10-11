@@ -6,8 +6,8 @@ describe('pants test profile',()=>{
   let data;const storage={setItem:(_,v)=>data=v,getItem:()=>data};saveProfiles(storage,state);
   const loaded=loadProfiles(storage);expect(loaded.profiles[0].body).toBe('pantstest');expect(loaded.profiles[1]).toEqual(STARTERS[1]);
  });
- it('keeps the existing default and rejects unknown bodies',()=>{
-  expect(loadProfiles({getItem:()=>null}).profiles[0].body).toBe('schoolboy');
-  expect(normaliseProfile({body:'untrusted-url'}).body).toBe('a');
+ it('uses a main character for fresh saves and rejects unknown bodies',()=>{
+  expect(loadProfiles({getItem:()=>null}).profiles[0].body).toBe('antonio');
+  expect(normaliseProfile({body:'untrusted-url'}).body).toBe('antonio');
  });
 });

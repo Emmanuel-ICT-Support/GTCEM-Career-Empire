@@ -1,3 +1,4 @@
+import {selectTestCharacter} from './avatar-choice.js';
 import {test, expect} from './campus-fixtures.js';
 
 
@@ -7,7 +8,7 @@ test('jacket test supports outfit visibility, walking and saved profiles', async
   await page.goto('/playable-3d/');
   await expect(page.locator('#loading')).toBeHidden({timeout:120000});
   await page.locator('#places-toggle').click();await page.getByRole('button',{name:'Avatar Studio',exact:true}).click();
-  await page.getByLabel('Body',{exact:true}).selectOption('jackettest');
+  await selectTestCharacter(page,'jackettest');
   await expect(page.locator('#save-avatar')).toBeEnabled({timeout:90000});
   await page.locator('[data-tab="style"]').click();
   await expect(page.getByLabel('Jacket',{exact:true})).toHaveValue('blazer');
@@ -28,7 +29,7 @@ test('jacket test supports outfit visibility, walking and saved profiles', async
   await page.reload();
   await expect(page.locator('#loading')).toBeHidden({timeout:120000});
   await page.locator('#places-toggle').click();await page.getByRole('button',{name:'Avatar Studio',exact:true}).click();
-  await expect(page.getByLabel('Body',{exact:true})).toHaveValue('jackettest');
+  await expect(page.getByLabel('Character',{exact:true})).toHaveValue('jackettest');
   await page.locator('[data-tab="style"]').click();
   await expect(page.getByLabel('Jacket',{exact:true})).toHaveValue('blazer');
   expect(errors).toEqual([]);
