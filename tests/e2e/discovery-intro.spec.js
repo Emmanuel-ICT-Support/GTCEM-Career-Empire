@@ -17,7 +17,7 @@ test('canonical no-query entry skips intro into the real scene without writing t
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/playable-3d/');await expect(page.locator('#taster-intro')).toBeVisible({timeout:90000});const before=await page.evaluate(()=>localStorage.getItem('ce-missing-frame-local-review-v1'));await page.locator('#taster-skip').click();
  // One read retains every assertion without repeatedly forcing screenshots of
  // the full software-rendered campus in the hosted trace.
- const result=await page.evaluate(()=>({introOpen:document.querySelector('#taster-intro').open,companionOpen:document.querySelector('#helper-picker').open,clueVisible:document.querySelector('#discovery-open').getBoundingClientRect().width>0,sceneVisible:document.querySelector('#scene').getBoundingClientRect().width>0,parcelText:document.querySelector('#discovery-response').textContent,trail:localStorage.getItem('ce-missing-frame-local-review-v1')}));
+ const result=await page.evaluate(()=>({introOpen:document.querySelector('#taster-intro').open,companionOpen:document.querySelector('#helper-picker').open,clueVisible:document.querySelector('#exploration-help').getBoundingClientRect().width>0,sceneVisible:document.querySelector('#scene').getBoundingClientRect().width>0,parcelText:document.querySelector('#discovery-response').textContent,trail:localStorage.getItem('ce-missing-frame-local-review-v1')}));
  expect(result.introOpen).toBe(false);expect(result.companionOpen).toBe(false);expect(result.clueVisible).toBe(true);expect(result.sceneVisible).toBe(true);expect(result.parcelText).toContain('parcel');expect(result.trail).toBe(before);
 });
 test('returning canonical entry preserves trail and avatar without companion prompt',async({page})=>{

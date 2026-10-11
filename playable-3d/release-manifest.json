@@ -1,8 +1,8 @@
 {
-  "release": "guidance-choice-20260928",
+  "release": "default-exploration-20261011",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "bc954a974edd3d8205854a63d4b2cffc38c99a5e",
-  "scope": "Optional companion, friendly creature or phone/journal guidance; preserve shared progress, selected-only loading and existing world/travel.",
+  "baseCommit": "edc0f027474ed64cd35a9a112d9a70e5c518c842",
+  "scope": "Quiet campus exploration, automatic picture trail, map, existing-wallet initiative rewards, outdoor camera/path fixes and silent intro without Avatar Studio; preserve saved players.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,11 +10,11 @@
     },
     {
       "path": "../economy-lab/app.mjs",
-      "sha256": "70a03cf788974da657b05ac1d77c4769d7cba5c31e1d0248ab0bfa2416791046"
+      "sha256": "ec26235dc624a84eecfe12b8e7d514ac7709e1c25ba65a5743f4f8251f1d495d"
     },
     {
       "path": "../economy-lab/index.html",
-      "sha256": "290abd4990b942153f3c92673f004a48d1cf1f8032ccc6648636946ad4e8426f"
+      "sha256": "b8a9a74270b925b29f44aa66881a0481a8f2eaaa14cace6bf25bd9e37d9e5680"
     },
     {
       "path": "../economy-lab/style.css",
@@ -26,11 +26,11 @@
     },
     {
       "path": "app.js",
-      "sha256": "eff101c912a4dd8c744e766e612cbf8aa0222b1cc31dc34a3ce37ea9d44676a9"
+      "sha256": "3cc26e027bb401bf1e4e26eada7811082a781ce070ad933822a5cd7fa77596e5"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "8e5de951d89df8dc0db129df1cef8d55d93402f3ada402bd9037aec3498de1f0"
+      "sha256": "e82f0484ae2ce3141f4eb2df96f5803ae20bd4490b5155cb6cab1932060a2ec2"
     },
     {
       "path": "assets/campus-buildings/careers-shared-textures.glb",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "407837d9be18bcf2521cb64f299421d824c885b06eeeea5297f4bd4a28fda5d4"
+      "sha256": "1dc1a362635d1d7e54ffb2d4e4bd5dcbbc69e2d351d4efc6660f0cae6dca4830"
     },
     {
       "path": "joystick.js",
@@ -838,7 +838,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "9fa92d0b79916b589764258659dab9576aa7f5ba6d0cea2b952dddad1400dd91"
+      "sha256": "b536472c91f9ec8eace84d41dab94dc2e9191d5297b44b1fb7f3acbf12a69187"
     },
     {
       "path": "locomotion.js",
@@ -846,11 +846,11 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "f473f7af5a929fe248055a1781561a77fd6ce622909b767e8849a143e66efba7"
+      "sha256": "1109104e1a852a7823d2a860a3f76e4d4384d951b2983979f6d1dd83a283f725"
     },
     {
       "path": "discovery-opening.css",
-      "sha256": "4426c4e9f9f401f00e42c5a3e329b6dd3a56ba6d71ad3c90bfb916e81fe85e9a"
+      "sha256": "171ba47312614c5c7929165cc1811616d265e909bc2ac713e70eb1de8c4b05e3"
     },
     {
       "path": "discovery-state.mjs",
@@ -858,7 +858,7 @@
     },
     {
       "path": "camera-clearance.mjs",
-      "sha256": "cfe360657f5bb84c3ccc959e528b4d6080cc5b1686dbbe9a3f96522901ec46c5"
+      "sha256": "aed6e3d381e94ff937b519a1108abb3487f7ddb793de43b59e7b661f108e0d75"
     },
     {
       "path": "reveal-layout.mjs",
@@ -870,7 +870,7 @@
     },
     {
       "path": "intro-taster.mjs",
-      "sha256": "7da5bf09033e11d7d490e0f0cdc6044ab099327f0e57501632d98377f174a2fe"
+      "sha256": "96588757e24da359495a4887aece8169e20a9d8b20ca95bef9eb6193610ac87e"
     },
     {
       "path": "intro-taster.css",
@@ -890,11 +890,35 @@
     },
     {
       "path": "taster-assets/career-empire-intro.mp4",
-      "sha256": "89dd260a980bb61557175bd0d326673a6f365108f9e49b60095dd1a8a58dd30b"
+      "sha256": "fe3bb055fc150227a59959589ff6570cf725905144f02be943c46ed1d20e2f84"
     },
     {
       "path": "taster-assets/intro-poster.jpg",
       "sha256": "67e42da6f78f36af98172dffa3057a40ca937a89185cf0a860e2c74e794801d5"
+    },
+    {
+      "path": "exploration-tools.css",
+      "sha256": "b6411126fb61d10dd4ac22ae51c747e686dfa049b197eca8a1a1bf5e11d2df78"
+    },
+    {
+      "path": "exploration-tools.mjs",
+      "sha256": "17bcd110a4e5ada87d3de7994739bf239f2397f8b8dfdbf5d15fd546b757f217"
+    },
+    {
+      "path": "proximity-gate.mjs",
+      "sha256": "7069036254409d9885faa2294840b7036a30dc8459b0eb652f0e55f739bad190"
+    },
+    {
+      "path": "whole-avatar-catalog.mjs",
+      "sha256": "fc70660b51ea7c715a129c172b26c05740b2607e4dcdf3aed2569a1fb3fa659e"
+    },
+    {
+      "path": "../economy-lab/economy.mjs",
+      "sha256": "955a1be30a28e958426a228e2a9c8756bc4e0d2af5667849d8a9fee58052e363"
+    },
+    {
+      "path": "../economy-lab/exploration.mjs",
+      "sha256": "9719d5bd0a1001ad91d415117c9bc6b37c0059322d76c0abf8a3276ac779a40f"
     }
   ],
   "estVideo": {

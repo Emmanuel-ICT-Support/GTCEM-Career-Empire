@@ -1,11 +1,15 @@
+// Authored canopy footprints beside the Chapel; keep a camera out of their
+// timber roof/support volume as well as respecting the physics wall raycasts.
+export function insideCanopy(camera){return camera.y>2.25&&camera.y<4.6&&[[-2,-11.32,2.3,3.8],[3.25,-10.9,1.9,4.55]].some(([x,z,w,d])=>Math.abs(camera.x-x)<w/2+.25&&Math.abs(camera.z-z)<d/2+.25);}
 // Collision-checked view recovery for the isolated review; never bypass a wall.
 export function keepOutdoorClearance(THREE,worlds,p,camera,yaw){
  const horizontal=Math.hypot(camera.position.x-p.x,camera.position.z-p.z);
- if(camera.position.distanceTo(p)>=2.8&&horizontal>=1.6)return false;
+ if(camera.position.distanceTo(p)>=2.8&&horizontal>=1.6&&!insideCanopy(camera.position))return false;
  for(const [angle,height] of [[0,3.1],[.6,3.1],[-.6,3.1],[1.1,3.1],[-1.1,3.1],[0,5.5],[0,8]]){
   const candidate=new THREE.Vector3(p.x+Math.sin(yaw+angle)*6.4,p.y+height,p.z+Math.cos(yaw+angle)*6.4);
+  if(insideCanopy(candidate))continue;
   worlds.protectCamera(false,p,candidate);
-  if(candidate.distanceTo(p)>=3&&Math.hypot(candidate.x-p.x,candidate.z-p.z)>=2.8){camera.position.copy(candidate);return true;}
+  if(!insideCanopy(candidate)&&candidate.distanceTo(p)>=3&&Math.hypot(candidate.x-p.x,candidate.z-p.z)>=2.8){camera.position.copy(candidate);return true;}
  }
  return false;
 }
