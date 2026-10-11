@@ -5,7 +5,7 @@ import {buildExterior} from './ecc-preview/model.js?v=first-play-20260921';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createDeferredTextures} from './deferred-textures.js?v=entry-reflections-20260927';
 import {createCampusLandscape,createCampusPaths} from './campus-landscape.js?v=sharp-entry-20260925';
-import {arrivalPrecinct} from './arrival-precinct.js?v=sharp-entry-20260925-first-play-20260921';
+import {arrivalPrecinct} from './arrival-precinct.js?v=default-exploration-20261011';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
  * ~2wu tiles stamped from a 2D grid: grass / path / asphalt / plaza (+ curb overlays).
@@ -259,9 +259,9 @@ export async function createWorlds(onProgress=()=>{}){
   const palette=approvedPalette(est);palette.interior=palette.interior.clone();
   for(const [key,material] of Object.entries(palette))material.userData.deferredPalette=key;
   const precinct=arrivalPrecinct(town,stoneTex,sign,palette);
-  const legacySign=sign('ORIGINAL CAREER EMPIRE',3.1,'#f2e4bd','#29434a');legacySign.position.set(LEGACY.x,1.72,LEGACY.z);town.add(legacySign);
-  const legacyHint=sign('OPEN THE ORIGINAL GAME',2.65,'#e6d9b9','#29434a');legacyHint.position.set(LEGACY.x,.92,LEGACY.z);town.add(legacyHint);
-  for(const dx of [-1.1,1.1])box(town,.1,1.95,.1,basic(0x304c54),LEGACY.x+dx,.975,LEGACY.z-.16);
+  const legacySign=sign('ORIGINAL CAREER EMPIRE',1.45,'#f2e4bd','#29434a');legacySign.position.set(LEGACY.x,1.3,LEGACY.z);town.add(legacySign);
+  const legacyHint=sign('OPEN THE ORIGINAL GAME',1.25,'#e6d9b9','#29434a');legacyHint.position.set(LEGACY.x,.82,LEGACY.z);town.add(legacyHint);
+  for(const dx of [-.6,.6])box(town,.07,1.5,.07,basic(0x304c54),LEGACY.x+dx,.75,LEGACY.z-.16);
   const homeSign=sign('AVATAR STUDIO',2.3);homeSign.position.set(-13.25,3.56,5.0);homeSign.rotation.y=Math.PI/2;homeSign.visible=false;town.add(homeSign);
   const inner=new THREE.Group();interior.add(inner);
   let interiorLoad,currentPhase='flourishing';
