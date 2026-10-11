@@ -1,4 +1,4 @@
-import {MILESTONES} from './exploration.mjs?v=exploration-20260924';
+import {MILESTONES} from './exploration.mjs?v=initiative-20261011';
 import {mountWork} from './work-ui.mjs?v=activity-library-1';
 import {KEY,CATALOG,LESSONS,empty,project,transact} from './economy.mjs?v=initiative-20261011';
 const $=id=>document.getElementById(id),money=n=>new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0}).format(n/100);

@@ -10,11 +10,11 @@
     },
     {
       "path": "../economy-lab/app.mjs",
-      "sha256": "3804c5aed3d954a4bd5c5b65245cabceb8917accb3e8af518fbd07c0db0ea6c1"
+      "sha256": "ec26235dc624a84eecfe12b8e7d514ac7709e1c25ba65a5743f4f8251f1d495d"
     },
     {
       "path": "../economy-lab/index.html",
-      "sha256": "47df994cbadc95697c16130e0cde80a562b532948100c7c171b6db417687cd8d"
+      "sha256": "b8a9a74270b925b29f44aa66881a0481a8f2eaaa14cace6bf25bd9e37d9e5680"
     },
     {
       "path": "../economy-lab/style.css",
