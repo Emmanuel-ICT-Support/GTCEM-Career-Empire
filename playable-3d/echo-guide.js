@@ -31,8 +31,8 @@ export function createEchoModel(){
  return {root,body,orbit,dispose(){root.removeFromParent();const gs=new Set(),ms=new Set();root.traverse(o=>{if(o.isMesh){gs.add(o.geometry);ms.add(o.material);}});gs.forEach(g=>g.dispose());ms.forEach(m=>m.dispose());}};
 }
 
-export function createEchoGuide({scene,physics,canvas,profile,helper=()=>({id:'echo',name:'Echo',model:'./assets/helpers/echo.glb'}),onPause,onAction,review=false}){
- let storage;try{storage=localStorage;}catch{}
+export function createEchoGuide({scene,physics,canvas,profile,helper=()=>({id:'echo',name:'Echo',model:'./assets/helpers/echo.glb'}),onPause,onAction,review=false,storage}){
+ if(!storage)try{storage=localStorage;}catch{}
  const store=createEchoStore(storage,{review}),model=createSelectedHelper(createEchoModel);model.select(helper());scene.add(model.root);model.root.position.set(-5.85,0,22.7);
  const panel=document.createElement('section');panel.id='echo-dialogue';panel.className='echo-dialogue';panel.hidden=true;panel.setAttribute('role','region');panel.setAttribute('aria-label','Echo guide');
  panel.innerHTML='<header><span>ECHO · YOUR WORLD GUIDE</span><button type="button" data-close aria-label="Close guidance">×</button></header><div aria-live="polite" aria-atomic="true"><small data-count></small><h2 tabindex="-1"></h2><p data-message></p></div><button type="button" data-action hidden></button><div data-revisit></div><p class="echo-note" data-note></p><footer><button type="button" data-back>Back</button><button type="button" data-skip>Skip for now</button><button type="button" data-next>Next →</button></footer>';

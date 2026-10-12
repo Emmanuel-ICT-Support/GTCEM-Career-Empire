@@ -11,7 +11,7 @@ function mergeStatic(root){
  root.updateMatrixWorld(true);const groups=new Map();root.traverse(o=>{if(!o.isMesh)return;const materials=Array.isArray(o.material)?o.material:[o.material];if(materials.length!==1)throw new Error('Unexpected multi-material campus mesh');const m=materials[0],g=o.geometry.clone().applyMatrix4(o.matrixWorld);if(!g.attributes.uv)g.setAttribute('uv',new THREE.BufferAttribute(new Float32Array(g.attributes.position.count*2),2));const key=m.uuid;if(!groups.has(key))groups.set(key,{material:m,geometries:[]});groups.get(key).geometries.push(g);});const result=new THREE.Group();for(const {material,geometries}of groups.values()){const geometry=mergeGeometries(geometries.map(g=>g.index?g.toNonIndexed():g),false);if(!geometry)throw new Error('Campus geometry merge failed');const mesh=new THREE.Mesh(geometry,material);mesh.castShadow=mesh.receiveShadow=true;result.add(mesh);}return result;
 }
 // The normal game can fetch the required landscape while its courtyard is loading.
-export async function loadCampusAssets({textures}={}){
+export async function loadCampusAssets({textures,ids=['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a','boulder-a','careers','workplace']}={}){
  const manager=new THREE.LoadingManager();
  // Geometry/collisions must not wait for external decorative building maps.
  // Original images hydrate the same GLTF textures, retaining UVs and samplers.
@@ -19,7 +19,6 @@ export async function loadCampusAssets({textures}={}){
  const imageURI=uri=>typeof uri==='string'&&!uri.startsWith('data:')&&/\.(png|jpe?g|webp)(?:[?#]|$)/i.test(uri);
  if(textures)manager.setURLModifier(url=>imageURI(url)?pixel:url);
  const loader=new GLTFLoader(manager).setMeshoptDecoder(MeshoptDecoder);
- const ids=['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a','boulder-a','careers','workplace'];
  return new Map(await Promise.all(ids.map(async id=>{
   const url=`./assets/${['careers','workplace'].includes(id)?'campus-buildings/'+id+'-shared-textures':'campus-landscape/'+id+(['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a'].includes(id)?'-packed':'')}.glb`;
   const asset=await loader.loadAsync(url);
@@ -57,7 +56,7 @@ pavingPaths.finish();
 const plaza=new THREE.Mesh(new THREE.CircleGeometry(5.5,64),paving);plaza.rotation.x=-Math.PI/2;plaza.position.set(0,.09,4);plaza.receiveShadow=true;plaza.userData.walkable=true;group.add(plaza);
 }
 export async function createCampusLandscape(scene,physics,palette,preloadedAssets,textures){
-const loaded=preloadedAssets || await loadCampusAssets({textures});
+const loaded=preloadedAssets || await loadCampusAssets({textures,ids:scene.getObjectByName('Campus early exterior aprons')?['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a','boulder-a']:undefined});
 const group=new THREE.Group();group.name='Campus landscape';scene.add(group);
 const placements=[];const colliders=[];
 const paving=palette.paving,soil=palette.soil,edge=palette.stone;
@@ -85,8 +84,17 @@ partitionInstances(group,{filter:o=>!o.userData.distanceDetail});
 // commissioned, rather than retaining furniture that obstructs planting.
 
 for(const p of placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')))colliders.push([p.x,1.5,p.z,.4,3,.4]);
+const buildings=installCampusBuildings(scene,palette,loaded,rect,colliders);
+for(const b of colliders)physics.block(...b);
+// Northern water remains outside the walking boundary; eastern pond and fountain use existing bodies.
+return {group,buildings:buildings.map(({model,...spec})=>spec),placements,colliders:colliders.length};
+}
+
+function installCampusBuildings(scene,palette,loaded,rect,colliders){
+const paving=palette.paving;
 const buildings=[];
 for(const spec of [{id:'careers',name:'Careers Advice Centre',x:-19,z:18,width:8,depth:6},{id:'workplace',name:EST.name,x:15,z:18,width:12,depth:8}]){
+ const existing=scene.getObjectByName(spec.name);if(existing?.userData.campusBuilding){buildings.push({...existing.userData.campusBuilding,model:existing});continue;}
  const asset=loaded.get(spec.id);
  // Reuse the building, porch, furniture and planting. The display plate gives way to campus paths.
  for(const child of [...asset.scene.children])if(/^Whole item paving/i.test(child.name))asset.scene.remove(child);
@@ -109,9 +117,13 @@ for(const spec of [{id:'careers',name:'Careers Advice Centre',x:-19,z:18,width:8
  // Walkable landing/floor with a low rise, within the existing character autostep height.
  colliders.push([spec.x,.1,spec.z,spec.width,.2,spec.depth]);
  rect(entryX,front-1.5,3.4,3.4,paving,.105);
- buildings.push({...spec,front,entrance:[entryX,front],outward:[0,-1],model});
+ model.userData.campusBuilding={...spec,front,entrance:[entryX,front],outward:[0,-1]};
+ buildings.push({...model.userData.campusBuilding,model});
 }
-for(const b of colliders)physics.block(...b);
-// Northern water remains outside the walking boundary; eastern pond and fountain use existing bodies.
-return {group,buildings:buildings.map(({model,...spec})=>spec),placements,colliders:colliders.length};
+return buildings;
+}
+export async function createCampusBuildingExteriors(scene,physics,palette,textures){
+ const loaded=await loadCampusAssets({textures,ids:['careers','workplace']});const group=new THREE.Group();group.name='Campus early exterior aprons';scene.add(group);const colliders=[];
+ const rect=(x,z,w,d,material,y=.095)=>{const geo=new THREE.PlaneGeometry(w,d);geo.rotateX(-Math.PI/2);const uv=geo.attributes.uv,pos=geo.attributes.position;for(let i=0;i<uv.count;i++)uv.setXY(i,(pos.getX(i)+x)/3,(pos.getZ(i)+z)/3);const mesh=new THREE.Mesh(geo,material);mesh.position.set(x,y,z);mesh.userData.walkable=true;mesh.receiveShadow=true;group.add(mesh);return mesh;};
+ installCampusBuildings(scene,palette,loaded,rect,colliders);for(const collider of colliders)physics.block(...collider);return group;
 }

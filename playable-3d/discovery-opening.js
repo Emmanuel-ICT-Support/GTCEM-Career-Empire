@@ -2,15 +2,15 @@ import {createProximityGate} from './proximity-gate.mjs?v=default-exploration-20
 import {revealLayout} from './reveal-layout.mjs';
 import {KEY,normalise,advance,collectShot,reward,restart,chooseStyle,discoveryLocation,visitChapel} from './discovery-state.mjs?v=quiet-route-20261011';
 import {frameAt,moveFrame,cropSquare} from './scout-framing.mjs';
-export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capture,pause,reveal,explore,personalise,market,castReady,frameReveal,stageCast,releaseReveal,pathsReady=()=>true,onLocation=()=>{},beforeCapture=async()=>{},enterQuiet=()=>{},onParcel=()=>{},available=()=>true}){
+export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capture,pause,reveal,explore,personalise,market,castReady,frameReveal,stageCast,releaseReveal,pathsReady=()=>true,onLocation=()=>{},beforeCapture=async()=>{},enterQuiet=()=>{},onParcel=()=>{},onPhotoFinish=()=>{},storage=localStorage,available=()=>true}){
  const proximity=createProximityGate();
- let state;try{state=normalise(JSON.parse(localStorage.getItem(KEY)));}catch{state=normalise(null);}
+ let state;try{state=normalise(JSON.parse(storage.getItem(KEY)));}catch{state=normalise(null);}
  const restartURL=new URL(location.href);
- if(restartURL.searchParams.get('restartTrail')==='1'){state=restart(state);try{localStorage.setItem(KEY,JSON.stringify(state));}catch{}restartURL.searchParams.delete('restartTrail');history.replaceState(null,'',restartURL);}
- let persistent=true,busy=false,revealStarted=false,hint=false,sequence=null,elapsed=0,sceneDismissed=false,castStartedAt=null,scoutPlace=null,shotBusy=false,captureBusy=false,lastPathsReady=pathsReady();
- const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state));persistent=true;}catch{persistent=false;}paint();};
+ if(restartURL.searchParams.get('restartTrail')==='1'){state=restart(state);try{storage.setItem(KEY,JSON.stringify(state));}catch{}restartURL.searchParams.delete('restartTrail');history.replaceState(null,'',restartURL);}
+ let persistent=storage?.persistent!==false,busy=false,revealStarted=false,hint=false,sequence=null,elapsed=0,sceneDismissed=false,castStartedAt=null,scoutPlace=null,shotBusy=false,captureBusy=false,lastPathsReady=pathsReady();
+ const save=()=>{try{storage.setItem(KEY,JSON.stringify(state));persistent=storage?.persistent!==false;}catch{persistent=false;}paint();};
  document.body.classList.add('discovery-review');
- const style=document.createElement('link');style.rel='stylesheet';style.href='./discovery-opening.css?v=default-exploration-20261011';document.head.append(style);
+ const style=document.createElement('link');style.rel='stylesheet';style.href='./discovery-opening.css?v=guest-first-20261012';document.head.append(style);
  // The review route has no account or feedback endpoints. Existing learning paths remain optional.
  document.querySelectorAll('#new-profile,#phase,[data-feedback-trigger]').forEach(el=>el.hidden=true);
  document.querySelector('#profile').disabled=true;
@@ -67,7 +67,7 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
   if(!sequence)$('discovery-response').textContent=state.skipped?'Explore freely. Your camera will wait.':state.step===0?'A parcel waits farther down the path.':state.step===1?(state.developed?(pathsReady()?(state.destination==='chapel'?'Quiet place chosen. Visit or continue from the Chapel doorway.':'Colourful picture chosen. Find the orange detail on the mural.'):'Your picture is chosen. Paths are preparing; your clue will wait.'):'Visit the Chapel doorway first, then follow the mural picture. The mural shot opens the next picture.'):state.step===3?'Your next picture points to the oval.':!state.souvenir?'Take your photo to complete the mini overview.':'Congratulations! Mini overview complete. Head to the market for your first Careers & Employability activity.';
   $('discovery-pose').hidden=!(sequence==='invite'||(state.step===4&&!state.souvenir));$('discovery-style').hidden=!(sequence==='invite'||state.step===4);$('discovery-controls').hidden=state.step===4||Boolean(sequence);panel.querySelector('#discovery-style legend').textContent=state.souvenir?'Next photo style · retake to apply':'Your picture style';
   for(const style of ['mystery','comedy'])$('film-'+style).setAttribute('aria-pressed',String(state.style===style));
-  $('discovery-storage').textContent=persistent?'Progress and pictures saved only in this browser. Game money and progress stay in this browser; no account or grade.':'Storage unavailable. Keep this tab open and download your photo.';
+  $('discovery-storage').textContent=storage?.persistent===false?'Guest run only. New entry starts again; download your photo to keep it.':persistent?'Progress and pictures saved only in this browser. Game money and progress stay in this browser; no account or grade.':'Storage unavailable. Keep this tab open and download your photo.';
  }
  function resetDialogView(){dialog.scrollTop=0;dialog.scrollLeft=0;}
  function show(help=false){pause();hint=help;renderDialog();if(!dialog.open)dialog.showModal();resetDialogView();(state.step===4?$('discovery-continue'):$('discovery-close')).focus({preventScroll:true});}
@@ -176,7 +176,7 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
     x.fillStyle='#fff4d8';x.font='bold 34px Georgia';x.fillText('CAREER EMPIRE',35,48);x.font='bold 42px Georgia';
     x.fillText(capturedState.style==='comedy'?'An Unexpected Close-up':'Your campus pictures',35,1082);x.font='22px sans-serif';x.fillText('TAKE 1 · your pictures, your campus',35,1127);
     Object.values(capturedState.shots).forEach((shot,i)=>{x.fillStyle='#fff4d8';x.fillRect(28+i*180,824,170,198);x.drawImage(images[i+1],33+i*180,829,160,160);x.fillStyle='#142b35';x.font='13px sans-serif';x.fillText(shot.label,35+i*180,1010,155);});
-    const image=c.toDataURL('image/png');state=retake?{...state,souvenir:image}:reward(state,image);captureBusy=false;save();if(dialog.open)renderDialog();
+    const image=c.toDataURL('image/png');state=retake?{...state,souvenir:image}:reward(state,image);captureBusy=false;save();if(dialog.open)renderDialog();if(!retake)onPhotoFinish();
    }).catch(error=>{if(error===cancelled)captureBusy=false;else fail();});
   }catch{fail();}
  }
@@ -212,7 +212,7 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  };
  for(const style of ['mystery','comedy'])$('film-'+style).onclick=()=>{if(captureBusy)return;state=chooseStyle(state,style);save();if(state.souvenir)$('discovery-response').textContent=(style==='mystery'?'Mystery':'Comedy')+' selected. Retake this photo to apply it.';if(sequence)$('discovery-pose').hidden=false;};
  paint();
- return {chapelCheckpoint,quietDoor,reduced:()=>$('discovery-still').checked,open:()=>dialog.open||Boolean(sequence)||busy||captureBusy,cinematic:()=>Boolean(sequence),openDialog:()=>dialog.open,revealed:()=>state.step===4||Boolean(sequence),interaction(m,p){if(dialog.open||sequence||state.skipped)return null;if(m==='town'&&Math.hypot(p.x+7,p.z-14.8)<1.8)return {label:state.step===0?'Open the picture parcel':'Your current picture clue',action:()=>{if(state.step===0)found('parcel');else show();}};if(state.step>=1&&m==='town'&&Math.hypot(p.x+3.15,p.z+8.8)<2.4)return {label:'Chapel · optional quiet visit',action:quietDoor};if(state.step>=1&&state.chapelVisited&&!state.shots.mural&&m==='town'&&Math.hypot(p.x-10.6,p.z+38.4)<4)return {label:'Frame an orange detail',action:()=>{scoutPlace='mural';show();}};return null;},update(m,p,dt){
+ return {showPhotoFinish:()=>show(),chapelCheckpoint,quietDoor,reduced:()=>$('discovery-still').checked,open:()=>dialog.open||Boolean(sequence)||busy||captureBusy,cinematic:()=>Boolean(sequence),openDialog:()=>dialog.open,revealed:()=>state.step===4||Boolean(sequence),interaction(m,p){if(dialog.open||sequence||state.skipped)return null;if(m==='town'&&Math.hypot(p.x+7,p.z-14.8)<1.8)return {label:state.step===0?'Open the picture parcel':'Your current picture clue',action:()=>{if(state.step===0)found('parcel');else show();}};if(state.step>=1&&m==='town'&&Math.hypot(p.x+3.15,p.z+8.8)<2.4)return {label:'Chapel · optional quiet visit',action:quietDoor};if(state.step>=1&&state.chapelVisited&&!state.shots.mural&&m==='town'&&Math.hypot(p.x-10.6,p.z+38.4)<4)return {label:'Frame an orange detail',action:()=>{scoutPlace='mural';show();}};return null;},update(m,p,dt){
  const ready=available()&&!dialog.open&&!sequence&&!busy&&!captureBusy;
  const parcelNear=proximity.sample('parcel',m==='town'?Math.hypot(p.x+7,p.z-14.8):Infinity,{enabled:ready&&!state.skipped});
  const chapelNear=proximity.sample('chapel-entry',m==='town'?Math.hypot(p.x+3.15,p.z+8.8):Infinity,{enter:1.15,leave:3.2,enabled:ready&&state.step>=1&&!state.skipped});

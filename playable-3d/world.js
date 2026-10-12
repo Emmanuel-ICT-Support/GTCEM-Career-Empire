@@ -4,7 +4,7 @@ import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=first-play-20260921';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {createDeferredTextures} from './deferred-textures.js?v=startup-20261012';
-import {createCampusLandscape,createCampusPaths} from './campus-landscape.js?v=startup-20261012';
+import {createCampusLandscape,createCampusPaths,createCampusBuildingExteriors} from './campus-landscape.js?v=guest-first-20261012';
 import {arrivalPrecinct} from './arrival-precinct.js?v=default-exploration-20261011';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
@@ -511,11 +511,12 @@ export async function createWorlds(onProgress=()=>{}){
     sceneryLoad=Promise.all([loadExterior(),trees,building,district]).then(()=>{scenery.status='landscape-ready';}).catch(error=>{scenery.status='fallback';sceneryLoad=null;throw error;});
     return sceneryLoad;
   }
+  let buildingExteriorsLoad;
   const campus={buildings:[],placements:[],colliders:0};
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);addWalkingSurfaces(town);},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {loadBuildingExteriors:()=>buildingExteriorsLoad||=(loadExterior().then(()=>createCampusBuildingExteriors(town,townPhysics,palette,textures)).then(group=>{addWalkingSurfaces(group);return group;}).catch(error=>{buildingExteriorsLoad=null;throw error;})),syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);addWalkingSurfaces(town);},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     get pendingSurfaceDetails(){return textures.pending;},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
