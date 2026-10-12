@@ -287,6 +287,7 @@ function campusNotice(message,failed=false){
   $('campus-progress-message').textContent=message;
   $('campus-retry').hidden=!failed;
 }
+function showMarketExteriorSigns(){if(worlds.town.getObjectByName('Market exterior signs'))return;const group=new THREE.Group();group.name='Market exterior signs';const marketSign=sign('LIVE MUSIC & SUNDAY MARKETS',5);marketSign.position.set(43,2.1,-23.1);marketSign.scale.y=.5;group.add(marketSign);const invitation=sign('Food, music — a few stallholders could use a hand',5);invitation.position.set(43,1.45,-23.1);invitation.scale.y=.5;group.add(invitation);worlds.town.add(group);}
 async function ensureCampus(){
   if(campusReady)return;
   if(campusLoad)return campusLoad;
@@ -299,12 +300,12 @@ async function ensureCampus(){
       const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
       await new Promise(resolve=>setTimeout(resolve,0));
       if(!environmentReady){
-        const {integrateEnvironment}=await import('./environment.js?v=deferred-ground-20261012');
+        const {integrateEnvironment}=await import('./environment.js?v=exteriors-20261012');
         const before=new Set(worlds.town.children);
         try{await integrateEnvironment(worlds);worlds.syncWalkingSurfaces();environmentReady=true;}
         catch(error){for(const child of [...worlds.town.children])if(!before.has(child))child.removeFromParent();throw error;}
       }
-      worlds.phase(phase);worlds.openCampus();campusReady=true;worlds.scenery.status='ready';const marketSign=sign('LIVE MUSIC & SUNDAY MARKETS',5);marketSign.position.set(43,2.1,-23.1);marketSign.scale.y=.5;worlds.town.add(marketSign);const invitation=sign('Food, music — a few stallholders could use a hand',5);invitation.position.set(43,1.45,-23.1);invitation.scale.y=.5;worlds.town.add(invitation);
+      worlds.phase(phase);worlds.openCampus();campusReady=true;worlds.scenery.status='ready';showMarketExteriorSigns();
       worlds.scenery.errors=[];canvas.dataset.campusReadyMs=String(Math.round(performance.now()));
       campusNotice('Campus ready');startSurfaceDetail();if(detailFailed)detailNotice();
     }catch(error){
@@ -334,7 +335,7 @@ async function prepareEntry(){
  if(entryReady)return;
  if(entryLoad)return entryLoad;
  campusNotice('Preparing the outdoor path to the envelope and Chapel…');
- entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await import('./environment.js?v=deferred-ground-20261012');await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;startSurfaceDetail();setTimeout(()=>worlds.loadBuildingExteriors().then(startSurfaceDetail).catch(()=>{}),0);}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
+ entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await import('./environment.js?v=exteriors-20261012');await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;showMarketExteriorSigns();entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;startSurfaceDetail();setTimeout(()=>worlds.loadBuildingExteriors().then(startSurfaceDetail).catch(()=>{}),0);}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
  return entryLoad;
 }
 function prepareNextTask(now){

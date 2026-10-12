@@ -1,8 +1,8 @@
 {
-  "release": "surface-recovery-20261012",
+  "release": "exteriors-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "9c5d7c70b73474d566d83fd94601cc28b554a2a7",
-  "scope": "Bounded intro GPU warmup; recovered surface warnings with failed-campus protection; original soft perimeter initialized before deferred grass images. PR49 guest and story state retained.",
+  "baseCommit": "c4766db8fda7c8b051273ffe48cce2b75e92eea9",
+  "scope": "Restore original oval, continued ground and market exterior at guest entry while retaining deferred interiors and safe surface recovery.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "40c4e62c51c3ba329de3d1fae0aa6caf6dce31eafdb7448cf7fc7dcda89a660d"
+      "sha256": "ba3ba074b1626a973b911e62efb3b04fe89545d891c8c82c2f771f61f78cdcee"
     },
     {
       "path": "arrival-precinct.js",
@@ -602,7 +602,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "eac2c48b9cf41dc5a7c0fbf7252599ef8eef19b9a956c74612d96879d4af98cf"
+      "sha256": "c0168493f73800615619da6db4332f77c74ee4ae3e33f537e0e335e47722b116"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -618,7 +618,7 @@
     },
     {
       "path": "environment/campus-extensions.js",
-      "sha256": "7d64457b0bdc37b37c778004a9a254a5cc70c0fc5e199704c3898837831c5dca"
+      "sha256": "bcfda842d66637ce563c862882cce34e851d83bb6a7cc48df5d113e089692685"
     },
     {
       "path": "environment/ground-polish.js",
@@ -650,7 +650,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "1337007ff03a4c2fc26ae589fd89e979e37bad80d2ee0b59fdd80cbfd89e126f"
+      "sha256": "09076011772a40964f2f07177d96e640aadf1d7515440a849c9d558292f79e67"
     },
     {
       "path": "est-wall-video.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "5246dea60df2abe1ec880fd05d0c354bd011e7257164850ce90f69a695581a97"
+      "sha256": "1a1e4ca5a9f1d1e1fcf81be544b4108f2e78851e470d0ab5350076647b062ec8"
     },
     {
       "path": "joystick.js",
@@ -970,11 +970,15 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "55baced9edaae65cf3cd93745ebbec9367dc89a15998dea2291aa342b88fe87c"
+      "sha256": "217842f32a0e929c27e14b1965bb216a7ab3b7ae27bbeca59d186468d390809d"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
       "sha256": "78aaba0b9d95d8298d28e2e59b3f7a9b274d53782a30187bd5dbe6a0fa36ed81"
+    },
+    {
+      "path": "environment/exterior-landmarks.js",
+      "sha256": "c33638a3235d2496b71fdad121115ea4f9b123bc421d293e2672c896acce4a5c"
     }
   ],
   "estVideo": {
