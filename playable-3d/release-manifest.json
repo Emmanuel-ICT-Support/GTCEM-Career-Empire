@@ -1,8 +1,8 @@
 {
-  "release": "teacher-reveal-20261012",
+  "release": "teacher-revisit-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "59a39174d94777da1e37587ca5954d9cfe2caf23",
-  "scope": "Retain revealed teacher visibility after cancelling orientation and when returning to campus; suppress hidden-NPC greetings, preserve guest reset and existing rewards.",
+  "scope": "Retain revealed teachers for same-run oval revisits and repeat greetings without wandering or duplicate rewards; preserve fresh guest reset and prior exterior/surface guards.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "b3c511d708796a06945a1f7038af34cb3f3852cbdf7cc0c9098b6f3f8b3c4bb3"
+      "sha256": "ac4806de894c830a200dc50f95ecc75fdfdffb957695ad70b222dd14f86c531b"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "7cbfdcebeed2c925d2dfbfec39aa164d69824f9f90951a1c0c99cbbfd5716a8f"
+      "sha256": "0a7c4dcb395d6dc67531ebb1207432188b6a0bfc50bf9a7502bd6b17e36e5c3b"
     },
     {
       "path": "joystick.js",
@@ -746,7 +746,7 @@
     },
     {
       "path": "teacher-npc.js",
-      "sha256": "481648bb33716e2e2a3b629663d492ec50d8808ca2f0b1add47acc4e19ae98f0"
+      "sha256": "fa3c7ee941060f9d9501af013ce27bfbff07ab22ac3fb8cd4a3db8be87d63f9c"
     },
     {
       "path": "vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "6dbb5b4cbedf5614b001611482d6d735c87fac55dbb99950ed3b7a29f2a1d1f2"
+      "sha256": "df274f5b1696d1d00028a114fc0099375f88ce91180511925db0724aebe0375d"
     },
     {
       "path": "../economy-lab/work-ui.mjs",

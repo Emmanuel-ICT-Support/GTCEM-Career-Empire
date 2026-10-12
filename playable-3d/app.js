@@ -72,7 +72,7 @@ function updateTeacherLoading(){
  if(teachers.length&&teachers.some(n=>n.near(p,7))&&!ovalVisitRecorded){ovalVisitRecorded=true;explore('oval').then(ok=>{if(!ok)ovalVisitRecorded=false;});}
  if(teachers.length===2||teacherLoading||teacherAttempted)return;
  teacherLoading=true;teacherAttempted=true;
- import('./teacher-npc.js?v=discovery-cast-20261011').then(async m=>{
+ import('./teacher-npc.js?v=teacher-revisit-20261012').then(async m=>{
   // Stagger decode/upload work and isolate each optional NPC's failure.
   for(const config of m.TEACHERS)if(!teachers.some(n=>n.id===config.id)){
    try{teachers.push(await m.createTeacherNPC(worlds,discoveryReview?{...config,spawn:{x:config.id==='middleton'?-6.2:-1.8,z:-54.6},fixed:true,reduced:discovery?.reduced()}:config));}
