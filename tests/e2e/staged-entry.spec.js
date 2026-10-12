@@ -13,7 +13,7 @@ test('sharp entry prepares the next task without loading distant campus or recor
  await page.locator('[data-action]').click();
  await expect(page.locator('#echo-dialogue h2')).toHaveText('Careers and Employability Course Documents');
  await expect.poll(()=>requests.some(u=>u.includes('/studio.js?'))).toBe(true);
- const saved=()=>page.evaluate(()=>JSON.parse(localStorage.getItem(Object.keys(localStorage).find(k=>k.startsWith('ce-echo-v2:')))));
+ const saved=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+Object.keys(localStorage).filter(k=>k.startsWith('ce-player:e2e-owned:')).map(k=>k.slice(20)).find(k=>k.startsWith('ce-echo-v2:')))));
  expect((await saved()).resourcesVisited).toBe(true);expect((await saved()).avatarSaved).toBe(false);
  await page.reload();await expect.poll(async()=>(await state()).entryReady,{timeout:90000}).toBe(true);
  expect((await saved()).resourcesVisited).toBe(true);expect((await state()).campusReady).toBe(false);
@@ -41,14 +41,14 @@ test('skipping avatar prepares market kits without a market visit',async({page})
  await page.locator('#echo-cue').click();await page.locator('[data-skip]').click();
  await page.locator('[data-next]').click();await page.locator('[data-next]').click();await page.locator('[data-skip]').click();
  await expect.poll(()=>requests.some(u=>u.includes('/market-npcs/mara.glb')),{timeout:60000}).toBe(true);
- const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem(Object.keys(localStorage).find(k=>k.startsWith('ce-echo-v2:')))));
+ const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+Object.keys(localStorage).filter(k=>k.startsWith('ce-player:e2e-owned:')).map(k=>k.slice(20)).find(k=>k.startsWith('ce-echo-v2:')))));
  expect(saved.skippedTasks).toEqual([2,5]);expect(saved.avatarSaved).toBe(false);expect(saved.marketVisited).toBe(false);
  expect(requests.some(u=>u.includes('careers-shared-textures.glb'))).toBe(false);
 });
 
 test('a returning character past Market prepares the wider campus after entry',async({page})=>{
  test.setTimeout(120000);await page.goto('/playable-3d/');await page.locator('#echo-cue').waitFor({state:'visible',timeout:90000});await page.locator('#echo-cue').click();
- await page.evaluate(()=>{const key=Object.keys(localStorage).find(k=>k.startsWith('ce-echo-v2:'));const saved=JSON.parse(localStorage.getItem(key));localStorage.setItem(key,JSON.stringify({...saved,step:10,marketVisited:true,status:'seen'}));});
+ await page.evaluate(()=>{const key=Object.keys(localStorage).filter(k=>k.startsWith('ce-player:e2e-owned:')).map(k=>k.slice(20)).find(k=>k.startsWith('ce-echo-v2:'));const saved=JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+key));localStorage.setItem('ce-player:e2e-owned:'+key,JSON.stringify({...saved,step:10,marketVisited:true,status:'seen'}));});
  await page.reload();
  const state=()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
  await expect.poll(async()=>(await state()).entryReady,{timeout:60000}).toBe(true);

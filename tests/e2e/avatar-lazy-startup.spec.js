@@ -5,7 +5,7 @@ const avatarRequests=urls=>urls.filter(u=>/\/(?:player-[^/]+|studio-walking-base
 for(const body of ['schoolboy','pantstest','a'])test(`saved ${body}: boot, Studio edit, save and reload`,async({page})=>{
  test.setTimeout(180000);const requests=[],errors=[];
  page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
- await page.addInitScript(({key,body})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify({activeId:'saved',profiles:[{id:'other',name:'Other',body:'jackettest'},{id:'saved',name:'Saved player',body}]}));},{key,body});
+ await page.addInitScript(({key,body})=>{if(!localStorage.getItem('ce-player:e2e-owned:'+key))localStorage.setItem('ce-player:e2e-owned:'+key,JSON.stringify({activeId:'saved',profiles:[{id:'other',name:'Other',body:'jackettest'},{id:'saved',name:'Saved player',body}]}));},{key,body});
  const asset={schoolboy:'player-schoolboy-2k-20260914.glb',pantstest:'studio-walking-base.glb',a:'avatar-a.glb'}[body];
  const start=Date.now();await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:120000});
  await expect(page.locator('#character-caption')).toHaveText('Saved player');
@@ -18,7 +18,7 @@ for(const body of ['schoolboy','pantstest','a'])test(`saved ${body}: boot, Studi
  await expect(page.locator('#save-avatar')).toBeEnabled({timeout:30000});
  expect(avatarRequests(requests)).toEqual([asset,'avatar-b.glb']);
  await page.locator('#save-avatar').click();await expect(page.locator('#studio-panel')).toBeHidden();
- expect(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).profiles.find(p=>p.id==='saved').body,key)).toBe('b');
+ expect(await page.evaluate(key=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+key)).profiles.find(p=>p.id==='saved').body,key)).toBe('b');
  requests.length=0;await page.reload();await expect(page.locator('#loading')).toBeHidden({timeout:120000});
  expect(avatarRequests(requests)).toEqual(['avatar-b.glb']);expect(requests.some(u=>u.includes('/studio.js'))).toBe(false);
  await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled();
@@ -44,7 +44,7 @@ test('pants preview remains an unsaved Studio draft',async({page})=>{
  await page.getByRole('button',{name:'Identity',exact:true}).click();
  await expect(page.getByLabel('Character',{exact:true})).toHaveValue('pantstest');
  await expect(page.locator('#save-avatar')).toBeEnabled({timeout:30000});
- expect(await page.evaluate(key=>localStorage.getItem(key),key)).toBeNull();
+ expect(await page.evaluate(key=>localStorage.getItem('ce-player:e2e-owned:'+key),key)).toBeNull();
  await page.locator('#save-avatar').click();await expect(page.locator('#studio-panel')).toBeHidden();
- expect(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).profiles[0].body,key)).toBe('pantstest');
+ expect(await page.evaluate(key=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+key)).profiles[0].body,key)).toBe('pantstest');
 });

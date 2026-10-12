@@ -1,6 +1,7 @@
-// Existing world regression scenarios enter with Echo. Fresh-choice behaviour is
+// Saved world scenarios use the mocked verified-account contract and Echo. Guest
+// reset/choice behaviour is
 // tested independently in helpers.spec.js using the unmodified Playwright page.
-import {test as base,expect} from '@playwright/test';
+import {test as base,expect} from './owned-account-fixtures.js';
 export {expect};
 export const test=base.extend({page:async({page,baseURL},use)=>{
  const goto=page.goto.bind(page);

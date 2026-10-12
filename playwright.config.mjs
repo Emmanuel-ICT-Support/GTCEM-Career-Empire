@@ -5,14 +5,15 @@ export default defineConfig({
   timeout: 30_000,
   // Software WebGL tests must not compete for the hosted runner CPU.
   workers: process.env.CI ? 1 : undefined,
-  maxFailures: process.env.CI ? 1 : undefined,
+  // Collect every failure so later game journeys are exercised in CI too.
+  maxFailures: 0,
   outputDir: "coverage/browser-evidence",
   expect: {
     timeout: 5_000
   },
   use: {
     baseURL: "http://127.0.0.1:4273",
-    trace: "retain-on-failure",
+    trace: "off",
     screenshot: "only-on-failure"
   },
   webServer: {

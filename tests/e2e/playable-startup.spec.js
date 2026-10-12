@@ -43,7 +43,7 @@ test('startup loads only the active avatar and keeps the studio and hall usable'
 
 test('a saved active avatar can still be changed in the studio',async({page})=>{
   test.setTimeout(180000);
-  await page.addInitScript(()=>localStorage.setItem('career-empire-3d-profiles-v2-tripo',JSON.stringify({activeId:'test',profiles:[{id:'test',name:'Test',body:'b'}]})));
+  await page.addInitScript(()=>localStorage.setItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo',JSON.stringify({activeId:'test',profiles:[{id:'test',name:'Test',body:'b'}]})));
   const requests=[];page.on('request',r=>requests.push(r.url()));
   await page.goto('/playable-3d/');
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
