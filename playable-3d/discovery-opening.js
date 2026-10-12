@@ -1,9 +1,10 @@
 import {createProximityGate} from './proximity-gate.mjs?v=default-exploration-20261011';
 import {revealLayout} from './reveal-layout.mjs';
-import {KEY,normalise,advance,collectShot,reward,restart,chooseStyle,discoveryLocation,visitChapel,teachersRevealed} from './discovery-state.mjs?v=teacher-reveal-20261012';
+import {KEY,normalise,advance,collectShot,reward,restart,chooseStyle,discoveryLocation,visitChapel,teachersRevealed,needsMuralClue} from './discovery-state.mjs?v=sequential-clues-20261012';
 import {frameAt,moveFrame,cropSquare} from './scout-framing.mjs';
 export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capture,pause,reveal,explore,personalise,market,castReady,frameReveal,stageCast,releaseReveal,pathsReady=()=>true,onLocation=()=>{},beforeCapture=async()=>{},enterQuiet=()=>{},onParcel=()=>{},onPhotoFinish=()=>{},storage=localStorage,available=()=>true}){
  const proximity=createProximityGate();
+ let development=0;
  let state;try{state=normalise(JSON.parse(storage.getItem(KEY)));}catch{state=normalise(null);}
  const restartURL=new URL(location.href);
  if(restartURL.searchParams.get('restartTrail')==='1'){state=restart(state);try{storage.setItem(KEY,JSON.stringify(state));}catch{}restartURL.searchParams.delete('restartTrail');history.replaceState(null,'',restartURL);}
@@ -91,8 +92,11 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  function renderDevelop(){
   // Only the current destination appears; future pictures stay unrevealed.
   $('discovery-picture').hidden=true;
-  toy.innerHTML='<div class="develop-pictures"><img src="./discovery-assets/chapel-clue.jpg" alt="Your next picture: the Chapel"></div><p>First, follow this picture to the Chapel.</p><button id="develop-next">Follow this picture</button>';
-  $('discovery-title').textContent='Your first picture';$('discovery-copy').textContent='A place to pause. Step inside if you like, or continue from the doorway.';
+  toy.innerHTML='<div class="develop-pictures"><img src="./discovery-assets/chapel-clue.jpg" alt="Developing your next picture: the Chapel"></div><label>Develop your first picture <input id="develop" type="range" min="0" max="100" step="5" value="0"></label><p id="develop-response" role="status">Slide to bring your picture into view.</p><button id="develop-next" hidden>Follow this picture</button>';
+  $('discovery-title').textContent='Develop your first picture';$('discovery-copy').textContent='Slide to discover a place to pause.';
+  const slider=$('develop');slider.value=development;
+  const develop=()=>{development=Number(slider.value);toy.querySelector('.develop-pictures img').style.filter=`blur(${(100-development)/8}px) brightness(${.15+development*.0085})`;$('develop-next').hidden=development<100;$('develop-response').textContent=development===100?'Your picture is ready. Follow it to the Chapel.':'Slide to bring your picture into view.';};
+  slider.oninput=develop;develop();
   $('develop-next').onclick=()=>{state={...state,developed:true};save();dialog.close();explore();};
  }
  function renderDestinationClue(){
@@ -140,7 +144,7 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
     const next=collectShot(state,place,{label:detail.label,image:c.toDataURL('image/jpeg',.85)});
     if(next===state){feedback.textContent='That shot is already in your album.';return;}
     state=next;save();rememberWorldShot(place,state.shots[place],true);closed=true;view.classList.add('scout-success');if(place==='mural'){reticle.classList.add('scout-eyes');view.querySelector('.scout-stamp').textContent='MY GOOD SIDE!';}view.querySelector('.scout-stamp').hidden=false;shutter.disabled=true;feedback.textContent=place==='mural'?'CLICK. The orange circle has found its good side. Your next picture points to the oval.':'CLICK. A quiet frame, safely in your album. The next picture is ready.';
-    const invite=document.createElement('button');invite.textContent='See the next picture';invite.onclick=()=>{scoutPlace=null;renderDialog();$('discovery-title').tabIndex=-1;$('discovery-title').focus({preventScroll:true});};toy.append(invite);
+    scoutPlace=null;renderDialog();$('discovery-title').tabIndex=-1;$('discovery-title').focus({preventScroll:true});
    }catch{feedback.textContent='This picture could not be saved. Your camera is still here; try again.';}finally{shotBusy=false;}
   };
   resetDialogView();
@@ -155,7 +159,7 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  $('discovery-skip').onclick=()=>{endScene();state={...state,skipped:true};save();dialog.close();explore();};
  $('discovery-assist').onclick=async()=>{if(busy)return;busy=true;$('discovery-assist').disabled=true;const target=state.step===0?'parcel':state.step===1?(state.chapelVisited?'mural':'chapel-door'):'oval';try{dialog.close();await travel(target);explore();}catch{$('discovery-response').textContent='That place could not load. Your clue is safe; try again.';}finally{busy=false;$('discovery-assist').disabled=false;}};
  $('discovery-return').onclick=async()=>{dialog.close();await travel('oval');};
- $('discovery-restart').onclick=()=>{endScene();revealStarted=false;sceneDismissed=false;scoutPlace=null;state=restart(state);save();for(const print of worldPrints.values())if(print.group){worlds.town.remove(print.group);print.group.traverse(o=>{if(o.isMesh){o.geometry.dispose();if(o.material!==print.material)o.material.dispose();}});print.material.map.dispose();print.material.dispose();}worldPrints.clear();dialog.close();travel('start');};
+ $('discovery-restart').onclick=()=>{endScene();revealStarted=false;sceneDismissed=false;scoutPlace=null;development=0;state=restart(state);save();for(const print of worldPrints.values())if(print.group){worlds.town.remove(print.group);print.group.traverse(o=>{if(o.isMesh){o.geometry.dispose();if(o.material!==print.material)o.material.dispose();}});print.material.map.dispose();print.material.dispose();}worldPrints.clear();dialog.close();travel('start');};
  $('discovery-retake').onclick=async()=>{if(busy)return;busy=true;$('discovery-retake').disabled=true;try{dialog.close();await travel('oval');filmSet();reveal();$('discovery-response').textContent='Return to the photo spot, then choose Retake this photo again once both teachers arrive.';if(castReady()){stageCast(1,0);makePoster(true);}show();}finally{busy=false;$('discovery-retake').disabled=false;}};
  $('discovery-poster').onclick=()=>{if(!state.souvenir)return;const a=document.createElement('a');a.download='Career-Empire-Unexpected-Arrival.png';a.href=state.souvenir;a.click();};
  for(const [id,fn]of [['discovery-explore',explore],['discovery-personalise',personalise],['discovery-market',market]])$(id).onclick=()=>{dialog.close();fn();};
@@ -182,7 +186,7 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  }
 
 
- function chapelCheckpoint(present=true){const next=visitChapel(state),changed=next!==state;state=next;save();if(changed&&present&&state.step===1){scoutPlace=null;show();}return changed;}
+ function chapelCheckpoint(present=true){const next=visitChapel(state),changed=next!==state;state=next;save();if(present&&needsMuralClue(state)){scoutPlace=null;show();}return changed;}
  function quietDoor(){
   pause();scoutPlace=null;renderDialog();toy.replaceChildren();$('discovery-picture').hidden=true;
   $('discovery-title').textContent='A place to pause';

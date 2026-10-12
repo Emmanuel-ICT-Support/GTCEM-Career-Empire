@@ -1,8 +1,8 @@
 {
-  "release": "all-projects-20261012",
+  "release": "sequential-clues-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "60364c56587aa3be6afff28a0c87b1a453c03e0a",
-  "scope": "Market guidance, resumable Options/selected companion, restored Administration, Stats keepsakes and clear arrangement trials; preserve deployed startup/exterior/teacher repairs and existing session/reward contracts.",
+  "baseCommit": "a4007ad0b33b7065757c6da25fc1bd7bf4fa7294",
+  "scope": "Restore the single Chapel-picture developing slider and automatic Chapel exit to mural and mural shot to oval clue handoffs; preserve reward, guest session, reflection and photo-finish contracts.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "02407639378f78b135a96c03d8b02c13f99ef1d7655909d1971ceb0ff36f0edd"
+      "sha256": "70eac43906e5e16f332a9cf6e4546957412e4733e7203adfb35b55bec30e529f"
     },
     {
       "path": "arrival-precinct.js",
@@ -846,7 +846,7 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "dd077a8eac40f8a3232eba1c046274fe1ad0c9c86fb4ff560f596b4ed7384d25"
+      "sha256": "dc636dbfa90da9c765ba36f96093be329e0e17f724d67ceaf9221984f140e8b0"
     },
     {
       "path": "discovery-opening.css",
@@ -854,7 +854,7 @@
     },
     {
       "path": "discovery-state.mjs",
-      "sha256": "254e1b6b1ffcac2a95948be5a64fe580d2d6b077b512bb68ba7f1369dec3322d"
+      "sha256": "4c5cf6d2c7fdf5934b1c49b7fc4a8dda16ce77693443d48e7f857d40c4947fa4"
     },
     {
       "path": "camera-clearance.mjs",
