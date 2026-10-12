@@ -3,8 +3,8 @@ import * as THREE from 'three';
 
 // Keep texture identity/UV settings stable for cloned materials. Only the image
 // arrives later; the accepted full-detail artwork is still the final result.
-export function createDeferredTextures(){
-  const jobs=[];let running;
+export function createDeferredTextures({onFailure=()=>{}}={}){
+  const jobs=[];let running,retrying;const active=new Set();
   function load(loader,url,{normal=false,transparent=false,hdr=false,colour='#ffffff',target,flipY}={}){
     let texture=target;
     // PMREM derives its cube size from width/4; a 1px HDR creates an invalid
@@ -21,39 +21,50 @@ export function createDeferredTextures(){
     }
     if(hdr){texture.minFilter=texture.magFilter=THREE.LinearFilter;texture.colorSpace=THREE.LinearSRGBColorSpace;}
     texture.needsUpdate=true;
-    jobs.push({loader,url,texture,flipY,done:false});
+    jobs.push({loader,url,texture,flipY,done:false,failed:false,inFlight:false});
     return Promise.resolve(texture);
+  }
+  async function perform(job){
+    job.inFlight=true;job.failed=false;
+    try{
+      // A late bounded request still hydrates the original shared texture.
+      const request=job.loader.loadAsync(job.url).then(loaded=>{
+        const target=job.texture;
+        target.dispose();target.source=loaded.source;target.format=loaded.format;target.type=loaded.type;
+        target.internalFormat=loaded.internalFormat;target.flipY=job.flipY??loaded.flipY;
+        target.generateMipmaps=loaded.generateMipmaps;
+        target.needsUpdate=true;target.needsPMREMUpdate=true;job.done=true;job.failed=false;
+      });
+      await withAssetDeadline(request);
+      await new Promise(resolve=>setTimeout(resolve,0));
+    }catch(error){if(!job.done){job.failed=true;onFailure(error);}}
+    finally{job.inFlight=false;}
+  }
+  function launch(job){
+    const promise=perform(job);active.add(promise);
+    promise.finally(()=>active.delete(promise));return promise;
+  }
+  async function drain(retryOnly){
+    const attempted=new Set();
+    async function worker(){
+      for(let job;job=jobs.find(job=>!job.done&&!job.inFlight&&!attempted.has(job)&&(!retryOnly||job.failed));){
+        attempted.add(job);await launch(job);
+      }
+    }
+    // Retry only the failed jobs, never duplicate another worker's download.
+    await Promise.all(Array.from({length:retryOnly?1:4},worker));
+    if(!retryOnly)while(active.size)await Promise.all([...active]);
+    if(jobs.some(job=>job.failed&&!job.done))throw new Error('Some campus detail could not download. Please retry.');
   }
   function start(){
     if(running)return running;
-    const attempted=new Set(),errors=[];
-    running=(async()=>{
-      async function worker(){
-        for(let job;job=jobs.find(job=>!job.done&&!attempted.has(job));){
-          attempted.add(job);
-          try{
-            // Late responses still restore the exact artwork after the bounded
-            // readiness wait reports a retryable failure.
-            const request=job.loader.loadAsync(job.url).then(loaded=>{
-            const target=job.texture;
-            // Invalidate cached PMREM and GPU uploads before replacing the image.
-            target.dispose();target.source=loaded.source;target.format=loaded.format;target.type=loaded.type;
-            target.internalFormat=loaded.internalFormat;target.flipY=job.flipY??loaded.flipY;
-            target.generateMipmaps=loaded.generateMipmaps;
-            target.needsUpdate=true;target.needsPMREMUpdate=true;job.done=true;
-            });
-            await withAssetDeadline(request);
-            // Give input and the current view a chance to paint between uploads.
-            await new Promise(resolve=>setTimeout(resolve,0));
-          }catch(error){errors.push(error);}
-        }
-      }
-      await Promise.all(Array.from({length:4},worker));
-      if(errors.length)throw new Error('Some campus detail could not download. Please retry.');
-    })().finally(()=>{running=null;});
-    return running;
+    running=drain(false).finally(()=>{running=null;});return running;
   }
-  return {load,start,get pending(){return jobs.filter(job=>!job.done).length;}};
+  function retry(){
+    if(retrying)return retrying;
+    retrying=drain(true).finally(()=>{retrying=null;});return retrying;
+  }
+  return {load,start,retry,get failed(){return jobs.filter(job=>job.failed&&!job.done).length;},get pending(){return jobs.filter(job=>!job.done).length;}};
 }
 
 // Two animation ticks allow the first playable frame to be presented before

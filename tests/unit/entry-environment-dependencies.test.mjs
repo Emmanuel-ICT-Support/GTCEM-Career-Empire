@@ -44,3 +44,8 @@ test('entry starts module and paths together but opens only after integration an
  releaseModule({integrateEnvironment:async()=>{calls.push('integrate');}});await ready;
  expect(calls).toEqual(['module','paths','integrate','phase','open']);expect(context.entryReady).toBe(true);
 });
+test('original building exteriors start alongside entry without becoming a readiness dependency',async()=>{
+ const app=read('playable-3d/app.js');const body=app.slice(app.indexOf('async function prepareEntry(){'),app.indexOf('function prepareNextTask(')).replace("import('./environment.js?v=entry-environment-20261012')",'loadEnvironment()');
+ let exteriors=0;const context={entryReady:false,entryLoad:null,environmentReady:false,phase:'flourishing',campusNotice(){},loadEnvironment:()=>Promise.resolve({integrateEnvironment:async()=>{}}),worlds:{loadEntry:()=>Promise.resolve(),phase(){},openCampus(){},loadBuildingExteriors(){exteriors++;return new Promise(()=>{});}},showMarketExteriorSigns(){},clock:{getElapsedTime:()=>1},$:()=>({hidden:false}),startSurfaceDetail(){},setTimeout:fn=>fn()};
+ vm.createContext(context);vm.runInContext(body,context);await context.prepareEntry();expect(exteriors).toBe(1);expect(context.entryReady).toBe(true);
+});

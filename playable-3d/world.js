@@ -3,7 +3,7 @@ import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=first-play-20260921';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createDeferredTextures} from './deferred-textures.js?v=startup-20261012';
+import {createDeferredTextures} from './deferred-textures.js?v=surface-retry-20261012';
 import {createCampusLandscape,createCampusPaths,createCampusBuildingExteriors} from './campus-landscape.js?v=guest-first-20261012';
 import {arrivalPrecinct} from './arrival-precinct.js?v=default-exploration-20261011';
 /**
@@ -178,14 +178,14 @@ function buildTileKits(town,materials){
   return {kits,buckets};
 }
 
-export async function createWorlds(onProgress=()=>{}){
+export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{}){
   const physicsReady=RAPIER.init();
   const loader=new GLTFLoader();
   const draco=new DRACOLoader();
   // Decoder matches three r180 / gltf-transform Draco meshes; CDN keeps vendor tree light.
   draco.setDecoderPath('./vendor/draco/');
   loader.setDRACOLoader(draco);
-  const textures=createDeferredTextures();
+  const textures=createDeferredTextures({onFailure:onSurfaceFailure});
   // Full courtyard assets are optional until the arrival boundary opens.
   let exteriorLoad;
   const outerAsset={root:new THREE.Group(),obstacles:[]};
@@ -516,7 +516,7 @@ export async function createWorlds(onProgress=()=>{}){
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {loadBuildingExteriors:()=>buildingExteriorsLoad||=(loadExterior().then(()=>createCampusBuildingExteriors(town,townPhysics,palette,textures)).then(group=>{addWalkingSurfaces(group);return group;}).catch(error=>{buildingExteriorsLoad=null;throw error;})),syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);addWalkingSurfaces(town);},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {loadBuildingExteriors:()=>buildingExteriorsLoad||=(loadExterior().then(()=>createCampusBuildingExteriors(town,townPhysics,palette,textures)).then(group=>{addWalkingSurfaces(group);return group;}).catch(error=>{buildingExteriorsLoad=null;throw error;})),syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);addWalkingSurfaces(town);},retryDetailTextures:()=>textures.retry(),get failedSurfaceDetails(){return textures.failed;},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     get pendingSurfaceDetails(){return textures.pending;},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},

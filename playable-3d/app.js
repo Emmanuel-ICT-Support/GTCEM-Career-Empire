@@ -1,4 +1,4 @@
-import {renderQuality,rendererName} from './render-quality.mjs?v=software-render-startup-20261012';
+import {renderQuality,rendererName} from './render-quality.mjs?v=surface-retry-20261012';
 import {waitForPriorityAsset,canClearDetailWarning} from './startup-assets.mjs?v=detail-recovery-20261012';
 import {createExplorationTools} from './exploration-tools.mjs?v=photo-review-20261012';
 import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
@@ -13,11 +13,11 @@ import {createFlyover} from './flyover.js?v=student-usability-20260924';
 import {configurePhoneAssets} from './phone-assets.js?v=phone-load-20260917';
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
-import {afterFirstPaint} from './deferred-textures.js?v=startup-20261012';
+import {afterFirstPaint} from './deferred-textures.js?v=surface-retry-20261012';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds,sign} from './world.js?v=guest-first-20261012';
+import {createWorlds,sign} from './world.js?v=surface-retry-20261012';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=named-students-20261011';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=named-students-20261011';
@@ -347,7 +347,10 @@ async function prepareEntry(){
  if(entryLoad)return entryLoad;
  campusNotice('Preparing the outdoor path to the envelope and Chapel…');
  const environmentModule=environmentReady?null:import('./environment.js?v=entry-environment-20261012');environmentModule?.catch(()=>{});
- entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;showMarketExteriorSigns();entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;startSurfaceDetail();setTimeout(()=>worlds.loadBuildingExteriors().then(startSurfaceDetail).catch(()=>{}),0);}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
+ // Begin the original exterior-only buildings after avatar priority, alongside paths.
+ // They never gate entry or load interiors and no northward travel is required.
+ setTimeout(()=>worlds.loadBuildingExteriors().then(()=>{if(entryReady)startSurfaceDetail();}).catch(()=>{}),0);
+ entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;showMarketExteriorSigns();entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;startSurfaceDetail();}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
  return entryLoad;
 }
 function prepareNextTask(now){
@@ -630,7 +633,7 @@ function bindEvents(){
   $('town-view').addEventListener('click',returnTown);$('studio-view').addEventListener('click',openStudio);
   $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>{const go=()=>{setMode('town');enterHall();};if(mode==='studio')leaveStudio(go);else go();});$('chapel-destination').addEventListener('click',()=>destination('chapel'));
   $('interact').addEventListener('click',()=>interaction?.action());$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
-  $('campus-retry').addEventListener('click',()=>{if(detailFailed)startSurfaceDetail();else if(!entryReady)prepareEntry().catch(()=>{});else openCampusInBackground();});
+  $('campus-retry').addEventListener('click',()=>{if(detailFailed)worlds.retryDetailTextures().then(()=>{detailFailed=worlds.failedSurfaceDetails>0;},()=>{detailFailed=true;detailNotice();});else if(!entryReady)prepareEntry().catch(()=>{});else openCampusInBackground();});
   $('aerial').addEventListener('click',async()=>{const request=modeRequest;if(mode==='town'&&!campusReady){try{await ensureCampus();}catch{return;}if(request!==modeRequest)return;}aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
   $('profile').addEventListener('change',()=>{const id=$('profile').value;$('profile').value=state.activeId;if(id===state.activeId){updateActor();return;}const change=()=>{state.activeId=id;persist();helperPicker.choose();updateActor();if(mode==='studio')setMode('studio');};if(mode==='studio')leaveStudio(change);else change();});
   $('new-profile').addEventListener('click',()=>{const add=()=>{if(state.profiles.length>=24){toast('This browser already has 24 characters.');return;}const p=normaliseProfile({id:crypto.randomUUID(),name:`Character ${state.profiles.length+1}`});state.profiles.push(p);state.activeId=p.id;persist();helperPicker.choose();updateActor();setMode('studio');};if(mode==='studio')leaveStudio(add);else add();});
@@ -763,7 +766,7 @@ async function boot(){
     const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();const environment=pmrem.fromScene(room,.04);room.dispose();pmrem.dispose();
     $('loading-message').textContent=studioFirst?'Opening your wardrobe…':'Loading your character and learning district...';
     const avatarReady=loadProfileKit(copy(active())).then(()=>true,()=>false);
-    worlds=await createWorlds(message=>{$('loading-message').textContent=message;});applyRenderQuality();
+    worlds=await createWorlds(message=>{$('loading-message').textContent=message;},()=>{detailFailed=true;detailNotice();});applyRenderQuality();
     $('loading-message').textContent='Preparing your first view...';worlds.town.environment=environment.texture;worlds.town.environmentIntensity=.28;worlds.interior.environment=environment.texture;worlds.interior.environmentIntensity=.55;worlds.careers.environment=environment.texture;worlds.careers.environmentIntensity=.55;worlds.chapel.environment=environment.texture;worlds.chapel.environmentIntensity=.35;
     THREE.Cache.clear();THREE.Cache.enabled=false;
     worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');actor=createFallbackCharacter();actor.model.position.copy(worlds.position(false));worlds.town.add(actor.model);populateProfiles();updateActor(avatarReady);flyover=createFlyover({camera,keys,canvas,root:$('experience'),canEnter:canFlyover,resetInput:resetNavigationInput,fog:()=>worlds.town.fog});bindEvents();resize();
