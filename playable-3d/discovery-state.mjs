@@ -29,3 +29,7 @@ export function discoveryLocation(mode,p){
 }
 
 export function visitChapel(state){return state.chapelVisited?state:{...state,chapelVisited:true,developed:true,destination:state.step===1&&!state.shots.mural?"mural":state.destination};}
+
+// Once the photo-finish surprise starts, cancelling its camera sequence must
+// not turn already-present teachers into invisible interaction targets.
+export function teachersRevealed(state,revealStarted,sequence){return state.step===4||revealStarted||Boolean(sequence);}

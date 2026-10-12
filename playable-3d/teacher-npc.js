@@ -50,7 +50,7 @@ export async function createTeacherNPC(worlds,config=TEACHERS[0]){
   react(p){if(config.reactions.includes(state))return false;if(!this.near(p,7))return false;target=null;const next=config.reactions[reaction++%config.reactions.length];play(next);timer=actions[next].getClip().duration;turn(p.x-root.position.x,p.z-root.position.z,1);return true;},
   fixedUpdate(dt,p){
    if(!this.near(p,42))return;
-   if(config.fixed)return;
+   if(config.fixed){if(config.reactions.includes(state)){timer-=dt;if(timer<=0)pause();}return;}
    timer-=dt;
    if(timer<=0){if(state==='idle')chooseTarget();else pause();}
    let dx=0,dz=0;
@@ -67,7 +67,7 @@ export async function createTeacherNPC(worlds,config=TEACHERS[0]){
    root.position.set(x,pos.y+move.y-HALF-RADIUS-.025,z);
   },
   update(dt,p){if(this.near(p,42))mixer.update(config.reduced?0:dt);},
-  snapshot(){return {id:config.id,name:config.name,state,position:root.position.toArray(),target,remaining:timer,reactions:reaction};},
+  snapshot(){return {id:config.id,name:config.name,state,visible:root.visible,position:root.position.toArray(),target,remaining:timer,reactions:reaction};},
   dispose(){mixer.stopAllAction();mixer.uncacheRoot(model);world.removeCharacterController(controller);world.removeRigidBody(body);root.removeFromParent();const textures=new Set(),materials=new Set(),geometries=new Set();model.traverse(o=>{if(o.isMesh){geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.add(m);for(const v of Object.values(m))if(v?.isTexture)textures.add(v);}}});textures.forEach(t=>t.dispose());materials.forEach(m=>m.dispose());geometries.forEach(g=>g.dispose());}
  };
 }

@@ -4,7 +4,7 @@ import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-2026101
 import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
 import {keepOutdoorClearance,keepChapelClearance} from './camera-clearance.mjs?v=default-exploration-20261011';
-import {createDiscovery} from './discovery-opening.js?v=guest-first-20261012';
+import {createDiscovery} from './discovery-opening.js?v=teacher-reveal-20261012';
 import {createLocomotion, STEP, turnTowards} from './locomotion.js?v=travel-20260927';
 import {createHelperPicker} from './helper-picker.js?v=guest-first-20261012';
 import {createExplorer} from '../economy-lab/exploration.mjs?v=navigation-20261012';
@@ -72,7 +72,7 @@ function updateTeacherLoading(){
  if(teachers.length&&teachers.some(n=>n.near(p,7))&&!ovalVisitRecorded){ovalVisitRecorded=true;explore('oval').then(ok=>{if(!ok)ovalVisitRecorded=false;});}
  if(teachers.length===2||teacherLoading||teacherAttempted)return;
  teacherLoading=true;teacherAttempted=true;
- import('./teacher-npc.js?v=discovery-cast-20261011').then(async m=>{
+ import('./teacher-npc.js?v=teacher-revisit-20261012').then(async m=>{
   // Stagger decode/upload work and isolate each optional NPC's failure.
   for(const config of m.TEACHERS)if(!teachers.some(n=>n.id===config.id)){
    try{teachers.push(await m.createTeacherNPC(worlds,discoveryReview?{...config,spawn:{x:config.id==='middleton'?-6.2:-1.8,z:-54.6},fixed:true,reduced:discovery?.reduced()}:config));}
@@ -80,12 +80,12 @@ function updateTeacherLoading(){
   }
  }).catch(error=>console.warn('Teachers unavailable; return to the oval to retry.',error)).finally(()=>teacherLoading=false);
 }
-function greetTeacher(npc){if(mode==='town'&&npc?.react(actor.model.position))toast('Hello, '+npc.name+'!');}
+function greetTeacher(npc){if(mode==='town'&&npc?.root?.visible&&npc.react(actor.model.position))toast('Hello, '+npc.name+'!');}
 function tapTeacher(event){
  if(mode!=='town'||feedbackOpen()||watchingEST||!$('module-overlay').hidden||$('reflection-dialog').open)return;
  if(echo?.tap(event,camera))return;
  const r=canvas.getBoundingClientRect();teacherPointer.set((event.clientX-r.left)/r.width*2-1,-(event.clientY-r.top)/r.height*2+1);teacherRay.setFromCamera(teacherPointer,camera);
- const candidates=teachers.filter(n=>n.near(actor.model.position,7));
+ const candidates=teachers.filter(n=>n.root.visible&&n.near(actor.model.position,7));
  const hits=candidates.flatMap(n=>teacherRay.intersectObject(n.root,true).map(hit=>({npc:n,hit}))).sort((a,b)=>a.hit.distance-b.hit.distance);
  if(!hits.length)return;
  const {npc,hit}=hits[0];
@@ -521,7 +521,7 @@ function updateInteraction(){
     else if(campusReady&&Math.hypot(p.x-43,p.z+22)<3.2)interaction={label:'Enter Live Music & Sunday Markets',action:openMarket};
     else if(echo?.resourcesNear(p)&&(!echo.near(p)||echo.resources.position.distanceToSquared(p)<echo.root.position.distanceToSquared(p)))interaction={label:'Inspect Course Documents',action:()=>echo.showResources()};
     else if(echo?.near(p))interaction={label:'Talk to '+helperPicker.selected().name,action:()=>echo.show()};
-    else if(teachers.some(n=>n.near(p,5))){const npc=teachers.filter(n=>n.near(p,5)).sort((a,b)=>a.root.position.distanceToSquared(p)-b.root.position.distanceToSquared(p))[0];interaction={label:'Say hello to '+npc.name,action:()=>greetTeacher(npc)};}
+    else if(teachers.some(n=>n.root.visible&&n.near(p,5))){const npc=teachers.filter(n=>n.root.visible&&n.near(p,5)).sort((a,b)=>a.root.position.distanceToSquared(p)-b.root.position.distanceToSquared(p))[0];interaction={label:'Say hello to '+npc.name,action:()=>greetTeacher(npc)};}
     else if(p.x>-13.6 && p.x<-10.8 && Math.abs(p.z-5)<1.45)interaction={label:'Open Avatar Studio',action:openStudio};
     else if(Math.hypot(p.x-CHAPEL.x,p.z-CHAPEL.z)<1.9)interaction={label:'Enter Chapel',action:enterChapel};
     else if(Math.hypot(p.x-LEGACY.x,p.z-LEGACY.z)<2.7)interaction={label:'Open Original Career Empire ↗',action:()=>window.open(LEGACY.url,'_blank','noopener,noreferrer')};

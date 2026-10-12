@@ -1,8 +1,8 @@
 {
-  "release": "exteriors-20261012",
+  "release": "teacher-revisit-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "c4766db8fda7c8b051273ffe48cce2b75e92eea9",
-  "scope": "Restore original oval, continued ground and market exterior at guest entry while retaining deferred interiors and safe surface recovery.",
+  "baseCommit": "59a39174d94777da1e37587ca5954d9cfe2caf23",
+  "scope": "Retain revealed teachers for same-run oval revisits and repeat greetings without wandering or duplicate rewards; preserve fresh guest reset and prior exterior/surface guards.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "ba3ba074b1626a973b911e62efb3b04fe89545d891c8c82c2f771f61f78cdcee"
+      "sha256": "ac4806de894c830a200dc50f95ecc75fdfdffb957695ad70b222dd14f86c531b"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "1a1e4ca5a9f1d1e1fcf81be544b4108f2e78851e470d0ab5350076647b062ec8"
+      "sha256": "0a7c4dcb395d6dc67531ebb1207432188b6a0bfc50bf9a7502bd6b17e36e5c3b"
     },
     {
       "path": "joystick.js",
@@ -746,7 +746,7 @@
     },
     {
       "path": "teacher-npc.js",
-      "sha256": "481648bb33716e2e2a3b629663d492ec50d8808ca2f0b1add47acc4e19ae98f0"
+      "sha256": "fa3c7ee941060f9d9501af013ce27bfbff07ab22ac3fb8cd4a3db8be87d63f9c"
     },
     {
       "path": "vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
@@ -846,7 +846,7 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "c79b50a50b8f1f2537cd8276f97cb39850ae8f99c38aea99d7c1ebffb4b4eab8"
+      "sha256": "875792396d701ada945d046a519ae9a6919f4c37eba67327c63928a79658f60c"
     },
     {
       "path": "discovery-opening.css",
@@ -854,7 +854,7 @@
     },
     {
       "path": "discovery-state.mjs",
-      "sha256": "5ed085a7616db1ecb655b6251321db3d10d156fd6623c4a8703c395fc3c12ed5"
+      "sha256": "254e1b6b1ffcac2a95948be5a64fe580d2d6b077b512bb68ba7f1369dec3322d"
     },
     {
       "path": "camera-clearance.mjs",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "217842f32a0e929c27e14b1965bb216a7ab3b7ae27bbeca59d186468d390809d"
+      "sha256": "df274f5b1696d1d00028a114fc0099375f88ce91180511925db0724aebe0375d"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
