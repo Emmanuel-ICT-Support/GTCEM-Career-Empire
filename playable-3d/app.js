@@ -310,7 +310,7 @@ async function ensureCampus(){
       const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
       await new Promise(resolve=>setTimeout(resolve,0));
       if(!environmentReady){
-        const {integrateEnvironment}=await import('./environment.js?v=exteriors-20261012');
+        const {integrateEnvironment}=await import('./environment.js?v=entry-environment-20261012');
         const before=new Set(worlds.town.children);
         try{await integrateEnvironment(worlds);worlds.syncWalkingSurfaces();environmentReady=true;}
         catch(error){for(const child of [...worlds.town.children])if(!before.has(child))child.removeFromParent();throw error;}
@@ -345,7 +345,8 @@ async function prepareEntry(){
  if(entryReady)return;
  if(entryLoad)return entryLoad;
  campusNotice('Preparing the outdoor path to the envelope and Chapel…');
- entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await import('./environment.js?v=exteriors-20261012');await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;showMarketExteriorSigns();entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;startSurfaceDetail();setTimeout(()=>worlds.loadBuildingExteriors().then(startSurfaceDetail).catch(()=>{}),0);}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
+ const environmentModule=environmentReady?null:import('./environment.js?v=entry-environment-20261012');environmentModule?.catch(()=>{});
+ entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;showMarketExteriorSigns();entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;startSurfaceDetail();setTimeout(()=>worlds.loadBuildingExteriors().then(startSurfaceDetail).catch(()=>{}),0);}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
  return entryLoad;
 }
 function prepareNextTask(now){

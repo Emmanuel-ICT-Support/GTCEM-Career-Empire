@@ -1,8 +1,8 @@
 {
-  "release": "combined-photo-review-20261012",
+  "release": "combined-entry-environment-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "a4007ad0b33b7065757c6da25fc1bd7bf4fa7294",
-  "scope": "Combined release plus restored developing slider, sequential Chapel/mural clues, explicit photo review, distinct saved Mystery/Comedy portraits and collection photo access.",
+  "baseCommit": "0fdb64aa2a08f0ec555d295135f62db933e2b11c",
+  "scope": "Combined follow-ups plus slim entry environment dependencies and overlap of entry path/environment module loads; retain visible landmarks and full campus contents.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "1fe48e687653e163c4e94a1dcc835647ae3aad6915e753fba81b331caf22f8f7"
+      "sha256": "ba7c3dbbc9d45f163a7c3caeef9cc2037af5a5b3b444537058df49c4bc107145"
     },
     {
       "path": "arrival-precinct.js",
@@ -602,7 +602,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "c0168493f73800615619da6db4332f77c74ee4ae3e33f537e0e335e47722b116"
+      "sha256": "8cfd926fa52c6da1d38f0c9919e713fe9947233233b94039c4f1f84cf28a5d52"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -618,7 +618,7 @@
     },
     {
       "path": "environment/campus-extensions.js",
-      "sha256": "bcfda842d66637ce563c862882cce34e851d83bb6a7cc48df5d113e089692685"
+      "sha256": "281f2d49a49fada0c595d2f7fa221fd7c7538fa38f5d2dcab1876b3204ed582f"
     },
     {
       "path": "environment/ground-polish.js",
@@ -650,7 +650,7 @@
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "09076011772a40964f2f07177d96e640aadf1d7515440a849c9d558292f79e67"
+      "sha256": "4efbf4f47f43fee8902263a2e8a6dade265342c383290dd0acc4a75a9e5d68a9"
     },
     {
       "path": "est-wall-video.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "69930c7f67b8f8006172b7486a3a35023edd87d4abfe8dfdd4e1a924788cc5c5"
+      "sha256": "fff775c24cb06ef9f8ad408051cc3cb01f130325c0ccd761f1285a8003b62220"
     },
     {
       "path": "joystick.js",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "d5f878e22e3a0e63a6e70eae4ba5b98fabed8e2f5e8b5623a51d9b38208a1748"
+      "sha256": "1f500555e60937593b6b63d1603a77b5b3c0597aa0c5e52081f39309588f822d"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
@@ -978,7 +978,7 @@
     },
     {
       "path": "environment/exterior-landmarks.js",
-      "sha256": "c33638a3235d2496b71fdad121115ea4f9b123bc421d293e2672c896acce4a5c"
+      "sha256": "be80823489228a0b170993a58f16d03f4a01b0fe688c74c4a1c6693352b1bf6a"
     },
     {
       "path": "assets/market/lunch-rush.jpg",
@@ -1067,6 +1067,10 @@
     {
       "path": "photo-style.mjs",
       "sha256": "31f4d195ea9e17fbfb04b06ba431e36d437a47cdda573985ec5f45c83cab390a"
+    },
+    {
+      "path": "environment/market-exterior.js",
+      "sha256": "3878e031304598fa58a408257dff7cbfca2e30aa8ceaca8f5617a938b138c670"
     }
   ],
   "estVideo": {

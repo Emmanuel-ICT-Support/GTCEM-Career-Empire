@@ -11,6 +11,8 @@ test('real grass failure stays retryable and successful retry restores the compl
   replaceOnce('async function prepareEntry(){','async function prepareEntry(){'+mark('entry-requested'));
   replaceOnce('entryLoad=worlds.loadEntry().then(async()=>{','entryLoad=worlds.loadEntry().then(async()=>{'+mark('path-assets-ready'));
   replaceOnce('entryReady=true;','entryReady=true;'+mark('entry-ready'));
+  replaceOnce("const environmentModule=environmentReady?null:import('./environment.js?v=entry-environment-20261012');",mark('environment-import-start')+"const environmentModule=environmentReady?null:import('./environment.js?v=entry-environment-20261012').then(module=>{"+mark('environment-import-ready')+"return module;});");
+  replaceOnce('await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);',mark('environment-integration-start')+'await integrateEnvironment(worlds,{entryOnly:true});'+mark('environment-integration-ready')+'worlds.phase(phase);'+mark('environment-phase-applied'));
   replaceOnce('const avatarReady=loadProfileKit(copy(active())).then(()=>true,()=>false);','const avatarReady=loadProfileKit(copy(active())).then(()=>{'+mark('avatar-asset-ready')+'return true;},()=>false);');
   replaceOnce('afterFirstPaint().then(()=>waitForPriorityAsset(avatarReady)).then(()=>prepareEntry().catch(()=>{}))','afterFirstPaint().then(()=>{'+mark('first-paint')+'return waitForPriorityAsset(avatarReady);}).then(()=>{'+mark('avatar-priority-released')+'return prepareEntry().catch(()=>{});})');
   await route.fulfill({response,body:source});

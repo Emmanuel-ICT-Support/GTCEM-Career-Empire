@@ -1,11 +1,10 @@
-import {addExteriorLandmarks} from './environment/exterior-landmarks.js?v=exteriors-20261012';
+import {addExteriorLandmarks} from './environment/exterior-landmarks.js?v=entry-environment-20261012';
 import {shadowAnchor} from './shadow-anchor.js';
 import {approvedPalette} from './environment/approved-campus-kit.js?v=first-play-20260921';
 import {partitionInstances} from './environment/static-batching.js?v=1';
 import {polishGround} from './environment/ground-polish.js?v=deferred-ground-20261012';
 import * as T from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
-import {addSurroundings} from './environment/surroundings.js?v=exteriors-20261012';
 export async function integrateEnvironment(world,{entryOnly=false}={}){
 const plantInstances=[];const basePhase=world.baseEnvironmentPhase||world.phase;world.baseEnvironmentPhase=basePhase;let activePhase='flourishing';
 const presets={
@@ -48,7 +47,7 @@ function apply(name){activePhase=name;const p=presets[name];basePhase(name);worl
 
 addExteriorLandmarks(world.town,approvedPalette(world.est),world.campusGrass);
 if(!world.exteriorLandmarkCollider){world.exteriorLandmarkCollider=world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(6,1.4,1.5).setTranslation(43,1.4,-26));}
-const surroundings=entryOnly?null:await addSurroundings(world.town,approvedPalette(world.est));
+let surroundings=null;if(!entryOnly){const {addSurroundings}=await import('./environment/surroundings.js?v=entry-environment-20261012');surroundings=await addSurroundings(world.town,approvedPalette(world.est));}
 if(!world.town.getObjectByName('Soft campus perimeter'))polishGround(world.town);
 if(world.campus.group)partitionInstances(world.campus.group,{filter:o=>!o.userData.distanceDetail});partitionInstances(world.est);if(surroundings)partitionInstances(surroundings,{filter:o=>o.name==='Oval edge eucalypts'});
 if(!entryOnly)world.phase('flourishing');

@@ -1,5 +1,5 @@
-import {addExteriorLandmarks} from './exterior-landmarks.js?v=exteriors-20261012';
-import {campusExtensions} from './campus-extensions.js?v=exteriors-20261012';
+import {addExteriorLandmarks} from './exterior-landmarks.js?v=entry-environment-20261012';
+import {campusExtensions} from './campus-extensions.js?v=entry-environment-20261012';
 import {batchStatic} from './static-batching.js?v=1';
 import {buildMedia} from './media-building.js?v=mural-floor-20261008';
 import {buildSpace} from './space-building.js?v=walkthrough3';
