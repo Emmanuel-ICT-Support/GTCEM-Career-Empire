@@ -1,8 +1,8 @@
 {
-  "release": "guest-first-20261012",
+  "release": "surface-recovery-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "d75bdd85d8b4b33c5eefaf6503413164d9270758",
-  "scope": "Fresh guest runs, scoped same-run module handoff, verified account namespace, immediate intro shell, early Chapel route, deferred scenery and optional post-photo companion; preserve PR48 minimap, Stats and rewards.",
+  "baseCommit": "9c5d7c70b73474d566d83fd94601cc28b554a2a7",
+  "scope": "Bounded intro GPU warmup; recovered surface warnings with failed-campus protection; original soft perimeter initialized before deferred grass images. PR49 guest and story state retained.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "5603492fba0f7ca10bfdefdb72f86d76252c8dda03672e7b800a052f6478e2f3"
+      "sha256": "40c4e62c51c3ba329de3d1fae0aa6caf6dce31eafdb7448cf7fc7dcda89a660d"
     },
     {
       "path": "arrival-precinct.js",
@@ -602,7 +602,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "eaef55cad90bc2f2bf219f0cf2e89fc3ca827605db2b24d47bf64b75ec70a6b5"
+      "sha256": "eac2c48b9cf41dc5a7c0fbf7252599ef8eef19b9a956c74612d96879d4af98cf"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -622,7 +622,7 @@
     },
     {
       "path": "environment/ground-polish.js",
-      "sha256": "a0d66d498d86389bc26d3350fbfed61332a93d8f40a3a4654f98f6972baa2616"
+      "sha256": "4706a586bf896c8a7f243b828ae7e381957c3581106b4e95ae72c55261cdbdbe"
     },
     {
       "path": "environment/learning-interiors.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "722c22f8bff36ee75eb1eeec2baeb933de5226ce3dcea7cbee84f59aae86c74b"
+      "sha256": "5246dea60df2abe1ec880fd05d0c354bd011e7257164850ce90f69a695581a97"
     },
     {
       "path": "joystick.js",
@@ -962,7 +962,7 @@
     },
     {
       "path": "startup-assets.mjs",
-      "sha256": "5cd6a000b1d660f203955397cef23318ddff425b27af735cd2e61c7d9b1e8a65"
+      "sha256": "56294558b9da37b3cc8a05c4abf373ba9ed0c4f987fed3603e7652573fb270b2"
     },
     {
       "path": "game-session.mjs",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "086d96af976276e6213a0458005c9f8530623708d068663c57068eed079241d9"
+      "sha256": "55baced9edaae65cf3cd93745ebbec9367dc89a15998dea2291aa342b88fe87c"
     },
     {
       "path": "../economy-lab/work-ui.mjs",

@@ -6,3 +6,8 @@ export async function waitForPriorityAsset(ready,budgetMs=8000){
 export async function withAssetDeadline(ready,timeoutMs=15000){
  let timer;try{return await Promise.race([ready,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('Surface download is taking too long. Retry missing detail.')),timeoutMs);})]);}finally{clearTimeout(timer);}
 }
+
+// Late texture recovery must not wait for optional full-campus scenery.
+export function canClearDetailWarning({entryReady,campusReady,campusLoading,pending,campusFailed=false}){
+ return !campusFailed&&pending===0&&(campusReady||(entryReady&&!campusLoading));
+}
