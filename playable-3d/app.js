@@ -1,13 +1,13 @@
 import {waitForPriorityAsset} from './startup-assets.mjs?v=startup-20261012';
-import {createExplorationTools} from './exploration-tools.mjs?v=initiative-20261011';
+import {createExplorationTools} from './exploration-tools.mjs?v=navigation-20261012';
 import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
 import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
 import {keepOutdoorClearance,keepChapelClearance} from './camera-clearance.mjs?v=default-exploration-20261011';
-import {createDiscovery} from './discovery-opening.js?v=default-exploration-20261011';
+import {createDiscovery} from './discovery-opening.js?v=navigation-parcel-20261012';
 import {createLocomotion, STEP, turnTowards} from './locomotion.js?v=travel-20260927';
 import {createHelperPicker} from './helper-picker.js?v=guidance-20260928';
-import {createExplorer} from '../economy-lab/exploration.mjs?v=initiative-20261011';
+import {createExplorer} from '../economy-lab/exploration.mjs?v=navigation-20261012';
 import {createFlyover} from './flyover.js?v=student-usability-20260924';
 import {configurePhoneAssets} from './phone-assets.js?v=phone-load-20260917';
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';

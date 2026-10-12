@@ -1,8 +1,8 @@
 {
-  "release": "startup-ready-20261012",
+  "release": "navigation-parcel-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "400286972404f781b82a5f3a17ba001bb0602121",
-  "scope": "Eight supplied named whole characters with their own idle/walk clips and selected-only loading; lazy Test characters and existing saves; preserve quiet exploration, picture trail, map, wallet and silent intro. Bound character scheduling priority and decorative surface waits; retain geometry, original artwork and all game saves.",
+  "baseCommit": "7213ef1c843bcb9d457add18d56136942af96cc5",
+  "scope": "Live minimap, visual local-wallet Stats, once-only destination rewards and real market handover; preserve startup readiness and named/legacy saves. Returning automatic parcel reminder with unchanged progress and deduplicated wallet.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,11 +10,11 @@
     },
     {
       "path": "../economy-lab/app.mjs",
-      "sha256": "ec26235dc624a84eecfe12b8e7d514ac7709e1c25ba65a5743f4f8251f1d495d"
+      "sha256": "f830abfb8304212cf9c6ad44e85aeb3f1254d8308fbfb2ac49979d1f4663fe22"
     },
     {
       "path": "../economy-lab/index.html",
-      "sha256": "b8a9a74270b925b29f44aa66881a0481a8f2eaaa14cace6bf25bd9e37d9e5680"
+      "sha256": "90fb5bd1087685e6d2161ff3e1e3f4e672d7ed1d87c08d1de691cfce954f776c"
     },
     {
       "path": "../economy-lab/style.css",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "b5730bac8aee055727eab9ca95e1fca6136de195fd26da6deb60164757f2872f"
+      "sha256": "771605c7ce66dee6ad05e77eb28fbe0c8e2e35e8023ba7755642b15212e119ce"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "7b770d0f8b052d9746d1a57222052a2e7540652ad0c80cb75f0ba86295c403d5"
+      "sha256": "c8625aaf0dbcb331492315607df391566a1a6ab3e7097a2fca7d076b30b89b70"
     },
     {
       "path": "joystick.js",
@@ -846,7 +846,7 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "1109104e1a852a7823d2a860a3f76e4d4384d951b2983979f6d1dd83a283f725"
+      "sha256": "6412eb394e31608e497df9d7a5372e5d7a4997c6cdf52c84d0cb01853827d887"
     },
     {
       "path": "discovery-opening.css",
@@ -898,11 +898,11 @@
     },
     {
       "path": "exploration-tools.css",
-      "sha256": "b6411126fb61d10dd4ac22ae51c747e686dfa049b197eca8a1a1bf5e11d2df78"
+      "sha256": "07292c76ca9c94fc321b401e83938047124918b2a4b826dcb03ea73616b7dfe5"
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "17bcd110a4e5ada87d3de7994739bf239f2397f8b8dfdbf5d15fd546b757f217"
+      "sha256": "77cf8e36e9507f60a2aea1fa97493fede0de201ba6365cc6e3d81549bb93f7a6"
     },
     {
       "path": "proximity-gate.mjs",
@@ -914,11 +914,11 @@
     },
     {
       "path": "../economy-lab/economy.mjs",
-      "sha256": "955a1be30a28e958426a228e2a9c8756bc4e0d2af5667849d8a9fee58052e363"
+      "sha256": "b6d030f9a4c2bfdf8dd91d63f3ca2b68703b9b24415c854a1f6cc4f7c353b75c"
     },
     {
       "path": "../economy-lab/exploration.mjs",
-      "sha256": "9719d5bd0a1001ad91d415117c9bc6b37c0059322d76c0abf8a3276ac779a40f"
+      "sha256": "5a4058871caab1146878a203a5a0192f62f20c8c841bf9aba7ac651bfcc10e8e"
     },
     {
       "path": "avatar-clips.mjs",

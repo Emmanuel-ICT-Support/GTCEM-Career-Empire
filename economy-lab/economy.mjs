@@ -1,6 +1,6 @@
 export const KEY='career-empire-economy-lab-v1';
 export const CATALOG=Object.freeze({'study-desk':90000,'laptop-upgrade':160000,'wellbeing-pack':50000});
-export const INITIATIVES=Object.freeze({'parcel-taster':2500,'litter-chapel-path':5000});
+export const INITIATIVES=Object.freeze({'parcel-taster':2500,'litter-chapel-path':5000,'destination-mural':1000,'destination-oval':1000,'destination-market':1000});
 export const LESSONS=Object.freeze({investigate:50000,adapt:50000,reflect:50000});
 export function empty(){return {schemaVersion:1,scenario:'practice-20260923',events:[]};}
 export function project(doc){
@@ -14,7 +14,7 @@ export function project(doc){
   const beforeCash=s.cash,beforeSavings=s.savings,beforeTax=s.tax;
   let description='';
   switch(e.type){
-   case 'initiative':{if(!Object.hasOwn(INITIATIVES,e.initiative)||e.id!=='initiative:'+e.initiative||s.initiatives.includes(e.initiative)||('amount' in e&&e.amount!==INITIATIVES[e.initiative]))throw Error('Unknown, repeated or altered initiative reward.');const bonus=INITIATIVES[e.initiative];s.initiatives.push(e.initiative);s.initiativeRewards+=bonus;s.cash+=bonus;description=e.initiative==='parcel-taster'?'Opened the exploration parcel · +$25 game money':'Picked up litter · +$50 game money';break;}
+   case 'initiative':{if(!Object.hasOwn(INITIATIVES,e.initiative)||e.id!=='initiative:'+e.initiative||s.initiatives.includes(e.initiative)||('amount' in e&&e.amount!==INITIATIVES[e.initiative]))throw Error('Unknown, repeated or altered initiative reward.');const bonus=INITIATIVES[e.initiative];s.initiatives.push(e.initiative);s.initiativeRewards+=bonus;s.cash+=bonus;description=e.initiative.startsWith('destination-')?`Completed ${e.initiative.slice(12)} destination · +$10 game money`:e.initiative==='parcel-taster'?'Opened the exploration parcel · +$25 game money':'Picked up litter · +$50 game money';break;}
    case 'exploration':{if(!['building','shop','studio','chapel','market','est','oval'].includes(e.milestone)||s.explored.includes(e.milestone))throw Error('Unknown or already rewarded exploration');s.explored.push(e.milestone);s.explorationRewards+=10000;s.cash+=10000;description=`First exploration: ${e.milestone} · badge earned · $100 bonus (provisional)`;break;}
    case 'complete':{const gross=LESSONS[e.checkpoint];if(!Object.hasOwn(LESSONS,e.checkpoint)||s.completed.includes(e.checkpoint))throw Error('This checkpoint has already been rewarded or is unknown.');const tax=Math.round(gross*.1);s.gross+=gross;s.tax+=tax;s.community+=tax;s.cash+=gross-tax;s.completed.push(e.checkpoint);description=`${e.checkpoint}: earned $500 · tax $50 · received $450`;break;}
    case 'choice':{
