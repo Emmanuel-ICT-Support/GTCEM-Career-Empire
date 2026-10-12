@@ -1,0 +1,235 @@
+{
+  "checkedAt": "2026-10-12T20:34:50.575007+00:00",
+  "runtimeRepairCommit": "e366f2b7e026220e5d73514793304418835f1a0b",
+  "exportSourceCommit": "4d282b3c1b593583ce9630fbf1023ccdbcc1951c",
+  "units": {
+    "passed": 213,
+    "files": 49
+  },
+  "release": {
+    "exactHashes": 270,
+    "reachableModules": 82
+  },
+  "runs": {
+    "final-teacher-revisit": [
+      {
+        "name": "same-run photo teachers stay visible after cancellation, market/module returns and repeat greetings",
+        "status": "failed",
+        "durationMs": 113938
+      }
+    ],
+    "final-teacher-revisit-after": [
+      {
+        "name": "same-run photo teachers stay visible after cancellation, market/module returns and repeat greetings",
+        "status": "failed",
+        "durationMs": 176020
+      }
+    ],
+    "final-entry-journeys": [
+      {
+        "name": "live keyboard route reaches the actual Chapel door without changing position or progress directly",
+        "status": "failed",
+        "durationMs": 45105
+      },
+      {
+        "name": "guest entry ignores old progress, preserves browser saves and reload begins anew",
+        "status": "passed",
+        "durationMs": 26963
+      },
+      {
+        "name": "same-run My Life navigation shares the guest wallet, while a later root reload resets it",
+        "status": "passed",
+        "durationMs": 35141
+      },
+      {
+        "name": "full natural intro hands over to envelope and actual Chapel without loading EST or market",
+        "status": "failed",
+        "durationMs": 110928
+      },
+      {
+        "name": "actual photo completion offers an optional companion before market; skip is allowed",
+        "status": "passed",
+        "durationMs": 80157
+      },
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 1280",
+        "status": "passed",
+        "durationMs": 22461
+      },
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 390",
+        "status": "passed",
+        "durationMs": 11574
+      }
+    ],
+    "pages-browser-checkpoint": [
+      {
+        "name": "live keyboard route reaches the actual Chapel door without changing position or progress directly",
+        "status": "passed",
+        "durationMs": 58795
+      },
+      {
+        "name": "selected Sprout is visibly rendered in the active town and Market scenes",
+        "status": "passed",
+        "durationMs": 55549
+      },
+      {
+        "name": "actual keyboard walk through west Administration door 1280",
+        "status": "passed",
+        "durationMs": 56141
+      },
+      {
+        "name": "physical market gate exits and re-enters without clicks 1280",
+        "status": "passed",
+        "durationMs": 93042
+      },
+      {
+        "name": "physical market gate exits and re-enters without clicks 390",
+        "status": "passed",
+        "durationMs": 72092
+      },
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 1280",
+        "status": "failed",
+        "durationMs": 15407
+      },
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 390",
+        "status": "passed",
+        "durationMs": 12505
+      },
+      {
+        "name": "actual mural photo starts teacher preload before the keyboard walk reaches the oval",
+        "status": "failed",
+        "durationMs": 40654
+      }
+    ],
+    "pages-final-smoke": [
+      {
+        "name": "full natural intro hands over to envelope and actual Chapel without loading EST or market",
+        "status": "timedOut",
+        "durationMs": 188771
+      },
+      {
+        "name": "Market money and collection stay available 1280 default",
+        "status": "timedOut",
+        "durationMs": 36789
+      },
+      {
+        "name": "Market money and collection stay available 390 default",
+        "status": "passed",
+        "durationMs": 23621
+      },
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 1280",
+        "status": "passed",
+        "durationMs": 15287
+      },
+      {
+        "name": "actual mural photo starts teacher preload before the keyboard walk reaches the oval",
+        "status": "passed",
+        "durationMs": 89051
+      }
+    ]
+  },
+  "screenshotsRoot": "coverage/",
+  "remaining": [
+    "Visual initial-campus completeness is not established: inspected entry screenshot remains sparse with heavy trees held. Audit effective ancestor visibility and first completed GPU render; root/frustum flags alone are insufficient.",
+    "Complete teacher persistence across photo, Market/My Life returns and replay: 5-second Options click timeout after cancellation and two greetings per teacher (176.020 s total).",
+    "Combined delayed-Market/retry/walking original 60-second case remains failed; 15-second recovery/retry and movement observed.",
+    "Complete natural-video/Chapel/mural original 180-second case failed waiting for Step inside at position [-2.025,0.160,-8.208], just outside the automatic trigger but in the normal interaction zone. Driver now clicks the visible Chapel interaction; this latest driver change is not rerun.",
+    "Desktop Stats original 30-second total expires reopening the panel after successful tax history/save/withdraw/one-time giving; phone full case passes.",
+    "Desktop staged startup once missed the unchanged 10-second parcel wait at z=16.933; the focused rerun passes. Software timing variation remains.",
+    "Browser teacher-module-failure recovery and phone keyboard Admin entry not run.",
+    "Public Pages activation/API read Forbidden; public URL network tunnel 403 Forbidden; deployed URL acceptance not run.",
+    "One optional legacy World megatrends route absent from the seed remains unresolved."
+  ],
+  "startup": [
+    {
+      "width": 1280,
+      "handoverMs": 4363.9,
+      "playerZBefore": 23.3,
+      "playerZAfter": 16.102,
+      "frameBefore": 66,
+      "frameAfter": 95
+    },
+    {
+      "width": 390,
+      "handoverMs": 1673.1,
+      "playerZBefore": 23.3,
+      "playerZAfter": 15.627,
+      "frameBefore": 45,
+      "frameAfter": 79
+    }
+  ],
+  "stagedStartup": [
+    {
+      "name": "video to complete exterior, walking and automatic parcel at 390",
+      "handoverMs": 1660.5,
+      "positionBefore": [
+        -7,
+        0,
+        23.3
+      ],
+      "positionAfter": [
+        -7.002,
+        0.085,
+        15.58
+      ],
+      "frameBefore": 44,
+      "frameAfter": 78
+    },
+    {
+      "name": "video to complete exterior, walking and automatic parcel at 1280",
+      "handoverMs": 1996.1000000014901,
+      "positionBefore": [
+        -7,
+        0,
+        23.3
+      ],
+      "positionAfter": [
+        -7.002,
+        0.085,
+        15.627
+      ],
+      "frameBefore": 44,
+      "frameAfter": 78
+    }
+  ],
+  "stagedNaturalTeacherTimeline": [
+    {
+      "phase": "mural-shutter",
+      "pageMs": 13709.5
+    },
+    {
+      "phase": "module-requested",
+      "pageMs": 13751.39999999851,
+      "position": [
+        10.600000381469727,
+        9.996661887268221e-05,
+        -38.400001525878906
+      ],
+      "step": 3
+    },
+    {
+      "phase": "module-ready",
+      "pageMs": 15790.699999999255
+    },
+    {
+      "phase": "cast-load-ended",
+      "pageMs": 23947.800000000745,
+      "count": 2
+    },
+    {
+      "phase": "oval-arrival",
+      "pageMs": 48084.300000000745,
+      "count": 2,
+      "position": [
+        -4.7096815363729485,
+        -0.0008000647093286602,
+        -54.196075121760344
+      ]
+    }
+  ],
+  "sessionsRunning": false
+}

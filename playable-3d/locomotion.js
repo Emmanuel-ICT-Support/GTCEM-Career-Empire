@@ -1,5 +1,8 @@
 // Fixed-step intent smoothing. Collision-resolved distance drives the gait.
 export const STEP = 1 / 60;
+// Retain fixed collision steps during slow renders, with at most half a second
+// of catch-up. Hidden views and paused dialogs still reset their accumulator.
+export function accumulateTravelTime(previous,elapsed){return Math.min(previous+Math.max(0,elapsed),.5);}
 export function createLocomotion() {
   let x = 0, z = 0;
   return {

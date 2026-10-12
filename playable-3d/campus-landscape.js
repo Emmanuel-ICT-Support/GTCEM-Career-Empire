@@ -1,7 +1,7 @@
 import {pavingNetwork} from './environment/paving-network.js?v=student-usability-20260924';
-import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=first-play-20260921';
-import {addAuthoredGarden} from './ecc-preview/authored-garden.js?v=annotations1';
-import {batchStatic,partitionInstances} from './environment/static-batching.js?v=1';
+import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=ecc-ba60122';
+import {thinGeometry,addAuthoredGarden} from './ecc-preview/authored-garden.js?v=ecc-ba60122';
+import {batchStatic,partitionInstances} from './environment/static-batching.js?v=ecc-ba60122';
 import * as THREE from 'three';
 import {EST} from './destinations.js?v=ecc1';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -75,7 +75,10 @@ beds.forEach(([x,z,w,d],j)=>{rect(x,z,w,d,soil,.1);colliders.push([x,.25,z,w,.5,
 for(let i=placements.length-1;i>=0;i--)if(/shrub|grass|flower/.test(placements[i].id))placements.splice(i,1);
 for(const [x,z,w,d]of beds)planter(group,x,z,w,d,palette);
 const planting=new THREE.Group();planting.name='Supporting campus native gardens';group.add(planting);addAuthoredGarden(planting,beds,{treeSites:[],baseY:.43,density:3.5,detail:'supporting'});
-for(const id of [...new Set(placements.map(p=>p.id))]){const asset=loaded.get(id);asset.scene=mergeStatic(asset.scene);if(id==='boulder-a'){const bounds=new THREE.Box3().setFromObject(asset.scene),c=bounds.getCenter(new THREE.Vector3()),size=bounds.getSize(new THREE.Vector3());const scale=1/Math.hypot(size.x,size.z);asset.scene.traverse(o=>{if(o.isMesh){o.geometry=o.geometry.clone();o.geometry.translate(-c.x,-bounds.min.y,-c.z);o.geometry.scale(scale,scale,scale);}});}asset.scene.updateMatrixWorld(true);const ps=placements.filter(p=>p.id===id);asset.scene.traverse(o=>{if(!o.isMesh)return;const inst=new THREE.InstancedMesh(o.geometry,o.material,ps.length);ps.forEach((p,i)=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(p.x,id==='boulder-a'?.40:.12,p.z),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),p.rotation),new THREE.Vector3(p.scale,p.scale,p.scale));m.multiply(o.matrixWorld);inst.setMatrixAt(i,m);});inst.castShadow=true;inst.receiveShadow=true;group.add(inst);});}
+for(const id of [...new Set(placements.map(p=>p.id))]){const asset=loaded.get(id);asset.scene=mergeStatic(asset.scene);if(id==='boulder-a'){const bounds=new THREE.Box3().setFromObject(asset.scene),c=bounds.getCenter(new THREE.Vector3()),size=bounds.getSize(new THREE.Vector3());const scale=1/Math.hypot(size.x,size.z);asset.scene.traverse(o=>{if(o.isMesh){o.geometry=o.geometry.clone();o.geometry.translate(-c.x,-bounds.min.y,-c.z);o.geometry.scale(scale,scale,scale);}});}asset.scene.updateMatrixWorld(true);const ps=placements.filter(p=>p.id===id);asset.scene.traverse(o=>{if(!o.isMesh)return;const inst=new THREE.InstancedMesh(o.geometry,o.material,ps.length);ps.forEach((p,i)=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(p.x,id==='boulder-a'?.40:.12,p.z),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),p.rotation),new THREE.Vector3(p.scale,p.scale,p.scale));m.multiply(o.matrixWorld);inst.setMatrixAt(i,m);});inst.castShadow=true;inst.receiveShadow=true;
+// Original trees retain every trunk and placement. Software Auto draws a
+// sampled version of the same leaf quads; hardware/High keep the authored asset.
+if(id!=='boulder-a'&&/^leaf/i.test(o.material.name)){const low=new THREE.InstancedMesh(thinGeometry(o.geometry,6,4),o.material,ps.length);low.instanceMatrix.copy(inst.instanceMatrix);low.castShadow=low.receiveShadow=true;low.computeBoundingSphere();const lod=new THREE.LOD();lod.name='Campus original tree detail';lod.userData.softwareDetail=true;lod.addLevel(inst,0);lod.addLevel(low,Infinity);group.add(lod);}else group.add(inst);});}
 // Cull off-screen plants as soon as they appear, without waiting for the rest
 // of campus assets and textures. Existing full-detail matrices/materials stay intact.
 partitionInstances(group,{filter:o=>!o.userData.distanceDetail});

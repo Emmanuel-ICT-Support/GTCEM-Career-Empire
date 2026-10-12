@@ -1,7 +1,7 @@
 import {pavingNetwork} from './paving-network.js?v=student-usability-20260924';
 import * as T from 'three';
-import {dressedBox,planter,batchStatic} from './approved-campus-kit.js?v=walkthrough2';
-import {addAuthoredGarden} from '../ecc-preview/authored-garden.js?v=annotations1';
+import {dressedBox,planter,batchStatic} from './approved-campus-kit.js?v=ecc-ba60122';
+import {addAuthoredGarden} from '../ecc-preview/authored-garden.js?v=ecc-ba60122';
 
 export function campusExtensions(root,p){
  const works=new T.Group();works.name='Approved standard campus connections';root.add(works);
@@ -21,4 +21,4 @@ export function campusExtensions(root,p){
  return {beds};
 }
 
-export {createMarketExterior} from './market-exterior.js?v=entry-environment-20261012';
+export {createMarketExterior} from './market-exterior.js?v=ecc-ba60122';

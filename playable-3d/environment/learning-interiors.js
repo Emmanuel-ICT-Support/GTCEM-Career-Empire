@@ -1,5 +1,28 @@
 import * as T from 'three';
 
+// Upgrade the existing exterior roots; never rebuild their walls or colliders.
+export function addTeachingInteriors(english,space,palette){
+ function helpers(root){
+  const box=(w,h,d,m,x,y,z)=>{const o=new T.Mesh(new T.BoxGeometry(w,h,d),m);o.position.set(x,y,z);if(m===palette.stone||m===palette.timber){const uv=o.geometry.attributes.uv,n=o.geometry.attributes.normal;for(let i=0;i<uv.count;i++)uv.setXY(i,uv.getX(i)*(Math.abs(n.getX(i))>.5?d:w)/2,uv.getY(i)*(Math.abs(n.getY(i))>.5?d:h)/2);}o.castShadow=!m.transparent;o.receiveShadow=true;root.add(o);return o;};
+  const beam=(a,b,r,m=palette.blue)=>{const A=new T.Vector3(...a),B=new T.Vector3(...b),v=B.clone().sub(A),o=new T.Mesh(new T.CylinderGeometry(r,r,v.length(),8),m);o.position.copy(A.add(B).multiplyScalar(.5));o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),v.normalize());root.add(o);return o;};
+  return {box,beam};
+ }
+ if(!english.getObjectByName('Media learning rooms')){
+  const room=new T.Group();room.name='Media learning rooms';const {box}=helpers(room),wood=palette.timber,silver=new T.MeshStandardMaterial({color:0xb7c4c9,roughness:.3}),screen=new T.MeshStandardMaterial({color:0x203a43,roughness:.8}),display=learningDisplays();
+  for(const [level,y]of [1.1,3.85].entries())for(const [i,x]of [-8,-4,0,4,8].entries()){
+   box(1.20,1.95,.09,wood,x,y+1.43,-2.68);display(room,(i+level*2)%6,1.10,1.78,x,y+1.43,-2.62);
+   box(2.45,.13,1.0,wood,x,y+.78,.30);for(const dx of[-.96,.96])box(.07,.73,.60,silver,x+dx,y+.365,.30);
+   box(.60,.12,.56,wood,x+.55,y+.45,1.08);box(.60,.64,.08,wood,x+.55,y+.80,1.32);
+   if(level===0&&i%2===0){box(.96,.62,.08,screen,x-.3,y+1.17,.22);display(room,i,.87,.51,x-.3,y+1.17,.268);box(.09,.18,.1,silver,x-.3,y+.83,.22);}
+   if(level===1&&i%2===1){box(.06,1.58,.07,wood,x-.50,y+.83,.12);display(room,4,.61,1.05,x-.50,y+1.35,.18,-.12);}
+  }
+  english.add(room);
+ }
+ if(!space.getObjectByName('SPACE learning hall')){
+  const hall=new T.Group();hall.name='SPACE learning hall';const {box,beam}=helpers(hall);addSportsHall(hall,palette,box,beam);space.add(hall);
+ }
+}
+
 // Authored classroom displays and court markings: one small canvas per building,
 // no external image request and no change to the non-enterable teaching footprints.
 export function learningDisplays(){

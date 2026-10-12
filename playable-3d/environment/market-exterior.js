@@ -1,5 +1,5 @@
 import * as T from 'three';
-import {dressedBox,batchStatic} from './approved-campus-kit.js?v=first-play-20260921';
+import {dressedBox,batchStatic} from './approved-campus-kit.js?v=ecc-ba60122';
 
 // Same accepted market shell, independent of gardens and activity modules.
 export function createMarketExterior(p){

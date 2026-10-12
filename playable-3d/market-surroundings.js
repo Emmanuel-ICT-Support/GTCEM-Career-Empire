@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {JUNIPER} from './market-food.js?v=stall-refine-20260924';
-import {approvedPalette,dressedBox,planter,batchStatic} from './environment/approved-campus-kit.js?v=first-play-20260921';
+import {approvedPalette,dressedBox,planter,batchStatic} from './environment/approved-campus-kit.js?v=ecc-ba60122';
 import {addCourtyardPlanting} from './ecc-preview/courtyard-detail.js';
 
 export function marketSurroundings(scene,obstacles,campusPalette,campusGrass){

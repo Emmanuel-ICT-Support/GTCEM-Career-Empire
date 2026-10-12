@@ -1,0 +1,984 @@
+{
+  "checkedAt": "2026-10-12T22:01:41.406216+00:00",
+  "repository": "taniab1975/test-career-empire",
+  "sourceCommit": "8ee2a7b6e9b162affedd4d2b57b87fcfeee4fbc4",
+  "morningSummary": {
+    "teachers": "Full persistence passes including cancellation/greetings/photo/Market/My Life/replay/fresh reset; latest run 120.033 s within 240 s",
+    "desktopStats": "Full reopening passes in 14.155 s within 30 s",
+    "coldSkip": "7.134 s measured to real completed-campus/control handover; original eight-second target retained",
+    "naturalVideo": "Complete campus ready at 7.770 s; video ends at 66.400 s; 58.630 s prepared before EOF and zero additional campus-loading wait",
+    "visibilityAndChapel": "Latest desktop/phone visibility+real-canvas walking and Chapel exit pass",
+    "remaining": "Only previously failed original delayed-Market timing case remains among the named focused failures; unrun browser recovery/phone Admin/full suite and Pages blockers are separate"
+  },
+  "units": 219,
+  "unitFiles": 49,
+  "exactHashes": 270,
+  "runtimeModules": 82,
+  "runs": {
+    "ui-fairness-browser": [
+      {
+        "name": "Market money and collection stay available 1280 default",
+        "status": "passed",
+        "durationMs": 14969
+      },
+      {
+        "name": "same-run photo teachers stay visible after cancellation, market/module returns and repeat greetings",
+        "status": "failed",
+        "durationMs": 44791
+      }
+    ],
+    "teacher-live-state": [
+      {
+        "name": "same-run photo teachers stay visible after cancellation, market/module returns and repeat greetings",
+        "status": "passed",
+        "durationMs": 120910
+      }
+    ],
+    "startup-cost-baseline": [
+      {
+        "name": "measure complete campus handover costs cold-skip",
+        "status": "failed",
+        "durationMs": 23686
+      },
+      {
+        "name": "measure complete campus handover costs natural-video",
+        "status": "passed",
+        "durationMs": 78996
+      }
+    ],
+    "startup-cost-after": [
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 1280",
+        "status": "failed",
+        "durationMs": 12525
+      },
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 390",
+        "status": "failed",
+        "durationMs": 11452
+      },
+      {
+        "name": "measure complete campus handover costs cold-skip",
+        "status": "passed",
+        "durationMs": 20349
+      },
+      {
+        "name": "measure complete campus handover costs natural-video",
+        "status": "passed",
+        "durationMs": 76973
+      }
+    ],
+    "morning-regression": [
+      {
+        "name": "initial complete campus, unobstructed rear buildings and parcel walking 1280",
+        "status": "failed",
+        "durationMs": 21971
+      },
+      {
+        "name": "initial complete campus, unobstructed rear buildings and parcel walking 390",
+        "status": "failed",
+        "durationMs": 16921
+      },
+      {
+        "name": "Market money and collection stay available 1280 default",
+        "status": "passed",
+        "durationMs": 14155
+      },
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 1280",
+        "status": "passed",
+        "durationMs": 20762
+      },
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 390",
+        "status": "passed",
+        "durationMs": 15328
+      },
+      {
+        "name": "same-run photo teachers stay visible after cancellation, market/module returns and repeat greetings",
+        "status": "passed",
+        "durationMs": 120033
+      }
+    ],
+    "morning-final-focused": [
+      {
+        "name": "live keyboard route reaches the actual Chapel door without changing position or progress directly",
+        "status": "passed",
+        "durationMs": 48570
+      },
+      {
+        "name": "initial complete campus, unobstructed rear buildings and parcel walking 1280",
+        "status": "passed",
+        "durationMs": 23088
+      },
+      {
+        "name": "initial complete campus, unobstructed rear buildings and parcel walking 390",
+        "status": "passed",
+        "durationMs": 16859
+      },
+      {
+        "name": "measure complete campus handover costs cold-skip",
+        "status": "passed",
+        "durationMs": 20266
+      },
+      {
+        "name": "measure complete campus handover costs natural-video",
+        "status": "passed",
+        "durationMs": 75714
+      }
+    ]
+  },
+  "remaining": [
+    "Original combined delayed-Market/retry/walking 60-second timing case remains failed; not rerun or weakened.",
+    "Browser teacher-module failure/restored-availability case and phone keyboard Administration entry not run.",
+    "Full browser suite and native hardware smoothness not established.",
+    "Optional legacy World megatrends link is absent from the seed.",
+    "Pages activation and public network checks remain blocked; no retries were attempted."
+  ],
+  "sessionsRunning": false,
+  "timings": [
+    {
+      "run": "startup-cost-baseline",
+      "experience": "cold-skip",
+      "handoverDelayMs": 9883.199999999255,
+      "totalToEntryReadyMs": 10209.199999999255,
+      "readyBeforeVideoEndMs": null,
+      "phaseWallTimeMs": {
+        "worldBuild": 1326.0,
+        "avatarDownloadAndParse": 3030.2,
+        "geometryPreparation": 3803.6,
+        "integration": 42.4,
+        "firstCompletedPresentedCanvas": 2874.8
+      },
+      "requiredDownloads": [
+        {
+          "path": "/playable-3d/assets/whole-characters/antonio.glb",
+          "startMs": 445.80000000074506,
+          "responseStartMs": 468.30000000074506,
+          "responseEndMs": 3269.199999999255,
+          "durationMs": 2823.39999999851,
+          "bytes": 3453980,
+          "transferBytes": 3454280
+        },
+        {
+          "path": "/playable-3d/ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
+          "startMs": 3489.300000000745,
+          "responseStartMs": 3493.300000000745,
+          "responseEndMs": 3506.099999997765,
+          "durationMs": 16.799999997019768,
+          "bytes": 1302116,
+          "transferBytes": 1302416
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/careers-shared-textures.glb",
+          "startMs": 3752.89999999851,
+          "responseStartMs": 3862.699999999255,
+          "responseEndMs": 3878.699999999255,
+          "durationMs": 125.80000000074506,
+          "bytes": 1230448,
+          "transferBytes": 1230748
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/workplace-shared-textures.glb",
+          "startMs": 3753.199999999255,
+          "responseStartMs": 3862.599999997765,
+          "responseEndMs": 3877.89999999851,
+          "durationMs": 124.69999999925494,
+          "bytes": 1130392,
+          "transferBytes": 1130692
+        }
+      ],
+      "parseWallTimes": [
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 3474.599999997765,
+          "path": "http://127.0.0.1:4287/playable-3d/assets/",
+          "bytes": 3453980,
+          "elapsedMs": 192.89999999850988
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 3524.300000000745,
+          "path": "http://127.0.0.1:4287/playable-3d/ecc-preview/assets/authored-courtyard/",
+          "bytes": 1302116,
+          "elapsedMs": 12.100000001490116
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 7235,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1130392,
+          "elapsedMs": 34.400000002235174
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 7237.300000000745,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1230448,
+          "elapsedMs": 23.5
+        }
+      ],
+      "initialRenderCosts": [
+        {
+          "phase": "canvas-submit",
+          "pageMs": 2245.599999997765,
+          "frame": 1,
+          "cpuMs": 448.80000000074506,
+          "entryReady": false
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 3271.39999999851,
+          "frame": 1
+        },
+        {
+          "phase": "canvas-submit",
+          "pageMs": 3353,
+          "frame": 2,
+          "cpuMs": 23.800000000745058,
+          "entryReady": false,
+          "introOpen": false
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 3493.39999999851,
+          "frame": 2
+        },
+        {
+          "phase": "canvas-submit",
+          "pageMs": 5206.300000000745,
+          "frame": 3,
+          "cpuMs": 1342.199999999255,
+          "entryReady": false,
+          "introOpen": false
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 7193.39999999851,
+          "frame": 3
+        },
+        {
+          "phase": "canvas-submit",
+          "pageMs": 8301.099999997765,
+          "frame": 4,
+          "cpuMs": 396.80000000074506,
+          "entryReady": false,
+          "introOpen": false
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 10183.39999999851,
+          "frame": 4
+        }
+      ],
+      "initialLongTasks": [
+        {
+          "startMs": 338.5999999977648,
+          "durationMs": 130
+        },
+        {
+          "startMs": 2258.39999999851,
+          "durationMs": 1006
+        },
+        {
+          "startMs": 3328.199999999255,
+          "durationMs": 113
+        },
+        {
+          "startMs": 3512,
+          "durationMs": 344
+        },
+        {
+          "startMs": 3861.699999999255,
+          "durationMs": 3328
+        },
+        {
+          "startMs": 7236.89999999851,
+          "durationMs": 97
+        },
+        {
+          "startMs": 7902.5,
+          "durationMs": 2277
+        }
+      ],
+      "fullEvidence": "coverage/startup-cost-baseline-results.json"
+    },
+    {
+      "run": "startup-cost-baseline",
+      "experience": "natural-video",
+      "handoverDelayMs": 0,
+      "totalToEntryReadyMs": 9932.20000000298,
+      "readyBeforeVideoEndMs": 59541.0,
+      "phaseWallTimeMs": {
+        "worldBuild": 1293.2,
+        "avatarDownloadAndParse": 2802.9,
+        "geometryPreparation": 3820.9,
+        "integration": 44.4,
+        "firstCompletedPresentedCanvas": 2802.5
+      },
+      "requiredDownloads": [
+        {
+          "path": "/playable-3d/assets/whole-characters/antonio.glb",
+          "startMs": 448.4000000022352,
+          "responseStartMs": 474.30000000074506,
+          "responseEndMs": 3143.10000000149,
+          "durationMs": 2694.699999999255,
+          "bytes": 3453980,
+          "transferBytes": 3454280
+        },
+        {
+          "path": "/playable-3d/ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
+          "startMs": 3266.10000000149,
+          "responseStartMs": 3270.800000000745,
+          "responseEndMs": 3279.400000002235,
+          "durationMs": 13.300000000745058,
+          "bytes": 1302116,
+          "transferBytes": 1302416
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/careers-shared-textures.glb",
+          "startMs": 3507,
+          "responseStartMs": 3605.300000000745,
+          "responseEndMs": 3617.900000002235,
+          "durationMs": 110.90000000223517,
+          "bytes": 1230448,
+          "transferBytes": 1230748
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/workplace-shared-textures.glb",
+          "startMs": 3507.2000000029802,
+          "responseStartMs": 3605.400000002235,
+          "responseEndMs": 3619.2000000029802,
+          "durationMs": 112,
+          "bytes": 1130392,
+          "transferBytes": 1130692
+        }
+      ],
+      "parseWallTimes": [
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 3249.900000002235,
+          "path": "http://127.0.0.1:4287/playable-3d/assets/",
+          "bytes": 3453980,
+          "elapsedMs": 80.19999999925494
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 3292.10000000149,
+          "path": "http://127.0.0.1:4287/playable-3d/ecc-preview/assets/authored-courtyard/",
+          "bytes": 1302116,
+          "elapsedMs": 10.300000000745058
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 7026.5,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1130392,
+          "elapsedMs": 47.19999999925494
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 7029.60000000149,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1230448,
+          "elapsedMs": 35
+        }
+      ],
+      "initialRenderCosts": [
+        {
+          "phase": "canvas-submit",
+          "pageMs": 2137,
+          "frame": 1,
+          "cpuMs": 374,
+          "entryReady": false
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 3134.2000000029802,
+          "frame": 1
+        },
+        {
+          "phase": "canvas-submit",
+          "pageMs": 4957.5,
+          "frame": 2,
+          "cpuMs": 1323.5,
+          "entryReady": false,
+          "introOpen": true
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 7007.10000000149,
+          "frame": 2
+        },
+        {
+          "phase": "canvas-submit",
+          "pageMs": 8124.20000000298,
+          "frame": 3,
+          "cpuMs": 438.5,
+          "entryReady": false,
+          "introOpen": true
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 9912.800000000745,
+          "frame": 3
+        }
+      ],
+      "initialLongTasks": [
+        {
+          "startMs": 343.30000000074506,
+          "durationMs": 130
+        },
+        {
+          "startMs": 2143.60000000149,
+          "durationMs": 978
+        },
+        {
+          "startMs": 3281.7000000029802,
+          "durationMs": 318
+        },
+        {
+          "startMs": 3631.60000000149,
+          "durationMs": 3347
+        },
+        {
+          "startMs": 7028.70000000298,
+          "durationMs": 101
+        },
+        {
+          "startMs": 7129.800000000745,
+          "durationMs": 2780
+        }
+      ],
+      "fullEvidence": "coverage/startup-cost-baseline-results.json"
+    },
+    {
+      "run": "startup-cost-after",
+      "experience": "cold-skip",
+      "handoverDelayMs": 7342.199999999255,
+      "totalToEntryReadyMs": 7639.60000000149,
+      "readyBeforeVideoEndMs": null,
+      "phaseWallTimeMs": {
+        "worldBuild": 1186.0,
+        "avatarDownloadAndParse": 1752.4,
+        "geometryPreparation": 557.3,
+        "integration": 42.1,
+        "firstCompletedPresentedCanvas": 5363.7
+      },
+      "requiredDownloads": [
+        {
+          "path": "/playable-3d/assets/whole-characters/antonio.glb",
+          "startMs": 469,
+          "responseStartMs": 490.1000000014901,
+          "responseEndMs": 1724.300000000745,
+          "durationMs": 1255.300000000745,
+          "bytes": 3453980,
+          "transferBytes": 3454280
+        },
+        {
+          "path": "/playable-3d/ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
+          "startMs": 1679.199999999255,
+          "responseStartMs": 1688.199999999255,
+          "responseEndMs": 1694.699999999255,
+          "durationMs": 15.5,
+          "bytes": 1302116,
+          "transferBytes": 1302416
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/careers-shared-textures.glb",
+          "startMs": 1953.199999999255,
+          "responseStartMs": 2060.5,
+          "responseEndMs": 2069.300000000745,
+          "durationMs": 116.10000000149012,
+          "bytes": 1230448,
+          "transferBytes": 1230748
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/workplace-shared-textures.glb",
+          "startMs": 1953.699999999255,
+          "responseStartMs": 2060.60000000149,
+          "responseEndMs": 2068.900000002235,
+          "durationMs": 115.20000000298023,
+          "bytes": 1130392,
+          "transferBytes": 1130692
+        }
+      ],
+      "parseWallTimes": [
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 1746,
+          "path": "http://127.0.0.1:4287/playable-3d/ecc-preview/assets/authored-courtyard/",
+          "bytes": 1302116,
+          "elapsedMs": 13.899999998509884
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2159.699999999255,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1230448,
+          "elapsedMs": 67.69999999925494
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2168.199999999255,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1130392,
+          "elapsedMs": 62.099999997764826
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2219.900000002235,
+          "path": "http://127.0.0.1:4287/playable-3d/assets/",
+          "bytes": 3453980,
+          "elapsedMs": 158.80000000074506
+        }
+      ],
+      "initialRenderCosts": [
+        {
+          "phase": "canvas-submit",
+          "pageMs": 4407.900000002235,
+          "frame": 1,
+          "cpuMs": 1665.5,
+          "entryReady": false,
+          "introOpen": false
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 7612,
+          "frame": 1
+        }
+      ],
+      "initialLongTasks": [
+        {
+          "startMs": 40.900000002235174,
+          "durationMs": 53
+        },
+        {
+          "startMs": 369.69999999925494,
+          "durationMs": 120
+        },
+        {
+          "startMs": 1731.800000000745,
+          "durationMs": 322
+        },
+        {
+          "startMs": 2211.900000002235,
+          "durationMs": 64
+        },
+        {
+          "startMs": 2275.900000002235,
+          "durationMs": 5332
+        }
+      ],
+      "fullEvidence": "coverage/startup-cost-after-results.json"
+    },
+    {
+      "run": "startup-cost-after",
+      "experience": "natural-video",
+      "handoverDelayMs": 0,
+      "totalToEntryReadyMs": 7510.70000000298,
+      "readyBeforeVideoEndMs": 60354.9,
+      "phaseWallTimeMs": {
+        "worldBuild": 1200.6,
+        "avatarDownloadAndParse": 1810.3,
+        "geometryPreparation": 601.2,
+        "integration": 46.2,
+        "firstCompletedPresentedCanvas": 5215.3
+      },
+      "requiredDownloads": [
+        {
+          "path": "/playable-3d/assets/whole-characters/antonio.glb",
+          "startMs": 426,
+          "responseStartMs": 450.6000000014901,
+          "responseEndMs": 1700.1000000014901,
+          "durationMs": 1274.1000000014901,
+          "bytes": 3453980,
+          "transferBytes": 3454280
+        },
+        {
+          "path": "/playable-3d/ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
+          "startMs": 1650.4000000022352,
+          "responseStartMs": 1660.1000000014901,
+          "responseEndMs": 1664.6000000014901,
+          "durationMs": 14.199999999254942,
+          "bytes": 1302116,
+          "transferBytes": 1302416
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/careers-shared-textures.glb",
+          "startMs": 1924.9000000022352,
+          "responseStartMs": 2025.9000000022352,
+          "responseEndMs": 2031.2000000029802,
+          "durationMs": 106.30000000074506,
+          "bytes": 1230448,
+          "transferBytes": 1230748
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/workplace-shared-textures.glb",
+          "startMs": 1925.1000000014901,
+          "responseStartMs": 2028.300000000745,
+          "responseEndMs": 2035.300000000745,
+          "durationMs": 110.19999999925494,
+          "bytes": 1130392,
+          "transferBytes": 1130692
+        }
+      ],
+      "parseWallTimes": [
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 1720.6000000014901,
+          "path": "http://127.0.0.1:4287/playable-3d/ecc-preview/assets/authored-courtyard/",
+          "bytes": 1302116,
+          "elapsedMs": 19.600000001490116
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2094.60000000149,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1230448,
+          "elapsedMs": 34.30000000074506
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2103,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1130392,
+          "elapsedMs": 32.099999997764826
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2234.800000000745,
+          "path": "http://127.0.0.1:4287/playable-3d/assets/",
+          "bytes": 3453980,
+          "elapsedMs": 196.19999999925494
+        }
+      ],
+      "initialRenderCosts": [
+        {
+          "phase": "canvas-submit",
+          "pageMs": 4440.70000000298,
+          "frame": 1,
+          "cpuMs": 1623,
+          "entryReady": false,
+          "introOpen": true
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 7490.70000000298,
+          "frame": 1
+        }
+      ],
+      "initialLongTasks": [
+        {
+          "startMs": 337.5,
+          "durationMs": 109
+        },
+        {
+          "startMs": 1700.7000000029802,
+          "durationMs": 320
+        },
+        {
+          "startMs": 2101.300000000745,
+          "durationMs": 110
+        },
+        {
+          "startMs": 2226.5,
+          "durationMs": 68
+        },
+        {
+          "startMs": 2815.5,
+          "durationMs": 4667
+        }
+      ],
+      "fullEvidence": "coverage/startup-cost-after-results.json"
+    },
+    {
+      "run": "morning-final-focused",
+      "experience": "cold-skip",
+      "handoverDelayMs": 7134.300000000745,
+      "totalToEntryReadyMs": 7404.5,
+      "readyBeforeVideoEndMs": null,
+      "phaseWallTimeMs": {
+        "worldBuild": 1360.6,
+        "avatarDownloadAndParse": 1901.7,
+        "geometryPreparation": 589.5,
+        "integration": 55.4,
+        "firstCompletedPresentedCanvas": 4971.6
+      },
+      "requiredDownloads": [
+        {
+          "path": "/playable-3d/assets/whole-characters/antonio.glb",
+          "startMs": 403.8999999985099,
+          "responseStartMs": 431.19999999925494,
+          "responseEndMs": 1833.199999999255,
+          "durationMs": 1429.300000000745,
+          "bytes": 3453980,
+          "transferBytes": 3454280
+        },
+        {
+          "path": "/playable-3d/ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
+          "startMs": 1790.5,
+          "responseStartMs": 1801,
+          "responseEndMs": 1805.5,
+          "durationMs": 15,
+          "bytes": 1302116,
+          "transferBytes": 1302416
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/careers-shared-textures.glb",
+          "startMs": 2069,
+          "responseStartMs": 2178.599999997765,
+          "responseEndMs": 2186.39999999851,
+          "durationMs": 117.39999999850988,
+          "bytes": 1230448,
+          "transferBytes": 1230748
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/workplace-shared-textures.glb",
+          "startMs": 2069.2999999970198,
+          "responseStartMs": 2179.5,
+          "responseEndMs": 2188.5,
+          "durationMs": 119.20000000298023,
+          "bytes": 1130392,
+          "transferBytes": 1130692
+        }
+      ],
+      "parseWallTimes": [
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 1862.3999999985099,
+          "path": "http://127.0.0.1:4287/playable-3d/ecc-preview/assets/authored-courtyard/",
+          "bytes": 1302116,
+          "elapsedMs": 25.300000000745058
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2270.2999999970198,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1230448,
+          "elapsedMs": 54.099999997764826
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2303.599999997765,
+          "path": "http://127.0.0.1:4287/playable-3d/assets/",
+          "bytes": 3453980,
+          "elapsedMs": 110.39999999850988
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2324.2999999970198,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1130392,
+          "elapsedMs": 94.29999999701977
+        }
+      ],
+      "initialRenderCosts": [
+        {
+          "phase": "canvas-submit",
+          "pageMs": 4473.199999999255,
+          "frame": 1,
+          "cpuMs": 1528.199999999255,
+          "entryReady": false,
+          "introOpen": false
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 7378.79999999702,
+          "frame": 1
+        }
+      ],
+      "initialLongTasks": [
+        {
+          "startMs": 310.0999999977648,
+          "durationMs": 120
+        },
+        {
+          "startMs": 1836.8999999985099,
+          "durationMs": 337
+        },
+        {
+          "startMs": 2323.5,
+          "durationMs": 109
+        },
+        {
+          "startMs": 2942.7999999970198,
+          "durationMs": 4430
+        }
+      ],
+      "fullEvidence": "coverage/morning-final-focused-results.json"
+    },
+    {
+      "run": "morning-final-focused",
+      "experience": "natural-video",
+      "handoverDelayMs": 0,
+      "totalToEntryReadyMs": 7770.300000000745,
+      "readyBeforeVideoEndMs": 58630.0,
+      "phaseWallTimeMs": {
+        "worldBuild": 1218.6,
+        "avatarDownloadAndParse": 1789.9,
+        "geometryPreparation": 609.8,
+        "integration": 57.9,
+        "firstCompletedPresentedCanvas": 5444.4
+      },
+      "requiredDownloads": [
+        {
+          "path": "/playable-3d/assets/whole-characters/antonio.glb",
+          "startMs": 416.6000000014901,
+          "responseStartMs": 437.30000000074506,
+          "responseEndMs": 1717.7000000029802,
+          "durationMs": 1301.1000000014901,
+          "bytes": 3453980,
+          "transferBytes": 3454280
+        },
+        {
+          "path": "/playable-3d/ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb",
+          "startMs": 1660.800000000745,
+          "responseStartMs": 1669.800000000745,
+          "responseEndMs": 1675.800000000745,
+          "durationMs": 15,
+          "bytes": 1302116,
+          "transferBytes": 1302416
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/careers-shared-textures.glb",
+          "startMs": 1966.4000000022352,
+          "responseStartMs": 2067.400000002235,
+          "responseEndMs": 2075.10000000149,
+          "durationMs": 108.69999999925494,
+          "bytes": 1230448,
+          "transferBytes": 1230748
+        },
+        {
+          "path": "/playable-3d/assets/campus-buildings/workplace-shared-textures.glb",
+          "startMs": 1966.6000000014901,
+          "responseStartMs": 2068.7000000029802,
+          "responseEndMs": 2076.400000002235,
+          "durationMs": 109.80000000074506,
+          "bytes": 1130392,
+          "transferBytes": 1130692
+        }
+      ],
+      "parseWallTimes": [
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 1751.1000000014901,
+          "path": "http://127.0.0.1:4287/playable-3d/ecc-preview/assets/authored-courtyard/",
+          "bytes": 1302116,
+          "elapsedMs": 21.399999998509884
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2161.10000000149,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1230448,
+          "elapsedMs": 66.39999999850988
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2204.900000002235,
+          "path": "http://127.0.0.1:4287/playable-3d/assets/",
+          "bytes": 3453980,
+          "elapsedMs": 134.5
+        },
+        {
+          "phase": "gltf-parse-end",
+          "pageMs": 2218.2000000029802,
+          "path": "./assets/campus-buildings/",
+          "bytes": 1130392,
+          "elapsedMs": 111.90000000223517
+        }
+      ],
+      "initialRenderCosts": [
+        {
+          "phase": "canvas-submit",
+          "pageMs": 4482.10000000149,
+          "frame": 1,
+          "cpuMs": 1655.8999999985099,
+          "entryReady": false,
+          "introOpen": true
+        },
+        {
+          "phase": "gpu-complete",
+          "pageMs": 7744.20000000298,
+          "frame": 1
+        }
+      ],
+      "initialLongTasks": [
+        {
+          "startMs": 316.20000000298023,
+          "durationMs": 120
+        },
+        {
+          "startMs": 1729.1000000014901,
+          "durationMs": 334
+        },
+        {
+          "startMs": 2217.5,
+          "durationMs": 108
+        },
+        {
+          "startMs": 2326,
+          "durationMs": 5410
+        }
+      ],
+      "fullEvidence": "coverage/morning-final-focused-results.json"
+    }
+  ],
+  "startupUsability": [
+    {
+      "run": "morning-regression",
+      "name": "video to complete exterior, walking and automatic parcel at 1280",
+      "handoverMs": 5859.60000000149,
+      "observationMs": 9938,
+      "positionBefore": [
+        -7,
+        0.085,
+        23.3
+      ],
+      "positionAfter": [
+        -7,
+        0.085,
+        15.916
+      ],
+      "ordinaryCanvasFramesBefore": 3,
+      "ordinaryCanvasFramesAfter": 10
+    },
+    {
+      "run": "morning-regression",
+      "name": "video to complete exterior, walking and automatic parcel at 390",
+      "handoverMs": 5335.699999999255,
+      "observationMs": 9044.199999999255,
+      "positionBefore": [
+        -7,
+        0.085,
+        23.3
+      ],
+      "positionAfter": [
+        -7,
+        0.085,
+        16.009
+      ],
+      "ordinaryCanvasFramesBefore": 4,
+      "ordinaryCanvasFramesAfter": 11
+    }
+  ],
+  "artifact": {
+    "branch": "gh-pages",
+    "artifactCommit": "11340016f6ef1e51ee0671ec93c203890777eb33",
+    "sourceCommit": "8ee2a7b6e9b162affedd4d2b57b87fcfeee4fbc4",
+    "files": 623,
+    "bytes": 525006587,
+    "priorArtifactCommit": "bc412a4d59d842b666123eb3fb7f15ef142f7934"
+  },
+  "artifactHttp": {
+    "baseURL": "http://127.0.0.1:4291/test-career-empire/",
+    "sourceCommit": "8ee2a7b6e9b162affedd4d2b57b87fcfeee4fbc4",
+    "verifiedHttpFiles": 620,
+    "verifiedBytes": 524889389,
+    "mediaRange": "206, 64 bytes",
+    "existingLegacyLinkWarnings": [
+      "data/world/town-layout.stage1-corrected.json: unresolved ../modules/megatrends/index.html"
+    ]
+  }
+}

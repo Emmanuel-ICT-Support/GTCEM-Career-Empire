@@ -1,0 +1,318 @@
+{
+  "sourceCommit": "f7331060ce86ef1eedecf4e6a1271a68e36d4689",
+  "units": 216,
+  "unitFiles": 49,
+  "assetHashes": 270,
+  "runtimeModules": 82,
+  "runs": {
+    "entry-visibility-before": [
+      {
+        "name": "inspect initial campus geometry, submitted draws and actual view occlusion",
+        "status": "passed",
+        "durationMs": 10034
+      }
+    ],
+    "entry-visibility-after": [
+      {
+        "name": "inspect initial campus geometry, submitted draws and actual view occlusion",
+        "status": "passed",
+        "durationMs": 32228
+      },
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 1280",
+        "status": "failed",
+        "durationMs": 19602
+      },
+      {
+        "name": "video to complete exterior, walking and automatic parcel at 390",
+        "status": "failed",
+        "durationMs": 17877
+      }
+    ],
+    "entry-chapel-pair": [
+      {
+        "name": "live keyboard route reaches the actual Chapel door without changing position or progress directly",
+        "status": "passed",
+        "durationMs": 83753
+      },
+      {
+        "name": "initial complete campus, unobstructed rear buildings and parcel walking 1280",
+        "status": "passed",
+        "durationMs": 33490
+      },
+      {
+        "name": "initial complete campus, unobstructed rear buildings and parcel walking 390",
+        "status": "failed",
+        "durationMs": 14199
+      },
+      {
+        "name": "full natural intro hands over to envelope and actual Chapel without loading EST or market",
+        "status": "passed",
+        "durationMs": 153946
+      }
+    ],
+    "entry-phone-final": [
+      {
+        "name": "initial complete campus, unobstructed rear buildings and parcel walking 390",
+        "status": "passed",
+        "durationMs": 22988
+      }
+    ]
+  },
+  "coldHandoverFailuresMs": {
+    "desktop": 11836.1,
+    "phoneBeforeFinalFraming": 14314
+  },
+  "coldEightSecondTargetAccepted": false,
+  "initialVisualAndMovementAccepted": true,
+  "naturalVideoChapelMuralAccepted": true,
+  "evidenceRoots": [
+    "coverage/entry-visibility-before-evidence/",
+    "coverage/entry-visibility-after-evidence/",
+    "coverage/entry-chapel-pair-evidence/",
+    "coverage/entry-phone-final-evidence/"
+  ],
+  "visibilitySamples": [
+    {
+      "run": "entry-visibility-before",
+      "name": "inspect initial campus geometry, submitted draws and actual view occlusion",
+      "camera": {
+        "position": [
+          -6.999999999453662,
+          3.1066593386415176,
+          29.69999923144008
+        ],
+        "direction": [
+          -2.9365664874195788e-12,
+          -0.25542342143933866,
+          -0.9668292898853561
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.08,
+        "far": 220
+      },
+      "roots": [
+        {
+          "name": "English and Media \u2014 curved glazed frontage",
+          "targetPixels": 27,
+          "unoccludedPixels": 10,
+          "blockers": {
+            "mesh_0_2": 2,
+            "mesh_0": 2,
+            "mesh_0_5": 7,
+            "mesh_0_1": 1,
+            "Flush Chapel woman-and-branches etched glass": 1,
+            "mesh_0_14": 1,
+            "mesh_0_4": 1,
+            "Recessed reception background texture": 2
+          }
+        },
+        {
+          "name": "SPACE reference-led exterior",
+          "targetPixels": 14,
+          "unoccludedPixels": 4,
+          "blockers": {
+            "mesh_0_1": 1,
+            "mesh_0_5": 2,
+            "mesh_0_2": 3,
+            "mesh_0_6": 2,
+            "Emmanuel crest printed on glass": 1,
+            "mesh_0_4": 1
+          }
+        }
+      ],
+      "allOtherExteriorsPresent": true
+    },
+    {
+      "run": "entry-visibility-after",
+      "name": "inspect initial campus geometry, submitted draws and actual view occlusion",
+      "camera": {
+        "position": [
+          -6.9999999968999855,
+          11.08496125416676,
+          41.29999926858527
+        ],
+        "direction": [
+          0.18685673081459106,
+          -0.30364225080244894,
+          -0.9342836537566662
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.08,
+        "far": 220
+      },
+      "roots": [
+        {
+          "name": "English and Media \u2014 curved glazed frontage",
+          "targetPixels": 24,
+          "unoccludedPixels": 18,
+          "blockers": {
+            "mesh_0": 3,
+            "mesh_0_2": 1,
+            "mesh_0_5": 1,
+            "mesh_0_1": 1
+          }
+        },
+        {
+          "name": "SPACE reference-led exterior",
+          "targetPixels": 9,
+          "unoccludedPixels": 9,
+          "blockers": {}
+        }
+      ],
+      "allOtherExteriorsPresent": true
+    },
+    {
+      "run": "entry-chapel-pair",
+      "name": "initial complete campus, unobstructed rear buildings and parcel walking 1280",
+      "camera": {
+        "position": [
+          -7.000000051063487,
+          11.084790539178178,
+          41.299999519716856
+        ],
+        "direction": [
+          0.18685667908486103,
+          -0.30364307931639267,
+          -0.9342833948351197
+        ],
+        "fov": 55,
+        "aspect": 1.5165876777251184,
+        "near": 0.08,
+        "far": 220
+      },
+      "roots": [
+        {
+          "name": "English and Media \u2014 curved glazed frontage",
+          "targetPixels": 30,
+          "unoccludedPixels": 22,
+          "blockers": {
+            "mesh_0_1": 3,
+            "mesh_0": 5
+          }
+        },
+        {
+          "name": "SPACE reference-led exterior",
+          "targetPixels": 9,
+          "unoccludedPixels": 9,
+          "blockers": {}
+        }
+      ],
+      "allOtherExteriorsPresent": true
+    },
+    {
+      "run": "entry-chapel-pair",
+      "name": "initial complete campus, unobstructed rear buildings and parcel walking 390",
+      "camera": {
+        "position": [
+          -7.000000025265676,
+          11.085065086412795,
+          41.2999992805025
+        ],
+        "direction": [
+          0.18685625183523544,
+          -0.30364992046826844,
+          -0.9342812568759481
+        ],
+        "fov": 78,
+        "aspect": 0.46208530805687204,
+        "near": 0.08,
+        "far": 220
+      },
+      "roots": [
+        {
+          "name": "English and Media \u2014 curved glazed frontage",
+          "targetPixels": 40,
+          "unoccludedPixels": 23,
+          "blockers": {
+            "mesh_0_4": 4,
+            "mesh_0_2": 3,
+            "mesh_0": 4,
+            "mesh_0_1": 4,
+            "Admin gable \u2014 supplied cleaned ECC crest": 1,
+            "mesh_0_5": 1
+          }
+        },
+        {
+          "name": "SPACE reference-led exterior",
+          "targetPixels": 10,
+          "unoccludedPixels": 10,
+          "blockers": {}
+        }
+      ],
+      "allOtherExteriorsPresent": true
+    },
+    {
+      "run": "entry-phone-final",
+      "name": "initial complete campus, unobstructed rear buildings and parcel walking 390",
+      "camera": {
+        "position": [
+          -7.0000000138533816,
+          14.08500776850187,
+          41.29999930232461
+        ],
+        "direction": [
+          0.18102497933150705,
+          -0.38468023264577417,
+          -0.905124894956282
+        ],
+        "fov": 78,
+        "aspect": 0.46208530805687204,
+        "near": 0.08,
+        "far": 220
+      },
+      "roots": [
+        {
+          "name": "English and Media \u2014 curved glazed frontage",
+          "targetPixels": 41,
+          "unoccludedPixels": 31,
+          "blockers": {
+            "mesh_0_1": 6,
+            "mesh_0_2": 1,
+            "mesh_0": 3
+          }
+        },
+        {
+          "name": "SPACE reference-led exterior",
+          "targetPixels": 11,
+          "unoccludedPixels": 11,
+          "blockers": {}
+        }
+      ],
+      "allOtherExteriorsPresent": true
+    }
+  ],
+  "remaining": [
+    "Cold Start exploring handover still exceeds the unchanged eight-second assertion on software graphics; do not claim two-second startup.",
+    "Full teacher persistence and desktop Stats reopening are not rerun in this visibility/Chapel checkpoint.",
+    "The original delayed-Market 60-second timing case remains separately failed.",
+    "Pages activation/API and public network permission blockers remain unchanged; no new attempt was made."
+  ],
+  "checkedAt": "2026-10-12T21:17:49.173992+00:00",
+  "artifact": {
+    "branch": "gh-pages",
+    "artifactCommit": "bc412a4d59d842b666123eb3fb7f15ef142f7934",
+    "sourceCommit": "f7331060ce86ef1eedecf4e6a1271a68e36d4689",
+    "files": 623,
+    "bytes": 525005414,
+    "priorArtifactCommit": "170b7989b26482560c03e35b05e9de58bf5b6970"
+  },
+  "artifactHttp": {
+    "baseURL": "http://127.0.0.1:4291/test-career-empire/",
+    "sourceCommit": "f7331060ce86ef1eedecf4e6a1271a68e36d4689",
+    "verifiedHttpFiles": 620,
+    "verifiedBytes": 524888216,
+    "mediaRange": "206, 64 bytes",
+    "existingLegacyLinkWarnings": [
+      "data/world/town-layout.stage1-corrected.json: unresolved ../modules/megatrends/index.html"
+    ]
+  },
+  "exportedProjectPrefixBrowser": {
+    "status": "passed",
+    "evidence": "coverage/visible-entry-pages-browser-results.json",
+    "screenshots": "coverage/visible-entry-pages-browser-evidence/"
+  },
+  "sessionsRunning": false
+}

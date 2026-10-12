@@ -2,7 +2,7 @@
 export function renderQuality(rendererName,requested,deviceRatio){
  const software=/swiftshader|llvmpipe|softpipe|software rasterizer/i.test(rendererName||'');
  const light=requested==='low'||(requested==='auto'&&software);
- return {software,pixelRatio:Math.min(deviceRatio,requested==='high'?2:requested==='low'?1:light?.75:1.5),shadowSize:light?512:2048};
+ return {software,shadows:!light,plantDistance:light&&software?0:30,pixelRatio:Math.min(deviceRatio,requested==='high'?2:light&&software?.5:requested==='low'?1:1.5),shadowSize:light?512:2048};
 }
 export function rendererName(renderer){
  const gl=renderer.getContext();

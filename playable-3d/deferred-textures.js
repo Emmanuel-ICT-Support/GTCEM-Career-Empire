@@ -1,11 +1,11 @@
-import {withAssetDeadline} from './startup-assets.mjs?v=startup-20261012';
+import {withAssetDeadline} from './startup-assets.mjs?v=ecc-ba60122';
 import * as THREE from 'three';
 
 // Keep texture identity/UV settings stable for cloned materials. Only the image
 // arrives later; the accepted full-detail artwork is still the final result.
 export function createDeferredTextures({onFailure=()=>{},scheduleHydration=hydrate=>Promise.resolve(hydrate())}={}){
   const jobs=[];let running,retrying;const active=new Set();
-  function load(loader,url,{normal=false,transparent=false,hdr=false,colour='#ffffff',target,flipY}={}){
+  function defer(loader,url,{normal=false,transparent=false,hdr=false,colour='#ffffff',target,flipY,shareSource=false}={}){
     let texture=target;
     // PMREM derives its cube size from width/4; a 1px HDR creates an invalid
     // subpixel cube and integer shader constants. Keep the same neutral white
@@ -21,9 +21,10 @@ export function createDeferredTextures({onFailure=()=>{},scheduleHydration=hydra
     }
     if(hdr){texture.minFilter=texture.magFilter=THREE.LinearFilter;texture.colorSpace=THREE.LinearSRGBColorSpace;}
     texture.needsUpdate=true;
-    jobs.push({loader,url,texture,flipY,done:false,failed:false,inFlight:false});
-    return Promise.resolve(texture);
+    jobs.push({loader,url,texture,flipY,shareSource,done:false,failed:false,inFlight:false});
+    return texture;
   }
+  const load=(...args)=>Promise.resolve(defer(...args));
   async function perform(job){
     job.inFlight=true;job.failed=false;
     try{
@@ -33,7 +34,7 @@ export function createDeferredTextures({onFailure=()=>{},scheduleHydration=hydra
       // waiting for a frame is not a missing download; late responses still hydrate.
       const hydration=request.then(loaded=>scheduleHydration(()=>{
         const target=job.texture;
-        target.dispose();target.source=loaded.source;target.format=loaded.format;target.type=loaded.type;
+        target.dispose();if(job.shareSource)target.source.data=loaded.source.data;else target.source=loaded.source;target.format=loaded.format;target.type=loaded.type;
         target.internalFormat=loaded.internalFormat;target.flipY=job.flipY??loaded.flipY;
         target.generateMipmaps=loaded.generateMipmaps;
         target.needsUpdate=true;target.needsPMREMUpdate=true;
@@ -70,7 +71,7 @@ export function createDeferredTextures({onFailure=()=>{},scheduleHydration=hydra
     if(retrying)return retrying;
     retrying=drain(true).finally(()=>{retrying=null;});return retrying;
   }
-  return {load,start,retry,get failed(){return jobs.filter(job=>job.failed&&!job.done).length;},get pending(){return jobs.filter(job=>!job.done).length;}};
+  return {load,defer,start,retry,startMatching:async matches=>{await Promise.all(jobs.filter(job=>matches(job.url)&&!job.done&&!job.inFlight).map(launch));if(jobs.some(job=>matches(job.url)&&job.failed&&!job.done))throw new Error('Requested campus artwork could not load. Please retry.');},get failed(){return jobs.filter(job=>job.failed&&!job.done).length;},get pending(){return jobs.filter(job=>!job.done).length;}};
 }
 
 // Two animation ticks allow the first playable frame to be presented before

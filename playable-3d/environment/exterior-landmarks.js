@@ -1,5 +1,5 @@
 import * as T from 'three';
-import {createMarketExterior} from './market-exterior.js?v=entry-environment-20261012';
+import {createMarketExterior} from './market-exterior.js?v=ecc-ba60122';
 // Existing authored outdoor landmarks only: no imports/fetches of model kits,
 // interiors, activity code or NPCs. Both entry and full-campus setup reuse this.
 export function addExteriorLandmarks(scene,palette,grass=scene.getObjectByName('tile-kit-grass')?.material){

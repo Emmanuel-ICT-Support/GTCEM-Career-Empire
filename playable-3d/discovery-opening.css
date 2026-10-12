@@ -66,3 +66,13 @@
 #options-pause-note{margin:0;font-size:13px;line-height:1.4}#resume-options{font-weight:700;border:1px solid #315c50;border-radius:6px;padding:10px;background:#315c50;color:#fff}#companion-status{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;z-index:10;width:max-content;max-width:calc(100% - 32px);margin:0;padding:8px 12px;border-radius:8px;background:#fff9ea;color:#18332f;font-size:13px;pointer-events:none}
 
 @media(max-width:640px){#exploration-option-list{position:fixed;top:calc(var(--game-header-height,66px) + 8px);right:12px;left:auto;width:min(310px,calc(100vw - 24px));box-sizing:border-box;max-height:calc(100dvh - var(--game-header-height,66px) - 24px)}}
+
+/* World moods remain available in the normal student exploration layout. */
+.discovery-review #exploration-option-list #header-phase{display:block!important}
+.discovery-review #exploration-option-list #phase{display:inline-block!important}
+.discovery-review #exploration-option-list .phase-control{display:flex;padding:8px;gap:10px}
+.discovery-review #exploration-option-list .phase-control small{display:block}
+
+#orientation-handover{width:min(440px,calc(100vw - 28px));border-radius:14px;background:#fff9ea;color:#18332f}
+#orientation-handover p{font-size:15px;line-height:1.5}
+#orientation-handover .dialog-actions{flex-wrap:wrap;gap:8px}

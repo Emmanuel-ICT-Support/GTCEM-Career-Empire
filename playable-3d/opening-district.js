@@ -1,5 +1,5 @@
 import * as T from 'three';
-import {approvedPalette,dressedBox,batchStatic} from './environment/approved-campus-kit.js?v=first-play-20260921';
+import {approvedPalette,dressedBox,batchStatic} from './environment/approved-campus-kit.js?v=ecc-ba60122';
 
 // Authored community work courtyard. Built only after an explicit visit.
 // Shares campus materials and already requested market characters; no new downloads.

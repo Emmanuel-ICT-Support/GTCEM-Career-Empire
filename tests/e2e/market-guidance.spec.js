@@ -1,9 +1,10 @@
 import {test,expect} from '@playwright/test';
+import {enterMarket} from './market-controls.js';
 const state=page=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}'));
 for(const width of [1280,390])test(`market outside arrival, walking, visual briefing and progressive signs ${width}`,async({page})=>{
  test.setTimeout(120000);await page.setViewportSize({width,height:844});const requests=[];page.on('request',r=>requests.push(r.url()));const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('/playable-3d/');await page.locator('#taster-skip').click();await expect.poll(()=>state(page),{timeout:30000}).toMatchObject({entryReady:true,guestRun:true});
- await page.evaluate(()=>document.querySelector('#market-destination').click());await expect.poll(()=>state(page),{timeout:60000}).toMatchObject({mode:'market',position:[0,0,15]});await expect.poll(async()=> (await state(page)).market.guidance).toEqual(['Mara']);
+ await enterMarket(page);await expect.poll(()=>state(page),{timeout:60000}).toMatchObject({mode:'market',position:[0,0,15]});await expect.poll(async()=> (await state(page)).market.guidance).toEqual(['Mara']);
  await page.screenshot({path:`/tmp/market-after-arrival-${width}.png`});
  await page.locator('#scene').focus();await page.keyboard.down('KeyW');try{await expect.poll(async()=> (await state(page)).position[2],{timeout:15000}).toBeLessThan(10.8);}finally{await page.keyboard.up('KeyW');}
  await page.screenshot({path:`/tmp/market-after-entered-${width}.png`});

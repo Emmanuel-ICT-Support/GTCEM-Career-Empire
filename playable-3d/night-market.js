@@ -5,7 +5,7 @@ import {JUNIPER,riceBowl,takeawayBag} from './market-food.js?v=market-student-pl
 import {marketComplete,createPracticeStore,VALUES,BADGES,MARKET_SHOP} from './night-market-state.js?v=market-collection-20261012';
 import {PLAN_OPTIONS,NOTE_FIELDS,describePlan,evaluatePlan,caseNoteText} from './night-market-agency.js?v=market-lawns-20260924';
 import {marketCharacters} from './market-characters.js?v=market-admin-20261012';
-import {marketSurroundings} from './market-surroundings.js?v=market-admin-20261012';
+import {marketSurroundings} from './market-surroundings.js?v=ecc-ba60122';
 const money=n=>'$'+(n/100).toFixed(2);
 // Campus materials and locally optimised NPCs; practice state remains independent.
 export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{},campusPalette,campusGrass,captureBriefing}){
@@ -412,7 +412,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   if(district)return Promise.resolve();
   if(districtPreparing)return districtPreparing;
   districtPreparing=(async()=>{
-   districtModule ||= (districtAttempts++?import('./opening-district.js?v=not-quite-art-20260929&retry='+districtAttempts):import('./opening-district.js?v=not-quite-art-20260929')).catch(e=>{districtModule=null;throw e;});
+   districtModule ||= (districtAttempts++?import('./opening-district.js?v=ecc-ba60122&retry='+districtAttempts):import('./opening-district.js?v=ecc-ba60122')).catch(e=>{districtModule=null;throw e;});
    const {createOpeningDistrict}=await districtModule;
    if(!district){district=createOpeningDistrict({scene,obstacles,npc,palette:campusPalette,onInspect:id=>openChapters(2,id),onAllocate:()=>openChapters(3),onApply:()=>openChapters(4),onWork:index=>openingChapters?openingChapters.workStation(index):openChapters(3),onRun:()=>openingChapters?openingChapters.runShift():openChapters(3),onTalk:()=>openingChapters?openingChapters.talk():openChapters(4),onReturn:returnMarket,onWelcome:()=>{noraStarted=true;courtyardWelcome(2);},onReception:reception});if(openingChapters?.snapshot().signal.posted)district.postBulletin();if(!lastPlan&&openingChapters)lastPlan=openingChapters.plan();if(lastPlan)district.setPlan(...lastPlan);if(lastApplication!==null)district.setApplication(lastApplication);if(!gardener)gardener=npc(-9,5.3,'#b89d76','kenji',Math.PI/2);cast.start();}
 
