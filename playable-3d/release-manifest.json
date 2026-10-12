@@ -1,8 +1,8 @@
 {
-  "release": "photo-review-20261012",
+  "release": "combined-photo-review-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "840583c248ffe5876f2517972478d9d8bbb48713",
-  "scope": "Keep the saved campus portrait visible for explicit review/Continue, give Mystery and Comedy distinct saved image treatments, and reopen the actual photo from My collection; preserve companion rendering, rewards and session contracts.",
+  "baseCommit": "a4007ad0b33b7065757c6da25fc1bd7bf4fa7294",
+  "scope": "Combined release plus restored developing slider, sequential Chapel/mural clues, explicit photo review, distinct saved Mystery/Comedy portraits and collection photo access.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "dae8b786d442c727c4ceb3f954597497ecc4b90dffc4b575ef6a62ddfb40a062"
+      "sha256": "69930c7f67b8f8006172b7486a3a35023edd87d4abfe8dfdd4e1a924788cc5c5"
     },
     {
       "path": "joystick.js",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "d93319a43e03c15af2438329b776fecfff137dbade3b0ad70d024501f2e0a417"
+      "sha256": "d5f878e22e3a0e63a6e70eae4ba5b98fabed8e2f5e8b5623a51d9b38208a1748"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
