@@ -1,7 +1,10 @@
 import * as T from 'three';
 // Spatial perimeter treatment; independent of activity timeline state changes.
 export function polishGround(scene){
- let grass;
+ const existing=scene.getObjectByName('Soft campus perimeter');if(existing)return existing;
+ // The tile material exists before its deferred image; cloned perimeter maps
+ // must share that texture so late hydration restores the same artwork.
+ let grass=scene.getObjectByName('tile-kit-grass')?.material;
  scene.traverse(o=>{if(!grass&&o.isMesh){grass=(Array.isArray(o.material)?o.material:[o.material]).find(m=>m.map?.image?.src?.includes('grass-ecc-campus'));}});
  if(!grass)return;
  const apply=(material,outer)=>{

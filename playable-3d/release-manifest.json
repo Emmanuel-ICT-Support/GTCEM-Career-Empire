@@ -1,8 +1,8 @@
 {
-  "release": "meeting-recovery-20261012",
+  "release": "surface-recovery-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "9c5d7c70b73474d566d83fd94601cc28b554a2a7",
-  "scope": "Local preview of bounded intro warmup and conditional completed-surface warning recovery; incomplete-scenery investigation remains open.",
+  "scope": "Bounded intro GPU warmup; recovered surface warnings with failed-campus protection; original soft perimeter initialized before deferred grass images. PR49 guest and story state retained.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "54939a6d3ce87ebfc9a21674c18a80686bf1da70128368f45ea3b0760f51233a"
+      "sha256": "40c4e62c51c3ba329de3d1fae0aa6caf6dce31eafdb7448cf7fc7dcda89a660d"
     },
     {
       "path": "arrival-precinct.js",
@@ -602,7 +602,7 @@
     },
     {
       "path": "environment.js",
-      "sha256": "eaef55cad90bc2f2bf219f0cf2e89fc3ca827605db2b24d47bf64b75ec70a6b5"
+      "sha256": "eac2c48b9cf41dc5a7c0fbf7252599ef8eef19b9a956c74612d96879d4af98cf"
     },
     {
       "path": "environment/approved-campus-kit.js",
@@ -622,7 +622,7 @@
     },
     {
       "path": "environment/ground-polish.js",
-      "sha256": "a0d66d498d86389bc26d3350fbfed61332a93d8f40a3a4654f98f6972baa2616"
+      "sha256": "4706a586bf896c8a7f243b828ae7e381957c3581106b4e95ae72c55261cdbdbe"
     },
     {
       "path": "environment/learning-interiors.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "5ee109c3939127ebc509ae425a6b28abdda1fdb044c432f488a2a6c7cb3eb62a"
+      "sha256": "5246dea60df2abe1ec880fd05d0c354bd011e7257164850ce90f69a695581a97"
     },
     {
       "path": "joystick.js",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "0a984d30786e61da35c699e6cdc00c3d7f472b87353f6dbd6e23ddc9393d5dd6"
+      "sha256": "55baced9edaae65cf3cd93745ebbec9367dc89a15998dea2291aa342b88fe87c"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
