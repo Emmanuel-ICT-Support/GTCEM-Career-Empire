@@ -4,7 +4,7 @@ import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-2026101
 import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
 import {keepOutdoorClearance,keepChapelClearance} from './camera-clearance.mjs?v=default-exploration-20261011';
-import {createDiscovery} from './discovery-opening.js?v=navigation-20261012';
+import {createDiscovery} from './discovery-opening.js?v=navigation-parcel-20261012';
 import {createLocomotion, STEP, turnTowards} from './locomotion.js?v=travel-20260927';
 import {createHelperPicker} from './helper-picker.js?v=guidance-20260928';
 import {createExplorer} from '../economy-lab/exploration.mjs?v=navigation-20261012';

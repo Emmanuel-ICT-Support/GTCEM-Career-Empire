@@ -2,7 +2,7 @@
   "release": "navigation-parcel-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "7213ef1c843bcb9d457add18d56136942af96cc5",
-  "scope": "Live minimap, visual local-wallet Stats, once-only destination rewards and real market handover; preserve startup readiness and named/legacy saves.",
+  "scope": "Live minimap, visual local-wallet Stats, once-only destination rewards and real market handover; preserve startup readiness and named/legacy saves. Returning automatic parcel reminder with unchanged progress and deduplicated wallet.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "0decc61f39f48e2b6c643e6ca53a9ddffe71a40d31e8987b2133ab53abbdb5ff"
+      "sha256": "771605c7ce66dee6ad05e77eb28fbe0c8e2e35e8023ba7755642b15212e119ce"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "b373269d92468555a29a5320ade2cca6a14adf7d2fad51a94dbca701dae277c1"
+      "sha256": "c8625aaf0dbcb331492315607df391566a1a6ab3e7097a2fca7d076b30b89b70"
     },
     {
       "path": "joystick.js",
@@ -846,7 +846,7 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "325f5baa30caf51ae31746b893740bf1a855d52d419056976a6291ce3d5b308a"
+      "sha256": "6412eb394e31608e497df9d7a5372e5d7a4997c6cdf52c84d0cb01853827d887"
     },
     {
       "path": "discovery-opening.css",

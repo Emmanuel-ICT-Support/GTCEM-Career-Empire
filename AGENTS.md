@@ -1,3 +1,7 @@
+## 12 October — returning parcel reminder candidate
+
+Separate from the startup release. Returning step1 players now automatically reopen the current clue at the parcel without a new reward or progress reset. Existing leave-before-rearm hysteresis and skipped-trail choice retained. Two formal saved-Cerys approach/dismiss/reapproach/reload scenarios pass with byte-identical profile/trail/wallet and no errors;13 scoped units/source checks pass. No deployment. Coordinate app/discovery/index imports and manifest with navigation task through parent. See docs/returning-parcel-20261012.md.
+
 ## Startup hotfix release candidate — 12 October 2026
 
 Explicitly authorized bounded startup release1f101a6 integrated atop PR46. Geometry/collision readiness excludes deferred surfaces, external GLTF artwork hydrates afterward with UV/target preservation, selected-avatar scheduling wait bounded8s. Owner scoped CI passes118units and19 native-browser scenarios, including genuine66s video EOF/fresh automatic parcel and held-limestone ready4.026s/recovery.240 hashes/65modules verified. No full browser-suite claim; preserve Echo/config and excluded parcel/map WIP. See docs/startup-ready-20261012.md; public verification follows.
