@@ -50,8 +50,8 @@ export async function createTeacherNPC(worlds,config=TEACHERS[0]){
   react(p){if(config.reactions.includes(state))return false;if(!this.near(p,7))return false;target=null;const next=config.reactions[reaction++%config.reactions.length];play(next);timer=actions[next].getClip().duration;turn(p.x-root.position.x,p.z-root.position.z,1);return true;},
   fixedUpdate(dt,p){
    if(!this.near(p,42))return;
-   if(config.fixed){if(config.reactions.includes(state)){timer-=dt;if(timer<=0)pause();}return;}
-   timer-=dt;
+   if(config.fixed)return;
+   if(!config.reactions.includes(state))timer-=dt;
    if(timer<=0){if(state==='idle')chooseTarget();else pause();}
    let dx=0,dz=0;
    if(state==='walk'&&target){const x=target.x-root.position.x,z=target.z-root.position.z,d=Math.hypot(x,z);if(d<.25)pause();else{dx=x/d*.8*dt;dz=z/d*.8*dt;turn(x,z,dt);}}
@@ -66,7 +66,12 @@ export async function createTeacherNPC(worlds,config=TEACHERS[0]){
    body.setNextKinematicTranslation({x,y:pos.y+move.y,z});
    root.position.set(x,pos.y+move.y-HALF-RADIUS-.025,z);
   },
-  update(dt,p){if(this.near(p,42))mixer.update(config.reduced?0:dt);},
+  update(dt,p){
+   if(!this.near(p,42))return;
+   // Greetings follow visible elapsed time, independently of capped physics catch-up.
+   if(config.reactions.includes(state)){timer-=dt;if(timer<=0)pause();}
+   mixer.update(config.reduced?0:dt);
+  },
   snapshot(){return {id:config.id,name:config.name,state,visible:root.visible,position:root.position.toArray(),target,remaining:timer,reactions:reaction};},
   dispose(){mixer.stopAllAction();mixer.uncacheRoot(model);world.removeCharacterController(controller);world.removeRigidBody(body);root.removeFromParent();const textures=new Set(),materials=new Set(),geometries=new Set();model.traverse(o=>{if(o.isMesh){geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.add(m);for(const v of Object.values(m))if(v?.isTexture)textures.add(v);}}});textures.forEach(t=>t.dispose());materials.forEach(m=>m.dispose());geometries.forEach(g=>g.dispose());}
  };

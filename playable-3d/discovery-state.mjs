@@ -33,3 +33,6 @@ export function visitChapel(state){return state.chapelVisited?state:{...state,ch
 // Once the photo-finish surprise starts, cancelling its camera sequence must
 // not turn already-present teachers into invisible interaction targets.
 export function teachersRevealed(state,revealStarted,sequence){return state.step===4||revealStarted||Boolean(sequence);}
+
+// Progress may already have been saved at the doorway; exit still presents its clue.
+export function needsMuralClue(state){return !state.skipped&&state.step===1&&state.chapelVisited&&!state.shots.mural;}

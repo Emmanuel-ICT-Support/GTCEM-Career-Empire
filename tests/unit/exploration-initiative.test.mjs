@@ -1,6 +1,6 @@
 import {describe,it,expect} from 'vitest';
 import {KEY,empty,project,transact} from '../../economy-lab/economy.mjs';
-import {createInitiativeWallet,nextDestination} from '../../playable-3d/exploration-tools.mjs';
+import {createInitiativeWallet,nextDestination,orientationHandoverCopy} from '../../playable-3d/exploration-tools.mjs';
 const event=initiative=>({id:'initiative:'+initiative,type:'initiative',initiative});
 function storage(){const data=new Map();return {getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v),data};}
 describe('destination guide',()=>{it('progresses only current target through the real market entrance',()=>{const s={step:1,shots:{}};expect(nextDestination(s).id).toBe('chapel');s.chapelVisited=true;expect(nextDestination(s).id).toBe('mural');s.shots.mural={};s.step=3;expect(nextDestination(s).id).toBe('oval');s.step=4;expect(nextDestination(s).id).toBe('oval');s.souvenir='saved';expect(nextDestination(s)).toMatchObject({id:'market',x:43,z:-22});});it('destination rewards are once-only across reload, preserving savings',async()=>{const store=storage();store.setItem(KEY,JSON.stringify(transact(empty(),{id:'save',type:'save',amount:10000})));const a=createInitiativeWallet({storage:store});for(const id of ['destination-mural','destination-oval','destination-market'])await a.award(id);const b=createInitiativeWallet({storage:store});for(const id of ['destination-mural','destination-oval','destination-market'])expect((await b.award(id)).awarded).toBe(false);expect(b.snapshot()).toMatchObject({cash:93000,savings:10000,initiativeRewards:3000});});});
@@ -10,4 +10,11 @@ describe('initiative rewards in the existing simulation wallet',()=>{
  it('reload and concurrent shared-lock calls award each activity once',async()=>{const store=storage();let queue=Promise.resolve();const lock=fn=>{const result=queue.then(fn);queue=result.catch(()=>{});return result;};const a=createInitiativeWallet({storage:store,lock}),b=createInitiativeWallet({storage:store,lock});await Promise.all([a.award('parcel-taster'),b.award('parcel-taster')]);expect(b.snapshot().cash).toBe(102500);expect(JSON.parse(store.getItem(KEY)).events).toHaveLength(1);const reload=createInitiativeWallet({storage:store});expect((await reload.award('parcel-taster')).awarded).toBe(false);});
  it('retains idempotent tab-only state with explicit notice when writes fail',async()=>{const notices=[];const wallet=createInitiativeWallet({storage:{getItem:()=>null,setItem:()=>{throw Error('quota');}},notify:m=>notices.push(m)});expect((await wallet.award('litter-chapel-path')).awarded).toBe(true);expect((await wallet.award('litter-chapel-path')).awarded).toBe(false);expect(wallet.snapshot().cash).toBe(105000);expect(wallet.snapshot().persistent).toBe(false);expect(notices[0]).toMatch(/tab only/);});
  it('does not replace a damaged existing wallet or touch persistent storage in review',async()=>{let writes=0;const bad=createInitiativeWallet({storage:{getItem:()=>'{broken',setItem:()=>writes++}});expect((await bad.award('parcel-taster')).awarded).toBe(false);expect(writes).toBe(0);const review=createInitiativeWallet({review:true,storage:{getItem:()=>{throw Error('must not read');},setItem:()=>writes++}});await review.award('parcel-taster');expect(review.snapshot().cash).toBe(102500);expect(writes).toBe(0);});
+});
+
+test('orientation handover reports recorded earnings/taxes without treating opening cash as earned',()=>{
+ expect(orientationHandoverCopy({earned:4500,tax:0})).toContain('earned $45.00');
+ expect(orientationHandoverCopy({earned:4500,tax:0})).toContain('taxes so far: $0.00');
+ expect(orientationHandoverCopy({earned:6500,tax:200})).toContain('contributed $2.00 in taxes');
+ expect(orientationHandoverCopy({earned:null,tax:null})).toContain('check your saved game money');
 });

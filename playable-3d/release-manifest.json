@@ -1,8 +1,8 @@
 {
-  "release": "teacher-revisit-20261012",
-  "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "59a39174d94777da1e37587ca5954d9cfe2caf23",
-  "scope": "Retain revealed teachers for same-run oval revisits and repeat greetings without wandering or duplicate rewards; preserve fresh guest reset and prior exterior/surface guards.",
+  "release": "test-visual-restoration-handover-20261012",
+  "gameUrl": "/playable-3d/",
+  "baseCommit": "cb05d4ef12addb53f0c744655bfbb19261f18671",
+  "scope": "Personal test copy: original student camera, original opening trees and gardens, complete exterior geometry and actual completed entry frame; restored world phases, original rendered mural and accurate photo-to-Mara handover. Deferred interiors and decorative detail remain separate. Exact failures are recorded in QA.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -13,6 +13,14 @@
       "sha256": "125a79fa63d7f8be0bdef794d70f230b2d386a58395365220b44084bb6f9cca6"
     },
     {
+      "path": "../economy-lab/economy.mjs",
+      "sha256": "b6d030f9a4c2bfdf8dd91d63f3ca2b68703b9b24415c854a1f6cc4f7c353b75c"
+    },
+    {
+      "path": "../economy-lab/exploration.mjs",
+      "sha256": "5a4058871caab1146878a203a5a0192f62f20c8c841bf9aba7ac651bfcc10e8e"
+    },
+    {
       "path": "../economy-lab/index.html",
       "sha256": "28eb077b0a0658a649a08b5a3b5eba6a564cc505b94597751bba5cb152aed212"
     },
@@ -21,16 +29,28 @@
       "sha256": "32433cf5e1af340b518976bb955c037b687f89f19ceb3e2c6529cafc5c4679a0"
     },
     {
+      "path": "../economy-lab/work-ui.mjs",
+      "sha256": "78aaba0b9d95d8298d28e2e59b3f7a9b274d53782a30187bd5dbe6a0fa36ed81"
+    },
+    {
       "path": "../src/services/feedback-widget.js",
       "sha256": "90bad9446f2e31fcf75b36eac271b50de898222999ed709dd925aacd91a542b0"
     },
     {
+      "path": "administration-flow.js",
+      "sha256": "f0878db9b570a428353a401f1a7c7429e5001684a5fd0f848b4a2e2bb8c1d08c"
+    },
+    {
       "path": "app.js",
-      "sha256": "ac4806de894c830a200dc50f95ecc75fdfdffb957695ad70b222dd14f86c531b"
+      "sha256": "5abd401c7f4069a11c426eac6ed5486027776c2a1f27590923b0e579b30acc71"
+    },
+    {
+      "path": "arcade-carnival.js",
+      "sha256": "8218fb2e642becb527f444c513a32adf97fbf02af6e2aa2647af7d5b89a103f5"
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "e82f0484ae2ce3141f4eb2df96f5803ae20bd4490b5155cb6cab1932060a2ec2"
+      "sha256": "43e7d90ae80ddc4d51676c1f770f03c7f7ab13bdeddf8eb367a473688fd66f54"
     },
     {
       "path": "assets/campus-buildings/careers-shared-textures.glb",
@@ -119,6 +139,22 @@
     {
       "path": "assets/chapel/tree-glass-reference.jpg",
       "sha256": "998e046acd7a0bb61296da11cec570bbab01c4e4b315448e86499d5a79b54686"
+    },
+    {
+      "path": "assets/community-cast-20260927/dev.glb",
+      "sha256": "25504e61b651f1b725cb1d139653a44ec80331eda9cd9fde80b04bfc0076fe21"
+    },
+    {
+      "path": "assets/community-cast-20260927/kenji.glb",
+      "sha256": "f7177cfd67b0e87793b5d4f43854c77df7042fc8fbdd0a848ea05a318d19f5dc"
+    },
+    {
+      "path": "assets/community-cast-20260927/mara-portrait.png",
+      "sha256": "6524c90c8c31281f8cf56d09152ece469d3e05e223f39ec955a16206debc637c"
+    },
+    {
+      "path": "assets/community-cast-20260927/nora.glb",
+      "sha256": "71f916b71d95823e54fd5e23788e65a6f39aabb5c5327f7fe4f52bc90cc04594"
     },
     {
       "path": "assets/est-documents/core/page-1.png",
@@ -275,6 +311,10 @@
     {
       "path": "assets/market-npcs/sam.glb",
       "sha256": "c237091c8ed3b34a746aaee5c1a90f90bac8fa10e3dcfa524cde60c5ce8b0ac9"
+    },
+    {
+      "path": "assets/market/lunch-rush.jpg",
+      "sha256": "6dabbbab7b2bb9206d40e11b0073f36c63c4c7736388901923f9d74d72b61adc"
     },
     {
       "path": "assets/mr-middleton-20260917.glb",
@@ -461,12 +501,60 @@
       "sha256": "38631c75839ef638ce6821b9ccd7152cbc1f2ca75cd8c7d075c6c6847b732b3e"
     },
     {
+      "path": "assets/ui-themes/arcade-carnival-v1/not-quite.png",
+      "sha256": "a772c8e436b6c3471665616d146923897030709a583bcfb4f85ee58dd9b87237"
+    },
+    {
+      "path": "assets/ui-themes/arcade-carnival-v1/style-sheet.png",
+      "sha256": "9d31e597afdc57c4c2d17363149bb56efa2e4d155b9ea1c696f74733257f1b5f"
+    },
+    {
+      "path": "assets/whole-characters/antonio.glb",
+      "sha256": "a988469a4376c86cb051bdc104bf63c1934771ff42091043c07bf7cb3baa09a4"
+    },
+    {
+      "path": "assets/whole-characters/cerys.glb",
+      "sha256": "4c4126df6ba37b41a3196e5e89bc6967d1b12c31b39486e3f30e5db3f3cdd2a9"
+    },
+    {
+      "path": "assets/whole-characters/che.glb",
+      "sha256": "7e2acd2445335d233ca971a742a86fa8561d64b58357903dc3aba1369a49405e"
+    },
+    {
+      "path": "assets/whole-characters/diego.glb",
+      "sha256": "ea73fb10c8aee15e1243b439b62aaebe5fa2744e3004eac640383e2481099c0e"
+    },
+    {
+      "path": "assets/whole-characters/hannah.glb",
+      "sha256": "89dce2f261671199bb86bd8ce5c207048389ae315141e2e84bc04389ea2423d1"
+    },
+    {
+      "path": "assets/whole-characters/lilly.glb",
+      "sha256": "ba4ee19df1314c5bac6c8b8af68f11ba1ad2bdb5ed8c0132153fcdfd17223b93"
+    },
+    {
+      "path": "assets/whole-characters/sienna.glb",
+      "sha256": "c2275fc00fad061270eb3e135a3838c30eaa6a5437d28b85e81fb4b24b368989"
+    },
+    {
+      "path": "assets/whole-characters/taj.glb",
+      "sha256": "df7844769c8bf95130a2f52c2eecb5bb704ed17ce1bc9dd3c7468a565e15087a"
+    },
+    {
+      "path": "avatar-clips.mjs",
+      "sha256": "ef6ea0d063bdfe3fa0e77a3782e0c42cb7b9f67f11361334e8bcfea008eecbb5"
+    },
+    {
       "path": "avatar-download.js",
       "sha256": "3ea778d4f26a147cfa2994c25be6e5caee123d46460ca52691a97d06564a17cb"
     },
     {
+      "path": "camera-clearance.mjs",
+      "sha256": "9ce1f9b74c22a81920261c111b650386182df5460b660838fe51f43977e0ac7e"
+    },
+    {
       "path": "campus-landscape.js",
-      "sha256": "0aaf00d9bfca06a85093c3dba369d000f1a131997b934ff87e379c4bc70ce875"
+      "sha256": "e435eacae201a89a4c959e1f1f5ae8eaa890d8817f63d8c76301b5e53c2c970d"
     },
     {
       "path": "chapel.js",
@@ -478,11 +566,35 @@
     },
     {
       "path": "deferred-textures.js",
-      "sha256": "a5ddddaddb141cc9ea03943f8acbaa53e8adf85f9d9239dd367e0c235b5a34a6"
+      "sha256": "90dcabc7a59c622d4cba91f095ff3e4a097bc417f10f7ace0bce563a568d1b88"
     },
     {
       "path": "destinations.js",
       "sha256": "89a6b212d9c082b56169924dc1b51fa22be2bc4c891176b10e9b739f56f08d39"
+    },
+    {
+      "path": "discovery-assets/chapel-clue.jpg",
+      "sha256": "a7c42c6813f8c97aef625696b2d9fd371d157c4f073ad355012b37b1ff08f686"
+    },
+    {
+      "path": "discovery-assets/oval-clue.jpg",
+      "sha256": "5c8ac1fca3fa2bf9091890bab75481ce8e2f8f781cdd9eafdb22fafe39ef488a"
+    },
+    {
+      "path": "discovery-assets/parcel-clue.jpg",
+      "sha256": "d30417c50a870cc6d2da20d65cc2e314d0c96d5aa930921ed99d11bc486acbed"
+    },
+    {
+      "path": "discovery-opening.css",
+      "sha256": "6222aae5142ed71279343a0adc405c6629cd932b22c8ee15d4e10592e1538c7f"
+    },
+    {
+      "path": "discovery-opening.js",
+      "sha256": "2f379b21b10d11caaf028f4d78d90834d65c5987bf74f827da03c45fe9f1debc"
+    },
+    {
+      "path": "discovery-state.mjs",
+      "sha256": "4c5cf6d2c7fdf5934b1c49b7fc4a8dda16ce77693443d48e7f857d40c4947fa4"
     },
     {
       "path": "ecc-preview/admin-signage.js",
@@ -566,11 +678,11 @@
     },
     {
       "path": "ecc-preview/authored-courtyard.js",
-      "sha256": "03d865f4cc9a837f97686eae1acd46452d073865cda324b57a3d6f62ef183fa1"
+      "sha256": "84db9953f758b0420b9f29f4eea0fe5056134425fe1c3ff213798f9361b4d6d0"
     },
     {
       "path": "ecc-preview/authored-garden.js",
-      "sha256": "4c1a380deabc3918c89afaa0d83f09ce1fbd4f4e5b155d6b16bfaf64a04b3852"
+      "sha256": "78fb0ed07f161ad861e3859d19d00579f9cbad670747446e538c932fb34dbcef"
     },
     {
       "path": "ecc-preview/courtyard-detail.js",
@@ -586,7 +698,7 @@
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "93d75ff7fe9417140ae411ddae6a8dc478d5aef7fb3d990adce38f454bbe8f35"
+      "sha256": "9a926d1768598b18a448c5f95463eb7d42f4d9f908b20425a5f977b7d1cf083d"
     },
     {
       "path": "echo-guide.css",
@@ -594,7 +706,7 @@
     },
     {
       "path": "echo-guide.js",
-      "sha256": "731af71b8a6c9110754bfb06b163a1ad738194ccb137bcb0d77385e26d3b9883"
+      "sha256": "c25a3d3c869d8844338773420f3bbbd6476a0078ad67c536dbe357bd81d3e11c"
     },
     {
       "path": "echo-state.js",
@@ -602,11 +714,11 @@
     },
     {
       "path": "environment.js",
-      "sha256": "c0168493f73800615619da6db4332f77c74ee4ae3e33f537e0e335e47722b116"
+      "sha256": "9e679eb69376bbfb5ac6fc4daa0e4ec201679846e99654563a92917c82424ef7"
     },
     {
       "path": "environment/approved-campus-kit.js",
-      "sha256": "315dfcd52d260cdd93dcf546138c40223b13ab68b292a0bb638e6673c03bfb75"
+      "sha256": "8f25f6184dfcfbf6122d70f751de7b063d01fa222ff39a269976bd93986ed11e"
     },
     {
       "path": "environment/assets/SPACE-reference.jpg",
@@ -618,7 +730,11 @@
     },
     {
       "path": "environment/campus-extensions.js",
-      "sha256": "bcfda842d66637ce563c862882cce34e851d83bb6a7cc48df5d113e089692685"
+      "sha256": "602658f08eb247647f44ce329936b3bd1748fe8c1301cc8a6cb7f03f34a429bd"
+    },
+    {
+      "path": "environment/exterior-landmarks.js",
+      "sha256": "33d109a774224190d4eed9064fd4fcfc8a20e1749467b0fe039642f413b0655c"
     },
     {
       "path": "environment/ground-polish.js",
@@ -626,11 +742,15 @@
     },
     {
       "path": "environment/learning-interiors.js",
-      "sha256": "197e8b2927d1d398d16e5b9bbc27693bf99d3a4634f648b884b3cc5d9b0dcf34"
+      "sha256": "648a111f88ff3c541327ceda9516f046ea794750bb0bc9eb343e5f882db11854"
+    },
+    {
+      "path": "environment/market-exterior.js",
+      "sha256": "28d77e44bbfc5b43316a47de13bfb57932049a884d7d0ddb9d54b675558edde6"
     },
     {
       "path": "environment/media-building.js",
-      "sha256": "93b82c33d9e5cb6f6d3a528691ef0b8eb41270af2bf6595768b6a965f23a5ea8"
+      "sha256": "59d915bcbe725ae87eb6ac3b7bf03d4d5c4456c1263e1ad345cf22b51769d161"
     },
     {
       "path": "environment/paving-network.js",
@@ -642,19 +762,39 @@
     },
     {
       "path": "environment/space-building.js",
-      "sha256": "2d43498345d6de8f16447f99ab455caa3c55846a12c641dd85c7b19697aa1e27"
+      "sha256": "42109ba4a38ab8c56f24238d90484157f684cb0b3948a9e2debea0f32b994a0d"
     },
     {
       "path": "environment/static-batching.js",
-      "sha256": "b3a8375634d5b25f74c5a7069ae768002e722f718500fe5a3a7eeb65bd6df463"
+      "sha256": "a46fa6847cff0a4dd69c92da56b686c54704306f9efa042efaef1ed2cb8664eb"
     },
     {
       "path": "environment/surroundings.js",
-      "sha256": "09076011772a40964f2f07177d96e640aadf1d7515440a849c9d558292f79e67"
+      "sha256": "4ec1852f8daa205ca49d1fe43ded58dbf8e433fda2375e9027b065c81791ea87"
+    },
+    {
+      "path": "environment/teaching-exteriors.js",
+      "sha256": "dc9809a4f74e02272445bbea186ca5e5f80c512ea59f79f365db0946a5491ba1"
     },
     {
       "path": "est-wall-video.js",
       "sha256": "01dff693af85f4c15b86bda3a17e88fe9b0e49fe8c03e6079861f79d80ca9ea4"
+    },
+    {
+      "path": "evidence-express.js",
+      "sha256": "9201e98c8dfc0287e8a705bd7371fd7bb72593623a5f6b2343c73238865f72d5"
+    },
+    {
+      "path": "exploration-tools.css",
+      "sha256": "2b9172eed101111806e3afcb008a69315c88a841c0b8990a56682662fd269088"
+    },
+    {
+      "path": "exploration-tools.mjs",
+      "sha256": "f9eb2d02b178913b30cac885c2fdaeafe78f09610415de4f131752643fae9fcd"
+    },
+    {
+      "path": "field-guide.html",
+      "sha256": "438774db0a0cde8f69dbd89dd881e3af9d04514416e6001dab93ea3c91d824d5"
     },
     {
       "path": "flyover.css",
@@ -663,6 +803,18 @@
     {
       "path": "flyover.js",
       "sha256": "aa9f2e1f3d6bba32a67e1141eabf5644000f8ddae06a35dbb53f084d1fbd5cc0"
+    },
+    {
+      "path": "frame-budget.mjs",
+      "sha256": "b3204b74a583e0f69c783c268f639fbcf704595865d41f578af5314d5d9420dd"
+    },
+    {
+      "path": "game-session.mjs",
+      "sha256": "2b76cc2550af27c5418144a5d843eba66cd9a10fdf2c4829fff20f81dbfa79e1"
+    },
+    {
+      "path": "guest-shell.mjs",
+      "sha256": "cee447b5e2a8b9b433f4d84f64bf0fb5cb5a43c229a27bc526725a708e1bedac"
     },
     {
       "path": "header-controls.css",
@@ -678,7 +830,7 @@
     },
     {
       "path": "helper-picker.js",
-      "sha256": "5a03485e53628fbf41c73d01638dc8b5305b18df4af863191f0ace69cb900c9e"
+      "sha256": "d38d528457f56a7e347c716d6d3b05e41ac559041e5af20bb5c3edec1bc15827"
     },
     {
       "path": "helper-state.js",
@@ -686,15 +838,43 @@
     },
     {
       "path": "index.html",
-      "sha256": "0a7c4dcb395d6dc67531ebb1207432188b6a0bfc50bf9a7502bd6b17e36e5c3b"
+      "sha256": "4373c8d908991896c6fea445f9258efbbdb979b5ec3227e171af71fcec77508b"
+    },
+    {
+      "path": "intro-taster.css",
+      "sha256": "835f23fe93caca6ef6258f39671c6a90e5510bce78156908019344a6570b1ce0"
+    },
+    {
+      "path": "intro-taster.mjs",
+      "sha256": "96588757e24da359495a4887aece8169e20a9d8b20ca95bef9eb6193610ac87e"
     },
     {
       "path": "joystick.js",
       "sha256": "70a748903a79f15a5582d83fa282c407a0414e3e94ecb9ecc63397d5a1385613"
     },
     {
+      "path": "learning-resources.css",
+      "sha256": "977b6713e70bb8ea71c2ece0062e40176a0716d69d634bfc631f23d219abf6bf"
+    },
+    {
+      "path": "learning-resources.js",
+      "sha256": "b51f02bc82d3b3d0011fd0fefa8173d46ad6674df4e433ead5f5bad7bd061fad"
+    },
+    {
+      "path": "locomotion.js",
+      "sha256": "270edfe2f8851eb7d713b85177ada1b6506de53289645fe3085280a688941bb0"
+    },
+    {
+      "path": "market-arrangement.mjs",
+      "sha256": "244bfb6318ebb7c2c2fa36e66c264b7aff8c02ba1c35f0d7b58e5c2173325a72"
+    },
+    {
       "path": "market-characters.js",
-      "sha256": "73c5ad00ade7f2824ca73eed2bf3729d7d17e2eadc3a9731c54d653be027fd79"
+      "sha256": "1bc61ad5a96236a2f12af828d4004a5f9eba361ebecda85a670adf97333afa69"
+    },
+    {
+      "path": "market-collection.mjs",
+      "sha256": "2d2a287898a4fc48fbde91c1c261e024be849702c28bc366edf130dcc76e5cb6"
     },
     {
       "path": "market-food.js",
@@ -702,7 +882,7 @@
     },
     {
       "path": "market-surroundings.js",
-      "sha256": "a8722d42dc7f962fa6d36622b3212f5d34aa92a480aed43194ad852e89219e4e"
+      "sha256": "6c5ee529f49d408cdd358e68900cce4aa210e64cb89cc59a91a6c64e9aca285e"
     },
     {
       "path": "mobile-play.css",
@@ -718,23 +898,71 @@
     },
     {
       "path": "night-market-state.js",
-      "sha256": "0edebb9b8447e979b20c52ff297d56e5e875b23bd6e4e3cd21e3889b1220a0b0"
+      "sha256": "5b4b6d5329656811cff0a868b7fe883a0358347da358107b441b1804e7e8f233"
     },
     {
       "path": "night-market.css",
-      "sha256": "b6a41449fa31e01606b3ea703d66c4dbc51a34e64af04404a8e5471322f1025f"
+      "sha256": "ab2bf5d2d7ac2aa3666f1c370f5aa35cbb6677b6b21bc8d93d83eb61bc43daf8"
     },
     {
       "path": "night-market.js",
-      "sha256": "8a801f920e9e7386dbd7798376a35137f56a2dbe583684b5f2394129ba198aa0"
+      "sha256": "0e6e78145b4ddaadfb2d06511e01500fde168db1d2fa7e95e1b944d7847616b8"
+    },
+    {
+      "path": "opening-chapters-state.js",
+      "sha256": "80a5e52931c2add1ef86cb95d7cf916b35f4b69a5ddc5838df9a22a3fb3ad94c"
+    },
+    {
+      "path": "opening-chapters.js",
+      "sha256": "f6800efd34af19c9a4a351821bc34fe9822332ec288fe0d55f150ed386ef1be0"
+    },
+    {
+      "path": "opening-district.js",
+      "sha256": "b43f5007a8f9881fa766d74e575b1f17f40cffefe073a5c61d3572f3a0295ef4"
     },
     {
       "path": "phone-assets.js",
       "sha256": "6844d8afe03226d8f88a2d3a2745b956ccf89f676339900c8b6d057c2306f3f3"
     },
     {
+      "path": "photo-style.mjs",
+      "sha256": "31f4d195ea9e17fbfb04b06ba431e36d437a47cdda573985ec5f45c83cab390a"
+    },
+    {
       "path": "profiles.js",
       "sha256": "4730b30f5bcd27729fd23d1ebbfa6a910c75a39f3a3aca63ec406642cf9184af"
+    },
+    {
+      "path": "proximity-gate.mjs",
+      "sha256": "7069036254409d9885faa2294840b7036a30dc8459b0eb652f0e55f739bad190"
+    },
+    {
+      "path": "render-quality.mjs",
+      "sha256": "23b8c3355b7462408a4b9b69b51f43852b0c3058db9166a542e5b3b2cf55e2c4"
+    },
+    {
+      "path": "reveal-layout.mjs",
+      "sha256": "f7c6d323820a2662564c4a386890233cb5bdcd88a91ef80cd46172809007b53a"
+    },
+    {
+      "path": "scout-framing.mjs",
+      "sha256": "aba66ab28764f27f9afcc5a77047633efd49424fe4e1b799f55b32c1f0d89ac9"
+    },
+    {
+      "path": "signal-spin-state.js",
+      "sha256": "43736826e4e8c7c4ed5e8ebf37a949d20aeb43f7a89b297086af9425318503b1"
+    },
+    {
+      "path": "signal-spin.css",
+      "sha256": "3385ce32a507ae5acd707645a87b19124a8feca0168d43b9b569e91785277689"
+    },
+    {
+      "path": "signal-spin.js",
+      "sha256": "7c815cb7265c2da03e1c1b32fd5b57c631f0b5add8ca731762bddea5375b4997"
+    },
+    {
+      "path": "startup-assets.mjs",
+      "sha256": "aafe7461355477e47f90eb1e002b8ffe93f407bdd1bd16690c86352473d1ce71"
     },
     {
       "path": "studio.js",
@@ -745,8 +973,20 @@
       "sha256": "9b1b9eb9c35bcf0b6c90134ef3a0383221b1cc446e72bb5d679cbd79a8456359"
     },
     {
+      "path": "taster-assets/career-empire-intro.mp4",
+      "sha256": "fe3bb055fc150227a59959589ff6570cf725905144f02be943c46ed1d20e2f84"
+    },
+    {
+      "path": "taster-assets/intro-poster.jpg",
+      "sha256": "67e42da6f78f36af98172dffa3057a40ca937a89185cf0a860e2c74e794801d5"
+    },
+    {
       "path": "teacher-npc.js",
-      "sha256": "fa3c7ee941060f9d9501af013ce27bfbff07ab22ac3fb8cd4a3db8be87d63f9c"
+      "sha256": "fef906d4bd9dfc48dcb833028590342067ea0ac3eca07439c7b3c523603bca3c"
+    },
+    {
+      "path": "test-avatar-catalog.mjs",
+      "sha256": "e34e790b68de2fd9305ed26c994b764c33fcec6c757712165b3b53d109cb9f9c"
     },
     {
       "path": "vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
@@ -837,148 +1077,12 @@
       "sha256": "f939043ad79229f297a733ae4f969570b709c5903b375636a358cb3f5f9de1a8"
     },
     {
-      "path": "world.js",
-      "sha256": "9f7e4cf9c5c3e27e88bca53f420deff49822673384d3a5cfdeef2908d33e434e"
-    },
-    {
-      "path": "locomotion.js",
-      "sha256": "fc62c2bd6f803807d0fc807d0538e46382d175a2551feb6149563c0486b3b7b8"
-    },
-    {
-      "path": "discovery-opening.js",
-      "sha256": "875792396d701ada945d046a519ae9a6919f4c37eba67327c63928a79658f60c"
-    },
-    {
-      "path": "discovery-opening.css",
-      "sha256": "5f786940768299905fe700b1093ee78006671343af372c9b18e51d742493d077"
-    },
-    {
-      "path": "discovery-state.mjs",
-      "sha256": "254e1b6b1ffcac2a95948be5a64fe580d2d6b077b512bb68ba7f1369dec3322d"
-    },
-    {
-      "path": "camera-clearance.mjs",
-      "sha256": "aed6e3d381e94ff937b519a1108abb3487f7ddb793de43b59e7b661f108e0d75"
-    },
-    {
-      "path": "reveal-layout.mjs",
-      "sha256": "f7c6d323820a2662564c4a386890233cb5bdcd88a91ef80cd46172809007b53a"
-    },
-    {
-      "path": "scout-framing.mjs",
-      "sha256": "aba66ab28764f27f9afcc5a77047633efd49424fe4e1b799f55b32c1f0d89ac9"
-    },
-    {
-      "path": "intro-taster.mjs",
-      "sha256": "96588757e24da359495a4887aece8169e20a9d8b20ca95bef9eb6193610ac87e"
-    },
-    {
-      "path": "intro-taster.css",
-      "sha256": "835f23fe93caca6ef6258f39671c6a90e5510bce78156908019344a6570b1ce0"
-    },
-    {
-      "path": "discovery-assets/parcel-clue.jpg",
-      "sha256": "d30417c50a870cc6d2da20d65cc2e314d0c96d5aa930921ed99d11bc486acbed"
-    },
-    {
-      "path": "discovery-assets/chapel-clue.jpg",
-      "sha256": "a7c42c6813f8c97aef625696b2d9fd371d157c4f073ad355012b37b1ff08f686"
-    },
-    {
-      "path": "discovery-assets/oval-clue.jpg",
-      "sha256": "5c8ac1fca3fa2bf9091890bab75481ce8e2f8f781cdd9eafdb22fafe39ef488a"
-    },
-    {
-      "path": "taster-assets/career-empire-intro.mp4",
-      "sha256": "fe3bb055fc150227a59959589ff6570cf725905144f02be943c46ed1d20e2f84"
-    },
-    {
-      "path": "taster-assets/intro-poster.jpg",
-      "sha256": "67e42da6f78f36af98172dffa3057a40ca937a89185cf0a860e2c74e794801d5"
-    },
-    {
-      "path": "exploration-tools.css",
-      "sha256": "07292c76ca9c94fc321b401e83938047124918b2a4b826dcb03ea73616b7dfe5"
-    },
-    {
-      "path": "exploration-tools.mjs",
-      "sha256": "dfe46fddabeb4a4845595696dd1d910a12e18764bbcc16ccd069552354a2d1c3"
-    },
-    {
-      "path": "proximity-gate.mjs",
-      "sha256": "7069036254409d9885faa2294840b7036a30dc8459b0eb652f0e55f739bad190"
-    },
-    {
       "path": "whole-avatar-catalog.mjs",
       "sha256": "7f321224541db8b4c806f55ef24c10f83856b52861be3660598313f9fc78fe03"
     },
     {
-      "path": "../economy-lab/economy.mjs",
-      "sha256": "b6d030f9a4c2bfdf8dd91d63f3ca2b68703b9b24415c854a1f6cc4f7c353b75c"
-    },
-    {
-      "path": "../economy-lab/exploration.mjs",
-      "sha256": "5a4058871caab1146878a203a5a0192f62f20c8c841bf9aba7ac651bfcc10e8e"
-    },
-    {
-      "path": "avatar-clips.mjs",
-      "sha256": "ef6ea0d063bdfe3fa0e77a3782e0c42cb7b9f67f11361334e8bcfea008eecbb5"
-    },
-    {
-      "path": "test-avatar-catalog.mjs",
-      "sha256": "e34e790b68de2fd9305ed26c994b764c33fcec6c757712165b3b53d109cb9f9c"
-    },
-    {
-      "path": "assets/whole-characters/diego.glb",
-      "sha256": "ea73fb10c8aee15e1243b439b62aaebe5fa2744e3004eac640383e2481099c0e"
-    },
-    {
-      "path": "assets/whole-characters/taj.glb",
-      "sha256": "df7844769c8bf95130a2f52c2eecb5bb704ed17ce1bc9dd3c7468a565e15087a"
-    },
-    {
-      "path": "assets/whole-characters/antonio.glb",
-      "sha256": "a988469a4376c86cb051bdc104bf63c1934771ff42091043c07bf7cb3baa09a4"
-    },
-    {
-      "path": "assets/whole-characters/che.glb",
-      "sha256": "7e2acd2445335d233ca971a742a86fa8561d64b58357903dc3aba1369a49405e"
-    },
-    {
-      "path": "assets/whole-characters/hannah.glb",
-      "sha256": "89dce2f261671199bb86bd8ce5c207048389ae315141e2e84bc04389ea2423d1"
-    },
-    {
-      "path": "assets/whole-characters/lilly.glb",
-      "sha256": "ba4ee19df1314c5bac6c8b8af68f11ba1ad2bdb5ed8c0132153fcdfd17223b93"
-    },
-    {
-      "path": "assets/whole-characters/cerys.glb",
-      "sha256": "4c4126df6ba37b41a3196e5e89bc6967d1b12c31b39486e3f30e5db3f3cdd2a9"
-    },
-    {
-      "path": "assets/whole-characters/sienna.glb",
-      "sha256": "c2275fc00fad061270eb3e135a3838c30eaa6a5437d28b85e81fb4b24b368989"
-    },
-    {
-      "path": "startup-assets.mjs",
-      "sha256": "56294558b9da37b3cc8a05c4abf373ba9ed0c4f987fed3603e7652573fb270b2"
-    },
-    {
-      "path": "game-session.mjs",
-      "sha256": "2b76cc2550af27c5418144a5d843eba66cd9a10fdf2c4829fff20f81dbfa79e1"
-    },
-    {
-      "path": "guest-shell.mjs",
-      "sha256": "df274f5b1696d1d00028a114fc0099375f88ce91180511925db0724aebe0375d"
-    },
-    {
-      "path": "../economy-lab/work-ui.mjs",
-      "sha256": "78aaba0b9d95d8298d28e2e59b3f7a9b274d53782a30187bd5dbe6a0fa36ed81"
-    },
-    {
-      "path": "environment/exterior-landmarks.js",
-      "sha256": "c33638a3235d2496b71fdad121115ea4f9b123bc421d293e2672c896acce4a5c"
+      "path": "world.js",
+      "sha256": "d7591f281df016f96e687c567dee8187ad5158076960f2ab3cad80139edb3ccc"
     }
   ],
   "estVideo": {

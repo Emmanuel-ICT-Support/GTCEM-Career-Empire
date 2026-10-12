@@ -31,7 +31,7 @@ export function batchStatic(root){
 // Small spatial batches let the renderer cull off-screen plants. All original
 // instance matrices and full-detail geometry are retained, including shadows.
 export function partitionInstances(root,{cellSize=12,filter=()=>true}={}){
- const meshes=[];root.traverse(o=>{if(o.isInstancedMesh&&o.count>1&&filter(o))meshes.push(o);});
+ const meshes=[];root.traverse(o=>{if(o.isInstancedMesh&&o.count>1&&!(o.parent?.isLOD&&o.parent.levels.some(level=>level.object===o))&&filter(o))meshes.push(o);});
  let before=0,after=0;
  for(const original of meshes){
   const cells=new Map(),m=new T.Matrix4();before++;

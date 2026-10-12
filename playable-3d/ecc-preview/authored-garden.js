@@ -30,21 +30,21 @@ export function addAuthoredGarden(root,beds,{treeSites=[[-8.2,4.9,1.1,.4],[-6.6,
  const flowerGeo=new T.SphereGeometry(.035,5,3);flowerGeo.scale(1.4,.55,1.4);const flowers=new T.InstancedMesh(flowerGeo,new T.MeshStandardMaterial({color:0xc6a83f,roughness:.9}),plants.length);flowers.name='Courtyard native yellow accents';plants.forEach(([x,z,s,a],i)=>{d.position.set(x+.08,baseY+s*.5,z-.09);d.scale.setScalar(i%3===0?1.2:.001);d.rotation.set(0,a,.2);d.updateMatrix();flowers.setMatrixAt(i,d.matrix);});flowers.castShadow=true;root.add(flowers);
  // Fine-leaf shrubs reuse the same botanical kit, with an independent low spreading scale.
  const shrubs=[];for(const [x,z,w,depth]of beds)for(let i=0;i<Math.max(1,Math.round(w*depth*.28));i++)shrubs.push([x+(r()-.5)*Math.max(.1,w-1.2),z+(r()-.5)*Math.max(.1,depth-1.2),Math.min((detail==='supporting'?.24:.18)+r()*.09,Math.max(.08,(Math.min(w,depth)-.4)/8))]);const shrub=new T.InstancedMesh(kit.shrubGeometry,kit.leafMat,shrubs.length);shrub.name='Courtyard native authored shrubs';shrubs.forEach(([x,z,s],i)=>{d.position.set(x,baseY-.3,z);d.scale.set(s*1.35,s*.8,s*1.35);d.rotation.set(0,r()*6.28,0);d.updateMatrix();shrub.setMatrixAt(i,d.matrix);});shrub.castShadow=shrub.receiveShadow=true;root.add(shrub);
- if(detail==='supporting')addDistanceDetail(root,[...root.children].filter(o=>o.isInstancedMesh&&!o.userData.distanceDetail));
+ addDistanceDetail(root,[...root.children].filter(o=>o.isInstancedMesh&&!o.userData.distanceDetail),{hero:detail!=='supporting'});
 }
 
 // Same silhouette and palette at walking distance; thinner blade/leaf coverage beyond 30 m.
-function thinGeometry(source,verticesPerPart,stride){
+export function thinGeometry(source,verticesPerPart,stride){
  const key=source.uuid+':'+verticesPerPart+':'+stride;if(cache.has(key))return cache.get(key);
  const src=source.index?source.toNonIndexed():source,g=new T.BufferGeometry();
  for(const [name,a]of Object.entries(src.attributes)){const values=[];for(let i=0;i<a.count;i+=verticesPerPart*stride)for(let j=i;j<Math.min(a.count,i+verticesPerPart);j++)for(let k=0;k<a.itemSize;k++)values.push(a.array[j*a.itemSize+k]);g.setAttribute(name,new T.Float32BufferAttribute(values,a.itemSize));}
  g.computeBoundingSphere();cache.set(key,g);if(src!==source)src.dispose();return g;
 }
-function addDistanceDetail(root,objects){
+function addDistanceDetail(root,objects,{hero=false}={}){
  for(const original of objects){
   const cells=new Map(),matrix=new T.Matrix4();for(let i=0;i<original.count;i++){original.getMatrixAt(i,matrix);const key=Math.floor(matrix.elements[12]/12)+':'+Math.floor(matrix.elements[14]/12);if(!cells.has(key))cells.set(key,[]);cells.get(key).push(matrix.clone());}
   const reduced=/leaves|shrubs/.test(original.name)?thinGeometry(original.geometry,24,3):/lomandra/.test(original.name)?thinGeometry(original.geometry,36,3):original.geometry;
-  for(const matrices of cells.values()){const centre=new T.Vector3();matrices.forEach(m=>centre.add(new T.Vector3().setFromMatrixPosition(m)));centre.divideScalar(matrices.length);const lod=new T.LOD();lod.position.copy(centre);lod.name='Campus planting distance detail';
+  for(const matrices of cells.values()){const centre=new T.Vector3();matrices.forEach(m=>centre.add(new T.Vector3().setFromMatrixPosition(m)));centre.divideScalar(matrices.length);const lod=new T.LOD();lod.position.copy(centre);lod.name='Campus planting distance detail';lod.userData.heroDetail=hero;
    for(const [geo,distance]of [[original.geometry,0],[reduced,30]]){const o=new T.InstancedMesh(geo,original.material,matrices.length);o.name=original.name;o.userData.distanceDetail=true;o.castShadow=o.receiveShadow=true;matrices.forEach((m,i)=>{const n=m.clone();n.elements[12]-=centre.x;n.elements[13]-=centre.y;n.elements[14]-=centre.z;o.setMatrixAt(i,n);});o.computeBoundingSphere();lod.addLevel(o,distance,.12);}root.add(lod);
   }original.removeFromParent();original.dispose();
  }

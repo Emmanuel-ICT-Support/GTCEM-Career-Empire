@@ -1,22 +1,24 @@
-import {waitForPriorityAsset,canClearDetailWarning} from './startup-assets.mjs?v=detail-recovery-20261012';
-import {createExplorationTools} from './exploration-tools.mjs?v=guest-first-20261012';
+import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=ecc-ba60122';
+import {renderQuality,rendererName} from './render-quality.mjs?v=ecc-ba60122';
+import {waitForPriorityAsset,withAssetDeadline,canClearDetailWarning} from './startup-assets.mjs?v=ecc-ba60122';
+import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=ecc-ba60122';
 import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
 import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
-import {keepOutdoorClearance,keepChapelClearance} from './camera-clearance.mjs?v=default-exploration-20261011';
-import {createDiscovery} from './discovery-opening.js?v=teacher-reveal-20261012';
-import {createLocomotion, STEP, turnTowards} from './locomotion.js?v=travel-20260927';
-import {createHelperPicker} from './helper-picker.js?v=guest-first-20261012';
+import {keepOutdoorClearance,keepChapelClearance,campusEntryFraming} from './camera-clearance.mjs?v=ecc-ba60122';
+import {createDiscovery} from './discovery-opening.js?v=ecc-ba60122';
+import {createLocomotion, STEP, turnTowards,accumulateTravelTime} from './locomotion.js?v=ecc-ba60122';
+import {createHelperPicker} from './helper-picker.js?v=options-companion-20261012';
 import {createExplorer} from '../economy-lab/exploration.mjs?v=navigation-20261012';
 import {createFlyover} from './flyover.js?v=student-usability-20260924';
 import {configurePhoneAssets} from './phone-assets.js?v=phone-load-20260917';
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
-import {afterFirstPaint} from './deferred-textures.js?v=startup-20261012';
+import {afterFirstPaint} from './deferred-textures.js?v=ecc-ba60122';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds,sign} from './world.js?v=guest-first-20261012';
+import {createWorlds,sign} from './world.js?v=ecc-ba60122';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=named-students-20261011';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=named-students-20261011';
@@ -35,26 +37,37 @@ const gameSession=window.CareerEmpireGameRun;
 const gameStorage=gameSession?.storage||localStorage;
 const state=loadProfiles(isolatedDiscovery?reviewProfiles:gameStorage);
 let discovery=null,intro=null,explorationTools=null,revealCameraStart=null;
+let frameGate,surfaceUploads,portraitCapturePending=false;
 let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flourishing',draft,editorTab='identity';
 let wardrobeSection='pants';
 let nightMarket=null;
 let echo=null;
 const locomotion=createLocomotion();
 let renderMotion=null;
-const helperPicker=createHelperPicker({storage:gameStorage,guest:gameSession?.isGuest,profile:()=>state.activeId,onOpen:()=>{echo?.close();if(actor)resetNavigationInput();},onChange:(helper,persistent)=>{echo?.selectHelper(helper);if(!persistent&&actor)toast('Your guidance preference is selected for this tab. Browser storage is unavailable.');}});
-document.getElementById('choose-helper').onclick=async()=>{await helperPicker.choose(true);if(!echo)loadEcho();};
+const helperPicker=createHelperPicker({storage:gameStorage,guest:gameSession?.isGuest,profile:()=>state.activeId,onOpen:()=>{closeExplorationOptions(false);echo?.close();if(actor)resetNavigationInput();},onClose:()=>{resetNavigationInput();canvas.focus({preventScroll:true});},onChange:(helper,persistent)=>{if(discovery?.snapshot().souvenir){companionOffered=true;gameStorage.setItem('ce-companion-offered','1');}applySelectedCompanion(helper);if(!persistent&&actor)toast('Your guidance preference is selected for this tab. Browser storage is unavailable.');}});
+document.getElementById('choose-helper').onclick=()=>helperPicker.choose(true);
 document.getElementById('guidance-help').onclick=()=>{if(echo)echo.showHelp();else toast('Guidance is preparing. Try again in a moment.');};
 let shadowScene=null,shadowTime=-Infinity,shadowActor=null,shadowActorYaw=0;
 const shadowActorPosition=new THREE.Vector3();
 function echoAction(action){if(action==='studio')openStudio();else if(action==='market')openMarket();else visitResources();}
 async function visitResources(){await setMode('town');worlds.teleport(false,-7,23.3);actor.model.position.copy(worlds.position(false));yaw=0;aerial=false;setLocation('Course Documents · Arrival Gardens');updateCamera(1,true);echo?.showResources();}
-function loadEcho(){import('./echo-guide.js?v=guest-first-20261012').then(m=>{echo=m.createEchoGuide({storage:gameStorage,scene:worlds.town,physics:worlds.townPhysics.world,canvas,profile:()=>state.activeId,helper:()=>helperPicker.selected(),onPause:()=>{resetNavigationInput();actor.setWalking(false);},onAction:echoAction,review:new URLSearchParams(location.search).get('echo-review')==='1'});if(mode==='market')echo.markMarketVisited();}).catch(error=>console.warn('Echo unavailable; campus remains playable.',error));}
+let echoLoad=null;
+async function loadEcho(){
+ if(echo)return echo;if(echoLoad)return echoLoad;
+ echoLoad=import('./echo-guide.js?v=options-companion-20261012').then(m=>{echo=m.createEchoGuide({storage:gameStorage,scene:worlds.town,physics:worlds.townPhysics.world,canvas,profile:()=>state.activeId,helper:()=>helperPicker.selected(),onPause:()=>{resetNavigationInput();actor.setWalking(false);},onAction:echoAction,review:new URLSearchParams(location.search).get('echo-review')==='1'});if(mode==='market')echo.markMarketVisited();return echo;}).finally(()=>{echoLoad=null;});return echoLoad;
+}
+async function applySelectedCompanion(helper=helperPicker.selected()){
+ const isCreature=Boolean(helper.model);if(!echo&&!isCreature)return;
+ const status=$('companion-status');if(status){status.hidden=false;status.textContent=isCreature?'Loading '+helper.name+'…':'Companion removed.';}
+ try{const guide=await loadEcho();await guide.selectHelper(helper);if(helperPicker.selected().id!==helper.id)return;if(status){status.textContent=guide.snapshot().helperStatus==='failed'?helper.name+' could not load. Echo is available instead. Choose this companion again to retry.':isCreature?helper.name+' is ready beside you.':'Companion removed.';}}
+ catch(error){if(status){status.hidden=false;status.textContent='Companion could not load. Your game is ready. Open Optional companion to retry.';}console.warn('Companion unavailable; game remains playable.',error);}
+}
 const marketRequested=new URLSearchParams(location.search).get('experience') && ['night-market','sunday-markets'].includes(new URLSearchParams(location.search).get('experience'));
 const marketDialogOpen=()=>Boolean(nightMarket?.isOpen());
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
 let chapelTilt=0,flyover;
 function resetNavigationInput(){renderMotion=null;locomotion.reset();keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
-function explorationMenuOpen(){return Boolean(document.querySelector('#exploration-options')?.open||document.querySelector('#whole-character-choice')?.open||explorationTools?.open());}
+function explorationMenuOpen(){return Boolean(document.querySelector('#exploration-options')?.open||document.querySelector('#whole-character-choice')?.open||document.querySelector('#orientation-handover')?.open||explorationTools?.open());}
 function canFlyover(){return !intro?.open()&&!discovery?.open()&&!echo?.open()&&mode==='town'&&campusReady&&!enteringHall&&!enteringCareers&&!studioLoadPending&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!$('leave-dialog').open;}
 let studioLoadPending=false;
 const explorationReview=new URLSearchParams(location.search).get('market-review')==='1'||new URLSearchParams(location.search).get('review')==='1';
@@ -63,22 +76,34 @@ let introWarmTime=-Infinity;
 let toastTimer,drag=null,lastTime=0,accumulator=0,metricsTime=0,frames=0,viewport={width:1,height:1};
 let tapMovement=null,watchingEST=false;
 const teachers=[];
-let teacherLoading=false,teacherAttempted=false,ovalVisitRecorded=false;
+let teacherLoading=false,teacherAttempted=false,ovalVisitRecorded=false,teacherLoad,teacherModuleFailure=null,teacherModuleRequest=0;
+const teacherFailures=new Map();
 const teacherRay=new THREE.Raycaster(),teacherPointer=new THREE.Vector2();
 function updateTeacherLoading(){
- if(mode!=='town'||document.hidden||(discoveryReview&&!discovery?.revealed()))return;
+ if(mode!=='town'||document.hidden||(discoveryReview&&(!discovery||(!discovery.revealed()&&discovery.snapshot().step<3))))return;
  const p=actor.model.position,near=Math.hypot(p.x+4,p.z+54)<28;
  if(!near){teacherAttempted=false;return;}
  if(teachers.length&&teachers.some(n=>n.near(p,7))&&!ovalVisitRecorded){ovalVisitRecorded=true;explore('oval').then(ok=>{if(!ok)ovalVisitRecorded=false;});}
- if(teachers.length===2||teacherLoading||teacherAttempted)return;
+ if(teachers.length===2||teacherLoading)return;
+ if(teacherModuleFailure&&(teacherModuleFailure.attempts>=3||performance.now()<teacherModuleFailure.retryAt))return;
+ if(teacherAttempted&&![...teacherFailures.values()].some(f=>f.attempts<3&&performance.now()>=f.retryAt))return;
+ return loadTeachers();
+}
+function loadTeachers({explicit=false}={}){
+ if(teachers.length===2)return Promise.resolve();
+ if(teacherLoad)return teacherLoad;
  teacherLoading=true;teacherAttempted=true;
- import('./teacher-npc.js?v=teacher-revisit-20261012').then(async m=>{
+ const moduleAttempt=teacherModuleFailure?.attempts||0,moduleGeneration=teacherModuleRequest++;
+ const moduleRequest=moduleGeneration?import('./teacher-npc.js?v=ecc-ba60122&retry='+moduleGeneration):import('./teacher-npc.js?v=ecc-ba60122');
+ teacherLoad=moduleRequest.then(async m=>{teacherModuleFailure=null;
   // Stagger decode/upload work and isolate each optional NPC's failure.
   for(const config of m.TEACHERS)if(!teachers.some(n=>n.id===config.id)){
-   try{teachers.push(await m.createTeacherNPC(worlds,discoveryReview?{...config,spawn:{x:config.id==='middleton'?-6.2:-1.8,z:-54.6},fixed:true,reduced:discovery?.reduced()}:config));}
-   catch(error){console.warn(config.name+' could not load; return to the oval to retry.',error);}
+   const failed=teacherFailures.get(config.id);if(!explicit&&failed&&(failed.attempts>=3||performance.now()<failed.retryAt))continue;
+   try{teachers.push(await m.createTeacherNPC(worlds,discoveryReview?{...config,spawn:{x:config.id==='middleton'?-6.2:-1.8,z:-54.6},fixed:true,reduced:discovery?.reduced()}:config));teacherFailures.delete(config.id);}
+   catch(error){const attempts=explicit?1:(failed?.attempts||0)+1;teacherFailures.set(config.id,{attempts,retryAt:performance.now()+Math.min(30000,2000*2**(attempts-1))});console.warn(config.name+' could not load; return to the oval to retry.',error);}
   }
- }).catch(error=>console.warn('Teachers unavailable; return to the oval to retry.',error)).finally(()=>teacherLoading=false);
+ }).catch(error=>{const attempts=explicit?1:moduleAttempt+1;teacherModuleFailure={attempts,retryAt:performance.now()+Math.min(30000,2000*2**(attempts-1))};teacherAttempted=false;console.warn('Teachers unavailable; return to the oval to retry.',error);}).finally(()=>{teacherLoading=false;teacherLoad=null;});
+ return teacherLoad;
 }
 function greetTeacher(npc){if(mode==='town'&&npc?.root?.visible&&npc.react(actor.model.position))toast('Hello, '+npc.name+'!');}
 function tapTeacher(event){
@@ -281,7 +306,7 @@ function renderEditor(){
   }else root.append(field('Future occupation','occupation','textarea'),field('Training pathway','training','textarea'),field('A strength I bring','strength','textarea'));
   icons();
 }
-let studioLoad,modeRequest=0,campusLoad,campusReady=false,environmentReady=false;
+let studioLoad,modeRequest=0,campusLoad,campusReady=false,environmentReady=false,entryEnvironmentModule;
 function campusNotice(message,failed=false){
   $('campus-progress').hidden=campusReady;
   $('campus-progress-message').textContent=message;
@@ -296,16 +321,16 @@ async function ensureCampus(){
     THREE.Cache.enabled=true;
     try{
       await prepareEntry();
-      const results=await Promise.allSettled([worlds.loadScenery()]);
+      const results=await Promise.allSettled([worlds.loadScenery({deferReveal:true})]);
       const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
       await new Promise(resolve=>setTimeout(resolve,0));
       if(!environmentReady){
-        const {integrateEnvironment}=await import('./environment.js?v=exteriors-20261012');
+        const {integrateEnvironment}=await import('./environment.js?v=ecc-ba60122');
         const before=new Set(worlds.town.children);
         try{await integrateEnvironment(worlds);worlds.syncWalkingSurfaces();environmentReady=true;}
         catch(error){for(const child of [...worlds.town.children])if(!before.has(child))child.removeFromParent();throw error;}
       }
-      worlds.phase(phase);worlds.openCampus();campusReady=true;worlds.scenery.status='ready';showMarketExteriorSigns();
+      worlds.phase(phase);worlds.revealCampusDetail();worlds.openCampus();campusReady=true;worlds.scenery.status='ready';showMarketExteriorSigns();
       worlds.scenery.errors=[];canvas.dataset.campusReadyMs=String(Math.round(performance.now()));
       campusNotice('Campus ready');startSurfaceDetail();if(detailFailed)detailNotice();
     }catch(error){
@@ -317,12 +342,16 @@ async function ensureCampus(){
 }
 // Opening assets finish before any speculative next-task work. Destination
 // actions still own navigation; prefetch never changes progress or opens a UI.
-let entryLoad,entryReady=false,entryReadyAt=0,preparing=false,prepared=new Set(),lastPreparation=0;
+let entryLoad,entryAvatarPriority,entryPreparing=false,entryGeometryReady=false,entryDrawSubmitted=false,entryReady=false,entryFailure=false,entryHandover=false,entrySceneFrame=0,entryReadyAt=0,preparing=false,prepared=new Set(),lastPreparation=0;
 let detailLoad,detailFailed=false;
 function detailNotice(){
  $('campus-progress').hidden=false;
  $('campus-progress-message').textContent='Some surface detail is still loading. You can keep exploring; Retry will request missing surfaces again.';
  $('campus-retry').hidden=false;
+}
+function refreshSurfaceDetailNotice(){
+ detailFailed=worlds.failedSurfaceDetails>0;
+ if(!detailFailed&&canClearDetailWarning({entryReady,campusReady,campusLoading:campusLoad,pending:worlds.pendingSurfaceDetails,campusFailed:worlds.scenery.status==='fallback'}))$('campus-progress').hidden=true;
 }
 function startSurfaceDetail(){
  if(detailLoad)return detailLoad;
@@ -331,11 +360,24 @@ function startSurfaceDetail(){
  return detailLoad;
 }
 
+function updateEntryLoading(){
+ if(!discoveryReview||!entryHandover||mode!=='town')return;
+ const waiting=!entryReady&&!entryFailure&&!intro?.open();
+ $('loading').hidden=!waiting;if(waiting)$('loading-message').textContent='Opening campus…';
+}
+async function waitForVisibleEntryFrame(){
+ const before=entrySceneFrame;let pending;
+ await new Promise(resolve=>{const check=()=>requestAnimationFrame(()=>{frameGate.ready();if(!pending&&entrySceneFrame>before)pending=entrySceneFrame;if(pending&&frameGate.completedFrame>=pending)resolve();else check();});check();});
+ await afterFirstPaint();
+}
 async function prepareEntry(){
  if(entryReady)return;
  if(entryLoad)return entryLoad;
- campusNotice('Preparing the outdoor path to the envelope and Chapel…');
- entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await import('./environment.js?v=exteriors-20261012');await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;showMarketExteriorSigns();entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;startSurfaceDetail();setTimeout(()=>worlds.loadBuildingExteriors().then(startSurfaceDetail).catch(()=>{}),0);}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
+ entryFailure=false;entryPreparing=true;entryGeometryReady=false;entryDrawSubmitted=false;updateEntryLoading();campusNotice('Preparing the outdoor path to the envelope and Chapel…');
+ const environmentModule=environmentReady?null:(entryEnvironmentModule||=import('./environment.js?v=ecc-ba60122'));environmentModule?.catch(()=>{});
+ // Complete exterior geometry and original opening planting during the intro; interiors and decorative maps remain deferred.
+ const originalExteriors=worlds.loadBuildingExteriors();
+ entryLoad=Promise.all([worlds.loadEntry(),originalExteriors,entryAvatarPriority?waitForPriorityAsset(entryAvatarPriority):Promise.resolve()]).then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}showMarketExteriorSigns();worlds.loadMuralTexture().catch(()=>{detailFailed=true;detailNotice();});entryGeometryReady=true;updateCamera(1,true);if(mode==='town')await waitForVisibleEntryFrame();entryReady=true;entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;updateEntryLoading();canvas.dataset.entryVisibleMs=String(performance.now());startSurfaceDetail();}).catch(error=>{entryFailure=true;campusNotice('Campus buildings could not load. Retry to open campus.',true);updateEntryLoading();throw error;}).finally(()=>{entryPreparing=false;entryLoad=null;});
  return entryLoad;
 }
 function prepareNextTask(now){
@@ -347,13 +389,14 @@ function prepareNextTask(now){
  if(!next||prepared.has(key))return;
  preparing=true;
  const job=next==='studio'?Promise.all([import('./studio.js?v=lazy-20260917'),loadCharacterKit(active().body)])
-  :next==='market'?import('./night-market.js?v=sharp-entry-20260925').then(()=>import('./market-characters.js?v=sharp-entry-20260925')).then(m=>m.prepareMarketCharacters(()=>!document.hidden&&state.activeId===profileId&&echo?.nextPreparation()==='market'))
+  :next==='market'?import('./night-market.js?v=ecc-ba60122').then(()=>import('./market-characters.js?v=market-admin-20261012')).then(m=>m.prepareMarketCharacters(()=>!document.hidden&&state.activeId===profileId&&echo?.nextPreparation()==='market'))
   :((mode==='town'&&now-entryReadyAt>15)||(mode==='market'&&nightMarket?.snapshot().visuals.ready===nightMarket?.snapshot().visuals.total))?ensureCampus():null;
  if(!job){preparing=false;return;}
  Promise.resolve(job).then(result=>{if(result!==false)prepared.add(key);}).catch(error=>{prepared.add(key);console.warn('Next activity will retry when opened',error);}).finally(()=>{preparing=false;lastPreparation=clock.getElapsedTime();});
 }
 function openCampusInBackground(){ensureCampus().catch(error=>console.warn('Campus detail can be retried',error));}
 async function setMode(next){
+  cancelMarketOpening(next);
   flyover?.exit();
   const request=++modeRequest;
   if(next==='town'&&!entryReady&&canvas.dataset.firstFrameMs)prepareEntry().catch(()=>{});
@@ -380,7 +423,7 @@ async function setMode(next){
   $('studio-view').classList.toggle('active',inStudio);$('studio-view').setAttribute('aria-pressed',inStudio);
   if(orbit)orbit.enabled=inStudio;canvas.setAttribute('aria-label',inStudio?'Interactive 3D character':next==='market'?'Interactive Live Music and Sunday Markets practice':next==='careers'?'Interactive Careers Advice Centre':next==='chapel'?'Interactive ECC Chapel':next==='interior'?'Interactive EST Prep hall':'Interactive 3D town');
   if(inStudio){draft=copy(active());undo=[];redo=[];editorTab='identity';previewWalking=false;portrait=false;$('pose-avatar').setAttribute('aria-pressed','false');$('portrait-view').setAttribute('aria-pressed','false');updatePreview();renderEditor();resetStudioCamera();}
-  else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(next==='market'?nightMarket.spawn:worlds.position(space()));yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='careers'?'Careers Advice Centre':next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
+  else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(next==='market'?nightMarket.spawn:worlds.position(space()));if(next==='market')actor.model.rotation.y=Math.PI;yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='careers'?'Careers Advice Centre':next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
   resize();
   if(['interior','careers'].includes(next))await explore('building');
   if(['studio','market'].includes(next))await explore(next);
@@ -410,7 +453,7 @@ async function enterCareers(){
   worlds.teleport(true,0,5);setMode('careers');
 }
 async function enterChapel(){const request=++hallRequest;toast('Opening the Chapel...');try{await worlds.ensureChapel();if(!worlds.chapel.userData.reflectionProbe){const target=new THREE.WebGLCubeRenderTarget(128,{type:THREE.HalfFloatType});const probe=new THREE.CubeCamera(.1,35,target);probe.position.set(0,2.2,-2);probe.update(renderer,worlds.chapel);worlds.chapel.environment=target.texture;worlds.chapel.environmentIntensity=.45;worlds.chapel.userData.reflectionProbe=target;}}catch{if(request===hallRequest)toast('Chapel could not load. Try entering again.');return;}if(request!==hallRequest||mode!=='town')return;worlds.teleport('chapel',...CHAPEL.entry);chapelRevealElapsed=0;setMode('chapel');}
-function leaveChapel(){const nextClue=discoveryReview&&!discovery?.snapshot().chapelVisited;setMode('town');worlds.teleport(false,...(entryReady?[CHAPEL.x,CHAPEL.z]:[-7,23.3]));actor.model.position.copy(worlds.position(false));yaw=1.1;clearTimeout(toastTimer);$('toast').hidden=true;updateCamera(1,true);if(nextClue)discovery?.chapelCheckpoint(true);openCampusInBackground();}
+function leaveChapel(){const nextClue=discoveryReview;setMode('town');worlds.teleport(false,...(entryReady?[CHAPEL.x,CHAPEL.z]:[-7,23.3]));actor.model.position.copy(worlds.position(false));yaw=1.1;clearTimeout(toastTimer);$('toast').hidden=true;updateCamera(1,true);if(nextClue)discovery?.chapelCheckpoint(true);openCampusInBackground();}
 function closeESTVideo(){documentRequest++;if(document.fullscreenElement)document.exitFullscreen?.();$('est-document-frame').replaceChildren();$('est-video-dialog').close();watchingEST=false;worlds.estVideo.pause();$('est-video-controls').hidden=true;keys.clear();joystick.reset();tapMovement=null;canvas.focus();}
 function showESTFilm(){documentRequest++; $('est-documents').hidden=true;$('est-document-frame').hidden=true;$('est-document-frame').replaceChildren();$('est-source-title').hidden=true;worlds.estVideo.video.hidden=false;$('est-film-controls').hidden=false; }
 function watchESTVideo(){watchingEST=true;$('est-video-zoom').value='1';$('est-media-slot').classList.remove('zoomed');const media=worlds.estVideo.video;media.hidden=false;media.controls=true;$('est-media-slot').append(media);showESTFilm();$('est-video-dialog').showModal();$('interact').hidden=true;$('est-watch').hidden=true;interaction=null;clearTimeout(toastTimer);$('toast').hidden=true;keys.clear();joystick.reset();tapMovement=null;actor.setWalking(false);$('est-video-controls').hidden=false;$('est-video-play').textContent='Play';$('est-video-status').textContent='Loading the video for smooth playback and seeking…';worlds.estVideo.play().catch(()=>{$('est-video-status').textContent='Video could not load. Choose Play to retry.';});}
@@ -426,13 +469,28 @@ async function openESTDocument(key){const request=++documentRequest,doc=estDocum
 function positionESTPlayButton(){const button=$('est-watch');if(mode!=='interior'||watchingEST){button.hidden=true;return;}const point=worlds.estVideo.screen.getWorldPosition(new THREE.Vector3()).project(camera);button.hidden=point.z<0||point.z>1||Math.abs(point.x)>.9||Math.abs(point.y)>.85;if(!button.hidden){button.style.left=((point.x+1)*.5*viewport.width)+'px';button.style.top=((1-point.y)*.5*viewport.height)+'px';}}
 
 function reflect(){keys.clear();joystick.reset();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
-let marketOpening=false;
-async function openMarket(){
- if(marketOpening)return;marketOpening=true;
- try{if(!nightMarket){const {createNightMarket}=await import('./night-market.js?v=sharp-entry-20260925');nightMarket=createNightMarket({campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:gameStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}await setMode('market');}
- catch(error){console.warn('Market unavailable',error);toast('The market could not open. Campus activities remain available.');}finally{marketOpening=false;}
+let marketOpening=false,marketLeaving=false,marketTravelCooldownUntil=0,marketTravelRequest=0,marketTravelController=null,marketModuleAttempt=0;
+function cancelMarketOpening(next){if(next!=='market'&&marketOpening){marketTravelRequest++;marketOpening=false;const controller=marketTravelController;marketTravelController=null;controller?.abort();}}
+// Capture only the already-loaded market scene; no campus or video assets.
+function marketBriefingImage(beat){
+ const views=[{from:[1,2.4,-.8],at:[0,1.5,-5.4]},{from:[-4,3.2,4],at:[.2,.9,-3.2]},{from:[6.7,2.2,.2],at:[3,.6,-3.7]},{from:[0,4,8],at:[0,1,-2]},{from:[4.7,2.2,-.3],at:[2.8,.9,-4.4]},{from:[1,2.4,-.8],at:[0,1,-5.4]}];
+ const v=views[beat],shot=camera.clone();shot.aspect=16/9;shot.position.set(...v.from);shot.lookAt(...v.at);shot.updateProjectionMatrix();
+ const size=renderer.getSize(new THREE.Vector2()),ratio=renderer.getPixelRatio(),shown=actor.model.visible;
+ try{actor.model.visible=false;renderer.setPixelRatio(1);renderer.setSize(768,432,false);renderer.render(nightMarket.scene,shot);return canvas.toDataURL('image/jpeg',.82);}
+ finally{actor.model.visible=shown;renderer.setPixelRatio(ratio);renderer.setSize(size.x,size.y,false);renderer.render(activeScene(),camera);}
 }
-function returnTown(){if(mode==='market'){setMode('town').then(async()=>{const request=modeRequest;try{await ensureCampus();}catch{toast('Campus scenery is unavailable. Other campus activities remain accessible.');return;}if(mode!=='town'||request!==modeRequest)return;worlds.teleport(false,43,-19.3);actor.model.position.copy(worlds.position(false));yaw=0;updateCamera(1,true);setLocation('Market Courtyard');});}else if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='careers')destination('careers');else if(mode==='interior')destination('est');else setMode('town');}
+async function openMarket(){
+ if(marketOpening)return;const request=++marketTravelRequest,controller=new AbortController();marketTravelController=controller;marketOpening=true;resetNavigationInput();actor?.setWalking(false);toast('Opening Sunday Market…');
+ try{if(!nightMarket){const moduleReady=marketModuleAttempt?import('./night-market.js?v=ecc-ba60122&retry='+marketModuleAttempt):import('./night-market.js?v=ecc-ba60122');const {createNightMarket}=await withAssetDeadline(moduleReady,15000,'The Market is taking too long to open. Try again.',controller.signal);if(request!==marketTravelRequest)return;nightMarket=createNightMarket({onTravel:point=>{resetNavigationInput();actor.model.position.set(point.x,point.y,point.z);actor.model.rotation.y=Math.PI;actor.setWalking(false);setLocation(point.x<-12?'Markets Administration':'Sunday Market');yaw=point.yaw??0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);},captureBriefing:marketBriefingImage,campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:gameStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}if(request!==marketTravelRequest)return;await setMode('market');}
+ catch(error){if(request!==marketTravelRequest)return;marketModuleAttempt++;console.warn('Market unavailable',error);toast('The market could not open. Campus activities remain available.');}finally{if(request===marketTravelRequest){marketOpening=false;marketTravelController=null;}}
+}
+async function leaveMarketByGate(){
+ if(marketLeaving||mode!=='market')return;const request=modeRequest;marketLeaving=true;resetNavigationInput();actor.setWalking(false);
+ try{await ensureCampus();if(mode!=='market'||request!==modeRequest)return;await setMode('town');worlds.teleport(false,43,-17.8);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=0;yaw=Math.PI;marketTravelCooldownUntil=performance.now()+1200;updateCamera(1,true);setLocation('Outside Sunday Markets');canvas.focus();}
+ catch{toast('Campus scenery is still preparing. Walk back through the gate to retry, or use Return to campus.');}
+ finally{marketLeaving=false;}
+}
+function returnTown(){if(mode==='market'){leaveMarketByGate();}else if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='careers')destination('careers');else if(mode==='interior')destination('est');else setMode('town');}
 function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=async()=>{await setMode('town');if(which==='home'&&!campusReady){const request=modeRequest;try{await ensureCampus();}catch{return;}if(request!==modeRequest||mode!=='town')return;}if(!campusReady){worlds.teleport(false,-7,23.3);actor.model.position.copy(worlds.position(false));updateCamera(1,true);return;}worlds.teleport(false,which==='careers'?CAREERS.x:which==='est'?EST.x:ECC_HOME.x,which==='careers'?CAREERS.z:which==='est'?EST.z:ECC_HOME.z);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:Math.PI;yaw=which==='careers'?CAREERS.yaw:which==='est'?EST.yaw:ECC_HOME.yaw;setLocation(which==='careers'?CAREERS.name:which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
 async function campusSpot(x,z,heading,angle=0){
   const go=async()=>{await setMode('town');const request=modeRequest;
@@ -444,6 +502,29 @@ async function campusSpot(x,z,heading,angle=0){
   if(mode==='studio')leaveStudio(go);else await go();
 }
 function resetStudioCamera(){const distance=isMobile()?4.25:4.0;camera.position.set(.12,portrait?1.63:1.3,portrait?1.8:distance);orbit.target.set(0,portrait?1.48:.95,0);orbit.minDistance=1.15;orbit.maxDistance=5.2;orbit.maxPolarAngle=Math.PI*.59;orbit.minPolarAngle=Math.PI*.28;orbit.update();}
+let renderBackend='',lastRenderMs=0,lastPausedSceneStamp;
+function applyRenderQuality(){
+ const quality=renderQuality(renderBackend,$('quality').value,devicePixelRatio);let changed=false;
+ if(renderer.shadowMap.enabled!==quality.shadows){renderer.shadowMap.enabled=quality.shadows;changed=true;}
+ if(renderer.getPixelRatio()!==quality.pixelRatio){renderer.setPixelRatio(quality.pixelRatio);resize();changed=true;}
+ worlds.town.traverse(o=>{if(o.isDirectionalLight&&o.castShadow&&o.shadow.mapSize.x!==quality.shadowSize){o.shadow.mapSize.set(quality.shadowSize,quality.shadowSize);o.shadow.map?.dispose();o.shadow.map=null;o.shadow.needsUpdate=true;changed=true;}if(o.isLOD){const distance=o.userData.softwareDetail||o.userData.heroDetail?(quality.software&&!quality.shadows?0:Infinity):quality.plantDistance;if((o.userData.softwareDetail||o.name==='Campus planting distance detail')&&o.levels[1].distance!==distance){o.levels[1].distance=distance;changed=true;}}});
+ return changed;
+}
+async function capturePortraitFrame(){
+ portraitCapturePending=true;
+ let restore;
+ try{
+  // Reserve one completed GPU opportunity for the requested photo. Avoid
+  // stacking a synchronous canvas readback behind regular world frames.
+  await new Promise(resolve=>{const next=()=>requestAnimationFrame(()=>{if(!frameGate.ready())next();else resolve();});next();});
+  const oldSize=renderer.getSize(new THREE.Vector2()),oldRatio=renderer.getPixelRatio(),rotation=actor.model.rotation.y;
+  restore=()=>{actor.model.rotation.y=rotation;renderer.setPixelRatio(oldRatio);renderer.setSize(oldSize.x,oldSize.y,false);renderer.setViewport(0,0,oldSize.x,oldSize.y);};
+  const shot=camera.clone();shot.fov=50;shot.aspect=900/960;const layout=revealLayout(actor.model.position);shot.position.set(...layout.photoCamera);shot.lookAt(...layout.photoLook);shot.updateProjectionMatrix();preparePortrait(actor,layout);prepareCastPortrait(teachers,actor.model.position);shot.updateMatrixWorld(true);
+  renderer.setPixelRatio(1);renderer.setSize(900,960,false);renderer.setViewport(0,0,900,960);renderer.clear();renderer.render(worlds.town,shot);frameGate.submitted();
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob)throw Error('Photo could not be encoded');
+  return await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error);reader.readAsDataURL(blob);});
+ }finally{restore?.();lastPausedSceneStamp=null;portraitCapturePending=false;}
+}
 function resize(){
   if(!renderer)return;viewport={width:window.innerWidth,height:$('experience').clientHeight};renderer.setSize(viewport.width,viewport.height,false);
   const mobile=isMobile();const width=mode==='studio'&&!mobile?viewport.width-(viewport.width>900?364:316):viewport.width;
@@ -463,12 +544,14 @@ function updateCamera(dt,snap=false){
   }
   if(watchingEST){const viewingDistance=Math.max(7.9,6.8/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect));desiredCamera.set(0,3.3,-6.48+viewingDistance);lookAt.set(0,3.3,-6.48);camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);return;}
   if(mode==='town'&&worlds.town.fog){worlds.town.fog.near=aerial?200:64;worlds.town.fog.far=aerial?320:175;}
+  if(aerial&&mode==='town'&&camera.fov!==(isMobile()?62:55)){camera.fov=isMobile()?62:55;camera.updateProjectionMatrix();}
   if(aerial){if(mode==='chapel'){desiredCamera.set(8.9,2.25,-1.4);lookAt.set(-1.5,3.7,1.1);}else if(mode==='market'){desiredCamera.set(13,18,19);lookAt.set(0,0,-2);}else if(mode==='interior'||mode==='careers'){desiredCamera.set(8,12,13);lookAt.set(0,0,0);}else{desiredCamera.set(-63,87,65);lookAt.set(-20,0,-12);}}
   else if(mode==='town'||mode==='market'){
     // Keep head-to-foot framing steady through the Studio approach and camera turns.
-    const distance=6.4;
-    desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+3.1,p.z+Math.cos(yaw)*distance);
-    lookAt.set(p.x-Math.sin(yaw)*.6,p.y+1.25,p.z-Math.cos(yaw)*.6);
+    const office=mode==='market'&&p.x<-12.8;const framing=mode==='town'&&discoveryReview?campusEntryFraming(p,isMobile()):{distance:office?5.2:6.4,height:office?5.4:3.1,lookAhead:.6,bias:0,fov:isMobile()?62:55};
+    if(camera.fov!==framing.fov){camera.fov=framing.fov;camera.updateProjectionMatrix();}
+    desiredCamera.set(p.x+Math.sin(yaw)*framing.distance,p.y+framing.height,p.z+Math.cos(yaw)*framing.distance);
+    lookAt.set(p.x-Math.sin(yaw)*framing.lookAhead+Math.cos(yaw)*framing.bias,p.y+1.25,p.z-Math.cos(yaw)*framing.lookAhead-Math.sin(yaw)*framing.bias);
   }else{
     const distance=mode==='chapel'?3.5:4.2;
     if(mode==='chapel')chapelRevealElapsed+=dt;
@@ -557,7 +640,7 @@ function openModule(name,stage,url){
 }
 function closeModule(){moduleObserver?.disconnect();clearTimeout(moduleTimer);$('module-overlay').hidden=true;$('experience').inert=false;$('module-frame').onload=null;$('module-frame').removeAttribute('src');canvas.focus();}
 function phaseChange(name){if(!Object.hasOwn(PHASES,name))return;phase=name;worlds.phase(name);$('phase').value=name;}
-function qualityChange(){const q=$('quality').value;renderer.setPixelRatio(q==='low'?Math.min(devicePixelRatio,1):q==='high'?Math.min(devicePixelRatio,2):sharpRatio);renderer.shadowMap.enabled=q!=='low';resize();}
+function qualityChange(){const q=$('quality').value;renderer.setPixelRatio(q==='low'?Math.min(devicePixelRatio,1):q==='high'?Math.min(devicePixelRatio,2):sharpRatio);renderer.shadowMap.enabled=renderQuality(renderBackend,q,devicePixelRatio).shadows;resize();}
 function bindEvents(){
   document.addEventListener('visibilitychange',()=>{lastTime=clock.getElapsedTime();accumulator=0;frames=0;metricsTime=lastTime;if(document.hidden)resetNavigationInput();});
   const header=document.querySelector('.topbar');
@@ -597,7 +680,7 @@ function bindEvents(){
   $('town-view').addEventListener('click',returnTown);$('studio-view').addEventListener('click',openStudio);
   $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>{const go=()=>{setMode('town');enterHall();};if(mode==='studio')leaveStudio(go);else go();});$('chapel-destination').addEventListener('click',()=>destination('chapel'));
   $('interact').addEventListener('click',()=>interaction?.action());$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
-  $('campus-retry').addEventListener('click',()=>{if(detailFailed)startSurfaceDetail();else if(!entryReady)prepareEntry().catch(()=>{});else openCampusInBackground();});
+  $('campus-retry').addEventListener('click',()=>{if(detailFailed)worlds.retryDetailTextures().then(refreshSurfaceDetailNotice,()=>{detailFailed=true;detailNotice();});else if(!entryReady)prepareEntry().catch(()=>{});else openCampusInBackground();});
   $('aerial').addEventListener('click',async()=>{const request=modeRequest;if(mode==='town'&&!campusReady){try{await ensureCampus();}catch{return;}if(request!==modeRequest)return;}aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
   $('profile').addEventListener('change',()=>{const id=$('profile').value;$('profile').value=state.activeId;if(id===state.activeId){updateActor();return;}const change=()=>{state.activeId=id;persist();helperPicker.choose();updateActor();if(mode==='studio')setMode('studio');};if(mode==='studio')leaveStudio(change);else change();});
   $('new-profile').addEventListener('click',()=>{const add=()=>{if(state.profiles.length>=24){toast('This browser already has 24 characters.');return;}const p=normaliseProfile({id:crypto.randomUUID(),name:`Character ${state.profiles.length+1}`});state.profiles.push(p);state.activeId=p.id;persist();helperPicker.choose();updateActor();setMode('studio');};if(mode==='studio')leaveStudio(add);else add();});
@@ -607,15 +690,33 @@ function bindEvents(){
   $('keep-editing').addEventListener('click',()=>{$('leave-dialog').close();pendingLeave=null;});$('discard-changes').addEventListener('click',()=>{$('leave-dialog').close();pendingLeave?.();pendingLeave=null;});$('save-changes').addEventListener('click',()=>{if(saveDraft()){$('leave-dialog').close();pendingLeave?.();pendingLeave=null;}});
   $('turn-avatar').addEventListener('click',()=>{if(preview)preview.model.rotation.y+=Math.PI;});$('pose-avatar').addEventListener('click',()=>{previewWalking=!previewWalking;preview?.setWalking(previewWalking);$('pose-avatar').setAttribute('aria-pressed',previewWalking);});$('portrait-view').addEventListener('click',()=>{portrait=!portrait;$('portrait-view').setAttribute('aria-pressed',portrait);resetStudioCamera();});
   $('close-module').addEventListener('click',closeModule);
-  window.addEventListener('keydown',e=>{if(explorationMenuOpen()||intro?.open()||discovery?.open()||helperPicker.open()||echo?.open()||feedbackOpen()||marketDialogOpen())return;if(flyover?.keydown(e))return;if(watchingEST){if(e.code==='Escape')closeESTVideo();return;}if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)||$('leave-dialog').open||(!$('module-overlay').hidden||$('reflection-dialog').open))return;if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','ShiftLeft','ShiftRight'].includes(e.code)){e.preventDefault();keys.add(e.code);}if(e.code==='KeyE')interaction?.action();});
+  window.addEventListener('keydown',e=>{if((mode==='town'&&!entryReady)||explorationMenuOpen()||intro?.open()||discovery?.open()||helperPicker.open()||echo?.open()||feedbackOpen()||marketDialogOpen())return;if(flyover?.keydown(e))return;if(watchingEST){if(e.code==='Escape')closeESTVideo();return;}if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)||$('leave-dialog').open||(!$('module-overlay').hidden||$('reflection-dialog').open))return;if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','ShiftLeft','ShiftRight'].includes(e.code)){e.preventDefault();keys.add(e.code);}if(e.code==='KeyE')interaction?.action();});
   window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>{resetNavigationInput();actor?.setWalking(false);flyover?.stop();});document.addEventListener('visibilitychange',()=>{flyover?.stop();resetNavigationInput();actor?.setWalking(false);lastTime=clock.getElapsedTime();});window.addEventListener('resize',resize);
   window.addEventListener('beforeunload',e=>{if(dirty()){e.preventDefault();e.returnValue='';}});
-  document.querySelectorAll('[data-key]').forEach(b=>{b.addEventListener('contextmenu',e=>e.preventDefault());b.addEventListener('dragstart',e=>e.preventDefault());b.addEventListener('selectstart',e=>e.preventDefault());let pressedAt=0;b.addEventListener('pointerdown',e=>{if(intro?.open()||discovery?.open())return;e.preventDefault();b.setPointerCapture(e.pointerId);pressedAt=performance.now();keys.add(b.dataset.key);b.classList.add('pressed');});const release=e=>{if(e.type==='pointerup'&&performance.now()-pressedAt<180)tapMovement={key:b.dataset.key,until:performance.now()+220};keys.delete(b.dataset.key);b.classList.remove('pressed');};b.addEventListener('pointerup',release);b.addEventListener('pointercancel',release);b.addEventListener('lostpointercapture',release);});
-  canvas.addEventListener('pointerdown',e=>{if(explorationMenuOpen()||intro?.open()||discovery?.open())return;if(flyover?.pointerdown(e))return;canvas.focus();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt,moved:false};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(flyover?.pointermove(e))return;if(drag && mode!=='studio'){if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6)drag.moved=true;yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='chapel')chapelTilt=THREE.MathUtils.clamp(drag.tilt+(e.clientY-drag.y)*.014,-1.6,4.5);}});canvas.addEventListener('pointerup',e=>{if(flyover?.active){flyover.pointerup(e);return;}if(drag&&!drag.moved)tapTeacher(e);drag=null;});canvas.addEventListener('pointercancel',()=>{drag=null;flyover?.pointerup();});canvas.addEventListener('lostpointercapture',()=>{drag=null;flyover?.pointerup();});
+  document.querySelectorAll('[data-key]').forEach(b=>{b.addEventListener('contextmenu',e=>e.preventDefault());b.addEventListener('dragstart',e=>e.preventDefault());b.addEventListener('selectstart',e=>e.preventDefault());let pressedAt=0;b.addEventListener('pointerdown',e=>{if((mode==='town'&&!entryReady)||explorationMenuOpen()||intro?.open()||discovery?.open()||helperPicker.open()||echo?.open())return;e.preventDefault();b.setPointerCapture(e.pointerId);pressedAt=performance.now();keys.add(b.dataset.key);b.classList.add('pressed');});const release=e=>{if(b.classList.contains('pressed')&&e.type==='pointerup'&&performance.now()-pressedAt<180)tapMovement={key:b.dataset.key,until:performance.now()+220};keys.delete(b.dataset.key);b.classList.remove('pressed');};b.addEventListener('pointerup',release);b.addEventListener('pointercancel',release);b.addEventListener('lostpointercapture',release);});
+  canvas.addEventListener('pointerdown',e=>{if((mode==='town'&&!entryReady)||explorationMenuOpen()||intro?.open()||discovery?.open()||helperPicker.open()||echo?.open())return;if(flyover?.pointerdown(e))return;canvas.focus();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt,moved:false};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(flyover?.pointermove(e))return;if(drag && mode!=='studio'){if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6)drag.moved=true;yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='chapel')chapelTilt=THREE.MathUtils.clamp(drag.tilt+(e.clientY-drag.y)*.014,-1.6,4.5);}});canvas.addEventListener('pointerup',e=>{if(flyover?.active){flyover.pointerup(e);return;}if(drag&&!drag.moved)tapTeacher(e);drag=null;});canvas.addEventListener('pointercancel',()=>{drag=null;flyover?.pointerup();});canvas.addEventListener('lostpointercapture',()=>{drag=null;flyover?.pointerup();});
 }
+let renderedFrames=0,lastPixelColours=null,lastPixelReadAt=-Infinity;
+function publishDiagnostics(now,rendered=false){
+    if(rendered&&pixelDiagnostics&&now-lastPixelReadAt>1){
+      const gl=renderer.getContext(),pixels=new Uint8Array(4*24*24),colours=new Set();
+      for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
+      lastPixelColours=colours.size;lastPixelReadAt=now;
+    }
+    if(now-metricsTime<=1)return;
+    const discovered=discovery?.snapshot(),discoveryState=discovered?{...discovered,shots:Object.fromEntries(Object.entries(discovered.shots||{}).map(([id,shot])=>[id,{...shot,image:Boolean(shot.image)}]))}:null;
+    const data={guestRun:gameSession?.isGuest,runId:gameSession?.id,introShellMs:Number(document.documentElement.dataset.introShellMs)||null,entryReady,surfaceDetailPending:worlds.pendingSurfaceDetails,surfaceDetailFailed:detailFailed,preparingNextTask:preparing,renderRatio:renderer.getPixelRatio(),renderBackend,renderFrameMs:Math.round(lastRenderMs),discovery:discoveryState,intro:intro?.snapshot(),echo:echo?.snapshot(),exploration:explorationTools?.snapshot(),optionsOpen:Boolean($('exploration-options')?.open),marketOpening,teacherLoading,teacherModuleFailure,...(mode==='market'?{market:nightMarket.snapshot()}:{}),avatarFallback:Boolean(actor.model.userData.fallback),avatarBody:actor.profile?.body||null,campusReady,arrivalRestricted:worlds.arrivalOnly,teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),renderedFrames,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours:lastPixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
+    (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
+    if(mode==='studio'&&draft?.body==='pantstest'){
+      data.wardrobe={top:draft.workTop,pants:draft.outer==='none'?'none':draft.pantsStyle,topHex:draft.topColour,necklineVisible:false,visibleTops:[],hair:draft.hairStyle,shoes:draft.shoeStyle,hairHex:draft.hairColours[draft.hairStyle],shoeHex:draft.shoeColours[draft.shoeStyle],visibleHair:[],visibleShoes:[],bodyScale:preview?.model.children[0]?.scale.y};
+      preview?.model.traverse(o=>{if(!o.isMesh||!o.visible)return;if(o.userData.clothingSlot==='necklineSkin')data.wardrobe.necklineVisible=true;for(const [slot,key]of [['hair','visibleHair'],['shoes','visibleShoes']])if(o.userData.clothingSlot===slot&&!data.wardrobe[key].includes(o.userData.itemStyle))data.wardrobe[key].push(o.userData.itemStyle);if(o.userData.clothingSlot==='workTop'&&!data.wardrobe.visibleTops.includes(o.userData.topStyle))data.wardrobe.visibleTops.push(o.userData.topStyle);});
+    }
+    $('diagnostics').value=JSON.stringify(data);$('diagnostics').dataset.state=JSON.stringify(data);frames=0;metricsTime=now;
+}
+
 function animate(){
   if(detailFailed&&worlds?.pendingSurfaceDetails===0){detailFailed=false;if(canClearDetailWarning({entryReady,campusReady,campusLoading:campusLoad,pending:worlds.pendingSurfaceDetails,campusFailed:worlds.scenery.status==='fallback'}))$('campus-progress').hidden=true;}
-  requestAnimationFrame(animate);const now=clock.getElapsedTime(),elapsed=now-lastTime,dt=Math.min(elapsed,.25);lastTime=now;
+  requestAnimationFrame(animate);const now=clock.getElapsedTime(),elapsed=now-lastTime,dt=Math.min(elapsed,.25);lastTime=now;publishDiagnostics(now);updateEntryLoading();
   // Upload arriving selected-avatar/surface assets before natural video handover.
   // Keep gameplay paused and bound the hidden-world GPU cadence to 2 fps.
   if(intro?.open()){if(now-introWarmTime<.5)return;introWarmTime=now;}
@@ -623,7 +724,7 @@ function animate(){
   if(document.hidden){accumulator=0;frames=0;metricsTime=now;return;}
   flyover?.refresh();
   if(flyover?.active){if(!document.hidden&&!feedbackOpen()){flyover.update(dt);worlds.update(now,camera);}}
-  else if(!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open){
+  else if((mode!=='town'||entryReady)&&!marketOpening&&!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open){
     if(tapMovement){if(performance.now()<tapMovement.until)keys.add(tapMovement.key);else{keys.delete(tapMovement.key);tapMovement=null;}}
     if(explorationMenuOpen()||discovery?.open()||helperPicker.open()||echo?.open())resetNavigationInput();
     let x=(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0),z=(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-(keys.has('KeyW')||keys.has('ArrowUp')?1:0);
@@ -635,7 +736,7 @@ function animate(){
     if(!renderMotion||renderMotion.shown.distanceToSquared(actor.model.position)>1e-10){
       renderMotion={previous:actor.model.position.clone(),current:actor.model.position.clone(),shown:actor.model.position.clone()};
     }
-    accumulator=Math.min(accumulator+dt,.25);let travelled=0,steps=0;
+    accumulator=accumulateTravelTime(accumulator,elapsed);let travelled=0,steps=0;
     while(accumulator>=STEP){
       const previous=renderMotion.current.clone();
       const delta=locomotion.step(x,z,yaw,running);
@@ -649,14 +750,32 @@ function animate(){
     }
     actor.model.position.lerpVectors(renderMotion.previous,renderMotion.current,accumulator/STEP);
     renderMotion.shown.copy(actor.model.position);
+    if(mode==='town'&&campusReady&&travelled>.001&&performance.now()>marketTravelCooldownUntil&&Math.hypot(actor.model.position.x-43,actor.model.position.z+22)<1.2)openMarket();
     // A render frame with no physics tick is not a stop. Never restart its walk.
     if(steps)actor.setWalking(travelled/(steps*STEP)>.03,travelled/(steps*STEP));
-    if(mode==='town'){if(entryReady&&!campusReady&&actor.model.position.z<-14&&worlds.scenery.status==='pending')openCampusInBackground();updateTeacherLoading();for(const npc of teachers)npc.update(discovery?.reduced()?0:dt,actor.model.position);}actor.update(discovery?.reduced()?0:dt);prepareNextTask(now);worlds.update(now,camera);updateInteraction();updateMission();
+    if(mode==='town'){if(entryReady&&!campusReady&&actor.model.position.z<-14&&worlds.scenery.status==='pending')openCampusInBackground();for(const npc of teachers)npc.update(Math.max(0,elapsed),actor.model.position);}actor.update(discovery?.reduced()?0:dt);prepareNextTask(now);worlds.update(now,camera);updateInteraction();updateMission();
   }else {renderMotion=null;locomotion.reset();accumulator=0;actor.setWalking(false);if(mode==='studio')preview?.update(dt);}
-  if(mode==='market')nightMarket.update(dt,now,camera);
+  updateTeacherLoading();
+  // The ungraded queue observation follows visible elapsed time. Clamping it
+  // like a physics step made a nine-second group take much longer on slow GPUs.
+  if(mode==='market')nightMarket.update(Math.max(0,elapsed),now,camera,actor.model.position);
   if(discoveryReview)for(const npc of teachers)npc.root.visible=Boolean(discovery?.revealed());
-  if(!discovery?.cinematic())updateCamera(dt,discovery?.reduced());if(!intro?.open()){discovery?.update(mode,actor.model.position,dt);explorationTools?.update(dt,!discovery?.open()&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open());}echo?.update(dt,actor.model.position,camera,mode==='town'&&!helperPicker.open()&&!aerial&&!flyover?.active&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open);positionESTPlayButton();renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
+  const paused=renderQuality(renderBackend,$('quality').value,devicePixelRatio).software&&mode!=='studio'&&!intro?.open()&&!discovery?.cinematic()&&(discovery?.openDialog()||explorationMenuOpen()||helperPicker.open()||echo?.open()||marketDialogOpen()||!$('module-overlay').hidden||$('reflection-dialog').open);
+  // Keep the current view still behind a paused software UI. Camera smoothing
+  // alone must not repeatedly invalidate its cached world frame.
+  if(!paused&&!discovery?.cinematic())updateCamera(dt,discovery?.reduced());if(!intro?.open()){discovery?.update(mode,actor.model.position,discovery?.cinematic()?Math.max(0,elapsed):dt);explorationTools?.update(dt,!discovery?.open()&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open());}echo?.update(dt,actor.model.position,camera,mode!=='studio'&&!helperPicker.open()&&!aerial&&!flyover?.active&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open,activeScene());positionESTPlayButton();
+  // Preserve the visible world while the requested Market or Stats module
+  // loads. Repeated scene draws can starve the requested UI on a constrained GPU.
+  if((mode==='town'&&entryPreparing&&(!entryGeometryReady||entryDrawSubmitted))||(marketOpening&&mode!=='market')||explorationTools?.preparing()||discovery?.preparingTravel())return;
+  // Preserve the completed initial view long enough for the released controls
+  // and input to paint before another slow software scene draw.
+  if(mode==='town'&&entryReady&&now-entryReadyAt<.12&&renderQuality(renderBackend,'auto',1).software)return;
+  if(surfaceUploads.waitingForFrame||portraitCapturePending||!frameGate.readyForDraw())return;
   let scene=mode==='studio'?studio:activeScene();
+  // On a software GPU, a paused panel should not repeatedly rasterize an
+  // unchanged world. Assets, UI and teacher preparation keep advancing.
+  if(paused){const d=discovery?.snapshot(),h=echo?.snapshot();const stamp=[scene.uuid,mode,phase,$('quality').value,viewport.width,viewport.height,entryReady,campusReady,worlds.scenery.status,actor.model.uuid,actor.model.rotation.y.toFixed(3),...actor.model.position.toArray().map(v=>v.toFixed(3)),...camera.position.toArray().map(v=>v.toFixed(3)),...camera.quaternion.toArray().map(v=>v.toFixed(4)),teachers.length,scene.children.length,d?.step,d?.souvenir,d?.chapelVisited,h?.helper,h?.helperStatus,h?.visible].join('|');if(lastPausedSceneStamp===stamp)return;lastPausedSceneStamp=stamp;}else lastPausedSceneStamp=null;
+  renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   if(mode==='studio'){const mobile=isMobile();renderer.setViewport(0,mobile?viewport.height*.43:0,mobile?viewport.width:viewport.width-(viewport.width>900?364:316),Math.max(1,viewport.height*(mobile?.57:1)-headerHeight));}
   renderer.toneMappingExposure=mode==='town'?1:1.03;
   // A moving/skinned player needs current-pose shadows every rendered frame.
@@ -664,33 +783,20 @@ function animate(){
   // frame in this Three build, making the suit jump as well as its self-shadow.
   const playerShadowChanged=shadowActor!==actor||shadowActorPosition.distanceToSquared(actor.model.position)>1e-10||shadowActorYaw!==actor.model.rotation.y||Boolean(actor.clips.walk?.enabled&&actor.clips.walk.getEffectiveWeight()>.0001);
   // Retain idle-world reuse and the original map resolution.
+  const qualityChanged=applyRenderQuality();
   renderer.shadowMap.autoUpdate=false;
-  renderer.shadowMap.needsUpdate=playerShadowChanged||$('quality').value!=='auto'||shadowScene!==scene||now-shadowTime>=((mode!=='town'||keys.size||joystick.x||joystick.z||flyover?.active||teachers.length)?.1:.5);
+  renderer.shadowMap.needsUpdate=qualityChanged||playerShadowChanged||$('quality').value!=='auto'||shadowScene!==scene||now-shadowTime>=((mode!=='town'||keys.size||joystick.x||joystick.z||flyover?.active||teachers.length)?.1:.5);
   if(renderer.shadowMap.needsUpdate){shadowScene=scene;shadowTime=now;shadowActor=actor;shadowActorPosition.copy(actor.model.position);shadowActorYaw=actor.model.rotation.y;}
   // A bounded warm frame prevents first-use texture/shader work at video EOF.
-  renderer.render(scene,camera);if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;
+  const renderStarted=performance.now();renderer.render(scene,camera);lastRenderMs=performance.now()-renderStarted;frameGate.submitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
   if(!canvas.dataset.firstFrameMs)canvas.dataset.firstFrameMs=String(Math.round(performance.now()));
-  if(now-metricsTime>1){
-    let pixelColours=null;
-    if(pixelDiagnostics){
-      const gl=renderer.getContext(),pixels=new Uint8Array(4*24*24),colours=new Set();
-      for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
-      pixelColours=colours.size;
-    }
-    const data={guestRun:gameSession?.isGuest,runId:gameSession?.id,introShellMs:Number(document.documentElement.dataset.introShellMs)||null,entryReady,surfaceDetailPending:worlds.pendingSurfaceDetails,surfaceDetailFailed:detailFailed,preparingNextTask:preparing,renderRatio:renderer.getPixelRatio(),discovery:discovery?.snapshot(),intro:intro?.snapshot(),echo:echo?.snapshot(),...(mode==='market'?{market:nightMarket.snapshot()}:{}),avatarFallback:Boolean(actor.model.userData.fallback),avatarBody:actor.profile?.body||null,campusReady,arrivalRestricted:worlds.arrivalOnly,teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
-    (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
-    if(mode==='studio'&&draft?.body==='pantstest'){
-      data.wardrobe={top:draft.workTop,pants:draft.outer==='none'?'none':draft.pantsStyle,topHex:draft.topColour,necklineVisible:false,visibleTops:[],hair:draft.hairStyle,shoes:draft.shoeStyle,hairHex:draft.hairColours[draft.hairStyle],shoeHex:draft.shoeColours[draft.shoeStyle],visibleHair:[],visibleShoes:[],bodyScale:preview?.model.children[0]?.scale.y};
-      preview?.model.traverse(o=>{if(!o.isMesh||!o.visible)return;if(o.userData.clothingSlot==='necklineSkin')data.wardrobe.necklineVisible=true;for(const [slot,key]of [['hair','visibleHair'],['shoes','visibleShoes']])if(o.userData.clothingSlot===slot&&!data.wardrobe[key].includes(o.userData.itemStyle))data.wardrobe[key].push(o.userData.itemStyle);if(o.userData.clothingSlot==='workTop'&&!data.wardrobe.visibleTops.includes(o.userData.topStyle))data.wardrobe.visibleTops.push(o.userData.topStyle);});
-    }
-    $('diagnostics').value=JSON.stringify(data);$('diagnostics').dataset.state=JSON.stringify(data);canvas.dataset.rendered='true';frames=0;metricsTime=now;
-  }
+  publishDiagnostics(now,true);
 }
 
 function setupExplorationMenus(){
- const options=document.createElement('details');options.id='exploration-options';options.className='header-menu';options.innerHTML='<summary>Options</summary><div id="exploration-option-list"></div>';$('header-controls').append(options);
+ const options=document.createElement('details');options.id='exploration-options';options.className='header-menu';options.innerHTML='<summary>Options</summary><div id="exploration-option-list"><p id="options-pause-note">Movement paused while Options is open.</p><button type="button" id="resume-options">Close options / Resume</button></div>';$('header-controls').append(options);
  const list=$('exploration-option-list');
- for(const selector of ['#destination-menu','#world-tools','#choose-helper','#my-life-link','.legacy-link']){const item=document.querySelector(selector);if(item){item.hidden=false;list.append(item);}}
+ for(const selector of ['#destination-menu','#world-tools','#header-phase','#choose-helper','#my-life-link','.legacy-link']){const item=document.querySelector(selector);if(item){item.hidden=false;list.append(item);if(item.id==='header-phase')$('phase').hidden=false;}}
  $('choose-helper').textContent='Optional companion';$('choose-helper').hidden=!discovery?.snapshot().souvenir;
  // Optional character editing keeps the quiet exploration entry.
  $('studio-view').hidden=true;
@@ -698,10 +804,26 @@ function setupExplorationMenus(){
  const all=document.createElement('a');all.href='?mode=full';all.textContent='All campus activities';list.append(all);
  const trail=$('discovery');const more=document.createElement('details');more.id='exploration-trail-options';more.innerHTML='<summary>Picture trail</summary>';more.append(trail);trail.hidden=false;list.append(more);list.append($('discovery-still').closest('label'));
  const help=document.createElement('button');help.id='exploration-help';help.textContent='Help';help.onclick=()=>{options.open=false;explorationTools?.close();$('discovery-help').click();};$('header-controls').prepend(help);
- options.addEventListener('toggle',()=>{if(options.open){explorationTools?.close();resetNavigationInput();}});
+ $('resume-options').onclick=()=>closeExplorationOptions();
+ options.addEventListener('toggle',()=>{if(options.open){explorationTools?.close();resetNavigationInput();actor?.setWalking(false);}else if(document.activeElement===options.querySelector('summary')){resetNavigationInput();canvas.focus({preventScroll:true});}});
+ document.addEventListener('keydown',event=>{if(options.open&&event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();closeExplorationOptions();}},true);
+ let dismissalTarget=null;
+ document.addEventListener('pointerdown',event=>{if(!options.open){dismissalTarget=null;return;}if(options.contains(event.target))return;const world=event.target===canvas||event.target.closest('.movement');closeExplorationOptions(Boolean(world));if(world){dismissalTarget=event.target;event.preventDefault();event.stopImmediatePropagation();}},true);
+ document.addEventListener('click',event=>{if(dismissalTarget===event.target){dismissalTarget=null;event.preventDefault();event.stopImmediatePropagation();}},true);
+ const status=document.createElement('p');status.id='companion-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.hidden=true;$('experience').append(status);
 }
+function closeExplorationOptions(focus=true){const options=$('exploration-options');if(options){options.open=false;options.querySelectorAll('details').forEach(menu=>menu.open=false);}resetNavigationInput();if(focus)canvas.focus({preventScroll:true});}
 let companionOffered=gameStorage.getItem('ce-companion-offered')==='1';
-async function offerCompanion(){if(companionOffered||!discovery?.snapshot().souvenir)return;companionOffered=true;gameStorage.setItem('ce-companion-offered','1');document.body.classList.add('guest-photo-finished');document.querySelector('#discovery-dialog')?.close();$('choose-helper').hidden=false;await helperPicker.choose(true);if(helperPicker.selected()?.id!=='none')loadEcho();discovery.showPhotoFinish();}
+let orientationHandoverSeen=false;
+async function showOrientationHandover(){
+ if(!discovery?.snapshot().souvenir)return;
+ orientationHandoverSeen=true;resetNavigationInput();actor.setWalking(false);closeExplorationOptions(false);explorationTools?.close();$('discovery-dialog').close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;
+ let dialog=$('orientation-handover');
+ if(!dialog){dialog=document.createElement('dialog');dialog.id='orientation-handover';dialog.setAttribute('aria-labelledby','orientation-handover-title');dialog.innerHTML='<h2 id="orientation-handover-title">First activity complete!</h2><p id="orientation-handover-summary"></p><p>Next, head to the markets for your first curriculum activity about showing initiative. Use the map at the bottom of the screen to walk towards Sunday Market Gardens and help Mara.</p><div class="dialog-actions"><button id="orientation-continue">Continue exploring</button><button id="orientation-market" class="primary">Head to Market</button></div>';document.body.append(dialog);$('orientation-continue').onclick=()=>dialog.close();$('orientation-market').onclick=()=>{dialog.close();openMarket();};dialog.addEventListener('close',()=>{resetNavigationInput();canvas.focus({preventScroll:true});});}
+ $('orientation-handover-summary').textContent='Your progress is being saved…';if(!dialog.open)dialog.showModal();
+ try{$('orientation-handover-summary').textContent=orientationHandoverCopy(await explorationTools.completeOrientation());}catch{$('orientation-handover-summary').textContent=orientationHandoverCopy({earned:null,tax:null});}
+}
+
 function openWholeCharacterChoice(){
  const options=$('exploration-options');if(options)options.open=false;
  explorationTools?.close();resetNavigationInput();openStudio();
@@ -716,12 +838,17 @@ async function boot(){
   configurePhoneAssets();
   THREE.Cache.enabled=true;
   try{
-    icons();renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(sharpRatio);renderer.localClippingEnabled=true;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.03;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.autoClear=false;
+    icons();renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(sharpRatio);renderBackend=rendererName(renderer);renderer.setPixelRatio(renderQuality(renderBackend,$('quality').value,devicePixelRatio).pixelRatio);renderer.localClippingEnabled=true;renderer.shadowMap.enabled=renderQuality(renderBackend,$('quality').value,devicePixelRatio).shadows;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.03;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.autoClear=false;
+    frameGate=createGpuFrameGate(renderer,renderQuality(renderBackend,'auto',devicePixelRatio).software);
+    surfaceUploads=createTextureUploadQueue({waitForFrame:()=>new Promise(resolve=>{const next=()=>requestAnimationFrame(()=>{if(document.hidden||!frameGate.ready())next();else resolve();});next();}),upload:texture=>renderer.initTexture(texture)});
     camera=new THREE.PerspectiveCamera(55,1,.08,220);
     const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();const environment=pmrem.fromScene(room,.04);room.dispose();pmrem.dispose();
     $('loading-message').textContent=studioFirst?'Opening your wardrobe…':'Loading your character and learning district...';
-    const avatarReady=loadProfileKit(copy(active())).then(()=>true,()=>false);
-    worlds=await createWorlds(message=>{$('loading-message').textContent=message;});
+    const avatarReady=loadProfileKit(copy(active())).then(()=>true,()=>false);entryAvatarPriority=avatarReady;
+    // Fetch only the lightweight exterior module graph while the selected avatar
+    // has asset priority. Geometry integration still waits for the entry paths.
+    entryEnvironmentModule=import('./environment.js?v=ecc-ba60122');entryEnvironmentModule.catch(()=>{entryEnvironmentModule=null;});
+    worlds=await createWorlds(message=>{$('loading-message').textContent=message;},()=>{detailFailed=true;detailNotice();},(hydrate,options)=>surfaceUploads.schedule(hydrate,options));applyRenderQuality();
     $('loading-message').textContent='Preparing your first view...';worlds.town.environment=environment.texture;worlds.town.environmentIntensity=.28;worlds.interior.environment=environment.texture;worlds.interior.environmentIntensity=.55;worlds.careers.environment=environment.texture;worlds.careers.environmentIntensity=.55;worlds.chapel.environment=environment.texture;worlds.chapel.environmentIntensity=.35;
     THREE.Cache.clear();THREE.Cache.enabled=false;
     worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');actor=createFallbackCharacter();actor.model.position.copy(worlds.position(false));worlds.town.add(actor.model);populateProfiles();updateActor(avatarReady);flyover=createFlyover({camera,keys,canvas,root:$('experience'),canEnter:canFlyover,resetInput:resetNavigationInput,fog:()=>worlds.town.fog});bindEvents();resize();
@@ -731,32 +858,34 @@ async function boot(){
     const viewpoints={'discovery-mural':{p:[10.6,-38.4,Math.PI/2],name:'Mural detail'},'discovery-oval':{p:[-4,-57,Math.PI],name:'Oval · filming spot'},'teachers':{p:[-4,-49.8,0],name:'Meet your teachers · Oval'},'mr-middleton':{p:[-7,-50,0],name:'Mr Middleton · Oval'},'mr-psandodakis':{p:[-1,-50,0],name:'Mr Psandodakis · Oval'},'garden-pond':{p:[32,-10,Math.PI/2],name:'Garden pond'},'fountain-walk':{p:[-2.6,5.5,0],name:'Fountain walk'},'garden-benches':{p:[-5.8,-8,Math.PI/2],name:'Garden seating'},'chapel-exterior':{p:[-1.5,-4.5,.58],name:'Chapel exterior'},'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Market Courtyard'}};
     const view=marketRequested?null:new URLSearchParams(location.search).get('view');
     const viewpoint=viewpoints[view];
-    const completeView=Boolean(viewpoint||view==='chapel-interior');
+    const completeView=Boolean(viewpoint||view==='chapel-interior');entryHandover=!completeView&&!studioFirst&&!marketRequested;
     if(!completeView){
-      $('loading').hidden=true;icons();animate();
+      $('loading').hidden=true;icons();if(mode!=='market'&&!studioFirst)prepareEntry().catch(()=>{});animate();
       if(mode==='market')$('campus-progress').hidden=true;
-      else if(!studioFirst)afterFirstPaint().then(()=>waitForPriorityAsset(avatarReady)).then(()=>prepareEntry().catch(()=>{}));
-      else {
+      else if(studioFirst){
         $('campus-progress').hidden=true;
         setMode('studio').then(async opened=>{if(!opened){openCampusInBackground();return;}if(mode==='studio'){draft.body='pantstest';editorTab='style';renderEditor();updatePreview();}});
       }
-    }else await ensureCampus();
+    }else {icons();const ready=ensureCampus();animate();await ready;}
     if(!marketRequested&&new URLSearchParams(location.search).get('view')==='chapel-interior')await enterChapel();
     if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}
-    if(completeView){$('loading').hidden=true;icons();animate();}
-    if(!discoveryReview)afterFirstPaint().then(loadEcho);
+    if(completeView){$('loading').hidden=true;icons();}
+    if(!discoveryReview)afterFirstPaint().then(loadEcho).catch(error=>console.warn('Guidance unavailable; game remains playable.',error));
     if(discoveryReview){
-      discovery=createDiscovery({THREE,worlds,canvas,enterQuiet:enterChapel,storage:gameStorage,onPhotoFinish:offerCompanion, onParcel:()=>{explorationTools?.awardParcel();worlds.ensureChapel().catch(()=>{});},available:()=>!intro?.open()&&!helperPicker.open()&&!echo?.open()&&!explorationMenuOpen(),onLocation:label=>{if($('location-title').textContent!==label.title||$('location-subtitle').textContent!==label.subtitle){setLocation(label.title);$('location-subtitle').textContent=label.subtitle;}},beforeCapture:async()=>{resetNavigationInput();actor.setWalking(false);prepareCastPortrait(teachers,actor.model.position);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));prepareCastPortrait(teachers,actor.model.position);},pathsReady:()=>entryReady,position:()=>actor.model.position,mode:()=>mode,travel:async target=>{if(['start','parcel','chapel-door','chapel'].includes(target))await prepareEntry();else await ensureCampus();if(target==='chapel'){await enterChapel();return;}await setMode('town');const points={start:[-7,23.3,0],parcel:[-7,16.3,0],'chapel-door':[-3.15,-8.8,1.1],mural:[10.6,-38.4,Math.PI/2],oval:[-4,-57,Math.PI]};const v=points[target];worlds.teleport(false,v[0],v[1]);actor.model.position.copy(worlds.position(false));yaw=v[2];setLocation(target==='mural'?'Mural detail':target==='oval'?'Oval · filming spot':'Arrival Gardens');updateCamera(1,true);},capture:()=>{const oldSize=renderer.getSize(new THREE.Vector2()),oldRatio=renderer.getPixelRatio(),rotation=actor.model.rotation.y;const shot=camera.clone();shot.fov=50;shot.aspect=900/960;const layout=revealLayout(actor.model.position);shot.position.set(...layout.photoCamera);shot.lookAt(...layout.photoLook);shot.updateProjectionMatrix();preparePortrait(actor,layout);prepareCastPortrait(teachers,actor.model.position);shot.updateMatrixWorld(true);try{renderer.setPixelRatio(1);renderer.setSize(900,960,false);renderer.setViewport(0,0,900,960);renderer.clear();renderer.render(worlds.town,shot);return canvas.toDataURL('image/png');}finally{actor.model.rotation.y=rotation;renderer.setPixelRatio(oldRatio);renderer.setSize(oldSize.x,oldSize.y,false);renderer.setViewport(0,0,oldSize.x,oldSize.y);renderer.clear();renderer.render(activeScene(),camera);}},pause:()=>{resetNavigationInput();actor.setWalking(false);},releaseReveal:()=>{resetNavigationInput();actor.setWalking(false);if(mode==='town'){const p=actor.model.position;yaw=Math.atan2(camera.position.x-p.x,camera.position.z-p.z);aerial=false;updateCamera(1,true);}},reveal:()=>{revealCameraStart=camera.clone();if(mode==='town')setLocation('Oval · filming spot');updateTeacherLoading();},explore:()=>canvas.focus(),personalise:()=>openWholeCharacterChoice(),market:async()=>{await offerCompanion();await openMarket();},frameReveal:t=>{const p=actor.model.position,from=revealCameraStart||camera;const startYaw=Math.atan2(from.position.x-p.x,from.position.z-p.z);const delta=Math.atan2(Math.sin(Math.PI-startYaw),Math.cos(Math.PI-startYaw));const angle=startYaw+delta*t,initialDistance=Math.hypot(from.position.x-p.x,from.position.z-p.z),distance=THREE.MathUtils.lerp(initialDistance,6.4,t);camera.position.set(p.x+Math.sin(angle)*distance,THREE.MathUtils.lerp(from.position.y,2.5,t),p.z+Math.cos(angle)*distance);camera.lookAt(p.x,1.25,p.z+2.4*t);yaw=angle;if(t===1)actor.model.rotation.y=0;},stageCast:(t,dt)=>{const layout=revealLayout(actor.model.position);teachers.forEach(n=>n.stagePose(layout.teacherX(n.id),layout.teacherZ(t),t<1,t===1&&dt===0?.3:dt));},castReady:()=>teachers.length===2});
+      discovery=createDiscovery({THREE,worlds,canvas,enterQuiet:enterChapel,storage:gameStorage,onPhotoFinish:showOrientationHandover, onParcel:()=>{explorationTools?.awardParcel();worlds.ensureChapel().catch(()=>{});},available:()=>!intro?.open()&&!helperPicker.open()&&!echo?.open()&&!explorationMenuOpen(),onLocation:label=>{if($('location-title').textContent!==label.title||$('location-subtitle').textContent!==label.subtitle){setLocation(label.title);$('location-subtitle').textContent=label.subtitle;}},beforeCapture:async()=>{resetNavigationInput();actor.setWalking(false);prepareCastPortrait(teachers,actor.model.position);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));prepareCastPortrait(teachers,actor.model.position);},pathsReady:()=>entryReady,muralReady:()=>worlds.muralReady,position:()=>actor.model.position,mode:()=>mode,travel:async target=>{if(target==='oval'){await prepareEntry();await loadTeachers({explicit:true});}if(['start','parcel','chapel-door','chapel'].includes(target))await prepareEntry();else await ensureCampus();if(target==='chapel'){await enterChapel();return;}await setMode('town');const points={start:[-7,23.3,0],parcel:[-7,16.3,0],'chapel-door':[-3.15,-8.8,1.1],mural:[10.6,-38.4,Math.PI/2],oval:[-4,-57,Math.PI]};const v=points[target];worlds.teleport(false,v[0],v[1]);actor.model.position.copy(worlds.position(false));yaw=v[2];setLocation(target==='mural'?'Mural detail':target==='oval'?'Oval · filming spot':'Arrival Gardens');updateCamera(1,true);},capture:capturePortraitFrame,pause:()=>{resetNavigationInput();actor.setWalking(false);},releaseReveal:()=>{resetNavigationInput();actor.setWalking(false);if(mode==='town'){const p=actor.model.position;yaw=Math.atan2(camera.position.x-p.x,camera.position.z-p.z);aerial=false;updateCamera(1,true);}},reveal:()=>{revealCameraStart=camera.clone();if(mode==='town')setLocation('Oval · filming spot');updateTeacherLoading();},explore:()=>canvas.focus(),personalise:()=>openWholeCharacterChoice(),market:async()=>{if(!orientationHandoverSeen)await showOrientationHandover();else await openMarket();},frameReveal:t=>{const p=actor.model.position,from=revealCameraStart||camera;const startYaw=Math.atan2(from.position.x-p.x,from.position.z-p.z);const delta=Math.atan2(Math.sin(Math.PI-startYaw),Math.cos(Math.PI-startYaw));const angle=startYaw+delta*t,initialDistance=Math.hypot(from.position.x-p.x,from.position.z-p.z),distance=THREE.MathUtils.lerp(initialDistance,6.4,t);camera.position.set(p.x+Math.sin(angle)*distance,THREE.MathUtils.lerp(from.position.y,2.5,t),p.z+Math.cos(angle)*distance);camera.lookAt(p.x,1.25,p.z+2.4*t);yaw=angle;if(t===1)actor.model.rotation.y=0;},stageCast:(t,dt)=>{const layout=revealLayout(actor.model.position);teachers.forEach(n=>n.stagePose(layout.teacherX(n.id),layout.teacherZ(t),t<1,t===1&&dt===0?.3:dt));},castReady:()=>teachers.length===2});
     }
     if(discoveryReview){
-      setupExplorationMenus();if(discovery.snapshot().souvenir){document.body.classList.add('guest-photo-finished');if(companionOffered&&helperPicker.selected().id!=='none')afterFirstPaint().then(loadEcho);}
-      explorationTools=createExplorationTools({THREE,worlds,position:()=>actor.model.position,mode:()=>mode,state:()=>discovery.snapshot(),review:isolatedDiscovery,storage:gameStorage,notify:message=>toast(message),onOpen:()=>{const options=document.querySelector('#exploration-options');if(options)options.open=false;resetNavigationInput();},header:$('header-controls')});
+      setupExplorationMenus();if(discovery.snapshot().souvenir){document.body.classList.add('guest-photo-finished');if(companionOffered&&helperPicker.selected().model)afterFirstPaint().then(()=>applySelectedCompanion());}
+      explorationTools=createExplorationTools({THREE,worlds,position:()=>actor.model.position,mode:()=>mode,state:()=>discovery.snapshot(),photo:()=>discovery.photo(),reviewPhoto:()=>discovery.showPhotoFinish(),review:isolatedDiscovery,storage:gameStorage,market:()=>nightMarket,notify:message=>toast(message),onOpen:()=>{const options=document.querySelector('#exploration-options');if(options)options.open=false;resetNavigationInput();},header:$('header-controls')});
       const introStorage=gameStorage;
-      intro=window.CareerEmpireIntro?.intro||createTasterIntro({profile:state.activeId,storage:introStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onResume:()=>{resetNavigationInput();updateCamera(1,true);},focusTarget:canvas});
-      if(window.CareerEmpireIntro){window.CareerEmpireIntro.bridge.pause=()=>{resetNavigationInput();actor.setWalking(false);};window.CareerEmpireIntro.bridge.resume=()=>{resetNavigationInput();updateCamera(1,true);};}
+      intro=window.CareerEmpireIntro?.intro||createTasterIntro({profile:state.activeId,storage:introStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onResume:()=>{resetNavigationInput();updateEntryLoading();updateCamera(1,true);},focusTarget:canvas});
+      if(window.CareerEmpireIntro){window.CareerEmpireIntro.bridge.pause=()=>{resetNavigationInput();actor.setWalking(false);};window.CareerEmpireIntro.bridge.resume=()=>{resetNavigationInput();updateEntryLoading();updateCamera(1,true);};}
       const replay=$('replay-taster-intro');replay.hidden=false;replay.onclick=()=>{$('world-tools').open=false;intro.show();};
       if(!window.CareerEmpireIntro&&!new URLSearchParams(location.search).has('view'))intro.showIfDue(discovery.snapshot());
     }
+
+    // Classic and direct activity entry still expose the shared money/collection controls.
+    if(!explorationTools)explorationTools=createExplorationTools({THREE,worlds,position:()=>actor.model.position,mode:()=>mode,state:()=>({step:0,skipped:true,shots:{},chapelVisited:false}),review:isolatedDiscovery,storage:gameStorage,market:()=>nightMarket,notify:message=>toast(message),onOpen:()=>resetNavigationInput(),header:$('header-controls')});
 
     if(!helperPicker.store.persistent&&!discoveryReview)toast('Your guidance preference is selected for this tab. Browser storage is unavailable.');
     // Wardrobe entry defers campus detail until Town is selected.

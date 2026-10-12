@@ -1,11 +1,11 @@
-import {approvedPalette} from './environment/approved-campus-kit.js?v=first-play-20260921';
+import {approvedPalette} from './environment/approved-campus-kit.js?v=ecc-ba60122';
 import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
-import {buildExterior} from './ecc-preview/model.js?v=first-play-20260921';
+import {buildExterior} from './ecc-preview/model.js?v=ecc-ba60122';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createDeferredTextures} from './deferred-textures.js?v=startup-20261012';
-import {createCampusLandscape,createCampusPaths,createCampusBuildingExteriors} from './campus-landscape.js?v=guest-first-20261012';
-import {arrivalPrecinct} from './arrival-precinct.js?v=default-exploration-20261011';
+import {createDeferredTextures} from './deferred-textures.js?v=ecc-ba60122';
+import {createCampusLandscape,createCampusPaths,createCampusBuildingExteriors} from './campus-landscape.js?v=ecc-ba60122';
+import {arrivalPrecinct} from './arrival-precinct.js?v=ecc-ba60122';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
  * ~2wu tiles stamped from a 2D grid: grass / path / asphalt / plaza (+ curb overlays).
@@ -178,14 +178,14 @@ function buildTileKits(town,materials){
   return {kits,buckets};
 }
 
-export async function createWorlds(onProgress=()=>{}){
+export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},scheduleHydration){
   const physicsReady=RAPIER.init();
   const loader=new GLTFLoader();
   const draco=new DRACOLoader();
   // Decoder matches three r180 / gltf-transform Draco meshes; CDN keeps vendor tree light.
   draco.setDecoderPath('./vendor/draco/');
   loader.setDRACOLoader(draco);
-  const textures=createDeferredTextures();
+  const textures=createDeferredTextures({onFailure:onSurfaceFailure,scheduleHydration});
   // Full courtyard assets are optional until the arrival boundary opens.
   let exteriorLoad;
   const outerAsset={root:new THREE.Group(),obstacles:[]};
@@ -440,7 +440,7 @@ export async function createWorlds(onProgress=()=>{}){
   function loadExterior(){
     if(!exteriorLoad)exteriorLoad=buildExterior({inGame:true,textures}).then(asset=>{
       addExteriorColliders(townPhysics.world,asset.obstacles);
-      outerAsset.root.add(asset.root);outerAsset.obstacles=asset.obstacles;addWalkingSurfaces(asset.root);
+      outerAsset.root.add(asset.root);outerAsset.obstacles=asset.obstacles;outerAsset.loadDetail=asset.loadDetail;addWalkingSurfaces(asset.root);
       // Arrival materials and their clones retain identity while receiving the
       // accepted courtyard artwork; later buildings use this same palette.
       const ready=approvedPalette(est),seen=new Set();
@@ -500,14 +500,21 @@ export async function createWorlds(onProgress=()=>{}){
     water.visible=name!=='disrepair';spray.visible=name==='flourishing';wear.visible=false;restorations.visible=false;
   }
   const scenery={status:'pending',trees:0,home:false,buildings:0,errors:[]};
-  let importedTrees,importedModern,importedFuture,sceneryLoad;
-  function loadScenery(){
+  let importedTrees,importedModern,importedFuture,sceneryLoad,landscapeLoad;
+  const entryPlantingRoots=new Set();
+  function loadBuildingExteriors(){return buildingExteriorsLoad||=(loadExterior().then(()=>createCampusBuildingExteriors(town,townPhysics,palette,textures)).then(group=>{addWalkingSurfaces(group);return group;}).catch(error=>{buildingExteriorsLoad=null;throw error;}));}
+  function loadLandscape(){
+    return landscapeLoad||=loadBuildingExteriors().then(()=>createCampusLandscape(town,townPhysics,palette,undefined,textures)).then(result=>{addWalkingSurfaces(result.group);Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;return result.group;}).catch(error=>{landscapeLoad=null;scenery.errors.push('Campus: '+error.message);throw error;});
+  }
+  const pendingDetailRoots=new Set();
+  function loadScenery({deferReveal=false}={}){
     if(sceneryLoad)return sceneryLoad;
     scenery.status='loading';scenery.errors=[];
-    const trees=Promise.resolve();
+    const holdDetail=root=>{root.visible=entryPlantingRoots.has(root)||!deferReveal;pendingDetailRoots.add(root);return root;};
+    const trees=Promise.all([precinct.loadDetail().then(holdDetail),loadExterior().then(()=>outerAsset.loadDetail()).then(holdDetail)]);
     // Avatar Studio is now a native campus building, so the old generic city model is retired.
     const building=Promise.resolve().then(()=>{scenery.home=true;});
-    const district=loadExterior().then(()=>createCampusLandscape(town,townPhysics,palette,undefined,textures)).then(result=>{addWalkingSurfaces(result.group);Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);throw error;});
+    const district=loadLandscape().then(holdDetail);
     sceneryLoad=Promise.all([loadExterior(),trees,building,district]).then(()=>{scenery.status='landscape-ready';}).catch(error=>{scenery.status='fallback';sceneryLoad=null;throw error;});
     return sceneryLoad;
   }
@@ -516,7 +523,7 @@ export async function createWorlds(onProgress=()=>{}){
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {loadBuildingExteriors:()=>buildingExteriorsLoad||=(loadExterior().then(()=>createCampusBuildingExteriors(town,townPhysics,palette,textures)).then(group=>{addWalkingSurfaces(group);return group;}).catch(error=>{buildingExteriorsLoad=null;throw error;})),syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);addWalkingSurfaces(town);},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {revealCampusDetail(){for(const root of pendingDetailRoots)root.visible=true;},loadBuildingExteriors,syncWalkingSurfaces:()=>addWalkingSurfaces(town),loadMuralTexture:()=>textures.startMatching(url=>url.includes('media-mural-sharp')),get muralReady(){let ready=false;town.getObjectByName('Campus teaching building exteriors')?.traverse(mesh=>{if(mesh.isMesh&&mesh.material.name==='Media mural original artwork')ready=Boolean(mesh.material.map.image?.width>1&&mesh.material.userData.artworkDrawn);});return ready;},campusGrass:materials.grass,campusPalette:palette,campusTextures:textures,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);const roots=await Promise.all([precinct.loadDetail(),outerAsset.loadDetail(),loadLandscape()]);for(const root of roots){entryPlantingRoots.add(root);root.visible=true;}addWalkingSurfaces(town);},retryDetailTextures:()=>textures.retry(),get failedSurfaceDetails(){return textures.failed;},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     get pendingSurfaceDetails(){return textures.pending;},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},

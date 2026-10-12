@@ -19,7 +19,7 @@ test('arrival walk reaches Studio and retains avatar save after reload',async({p
  await page.getByRole('button',{name:'Open Avatar Studio',exact:true}).click();
  await expect(page.locator('#save-avatar')).toBeEnabled();await page.locator('#save-avatar').click();
  await expect(page.locator('#mission-title')).toHaveText('Your next step with Echo');
- expect(await page.evaluate(()=>Object.keys(localStorage).some(k=>k.startsWith('ce-arrival-complete-')&&localStorage.getItem(k)==='1'))).toBe(true);
+ expect(await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith('ce-player:e2e-owned:')).map(k=>k.slice(20)).some(k=>k.startsWith('ce-arrival-complete-')&&localStorage.getItem('ce-player:e2e-owned:'+k)==='1'))).toBe(true);
  await page.reload();await expect(page.locator('#mission-title')).toHaveText('Your next step with Echo',{timeout:60000});
  await page.setViewportSize({width:390,height:844});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
  expect(errors).toEqual([]);

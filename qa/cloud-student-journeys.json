@@ -1,0 +1,136 @@
+{
+  "checkedAt": "2026-10-12T19:49:41.966936+00:00",
+  "baseCommit": "a8a6d33f7a98de322309cb87c2dc4d95aa1a5ab4",
+  "environmentAvailable": true,
+  "environmentRestarted": false,
+  "units": {
+    "passed": 212,
+    "files": 49
+  },
+  "runs": {
+    "journeys-market-gate": [
+      {
+        "name": "physical market gate exits and re-enters without clicks 1280",
+        "status": "timedOut",
+        "durationMs": 122382
+      }
+    ],
+    "journeys-mara-briefing": [
+      {
+        "name": "market outside arrival, walking, visual briefing and progressive signs 1280",
+        "status": "passed",
+        "durationMs": 89844
+      }
+    ],
+    "journeys-initiative": [
+      {
+        "name": "guest walks the initiative shift, compares the result and receives net wages once",
+        "status": "failed",
+        "durationMs": 62346
+      }
+    ],
+    "journeys-initiative-after": [
+      {
+        "name": "guest walks the initiative shift, compares the result and receives net wages once",
+        "status": "failed",
+        "durationMs": 76355
+      }
+    ],
+    "journeys-teacher-natural": [
+      {
+        "name": "actual mural photo starts teacher preload before the keyboard walk reaches the oval",
+        "status": "failed",
+        "durationMs": 80249
+      }
+    ],
+    "journeys-teacher-revisit": [
+      {
+        "name": "same-run photo teachers stay visible after cancellation, market/module returns and repeat greetings",
+        "status": "failed",
+        "durationMs": 73625
+      }
+    ],
+    "journeys-market-gate-after": [
+      {
+        "name": "physical market gate exits and re-enters without clicks 1280",
+        "status": "failed",
+        "durationMs": 84803
+      }
+    ],
+    "journeys-final-focused": [
+      {
+        "name": "physical market gate exits and re-enters without clicks 1280",
+        "status": "passed",
+        "durationMs": 96506
+      },
+      {
+        "name": "guest walks the initiative shift, compares the result and receives net wages once",
+        "status": "passed",
+        "durationMs": 73124
+      },
+      {
+        "name": "actual mural photo starts teacher preload before the keyboard walk reaches the oval",
+        "status": "passed",
+        "durationMs": 78562
+      }
+    ]
+  },
+  "runningSessions": [],
+  "naturalTeacherTiming": {
+    "postChapelReturnFixture": true,
+    "actualMuralShotAndKeyboardRoute": true,
+    "noAssistedOvalTravel": true,
+    "phases": [
+      {
+        "phase": "mural-shutter",
+        "pageMs": 16342
+      },
+      {
+        "phase": "module-requested",
+        "pageMs": 16383.400000000373,
+        "position": [
+          10.600000381469727,
+          9.996661887268221e-05,
+          -38.400001525878906
+        ],
+        "step": 3
+      },
+      {
+        "phase": "module-ready",
+        "pageMs": 18358.700000001118
+      },
+      {
+        "phase": "cast-load-ended",
+        "pageMs": 24389.200000001118,
+        "count": 2
+      },
+      {
+        "phase": "oval-arrival",
+        "pageMs": 39361.10000000149,
+        "count": 2,
+        "position": [
+          -4.709681530682726,
+          -0.0004266027475802256,
+          -54.37032294738394
+        ]
+      }
+    ],
+    "requestAfterMuralShotMs": 41.4,
+    "castReadyAfterMuralShotMs": 8047.2,
+    "castReadyBeforeArrivalMs": 14971.9,
+    "teachersAtArrival": 2,
+    "visibleInviteScreenshot": "coverage/journeys-final-focused-evidence/teacher-natural-arrival-ac-8415e-board-walk-reaches-the-oval-chromium/natural-oval-teachers.png"
+  },
+  "remaining": [
+    "Persistent teacher revisit failed the first invite wait before the latest travel-priority/cinematic-timing repairs; post-repair rerun pending.",
+    "Phone versions of this focused journey batch not run.",
+    "Original delayed-Market combined 60-second failure retained; not repeated in this batch.",
+    "No Pages activation or public playable URL; plan only."
+  ],
+  "screenshots": [
+    "coverage/journeys-final-focused-evidence/market-outside-1280.png",
+    "coverage/journeys-final-focused-evidence/market-initiative-journey--6c509-and-receives-net-wages-once-chromium/initiative-result.png",
+    "coverage/journeys-final-focused-evidence/market-initiative-journey--6c509-and-receives-net-wages-once-chromium/initiative-earned-stats.png",
+    "coverage/journeys-final-focused-evidence/teacher-natural-arrival-ac-8415e-board-walk-reaches-the-oval-chromium/natural-oval-teachers.png"
+  ]
+}

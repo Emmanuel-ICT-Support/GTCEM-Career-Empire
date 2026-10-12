@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {prove} from './ci-shard-proof.mjs';
+const report=(ids,shard,status='passed')=>({config:{shard:{current:shard,total:4}},suites:[{specs:ids.map(id=>({id,file:'fixture.spec.js',title:id,tests:[{projectId:'chromium',status:status==='passed'?'expected':'unexpected',results:status==='notRun'?[]:[{status}]}]}))}]});
+const inventory=report(['a','b','c','d'],0,'notRun');
+test('four unique completed shards prove all expected cases once',()=>{const proof=prove(inventory,['a','b','c','d'].map((id,i)=>report([id],i+1)));assert.equal(proof.complete,true);assert.equal(proof.counts.passed,4);});
+test('duplicate and missing cases cannot appear as complete coverage',()=>{const proof=prove(inventory,['a','a','c','d'].map((id,i)=>report([id],i+1)));assert.equal(proof.complete,false);assert.equal(proof.duplicates.length,1);assert.equal(proof.missing.length,1);});
+test('collection-only proof never claims execution and execution rejects unrun cases',()=>{const reports=['a','b','c','d'].map((id,i)=>report([id],i+1,'notRun'));assert.equal(prove(inventory,reports,{plan:true}).mode,'collection-only');assert.equal(prove(inventory,reports,{plan:true}).complete,true);assert.equal(prove(inventory,reports).complete,false);});
+test('failed, skipped, interrupted and runner errors remain failures',()=>{for(const status of ['failed','skipped','interrupted']){const reports=['a','b','c','d'].map((id,i)=>report([id],i+1));reports[0]=report(['a'],1,status);assert.equal(prove(inventory,reports).complete,false);}const reports=['a','b','c','d'].map((id,i)=>report([id],i+1));reports[0].errors=[{message:'crash'}];assert.equal(prove(inventory,reports).complete,false);});
+test('critical stage and four complementary groups cover cases once without duplication',()=>{const full=report(['a','b','c','d','e'],0,'notRun'),critical=report(['a'],0);critical.config.shard=null;const reports=['b','c','d','e'].map((id,i)=>report([id],i+1));assert.equal(prove(full,reports,{critical}).complete,true);reports[0]=report(['a','b'],1);assert.equal(prove(full,reports,{critical}).complete,false);});

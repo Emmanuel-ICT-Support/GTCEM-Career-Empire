@@ -1,0 +1,10 @@
+import {describe,it,expect} from 'vitest';
+import {CASES,newRound,currentCase,chooseRoute,chooseClue,nextCase,finishRound} from '../../playable-3d/signal-spin-state.js';
+describe('Signal or Spin learning and reward flow',()=>{
+ it('requires a route before a clue and prevents double scoring',()=>{let s=newRound();expect(chooseClue(s,0)).toBe(s);s=chooseRoute(s,currentCase(s).answer);s=chooseClue(s,0);expect(s.score).toBe(200);expect(chooseClue(s,0)).toBe(s);});
+ it('uses all three distinctions twice and changes examples on replay',()=>{const s=newRound(),answers=s.queue.map(q=>CASES[q.group][q.variant].answer);for(const a of ['supported','missing','overstated'])expect(answers.filter(x=>x===a)).toHaveLength(2);expect(currentCase(newRound(1)).headline).not.toBe(currentCase(s).headline);});
+ it('gives a different later example after a wrong clue even with correct classification',()=>{let s=newRound();s=chooseClue(chooseRoute(s,currentCase(s).answer),1);expect(s.score).toBe(100);expect(s.queue).toHaveLength(7);expect(s.queue[6]).toEqual({group:0,variant:1,retry:true});});
+ it('finishes a perfect round with a capped score and only one recognition award',()=>{let s=newRound();for(let i=0;i<6;i++)s=nextCase(chooseClue(chooseRoute(s,currentCase(s).answer),0));expect(s.done).toBe(true);expect(s.score).toBe(1200);const p=finishRound({best:0,posted:false,rewards:0},s);expect(p.rewards).toBe(1);expect(finishRound(p,s)).toEqual(p);});
+ it('keeps recovery bounded without repeat points or infinite retries',()=>{let s=newRound();while(!s.done){s=nextCase(chooseClue(chooseRoute(s,'missing'),2));}expect(s.results).toHaveLength(12);expect(s.score).toBe(200);expect(s.results.filter(x=>x.retry)).toHaveLength(6);});
+ it('never awards an unfinished round and preserves a higher best',()=>{const p={posted:true,best:1200,rewards:1};expect(finishRound(p,newRound())).toBe(p);let s=newRound();while(!s.done)s=nextCase(chooseClue(chooseRoute(s,'missing'),2));expect(finishRound(p,s).best).toBe(1200);});
+});

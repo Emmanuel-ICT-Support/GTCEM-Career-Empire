@@ -1,0 +1,729 @@
+{
+  "date": "2026-10-12",
+  "browser": "Chromium 154; chromiumSandbox true; SwiftShader Auto",
+  "scope": "Public personal test repository only",
+  "runs": {
+    "photo-market-timing": {
+      "status": "passed",
+      "durationMs": 105095,
+      "measures": {
+        "moduleMs": 16736.6,
+        "constructionMs": 197.2,
+        "clickToRenderSubmissionMs": 17316.0
+      },
+      "phases": [
+        {
+          "phase": "click:discovery-pose",
+          "pageMs": 10084.299999998882,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-requested",
+          "pageMs": 22204.099999999627,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-gpu-ready",
+          "pageMs": 22210.5,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-render-start",
+          "pageMs": 22279.39999999851,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-render-submitted",
+          "pageMs": 22285.599999999627,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-encoded",
+          "pageMs": 26206.199999999255,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "click:discovery-continue",
+          "pageMs": 32280.099999999627,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "click:film-comedy",
+          "pageMs": 66147.09999999963,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "click:discovery-retake",
+          "pageMs": 66228.69999999925,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-requested",
+          "pageMs": 68973.59999999963,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-gpu-ready",
+          "pageMs": 68976.19999999925,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-render-start",
+          "pageMs": 69027.69999999925,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-render-submitted",
+          "pageMs": 69033.79999999888,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-encoded",
+          "pageMs": 73289.69999999925,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "click:discovery-market-handover",
+          "pageMs": 76630.79999999888,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "opening",
+          "pageMs": 76632,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "module-requested",
+          "pageMs": 76632.09999999963,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "module-ready",
+          "pageMs": 93368.69999999925,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "construction-start",
+          "pageMs": 93368.79999999888,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "construction-end",
+          "pageMs": 93566,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "set-mode-start",
+          "pageMs": 93566,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "set-mode-end",
+          "pageMs": 93592.5,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "market-render-submitted",
+          "pageMs": 93946.79999999888,
+          "url": "http://127.0.0.1:4287/playable-3d/",
+          "cpuMs": 352.30000000074506,
+          "frame": 132,
+          "triangles": 303084
+        }
+      ],
+      "moduleNetwork": []
+    },
+    "market-transition-before": {
+      "status": "passed",
+      "durationMs": 70280,
+      "measures": {
+        "moduleMs": 2564.7,
+        "constructionMs": 154.1,
+        "clickToRenderSubmissionMs": 3098.4,
+        "clickToVisibleScreenshotMs": 8660.9,
+        "clickToMaraBriefingMs": 29256.5
+      },
+      "phases": [
+        {
+          "phase": "click:resume-options",
+          "pageMs": 36917.300000000745,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "click:discovery-market-handover",
+          "pageMs": 40747.20000000112,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "opening",
+          "pageMs": 40749,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "module-requested",
+          "pageMs": 40749.10000000149,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "module-ready",
+          "pageMs": 43313.800000000745,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "construction-start",
+          "pageMs": 43313.90000000037,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "construction-end",
+          "pageMs": 43468,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "set-mode-start",
+          "pageMs": 43468.20000000112,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "set-mode-end",
+          "pageMs": 43494.40000000037,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "market-render-submitted",
+          "pageMs": 43845.60000000149,
+          "url": "http://127.0.0.1:4287/playable-3d/",
+          "cpuMs": 349.19999999925494,
+          "frame": 143,
+          "triangles": 303084
+        },
+        {
+          "phase": "market-screenshot-visible",
+          "pageMs": 49408.10000000149,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "mara-interaction-visible",
+          "pageMs": 70003.70000000112,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        }
+      ],
+      "moduleNetwork": [
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/environment/market-exterior.js?v=entry-environment-20261012",
+          "timing": {
+            "startTime": 1791828378650.469,
+            "domainLookupStart": 5.47,
+            "domainLookupEnd": 5.487,
+            "connectStart": 5.487,
+            "secureConnectionStart": -1,
+            "connectEnd": 9.474,
+            "requestStart": 9.569,
+            "responseStart": 11.291,
+            "responseEnd": 17.427
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/night-market.js?v=market-arrangement-20261012",
+          "timing": {
+            "startTime": 1791828415798.2568,
+            "domainLookupStart": 0.221,
+            "domainLookupEnd": 0.353,
+            "connectStart": 0.353,
+            "secureConnectionStart": -1,
+            "connectEnd": 0.93,
+            "requestStart": 1.008,
+            "responseStart": 1.935,
+            "responseEnd": 4.446
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-arrangement.mjs?v=market-arrangement-20261012",
+          "timing": {
+            "startTime": 1791828416642.339,
+            "domainLookupStart": 0.223,
+            "domainLookupEnd": 0.236,
+            "connectStart": 0.236,
+            "secureConnectionStart": -1,
+            "connectEnd": 0.988,
+            "requestStart": 1.786,
+            "responseStart": 2.791,
+            "responseEnd": 8.268
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-characters.js?v=market-admin-20261012",
+          "timing": {
+            "startTime": 1791828416644.223,
+            "domainLookupStart": 0.688,
+            "domainLookupEnd": 0.692,
+            "connectStart": 0.692,
+            "secureConnectionStart": -1,
+            "connectEnd": 0.924,
+            "requestStart": 1.412,
+            "responseStart": 3.958,
+            "responseEnd": 10.296
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-food.js?v=market-student-playtest-20260924",
+          "timing": {
+            "startTime": 1791828416643.2012,
+            "domainLookupStart": 0.67,
+            "domainLookupEnd": 0.675,
+            "connectStart": 0.675,
+            "secureConnectionStart": -1,
+            "connectEnd": 1.485,
+            "requestStart": 2.233,
+            "responseStart": 5.103,
+            "responseEnd": 10.244
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-surroundings.js?v=market-admin-20261012",
+          "timing": {
+            "startTime": 1791828416644.637,
+            "domainLookupStart": 1.064,
+            "domainLookupEnd": 1.096,
+            "connectStart": 1.096,
+            "secureConnectionStart": -1,
+            "connectEnd": 2.636,
+            "requestStart": 3.741,
+            "responseStart": 7.031,
+            "responseEnd": 14.451
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-food.js?v=stall-refine-20260924",
+          "timing": {
+            "startTime": 1791828417497.6233,
+            "domainLookupStart": 4.453,
+            "domainLookupEnd": 4.461,
+            "connectStart": 4.461,
+            "secureConnectionStart": -1,
+            "connectEnd": 5.247,
+            "requestStart": 5.31,
+            "responseStart": 6.454,
+            "responseEnd": 13.086
+          }
+        }
+      ]
+    },
+    "market-transition-after": {
+      "status": "passed",
+      "durationMs": 77970,
+      "measures": {
+        "moduleMs": 31.3,
+        "constructionMs": 138.8,
+        "clickToRenderSubmissionMs": 534.2,
+        "clickToVisibleScreenshotMs": 8892.2,
+        "clickToMaraBriefingMs": 29741.2
+      },
+      "phases": [
+        {
+          "phase": "click:resume-options",
+          "pageMs": 42517.79999999888,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "click:discovery-market-handover",
+          "pageMs": 47909.90000000037,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "opening",
+          "pageMs": 47911.199999999255,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "module-requested",
+          "pageMs": 47911.5,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "module-ready",
+          "pageMs": 47942.79999999888,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "construction-start",
+          "pageMs": 47942.90000000037,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "construction-end",
+          "pageMs": 48081.699999999255,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "set-mode-start",
+          "pageMs": 48081.90000000037,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "market-render-submitted",
+          "pageMs": 48444.09999999963,
+          "url": "http://127.0.0.1:4287/playable-3d/",
+          "cpuMs": 338,
+          "frame": 132,
+          "triangles": 303084
+        },
+        {
+          "phase": "set-mode-end",
+          "pageMs": 49292.09999999963,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "market-screenshot-visible",
+          "pageMs": 56802.09999999963,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "mara-interaction-visible",
+          "pageMs": 77651.09999999963,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        }
+      ],
+      "moduleNetwork": [
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/environment/market-exterior.js?v=entry-environment-20261012",
+          "timing": {
+            "startTime": 1791828524149.3972,
+            "domainLookupStart": 0.62,
+            "domainLookupEnd": 0.755,
+            "connectStart": 0.755,
+            "secureConnectionStart": -1,
+            "connectEnd": 5.732,
+            "requestStart": 5.829,
+            "responseStart": 7.23,
+            "responseEnd": 18.253
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/night-market.js?v=market-arrangement-20261012",
+          "timing": {
+            "startTime": 1791828566708.2788,
+            "domainLookupStart": 0.219,
+            "domainLookupEnd": 0.331,
+            "connectStart": 0.331,
+            "secureConnectionStart": -1,
+            "connectEnd": 0.825,
+            "requestStart": 0.905,
+            "responseStart": 1.846,
+            "responseEnd": 6.245
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-arrangement.mjs?v=market-arrangement-20261012",
+          "timing": {
+            "startTime": 1791828566719.752,
+            "domainLookupStart": 0.241,
+            "domainLookupEnd": 0.252,
+            "connectStart": 0.252,
+            "secureConnectionStart": -1,
+            "connectEnd": 1.325,
+            "requestStart": 2.017,
+            "responseStart": 2.873,
+            "responseEnd": 5.645
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-food.js?v=market-student-playtest-20260924",
+          "timing": {
+            "startTime": 1791828566720.489,
+            "domainLookupStart": 0.724,
+            "domainLookupEnd": 0.73,
+            "connectStart": 0.73,
+            "secureConnectionStart": -1,
+            "connectEnd": 1.186,
+            "requestStart": 1.39,
+            "responseStart": 3.277,
+            "responseEnd": 7.122
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-characters.js?v=market-admin-20261012",
+          "timing": {
+            "startTime": 1791828566721.03,
+            "domainLookupStart": 0.566,
+            "domainLookupEnd": 0.569,
+            "connectStart": 0.569,
+            "secureConnectionStart": -1,
+            "connectEnd": 0.654,
+            "requestStart": 0.928,
+            "responseStart": 6.201,
+            "responseEnd": 10.189
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-surroundings.js?v=market-admin-20261012",
+          "timing": {
+            "startTime": 1791828566721.149,
+            "domainLookupStart": 2.05,
+            "domainLookupEnd": 2.054,
+            "connectStart": 2.054,
+            "secureConnectionStart": -1,
+            "connectEnd": 2.29,
+            "requestStart": 2.438,
+            "responseStart": 6.946,
+            "responseEnd": 10.809
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-food.js?v=stall-refine-20260924",
+          "timing": {
+            "startTime": 1791828566731.267,
+            "domainLookupStart": 0.547,
+            "domainLookupEnd": 0.551,
+            "connectStart": 0.551,
+            "secureConnectionStart": -1,
+            "connectEnd": 0.765,
+            "requestStart": 0.796,
+            "responseStart": 2.871,
+            "responseEnd": 5.102
+          }
+        }
+      ]
+    },
+    "photo-market-after": {
+      "status": "passed",
+      "durationMs": 120543,
+      "measures": {
+        "moduleMs": 50.1,
+        "constructionMs": 252.5,
+        "clickToRenderSubmissionMs": 766.3,
+        "clickToGpuCompletionMs": 1639.1
+      },
+      "phases": [
+        {
+          "phase": "click:discovery-pose",
+          "pageMs": 12783.5,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-requested",
+          "pageMs": 22516.60000000149,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-gpu-ready",
+          "pageMs": 22524.300000000745,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-render-start",
+          "pageMs": 22558.5,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-render-submitted",
+          "pageMs": 22566.300000000745,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-encoded",
+          "pageMs": 26816.200000001118,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "click:discovery-continue",
+          "pageMs": 33324.300000000745,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "click:film-comedy",
+          "pageMs": 88492.80000000075,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "click:discovery-retake",
+          "pageMs": 96936.20000000112,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-requested",
+          "pageMs": 99733.60000000149,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-gpu-ready",
+          "pageMs": 99743.90000000037,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-render-start",
+          "pageMs": 99833.90000000037,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-render-submitted",
+          "pageMs": 99840.5,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "portrait-encoded",
+          "pageMs": 104140.90000000037,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "click:discovery-market-handover",
+          "pageMs": 107743.40000000037,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "opening",
+          "pageMs": 107744.5,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "module-requested",
+          "pageMs": 107744.80000000075,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "module-ready",
+          "pageMs": 107794.90000000037,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "construction-start",
+          "pageMs": 107795,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "construction-end",
+          "pageMs": 108047.5,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "set-mode-start",
+          "pageMs": 108047.70000000112,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "market-render-submitted",
+          "pageMs": 108509.70000000112,
+          "url": "http://127.0.0.1:4287/playable-3d/",
+          "cpuMs": 427.5,
+          "frame": 136,
+          "triangles": 303084
+        },
+        {
+          "phase": "set-mode-end",
+          "pageMs": 109379.60000000149,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        },
+        {
+          "phase": "market-gpu-complete",
+          "pageMs": 109382.5,
+          "url": "http://127.0.0.1:4287/playable-3d/"
+        }
+      ],
+      "moduleNetwork": [
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/environment/market-exterior.js?v=entry-environment-20261012",
+          "timing": {
+            "startTime": 1791828651620.098,
+            "domainLookupStart": 1.191,
+            "domainLookupEnd": 1.195,
+            "connectStart": 1.195,
+            "secureConnectionStart": -1,
+            "connectEnd": 1.425,
+            "requestStart": 1.632,
+            "responseStart": 2.767,
+            "responseEnd": 11.867
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/night-market.js?v=market-arrangement-20261012",
+          "timing": {
+            "startTime": 1791828755768.4907,
+            "domainLookupStart": 0.21,
+            "domainLookupEnd": 0.283,
+            "connectStart": 0.283,
+            "secureConnectionStart": -1,
+            "connectEnd": 0.812,
+            "requestStart": 0.895,
+            "responseStart": 1.732,
+            "responseEnd": 5.338
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-arrangement.mjs?v=market-arrangement-20261012",
+          "timing": {
+            "startTime": 1791828755781.469,
+            "domainLookupStart": 0.945,
+            "domainLookupEnd": 0.957,
+            "connectStart": 0.957,
+            "secureConnectionStart": -1,
+            "connectEnd": 2.2,
+            "requestStart": 2.333,
+            "responseStart": 3.659,
+            "responseEnd": 8.745
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-food.js?v=market-student-playtest-20260924",
+          "timing": {
+            "startTime": 1791828755782.041,
+            "domainLookupStart": 1.158,
+            "domainLookupEnd": 1.169,
+            "connectStart": 1.169,
+            "secureConnectionStart": -1,
+            "connectEnd": 1.639,
+            "requestStart": 1.859,
+            "responseStart": 3.161,
+            "responseEnd": 12.195
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-characters.js?v=market-admin-20261012",
+          "timing": {
+            "startTime": 1791828755782.2468,
+            "domainLookupStart": 1.271,
+            "domainLookupEnd": 1.274,
+            "connectStart": 1.274,
+            "secureConnectionStart": -1,
+            "connectEnd": 1.44,
+            "requestStart": 2.91,
+            "responseStart": 6.917,
+            "responseEnd": 16.487
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-surroundings.js?v=market-admin-20261012",
+          "timing": {
+            "startTime": 1791828755782.311,
+            "domainLookupStart": 3.152,
+            "domainLookupEnd": 3.16,
+            "connectStart": 3.16,
+            "secureConnectionStart": -1,
+            "connectEnd": 3.511,
+            "requestStart": 3.553,
+            "responseStart": 7.216,
+            "responseEnd": 16.905
+          }
+        },
+        {
+          "url": "http://127.0.0.1:4287/playable-3d/market-food.js?v=stall-refine-20260924",
+          "timing": {
+            "startTime": 1791828755809.704,
+            "domainLookupStart": 0.382,
+            "domainLookupEnd": 0.39,
+            "connectStart": 0.39,
+            "secureConnectionStart": -1,
+            "connectEnd": 1.041,
+            "requestStart": 1.321,
+            "responseStart": 1.731,
+            "responseEnd": 7.287
+          }
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Single-run timings vary on this software renderer; not a hardware benchmark.",
+    "First GPU completion is distinguished from the later screenshot and real keyboard/Mara interaction checks.",
+    "Long photo UI gap remains separate from repaired Market import."
+  ]
+}

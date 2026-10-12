@@ -10,7 +10,7 @@ for(const scenario of [
  test('game entry loads only the active avatar and worn clothes',async({page},info)=>{
   test.setTimeout(150000);const requests=[],failures=[],errors=[];
   page.on('request',r=>requests.push(r.url()));page.on('requestfailed',r=>failures.push({url:r.url(),error:r.failure()}));page.on('pageerror',e=>errors.push(e.message));
-  await page.addInitScript(body=>localStorage.setItem('career-empire-3d-profiles-v2-tripo',JSON.stringify({activeId:'example',profiles:[{id:'example',name:'Example',body,pantsStyle:'scrubs',workTop:'scrubs'},{id:'unused',name:'Unused',body:'jackettest'}]})),scenario.body);
+  await page.addInitScript(body=>localStorage.setItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo',JSON.stringify({activeId:'example',profiles:[{id:'example',name:'Example',body,pantsStyle:'scrubs',workTop:'scrubs'},{id:'unused',name:'Unused',body:'jackettest'}]})),scenario.body);
   const start=Date.now();
   try{
    await page.goto(gameURL,{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:120000});

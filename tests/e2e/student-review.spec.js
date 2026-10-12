@@ -34,7 +34,7 @@ test('real paving supports feet and camera stays inside room walls',async({page}
 });
 test('saved Dress ups enters Studio despite failed clothing; body dropdown choices replace preview',async({page},info)=>{
  const saved=JSON.stringify({activeId:'review',profiles:[{id:'review',name:'Review avatar',body:'pantstest',workTop:'chef',outer:'none'}]});
- await page.addInitScript(saved=>localStorage.setItem('career-empire-3d-profiles-v2-tripo',saved),saved);
+ await page.addInitScript(saved=>localStorage.setItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo',saved),saved);
  await page.route('**/occupational-top-chef.glb*',r=>r.abort());
  await page.goto('/playable-3d/?review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});
  await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#studio-panel')).toBeVisible({timeout:30000});
@@ -44,5 +44,5 @@ test('saved Dress ups enters Studio despite failed clothing; body dropdown choic
   await expect(page.locator('#scene')).toHaveAttribute('data-preview-body',body,{timeout:30000});await expect(page.locator('#save-avatar')).toBeEnabled();
  }
  await page.screenshot({path:info.outputPath('body-dropdown.png')});
- expect(await page.evaluate(()=>localStorage.getItem('career-empire-3d-profiles-v2-tripo'))).toBe(saved);
+ expect(await page.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo'))).toBe(saved);
 });

@@ -1,18 +1,20 @@
+import {drawStyledPortrait} from './photo-style.mjs?v=photo-review-20261012';
 import {createProximityGate} from './proximity-gate.mjs?v=default-exploration-20261011';
 import {revealLayout} from './reveal-layout.mjs';
-import {KEY,normalise,advance,collectShot,reward,restart,chooseStyle,discoveryLocation,visitChapel,teachersRevealed} from './discovery-state.mjs?v=teacher-reveal-20261012';
+import {KEY,normalise,advance,collectShot,reward,restart,chooseStyle,discoveryLocation,visitChapel,teachersRevealed,needsMuralClue} from './discovery-state.mjs?v=sequential-clues-20261012';
 import {frameAt,moveFrame,cropSquare} from './scout-framing.mjs';
-export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capture,pause,reveal,explore,personalise,market,castReady,frameReveal,stageCast,releaseReveal,pathsReady=()=>true,onLocation=()=>{},beforeCapture=async()=>{},enterQuiet=()=>{},onParcel=()=>{},onPhotoFinish=()=>{},storage=localStorage,available=()=>true}){
+export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capture,pause,reveal,explore,personalise,market,castReady,frameReveal,stageCast,releaseReveal,pathsReady=()=>true,muralReady=()=>true,onLocation=()=>{},beforeCapture=async()=>{},enterQuiet=()=>{},onParcel=()=>{},onPhotoFinish=()=>{},storage=localStorage,available=()=>true}){
  const proximity=createProximityGate();
+ let development=0,photoReviewPending=false;
  let state;try{state=normalise(JSON.parse(storage.getItem(KEY)));}catch{state=normalise(null);}
  const restartURL=new URL(location.href);
  if(restartURL.searchParams.get('restartTrail')==='1'){state=restart(state);try{storage.setItem(KEY,JSON.stringify(state));}catch{}restartURL.searchParams.delete('restartTrail');history.replaceState(null,'',restartURL);}
  let persistent=storage?.persistent!==false,busy=false,revealStarted=false,hint=false,sequence=null,elapsed=0,sceneDismissed=false,castStartedAt=null,scoutPlace=null,shotBusy=false,captureBusy=false,lastPathsReady=pathsReady();
  const save=()=>{try{storage.setItem(KEY,JSON.stringify(state));persistent=storage?.persistent!==false;}catch{persistent=false;}paint();};
  document.body.classList.add('discovery-review');
- const style=document.createElement('link');style.rel='stylesheet';style.href='./discovery-opening.css?v=guest-first-20261012';document.head.append(style);
+ const style=document.createElement('link');style.rel='stylesheet';style.href='./discovery-opening.css?v=ecc-ba60122';document.head.append(style);
  // The review route has no account or feedback endpoints. Existing learning paths remain optional.
- document.querySelectorAll('#new-profile,#phase,[data-feedback-trigger]').forEach(el=>el.hidden=true);
+ document.querySelectorAll('#new-profile,[data-feedback-trigger]').forEach(el=>el.hidden=true);
  document.querySelector('#profile').disabled=true;
  const panel=document.createElement('aside');panel.id='discovery';panel.setAttribute('aria-label','Picture trail');
  panel.innerHTML='<small>EXPLORE & TAKE PICTURES</small><p id="discovery-premise">Explore the world and take a few pictures along the way.</p><p id="discovery-controls">WASD / arrows · drag to look. Pictures open as you approach.</p><p id="discovery-response" role="status" aria-live="polite"></p><button id="discovery-open">Clue reminder</button><button id="discovery-help">Help</button><button id="discovery-skip">Skip trail</button><fieldset id="discovery-style" hidden><legend>Your picture style</legend><button id="film-mystery" aria-pressed="true">Mystery</button><button id="film-comedy" aria-pressed="false">Comedy</button></fieldset><button id="discovery-pose" hidden>Pose for the photo</button><button id="discovery-end-scene" hidden>Back to exploring</button><details id="discovery-next" hidden><summary>Next places</summary><button id="discovery-explore">Explore</button><button id="discovery-personalise">Personalise</button><button id="discovery-market">Market</button></details><details id="discovery-review-controls" hidden><summary>Review controls</summary><button id="discovery-return">Visit photo spot</button><button id="discovery-restart">Replay trail</button><button id="discovery-retake" hidden>Retake this photo</button></details><label class="discovery-still"><input id="discovery-still" type="checkbox"> Still view · less motion</label>';
@@ -73,15 +75,15 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  function show(help=false){pause();hint=help;renderDialog();if(!dialog.open)dialog.showModal();resetDialogView();(state.step===4?$('discovery-continue'):$('discovery-close')).focus({preventScroll:true});}
  function renderDialog(){
   resetDialogView();dialog.classList.remove('scout-camera-dialog');
-  const final=state.step===4;dialog.classList.toggle('poster-payoff',final);$('discovery-close').hidden=false;
+  const final=state.step===4;$('discovery-continue').disabled=captureBusy;$('discovery-continue').textContent=final&&state.souvenir?'Continue':'Back to exploring';$('discovery-picture').style.height='';dialog.classList.toggle('poster-payoff',final);$('discovery-close').hidden=false;
   const clue=state.step===0?{title:'A parcel down the path',image:'./discovery-assets/parcel-clue.jpg',alt:'The wrapped parcel farther along the arrival path.',copy:'Walk up to the parcel to open your first picture clue.',hint:'WASD or arrows walk. Drag to look. E interacts. Assistance is optional.',target:'parcel'}:state.step===1?{title:'Your campus pictures',image:'./discovery-assets/chapel-clue.jpg',alt:'The real Chapel.',copy:'First, follow the picture to the Chapel. The next picture appears when you continue.',hint:'Pause inside if you like, or continue from the doorway. Then follow the next picture.',target:'chapel'}:ovalClue;
   $('discovery-title').textContent=final?(state.souvenir?'Congratulations!':'Your campus photo'):clue.title;
   $('discovery-picture').src=final?(state.souvenir||'./discovery-assets/oval-clue.jpg'):clue.image;
   $('discovery-picture').alt=final?'Your in-game cast portrait and chosen scout detail.':clue.alt;
-  $('discovery-copy').textContent=final?(state.souvenir?'You have completed a mini overview. More destinations can be explored later; head to the market for your first Careers & Employability activity.':'Take your photo to complete the mini overview.'):clue.copy;
+  $('discovery-copy').textContent=final?(state.souvenir?'Take a look at your photo. It will stay here until you continue. You have completed a mini overview. More destinations can be explored later; head to the market for your first Careers & Employability activity.':'Take your photo to complete the mini overview.'):clue.copy;
   $('discovery-hint').textContent=hint?clue.hint:'';$('discovery-after').hidden=!final;
   for(const id of ['discovery-clearer','discovery-assist'])$(id).hidden=final;
-  $('discovery-poster').disabled=!state.souvenir;let handover=$('discovery-market-handover');if(!handover){handover=document.createElement('button');handover.id='discovery-market-handover';handover.textContent='Head to the market · first activity';handover.onclick=()=>{dialog.close();market();};$('discovery-after').append(handover);}handover.hidden=!state.souvenir;
+  $('discovery-poster').disabled=!state.souvenir;let handover=$('discovery-market-handover');if(!handover){handover=document.createElement('button');handover.id='discovery-market-handover';handover.textContent='Head to the market · first activity';handover.onclick=()=>{dialog.close();market();};$('discovery-after').append(handover);}handover.hidden=!state.souvenir;let inspect=$('discovery-inspect');if(!inspect){inspect=document.createElement('button');inspect.id='discovery-inspect';inspect.textContent='Inspect full photo';inspect.onclick=()=>{const expanded=inspect.getAttribute('aria-pressed')==='true';inspect.setAttribute('aria-pressed',String(!expanded));inspect.textContent=expanded?'Inspect full photo':'Fit photo';$('discovery-picture').style.height=expanded?'':'auto';};$('discovery-after').append(inspect);}inspect.hidden=!state.souvenir;inspect.setAttribute('aria-pressed','false');inspect.textContent='Inspect full photo';
   toy.replaceChildren();$('discovery-picture').hidden=false;$('discovery-clearer').onclick=()=>{hint=true;renderDialog();};
   if(scoutPlace){renderCamera(scoutPlace);return;}
   if(state.step===1){if(state.developed)renderDestinationClue();else renderDevelop();}
@@ -91,8 +93,11 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  function renderDevelop(){
   // Only the current destination appears; future pictures stay unrevealed.
   $('discovery-picture').hidden=true;
-  toy.innerHTML='<div class="develop-pictures"><img src="./discovery-assets/chapel-clue.jpg" alt="Your next picture: the Chapel"></div><p>First, follow this picture to the Chapel.</p><button id="develop-next">Follow this picture</button>';
-  $('discovery-title').textContent='Your first picture';$('discovery-copy').textContent='A place to pause. Step inside if you like, or continue from the doorway.';
+  toy.innerHTML='<div class="develop-pictures"><img src="./discovery-assets/chapel-clue.jpg" alt="Developing your next picture: the Chapel"></div><label>Develop your first picture <input id="develop" type="range" min="0" max="100" step="5" value="0"></label><p id="develop-response" role="status">Slide to bring your picture into view.</p><button id="develop-next" hidden>Follow this picture</button>';
+  $('discovery-title').textContent='Develop your first picture';$('discovery-copy').textContent='Slide to discover a place to pause.';
+  const slider=$('develop');slider.value=development;
+  const develop=()=>{development=Number(slider.value);toy.querySelector('.develop-pictures img').style.filter=`blur(${(100-development)/8}px) brightness(${.15+development*.0085})`;$('develop-next').hidden=development<100;$('develop-response').textContent=development===100?'Your picture is ready. Follow it to the Chapel.':'Slide to bring your picture into view.';};
+  slider.oninput=develop;develop();
   $('develop-next').onclick=()=>{state={...state,developed:true};save();dialog.close();explore();};
  }
  function renderDestinationClue(){
@@ -132,6 +137,7 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
   if(place==='chapel'){const choices=document.createElement('div');choices.className='chapel-compositions';for(const [label,x,y]of [['Door & blue',.91,.55],['Tree & stone',.31,.5],['Roof & leaves',.45,.09]]){const b=document.createElement('button');b.textContent=label;b.onclick=()=>{if(closed)return;selected=label;frame={x,y};positionFrame();feedback.textContent=label+' framed.';};choices.append(b);}toy.prepend(choices);}
   shutter.onclick=()=>{
    if(closed||shotBusy)return;
+   if(place==='mural'&&!muralReady()){feedback.textContent='The mural is still loading. Try again when its artwork is visible.';return;}
    if(!img.complete||!img.naturalWidth){feedback.textContent='Picture still developing. Try again in a moment.';return;}
    const detail=place==='mural'?frameAt(frame.x,frame.y):{label:selected};
    if(!detail){feedback.textContent='That frame is all angles. Look for a round orange detail.';view.classList.remove('scout-miss');void view.offsetWidth;view.classList.add('scout-miss');return;}
@@ -140,7 +146,7 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
     const next=collectShot(state,place,{label:detail.label,image:c.toDataURL('image/jpeg',.85)});
     if(next===state){feedback.textContent='That shot is already in your album.';return;}
     state=next;save();rememberWorldShot(place,state.shots[place],true);closed=true;view.classList.add('scout-success');if(place==='mural'){reticle.classList.add('scout-eyes');view.querySelector('.scout-stamp').textContent='MY GOOD SIDE!';}view.querySelector('.scout-stamp').hidden=false;shutter.disabled=true;feedback.textContent=place==='mural'?'CLICK. The orange circle has found its good side. Your next picture points to the oval.':'CLICK. A quiet frame, safely in your album. The next picture is ready.';
-    const invite=document.createElement('button');invite.textContent='See the next picture';invite.onclick=()=>{scoutPlace=null;renderDialog();$('discovery-title').tabIndex=-1;$('discovery-title').focus({preventScroll:true});};toy.append(invite);
+    scoutPlace=null;renderDialog();$('discovery-title').tabIndex=-1;$('discovery-title').focus({preventScroll:true});
    }catch{feedback.textContent='This picture could not be saved. Your camera is still here; try again.';}finally{shotBusy=false;}
   };
   resetDialogView();
@@ -150,20 +156,23 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  function found(event){const next=advance(state,event);if(next===state)return;state=next;save();if(event==='parcel')onParcel();if(state.step===4){filmSet();revealStarted=true;sequence=null;cinematicUI(false);stageCast(1,0);$('discovery-pose').hidden=true;$('discovery-end-scene').hidden=true;}show();}
  $('discovery-open').onclick=()=>{scoutPlace=null;if(sequence)endScene();if(state.skipped){state={...state,skipped:false};save();}show();};
  $('discovery-help').onclick=()=>{scoutPlace=null;if(sequence)endScene();show(true);if(state.step===0)$('discovery-hint').textContent='Walk toward the parcel with WASD or arrows. It opens when you approach. Tab reaches every button. Escape closes this clue. Movement assistance jumps to the pictured place without collecting it. You may leave, return or skip at any time.';};
- $('discovery-close').onclick=$('discovery-continue').onclick=()=>{scoutPlace=null;dialog.close();explore();};
+ $('discovery-close').onclick=()=>{scoutPlace=null;dialog.close();explore();};
+ function continuePhotoReview(){if(captureBusy)return;scoutPlace=null;dialog.close();explore();if(photoReviewPending&&state.souvenir){photoReviewPending=false;onPhotoFinish();}}
+ $('discovery-continue').onclick=continuePhotoReview;
  $('discovery-clearer').onclick=()=>{hint=true;renderDialog();};
  $('discovery-skip').onclick=()=>{endScene();state={...state,skipped:true};save();dialog.close();explore();};
  $('discovery-assist').onclick=async()=>{if(busy)return;busy=true;$('discovery-assist').disabled=true;const target=state.step===0?'parcel':state.step===1?(state.chapelVisited?'mural':'chapel-door'):'oval';try{dialog.close();await travel(target);explore();}catch{$('discovery-response').textContent='That place could not load. Your clue is safe; try again.';}finally{busy=false;$('discovery-assist').disabled=false;}};
  $('discovery-return').onclick=async()=>{dialog.close();await travel('oval');};
- $('discovery-restart').onclick=()=>{endScene();revealStarted=false;sceneDismissed=false;scoutPlace=null;state=restart(state);save();for(const print of worldPrints.values())if(print.group){worlds.town.remove(print.group);print.group.traverse(o=>{if(o.isMesh){o.geometry.dispose();if(o.material!==print.material)o.material.dispose();}});print.material.map.dispose();print.material.dispose();}worldPrints.clear();dialog.close();travel('start');};
+ $('discovery-restart').onclick=()=>{endScene();revealStarted=false;sceneDismissed=false;scoutPlace=null;development=0;photoReviewPending=false;state=restart(state);save();for(const print of worldPrints.values())if(print.group){worlds.town.remove(print.group);print.group.traverse(o=>{if(o.isMesh){o.geometry.dispose();if(o.material!==print.material)o.material.dispose();}});print.material.map.dispose();print.material.dispose();}worldPrints.clear();dialog.close();travel('start');};
  $('discovery-retake').onclick=async()=>{if(busy)return;busy=true;$('discovery-retake').disabled=true;try{dialog.close();await travel('oval');filmSet();reveal();$('discovery-response').textContent='Return to the photo spot, then choose Retake this photo again once both teachers arrive.';if(castReady()){stageCast(1,0);makePoster(true);}show();}finally{busy=false;$('discovery-retake').disabled=false;}};
  $('discovery-poster').onclick=()=>{if(!state.souvenir)return;const a=document.createElement('a');a.download='Career-Empire-Unexpected-Arrival.png';a.href=state.souvenir;a.click();};
  for(const [id,fn]of [['discovery-explore',explore],['discovery-personalise',personalise],['discovery-market',market]])$(id).onclick=()=>{dialog.close();fn();};
  dialog.addEventListener('close',()=>{scoutPlace=null;pause();});
  function makePoster(retake=false){
   if(captureBusy||state.step!==4||(state.souvenir&&!retake))return;
-  captureBusy=true;const capturedState=state;
-  const fail=()=>{captureBusy=false;$('discovery-response').textContent='Image capture unavailable. Your scout shots are safe; try again.';};
+  captureBusy=true;$('discovery-continue').disabled=true;const capturedState=state;
+  if(!dialog.open)show();
+  const fail=()=>{captureBusy=false;$('discovery-continue').disabled=false;$('discovery-response').textContent='Image capture unavailable. Your scout shots are safe; try again.';};
   try{
    const load=src=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src;});
    const cancelled=Symbol('cancelled');
@@ -172,17 +181,17 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
     // A replay/skip while rendering cannot award a stale completion.
     if(state.step!==4||state.skipped){captureBusy=false;return;}
     const c=document.createElement('canvas');c.width=900;c.height=1160;const x=c.getContext('2d');
-    x.fillStyle=capturedState.style==='comedy'?'#5b2d49':'#142b35';x.fillRect(0,0,900,1160);x.drawImage(images[0],0,72,900,960);
+    x.fillStyle=capturedState.style==='comedy'?'#5b2d49':'#142b35';x.fillRect(0,0,900,1160);drawStyledPortrait(x,images[0],capturedState.style);
     x.fillStyle='#fff4d8';x.font='bold 34px Georgia';x.fillText('CAREER EMPIRE',35,48);x.font='bold 42px Georgia';
     x.fillText(capturedState.style==='comedy'?'An Unexpected Close-up':'Your campus pictures',35,1082);x.font='22px sans-serif';x.fillText('TAKE 1 · your pictures, your campus',35,1127);
     Object.values(capturedState.shots).forEach((shot,i)=>{x.fillStyle='#fff4d8';x.fillRect(28+i*180,824,170,198);x.drawImage(images[i+1],33+i*180,829,160,160);x.fillStyle='#142b35';x.font='13px sans-serif';x.fillText(shot.label,35+i*180,1010,155);});
-    const image=c.toDataURL('image/png');state=retake?{...state,souvenir:image}:reward(state,image);captureBusy=false;save();if(dialog.open)renderDialog();if(!retake)onPhotoFinish();
+    const image=c.toDataURL('image/png');state=retake?{...state,souvenir:image}:reward(state,image);captureBusy=false;if(!retake)photoReviewPending=true;save();if(dialog.open){renderDialog();$('discovery-picture').tabIndex=0;$('discovery-picture').focus({preventScroll:true});}
    }).catch(error=>{if(error===cancelled)captureBusy=false;else fail();});
   }catch{fail();}
  }
 
 
- function chapelCheckpoint(present=true){const next=visitChapel(state),changed=next!==state;state=next;save();if(changed&&present&&state.step===1){scoutPlace=null;show();}return changed;}
+ function chapelCheckpoint(present=true){const next=visitChapel(state),changed=next!==state;state=next;save();if(present&&needsMuralClue(state)){scoutPlace=null;show();}return changed;}
  function quietDoor(){
   pause();scoutPlace=null;renderDialog();toy.replaceChildren();$('discovery-picture').hidden=true;
   $('discovery-title').textContent='A place to pause';
@@ -212,11 +221,11 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  };
  for(const style of ['mystery','comedy'])$('film-'+style).onclick=()=>{if(captureBusy)return;state=chooseStyle(state,style);save();if(state.souvenir)$('discovery-response').textContent=(style==='mystery'?'Mystery':'Comedy')+' selected. Retake this photo to apply it.';if(sequence)$('discovery-pose').hidden=false;};
  paint();
- return {showPhotoFinish:()=>show(),chapelCheckpoint,quietDoor,reduced:()=>$('discovery-still').checked,open:()=>dialog.open||Boolean(sequence)||busy||captureBusy,cinematic:()=>Boolean(sequence),openDialog:()=>dialog.open,revealed:()=>teachersRevealed(state,revealStarted,sequence),interaction(m,p){if(dialog.open||sequence||state.skipped)return null;if(m==='town'&&Math.hypot(p.x+7,p.z-14.8)<1.8)return {label:state.step===0?'Open the picture parcel':'Your current picture clue',action:()=>{if(state.step===0)found('parcel');else show();}};if(state.step>=1&&m==='town'&&Math.hypot(p.x+3.15,p.z+8.8)<2.4)return {label:'Chapel · optional quiet visit',action:quietDoor};if(state.step>=1&&state.chapelVisited&&!state.shots.mural&&m==='town'&&Math.hypot(p.x-10.6,p.z+38.4)<4)return {label:'Frame an orange detail',action:()=>{scoutPlace='mural';show();}};return null;},update(m,p,dt){
+ return {photo:()=>state.souvenir,showPhotoFinish:()=>show(),chapelCheckpoint,quietDoor,reduced:()=>$('discovery-still').checked,open:()=>dialog.open||Boolean(sequence)||busy||captureBusy,cinematic:()=>Boolean(sequence),preparingTravel:()=>busy&&!captureBusy,openDialog:()=>dialog.open,revealed:()=>teachersRevealed(state,revealStarted,sequence),interaction(m,p){if(dialog.open||sequence||state.skipped)return null;if(m==='town'&&Math.hypot(p.x+7,p.z-14.8)<1.8)return {label:state.step===0?'Open the picture parcel':'Your current picture clue',action:()=>{if(state.step===0)found('parcel');else show();}};if(state.step>=1&&m==='town'&&Math.hypot(p.x+3.15,p.z+8.8)<2.4)return {label:'Chapel · optional quiet visit',action:quietDoor};if(state.step>=1&&state.chapelVisited&&!state.shots.mural&&m==='town'&&Math.hypot(p.x-10.6,p.z+38.4)<4&&muralReady())return {label:'Frame an orange detail',action:()=>{if(!muralReady())return;scoutPlace='mural';show();}};return null;},update(m,p,dt){
  const ready=available()&&!dialog.open&&!sequence&&!busy&&!captureBusy;
  const parcelNear=proximity.sample('parcel',m==='town'?Math.hypot(p.x+7,p.z-14.8):Infinity,{enabled:ready&&!state.skipped});
  const chapelNear=proximity.sample('chapel-entry',m==='town'?Math.hypot(p.x+3.15,p.z+8.8):Infinity,{enter:1.15,leave:3.2,enabled:ready&&state.step>=1&&!state.skipped});
- const muralNear=proximity.sample('mural',m==='town'?Math.hypot(p.x-10.6,p.z+38.4):Infinity,{enter:3,leave:5,enabled:ready&&state.step===1&&state.chapelVisited&&!state.shots.mural&&!state.skipped});
+ const muralNear=proximity.sample('mural',m==='town'?Math.hypot(p.x-10.6,p.z+38.4):Infinity,{enter:3,leave:5,enabled:ready&&muralReady()&&state.step===1&&state.chapelVisited&&!state.shots.mural&&!state.skipped});
  if(parcelNear){if(state.step===0)found('parcel');else show();}else if(chapelNear){chapelCheckpoint(false);if(m==='town')quietDoor();}else if(muralNear){scoutPlace='mural';show();}
- if(!sequence){const label=discoveryLocation(m,p);if(label)onLocation(label);}const readyNow=pathsReady();if(readyNow!==lastPathsReady){lastPathsReady=readyNow;paint();}elapsed+=dt;const still=$('discovery-still').checked;for(const print of worldPrints.values()){if(!print.group)continue;print.group.visible=!dialog.open&&!state.skipped&&Object.keys(state.shots).length>0;if(print.group.visible){print.time=still?1:Math.min(1,print.time+dt);print.group.scale.setScalar(.8+.2*print.time);print.material.color.setScalar(1+.35*(1-print.time));}}document.body.classList.toggle('discovery-still',still);muralSignal.scale.setScalar(still?1:1+Math.sin(elapsed*3)*.16);if(state.skipped)return;if(Math.hypot(p.x+4,p.z+57)>4)sceneDismissed=false;if(state.step===3&&!dialog.open&&!sceneDismissed&&m==='town'&&Math.hypot(p.x+4,p.z+57)<3&&!sequence)startScene();if(sequence){if(m!=='town'){endScene();return;}const turn=still?1:Math.min(1,elapsed/2.8);frameReveal(turn);if(!castReady()){stageCast(0,0);$('discovery-response').textContent='Someone is coming over…';return;}if(castStartedAt===null)castStartedAt=Math.max(elapsed,2.8);const approach=still?1:Math.max(0,Math.min(1,(elapsed-castStartedAt)/4));stageCast(approach,still?0:dt);if(approach===1&&sequence!=='invite'){sequence='invite';filmSet();film.visible=true;$('discovery-response').textContent='You brought '+Object.values(state.shots).map(s=>s.label.toLowerCase()).join(' and ')+'. We have the cast… and you are in this one! Choose a photo style if you like, then let’s pose.';$('discovery-pose').hidden=false;$('discovery-style').hidden=false;}else if(sequence!=='invite')$('discovery-response').textContent='The teachers walk over to meet you…';}},snapshot:()=>({...state,souvenir:!!state.souvenir,persistent,scene:sequence})};
+ if(!sequence){const label=discoveryLocation(m,p);if(label)onLocation(label);}const readyNow=pathsReady();if(readyNow!==lastPathsReady){lastPathsReady=readyNow;paint();}elapsed+=dt;const still=$('discovery-still').checked;for(const print of worldPrints.values()){if(!print.group)continue;print.group.visible=!dialog.open&&!state.skipped&&Object.keys(state.shots).length>0;if(print.group.visible){print.time=still?1:Math.min(1,print.time+dt);print.group.scale.setScalar(.8+.2*print.time);print.material.color.setScalar(1+.35*(1-print.time));}}document.body.classList.toggle('discovery-still',still);muralSignal.visible=state.step>0&&!state.shots.mural&&!state.skipped&&muralReady();muralSignal.scale.setScalar(still?1:1+Math.sin(elapsed*3)*.16);if(state.skipped)return;if(Math.hypot(p.x+4,p.z+57)>4)sceneDismissed=false;if(state.step===3&&!dialog.open&&!sceneDismissed&&m==='town'&&Math.hypot(p.x+4,p.z+57)<3&&!sequence)startScene();if(sequence){if(m!=='town'){endScene();return;}const turn=still?1:Math.min(1,elapsed/2.8);frameReveal(turn);if(!castReady()){stageCast(0,0);$('discovery-response').textContent='Someone is coming over…';return;}if(castStartedAt===null)castStartedAt=Math.max(elapsed,2.8);const approach=still?1:Math.max(0,Math.min(1,(elapsed-castStartedAt)/4));stageCast(approach,still?0:dt);if(approach===1&&sequence!=='invite'){sequence='invite';filmSet();film.visible=true;$('discovery-response').textContent='You brought '+Object.values(state.shots).map(s=>s.label.toLowerCase()).join(' and ')+'. We have the cast… and you are in this one! Choose a photo style if you like, then let’s pose.';$('discovery-pose').hidden=false;$('discovery-style').hidden=false;}else if(sequence!=='invite')$('discovery-response').textContent='The teachers walk over to meet you…';}},snapshot:()=>({...state,souvenir:!!state.souvenir,persistent,scene:sequence})};
 }
