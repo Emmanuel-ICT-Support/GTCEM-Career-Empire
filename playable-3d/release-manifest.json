@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "c815c86d857d73c90664a4210e6d10fdc843f02444a77e9859e09a2e777ef2a4"
+      "sha256": "42ef10022a0e856a619b4d721454bc53390706b15c3540e32191d35c640dc0c6"
     },
     {
       "path": "arrival-precinct.js",
@@ -726,7 +726,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "3150563a2971694cc98f2618ed4a3b8bde4c5f0db022c67d6584c97661a64668"
+      "sha256": "5582a93cd6cac0a17080d8db75dca3c752b3c42f946f945f756a4480c33bb92c"
     },
     {
       "path": "phone-assets.js",

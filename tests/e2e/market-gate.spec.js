@@ -1,0 +1,10 @@
+import {test,expect} from '@playwright/test';
+const d=p=>p.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}'));
+async function walk(page,key,condition,timeout=45000){await page.locator('#scene').focus();await page.keyboard.down(key);try{await expect.poll(condition,{timeout}).toBe(true);}finally{await page.keyboard.up(key);}}
+for(const width of [1280,390])test(`physical market gate exits and re-enters without clicks ${width}`,async({page})=>{
+ test.setTimeout(120000);await page.setViewportSize({width,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/playable-3d/');await page.locator('#taster-skip').click();await expect.poll(()=>d(page),{timeout:30000}).toMatchObject({entryReady:true});const run=(await d(page)).runId;
+ await page.evaluate(()=>document.querySelector('#market-destination').click());await expect.poll(()=>d(page),{timeout:60000}).toMatchObject({mode:'market',position:[0,0,15]});await walk(page,'KeyW',async()=> (await d(page)).position[2]<9.5);await walk(page,'KeyS',async()=> (await d(page)).mode==='town',60000);
+ await expect.poll(()=>d(page)).toMatchObject({runId:run,mode:'town'});expect((await d(page)).position[2]).toBeCloseTo(-17.8,0);await page.screenshot({path:`/tmp/market-gate-outside-${width}.png`});await page.waitForTimeout(1500);expect((await d(page)).mode).toBe('town');
+ await walk(page,'KeyS',async()=> (await d(page)).mode==='market');await expect.poll(()=>d(page)).toMatchObject({mode:'market',runId:run});await walk(page,'KeyW',async()=> page.locator('#interact').textContent().then(t=>t.includes('Talk to Mara')));await page.locator('#interact').click();await page.getByRole('button',{name:'Take the shift',exact:true}).click();await expect.poll(async()=> (await d(page)).market.accepted).toBe(true);
+ const before=(await d(page)).market;await walk(page,'KeyS',async()=> (await d(page)).mode==='town',60000);await page.waitForTimeout(1500);await walk(page,'KeyS',async()=> (await d(page)).mode==='market');await expect.poll(async()=> (await d(page)).market.events).toEqual(before.events);expect((await d(page)).runId).toBe(run);expect(errors).toEqual([]);
+});

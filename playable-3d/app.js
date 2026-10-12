@@ -357,7 +357,7 @@ function prepareNextTask(now){
  if(!next||prepared.has(key))return;
  preparing=true;
  const job=next==='studio'?Promise.all([import('./studio.js?v=lazy-20260917'),loadCharacterKit(active().body)])
-  :next==='market'?import('./night-market.js?v=market-guidance-20261012').then(()=>import('./market-characters.js?v=sharp-entry-20260925')).then(m=>m.prepareMarketCharacters(()=>!document.hidden&&state.activeId===profileId&&echo?.nextPreparation()==='market'))
+  :next==='market'?import('./night-market.js?v=market-gate-20261012').then(()=>import('./market-characters.js?v=sharp-entry-20260925')).then(m=>m.prepareMarketCharacters(()=>!document.hidden&&state.activeId===profileId&&echo?.nextPreparation()==='market'))
   :((mode==='town'&&now-entryReadyAt>15)||(mode==='market'&&nightMarket?.snapshot().visuals.ready===nightMarket?.snapshot().visuals.total))?ensureCampus():null;
  if(!job){preparing=false;return;}
  Promise.resolve(job).then(result=>{if(result!==false)prepared.add(key);}).catch(error=>{prepared.add(key);console.warn('Next activity will retry when opened',error);}).finally(()=>{preparing=false;lastPreparation=clock.getElapsedTime();});
@@ -436,7 +436,7 @@ async function openESTDocument(key){const request=++documentRequest,doc=estDocum
 function positionESTPlayButton(){const button=$('est-watch');if(mode!=='interior'||watchingEST){button.hidden=true;return;}const point=worlds.estVideo.screen.getWorldPosition(new THREE.Vector3()).project(camera);button.hidden=point.z<0||point.z>1||Math.abs(point.x)>.9||Math.abs(point.y)>.85;if(!button.hidden){button.style.left=((point.x+1)*.5*viewport.width)+'px';button.style.top=((1-point.y)*.5*viewport.height)+'px';}}
 
 function reflect(){keys.clear();joystick.reset();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
-let marketOpening=false;
+let marketOpening=false,marketLeaving=false,marketTravelCooldownUntil=0;
 // Capture only the already-loaded market scene; no campus or video assets.
 function marketBriefingImage(beat){
  const views=[{from:[1,2.4,-.8],at:[0,1.5,-5.4]},{from:[-4,3.2,4],at:[.2,.9,-3.2]},{from:[6.7,2.2,.2],at:[3,.6,-3.7]},{from:[0,4,8],at:[0,1,-2]},{from:[4.7,2.2,-.3],at:[2.8,.9,-4.4]},{from:[1,2.4,-.8],at:[0,1,-5.4]}];
@@ -447,10 +447,16 @@ function marketBriefingImage(beat){
 }
 async function openMarket(){
  if(marketOpening)return;marketOpening=true;
- try{if(!nightMarket){const {createNightMarket}=await import('./night-market.js?v=market-guidance-20261012');nightMarket=createNightMarket({captureBriefing:marketBriefingImage,campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:gameStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}await setMode('market');}
+ try{if(!nightMarket){const {createNightMarket}=await import('./night-market.js?v=market-gate-20261012');nightMarket=createNightMarket({captureBriefing:marketBriefingImage,campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:gameStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}await setMode('market');}
  catch(error){console.warn('Market unavailable',error);toast('The market could not open. Campus activities remain available.');}finally{marketOpening=false;}
 }
-function returnTown(){if(mode==='market'){setMode('town').then(async()=>{const request=modeRequest;try{await ensureCampus();}catch{toast('Campus scenery is unavailable. Other campus activities remain accessible.');return;}if(mode!=='town'||request!==modeRequest)return;worlds.teleport(false,43,-19.3);actor.model.position.copy(worlds.position(false));yaw=0;updateCamera(1,true);setLocation('Market Courtyard');});}else if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='careers')destination('careers');else if(mode==='interior')destination('est');else setMode('town');}
+async function leaveMarketByGate(){
+ if(marketLeaving||mode!=='market')return;marketLeaving=true;resetNavigationInput();actor.setWalking(false);
+ try{await ensureCampus();if(mode!=='market')return;await setMode('town');worlds.teleport(false,43,-17.8);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=0;yaw=Math.PI;marketTravelCooldownUntil=performance.now()+1200;updateCamera(1,true);setLocation('Outside Sunday Markets');canvas.focus();}
+ catch{toast('Campus scenery is still preparing. Walk back through the gate to retry, or use Return to campus.');}
+ finally{marketLeaving=false;}
+}
+function returnTown(){if(mode==='market'){leaveMarketByGate();}else if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='careers')destination('careers');else if(mode==='interior')destination('est');else setMode('town');}
 function destination(which){if(which==='chapel'){const go=()=>{setMode('town');enterChapel();};if(mode==='studio')leaveStudio(go);else go();return;}const go=async()=>{await setMode('town');if(which==='home'&&!campusReady){const request=modeRequest;try{await ensureCampus();}catch{return;}if(request!==modeRequest||mode!=='town')return;}if(!campusReady){worlds.teleport(false,-7,23.3);actor.model.position.copy(worlds.position(false));updateCamera(1,true);return;}worlds.teleport(false,which==='careers'?CAREERS.x:which==='est'?EST.x:ECC_HOME.x,which==='careers'?CAREERS.z:which==='est'?EST.z:ECC_HOME.z);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=which==='est'?0:Math.PI;yaw=which==='careers'?CAREERS.yaw:which==='est'?EST.yaw:ECC_HOME.yaw;setLocation(which==='careers'?CAREERS.name:which==='est'?'EST Prep':'Home Base');updateCamera(1,true);};if(mode==='studio')leaveStudio(go);else go();}
 async function campusSpot(x,z,heading,angle=0){
   const go=async()=>{await setMode('town');const request=modeRequest;
@@ -667,11 +673,12 @@ function animate(){
     }
     actor.model.position.lerpVectors(renderMotion.previous,renderMotion.current,accumulator/STEP);
     renderMotion.shown.copy(actor.model.position);
+    if(mode==='town'&&campusReady&&travelled>.001&&performance.now()>marketTravelCooldownUntil&&Math.hypot(actor.model.position.x-43,actor.model.position.z+22)<1.2)openMarket();
     // A render frame with no physics tick is not a stop. Never restart its walk.
     if(steps)actor.setWalking(travelled/(steps*STEP)>.03,travelled/(steps*STEP));
     if(mode==='town'){if(entryReady&&!campusReady&&actor.model.position.z<-14&&worlds.scenery.status==='pending')openCampusInBackground();updateTeacherLoading();for(const npc of teachers)npc.update(discovery?.reduced()?0:dt,actor.model.position);}actor.update(discovery?.reduced()?0:dt);prepareNextTask(now);worlds.update(now,camera);updateInteraction();updateMission();
   }else {renderMotion=null;locomotion.reset();accumulator=0;actor.setWalking(false);if(mode==='studio')preview?.update(dt);}
-  if(mode==='market')nightMarket.update(dt,now,camera);
+  if(mode==='market')nightMarket.update(dt,now,camera,actor.model.position);
   if(discoveryReview)for(const npc of teachers)npc.root.visible=Boolean(discovery?.revealed());
   if(!discovery?.cinematic())updateCamera(dt,discovery?.reduced());if(!intro?.open()){discovery?.update(mode,actor.model.position,dt);explorationTools?.update(dt,!discovery?.open()&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open());}echo?.update(dt,actor.model.position,camera,mode!=='studio'&&!helperPicker.open()&&!aerial&&!flyover?.active&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open,activeScene());positionESTPlayButton();renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   let scene=mode==='studio'?studio:activeScene();
