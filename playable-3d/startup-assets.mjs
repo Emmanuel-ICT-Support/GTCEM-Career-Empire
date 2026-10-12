@@ -8,6 +8,6 @@ export async function withAssetDeadline(ready,timeoutMs=15000){
 }
 
 // Late texture recovery must not wait for optional full-campus scenery.
-export function canClearDetailWarning({entryReady,campusReady,campusLoading,pending}){
- return pending===0&&(campusReady||(entryReady&&!campusLoading));
+export function canClearDetailWarning({entryReady,campusReady,campusLoading,pending,campusFailed=false}){
+ return !campusFailed&&pending===0&&(campusReady||(entryReady&&!campusLoading));
 }

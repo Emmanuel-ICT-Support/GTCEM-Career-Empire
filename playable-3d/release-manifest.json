@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "7f8af6c2e35fd3055118900d30eb7b016280123e48c0315c090e167a38e482da"
+      "sha256": "54939a6d3ce87ebfc9a21674c18a80686bf1da70128368f45ea3b0760f51233a"
     },
     {
       "path": "arrival-precinct.js",
@@ -962,7 +962,7 @@
     },
     {
       "path": "startup-assets.mjs",
-      "sha256": "2179c8655e9025a141334788dd49ed0cf086d77d9289a052671ae3f78bcaebb9"
+      "sha256": "56294558b9da37b3cc8a05c4abf373ba9ed0c4f987fed3603e7652573fb270b2"
     },
     {
       "path": "game-session.mjs",
