@@ -38,8 +38,34 @@ jobs:
           if-no-files-found: warn
           retention-days: 3
 
-  browser:
+  critical:
     needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Run essential student journeys first
+        run: npx playwright test --grep "$CRITICAL_CASES" --workers=1 --max-failures=0 --reporter=line,json
+        env:
+          CRITICAL_CASES: 'full natural intro|actual photo completion|same-run photo teachers|selected Sprout appears|actual keyboard walk through west Administration|real grass failure'
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
+      - name: Upload critical journey evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-evidence-critical
+          path: coverage/
+          if-no-files-found: warn
+          retention-days: 3
+
+  browser:
+    needs: [checks, critical]
+    if: always() && needs.checks.result == 'success'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -63,8 +89,9 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run browser shard with one worker
-        run: npx playwright test --shard=${{ matrix.shard }}/4 --workers=1 --max-failures=0 --reporter=line,json
+        run: npx playwright test --grep-invert "$CRITICAL_CASES" --shard=${{ matrix.shard }}/4 --workers=1 --max-failures=0 --reporter=line,json
         env:
+          CRITICAL_CASES: 'full natural intro|actual photo completion|same-run photo teachers|selected Sprout appears|actual keyboard walk through west Administration|real grass failure'
           PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
 
       - name: Upload unique shard evidence
@@ -78,7 +105,7 @@ jobs:
 
   test:
     name: test
-    needs: [checks, browser]
+    needs: [checks, critical, browser]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -101,13 +128,14 @@ jobs:
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
-          pattern: browser-evidence-shard-*
+          pattern: browser-evidence-*
           path: ci-evidence
 
       - name: Prove full coverage and consolidate outcomes
         if: always()
         env:
           CHECKS_RESULT: ${{ needs.checks.result }}
+          CRITICAL_RESULT: ${{ needs.critical.result }}
           BROWSER_RESULT: ${{ needs.browser.result }}
         run: node scripts/ci-shard-proof.mjs coverage-checks/browser-inventory.json ci-evidence coverage/browser-rollup.json
 

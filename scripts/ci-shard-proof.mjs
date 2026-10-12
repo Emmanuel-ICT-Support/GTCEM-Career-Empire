@@ -16,7 +16,7 @@ export function cases(report){
  return found;
 }
 
-export function prove(inventory,reports,{plan=false}={}){
+export function prove(inventory,reports,{plan=false,critical}={}){
  const expected=cases(inventory),ids=new Set(expected.map(test=>test.id)),seen=new Map(),errors=[];
  if(ids.size!==expected.length)errors.push('Duplicate IDs in full inventory');
  if(!ids.size)errors.push('Full inventory is empty');
@@ -27,6 +27,7 @@ export function prove(inventory,reports,{plan=false}={}){
   if(report.errors?.length)errors.push(`Shard ${index+1} has ${report.errors.length} runner errors`);
   return {shard:index+1,count:tests.length,tests,runnerErrors:report.errors||[]};
  });
+ if(critical){const tests=cases(critical);for(const test of tests)seen.set(test.id,(seen.get(test.id)||0)+1);if(critical.config?.shard)errors.push('Critical report must be unsharded');if(critical.errors?.length)errors.push('Critical runner errors');shards.unshift({shard:'critical',count:tests.length,tests,runnerErrors:critical.errors||[]});}
  const missing=[...ids].filter(id=>!seen.has(id)),unexpected=[...seen.keys()].filter(id=>!ids.has(id)),duplicates=[...seen].filter(([,count])=>count!==1).map(([id])=>id);
  if(missing.length)errors.push(`${missing.length} missing tests`);
  if(unexpected.length)errors.push(`${unexpected.length} unexpected tests`);
@@ -45,8 +46,10 @@ function main(args){
  const read=file=>{try{return JSON.parse(fs.readFileSync(file,'utf8'));}catch(error){return {errors:[{message:`Missing or unreadable report ${file}: ${error.message}`}],suites:[]};}};
  const reports=[];
  for(let shard=1;shard<=4;shard++)reports.push(read(path.join(evidenceRoot,`browser-evidence-shard-${shard}`,'browser-report.json')));
- const proof=prove(read(inventoryFile),reports,{plan});
- if(!plan)for(const [name,result] of [['checks',process.env.CHECKS_RESULT],['browser',process.env.BROWSER_RESULT]])if(result&&result!=='success'){proof.errors.push(`${name} job result: ${result}`);proof.complete=false;}
+ const criticalFile=path.join(evidenceRoot,'browser-evidence-critical','browser-report.json');
+ const critical=read(criticalFile);
+ const proof=prove(read(inventoryFile),reports,{plan,critical});
+ if(!plan)for(const [name,result] of [['checks',process.env.CHECKS_RESULT],['critical',process.env.CRITICAL_RESULT],['browser',process.env.BROWSER_RESULT]])if(result&&result!=='success'){proof.errors.push(`${name} job result: ${result}`);proof.complete=false;}
  fs.mkdirSync(path.dirname(output),{recursive:true});fs.writeFileSync(output,JSON.stringify(proof,null,2)+'\n');
  console.log(JSON.stringify({mode:proof.mode,expected:proof.expected,reported:proof.reported,exactPartition:proof.exactPartition,complete:proof.complete,counts:proof.counts,shards:proof.shards.map(({shard,count})=>({shard,count})),errors:proof.errors},null,2));
  if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,`### Browser count proof\n\n${proof.reported}/${proof.expected} cases; exact partition: ${proof.exactPartition}; complete: ${proof.complete}.\n\n\`${JSON.stringify(proof.counts)}\`\n`);
