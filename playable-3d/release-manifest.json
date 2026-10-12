@@ -1,8 +1,8 @@
 {
-  "release": "sequential-clues-20261012",
+  "release": "photo-review-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "a4007ad0b33b7065757c6da25fc1bd7bf4fa7294",
-  "scope": "Restore the single Chapel-picture developing slider and automatic Chapel exit to mural and mural shot to oval clue handoffs; preserve reward, guest session, reflection and photo-finish contracts.",
+  "baseCommit": "840583c248ffe5876f2517972478d9d8bbb48713",
+  "scope": "Keep the saved campus portrait visible for explicit review/Continue, give Mystery and Comedy distinct saved image treatments, and reopen the actual photo from My collection; preserve companion rendering, rewards and session contracts.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "70eac43906e5e16f332a9cf6e4546957412e4733e7203adfb35b55bec30e529f"
+      "sha256": "1fe48e687653e163c4e94a1dcc835647ae3aad6915e753fba81b331caf22f8f7"
     },
     {
       "path": "arrival-precinct.js",
@@ -846,7 +846,7 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "dc636dbfa90da9c765ba36f96093be329e0e17f724d67ceaf9221984f140e8b0"
+      "sha256": "662a6b013409770c25cd41c5613f4fe6a0bd31d47822e0df059c5c8b7623b993"
     },
     {
       "path": "discovery-opening.css",
@@ -902,7 +902,7 @@
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "9281fda2ee5ec210b0f94d2bfbc969181836996ed7047207d5490fb0446a943a"
+      "sha256": "3bed476a064aefdf08db21d657012df05ba51a61e39292ca17f55ae2f1c0f051"
     },
     {
       "path": "proximity-gate.mjs",
@@ -1063,6 +1063,10 @@
     {
       "path": "market-arrangement.mjs",
       "sha256": "244bfb6318ebb7c2c2fa36e66c264b7aff8c02ba1c35f0d7b58e5c2173325a72"
+    },
+    {
+      "path": "photo-style.mjs",
+      "sha256": "31f4d195ea9e17fbfb04b06ba431e36d437a47cdda573985ec5f45c83cab390a"
     }
   ],
   "estVideo": {

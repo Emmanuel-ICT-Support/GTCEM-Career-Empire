@@ -34,5 +34,5 @@ test('source wires exit presentation and immediate mural-to-oval dialog without 
  assert.match(app,/function leaveChapel\(\)\{const nextClue=discoveryReview;/);
  const shutter=source.slice(source.indexOf('  shutter.onclick='),source.indexOf(' function cinematicUI'));
  assert.match(shutter,/scoutPlace=null;renderDialog\(\)/);assert.ok(!shutter.includes('See the next picture'));
- assert.match(source,/scoutPlace=null;development=0;state=restart\(state\)/);
+ assert.match(source,/scoutPlace=null;development=0;photoReviewPending=false;state=restart\(state\)/);
 });
