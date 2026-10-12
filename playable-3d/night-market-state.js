@@ -2,7 +2,7 @@ import {DEFAULT_PLAN,NOTE_FIELDS,validPlan,evaluatePlan} from './night-market-ag
 // Local rehearsal only. This log never writes to profiles, the portfolio or accounts.
 export const MARKET_KEY='ce-night-market-practice-v1';
 export const VALUES=Object.freeze({gross:2000,tax:200,keepsake:600,save:500,donation:200,research:500});
-export const MARKET_SHOP=Object.freeze({lantern:{name:'Amber lantern',price:600},plant:{name:'Little green plant',price:400}});
+export const MARKET_SHOP=Object.freeze({lantern:{name:'Amber lantern',price:600,description:'A warm reminder of your first market visit.',icon:'lantern'},plant:{name:'Little green plant',price:400,description:'A tiny green friend. No watering timer.',icon:'plant'},plane:{name:'Paper plane',price:100,description:'Flight clearance: imaginary.',icon:'plane'},compass:{name:'Pocket compass',price:200,description:'A keepsake for a curious explorer, not a navigation upgrade.',icon:'compass'},duck:{name:'Novelty duck',price:300,description:'Head of the quack department. No qualifications required.',icon:'duck'}});
 export const BADGES=Object.freeze({
  initiative:['Initiative','You proposed and tested a change to a workplace arrangement.'],
  problem:['Problem solving','You tested an idea and examined its consequences.'],
@@ -15,7 +15,7 @@ export const freshState=()=>({revision:3,plan:{...DEFAULT_PLAN},trials:[],caseNo
 export function applyEvent(previous,type){
  const s=structuredClone(previous),badge=id=>{if(!s.badges.includes(id))s.badges.push(id);};
  if(type?.type==='purchase'){
-  const item=Object.hasOwn(MARKET_SHOP,type.item)?MARKET_SHOP[type.item]:null;if(s.revision<2||!item||(!s.paid&&!s.researchPaid)||s.wallet<item.price||s.purchases.includes(type.item)||(type.item==='lantern'&&s.keepsake)||s.events.length>=256)return previous;
+  const item=Object.hasOwn(MARKET_SHOP,type.item)?MARKET_SHOP[type.item]:null;if(!item||s.wallet<item.price||s.purchases.includes(type.item)||(type.item==='lantern'&&s.keepsake)||s.events.length>=256)return previous;
   s.wallet-=item.price;s.purchases.push(type.item);if(type.item==='lantern')s.keepsake=true;s.events.push({type:'purchase',item:type.item});return s;
  }
  if(s.revision===3){

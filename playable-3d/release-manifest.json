@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "2cb661c4dd14572e268c5dd8ecae821cacddf583bc1b00de6221714644e2756c"
+      "sha256": "d897b2032d252760cdb6919c8cce79ec8381239d41455e4e6fcd455913f4b44a"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "776da1ec9576be0a02788261657e123dc410827778ea866326150cf3b01865c7"
+      "sha256": "3d74324628c5f555cd11f0f6227fe57fd8ea6f7a01c0151e65b6f53ac021fdb1"
     },
     {
       "path": "joystick.js",
@@ -718,7 +718,7 @@
     },
     {
       "path": "night-market-state.js",
-      "sha256": "c8d884d68e288ca1f592986b2a41e42e617c902c4936533b0452aba72e322bf4"
+      "sha256": "5b4b6d5329656811cff0a868b7fe883a0358347da358107b441b1804e7e8f233"
     },
     {
       "path": "night-market.css",
@@ -726,7 +726,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "245eb6f89ccd1b57173fe60305e084bd40cf2c93fa91d798612411403246a07f"
+      "sha256": "24623eb130e4289398a44f20f393c773d9751291011a85bb3d75040b6a90ef34"
     },
     {
       "path": "phone-assets.js",
@@ -898,11 +898,11 @@
     },
     {
       "path": "exploration-tools.css",
-      "sha256": "07292c76ca9c94fc321b401e83938047124918b2a4b826dcb03ea73616b7dfe5"
+      "sha256": "2b9172eed101111806e3afcb008a69315c88a841c0b8990a56682662fd269088"
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "dfe46fddabeb4a4845595696dd1d910a12e18764bbcc16ccd069552354a2d1c3"
+      "sha256": "9281fda2ee5ec210b0f94d2bfbc969181836996ed7047207d5490fb0446a943a"
     },
     {
       "path": "proximity-gate.mjs",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "2a0d1a3f7c861886ec0d59880ffa58147cf254be6ddae26bb7f6049f748adff9"
+      "sha256": "c23ef846bdb590d0b2f48d9be86c3757f0c49fef428e9ed2db4f92941d805273"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
@@ -1055,6 +1055,10 @@
     {
       "path": "assets/ui-themes/arcade-carnival-v1/style-sheet.png",
       "sha256": "9d31e597afdc57c4c2d17363149bb56efa2e4d155b9ea1c696f74733257f1b5f"
+    },
+    {
+      "path": "market-collection.mjs",
+      "sha256": "2d2a287898a4fc48fbde91c1c261e024be849702c28bc366edf130dcc76e5cb6"
     }
   ],
   "estVideo": {
