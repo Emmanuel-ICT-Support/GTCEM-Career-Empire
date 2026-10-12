@@ -10,7 +10,7 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  let persistent=storage?.persistent!==false,busy=false,revealStarted=false,hint=false,sequence=null,elapsed=0,sceneDismissed=false,castStartedAt=null,scoutPlace=null,shotBusy=false,captureBusy=false,lastPathsReady=pathsReady();
  const save=()=>{try{storage.setItem(KEY,JSON.stringify(state));persistent=storage?.persistent!==false;}catch{persistent=false;}paint();};
  document.body.classList.add('discovery-review');
- const style=document.createElement('link');style.rel='stylesheet';style.href='./discovery-opening.css?v=guest-first-20261012';document.head.append(style);
+ const style=document.createElement('link');style.rel='stylesheet';style.href='./discovery-opening.css?v=options-companion-20261012';document.head.append(style);
  // The review route has no account or feedback endpoints. Existing learning paths remain optional.
  document.querySelectorAll('#new-profile,#phase,[data-feedback-trigger]').forEach(el=>el.hidden=true);
  document.querySelector('#profile').disabled=true;

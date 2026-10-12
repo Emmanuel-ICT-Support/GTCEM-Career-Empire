@@ -1,3 +1,7 @@
+## Options and companion isolated follow-up — 12 October 2026
+
+Reconciled onto actual PR49 main9c5d7c70b73474d566d83fd94601cc28b554a2a7 in a separate branch. Keep all owner initial-interior guards and guest/auth session modules. Options explicitly pauses/resumes, closes on outside/Escape and consumes the dismissing world gesture. Confirmed selected Sprout (existing ID sprout; no Sprite asset exists) loads on demand, appears beside the player in the active world, switches/removes safely and preserves same-run module continuation/fresh reset. No Market Admin/curriculum, asset replacement, new external service or publication. See docs/options-companion-20261012.md for reproduced live/candidate causes, tests and private visual evidence.
+
 ## Guest-first release-owner candidate — 12 October 2026
 
 Latest explicit request supersedes guest cross-visit persistence. e54056b integrated atop PR48 d75bdd8: fresh memory run/video on ordinary entry, old data retained, same-run explicit My Life handoff, tiny intro bootstrap/staged outdoors and optional companion after actual photo. Reviewer closed pre-Chapel EST/Careers door/menu access gap; six distinct native browser cases and123units/source checks pass across scoped runs.243 hashes/65 app modules verified. Existing student portal lacks the signed session used for verified namespace persistence; only mocked account contract tested, real student login remains future integration. No Market UX changes or unrelated Echo tests/config edits. docs/guest-first-20261012.md carries limits; public release pending.

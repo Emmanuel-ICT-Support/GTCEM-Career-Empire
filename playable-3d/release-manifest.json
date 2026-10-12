@@ -2,7 +2,7 @@
   "release": "all-projects-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "60364c56587aa3be6afff28a0c87b1a453c03e0a",
-  "scope": "Combined Market guidance, Options, administration and later Stats/arrangement integration; retain deployed startup, exterior and teacher repairs.",
+  "scope": "Market guidance, resumable Options/selected companion, restored Administration, Stats keepsakes and clear arrangement trials; preserve deployed startup/exterior/teacher repairs and existing session/reward contracts.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "cde324dcffd76d48852510ab52c08c119123a6f81c11bbb19b76fe522d21102c"
+      "sha256": "c815c86d857d73c90664a4210e6d10fdc843f02444a77e9859e09a2e777ef2a4"
     },
     {
       "path": "arrival-precinct.js",
@@ -594,7 +594,7 @@
     },
     {
       "path": "echo-guide.js",
-      "sha256": "731af71b8a6c9110754bfb06b163a1ad738194ccb137bcb0d77385e26d3b9883"
+      "sha256": "c25a3d3c869d8844338773420f3bbbd6476a0078ad67c536dbe357bd81d3e11c"
     },
     {
       "path": "echo-state.js",
@@ -678,7 +678,7 @@
     },
     {
       "path": "helper-picker.js",
-      "sha256": "5a03485e53628fbf41c73d01638dc8b5305b18df4af863191f0ace69cb900c9e"
+      "sha256": "d38d528457f56a7e347c716d6d3b05e41ac559041e5af20bb5c3edec1bc15827"
     },
     {
       "path": "helper-state.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "7997fd51f4b364e54c59e9a306e5834fb59decfdceb1255ae039efc13a52ba94"
+      "sha256": "776da1ec9576be0a02788261657e123dc410827778ea866326150cf3b01865c7"
     },
     {
       "path": "joystick.js",
@@ -846,11 +846,11 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "875792396d701ada945d046a519ae9a6919f4c37eba67327c63928a79658f60c"
+      "sha256": "dd077a8eac40f8a3232eba1c046274fe1ad0c9c86fb4ff560f596b4ed7384d25"
     },
     {
       "path": "discovery-opening.css",
-      "sha256": "5f786940768299905fe700b1093ee78006671343af372c9b18e51d742493d077"
+      "sha256": "c9183e3577f7e90e41de2262af1b3c4e9dc5857b8560f5f033fd41dc2034dc85"
     },
     {
       "path": "discovery-state.mjs",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "77c2f6a4f63923b5ae2c2018cb3f70bf7894271987862b5e27219d4619df6567"
+      "sha256": "2a0d1a3f7c861886ec0d59880ffa58147cf254be6ddae26bb7f6049f748adff9"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
