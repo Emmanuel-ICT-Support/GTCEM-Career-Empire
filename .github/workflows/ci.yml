@@ -1,15 +1,51 @@
 name: CI
 
-on:
+'on':
   push:
     branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
-  test:
+  checks:
     runs-on: ubuntu-latest
 
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run source checks and unit coverage once
+        run: npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs
+
+      - name: Collect full browser inventory
+        run: npx playwright test --list --reporter=json > coverage/browser-inventory.json
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          if-no-files-found: warn
+          retention-days: 3
+
+  browser:
+    needs: checks
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [1, 2, 3, 4]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -26,13 +62,60 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Run checks and tests
-        run: npm run ci
+      - name: Run browser shard with one worker
+        run: npx playwright test --shard=${{ matrix.shard }}/4 --workers=1 --max-failures=0 --reporter=line,json
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
 
-      - name: Upload coverage report
+      - name: Upload unique shard evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: browser-evidence-shard-${{ matrix.shard }}
           path: coverage/
           if-no-files-found: warn
+          retention-days: 3
+
+  test:
+    name: test
+    needs: [checks, browser]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download full inventory
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage-checks
+
+      - name: Download unique shard reports
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: browser-evidence-shard-*
+          path: ci-evidence
+
+      - name: Prove full coverage and consolidate outcomes
+        if: always()
+        env:
+          CHECKS_RESULT: ${{ needs.checks.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
+        run: node scripts/ci-shard-proof.mjs coverage-checks/browser-inventory.json ci-evidence coverage/browser-rollup.json
+
+      - name: Upload consolidated count proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-count-proof
+          path: coverage/browser-rollup.json
+          if-no-files-found: warn
+          retention-days: 3
