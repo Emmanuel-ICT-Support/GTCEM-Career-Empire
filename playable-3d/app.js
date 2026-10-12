@@ -390,6 +390,7 @@ function saveDraft(){if($('save-avatar').disabled){toast('Wait for the selected 
 function openStudio(){if(mode==='studio')return;setMode('studio');}
 let enteringHall=false,enteringCareers=false;
 async function enterHall(){
+  if(discoveryReview&&!discovery?.snapshot().chapelVisited){toast('Start with the envelope and Chapel. Other interiors open after that checkpoint.');return;}
   if(enteringHall)return;enteringHall=true;
   const request=++hallRequest;toast('Opening EST Prep...');
   try{await worlds.ensureInterior();}catch{enteringHall=false;if(request===hallRequest)toast('EST Prep could not load. Choose Enter EST Prep to retry.');return;}
@@ -398,6 +399,7 @@ async function enterHall(){
   worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');worlds.estVideo.prepare().catch(()=>{});toast('Choose Play EST video on the wall whenever you are ready.');
 }
 async function enterCareers(){
+  if(discoveryReview&&!discovery?.snapshot().chapelVisited){toast('Start with the envelope and Chapel. Other interiors open after that checkpoint.');return;}
   if(enteringCareers)return;enteringCareers=true;
   const request=++hallRequest;toast('Opening Careers Advice Centre...');
   try{await worlds.ensureCareers();}catch{enteringCareers=false;if(request===hallRequest)toast('Careers could not load. Please try again.');return;}
@@ -510,10 +512,10 @@ function updateInteraction(){
     const approachingCareers=!limited&&Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<7;
     if(approachingCareers&&!nearCareers)worlds.ensureCareers().catch(()=>{});
     nearCareers=approachingCareers;
-    if(Math.hypot(p.x-EST.x,p.z-EST.doorZ)<1.1&&(keys.size||Math.hypot(joystick.x,joystick.z)>.1)&&!enteringHall){enterHall();return;}
-    if(Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<1.1&&(keys.size||Math.hypot(joystick.x,joystick.z)>.1)&&!enteringCareers){enterCareers();return;}
-    if(Math.hypot(p.x-EST.x,p.z-EST.doorZ)<2.2)interaction={label:'Enter EST Prep',action:enterHall};
-    else if(Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<2.2)interaction={label:'Enter Careers Advice Centre',action:enterCareers};
+    if(!limited&&Math.hypot(p.x-EST.x,p.z-EST.doorZ)<1.1&&(keys.size||Math.hypot(joystick.x,joystick.z)>.1)&&!enteringHall){enterHall();return;}
+    if(!limited&&Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<1.1&&(keys.size||Math.hypot(joystick.x,joystick.z)>.1)&&!enteringCareers){enterCareers();return;}
+    if(!limited&&Math.hypot(p.x-EST.x,p.z-EST.doorZ)<2.2)interaction={label:'Enter EST Prep',action:enterHall};
+    else if(!limited&&Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<2.2)interaction={label:'Enter Careers Advice Centre',action:enterCareers};
     else if(campusReady&&Math.hypot(p.x-43,p.z+22)<3.2)interaction={label:'Enter Live Music & Sunday Markets',action:openMarket};
     else if(echo?.resourcesNear(p)&&(!echo.near(p)||echo.resources.position.distanceToSquared(p)<echo.root.position.distanceToSquared(p)))interaction={label:'Inspect Course Documents',action:()=>echo.showResources()};
     else if(echo?.near(p))interaction={label:'Talk to '+helperPicker.selected().name,action:()=>echo.show()};

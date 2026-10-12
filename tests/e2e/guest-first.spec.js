@@ -27,3 +27,9 @@ test('actual photo completion offers an optional companion before market; skip i
  if(!await page.locator('#helper-picker').isVisible())await page.locator('#discovery-pose').click();await expect(page.locator('#helper-picker')).toBeVisible({timeout:30000});await expect.poll(()=>d(page)).toMatchObject({discovery:{souvenir:true}});expect(requests.some(u=>/\/assets\/helpers\/.*\.glb/.test(u))).toBe(false);
  await page.getByRole('button',{name:'Skip for now',exact:true}).click();await expect(page.locator('#discovery-dialog')).toBeVisible();await page.locator('#discovery-market-handover').click();await expect.poll(()=>d(page),{timeout:60000}).toMatchObject({mode:'market'});await expect(page.locator('#helper-picker')).not.toBeVisible();expect(errors).toEqual([]);console.log('photo companion market',JSON.stringify(await d(page)));
 });
+
+test('initial guest destination actions cannot load EST or Careers interiors before the Chapel checkpoint',async({page})=>{
+ test.setTimeout(90000);const requests=[];page.on('request',r=>requests.push(r.url()));await page.goto('/playable-3d/');await page.locator('#taster-skip').click();await expect.poll(()=>d(page),{timeout:30000}).toMatchObject({entryReady:true,guestRun:true,mode:'town',discovery:{chapelVisited:false}});
+ for(const target of ['est-destination','careers-destination']){if(!await page.locator('#exploration-options').evaluate(e=>e.open))await page.locator('#exploration-options > summary').click();if(!await page.locator('#destination-menu').evaluate(e=>e.open))await page.locator('#places-toggle').click();await page.locator('#'+target).click();await expect(page.locator('#toast')).toContainText('Start with the envelope and Chapel');await expect.poll(()=>d(page)).toMatchObject({mode:'town',discovery:{chapelVisited:false}});}
+ expect(requests.some(u=>/est-interior\.glb|careers-interior/.test(u))).toBe(false);
+});
