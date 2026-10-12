@@ -1,3 +1,7 @@
+## Coordinated map/Stats and parcel candidate — 12 October 2026
+
+User-authorized navigation4a149ad and parcel f508980 integrated atop live startup7213ef1. Preserve startup asset priority/geometry readiness and all named/legacy saves. Scope: default live corner map/persistent Hide-Show, personal shared-wallet Stats/collection, +$10 once-only mural/oval/market rewards, actual market handover, returning current-clue reminder with no new parcel pay.120units and10 focused native scenarios pass; strengthened five navigation checks confirm repeat-market whole-ledger idempotence and one original $100 Market Explorer.240 hashes/65modules verified. No full-CI claim; no Echo/config changes. Public acceptance pending; docs/navigation-stats-20261012.md and returning-parcel handoff retain evidence.
+
 ## 12 October — returning parcel reminder candidate
 
 Separate from the startup release. Returning step1 players now automatically reopen the current clue at the parcel without a new reward or progress reset. Existing leave-before-rearm hysteresis and skipped-trail choice retained. Two formal saved-Cerys approach/dismiss/reapproach/reload scenarios pass with byte-identical profile/trail/wallet and no errors;13 scoped units/source checks pass. No deployment. Coordinate app/discovery/index imports and manifest with navigation task through parent. See docs/returning-parcel-20261012.md.
