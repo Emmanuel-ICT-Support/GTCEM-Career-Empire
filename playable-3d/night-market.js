@@ -1,3 +1,4 @@
+import {arrangementChoices,canTryArrangement,applyArrangement,showSignPosition} from './market-arrangement.mjs?v=market-arrangement-20261012';
 import {inAdministration,nearestInteraction} from './administration-flow.js?v=market-admin-20261012';
 import * as THREE from 'three';
 import {JUNIPER,riceBowl,takeawayBag} from './market-food.js?v=market-student-playtest-20260924';
@@ -114,7 +115,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
 
  for(const x of [5.5,8.5]){box(.09,2.5,.09,x,1.25,7,'#b39a77');lanterns.push(orb(.2,x,2.5,7,'#ffd578',scene,true));}
 
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=market-admin-20261012',import.meta.url).href;document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=market-arrangement-20261012',import.meta.url).href;document.head.append(css);
  const hud=document.createElement('section');hud.id='market-hud';hud.hidden=true;hud.setAttribute('aria-label','Live Music and Sunday Markets practice');
  hud.innerHTML='<details id="market-card"><summary>Your first gig <span aria-hidden="true">⌄</span></summary><div class="market-card-details"><div class="market-kicker">SUNDAY MARKET / LOCAL PRACTICE</div><h2>Your first gig</h2><div class="market-balance" id="market-balance"></div><div class="market-tools"><button id="market-journal">Journal & map</button><button id="market-exit">Return to campus</button></div><p class="market-status" id="market-status" role="status"></p></div></details><p id="market-objective" aria-live="polite"></p><button id="market-test" hidden>Watch a test group</button><button id="market-replay" hidden>Start a fresh shift…</button>';
  document.getElementById('experience').append(hud);
@@ -190,21 +191,21 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   if(!s.accepted)return show('Stall setup','Speak to Mara about the role and workplace boundaries first.');
   if(s.paid)return show('Shift handed over','Your trial arrangements are saved in your case note. You can revise your reflection choices or start another practice from the journal.',[['My first gig / case note',caseNote]]);
   if(testing>0)return show('The next customers are arriving','Return to the world to watch it finish. Changes can wait until you have seen the result.');
-  show('Design an arrangement','Choose a combination to try. You can test the current setup, find out more first, or change one thing at a time.',[], 'Changes cost nothing. Sam can do one role at a time. All collection locations here keep the emergency walkway open.');
-  const form=document.createElement('div');form.className='market-form';const selects={};
+  show('Try an idea for Juniper Kitchen','Start with the current setup below. Try it as it is, change one thing, or combine ideas. You can also investigate first.',[], 'Changes cost nothing. Sam can do one role at a time. All collection locations here keep the emergency walkway open.');
+  const form=document.createElement('div');form.className='market-form';const selects={},rows={};
   for(const [key,options]of Object.entries(PLAN_OPTIONS)){
-   const label=document.createElement('label');label.textContent={sign:'Sign wording',position:'Sign position',collection:'Collection location',helper:'Sam’s role'}[key];
+   const label=document.createElement('label');label.textContent={sign:'Sign wording',position:'Sign position',collection:'Where will customers collect?',helper:'What will Sam do?'}[key];
    const select=document.createElement('select');select.id='plan-'+key;select.setAttribute('aria-label',label.textContent);
-   for(const [value,text]of Object.entries(options)){const option=document.createElement('option');option.value=value;option.textContent=text;select.append(option);}select.value=s.plan[key];selects[key]=select;label.append(select);form.append(label);
+   for(const [value,text]of Object.entries(options)){const option=document.createElement('option');option.value=value;option.textContent=text;select.append(option);}select.value=s.plan[key];selects[key]=select;rows[key]=label;label.append(select);form.append(label);
   }
   const actions=dialog.querySelector('.market-choices');actions.before(form);
-  const save=document.createElement('button');save.textContent='Set this arrangement';save.onclick=()=>{
-   const plan=Object.fromEntries(Object.entries(selects).map(([k,v])=>[k,v.value]));
-   if(JSON.stringify(plan)===JSON.stringify(store.state.plan)){planReady();return;}
-   if(commit({type:'plan',plan},'Arrangement set in the world. You can investigate or test it.')){customerProgress=0;planReady();}else journal();
-  };actions.append(save);
-  const run=document.createElement('button');run.textContent='Try it with the next customers';run.disabled=s.tested||s.trials.length>=12;
-  run.onclick=()=>{const changed=Object.entries(selects).some(([k,v])=>v.value!==store.state.plan[k]);if(changed){const note=document.createElement('p');note.setAttribute('role','status');note.textContent='Set your changed arrangement before trying it with customers.';form.append(note);return;}beginTrial();};actions.append(run);
+  const preview=document.createElement('p');preview.className='market-arrangement-preview';preview.setAttribute('aria-live','polite');form.append(preview);
+  const current=()=>arrangementChoices(Object.fromEntries(Object.entries(selects).map(([key,select])=>[key,select.value])));
+  const apply=()=>{const changed=Object.keys(current()).some(key=>current()[key]!==store.state.plan[key]);if(!applyArrangement(store,current())){journal();return false;}if(changed)customerProgress=0;sync();return true;};
+  const run=document.createElement('button');run.textContent='Try this with next customers';run.className='market-arrangement-primary';run.onclick=()=>{if(canTryArrangement(store.state,current())&&apply())beginTrial();};actions.append(run);
+  const save=document.createElement('button');save.textContent='Apply setup · investigate first';save.className='market-arrangement-secondary';save.onclick=()=>{if(apply())planReady();};actions.append(save);
+  function previewChoices(){const plan=current();rows.position.hidden=!showSignPosition(plan);preview.textContent='Your setup: '+[PLAN_OPTIONS.sign[plan.sign],...(showSignPosition(plan)?[PLAN_OPTIONS.position[plan.position]]:[]),PLAN_OPTIONS.collection[plan.collection],PLAN_OPTIONS.helper[plan.helper]].join(' · ');run.disabled=!canTryArrangement(store.state,plan);}
+  Object.values(selects).forEach(select=>select.onchange=previewChoices);previewChoices();
   if(s.trials.length){const results=document.createElement('button');results.textContent='Compare my trial results';results.onclick=trialResults;actions.append(results);}
   if(s.trials.length>=12){const note=document.createElement('p');note.textContent='You have tried twelve groups of customers. Review what happened and hand over to Mara for your full wages.';form.append(note);}
   selects.sign.focus();
@@ -212,7 +213,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  let arrangementReady=false;
  function planReady(){
   arrangementReady=true;
-  show('Now watch the queue','Go and watch the queue to see whether these changes improve things. Then talk it through with Mara.',[],'At the observation point, choose Start the test to watch the next customers use your arrangement.');
+  show('Setup applied · customers have not started','Your setup is in the stall. You can speak to the customer or Sam, or inspect the queue before testing.',[],'When ready, choose Start the test at the queue or return to the workbench. Trials cost nothing.');
  }
  function beginTrial(){
   const s=store.state;if(!s.accepted||s.paid||s.tested||s.trials.length>=12||testing>0||watching>0)return;

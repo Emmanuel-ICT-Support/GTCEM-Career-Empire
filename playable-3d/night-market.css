@@ -44,3 +44,5 @@
 #market-district-route,#market-district-help,#market-preview-stop{margin:0 12px 10px;background:#f6ecd4;color:#233e3b;min-height:38px;font-size:12px}
 
 .market-record-author{float:right;width:112px;margin:0 0 12px 16px;text-align:center;font-size:12px}.market-record-author img{display:block;width:100%;height:auto;border-radius:14px}
+
+.market-form label[hidden]{display:none}.market-arrangement-preview{padding:12px;border:1px solid #779796;border-radius:10px;background:#edf3ef;color:#233e3b}.market-choices .market-arrangement-secondary{background:#eef2ee;color:#274943;border:1px solid #8ca49c}.market-choices .market-arrangement-primary{font-weight:700}

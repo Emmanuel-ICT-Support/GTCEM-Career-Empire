@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "d897b2032d252760cdb6919c8cce79ec8381239d41455e4e6fcd455913f4b44a"
+      "sha256": "02407639378f78b135a96c03d8b02c13f99ef1d7655909d1971ceb0ff36f0edd"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "3d74324628c5f555cd11f0f6227fe57fd8ea6f7a01c0151e65b6f53ac021fdb1"
+      "sha256": "dae8b786d442c727c4ceb3f954597497ecc4b90dffc4b575ef6a62ddfb40a062"
     },
     {
       "path": "joystick.js",
@@ -722,11 +722,11 @@
     },
     {
       "path": "night-market.css",
-      "sha256": "66a516293ae1f22fc30eb40cfad211a32d25277997b56ac13e5c84e50e4f44fa"
+      "sha256": "ab2bf5d2d7ac2aa3666f1c370f5aa35cbb6677b6b21bc8d93d83eb61bc43daf8"
     },
     {
       "path": "night-market.js",
-      "sha256": "24623eb130e4289398a44f20f393c773d9751291011a85bb3d75040b6a90ef34"
+      "sha256": "5c045d0aebaf3eeeea420ec390a303228c2ab7e282fbb769e979f203142b7381"
     },
     {
       "path": "phone-assets.js",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "c23ef846bdb590d0b2f48d9be86c3757f0c49fef428e9ed2db4f92941d805273"
+      "sha256": "d93319a43e03c15af2438329b776fecfff137dbade3b0ad70d024501f2e0a417"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
@@ -1059,6 +1059,10 @@
     {
       "path": "market-collection.mjs",
       "sha256": "2d2a287898a4fc48fbde91c1c261e024be849702c28bc366edf130dcc76e5cb6"
+    },
+    {
+      "path": "market-arrangement.mjs",
+      "sha256": "244bfb6318ebb7c2c2fa36e66c264b7aff8c02ba1c35f0d7b58e5c2173325a72"
     }
   ],
   "estVideo": {
