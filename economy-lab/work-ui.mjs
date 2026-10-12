@@ -1,7 +1,7 @@
 import {connectMarketWork,MARKET_WORK_ID} from './market-work-bridge.mjs?v=activity-library-1';
 import {WORK_KEY,createWorkStore,archiveWork} from './work-store.mjs?v=my-life-1';
-export function mountWork({review=false,onChange=()=>{}}={}){
- const $=id=>document.getElementById(id);let storage;try{storage=localStorage;}catch{storage={getItem(){throw Error('Storage unavailable');}};}
+export function mountWork({review=false,onChange=()=>{},storage}={}){
+ const $=id=>document.getElementById(id);try{if(!storage)storage=localStorage;}catch{storage={getItem(){throw Error('Storage unavailable');}};}
  const store=createWorkStore(storage,{review});let selected=null,busy=false;
  const notify=text=>{$('work-status').textContent=text;};
  const lock=task=>navigator.locks?navigator.locks.request(WORK_KEY,task):Promise.resolve().then(task);

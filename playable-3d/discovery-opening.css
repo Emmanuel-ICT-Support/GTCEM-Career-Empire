@@ -59,3 +59,6 @@
 
 @media(max-width:620px){.discovery-review .topbar{flex-direction:row;align-items:center;padding:8px 10px;gap:8px}.discovery-review .header-controls{flex-wrap:nowrap;margin-left:auto;gap:2px;position:static;width:auto}.discovery-review .header-controls>button,.discovery-review .header-controls>details>summary,.discovery-review .exploration-tools button{font-size:11px;padding:7px 6px;min-height:40px}.discovery-review .topbar .brand{width:75px;min-width:75px}}
 @media(max-width:820px){.discovery-review .topbar{flex-wrap:nowrap;min-height:66px}.discovery-review .header-controls{flex-basis:auto}}
+/* Keep module access inside Options; the optional companion follows the photo. */
+.discovery-review #exploration-option-list #my-life-link{display:inline-flex!important}
+.discovery-review.guest-photo-finished #choose-helper{display:inline-flex!important}

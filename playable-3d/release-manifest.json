@@ -1,8 +1,8 @@
 {
-  "release": "navigation-parcel-20261012",
+  "release": "guest-first-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "7213ef1c843bcb9d457add18d56136942af96cc5",
-  "scope": "Live minimap, visual local-wallet Stats, once-only destination rewards and real market handover; preserve startup readiness and named/legacy saves. Returning automatic parcel reminder with unchanged progress and deduplicated wallet.",
+  "baseCommit": "d75bdd85d8b4b33c5eefaf6503413164d9270758",
+  "scope": "Fresh guest runs, scoped same-run module handoff, verified account namespace, immediate intro shell, early Chapel route, deferred scenery and optional post-photo companion; preserve PR48 minimap, Stats and rewards.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,11 +10,11 @@
     },
     {
       "path": "../economy-lab/app.mjs",
-      "sha256": "f830abfb8304212cf9c6ad44e85aeb3f1254d8308fbfb2ac49979d1f4663fe22"
+      "sha256": "125a79fa63d7f8be0bdef794d70f230b2d386a58395365220b44084bb6f9cca6"
     },
     {
       "path": "../economy-lab/index.html",
-      "sha256": "90fb5bd1087685e6d2161ff3e1e3f4e672d7ed1d87c08d1de691cfce954f776c"
+      "sha256": "28eb077b0a0658a649a08b5a3b5eba6a564cc505b94597751bba5cb152aed212"
     },
     {
       "path": "../economy-lab/style.css",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "771605c7ce66dee6ad05e77eb28fbe0c8e2e35e8023ba7755642b15212e119ce"
+      "sha256": "5603492fba0f7ca10bfdefdb72f86d76252c8dda03672e7b800a052f6478e2f3"
     },
     {
       "path": "arrival-precinct.js",
@@ -466,7 +466,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "81739253c1c56ad9d9243641e9110ce4eef204d64542fafe070ba27dbb5f70fe"
+      "sha256": "0aaf00d9bfca06a85093c3dba369d000f1a131997b934ff87e379c4bc70ce875"
     },
     {
       "path": "chapel.js",
@@ -594,7 +594,7 @@
     },
     {
       "path": "echo-guide.js",
-      "sha256": "ae40f2dfd46c65656bd4f7ca390d6f47bdc2737a3aed5287db101e8490d1db93"
+      "sha256": "731af71b8a6c9110754bfb06b163a1ad738194ccb137bcb0d77385e26d3b9883"
     },
     {
       "path": "echo-state.js",
@@ -678,7 +678,7 @@
     },
     {
       "path": "helper-picker.js",
-      "sha256": "f2b51a7f6184a2217ffe8d77de517b47e192f5cbe3dfbfec4f9bc71823b1d923"
+      "sha256": "5a03485e53628fbf41c73d01638dc8b5305b18df4af863191f0ace69cb900c9e"
     },
     {
       "path": "helper-state.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "c8625aaf0dbcb331492315607df391566a1a6ab3e7097a2fca7d076b30b89b70"
+      "sha256": "722c22f8bff36ee75eb1eeec2baeb933de5226ce3dcea7cbee84f59aae86c74b"
     },
     {
       "path": "joystick.js",
@@ -838,7 +838,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "c87337026cf7e1695b98f57275102e7f79a2b816a32a2ce2c9b11e85d11c7db4"
+      "sha256": "9f7e4cf9c5c3e27e88bca53f420deff49822673384d3a5cfdeef2908d33e434e"
     },
     {
       "path": "locomotion.js",
@@ -846,11 +846,11 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "6412eb394e31608e497df9d7a5372e5d7a4997c6cdf52c84d0cb01853827d887"
+      "sha256": "c79b50a50b8f1f2537cd8276f97cb39850ae8f99c38aea99d7c1ebffb4b4eab8"
     },
     {
       "path": "discovery-opening.css",
-      "sha256": "171ba47312614c5c7929165cc1811616d265e909bc2ac713e70eb1de8c4b05e3"
+      "sha256": "5f786940768299905fe700b1093ee78006671343af372c9b18e51d742493d077"
     },
     {
       "path": "discovery-state.mjs",
@@ -902,7 +902,7 @@
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "77cf8e36e9507f60a2aea1fa97493fede0de201ba6365cc6e3d81549bb93f7a6"
+      "sha256": "dfe46fddabeb4a4845595696dd1d910a12e18764bbcc16ccd069552354a2d1c3"
     },
     {
       "path": "proximity-gate.mjs",
@@ -963,6 +963,18 @@
     {
       "path": "startup-assets.mjs",
       "sha256": "5cd6a000b1d660f203955397cef23318ddff425b27af735cd2e61c7d9b1e8a65"
+    },
+    {
+      "path": "game-session.mjs",
+      "sha256": "2b76cc2550af27c5418144a5d843eba66cd9a10fdf2c4829fff20f81dbfa79e1"
+    },
+    {
+      "path": "guest-shell.mjs",
+      "sha256": "086d96af976276e6213a0458005c9f8530623708d068663c57068eed079241d9"
+    },
+    {
+      "path": "../economy-lab/work-ui.mjs",
+      "sha256": "78aaba0b9d95d8298d28e2e59b3f7a9b274d53782a30187bd5dbe6a0fa36ed81"
     }
   ],
   "estVideo": {
