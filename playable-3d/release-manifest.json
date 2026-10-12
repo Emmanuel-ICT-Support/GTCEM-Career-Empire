@@ -1,8 +1,8 @@
 {
-  "release": "video-handover-20261012",
+  "release": "meeting-recovery-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
   "baseCommit": "9c5d7c70b73474d566d83fd94601cc28b554a2a7",
-  "scope": "Bounded2fps rendering beneath intro to upload loaded selected-avatar and required-world textures before natural-video handover. Preserve all PR49 movement, access guards, guest lifecycle, map/Stats and original visuals.",
+  "scope": "Local preview of bounded intro warmup and conditional completed-surface warning recovery; incomplete-scenery investigation remains open.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "0989f97b4d9d8bf5a49bc50b82185a704691a1764199bdd4a9aca7c89e7ff79e"
+      "sha256": "7f8af6c2e35fd3055118900d30eb7b016280123e48c0315c090e167a38e482da"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "49ef1e8009f8e72c0f84e1e863cab2064ce42d6565d9f926671454ea18af193e"
+      "sha256": "5ee109c3939127ebc509ae425a6b28abdda1fdb044c432f488a2a6c7cb3eb62a"
     },
     {
       "path": "joystick.js",
@@ -962,7 +962,7 @@
     },
     {
       "path": "startup-assets.mjs",
-      "sha256": "5cd6a000b1d660f203955397cef23318ddff425b27af735cd2e61c7d9b1e8a65"
+      "sha256": "2179c8655e9025a141334788dd49ed0cf086d77d9289a052671ae3f78bcaebb9"
     },
     {
       "path": "game-session.mjs",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "c2de13c20eb2121bc02178f4af5c5a3c16a1bbb715207955c5fef6530431d70f"
+      "sha256": "0a984d30786e61da35c699e6cdc00c3d7f472b87353f6dbd6e23ddc9393d5dd6"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
