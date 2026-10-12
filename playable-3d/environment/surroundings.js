@@ -1,4 +1,5 @@
-import {campusExtensions} from './campus-extensions.js?v=student-usability-20260924';
+import {addExteriorLandmarks} from './exterior-landmarks.js?v=exteriors-20261012';
+import {campusExtensions} from './campus-extensions.js?v=exteriors-20261012';
 import {batchStatic} from './static-batching.js?v=1';
 import {buildMedia} from './media-building.js?v=mural-floor-20261008';
 import {buildSpace} from './space-building.js?v=walkthrough3';
@@ -7,6 +8,7 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
 // Stage 2 composition study. Reference-derived silhouettes, not enterable buildings.
 export async function addSurroundings(scene,palette){
+ addExteriorLandmarks(scene,palette);
  const root=new T.Group();root.name='Approved campus surroundings and connections';
  const mat=c=>new T.MeshStandardMaterial({color:c,roughness:.88});
  const stone=mat(0xc4bda7),glass=mat(0x668992),fin=mat(0x454c4b),roof=mat(0xb8c6c4),blue=mat(0x31596f);
@@ -16,16 +18,6 @@ export async function addSurroundings(scene,palette){
  const space=buildSpace(palette);space.position.set(18,0,-53);space.rotation.y=-Math.PI/2;space.scale.setScalar(.85);root.add(batchStatic(space));
  // Home Economics is a low connecting roofline, subordinate to the hero Chapel.
  const extension=campusExtensions(root,palette);root.userData.extraBeds=extension.beds;
- // Reuse the approved eucalypt model for a consistent distant campus canopy.
- let originalGrass;scene.traverse(o=>{if(o.isMesh&&!originalGrass){const ms=Array.isArray(o.material)?o.material:[o.material];originalGrass=ms.find(m=>m.map?.image?.src?.includes('grass-ecc-campus'));}});
- if(!originalGrass)throw Error('Existing campus grass material missing');
- // Continue exactly the original 2-unit tile grid and material, excluding existing tiles.
- const positions=[];for(let x=-40;x<52;x+=2)for(let z=-78;z<38;z+=2){if(x>=-26&&x<28&&z>=-26&&z<28)continue;positions.push([x+1,z+1]);}
- const ground=new T.InstancedMesh(new T.PlaneGeometry(2,2),originalGrass,positions.length);ground.name='Continued campus grass tiles';const q=new T.Quaternion().setFromAxisAngle(new T.Vector3(1,0,0),-Math.PI/2);positions.forEach(([x,z],i)=>ground.setMatrixAt(i,new T.Matrix4().compose(new T.Vector3(x,0,z),q,new T.Vector3(1,1,1))));ground.receiveShadow=true;ground.computeBoundingSphere();root.add(ground);
- // Australian rules oval: continuous grass and a perimeter line. Goal posts are
- // omitted because this shared pedestrian approach crosses the former end.
- const points=[];for(let i=0;i<=128;i++){const a=i/128*Math.PI*2;points.push(new T.Vector3(-4+14*Math.cos(a),.025,-54+9*Math.sin(a)));}
- const line=new T.Line(new T.BufferGeometry().setFromPoints(points),new T.LineBasicMaterial({color:0xeeeede,transparent:true,opacity:.55}));root.add(line);
  const asset=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('./assets/campus-landscape/mature-eucalypt-a-packed.glb');asset.scene=batchStatic(asset.scene);asset.scene.updateMatrixWorld(true);
  const bounds=new T.Box3().setFromObject(asset.scene),center=bounds.getCenter(new T.Vector3()),height=bounds.max.y-bounds.min.y;
  const normal=new T.Matrix4().makeTranslation(-center.x,-bounds.min.y,-center.z);

@@ -1,10 +1,11 @@
+import {addExteriorLandmarks} from './environment/exterior-landmarks.js?v=exteriors-20261012';
 import {shadowAnchor} from './shadow-anchor.js';
 import {approvedPalette} from './environment/approved-campus-kit.js?v=first-play-20260921';
 import {partitionInstances} from './environment/static-batching.js?v=1';
 import {polishGround} from './environment/ground-polish.js?v=deferred-ground-20261012';
 import * as T from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';
-import {addSurroundings} from './environment/surroundings.js?v=mural-floor-20261011';
+import {addSurroundings} from './environment/surroundings.js?v=exteriors-20261012';
 export async function integrateEnvironment(world,{entryOnly=false}={}){
 const plantInstances=[];const basePhase=world.baseEnvironmentPhase||world.phase;world.baseEnvironmentPhase=basePhase;let activePhase='flourishing';
 const presets={
@@ -45,6 +46,8 @@ function apply(name){activePhase=name;const p=presets[name];basePhase(name);worl
  plantInstances.forEach(({o,matrices})=>{matrices.forEach(({i,m})=>{const n=m.clone();n.scale(new T.Vector3(p.size,p.size,p.size));o.setMatrixAt(i,n);});o.instanceMatrix.needsUpdate=true;o.computeBoundingSphere();});
  world.town.traverse(o=>{if(o.isMesh){for(const m of (Array.isArray(o.material)?o.material:[o.material])){if(m.name==='ECC courtyard glass'){m.envMap=stageSky(name);m.needsUpdate=true;}if(m.map?.image?.src?.includes('grass-ecc-campus'))m.color.set(p.grass);}}});world.town.traverse(o=>{if(o.isDirectionalLight){o.shadow.normalBias=.045;o.shadow.bias=-.00012;o.color.set(p.sun);o.intensity=p.power;o.position.fromArray(p.p);o.shadow.radius=p.radius;if(o.shadow.mapSize.x!==p.map){o.shadow.mapSize.set(p.map,p.map);o.shadow.map?.dispose();o.shadow.map=null;o.shadow.needsUpdate=true;}}if(o.isAmbientLight)o.intensity=name==='flourishing'?.08:.35;if(o.isHemisphereLight){o.color.set(p.sky);o.groundColor.set(p.ground);o.intensity=p.fill;}});}
 
+addExteriorLandmarks(world.town,approvedPalette(world.est),world.campusGrass);
+if(!world.exteriorLandmarkCollider){world.exteriorLandmarkCollider=world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(6,1.4,1.5).setTranslation(43,1.4,-26));}
 const surroundings=entryOnly?null:await addSurroundings(world.town,approvedPalette(world.est));
 if(!world.town.getObjectByName('Soft campus perimeter'))polishGround(world.town);
 if(world.campus.group)partitionInstances(world.campus.group,{filter:o=>!o.userData.distanceDetail});partitionInstances(world.est);if(surroundings)partitionInstances(surroundings,{filter:o=>o.name==='Oval edge eucalypts'});
@@ -76,7 +79,7 @@ block(12.92,.23,-48.75,.82,.46,1.72);
 block(12.92,.345,-48.75,.52,.69,1.2);
 block(18.4,3.5,-44.8,5.78,7,3.83);
 block(23.78,2.4,-44.755,2.98,4.8,3.74);
-block(43,1.4,-26,12,2.8,3);
+
 for(const [x,z,w,d]of surroundings.userData.extraBeds)block(x,.22,z,w,.44,d);
 for(const {x,z} of surroundings.userData.treePlacements)world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cylinder(2,.28).setTranslation(x,2,z));
 
