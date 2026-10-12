@@ -11,10 +11,34 @@ function mergeStatic(root){
  root.updateMatrixWorld(true);const groups=new Map();root.traverse(o=>{if(!o.isMesh)return;const materials=Array.isArray(o.material)?o.material:[o.material];if(materials.length!==1)throw new Error('Unexpected multi-material campus mesh');const m=materials[0],g=o.geometry.clone().applyMatrix4(o.matrixWorld);if(!g.attributes.uv)g.setAttribute('uv',new THREE.BufferAttribute(new Float32Array(g.attributes.position.count*2),2));const key=m.uuid;if(!groups.has(key))groups.set(key,{material:m,geometries:[]});groups.get(key).geometries.push(g);});const result=new THREE.Group();for(const {material,geometries}of groups.values()){const geometry=mergeGeometries(geometries.map(g=>g.index?g.toNonIndexed():g),false);if(!geometry)throw new Error('Campus geometry merge failed');const mesh=new THREE.Mesh(geometry,material);mesh.castShadow=mesh.receiveShadow=true;result.add(mesh);}return result;
 }
 // The normal game can fetch the required landscape while its courtyard is loading.
-export async function loadCampusAssets(){
- const loader=new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
+export async function loadCampusAssets({textures}={}){
+ const manager=new THREE.LoadingManager();
+ // Geometry/collisions must not wait for external decorative building maps.
+ // Original images hydrate the same GLTF textures, retaining UVs and samplers.
+ const pixel='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4////fwAJ+wP9axC8gQAAAABJRU5ErkJggg==';
+ const imageURI=uri=>typeof uri==='string'&&!uri.startsWith('data:')&&/\.(png|jpe?g|webp)(?:[?#]|$)/i.test(uri);
+ if(textures)manager.setURLModifier(url=>imageURI(url)?pixel:url);
+ const loader=new GLTFLoader(manager).setMeshoptDecoder(MeshoptDecoder);
  const ids=['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a','boulder-a','careers','workplace'];
- return new Map(await Promise.all(ids.map(async id=>[id,await loader.loadAsync(`./assets/${['careers','workplace'].includes(id)?'campus-buildings/'+id+'-shared-textures':'campus-landscape/'+id+(['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a'].includes(id)?'-packed':'')}.glb`)])));
+ return new Map(await Promise.all(ids.map(async id=>{
+  const url=`./assets/${['careers','workplace'].includes(id)?'campus-buildings/'+id+'-shared-textures':'campus-landscape/'+id+(['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a'].includes(id)?'-packed':'')}.glb`;
+  const asset=await loader.loadAsync(url);
+  if(textures){
+   const sourceURLs=new Map(),parser=asset.parser;
+   for(const [index,definition]of (parser.json.textures||[]).entries()){
+    const uri=parser.json.images?.[definition.source]?.uri;if(!imageURI(uri))continue;
+    const texture=await parser.getDependency('texture',index);
+    sourceURLs.set(texture.source,new URL(uri,new URL(parser.options.path,location.href)).href);
+   }
+   const queued=new Set();asset.scene.traverse(node=>{
+    for(const material of(Array.isArray(node.material)?node.material:[node.material]))if(material)
+     for(const texture of Object.values(material))if(texture?.isTexture&&sourceURLs.has(texture.source)&&!queued.has(texture)){
+      queued.add(texture);textures.load(new THREE.TextureLoader(),sourceURLs.get(texture.source),{target:texture,flipY:texture.flipY});
+     }
+   });
+  }
+  return [id,asset];
+ })));
 }
 // The accepted path network belongs to entry, not to distant tree downloads.
 export function createCampusPaths(scene,palette){
@@ -32,8 +56,8 @@ path([[-11,-5],[-11,-14],[-11,-19],[-15,-22]],3.2);
 pavingPaths.finish();
 const plaza=new THREE.Mesh(new THREE.CircleGeometry(5.5,64),paving);plaza.rotation.x=-Math.PI/2;plaza.position.set(0,.09,4);plaza.receiveShadow=true;plaza.userData.walkable=true;group.add(plaza);
 }
-export async function createCampusLandscape(scene,physics,palette,preloadedAssets){
-const loaded=preloadedAssets || await loadCampusAssets();
+export async function createCampusLandscape(scene,physics,palette,preloadedAssets,textures){
+const loaded=preloadedAssets || await loadCampusAssets({textures});
 const group=new THREE.Group();group.name='Campus landscape';scene.add(group);
 const placements=[];const colliders=[];
 const paving=palette.paving,soil=palette.soil,edge=palette.stone;

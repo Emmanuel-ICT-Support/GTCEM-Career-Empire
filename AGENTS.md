@@ -1,3 +1,7 @@
+## 12 October — isolated startup readiness candidate
+
+Based on PR46/main4002869. Selected-avatar scheduling priority and decorative texture readiness are separated from walking/collision readiness, including external building-GLB maps. All original geometry/artwork/video and saves retained.118units/source checks pass; strict held-image readiness, natural full-video handover, fresh parcel/wallet/map and named/legacy checks verified. Cold selected avatar22.2–22.6s→11.4s under4Mbps/100ms/4xCPU; cold first movement remains about6.4–6.7s. No deployment; parent review required. Separate returning-parcel re-approach investigation is not in this commit. See docs/startup-ready-20261012.md and measured evidence. No Echo/config patch.
+
 ## Named student release candidate — 11 October 2026
 
 User explicitly authorizes all eight named Studio characters and live publication. Integrated worker bfa3aa1 atop PR45 on release/named-students-20261011; fresh catalog/module tag prevents cached empty PR45 catalog. Test characters remain collapsed and selected-only. Complete native check/116 units plus71 browser scenarios pass, including all five named scenarios; remaining71 stop at a Chapel return assertion reproduced identically on exact PR45. No full-CI pass; hosted baseline Echo timeout remains. Tracked Echo/config unchanged. See docs/whole-character-studio-20261011.md and source/runtime evidence. Combined public acceptance pending.

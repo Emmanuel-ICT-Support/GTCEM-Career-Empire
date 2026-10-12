@@ -1,8 +1,8 @@
 {
-  "release": "named-students-20261011",
+  "release": "startup-ready-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "45e00405704475ad84632a27c931650717adb0e8",
-  "scope": "Eight supplied named whole characters with their own idle/walk clips and selected-only loading; lazy Test characters and existing saves; preserve quiet exploration, picture trail, map, wallet and silent intro.",
+  "baseCommit": "400286972404f781b82a5f3a17ba001bb0602121",
+  "scope": "Eight supplied named whole characters with their own idle/walk clips and selected-only loading; lazy Test characters and existing saves; preserve quiet exploration, picture trail, map, wallet and silent intro. Bound character scheduling priority and decorative surface waits; retain geometry, original artwork and all game saves.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "720655f60ac1ef2d48d385ab638fa62bdeffb70cc7afe90235b3c0298c680b54"
+      "sha256": "b5730bac8aee055727eab9ca95e1fca6136de195fd26da6deb60164757f2872f"
     },
     {
       "path": "arrival-precinct.js",
@@ -466,7 +466,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "14a03316e07026095be6c821dafa60a9ad4bd46cc04357b691a496ba0282af85"
+      "sha256": "81739253c1c56ad9d9243641e9110ce4eef204d64542fafe070ba27dbb5f70fe"
     },
     {
       "path": "chapel.js",
@@ -478,7 +478,7 @@
     },
     {
       "path": "deferred-textures.js",
-      "sha256": "b55f16c0552ebc2a563d6fd9373b85b8da5dcf9e6782be2087fa64009b9d7cb8"
+      "sha256": "a5ddddaddb141cc9ea03943f8acbaa53e8adf85f9d9239dd367e0c235b5a34a6"
     },
     {
       "path": "destinations.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "d3e44a45792aff10c9231ab527f6645ecbfc8d44817f32a0685c9e9235f4f143"
+      "sha256": "7b770d0f8b052d9746d1a57222052a2e7540652ad0c80cb75f0ba86295c403d5"
     },
     {
       "path": "joystick.js",
@@ -838,7 +838,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "b536472c91f9ec8eace84d41dab94dc2e9191d5297b44b1fb7f3acbf12a69187"
+      "sha256": "c87337026cf7e1695b98f57275102e7f79a2b816a32a2ce2c9b11e85d11c7db4"
     },
     {
       "path": "locomotion.js",
@@ -959,6 +959,10 @@
     {
       "path": "assets/whole-characters/sienna.glb",
       "sha256": "c2275fc00fad061270eb3e135a3838c30eaa6a5437d28b85e81fb4b24b368989"
+    },
+    {
+      "path": "startup-assets.mjs",
+      "sha256": "5cd6a000b1d660f203955397cef23318ddff425b27af735cd2e61c7d9b1e8a65"
     }
   ],
   "estVideo": {

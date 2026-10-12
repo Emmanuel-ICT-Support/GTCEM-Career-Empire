@@ -1,14 +1,16 @@
+import {withAssetDeadline} from './startup-assets.mjs?v=startup-20261012';
 import * as THREE from 'three';
 
 // Keep texture identity/UV settings stable for cloned materials. Only the image
 // arrives later; the accepted full-detail artwork is still the final result.
 export function createDeferredTextures(){
   const jobs=[];let running;
-  function load(loader,url,{normal=false,transparent=false,hdr=false,colour='#ffffff'}={}){
-    let texture;
+  function load(loader,url,{normal=false,transparent=false,hdr=false,colour='#ffffff',target,flipY}={}){
+    let texture=target;
     // PMREM derives its cube size from width/4; a 1px HDR creates an invalid
     // subpixel cube and integer shader constants. Keep the same neutral white
     // fallback at the minimum 16px cube size until the original HDR arrives.
+    if(!target){
     if(hdr)texture=new THREE.DataTexture(new Uint16Array(64*32*4).fill(15360),64,32,THREE.RGBAFormat,THREE.HalfFloatType);
     else{
       const canvas=document.createElement('canvas');canvas.width=canvas.height=1;
@@ -16,24 +18,31 @@ export function createDeferredTextures(){
       if(!transparent)ctx.fillRect(0,0,1,1);
       texture=new THREE.Texture(canvas);
     }
+    }
     if(hdr){texture.minFilter=texture.magFilter=THREE.LinearFilter;texture.colorSpace=THREE.LinearSRGBColorSpace;}
     texture.needsUpdate=true;
-    jobs.push({loader,url,texture,done:false});
+    jobs.push({loader,url,texture,flipY,done:false});
     return Promise.resolve(texture);
   }
   function start(){
     if(running)return running;
-    const pending=jobs.filter(job=>!job.done),errors=[];
+    const attempted=new Set(),errors=[];
     running=(async()=>{
       async function worker(){
-        for(let job;job=pending.shift();){
+        for(let job;job=jobs.find(job=>!job.done&&!attempted.has(job));){
+          attempted.add(job);
           try{
-            const loaded=await job.loader.loadAsync(job.url),target=job.texture;
+            // Late responses still restore the exact artwork after the bounded
+            // readiness wait reports a retryable failure.
+            const request=job.loader.loadAsync(job.url).then(loaded=>{
+            const target=job.texture;
             // Invalidate cached PMREM and GPU uploads before replacing the image.
             target.dispose();target.source=loaded.source;target.format=loaded.format;target.type=loaded.type;
-            target.internalFormat=loaded.internalFormat;target.flipY=loaded.flipY;
+            target.internalFormat=loaded.internalFormat;target.flipY=job.flipY??loaded.flipY;
             target.generateMipmaps=loaded.generateMipmaps;
             target.needsUpdate=true;target.needsPMREMUpdate=true;job.done=true;
+            });
+            await withAssetDeadline(request);
             // Give input and the current view a chance to paint between uploads.
             await new Promise(resolve=>setTimeout(resolve,0));
           }catch(error){errors.push(error);}

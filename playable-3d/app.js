@@ -1,3 +1,4 @@
+import {waitForPriorityAsset} from './startup-assets.mjs?v=startup-20261012';
 import {createExplorationTools} from './exploration-tools.mjs?v=initiative-20261011';
 import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
 import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
@@ -11,11 +12,11 @@ import {createFlyover} from './flyover.js?v=student-usability-20260924';
 import {configurePhoneAssets} from './phone-assets.js?v=phone-load-20260917';
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
-import {afterFirstPaint} from './deferred-textures.js?v=entry-reflections-20260927';
+import {afterFirstPaint} from './deferred-textures.js?v=startup-20261012';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds,sign} from './world.js?v=default-exploration-20261011';
+import {createWorlds,sign} from './world.js?v=startup-20261012';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=named-students-20261011';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=named-students-20261011';
@@ -291,7 +292,7 @@ async function ensureCampus(){
     THREE.Cache.enabled=true;
     try{
       await prepareEntry();
-      const results=await Promise.allSettled([worlds.loadScenery(),worlds.loadDetailTextures()]);
+      const results=await Promise.allSettled([worlds.loadScenery()]);
       const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
       await new Promise(resolve=>setTimeout(resolve,0));
       if(!environmentReady){
@@ -302,7 +303,7 @@ async function ensureCampus(){
       }
       worlds.phase(phase);worlds.openCampus();campusReady=true;worlds.scenery.status='ready';const marketSign=sign('LIVE MUSIC & SUNDAY MARKETS',5);marketSign.position.set(43,2.1,-23.1);marketSign.scale.y=.5;worlds.town.add(marketSign);const invitation=sign('Food, music — a few stallholders could use a hand',5);invitation.position.set(43,1.45,-23.1);invitation.scale.y=.5;worlds.town.add(invitation);
       worlds.scenery.errors=[];canvas.dataset.campusReadyMs=String(Math.round(performance.now()));
-      campusNotice('Campus ready');
+      campusNotice('Campus ready');startSurfaceDetail();if(detailFailed)detailNotice();
     }catch(error){
       worlds.scenery.status='fallback';campusNotice('Some campus scenery could not load. EST Prep, Careers and Chapel are still available below.',true);
       throw error;
@@ -313,11 +314,24 @@ async function ensureCampus(){
 // Opening assets finish before any speculative next-task work. Destination
 // actions still own navigation; prefetch never changes progress or opens a UI.
 let entryLoad,entryReady=false,entryReadyAt=0,preparing=false,prepared=new Set(),lastPreparation=0;
+let detailLoad,detailFailed=false;
+function detailNotice(){
+ $('campus-progress').hidden=false;
+ $('campus-progress-message').textContent='Some surface detail is still loading. You can keep exploring; Retry will request missing surfaces again.';
+ $('campus-retry').hidden=false;
+}
+function startSurfaceDetail(){
+ if(detailLoad)return detailLoad;
+ detailFailed=false;
+ detailLoad=worlds.loadDetailTextures().then(()=>{if(campusReady)$('campus-progress').hidden=true;}).catch(()=>{detailFailed=true;detailNotice();}).finally(()=>{detailLoad=null;if(!detailFailed&&worlds.pendingSurfaceDetails>0)startSurfaceDetail();});
+ return detailLoad;
+}
+
 async function prepareEntry(){
  if(entryReady)return;
  if(entryLoad)return entryLoad;
  campusNotice('Preparing Arrival Gardens…');
- entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await import('./environment.js?v=mural-floor-20261011');await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;entryReadyAt=clock.getElapsedTime();$('campus-progress').hidden=true;if(discoveryReview)openCampusInBackground();}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
+ entryLoad=worlds.loadEntry().then(async()=>{if(!environmentReady){const {integrateEnvironment}=await import('./environment.js?v=mural-floor-20261011');await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}entryReady=true;entryReadyAt=clock.getElapsedTime();$('campus-progress').hidden=true;startSurfaceDetail();if(discoveryReview)openCampusInBackground();}).catch(error=>{campusNotice('Arrival detail could not load. You can continue or retry.',true);throw error;}).finally(()=>{entryLoad=null;});
  return entryLoad;
 }
 function prepareNextTask(now){
@@ -576,7 +590,7 @@ function bindEvents(){
   $('town-view').addEventListener('click',returnTown);$('studio-view').addEventListener('click',openStudio);
   $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>{const go=()=>{setMode('town');enterHall();};if(mode==='studio')leaveStudio(go);else go();});$('chapel-destination').addEventListener('click',()=>destination('chapel'));
   $('interact').addEventListener('click',()=>interaction?.action());$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
-  $('campus-retry').addEventListener('click',()=>{if(!entryReady)prepareEntry().catch(()=>{});else openCampusInBackground();});
+  $('campus-retry').addEventListener('click',()=>{if(detailFailed)startSurfaceDetail();else if(!entryReady)prepareEntry().catch(()=>{});else openCampusInBackground();});
   $('aerial').addEventListener('click',async()=>{const request=modeRequest;if(mode==='town'&&!campusReady){try{await ensureCampus();}catch{return;}if(request!==modeRequest)return;}aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
   $('profile').addEventListener('change',()=>{const id=$('profile').value;$('profile').value=state.activeId;if(id===state.activeId){updateActor();return;}const change=()=>{state.activeId=id;persist();helperPicker.choose();updateActor();if(mode==='studio')setMode('studio');};if(mode==='studio')leaveStudio(change);else change();});
   $('new-profile').addEventListener('click',()=>{const add=()=>{if(state.profiles.length>=24){toast('This browser already has 24 characters.');return;}const p=normaliseProfile({id:crypto.randomUUID(),name:`Character ${state.profiles.length+1}`});state.profiles.push(p);state.activeId=p.id;persist();helperPicker.choose();updateActor();setMode('studio');};if(mode==='studio')leaveStudio(add);else add();});
@@ -593,6 +607,7 @@ function bindEvents(){
   canvas.addEventListener('pointerdown',e=>{if(explorationMenuOpen()||intro?.open()||discovery?.open())return;if(flyover?.pointerdown(e))return;canvas.focus();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt,moved:false};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(flyover?.pointermove(e))return;if(drag && mode!=='studio'){if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6)drag.moved=true;yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='chapel')chapelTilt=THREE.MathUtils.clamp(drag.tilt+(e.clientY-drag.y)*.014,-1.6,4.5);}});canvas.addEventListener('pointerup',e=>{if(flyover?.active){flyover.pointerup(e);return;}if(drag&&!drag.moved)tapTeacher(e);drag=null;});canvas.addEventListener('pointercancel',()=>{drag=null;flyover?.pointerup();});canvas.addEventListener('lostpointercapture',()=>{drag=null;flyover?.pointerup();});
 }
 function animate(){
+  if(detailFailed&&worlds?.pendingSurfaceDetails===0){detailFailed=false;if(campusReady)$('campus-progress').hidden=true;}
   requestAnimationFrame(animate);const now=clock.getElapsedTime(),elapsed=now-lastTime,dt=Math.min(elapsed,.25);lastTime=now;
   // Background game tabs must not compete with the visible game for the GPU.
   if(document.hidden){accumulator=0;frames=0;metricsTime=now;return;}
@@ -652,7 +667,7 @@ function animate(){
       for(const x of [.25,.40,.6])for(const y of [.25,.45,.7]){gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*y),24,24,gl.RGBA,gl.UNSIGNED_BYTE,pixels);for(let i=0;i<pixels.length;i+=4)colours.add(`${pixels[i]>>2},${pixels[i+1]>>2},${pixels[i+2]>>2}`);}
       pixelColours=colours.size;
     }
-    const data={entryReady,preparingNextTask:preparing,renderRatio:renderer.getPixelRatio(),discovery:discovery?.snapshot(),intro:intro?.snapshot(),echo:echo?.snapshot(),...(mode==='market'?{market:nightMarket.snapshot()}:{}),avatarFallback:Boolean(actor.model.userData.fallback),avatarBody:actor.profile?.body||null,campusReady,arrivalRestricted:worlds.arrivalOnly,teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
+    const data={entryReady,surfaceDetailPending:worlds.pendingSurfaceDetails,surfaceDetailFailed:detailFailed,preparingNextTask:preparing,renderRatio:renderer.getPixelRatio(),discovery:discovery?.snapshot(),intro:intro?.snapshot(),echo:echo?.snapshot(),...(mode==='market'?{market:nightMarket.snapshot()}:{}),avatarFallback:Boolean(actor.model.userData.fallback),avatarBody:actor.profile?.body||null,campusReady,arrivalRestricted:worlds.arrivalOnly,teachers:teachers.map(n=>n.snapshot()),scenery:worlds.scenery,mode,phase,profileId:state.activeId,position:actor.model.position.toArray().map(n=>+n.toFixed(3)),fps:Math.round(frames/(now-metricsTime)),drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles,pixelColours,animations:Object.keys(actor.clips),visibleMeshes:0};
     (mode==='studio'?preview?.model:actor.model)?.traverse(o=>{if(o.isMesh&&o.visible)data.visibleMeshes++;});
     if(mode==='studio'&&draft?.body==='pantstest'){
       data.wardrobe={top:draft.workTop,pants:draft.outer==='none'?'none':draft.pantsStyle,topHex:draft.topColour,necklineVisible:false,visibleTops:[],hair:draft.hairStyle,shoes:draft.shoeStyle,hairHex:draft.hairColours[draft.hairStyle],shoeHex:draft.shoeColours[draft.shoeStyle],visibleHair:[],visibleShoes:[],bodyScale:preview?.model.children[0]?.scale.y};
@@ -708,7 +723,7 @@ async function boot(){
     if(!completeView){
       $('loading').hidden=true;icons();animate();
       if(mode==='market')$('campus-progress').hidden=true;
-      else if(!studioFirst)afterFirstPaint().then(()=>prepareEntry().catch(()=>{}));
+      else if(!studioFirst)afterFirstPaint().then(()=>waitForPriorityAsset(avatarReady)).then(()=>prepareEntry().catch(()=>{}));
       else {
         $('campus-progress').hidden=true;
         setMode('studio').then(async opened=>{if(!opened){openCampusInBackground();return;}if(mode==='studio'){draft.body='pantstest';editorTab='style';renderEditor();updatePreview();}});
