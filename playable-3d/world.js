@@ -3,8 +3,8 @@ import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=first-play-20260921';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createDeferredTextures} from './deferred-textures.js?v=entry-reflections-20260927';
-import {createCampusLandscape,createCampusPaths} from './campus-landscape.js?v=sharp-entry-20260925';
+import {createDeferredTextures} from './deferred-textures.js?v=startup-20261012';
+import {createCampusLandscape,createCampusPaths} from './campus-landscape.js?v=startup-20261012';
 import {arrivalPrecinct} from './arrival-precinct.js?v=default-exploration-20261011';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
@@ -191,7 +191,7 @@ export async function createWorlds(onProgress=()=>{}){
   const outerAsset={root:new THREE.Group(),obstacles:[]};
   // The new Studio is native geometry; optional scenery must not block startup.
   const studioReady=Promise.resolve({scene:new THREE.Group()});
-  onProgress('Loading plaza textures and town buildings...');
+  onProgress('Preparing the walking surface...');
   // Daytime plaza PNG kit (procedural canvas fallback if a map is missing).
   // Per-tile UVs are 0–1, so repeat stays at 1 (seamless maps tile across instances).
   const texturesReady=Promise.all([
@@ -507,7 +507,7 @@ export async function createWorlds(onProgress=()=>{}){
     const trees=Promise.resolve();
     // Avatar Studio is now a native campus building, so the old generic city model is retired.
     const building=Promise.resolve().then(()=>{scenery.home=true;});
-    const district=loadExterior().then(()=>createCampusLandscape(town,townPhysics,palette)).then(result=>{addWalkingSurfaces(result.group);Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);throw error;});
+    const district=loadExterior().then(()=>createCampusLandscape(town,townPhysics,palette,undefined,textures)).then(result=>{addWalkingSurfaces(result.group);Object.assign(campus,result);scenery.trees=result.placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('multistem')).length;scenery.buildings=2;}).catch(error=>{scenery.errors.push('Campus: '+error.message);throw error;});
     sceneryLoad=Promise.all([loadExterior(),trees,building,district]).then(()=>{scenery.status='landscape-ready';}).catch(error=>{scenery.status='fallback';sceneryLoad=null;throw error;});
     return sceneryLoad;
   }
@@ -515,8 +515,9 @@ export async function createWorlds(onProgress=()=>{}){
   phase('flourishing');
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadEntry:async()=>{await loadExterior();await textures.start();createCampusPaths(town,palette);addWalkingSurfaces(town);},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {syncWalkingSurfaces:()=>addWalkingSurfaces(town),campusGrass:materials.grass,campusPalette:palette,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);addWalkingSurfaces(town);},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
+    get pendingSurfaceDetails(){return textures.pending;},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){pondTime.value=time;if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
     move(inside,delta){const physics=physical(inside);physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
