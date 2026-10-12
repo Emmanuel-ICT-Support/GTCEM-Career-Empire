@@ -65,7 +65,7 @@ jobs:
 
   browser:
     needs: [checks, critical]
-    if: always() && needs.checks.result == 'success'
+    if: needs.checks.result == 'success' && needs.critical.result == 'success'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
