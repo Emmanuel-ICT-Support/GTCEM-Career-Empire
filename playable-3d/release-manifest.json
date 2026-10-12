@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "a8df65688dc6bb450b50d51c409d84f9e5cdc745635f0ae38e113d30349b6f6a"
+      "sha256": "49f130e3484876e346d77f3918c52d0b8513705c4502083d21e0f32bbd81d9c0"
     },
     {
       "path": "arrival-precinct.js",
@@ -478,7 +478,7 @@
     },
     {
       "path": "deferred-textures.js",
-      "sha256": "71945257ab47a0d0ed2edfb1671aa545c88babf8cb2e2f153a4f8fe21749311a"
+      "sha256": "72b29b30b51e0c41c630a6fcfd33bebdff48be84a734f7f6ff24000f9d8b73bb"
     },
     {
       "path": "destinations.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "f7c0430456cc7c93fb41c8ce190ade2ac36cc4c7c2dbd887ec6339188ae03ee3"
+      "sha256": "abedbb6223f4c84b521396517e5c5c0248a02cafb237b01467c4c80a8d4dfcfc"
     },
     {
       "path": "joystick.js",
@@ -838,7 +838,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "52fd9b501597517beab41c6f31428c2d0ba270a4125baf338e41d2ebce64e1d0"
+      "sha256": "3c06563c10bf1d8155efd14a89ee725487399235753478de77cda5c6a235fb08"
     },
     {
       "path": "locomotion.js",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "8348857f79342fd00b314ad550b75b25262308153a0a11f646ea4313d45ad023"
+      "sha256": "f9c0353420fe73f8607c34a2e9af66374b0ce0638e4a0119faa148cb47d26ddc"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
@@ -1075,6 +1075,10 @@
     {
       "path": "render-quality.mjs",
       "sha256": "0346ba566fbab723060f9ca0d23126594b048f2ef126168905713dbebac4661c"
+    },
+    {
+      "path": "frame-budget.mjs",
+      "sha256": "b26cf7a7e9b076189e059721181a332bc121e5b2bc5c660e1da95c840913259d"
     }
   ],
   "estVideo": {

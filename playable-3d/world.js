@@ -3,7 +3,7 @@ import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=first-play-20260921';
 import {LEGACY} from './destinations.js?v=ecc1';
-import {createDeferredTextures} from './deferred-textures.js?v=surface-retry-20261012';
+import {createDeferredTextures} from './deferred-textures.js?v=frame-upload-budget-20261012';
 import {createCampusLandscape,createCampusPaths,createCampusBuildingExteriors} from './campus-landscape.js?v=guest-first-20261012';
 import {arrivalPrecinct} from './arrival-precinct.js?v=default-exploration-20261011';
 /**
@@ -178,14 +178,14 @@ function buildTileKits(town,materials){
   return {kits,buckets};
 }
 
-export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{}){
+export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},scheduleHydration){
   const physicsReady=RAPIER.init();
   const loader=new GLTFLoader();
   const draco=new DRACOLoader();
   // Decoder matches three r180 / gltf-transform Draco meshes; CDN keeps vendor tree light.
   draco.setDecoderPath('./vendor/draco/');
   loader.setDRACOLoader(draco);
-  const textures=createDeferredTextures({onFailure:onSurfaceFailure});
+  const textures=createDeferredTextures({onFailure:onSurfaceFailure,scheduleHydration});
   // Full courtyard assets are optional until the arrival boundary opens.
   let exteriorLoad;
   const outerAsset={root:new THREE.Group(),obstacles:[]};

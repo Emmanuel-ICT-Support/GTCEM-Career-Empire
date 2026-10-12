@@ -22,3 +22,6 @@ test('failed retry remains retryable and does not reject until its own attempt f
  let attempts=0;const queue=create();await queue.load({loadAsync:()=>{attempts++;return Promise.reject(Error('offline'));}},'grass',{target:new THREE.Texture()});
  await expect(queue.start()).rejects.toThrow('Please retry');await expect(queue.retry()).rejects.toThrow('Please retry');expect(queue.failed).toBe(1);expect(attempts).toBe(2);
 });
+test('decoded artwork awaiting its upload budget is pending, not a download failure',async()=>{
+ let hydrate;const failures=[];const target=new THREE.Texture();const queue=create({onFailure:e=>failures.push(e),scheduleHydration:fn=>new Promise(resolve=>{hydrate=()=>resolve(fn());})});await queue.load({loadAsync:async()=>new THREE.Texture({src:'original-grass'})},'grass',{target});let done=false;const batch=queue.start().then(()=>{done=true;});await tick();expect(queue.pending).toBe(1);expect(queue.failed).toBe(0);expect(failures).toEqual([]);expect(done).toBe(false);hydrate();await batch;expect(target.image.src).toBe('original-grass');expect(queue.pending).toBe(0);
+});

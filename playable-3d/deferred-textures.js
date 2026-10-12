@@ -3,7 +3,7 @@ import * as THREE from 'three';
 
 // Keep texture identity/UV settings stable for cloned materials. Only the image
 // arrives later; the accepted full-detail artwork is still the final result.
-export function createDeferredTextures({onFailure=()=>{}}={}){
+export function createDeferredTextures({onFailure=()=>{},scheduleHydration=hydrate=>Promise.resolve(hydrate())}={}){
   const jobs=[];let running,retrying;const active=new Set();
   function load(loader,url,{normal=false,transparent=false,hdr=false,colour='#ffffff',target,flipY}={}){
     let texture=target;
@@ -28,14 +28,20 @@ export function createDeferredTextures({onFailure=()=>{}}={}){
     job.inFlight=true;job.failed=false;
     try{
       // A late bounded request still hydrates the original shared texture.
-      const request=job.loader.loadAsync(job.url).then(loaded=>{
+      const request=job.loader.loadAsync(job.url);
+      // Separate the network deadline from the upload budget. A decoded image
+      // waiting for a frame is not a missing download; late responses still hydrate.
+      const hydration=request.then(loaded=>scheduleHydration(()=>{
         const target=job.texture;
         target.dispose();target.source=loaded.source;target.format=loaded.format;target.type=loaded.type;
         target.internalFormat=loaded.internalFormat;target.flipY=job.flipY??loaded.flipY;
         target.generateMipmaps=loaded.generateMipmaps;
-        target.needsUpdate=true;target.needsPMREMUpdate=true;job.done=true;job.failed=false;
-      });
+        target.needsUpdate=true;target.needsPMREMUpdate=true;
+        return target;
+      },{priority:/grass|limestone/.test(job.url)?1:0})).then(()=>{job.done=true;job.failed=false;});
+      hydration.catch(()=>{});
       await withAssetDeadline(request);
+      await hydration;
       await new Promise(resolve=>setTimeout(resolve,0));
     }catch(error){if(!job.done){job.failed=true;onFailure(error);}}
     finally{job.inFlight=false;}
