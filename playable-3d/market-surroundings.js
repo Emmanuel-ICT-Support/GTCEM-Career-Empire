@@ -13,7 +13,7 @@ export function marketSurroundings(scene,obstacles,campusPalette,campusGrass){
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshStandardMaterial({map:t,roughness:.85}));m.position.set(x,y,z);architecture.add(m);
  }
  // Broad, continuous campus paving retains the original trial/navigation space.
- box(0,-.08,0,25,.14,29,p.paving);
+ box(0,-.08,2,25,.14,34,p.paving);
  // Flush lawn pockets preserve paved queues and the cross-market walking route.
  const lawnMaterial=campusGrass||new THREE.MeshStandardMaterial({color:'#83a363',roughness:1});
  for(const [x,z,w,d]of [[-7,4,6,3.5],[9,8.7,4.6,4],[0,-10.1,17,4],[-7,-5,5,4]]){

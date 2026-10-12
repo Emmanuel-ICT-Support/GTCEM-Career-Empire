@@ -1,8 +1,8 @@
 {
-  "release": "teacher-revisit-20261012",
+  "release": "all-projects-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "59a39174d94777da1e37587ca5954d9cfe2caf23",
-  "scope": "Retain revealed teachers for same-run oval revisits and repeat greetings without wandering or duplicate rewards; preserve fresh guest reset and prior exterior/surface guards.",
+  "baseCommit": "60364c56587aa3be6afff28a0c87b1a453c03e0a",
+  "scope": "Combined Market guidance, Options, administration and later Stats/arrangement integration; retain deployed startup, exterior and teacher repairs.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "ac4806de894c830a200dc50f95ecc75fdfdffb957695ad70b222dd14f86c531b"
+      "sha256": "cde324dcffd76d48852510ab52c08c119123a6f81c11bbb19b76fe522d21102c"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "0a7c4dcb395d6dc67531ebb1207432188b6a0bfc50bf9a7502bd6b17e36e5c3b"
+      "sha256": "7997fd51f4b364e54c59e9a306e5834fb59decfdceb1255ae039efc13a52ba94"
     },
     {
       "path": "joystick.js",
@@ -702,7 +702,7 @@
     },
     {
       "path": "market-surroundings.js",
-      "sha256": "a8722d42dc7f962fa6d36622b3212f5d34aa92a480aed43194ad852e89219e4e"
+      "sha256": "72a6785b07d7dce52b9a9aebef484b405b4c304637c0060ed30b528d63c8a1e3"
     },
     {
       "path": "mobile-play.css",
@@ -722,11 +722,11 @@
     },
     {
       "path": "night-market.css",
-      "sha256": "b6a41449fa31e01606b3ea703d66c4dbc51a34e64af04404a8e5471322f1025f"
+      "sha256": "de6549256a2cee122838e976efc9b60ae0b0ae7a31c9dc98e43ff97ce510330b"
     },
     {
       "path": "night-market.js",
-      "sha256": "8a801f920e9e7386dbd7798376a35137f56a2dbe583684b5f2394129ba198aa0"
+      "sha256": "3150563a2971694cc98f2618ed4a3b8bde4c5f0db022c67d6584c97661a64668"
     },
     {
       "path": "phone-assets.js",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "df274f5b1696d1d00028a114fc0099375f88ce91180511925db0724aebe0375d"
+      "sha256": "77c2f6a4f63923b5ae2c2018cb3f70bf7894271987862b5e27219d4619df6567"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
@@ -979,6 +979,10 @@
     {
       "path": "environment/exterior-landmarks.js",
       "sha256": "c33638a3235d2496b71fdad121115ea4f9b123bc421d293e2672c896acce4a5c"
+    },
+    {
+      "path": "assets/market/lunch-rush.jpg",
+      "sha256": "6dabbbab7b2bb9206d40e11b0073f36c63c4c7736388901923f9d74d72b61adc"
     }
   ],
   "estVideo": {

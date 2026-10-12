@@ -3,10 +3,10 @@ import {JUNIPER,riceBowl,takeawayBag} from './market-food.js?v=market-student-pl
 import {createPracticeStore,VALUES,BADGES,MARKET_SHOP} from './night-market-state.js?v=market-student-playtest-20260924';
 import {PLAN_OPTIONS,NOTE_FIELDS,describePlan,evaluatePlan,caseNoteText} from './night-market-agency.js?v=market-lawns-20260924';
 import {marketCharacters} from './market-characters.js?v=sharp-entry-20260925';
-import {marketSurroundings} from './market-surroundings.js?v=stall-refine-20260924';
+import {marketSurroundings} from './market-surroundings.js?v=market-guidance-20261012';
 const money=n=>'$'+(n/100).toFixed(2);
 // Campus materials and locally optimised NPCs; practice state remains independent.
-export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,campusGrass}){
+export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,campusGrass,captureBriefing}){
  const reviewMode=new URLSearchParams(location.search).get('market-review')==='1';
  const reviewData=new Map();
  if(reviewMode)storage={getItem:k=>reviewData.get(k)??null,setItem:(k,v)=>reviewData.set(k,v),removeItem:k=>reviewData.delete(k)};
@@ -26,27 +26,33 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
   const texture=new THREE.CanvasTexture(c);texture.colorSpace=THREE.SRGBColorSpace;
   const s=new THREE.Sprite(new THREE.SpriteMaterial({map:texture}));s.position.set(x,y,z);s.scale.set(width,width/4,1);scene.add(s);labels.push({sprite:s,width});s.userData.labelCanvas=c;return s;
  }
+ // Lettering sits flush on a solid campus-blue front panel, never billboards.
+ function panel(text,x,y,z,w,h){
+  const art=label(text,0,0,0);scene.remove(art);labels.splice(labels.findIndex(l=>l.sprite===art),1);
+  const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshStandardMaterial({map:art.material.map,roughness:.85}));
+  mesh.userData.labelCanvas=art.userData.labelCanvas;mesh.userData.panel=true;mesh.position.set(x,y,z);scene.add(mesh);art.material.dispose();changeLabel(mesh,text);return mesh;
+ }
  function changeLabel(sprite,text){
-  if(sprite.userData.text===text)return;sprite.userData.text=text;const c=sprite.userData.labelCanvas,ctx=c.getContext('2d');ctx.fillStyle='#183b3b';ctx.fillRect(0,0,768,192);ctx.strokeStyle='#bfa878';ctx.lineWidth=7;ctx.strokeRect(4,4,760,184);ctx.font='bold 40px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fcf0d5';ctx.fillText(text,384,96,718);sprite.material.map.needsUpdate=true;
+  if(sprite.userData.text===text)return;sprite.userData.text=text;const c=sprite.userData.labelCanvas,ctx=c.getContext('2d');ctx.fillStyle=sprite.userData.panel?'#245779':'#183b3b';ctx.fillRect(0,0,768,192);ctx.strokeStyle='#bfa878';ctx.lineWidth=7;ctx.strokeRect(4,4,760,184);ctx.font=sprite.userData.panel?'bold 88px sans-serif':'bold 40px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fcf0d5';ctx.fillText(text,384,96,718);sprite.material.map.needsUpdate=true;
  }
  function npc(x,z,colour,id,facing=Math.PI){const g=new THREE.Group();g.position.set(x,0,z);box(.45,.72,.28,0,1.08,0,colour,g);orb(.22,0,1.67,0,'#c99575',g);for(const side of [-1,1]){box(.16,.65,.19,side*.13,.41,0,'#263d46',g);box(.13,.58,.16,side*.31,1.05,0,colour,g);}scene.add(g);cast.register(g,id||['customer-a','customer-b','customer-c','customer-d','customer-e'][visitor++%5],{facing});return g;}
  function stall(x,z){obstacles.push({x,z,w:4.1,d:1.65});}
  marketSurroundings(scene,obstacles,campusPalette,campusGrass);
  obstacles.push({x:JUNIPER.x,z:JUNIPER.z,w:JUNIPER.width,d:JUNIPER.depth});stall(-8,0);
- npc(-.65,JUNIPER.staffZ,'#e8c56a','mara',0);label('MARA',-.65,2.08,JUNIPER.staffZ,1.15);
- const helper=npc(1.1,JUNIPER.staffZ,'#68b5ae','sam',0);const helperLabel=label('SAM / JUNIPER CREW',1.1,2.3,-5.8,1.8);
+ npc(-.65,JUNIPER.staffZ,'#e8c56a','mara',0);const maraLabel=label('MARA · START HERE',-.65,2.08,JUNIPER.staffZ,3);
+ const helper=npc(1.1,JUNIPER.staffZ,'#68b5ae','sam',0);const helperLabel=label('SAM · MARKET CREW',1.1,2.3,-5.8,1.8);
  for(const [x,z]of [[-2,-1],[-3,1],[-2,2.5]])customers.push(npc(x,z,'#a1a7c4'));
  const trialBags=Array.from({length:6},(_,i)=>{const bowl=riceBowl();bowl.position.set(-1.5+(i%3)*.44,JUNIPER.top,-5.2+Math.floor(i/3)*.4);scene.add(bowl);return bowl;});
  const extraCustomers=[npc(-3,3.5,'#a1a7c4'),npc(-1,2,'#c9b17c'),npc(-1,3.5,'#c9b17c')];
  const observationLabels=[label('PHONE ORDER / ALREADY PAID',0,2.05,0,2.7),label('WALK-UP / ORDER & PAY',0,2.05,0,2.5),label('FOOD READY / COLLECT HERE',2.8,1.9,-4.4,2.8)];observationLabels.forEach(l=>l.visible=false);
- const trialBoard=label('JUNIPER / PLAN & TRY',4.2,2.25,-2.8,2.7);
+ const trialBoard=panel('WORK BENCH',4.2,.43,-2.465,1.2,.42);
  box(1.3,.8,.65,4.2,.4,-2.8,'#387f7b');box(1.45,.1,.8,4.2,.85,-2.8,'#dbc7a2');box(.55,.025,.4,4.2,.915,-2.7,'#fff1cc');obstacles.push({x:4.2,z:-2.8,w:1.45,d:.8});
- const customerLabel=label('02 / WAITING CUSTOMER',-2,2.5,-1,2.4);
+ const customerLabel=label('WAITING FOR A PHONE ORDER',-2,2.5,-1,2.4);
  const collection=new THREE.Group();scene.add(collection);collection.position.set(2.8,0,-4.4);
  box(1.25,.85,.7,0,.425,0,'#387f7b',collection);box(1.45,.1,.85,0,.9,0,'#dbc7a2',collection);
  for(const x of [-.35,0,.35]){const bag=takeawayBag();bag.position.set(x,.95,0);collection.add(bag);}
  const collectionObstacle={x:2.8,z:-4.4,w:1.45,d:.85};obstacles.push(collectionObstacle);
- const collectionLabel=label('JUNIPER / COLLECT HERE',2.8,1.65,-4.4,2.5);
+ const collectionLabel=panel('COLLECT HERE',0,.43,.356,1.15,.42);scene.remove(collectionLabel);collection.add(collectionLabel);
  const sign=new THREE.Group();sign.name='Juniper / movable collection sign';
  box(.09,1.5,.09,0,.75,0,'#80654c',sign);box(1.8,.55,.10,0,1.35,0,'#dbc7a2',sign);scene.add(sign);
  // Mount the text flush on the board: a camera-facing sprite cut through it.
@@ -60,7 +66,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
  obstacles.push({x:0,z:-11,w:5,d:3.5});
 
 
- const crewRibbon=label('CREW / YOUR FIRST GIG',4,2.3,-10,2.6);
+ const crewRibbon=label('CREW PASS',4,2.3,-10,2.6);
  const celebrationLights=[-2,-1,1,2].map((x,i)=>orb(.18,x,3,-10,['#e8b96e','#77d6cd','#e8b96e','#77d6cd'][i],scene,true));
  const ticket=box(.65,.035,.32,-6.6,.7,7,'#edcb80');
  const stageGlow=orb(.22,0,3.2,-11,'#ffdb87',scene,true);
@@ -85,7 +91,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
  const audience=[npc(-3.7,-6.8,'#8eacbb'),npc(-4.4,-6.2,'#c6aa75'),npc(-3.2,-7.3,'#aaa0bd')];audience.forEach(p=>p.visible=false);
 
  for(const x of [-2,2])box(.6,1,.6,x,1,-10.8,'#243537');
- const stageBreakLabel=label('FREE / STAGE BREAK',-5,2.1,-8,3);
+ const stageBreakLabel=label('FREE STAGE BREAK',-5,2.1,-8,3);
  const stageBench=box(2,.45,.7,-5,.23,-8.8,'#b4a17d');obstacles.push({x:-5,z:-8.8,w:2,d:.7});
  // Juniper is centred at (0,-5); the stage now faces the same entrance from its right.
  for(const child of scene.children)if(!beforeStage.has(child)&&child!==ticket){child.position.x+=8;child.position.z+=6;}
@@ -95,7 +101,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
  stageBench.position.set(6.5,.23,1);stageBreakLabel.position.set(6.5,2.1,1);
  Object.assign(obstacles.at(-1),{x:6.5,z:1});
 
- box(1,1.3,.55,7,.65,6,'#38716b');label('05 / SAVE & CONTRIBUTE',7,2.2,6,3.5);obstacles.push({x:7,z:6,w:1,d:.55});
+ box(1,1.3,.55,7,.65,6,'#38716b');label('SAVE & CONTRIBUTE',7,2.2,6,3.5);obstacles.push({x:7,z:6,w:1,d:.55});
  box(2,.65,1,-7,.33,7,'#b7a784');label('YOUR MARKET SHELF',-7,1.75,7,3.5);obstacles.push({x:-7,z:7,w:2,d:1});
  const keepsake=new THREE.Group();box(.3,.5,.3,0,.3,0,'#efc36b',keepsake);orb(.14,0,.65,0,'#ffdf98',keepsake,true);keepsake.position.set(-7,.68,7);scene.add(keepsake);
  const plant=new THREE.Group();scene.add(plant);plant.position.set(-7.5,.68,7);box(.27,.25,.27,0,.125,0,'#ba8159',plant);box(.04,.42,.04,0,.4,0,'#4b7855',plant);for(const x of [-.12,.12])orb(.15,x,.52,0,'#79a767',plant);plant.visible=false;
@@ -105,20 +111,21 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
 
  for(const x of [5.5,8.5]){box(.09,2.5,.09,x,1.25,7,'#b39a77');lanterns.push(orb(.2,x,2.5,7,'#ffd578',scene,true));}
 
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=student-usability-20260924',import.meta.url).href;document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=market-guidance-20261012',import.meta.url).href;document.head.append(css);
  const hud=document.createElement('section');hud.id='market-hud';hud.hidden=true;hud.setAttribute('aria-label','Live Music and Sunday Markets practice');
  hud.innerHTML='<details id="market-card"><summary>Your first gig <span aria-hidden="true">⌄</span></summary><div class="market-card-details"><div class="market-kicker">SUNDAY MARKET / LOCAL PRACTICE</div><h2>Your first gig</h2><div class="market-balance" id="market-balance"></div><div class="market-tools"><button id="market-journal">Journal & map</button><button id="market-exit">Return to campus</button></div><p class="market-status" id="market-status" role="status"></p></div></details><p id="market-objective" aria-live="polite"></p><button id="market-test" hidden>Watch a test group</button><button id="market-replay" hidden>Start a fresh shift…</button>';
  document.getElementById('experience').append(hud);
  const dialog=document.createElement('dialog');dialog.id='market-dialog';dialog.setAttribute('aria-labelledby','market-dialog-title');document.body.append(dialog);
+ let introTimer=null,introFrame=0,introPaused=false;
  let visible=false,customerProgress=0,previousSolution=store.state.solution,lastAnnounced='',music=null,watching=0,observationHold=false,testing=0,noteDraft=null;
  hud.querySelector('#market-test').onclick=()=>show('Test this arrangement',describePlan(store.state.plan),[['Start the test',beginTrial]],'Watch four phone customers and two walk-up customers. Results appear after the group finishes.');
  const announce=text=>{lastAnnounced=text;hud.querySelector('#market-status').textContent=text;};
- function close(){const restore=observationHold;observationHold=false;if(restore)sync();onClose();dialog.close();}
+ function close(){clearTimeout(introTimer);introTimer=null;const restore=observationHold;observationHold=false;if(restore)sync();onClose();dialog.close();}
  // Reset synchronously: a deferred close event must not erase fresh movement input.
  dialog.addEventListener('close',()=>document.getElementById('scene').focus());
- dialog.addEventListener('cancel',()=>{const restore=observationHold;observationHold=false;if(restore)sync();onClose();});
+ dialog.addEventListener('cancel',()=>{clearTimeout(introTimer);const restore=observationHold;observationHold=false;if(restore)sync();onClose();});
  function show(title,body,choices=[],extra=''){
-  onPause();dialog.replaceChildren();const eyebrow=document.createElement('div');eyebrow.className='market-kicker';eyebrow.textContent='SUNDAY MARKETS / PRACTICE';dialog.append(eyebrow);
+  clearTimeout(introTimer);introTimer=null;onPause();dialog.classList.remove('market-intro');dialog.replaceChildren();const eyebrow=document.createElement('div');eyebrow.className='market-kicker';eyebrow.textContent='SUNDAY MARKETS / PRACTICE';dialog.append(eyebrow);
   const h=document.createElement('h2');h.id='market-dialog-title';h.textContent=title;dialog.append(h);
   const p=document.createElement('p');p.className='market-body';p.textContent=body;dialog.append(p);
   if(extra){const note=document.createElement('p');note.className='market-note';note.textContent=extra;dialog.append(note);}
@@ -145,12 +152,31 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
   ]);
   else show('“Good to see you again.”','“Your first shift is already paid. Enjoy the market. Next time, we might need to rethink the whole menu.”',[['See my market journal',journal]],'This is the end of this playable opening. Future episodes are not built yet.');
  }
+ const maraFrames=[
+  ['Meet the Juniper crew','“I’m Mara. I own Juniper Kitchen, selling fresh rice bowls. It’s busy and the queue feels disorganised. Sam helps me pack.”'],
+  ['Order or collect?','“Phone customers have paid: show your order at collection. Walk-up customers order and pay at the ordering counter.”'],
+  ['Show initiative','“Notice what could work better. Look around, ask questions and try an idea. If Sam guides or serves customers, I pack alone.”'],
+  ['Try, watch, share','“Watch the next group use your arrangement. What worked? What would you change? Your journal’s thinking guide is optional.”'],
+  ['Your agreed job','Try an arrangement. Check the result. Share what you found. $20 gross − $2 community tax = $18 plus a crew pass. Help, retries and mixed results do not reduce your pay.']
+ ];
+ function maraIntro(){
+  const draw=()=>{
+   const [title,body]=maraFrames[introFrame];
+   show(title,body,[[store.state.accepted?'Continue my shift':introFrame===4?'Let’s take a look':'Take the shift',()=>{if(store.state.accepted){close();return;}if(commit('accept','Make service smoother. Investigate or try an arrangement — you choose.'))close();else journal();}],['Thinking guide',thinkingGuide]],introFrame===4?'Fictional practice pay. No timer. You can explore first.':'Agreed job: try, check and hand over. $20 gross − $2 community tax = $18 plus a crew pass. Help, retries and mixed results keep full pay.');
+   dialog.classList.add('market-intro');
+   if(captureBriefing){const image=document.createElement('img');image.className='market-intro-image';image.alt=['Mara and Sam at Juniper Kitchen','Customers waiting between ordering and collection','Juniper work bench and collection counter','Customer flow through the market','Juniper Kitchen ready for your practice shift'][introFrame];image.src=captureBriefing(Math.min(introFrame,3));const visual=document.createElement('div');visual.className='market-intro-visual';visual.append(image);if(introFrame===1){visual.classList.add('market-intro-split');visual.replaceChildren();for(const [view,alt]of [[4,'Prepaid phone-order collection panel'],[5,'Walk-up ordering counter']]){const half=document.createElement('img');half.className='market-intro-image';half.alt=alt;half.src=captureBriefing(view);visual.append(half);}}if(introFrame===2){const focus=document.createElement('span');focus.className='market-notice-focus';focus.textContent='⌕';focus.setAttribute('aria-hidden','true');visual.append(focus);}if(introFrame===0){const crowd=document.createElement('img');crowd.className='market-lunch-rush';crowd.alt='A playful exaggerated crowd of hungry market customers with phones and rice bowls';crowd.src=new URL('./assets/market/lunch-rush.jpg',import.meta.url).href;visual.append(crowd);}dialog.querySelector('.market-body').before(visual);}
+   const skills=document.createElement('p');skills.className='market-note';skills.textContent='Skills you’re practising: initiative · problem solving · working with others';dialog.querySelector('.market-body').after(skills);const captions=document.createElement('div');captions.className='market-beat-captions';for(const caption of [['Meet Mara. Meet Sam.','Lunch is getting busy.'],['Ordered online? Collect here.','Ordering now? Order and pay.','But where should everyone go?'],['Show initiative.','Look around. Ask questions. Try an improvement.'],['Observe → try → check','Watch the next group.'],['Your agreed job']][introFrame]){const line=document.createElement('span');line.textContent=caption;captions.append(line);}dialog.querySelector('.market-intro-visual')?.append(captions);
+   const text=dialog.querySelector('.market-body');text.setAttribute('aria-live','polite');
+   const controls=document.createElement('div');controls.className='market-intro-controls';
+   const progress=document.createElement('span');progress.textContent=`${introFrame+1} of ${maraFrames.length}`;controls.append(progress);
+   for(const [name,action]of [[introPaused?'Play':'Pause',()=>{introPaused=!introPaused;draw();}],['Next',()=>{introFrame=Math.min(introFrame+1,maraFrames.length-1);draw();}],['Skip intro',()=>{introFrame=maraFrames.length-1;draw();}],['Replay intro',()=>{introFrame=0;draw();}]]){const button=document.createElement('button');button.textContent=name;button.onclick=action;controls.append(button);}
+   dialog.querySelector('.market-choices').before(controls);
+   if(introFrame<maraFrames.length-1&&!introPaused&&!matchMedia('(prefers-reduced-motion: reduce)').matches)introTimer=setTimeout(()=>{if(dialog.open){introFrame++;draw();}},[6000,10000,9000,8000,6000][introFrame]);
+  };introFrame=0;introPaused=false;draw();
+ }
  function agencyMara(){
   const s=store.state;
-  if(!s.accepted)return show('Your first gig / make service work','“Hi, I’m Mara. This is my stall, Juniper Kitchen — we sell freshly made rice bowls.\n\nIt’s a really busy day, and Sam and I are struggling to keep up. The queue is getting longer and feels disorganised. People aren’t sure where to order or collect their food.\n\nCustomers who ordered on their phones have already paid. They can show us their order at the collection counter to pick up their food.\n\nWalk-up customers need to come to the ordering counter to order and pay.\n\nSam is currently helping me pack the food into takeaway bags and get orders ready.\n\nCan you help us make ordering and collecting food easier? Have a look around, ask us questions and tell me what you think we could change. Then we’ll watch the next group of customers to see how your idea works.\n\nNot sure where to start? There’s a short thinking guide in your journal. Use it whenever you need.”',[
-   ['Show me the thinking guide',thinkingGuide],
-   ['Take the shift',()=>{if(commit('accept','Your goal: make service smoother. Investigate or sketch an arrangement — you choose.'))close();else journal();}]
-  ],'Agreed work: try an arrangement, check what happened and hand over what you found. $20 gross − $2 community tax = $18 plus a crew pass. A mixed result, help or retries do not reduce your pay.');
+  if(!s.accepted)return maraIntro();
   if(s.paid)return show('Your shift is paid','Your experiment is part of the record, including anything that did not work. You can revisit your case note and use your crew pass.',[['My first gig / case note',caseNote],['Connect this to Initiative',consolidation]]);
   if(!s.trials.length||!s.tested)return show('Try your arrangement','Mara: “Set your plan at the test bench, then go and watch the queue to see whether it improves things. Come back and talk it through with me afterwards.”',[['Back to the market',close]]);
   if(!s.reviewed)return trialResults();
@@ -222,6 +248,11 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
   const link=document.createElement('a');link.href='../Assets/EST%20Preparation/initiative-one-page-summary.png';link.target='_blank';link.rel='noopener';link.textContent='Open original Initiative one-pager at full size';
   const img=document.createElement('img');img.src=link.href;img.alt='Initiative reference sheet: five workplace behaviours, examples, Notice Think Act Support Review, and a Situation Initiative Impact Skill answer builder.';img.style.cssText='width:100%;height:auto';
   const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent='View the original one-pager';details.append(summary,link,img);dialog.querySelector('.market-choices').before(details);
+  const teacher=document.createElement('details');teacher.className='market-record';
+  const teacherSummary=document.createElement('summary');teacherSummary.textContent='Teacher curriculum context';teacher.append(teacherSummary);
+  const context=document.createElement('p');context.textContent='2027 Careers and Employability General Year 12: Unit 3 enterprising behaviours (printed p. 9); communication and teamwork (pp. 7, 11); questioning, alternatives and plan–implement–evaluate (pp. 8, 12). Revising a trial can support Unit 4 continuous improvement (p. 13). The activity supplies practice and reflection; assessment evidence needs teacher review. The fictional community tax is a game mechanic.';teacher.append(context);
+  const source=document.createElement('a');source.href='https://senior-secondary.scsa.wa.edu.au/__data/assets/pdf_file/0008/1262159/Careers-and-Employability-General-Year-12-Syllabus-for-teaching-from-2027.PDF';source.target='_blank';source.rel='noopener';source.textContent='Official 2027 Year 12 syllabus';teacher.append(source);dialog.append(teacher);
+
  }
  function caseNote(){
   const s=store.state;if(s.revision!==3)return journal();
@@ -339,7 +370,8 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
  function journal(){
   const s=store.state,badges=s.badges.map(b=>BADGES[b].join(': ')).join(' ');
   show('Your market journal',`${s.paid?'First shift complete.':s.accepted?'Shift in progress.':'A first opportunity is waiting.'} Wallet ${money(s.wallet)} · Savings ${money(s.savings)}. ${s.rested?'You took a free break.':''} ${s.encore?'Ticket stub: MY FIRST GIG — Juniper Kitchen crew.':s.pass?'Crew pass: ready to use beside the stage.':''} ${badges||'Game badges will describe the skills you practise.'}`,[
-   ['Where do I go?',()=>show('Around the market','Walk forward to Mara at 01 / Juniper Kitchen. The waiting customer is on the left of the path; Sam works at Juniper Kitchen. The observation spot is left of the entrance path; the Juniper work bench is beside the right-hand end of the stall. The concert stage is to the right of Juniper Kitchen; the crew-pass spot is at its front-right corner. Little Finds is to the left. Save & Contribute and your market shelf are near the entrance. The free stage-break bench is in front of the concert stage.',[], 'Use WASD / arrow keys or the movement controls. Drag to look. Walk close, then press E or tap the interaction button. All activities are untimed.')],
+   ['Replay Mara’s welcome',maraIntro],
+   ['Where do I go?',()=>show('Around the market','Mara: Juniper Kitchen, ahead.\nCustomer and queue view: left of the entrance path.\nSam: Juniper crew. Work bench: right of the stall.\nStage: right of Juniper. Crew pass: front-right corner.\nLittle Finds: left. Savings and shelf: near the entrance.\nFree break: bench in front of the stage.',[], 'Use WASD / arrow keys or the movement controls. Drag to look. Walk close, then press E or tap the interaction button. All activities are untimed.')],
    ['My first gig / case note',caseNote,s.revision!==3],
    ['Optional thinking guide',thinkingGuide],
    ['Initiative / reference sheet',initiativeSheet],
@@ -349,34 +381,34 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
  hud.querySelector('#market-replay').onclick=restartPractice;hud.querySelector('#market-journal').onclick=journal;hud.querySelector('#market-exit').onclick=onExit;
  function sync(){
   const s=store.state;hud.querySelector('#market-objective').textContent=!s.accepted?'Start: meet Mara at Juniper Kitchen.':s.revision===1?'Earlier practice saved. Continue it, or start a fresh revised shift.':!s.proposal?`Investigate: customer ${s.listened?'✓':'—'} · queue ${s.observed?'✓':'—'} · Sam’s workflow ${s.learned?'✓':'—'}. Then propose an idea to Mara.`:!s.placed?(s.proposal==='helper'?'Agree Sam’s role, then visit the setup station.':'Place your sign at the Juniper work bench beside the stall.'):!s.solution?(s.tested?'Trial: customers missed the counter sign. Revise at the setup station.':'Try it with the next customers at the setup station.'):!s.reviewed?'Check the result: speak to the customer at collection.':!s.paid?'Return to Mara for your wages and crew pass.':!s.encore?'Shift complete! Use your crew pass at the front-right corner of the stage.':'First gig complete. Ticket saved in your journal. Enjoy the market.';
-  if(s.revision===3)hud.querySelector('#market-objective').textContent=!s.accepted?'Start: meet Mara at Juniper Kitchen.':s.paid?'Shift complete. Your case note and crew pass are in the journal.':testing>0?'The next customers are arriving. Watch what happens.':!s.tested?'Next: go and watch the queue to test your arrangement, then talk it through with Mara.':'Group finished: check the results, then talk them through with Mara. You can also revise at the test bench.';
+  if(s.revision===3)hud.querySelector('#market-objective').textContent=!s.accepted?'Start: meet Mara at Juniper Kitchen.':s.paid?'Shift complete. Your case note and crew pass are in the journal.':testing>0?'The next customers are arriving. Watch what happens.':!s.tested?'Try an idea at the work bench, watch the queue, then share what you found with Mara.':'Group finished: check the results, then talk them through with Mara. You can also revise at the test bench.';
   hud.querySelector('#market-test').hidden=s.revision!==3||!s.accepted||s.paid||s.tested||s.trials.length>=12||testing>0||watching>0;
   hud.querySelector('#market-replay').hidden=!s.paid;if(reviewMode)hud.querySelector('.market-kicker').textContent='FRESH REVIEW / NOT SAVED';
   hud.querySelector('#market-balance').textContent=`Wallet ${money(s.wallet)} · Saved ${money(s.savings)} · ${s.badges.length} game badges`;
   sign.visible=signText.visible=s.placed==='place-counter'||s.placed==='place-path'||s.attempted||s.solution==='sign';const good=s.placed==='place-path'||s.solution==='sign';sign.position.set(good?2.4:0,good?0:1,good?-1.8:-5);
   crewRibbon.visible=s.pass;ticket.visible=s.encore;plant.visible=s.purchases.includes("plant");thanks.visible=s.encore;audience.forEach(p=>p.visible=s.encore);celebrationLights.forEach(m=>m.visible=s.encore);stageGlow.visible=s.rested||s.encore;customerLabel.visible=!s.solution;keepsake.visible=s.keepsake;lanterns[0].visible=s.tax>0;lanterns[1].visible=s.donated>0;savingsTokens.forEach((m,i)=>m.visible=s.savings>i*500);
   helper.position.set(s.placed==='assign-helper'||s.solution==='helper'?1.5:1.1,0,s.placed==='assign-helper'||s.solution==='helper'?-2.3:JUNIPER.staffZ);
-  trialBags.forEach((m,i)=>m.visible=s.revision===3&&i<(s.trials.at(-1)?.outcome.packed??6));extraCustomers.forEach(m=>m.visible=s.revision===3);trialBoard.visible=s.revision===3;
+  trialBags.forEach((m,i)=>m.visible=s.revision===3&&i<(s.trials.at(-1)?.outcome.packed??6));extraCustomers.forEach(m=>m.visible=s.revision===3);trialBoard.visible=s.revision===3&&s.accepted;
   if(s.revision===3){
    const p=s.plan,approach=p.position==='approach';sign.visible=signText.visible=p.sign!=='none';sign.position.set(approach?2.4:0,approach?0:1,approach?-1.8:-5);changeLabel(signText,PLAN_OPTIONS.sign[p.sign]);
    collection.position.x=p.collection==='front'?0:2.8;collection.position.z=p.collection==='front'?-3.2:-4.4;
    helper.position.set(p.helper==='greet'?1.5:p.helper==='collect'?collection.position.x:1.1,0,p.helper==='greet'?-1.6:p.helper==='collect'?collection.position.z-.9:JUNIPER.staffZ);
-   const last=s.trials.at(-1);changeLabel(trialBoard,last?`GROUP ${s.trials.length} / ${last.outcome.pickup}/4 PICKUP · ${last.outcome.packed}/6 READY`:'TRY • WATCH • RETHINK');
+   changeLabel(trialBoard,'WORK BENCH');
   }
-  collectionLabel.position.set(collection.position.x,1.65,collection.position.z);collectionObstacle.x=collection.position.x;collectionObstacle.z=collection.position.z;const samRole=s.revision===3?s.plan.helper:(s.solution==='helper'?'greet':'packing');changeLabel(helperLabel,'SAM / '+{packing:'PACKING',greet:'GREETING',collect:'COLLECTION'}[samRole]);helperLabel.position.set(helper.position.x,2.05,helper.position.z+(samRole==='packing'?2:samRole==='collect'?1.5:.3));
+  collectionObstacle.x=collection.position.x;collectionObstacle.z=collection.position.z;const samRole=s.revision===3?s.plan.helper:(s.solution==='helper'?'greet':'packing');changeLabel(helperLabel,'SAM · '+{packing:'PACKING',greet:'GREETING',collect:'COLLECTION'}[samRole]);helperLabel.position.set(helper.position.x,2.05,helper.position.z+(samRole==='packing'?2:samRole==='collect'?1.5:.3));
   if(previousSolution!==s.solution){customerProgress=0;previousSolution=s.solution;}
   if(store.error)announce(store.error);
  }
- label('OBSERVE THE QUEUE',-3,1.7,4,2.1);label('JUNIPER / WORK BENCH',4.2,1.35,-2.65,2.3);
+ const queueLabel=label('WATCH CUSTOMER FLOW',-3,1.7,4,2.1);
  const spots=[{x:-3,z:4,label:'Observe the queue',action:observe},{x:4.2,z:-1.8,label:'Set up & test',action:setup},{x:9,z:-1.8,label:'Use crew pass',action:crew},{x:0,z:-3.6,label:'Talk to Mara',action:mara},{x:-2,z:-.2,label:'Talk to the waiting customer',action:customer},{x:1.5,z:-3.3,label:'Ask Sam',action:sam},{x:-6,z:1.2,label:'Browse Little Finds',action:shop},{x:6.5,z:4.7,label:'Save & contribute',action:bank},{x:6.5,z:2.4,label:'Take a stage break',action:stage},{x:-7,z:5.7,label:'My market shelf',action:()=>show('A place for your story',[store.state.encore?'Your earned first-gig ticket stub.':'',store.state.keepsake?'Your purchased amber lantern.':'',store.state.purchases.includes('plant')?'Your purchased little green plant.':''].filter(Boolean).join(' ')||'Your shelf is ready for a keepsake. You do not need to buy anything to belong here.')}];
  sync();if(store.state.solution)customerProgress=1;
  return {
   get observing(){return watching>0||observationHold||testing>0;},
-  scene,spawn:new THREE.Vector3(0,0,7.5),isOpen:()=>dialog.open,
-  setVisible(value){visible=value;hud.hidden=!value;document.getElementById('experience').classList.toggle('in-market',value);if(!value){watching=0;observationHold=false;testing=0;close();stopMusic();}else{cast.start();store.reload();sync();announce(store.error||lastAnnounced||(store.state.paid?'Resuming a completed practice shift.':'Walk close to Mara, then press E or tap Talk to Mara.'));}},
+  scene,spawn:new THREE.Vector3(0,0,15),isOpen:()=>dialog.open,
+  setVisible(value){visible=value;hud.hidden=!value;document.getElementById('experience').classList.toggle('in-market',value);if(!value){clearTimeout(introTimer);watching=0;observationHold=false;testing=0;close();stopMusic();}else{cast.start();store.reload();sync();announce(store.error||lastAnnounced||(store.state.paid?'Resuming a completed practice shift.':'Walk close to Mara, then press E or tap Talk to Mara.'));}},
   interaction(p){if(dialog.open||watching>0||testing>0)return null;const current=store.state;const spot=spots.map(s=>s.action===customer&&current.revision!==3&&current.solution?{...s,x:2.8,z:-2}:s.action===sam&&current.revision===3?{...s,x:current.plan.helper==='greet'?1.5:current.plan.helper==='collect'?collection.position.x:1.5,z:current.plan.helper==='greet'?-1.6:current.plan.helper==='collect'?collection.position.z+.9:-3.3}:s.action===sam&&(current.placed==='assign-helper'||current.solution==='helper')?{...s,x:1.5,z:-2.3}:s).map(s=>({...s,distance:Math.hypot(s.x-p.x,s.z-p.z)})).sort((a,b)=>a.distance-b.distance)[0];return spot.distance<2.25?spot:null;},
-  move(p,delta){if(watching>0||testing>0)return {x:p.x,y:p.y,z:p.z};const next={x:p.x,y:0,z:p.z},valid=(x,z)=>Math.abs(x)<11.4&&z>-12.7&&z<11.7&&!obstacles.some(o=>Math.abs(x-o.x)<o.w/2+.3&&Math.abs(z-o.z)<o.d/2+.3);if(valid(p.x+delta.x,p.z))next.x+=delta.x;if(valid(next.x,p.z+delta.z))next.z+=delta.z;return next;},
-  update(dt,t,camera){if(!visible)return;const focused=watching>0||observationHold||testing>0;for(const {sprite,width}of labels){sprite.material.visible=!focused||observationLabels.includes(sprite);const factor=Math.min(1,camera.position.distanceTo(sprite.position)/12);sprite.scale.set(width*factor,width*factor/4,1);}const s=store.state;
+  move(p,delta){if(watching>0||testing>0)return {x:p.x,y:p.y,z:p.z};const next={x:p.x,y:0,z:p.z},valid=(x,z)=>Math.abs(x)<11.4&&z>-12.7&&z<18&&!obstacles.some(o=>Math.abs(x-o.x)<o.w/2+.3&&Math.abs(z-o.z)<o.d/2+.3);if(valid(p.x+delta.x,p.z))next.x+=delta.x;if(valid(next.x,p.z+delta.z))next.z+=delta.z;return next;},
+  update(dt,t,camera){if(!visible)return;const focused=watching>0||observationHold||testing>0;for(const {sprite,width}of labels){const s=store.state;const isMara=sprite===maraLabel;const nearby=camera.position.distanceTo(sprite.position)<7;const relevant=sprite===customerLabel||sprite===helperLabel||sprite===queueLabel?s.accepted:sprite===crewRibbon?s.pass:sprite===stageBreakLabel?s.rested||s.paid:s.paid; sprite.material.visible=(!focused||observationLabels.includes(sprite))&&(isMara||observationLabels.includes(sprite)||relevant||nearby); const factor=Math.min(1,camera.position.distanceTo(sprite.position)/12);sprite.scale.set(width*factor,width*factor/4,1);}const s=store.state;collectionLabel.visible=s.accepted||camera.position.distanceTo(collection.position)<7;
    if(!dialog.open&&watching>0){
     watching+=dt;
     hud.querySelector('#market-objective').textContent=watching<3?'Opening queue: phone-order customers arrive — they have already paid.':watching<6?'They join the ordering queue instead of going to collection.':'Their food is ready at collection, but they are still waiting in the queue.';
@@ -415,6 +447,6 @@ export function createNightMarket({storage,onPause,onClose,onExit,campusPalette,
    celebrationTime=Math.max(0,celebrationTime-dt);changeLabel(thanks,celebrationTime>0?'THIS ONE IS FOR THE JUNIPER CREW!':'YOUR FIRST GIG / CREW MEMORY');const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;band.forEach((p,i)=>p.rotation.z=reduced?0:Math.sin(t*2+i)*.035);audience.forEach((p,i)=>{p.rotation.z=!reduced&&celebrationTime>0?Math.sin(t*3+i)*.07:0;});
    cast.update(dt,reduced);
    performer.rotation.z=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:Math.sin(t*2)*.03;},
-  journal,caseNote,snapshot:()=>({observation:{running:watching>0,elapsed:watching,holding:observationHold,testing:testing>0},visuals:cast.snapshot(),practice:true,...store.state,storageError:store.error})
+  journal,caseNote,replayIntro:maraIntro,snapshot:()=>({guidance:labels.filter(l=>l.sprite.visible&&l.sprite.material.visible).map(l=>l.sprite===maraLabel?'Mara':l.sprite===queueLabel?'Customer flow':l.sprite===customerLabel?'Waiting customer':l.sprite===helperLabel?'Sam':'Market activity'),observation:{running:watching>0,elapsed:watching,holding:observationHold,testing:testing>0},visuals:cast.snapshot(),practice:true,...store.state,storageError:store.error})
  };
 }

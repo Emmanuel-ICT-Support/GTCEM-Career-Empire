@@ -347,7 +347,7 @@ function prepareNextTask(now){
  if(!next||prepared.has(key))return;
  preparing=true;
  const job=next==='studio'?Promise.all([import('./studio.js?v=lazy-20260917'),loadCharacterKit(active().body)])
-  :next==='market'?import('./night-market.js?v=sharp-entry-20260925').then(()=>import('./market-characters.js?v=sharp-entry-20260925')).then(m=>m.prepareMarketCharacters(()=>!document.hidden&&state.activeId===profileId&&echo?.nextPreparation()==='market'))
+  :next==='market'?import('./night-market.js?v=market-guidance-20261012').then(()=>import('./market-characters.js?v=sharp-entry-20260925')).then(m=>m.prepareMarketCharacters(()=>!document.hidden&&state.activeId===profileId&&echo?.nextPreparation()==='market'))
   :((mode==='town'&&now-entryReadyAt>15)||(mode==='market'&&nightMarket?.snapshot().visuals.ready===nightMarket?.snapshot().visuals.total))?ensureCampus():null;
  if(!job){preparing=false;return;}
  Promise.resolve(job).then(result=>{if(result!==false)prepared.add(key);}).catch(error=>{prepared.add(key);console.warn('Next activity will retry when opened',error);}).finally(()=>{preparing=false;lastPreparation=clock.getElapsedTime();});
@@ -380,7 +380,7 @@ async function setMode(next){
   $('studio-view').classList.toggle('active',inStudio);$('studio-view').setAttribute('aria-pressed',inStudio);
   if(orbit)orbit.enabled=inStudio;canvas.setAttribute('aria-label',inStudio?'Interactive 3D character':next==='market'?'Interactive Live Music and Sunday Markets practice':next==='careers'?'Interactive Careers Advice Centre':next==='chapel'?'Interactive ECC Chapel':next==='interior'?'Interactive EST Prep hall':'Interactive 3D town');
   if(inStudio){draft=copy(active());undo=[];redo=[];editorTab='identity';previewWalking=false;portrait=false;$('pose-avatar').setAttribute('aria-pressed','false');$('portrait-view').setAttribute('aria-pressed','false');updatePreview();renderEditor();resetStudioCamera();}
-  else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(next==='market'?nightMarket.spawn:worlds.position(space()));yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='careers'?'Careers Advice Centre':next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
+  else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(next==='market'?nightMarket.spawn:worlds.position(space()));if(next==='market')actor.model.rotation.y=Math.PI;yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='careers'?'Careers Advice Centre':next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
   resize();
   if(['interior','careers'].includes(next))await explore('building');
   if(['studio','market'].includes(next))await explore(next);
@@ -427,9 +427,17 @@ function positionESTPlayButton(){const button=$('est-watch');if(mode!=='interior
 
 function reflect(){keys.clear();joystick.reset();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
 let marketOpening=false;
+// Capture only the already-loaded market scene; no campus or video assets.
+function marketBriefingImage(beat){
+ const views=[{from:[1,2.4,-.8],at:[0,1.5,-5.4]},{from:[-4,3.2,4],at:[.2,.9,-3.2]},{from:[6.7,2.2,.2],at:[3,.6,-3.7]},{from:[0,4,8],at:[0,1,-2]},{from:[4.7,2.2,-.3],at:[2.8,.9,-4.4]},{from:[1,2.4,-.8],at:[0,1,-5.4]}];
+ const v=views[beat],shot=camera.clone();shot.aspect=16/9;shot.position.set(...v.from);shot.lookAt(...v.at);shot.updateProjectionMatrix();
+ const size=renderer.getSize(new THREE.Vector2()),ratio=renderer.getPixelRatio(),shown=actor.model.visible;
+ try{actor.model.visible=false;renderer.setPixelRatio(1);renderer.setSize(768,432,false);renderer.render(nightMarket.scene,shot);return canvas.toDataURL('image/jpeg',.82);}
+ finally{actor.model.visible=shown;renderer.setPixelRatio(ratio);renderer.setSize(size.x,size.y,false);renderer.render(activeScene(),camera);}
+}
 async function openMarket(){
  if(marketOpening)return;marketOpening=true;
- try{if(!nightMarket){const {createNightMarket}=await import('./night-market.js?v=sharp-entry-20260925');nightMarket=createNightMarket({campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:gameStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}await setMode('market');}
+ try{if(!nightMarket){const {createNightMarket}=await import('./night-market.js?v=market-guidance-20261012');nightMarket=createNightMarket({captureBriefing:marketBriefingImage,campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:gameStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}await setMode('market');}
  catch(error){console.warn('Market unavailable',error);toast('The market could not open. Campus activities remain available.');}finally{marketOpening=false;}
 }
 function returnTown(){if(mode==='market'){setMode('town').then(async()=>{const request=modeRequest;try{await ensureCampus();}catch{toast('Campus scenery is unavailable. Other campus activities remain accessible.');return;}if(mode!=='town'||request!==modeRequest)return;worlds.teleport(false,43,-19.3);actor.model.position.copy(worlds.position(false));yaw=0;updateCamera(1,true);setLocation('Market Courtyard');});}else if(mode==='studio')leaveStudio(()=>setMode('town'));else if(mode==='chapel')leaveChapel();else if(mode==='careers')destination('careers');else if(mode==='interior')destination('est');else setMode('town');}
