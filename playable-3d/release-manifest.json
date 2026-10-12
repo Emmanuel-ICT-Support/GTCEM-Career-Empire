@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "42ef10022a0e856a619b4d721454bc53390706b15c3540e32191d35c640dc0c6"
+      "sha256": "2cb661c4dd14572e268c5dd8ecae821cacddf583bc1b00de6221714644e2756c"
     },
     {
       "path": "arrival-precinct.js",
@@ -694,7 +694,7 @@
     },
     {
       "path": "market-characters.js",
-      "sha256": "73c5ad00ade7f2824ca73eed2bf3729d7d17e2eadc3a9731c54d653be027fd79"
+      "sha256": "1bc61ad5a96236a2f12af828d4004a5f9eba361ebecda85a670adf97333afa69"
     },
     {
       "path": "market-food.js",
@@ -702,7 +702,7 @@
     },
     {
       "path": "market-surroundings.js",
-      "sha256": "72a6785b07d7dce52b9a9aebef484b405b4c304637c0060ed30b528d63c8a1e3"
+      "sha256": "1aff21c5646cfc9f323536b4a6d7a2865d8c4155741dca5f6a1a111c6760aab0"
     },
     {
       "path": "mobile-play.css",
@@ -718,15 +718,15 @@
     },
     {
       "path": "night-market-state.js",
-      "sha256": "0edebb9b8447e979b20c52ff297d56e5e875b23bd6e4e3cd21e3889b1220a0b0"
+      "sha256": "c8d884d68e288ca1f592986b2a41e42e617c902c4936533b0452aba72e322bf4"
     },
     {
       "path": "night-market.css",
-      "sha256": "de6549256a2cee122838e976efc9b60ae0b0ae7a31c9dc98e43ff97ce510330b"
+      "sha256": "66a516293ae1f22fc30eb40cfad211a32d25277997b56ac13e5c84e50e4f44fa"
     },
     {
       "path": "night-market.js",
-      "sha256": "5582a93cd6cac0a17080d8db75dca3c752b3c42f946f945f756a4480c33bb92c"
+      "sha256": "245eb6f89ccd1b57173fe60305e084bd40cf2c93fa91d798612411403246a07f"
     },
     {
       "path": "phone-assets.js",
@@ -983,6 +983,78 @@
     {
       "path": "assets/market/lunch-rush.jpg",
       "sha256": "6dabbbab7b2bb9206d40e11b0073f36c63c4c7736388901923f9d74d72b61adc"
+    },
+    {
+      "path": "administration-flow.js",
+      "sha256": "f0878db9b570a428353a401f1a7c7429e5001684a5fd0f848b4a2e2bb8c1d08c"
+    },
+    {
+      "path": "opening-chapters.js",
+      "sha256": "f6800efd34af19c9a4a351821bc34fe9822332ec288fe0d55f150ed386ef1be0"
+    },
+    {
+      "path": "opening-chapters-state.js",
+      "sha256": "80a5e52931c2add1ef86cb95d7cf916b35f4b69a5ddc5838df9a22a3fb3ad94c"
+    },
+    {
+      "path": "opening-district.js",
+      "sha256": "c0b0fe5454b307bb88f1b3f5365267aca0f8030ff908f58a113293131791564a"
+    },
+    {
+      "path": "learning-resources.js",
+      "sha256": "b51f02bc82d3b3d0011fd0fefa8173d46ad6674df4e433ead5f5bad7bd061fad"
+    },
+    {
+      "path": "learning-resources.css",
+      "sha256": "977b6713e70bb8ea71c2ece0062e40176a0716d69d634bfc631f23d219abf6bf"
+    },
+    {
+      "path": "field-guide.html",
+      "sha256": "438774db0a0cde8f69dbd89dd881e3af9d04514416e6001dab93ea3c91d824d5"
+    },
+    {
+      "path": "signal-spin.js",
+      "sha256": "7c815cb7265c2da03e1c1b32fd5b57c631f0b5add8ca731762bddea5375b4997"
+    },
+    {
+      "path": "signal-spin-state.js",
+      "sha256": "43736826e4e8c7c4ed5e8ebf37a949d20aeb43f7a89b297086af9425318503b1"
+    },
+    {
+      "path": "signal-spin.css",
+      "sha256": "3385ce32a507ae5acd707645a87b19124a8feca0168d43b9b569e91785277689"
+    },
+    {
+      "path": "evidence-express.js",
+      "sha256": "9201e98c8dfc0287e8a705bd7371fd7bb72593623a5f6b2343c73238865f72d5"
+    },
+    {
+      "path": "arcade-carnival.js",
+      "sha256": "8218fb2e642becb527f444c513a32adf97fbf02af6e2aa2647af7d5b89a103f5"
+    },
+    {
+      "path": "assets/community-cast-20260927/kenji.glb",
+      "sha256": "f7177cfd67b0e87793b5d4f43854c77df7042fc8fbdd0a848ea05a318d19f5dc"
+    },
+    {
+      "path": "assets/community-cast-20260927/mara-portrait.png",
+      "sha256": "6524c90c8c31281f8cf56d09152ece469d3e05e223f39ec955a16206debc637c"
+    },
+    {
+      "path": "assets/community-cast-20260927/nora.glb",
+      "sha256": "71f916b71d95823e54fd5e23788e65a6f39aabb5c5327f7fe4f52bc90cc04594"
+    },
+    {
+      "path": "assets/community-cast-20260927/dev.glb",
+      "sha256": "25504e61b651f1b725cb1d139653a44ec80331eda9cd9fde80b04bfc0076fe21"
+    },
+    {
+      "path": "assets/ui-themes/arcade-carnival-v1/not-quite.png",
+      "sha256": "a772c8e436b6c3471665616d146923897030709a583bcfb4f85ee58dd9b87237"
+    },
+    {
+      "path": "assets/ui-themes/arcade-carnival-v1/style-sheet.png",
+      "sha256": "9d31e597afdc57c4c2d17363149bb56efa2e4d155b9ea1c696f74733257f1b5f"
     }
   ],
   "estVideo": {

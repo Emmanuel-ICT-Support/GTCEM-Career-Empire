@@ -40,3 +40,7 @@
 
 .market-intro-split{display:grid;grid-template-columns:1fr 1fr;gap:3px}.market-intro-split .market-intro-image{aspect-ratio:8/9;object-fit:cover;border-radius:0}.market-intro-split .market-beat-captions{left:4px;right:4px;max-width:none;grid-template-columns:1fr 1fr;gap:4px}.market-intro-split .market-beat-captions span{font-size:11px;width:auto}.market-intro-split .market-beat-captions span:last-child{grid-column:1/-1;text-align:center}.market-notice-focus{position:absolute;left:47%;top:38%;border:3px solid #ffe2a0;border-radius:50%;width:42px;height:42px;display:grid;place-items:center;color:#fff5d4;font-size:36px;animation:market-notice 5s ease-in-out infinite}@keyframes market-notice{0%,100%{transform:translate(0,0)}40%{transform:translate(-60px,-25px)}75%{transform:translate(-25px,20px)}}@media(prefers-reduced-motion:reduce){.market-notice-focus{animation:none}}
 @media(max-width:620px){.in-market #interact{bottom:max(180px,calc(env(safe-area-inset-bottom) + 170px));right:12px}}
+
+#market-district-route,#market-district-help,#market-preview-stop{margin:0 12px 10px;background:#f6ecd4;color:#233e3b;min-height:38px;font-size:12px}
+
+.market-record-author{float:right;width:112px;margin:0 0 12px 16px;text-align:center;font-size:12px}.market-record-author img{display:block;width:100%;height:auto;border-radius:14px}

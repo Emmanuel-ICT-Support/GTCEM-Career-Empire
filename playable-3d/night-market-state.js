@@ -1,7 +1,7 @@
 import {DEFAULT_PLAN,NOTE_FIELDS,validPlan,evaluatePlan} from './night-market-agency.js?v=market-payoff-20260924';
 // Local rehearsal only. This log never writes to profiles, the portfolio or accounts.
 export const MARKET_KEY='ce-night-market-practice-v1';
-export const VALUES=Object.freeze({gross:2000,tax:200,keepsake:600,save:500,donation:200});
+export const VALUES=Object.freeze({gross:2000,tax:200,keepsake:600,save:500,donation:200,research:500});
 export const MARKET_SHOP=Object.freeze({lantern:{name:'Amber lantern',price:600},plant:{name:'Little green plant',price:400}});
 export const BADGES=Object.freeze({
  initiative:['Initiative','You proposed and tested a change to a workplace arrangement.'],
@@ -11,11 +11,11 @@ export const BADGES=Object.freeze({
  teamwork:['Teamwork','You agreed a useful role with a helper.'],
  adapting:['Adaptability','You changed your approach after customer feedback.']
 });
-export const freshState=()=>({revision:3,plan:{...DEFAULT_PLAN},trials:[],caseNote:{},shared:false,consolidated:false,observed:false,learned:false,proposal:null,placed:null,tested:false,reviewed:false,pass:false,encore:false,accepted:false,listened:false,attempted:false,solution:null,paid:false,wallet:0,savings:0,tax:0,donated:0,keepsake:false,purchases:[],rested:false,badges:[],events:[]});
+export const freshState=()=>({revision:3,plan:{...DEFAULT_PLAN},trials:[],caseNote:{},shared:false,consolidated:false,observed:false,learned:false,proposal:null,placed:null,tested:false,reviewed:false,pass:false,encore:false,accepted:false,listened:false,attempted:false,solution:null,paid:false,researchReviewed:false,researchPaid:false,wallet:0,savings:0,tax:0,donated:0,keepsake:false,purchases:[],rested:false,badges:[],events:[]});
 export function applyEvent(previous,type){
  const s=structuredClone(previous),badge=id=>{if(!s.badges.includes(id))s.badges.push(id);};
  if(type?.type==='purchase'){
-  const item=Object.hasOwn(MARKET_SHOP,type.item)?MARKET_SHOP[type.item]:null;if(s.revision<2||!item||!s.paid||s.wallet<item.price||s.purchases.includes(type.item)||(type.item==='lantern'&&s.keepsake)||s.events.length>=256)return previous;
+  const item=Object.hasOwn(MARKET_SHOP,type.item)?MARKET_SHOP[type.item]:null;if(s.revision<2||!item||(!s.paid&&!s.researchPaid)||s.wallet<item.price||s.purchases.includes(type.item)||(type.item==='lantern'&&s.keepsake)||s.events.length>=256)return previous;
   s.wallet-=item.price;s.purchases.push(type.item);if(type.item==='lantern')s.keepsake=true;s.events.push({type:'purchase',item:type.item});return s;
  }
  if(s.revision===3){
@@ -46,6 +46,8 @@ export function applyEvent(previous,type){
   if(['propose-sign','propose-helper','place-counter','place-path','assign-helper','test','review','sign-hidden','sign-clear','helper','buy'].includes(kind))return previous;
  }
  switch(type){
+ case 'research-review':if(s.researchReviewed)return previous;s.researchReviewed=true;break;
+ case 'research-fee':if(!s.researchReviewed||s.researchPaid)return previous;s.researchPaid=true;s.wallet+=VALUES.research;break;
  case 'accept':if(s.accepted)return previous;s.accepted=true;break;
  case 'listen':if(!s.accepted||s.listened||s.paid)return previous;s.listened=true;if(s.revision===1)badge('listening');break;
  case 'observe':if(!s.accepted||s.observed||s.paid)return previous;s.observed=true;break;
@@ -68,7 +70,7 @@ export function applyEvent(previous,type){
  case 'helper':if(s.revision===2)return previous;if(!s.accepted||s.solution)return previous;s.solution='helper';badge('teamwork');if(s.attempted)badge('adapting');break;
  case 'pay':if(s.paid||(s.revision===3?(!s.reviewed||!s.consolidated):(!s.solution||(s.revision===2&&!s.reviewed))))return previous;s.paid=true;s.wallet+=VALUES.gross-VALUES.tax;s.tax=VALUES.tax;if(s.revision>=2)s.pass=true;break;
  case 'buy':if(!s.paid||s.keepsake||s.wallet<VALUES.keepsake)return previous;s.keepsake=true;s.wallet-=VALUES.keepsake;break;
- case 'save':if(!s.paid||s.wallet<VALUES.save)return previous;s.wallet-=VALUES.save;s.savings+=VALUES.save;break;
+ case 'save':if((!s.paid&&!s.researchPaid)||s.wallet<VALUES.save)return previous;s.wallet-=VALUES.save;s.savings+=VALUES.save;break;
  case 'withdraw':if(s.savings<VALUES.save)return previous;s.savings-=VALUES.save;s.wallet+=VALUES.save;break;
  case 'donate':if(!s.paid||s.donated||s.wallet<VALUES.donation)return previous;s.wallet-=VALUES.donation;s.donated=VALUES.donation;break;
  case 'rest':if(s.rested)return previous;s.rested=true;break;
@@ -105,3 +107,6 @@ export function createPracticeStore(storage){
  reload:load
  };
 }
+
+// Existing Administration progression follows the first paid gig, not purchases.
+export const marketComplete = s => s.paid === true;

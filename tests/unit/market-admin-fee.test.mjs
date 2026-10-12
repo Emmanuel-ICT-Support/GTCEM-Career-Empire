@@ -1,0 +1,6 @@
+import {describe,it,expect} from 'vitest';
+import {freshState,applyEvent,createPracticeStore,MARKET_KEY} from '../../playable-3d/night-market-state.js';
+describe('restored Administration research fee',()=>{
+ it('requires a reviewed assignment, pays once and keeps Mara wages separate',()=>{const start=freshState();expect(applyEvent(start,'research-fee')).toBe(start);const reviewed=applyEvent(start,'research-review');const paid=applyEvent(reviewed,'research-fee');expect(paid.wallet).toBe(500);expect(paid.paid).toBe(false);expect(paid.pass).toBe(false);expect(applyEvent(paid,'research-fee')).toBe(paid);});
+ it('replays the earlier paid first gig and research fee without losing records or adding money',()=>{const data=new Map([[MARKET_KEY,JSON.stringify({version:3,events:['accept','share-plan','run-trial','inspect-trial','consolidate','pay','research-review','research-fee']})]]);const storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};const store=createPracticeStore(storage);expect(store.state.wallet).toBe(2300);expect(store.state.paid).toBe(true);expect(store.state.researchPaid).toBe(true);expect(store.dispatch('research-fee')).toBe(false);store.reload();expect(store.state.wallet).toBe(2300);expect(store.state.trials).toHaveLength(1);});
+});

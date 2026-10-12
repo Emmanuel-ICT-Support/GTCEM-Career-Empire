@@ -23,7 +23,7 @@ export function marketSurroundings(scene,obstacles,campusPalette,campusGrass){
  }
 
  // A limestone garden boundary makes this a courtyard attached to the campus.
- box(0,.45,-13.4,25,.9,.35);box(-12.2,.45,-1,.35,.9,25);box(12.2,.45,-1,.35,.9,25);
+ box(0,.45,-13.4,25,.9,.35);box(-12.2,.45,-5.5,.35,.9,16);box(-12.2,.45,8.5,.35,.9,6);box(12.2,.45,-1,.35,.9,25);
  for(const x of [-12.2,12.2])for(const z of [-12.5,-5,3,11])box(x,.65,z,.55,1.3,.55);
  function stall(x,z,name,serving=false){
   const depth=serving?JUNIPER.depth:1.72,top=serving?JUNIPER.top:1.07;

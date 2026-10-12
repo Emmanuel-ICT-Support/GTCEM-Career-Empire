@@ -6,7 +6,7 @@ import {clone} from './vendor/three/examples/jsm/utils/SkeletonUtils.js';
 // No practice store, scene, animation or completion state is created here.
 const preparedKits=new Map();
 function characterKit(id){
- if(!preparedKits.has(id))preparedKits.set(id,new GLTFLoader().loadAsync(new URL(`./assets/market-npcs/${id}.glb`,import.meta.url).href).catch(error=>{preparedKits.delete(id);throw error;}));
+ if(!preparedKits.has(id))preparedKits.set(id,new GLTFLoader().loadAsync(new URL(`./assets/${["nora","dev","kenji"].includes(id)?"community-cast-20260927":"market-npcs"}/${id}.glb`,import.meta.url).href).catch(error=>{preparedKits.delete(id);throw error;}));
  return preparedKits.get(id);
 }
 export async function prepareMarketCharacters(shouldContinue=()=>true){
@@ -51,7 +51,7 @@ export function marketCharacters(){
   }catch(error){states.set(id,'fallback');console.warn(`Market character ${id} unavailable; keeping playable stand-in.`,error.message);}
  }
  return {register,
-  start(){if(loading)return loading;const ids=[...new Set(actors.map(a=>a.id))].filter(id=>states.get(id)!=='ready');let index=0;const worker=async()=>{while(index<ids.length)await load(ids[index++]);};loading=Promise.all([worker(),worker()]).finally(()=>loading=null);return loading;},
+  start(){if(loading)return loading.then(()=>this.start());const ids=[...new Set(actors.filter(a=>!a.loaded).map(a=>a.id))];let index=0;const worker=async()=>{while(index<ids.length)await load(ids[index++]);};loading=Promise.all([worker(),worker()]).finally(()=>loading=null);return loading;},
   update(dt,reduced=false){for(const a of actors){
    const dx=a.anchor.position.x-a.last.x,dz=a.anchor.position.z-a.last.z;
    const moving=a.initialised&&Math.hypot(dx,dz)>Math.max(.002,dt*.04)&&Math.hypot(dx,dz)<.5;a.last.copy(a.anchor.position);
