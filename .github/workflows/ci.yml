@@ -49,11 +49,26 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - name: Run essential student journeys first
-        run: npx playwright test --grep "$CRITICAL_CASES" --workers=1 --max-failures=0 --reporter=line,json
+      - name: Validate startup before student journeys
+        run: npx playwright test --grep "real grass failure" --workers=1 --max-failures=0 --reporter=line,json
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/startup-report.json
+      - name: Run essential student journeys after startup passes
+        run: npx playwright test --grep "$CRITICAL_CASES" --grep-invert "real grass failure" --workers=1 --max-failures=0 --reporter=line,json
         env:
           CRITICAL_CASES: 'full natural intro|actual photo completion|same-run photo teachers|selected Sprout appears|actual keyboard walk through west Administration|real grass failure'
-          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/critical-journey-report.json
+      - name: Consolidate critical evidence even after startup failure
+        if: always()
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const files=['coverage/startup-report.json','coverage/critical-journey-report.json'];
+          const reports=files.filter(file=>fs.existsSync(file)).map(file=>JSON.parse(fs.readFileSync(file,'utf8')));
+          const report={config:{shard:null},suites:reports.flatMap(r=>r.suites||[]),errors:reports.flatMap(r=>r.errors||[])};
+          if(!reports.length)report.errors.push({message:'No critical execution report produced'});
+          fs.mkdirSync('coverage',{recursive:true});fs.writeFileSync('coverage/browser-report.json',JSON.stringify(report));
+          JS
       - name: Upload critical journey evidence
         if: always()
         uses: actions/upload-artifact@v4

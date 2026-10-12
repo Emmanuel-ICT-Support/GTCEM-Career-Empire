@@ -1,8 +1,8 @@
 {
-  "release": "combined-entry-environment-20261012",
+  "release": "software-render-startup-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "0fdb64aa2a08f0ec555d295135f62db933e2b11c",
-  "scope": "Combined follow-ups plus slim entry environment dependencies and overlap of entry path/environment module loads; retain visible landmarks and full campus contents.",
+  "baseCommit": "d28c415eacf67a24a21621dda294fab2a5fbb307",
+  "scope": "Retain combined content and startup gate; bound Auto render resolution and soft shadows for actual software WebGL backends, with observational startup render timing.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "ba7c3dbbc9d45f163a7c3caeef9cc2037af5a5b3b444537058df49c4bc107145"
+      "sha256": "52765fd437733da3da04255d821adcb8e4fb4af5e9f041e4ef0ef34df4fcb39f"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "fff775c24cb06ef9f8ad408051cc3cb01f130325c0ccd761f1285a8003b62220"
+      "sha256": "33bb2accdc046144b051a7f0745d7362c821118dc183d89a3a544fcf7730932b"
     },
     {
       "path": "joystick.js",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "1f500555e60937593b6b63d1603a77b5b3c0597aa0c5e52081f39309588f822d"
+      "sha256": "f0891f3bae56004cacadce69b4cb58fafc4366bdebe6f4a4b84187f7c513ad71"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
@@ -1071,6 +1071,10 @@
     {
       "path": "environment/market-exterior.js",
       "sha256": "3878e031304598fa58a408257dff7cbfca2e30aa8ceaca8f5617a938b138c670"
+    },
+    {
+      "path": "render-quality.mjs",
+      "sha256": "b4b884a92770108613d3730f84f3e6e7be17c69aed1e17cef556242c7447b799"
     }
   ],
   "estVideo": {
