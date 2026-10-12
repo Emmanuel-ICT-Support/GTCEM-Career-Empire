@@ -1,8 +1,8 @@
 {
-  "release": "guest-first-20261012",
+  "release": "video-handover-20261012",
   "gameUrl": "https://emmanuel-ict-support.github.io/GTCEM-Career-Empire/playable-3d/",
-  "baseCommit": "d75bdd85d8b4b33c5eefaf6503413164d9270758",
-  "scope": "Fresh guest runs, scoped same-run module handoff, verified account namespace, immediate intro shell, early Chapel route, deferred scenery and optional post-photo companion; preserve PR48 minimap, Stats and rewards.",
+  "baseCommit": "9c5d7c70b73474d566d83fd94601cc28b554a2a7",
+  "scope": "Bounded2fps rendering beneath intro to upload loaded selected-avatar and required-world textures before natural-video handover. Preserve all PR49 movement, access guards, guest lifecycle, map/Stats and original visuals.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -26,7 +26,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "5603492fba0f7ca10bfdefdb72f86d76252c8dda03672e7b800a052f6478e2f3"
+      "sha256": "0989f97b4d9d8bf5a49bc50b82185a704691a1764199bdd4a9aca7c89e7ff79e"
     },
     {
       "path": "arrival-precinct.js",
@@ -686,7 +686,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "722c22f8bff36ee75eb1eeec2baeb933de5226ce3dcea7cbee84f59aae86c74b"
+      "sha256": "49ef1e8009f8e72c0f84e1e863cab2064ce42d6565d9f926671454ea18af193e"
     },
     {
       "path": "joystick.js",
@@ -970,7 +970,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "086d96af976276e6213a0458005c9f8530623708d068663c57068eed079241d9"
+      "sha256": "c2de13c20eb2121bc02178f4af5c5a3c16a1bbb715207955c5fef6530431d70f"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
