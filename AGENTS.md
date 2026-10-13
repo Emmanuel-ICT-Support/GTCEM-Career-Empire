@@ -1,3 +1,11 @@
+## Archived avatar controls — 13 October 2026
+
+Authorized small ECC-only update: seven existing Test characters have capability labels/descriptions; existing clothing, hair and shoe controls gain named colour presets; legacy auburn-deep imports its original colour. Eight primary names/models and selected-only loading unchanged; no garments/fitting/historical models added. 12 focused units and four desktop/phone-size Chrome Studio scenarios pass, including lazy archive, independent presets, Undo/Redo and saving. Source checks and270hashes/82modules pass. See docs/admin-avatar-20261013.md; public deployment remains separate.
+
+## Admin guidance — 13 October 2026
+
+Authorized ECC-only follow-up on PR53/main46d63d4. First-gig completion and the collapsed-Journal HUD now expose Reception after pay; existing paid gate, curriculum and all startup/visual/photo work retained. 37 scoped units, six desktop/phone-size Chrome scenarios, source checks and270manifest hashes/82modules pass. Full CI/startup probes and physical devices not run by task scope. See docs/admin-avatar-20261013.md. Publication verification remains separate.
+
 ## Options and companion isolated follow-up — 12 October 2026
 
 Reconciled onto actual PR49 main9c5d7c70b73474d566d83fd94601cc28b554a2a7 in a separate branch. Keep all owner initial-interior guards and guest/auth session modules. Options explicitly pauses/resumes, closes on outside/Escape and consumes the dismissing world gesture. Confirmed selected Sprout (existing ID sprout; no Sprite asset exists) loads on demand, appears beside the player in the active world, switches/removes safely and preserves same-run module continuation/fresh reset. No Market Admin/curriculum, asset replacement, new external service or publication. See docs/options-companion-20261012.md for reproduced live/candidate causes, tests and private visual evidence.

@@ -42,7 +42,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "5abd401c7f4069a11c426eac6ed5486027776c2a1f27590923b0e579b30acc71"
+      "sha256": "c1dee1bc1213ce6a7817763f5f5dfa01ba1a040edae6940c253f894150186bf6"
     },
     {
       "path": "arcade-carnival.js",
@@ -562,7 +562,7 @@
     },
     {
       "path": "characters.js",
-      "sha256": "238e33ee247b6c3069463fbf6ff167375c46a6e66f3381f196a530671e9c5aa0"
+      "sha256": "4a4341e07fd4f54e08b90ee5fe0178d47f121447b83ef81d6200c25ad5773705"
     },
     {
       "path": "deferred-textures.js",
@@ -814,7 +814,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "cee447b5e2a8b9b433f4d84f64bf0fb5cb5a43c229a27bc526725a708e1bedac"
+      "sha256": "72e7da19c2ead0843d3641802d71f997d46cbe2f3ea53c2416a3ed60f9a432ee"
     },
     {
       "path": "header-controls.css",
@@ -838,7 +838,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "4373c8d908991896c6fea445f9258efbbdb979b5ec3227e171af71fcec77508b"
+      "sha256": "a2bd418557d11d3df17d04f30bc1738f81326d60bc0f89acbad63eaf942b87e5"
     },
     {
       "path": "intro-taster.css",
@@ -902,11 +902,11 @@
     },
     {
       "path": "night-market.css",
-      "sha256": "ab2bf5d2d7ac2aa3666f1c370f5aa35cbb6677b6b21bc8d93d83eb61bc43daf8"
+      "sha256": "986656728ac6c38d95001cd80ab2dec103039c88d829de390b25c5d60cdba3b2"
     },
     {
       "path": "night-market.js",
-      "sha256": "0e6e78145b4ddaadfb2d06511e01500fde168db1d2fa7e95e1b944d7847616b8"
+      "sha256": "49c1180d6352fe8dc7d83bdb8b367c6788fc1f80f390a2c34868473639475e00"
     },
     {
       "path": "opening-chapters-state.js",
@@ -930,7 +930,7 @@
     },
     {
       "path": "profiles.js",
-      "sha256": "4730b30f5bcd27729fd23d1ebbfa6a910c75a39f3a3aca63ec406642cf9184af"
+      "sha256": "774f7717d1fb0e864133e58a4bca43d50e43588bc6cba1b43037e4e9fb75b5d9"
     },
     {
       "path": "proximity-gate.mjs",
@@ -986,7 +986,7 @@
     },
     {
       "path": "test-avatar-catalog.mjs",
-      "sha256": "e34e790b68de2fd9305ed26c994b764c33fcec6c757712165b3b53d109cb9f9c"
+      "sha256": "65bfa16c0d84382d5e04524d8cace6b352c592de05674d7359e80249410f3c1b"
     },
     {
       "path": "vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
