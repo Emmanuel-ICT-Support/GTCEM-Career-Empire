@@ -1,3 +1,7 @@
+## Student identity contract: code-only review draft — 13 October 2026
+
+Explicitly authorized synthetic preparation on live PR54/f317370b. New student-session-contract.mjs is unimported by application entry points; server membership endpoint is not implemented.26focused units characterize current gaps and check matching student membership, owner invalidation/races, expiry and truthful browser-only save status. Existing login/game/session/source assets, SQL/RLS/grants/providers/accounts unchanged. No secure-login acceptance or deployment claim. See docs/student-identity-contract-20261013.md; parked Market5418756 remains separate.
+
 ## Archived avatar controls — 13 October 2026
 
 Authorized small ECC-only update: seven existing Test characters have capability labels/descriptions; existing clothing, hair and shoe controls gain named colour presets; legacy auburn-deep imports its original colour. Eight primary names/models and selected-only loading unchanged; no garments/fitting/historical models added. 12 focused units and four desktop/phone-size Chrome Studio scenarios pass, including lazy archive, independent presets, Undo/Redo and saving. Source checks and270hashes/82modules pass. See docs/admin-avatar-20261013.md; public deployment remains separate.
