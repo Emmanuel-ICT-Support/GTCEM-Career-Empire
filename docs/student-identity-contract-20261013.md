@@ -1,9 +1,11 @@
 # Student identity and browser-save contract: review draft
 
-Synthetic code-only preparation on live ECC merge
-`f317370b605df20645661b365a7897570eebfd65`. No login or application-entry wiring,
+Synthetic code-only preparation originally based on PR54, now reconciled with
+published ECC main `e88724dcae46de7739625fbbd54ae77091378c3c` (PR56).
+No login or application-entry wiring,
 production account/data, provider, credential, SQL, grant, RLS or server changes.
-Parked Market copy5418756 and Admin preview PR56 remain separate.
+Parked Market copy `5418756` remains excluded. The PR56 runtime is the unchanged
+published baseline, not an auth draft change.
 
 ## Current gap
 
@@ -80,12 +82,14 @@ blocks access with mapping-review-required/storage failure. The marker and all
 existing records are retained; there is no automatic overwrite, clearing or adoption.
 This metadata does not confer identity authority or substitute for server proof.
 
-New draft data keys include both IDs: ce-student:<Auth UUID>:<student UUID>:<key>.
-Existing UID-only ce-player:<Auth UUID>: data is outside the new read prefix and
-remains quarantined, not imported or deleted. This namespace is a proposed migration
-boundary only; the deployed game's storage keys remain unchanged. Reassigning an
-Auth UUID in a synthetic fresh gate fails against the remembered mapping and
-cannot expose the former student's records. No quarantine migration is implemented.
+New draft data keys include both IDs: `ce-student:<Auth UUID>:<student UUID>:<key>`.
+Legacy `ce-player:<AuthUUID>:` saves are preserved but quarantined and unread by
+this proposed new namespace. Even a matching verified account does not resume
+those legacy saves through this draft. Continuity recovery requires a separately
+reviewed and approved identity/data migration; no recovery or import is implemented.
+This namespace is a proposed migration boundary only; the deployed game's storage
+keys remain unchanged. Reassigning an Auth UUID in a synthetic fresh gate fails
+against the remembered mapping and cannot expose the former student's records.
 
 ## Persistence status semantics
 
@@ -98,6 +102,12 @@ its own message and never says progress was saved. Identity changes, renewal and
 any read/write/removal failure clear the acknowledgement. Read/removal errors are
 reported, not followed by a stale Saved message. A read retry never manufactures
 a save acknowledgement; unrelated successful reads cannot clear a failed mutation.
+Unresolved mutation failures and transient read failures have separate status.
+A read failure followed by a successful read clears only the read failure;
+the failed write/removal and unavailable-saving status remain until a successful
+mutation retry or fresh verification. The unresolved mutation takes priority in
+the summary message. A write retry can acknowledge a saved value; a removal retry
+acknowledges removal without setting lastSaveSucceeded.
 
 All status outcomes state cross-device sync is unavailable. Cloud progress,
 conflict handling and authoritative assessment/economy data remain separate work.
@@ -121,18 +131,37 @@ grants and RLS application need explicit separate confirmation. None attempted.
 
 ## Evidence and limits
 
-38focused Vitest checks pass:35contract/characterization cases plus3existing
+40 focused Vitest checks pass: 37 contract/characterization cases plus 3 existing
 session cases. They cover original ownership checks plus overlapping A-to-B races,
 receipt generation/identity, mapping quarantine, renewal, read/removal failure,
-verification deadlines and event cleanup. Three named characterization cases
+verification deadlines and event cleanup, including failed write/removal -> failed
+read -> successful read -> mutation retry. Both new sequences failed before the
+repair; the original 38 checks passed. Three named characterization cases
 expose unchanged released gaps; they are not secure-login acceptance and must
 change when reviewed integration is enabled. No assertions are skipped or weakened.
 
-Source/syntax/whitespace checks and270existing hashes/82reachable modules pass.
+Source/syntax/whitespace checks and 271 existing hashes/83 reachable modules pass
+on the PR56 baseline. The complete local unit suite also passes: 273 tests in
+54 files. The 40 focused checks above are included in that total.
 The initial PR55 head's hosted source/unit CI passed254tests; baseline browser
 failures remain, so no full acceptance is claimed. This correction uses no real
 accounts, student records or production credentials. No real auth/RLS, physical
 device, cross-device or browser login acceptance is claimed.
+
+## Draft merge status repair
+
+PR55 head `48e0bd9` conflicted only in the introductory `AGENTS.md` notes: the
+auth draft and published PR56 both added a note at the same location. Reconciled
+with published main via merge commit `4bd4335`, preserving both notes and existing
+history. The final PR diff contains only the auth scaffold, synthetic tests,
+contract document and auth guidance note. Parked Market `5418756` is not an
+ancestor; no parked copy, workflows, production auth or security changes were added.
+
+The repository workflow listens to main pushes and pull-request updates. There
+were no runs for conflicted head `48e0bd9`; GitHub documents that a merge conflict
+prevents pull-request workflows. Resolving this conflict allows ordinary checks
+to run on the next push, without changing workflow triggers or marking the draft
+ready. [GitHub workflow reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request).
 
 Primary references: [getUser](https://supabase.com/docs/reference/javascript/auth-getuser),
 [password sign-in](https://supabase.com/docs/reference/javascript/auth-signinwithpassword),

@@ -1,6 +1,6 @@
 ## Student identity contract: code-only review draft — 13 October 2026
 
-Explicitly authorized synthetic preparation on live PR54/f317370b. New student-session-contract.mjs is unimported by application entry points; server membership endpoint is not implemented.38focused units characterize gaps and check receipt-bound ownership, superseded verification, immutable mapping/quarantine, read/removal status, bounded failure, renewal and event cleanup. Existing login/game/session/source assets, SQL/RLS/grants/providers/accounts unchanged. No secure-login acceptance or deployment claim. See docs/student-identity-contract-20261013.md; parked Market5418756 remains separate.
+Explicitly authorized synthetic preparation reconciled with published PR56/e88724dc. New student-session-contract.mjs is unimported by application entry points; server membership endpoint is not implemented. 40 focused units characterize gaps and check receipt-bound ownership, superseded verification, immutable mapping/quarantine, separate mutation/read failures, bounded failure, renewal and event cleanup. Legacy ce-player:<AuthUUID>: saves are retained but unread; continuity recovery needs separate reviewed approval. Existing login/game/session/source assets, SQL/RLS/grants/providers/accounts unchanged from published main. No secure-login acceptance or deployment claim. See docs/student-identity-contract-20261013.md; parked Market5418756 remains excluded.
 
 ## Public Admin review shortcut candidate — 13 October 2026
 

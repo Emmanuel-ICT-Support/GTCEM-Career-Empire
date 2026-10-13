@@ -37,18 +37,19 @@ export function verifyStudentMembership(options={}){
 }
 
 export function createStudentSaveGate({client,resolveMembership,storage,now=Date.now,timeoutMs=DEFAULT_TIMEOUT_MS}={}){
-  let generation=0,binding=null,state={kind:'guest',reason:'not-verified'},mutation=null,ioFailure=null,disposed=false,detach=null;
+  let generation=0,binding=null,state={kind:'guest',reason:'not-verified'},mutation=null,mutationFailure=null,readFailure=false,disposed=false,detach=null;
   const receipts=new WeakMap();
   const storageAvailable=()=>['getItem','setItem','removeItem'].every(key=>typeof storage?.[key]==='function');
   function invalidate(reason='identity-changed'){
-    generation++;binding=null;mutation=null;ioFailure=null;state={kind:'guest',reason};
+    generation++;binding=null;mutation=null;mutationFailure=null;readFailure=false;state={kind:'guest',reason};
   }
   function current(){
     if(binding&&binding.expiresAt<=now())invalidate('expired-membership');
     return binding;
   }
   function status(){
-    const identity=current(),sameBrowserPersistence=Boolean(identity&&storageAvailable()&&!ioFailure);
+    // A recovered read cannot establish that the unresolved mutation can succeed.
+    const identity=current(),ioFailure=mutationFailure||(readFailure?'read':null),sameBrowserPersistence=Boolean(identity&&storageAvailable()&&!ioFailure);
     const failed={read:'read',write:'save',remove:'removal'}[ioFailure];
     const message=identity
       ?failed?`The browser ${failed} failed. Cross-device sync is not available.`
@@ -60,7 +61,7 @@ export function createStudentSaveGate({client,resolveMembership,storage,now=Date
           :state.kind==='unavailable'?'Student verification or browser saving is unavailable. Account saving is paused.'
             :'No verified student save is active. Temporary progress is not an account save.';
     return Object.freeze({...state,identity,sameBrowserPersistence,cloudPersistence:false,
-      lastSaveSucceeded:mutation==='write'&&!ioFailure,lastMutationSucceeded:Boolean(mutation)&&!ioFailure,lastMutation:mutation,ioFailure,message});
+      lastSaveSucceeded:mutation==='write'&&!ioFailure,lastMutationSucceeded:Boolean(mutation)&&!ioFailure,lastMutation:mutation,ioFailure,mutationFailure,readFailure,message});
   }
   function rememberBinding(identity){
     const key='ce-student-binding:'+identity.authUserId;let raw;
@@ -75,7 +76,7 @@ export function createStudentSaveGate({client,resolveMembership,storage,now=Date
   }
   async function verify(){
     if(disposed)return cancelled();
-    const request=++generation;binding=null;mutation=null;ioFailure=null;state={kind:'checking',reason:'verification-pending'};
+    const request=++generation;binding=null;mutation=null;mutationFailure=null;readFailure=false;state={kind:'checking',reason:'verification-pending'};
     const result=await verifyStudentMembership({client,resolveMembership,now,timeoutMs});
     if(request!==generation||disposed)return cancelled();
     state={kind:result.kind,reason:result.reason};
@@ -96,18 +97,18 @@ export function createStudentSaveGate({client,resolveMembership,storage,now=Date
       if(typeof key!=='string'||!key)throw Error('Student save blocked: invalid key');
     }
     return Object.freeze({
-      get persistent(){return current()===owner&&request===generation&&!ioFailure;},
+      get persistent(){return current()===owner&&request===generation&&!mutationFailure&&!readFailure;},
       getItem(key){
-        check(key);try{const value=storage.getItem(prefix+key);if(ioFailure==='read')ioFailure=null;return value;}
-        catch(error){mutation=null;ioFailure='read';throw error;}
+        check(key);try{const value=storage.getItem(prefix+key);readFailure=false;return value;}
+        catch(error){mutation=null;readFailure=true;throw error;}
       },
       setItem(key,value){
-        check(key);try{storage.setItem(prefix+key,value);mutation='write';ioFailure=null;}
-        catch(error){mutation=null;ioFailure='write';throw error;}
+        check(key);try{storage.setItem(prefix+key,value);mutation='write';mutationFailure=null;readFailure=false;}
+        catch(error){mutation=null;mutationFailure='write';throw error;}
       },
       removeItem(key){
-        check(key);try{storage.removeItem(prefix+key);mutation='remove';ioFailure=null;}
-        catch(error){mutation=null;ioFailure='remove';throw error;}
+        check(key);try{storage.removeItem(prefix+key);mutation='remove';mutationFailure=null;readFailure=false;}
+        catch(error){mutation=null;mutationFailure='remove';throw error;}
       }
     });
   }

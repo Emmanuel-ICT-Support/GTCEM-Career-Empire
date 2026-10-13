@@ -169,7 +169,7 @@ test('storage access requires the exact current verification receipt, not a copi
 });
 test('same Auth UUID cannot be reassigned to another student across a fresh gate; all data is quarantined intact',async()=>{
   const f=fixture();f.storage.setItem('ce-player:'+AUTH_A+':progress','legacy UID-only data');
-  const a=f.gate.openStorage(await f.gate.verify());a.setItem('progress','owned A');const before=f.storage.dump();f.gate.invalidate('mapping-changed');
+  const a=f.gate.openStorage(await f.gate.verify());expect(a.getItem('progress')).toBeNull();a.setItem('progress','owned A');expect(f.storage.getItem('ce-player:'+AUTH_A+':progress')).toBe('legacy UID-only data');const before=f.storage.dump();f.gate.invalidate('mapping-changed');
   const rebound=createStudentSaveGate({client:{auth:{getUser:async()=>({data:{user:{id:AUTH_A}},error:null})}},resolveMembership:async()=>({...proof(),studentId:STUDENT_B}),storage:f.storage,now:()=>TIME});
   const receipt=await rebound.verify();expect(receipt).toMatchObject({kind:'unavailable',reason:'mapping-review-required',sameBrowserPersistence:false});expect(()=>rebound.openStorage(receipt)).toThrow('mapping-review-required');
   expect(f.storage.dump()).toEqual(before);expect(a.persistent).toBe(false);
@@ -196,6 +196,27 @@ test('a removal failure preserves the value and a successful retry reports remov
   const bound=gate.openStorage(await gate.verify());bound.setItem('progress','earlier');storage.removeItem.mockImplementationOnce(()=>{throw Error('synthetic removal failure');});
   expect(()=>bound.removeItem('progress')).toThrow('synthetic removal failure');expect(bound.getItem('progress')).toBe('earlier');expect(gate.status()).toMatchObject({lastSaveSucceeded:false,lastMutationSucceeded:false,ioFailure:'remove'});expect(gate.status().message).toContain('browser removal failed');
   bound.removeItem('progress');expect(memory.getItem(key(AUTH_A,STUDENT_A))).toBeNull();expect(gate.status()).toMatchObject({lastSaveSucceeded:false,lastMutationSucceeded:true,lastMutation:'remove',ioFailure:null});expect(gate.status().message).toContain('Removed on this browser');
+});
+test.each([
+  ['write','setItem','save'],['remove','removeItem','removal']
+])('an unresolved %s failure survives a read failure and successful read until mutation retry succeeds',async(failure,method,label)=>{
+  const memory=store(),storage={getItem:vi.fn(memory.getItem),setItem:vi.fn(memory.setItem),removeItem:vi.fn(memory.removeItem)};
+  const gate=createStudentSaveGate({client:{auth:{getUser:async()=>({data:{user:{id:AUTH_A}},error:null})}},resolveMembership:async()=>proof(),storage,now:()=>TIME});
+  const bound=gate.openStorage(await gate.verify());bound.setItem('progress','earlier');expect(gate.status().lastSaveSucceeded).toBe(true);
+  const mutate=()=>failure==='write'?bound.setItem('progress','retried'):bound.removeItem('progress');
+  storage[method].mockImplementation(()=>{throw Error('synthetic mutation failure');});
+  expect(mutate).toThrow('synthetic mutation failure');
+  storage.getItem.mockImplementationOnce(()=>{throw Error('synthetic read failure');});
+  expect(()=>bound.getItem('progress')).toThrow('synthetic read failure');
+  expect(gate.status()).toMatchObject({sameBrowserPersistence:false,lastSaveSucceeded:false,lastMutationSucceeded:false,ioFailure:failure,mutationFailure:failure,readFailure:true});
+  expect(gate.status().message).toContain('browser '+label+' failed');
+  expect(bound.getItem('progress')).toBe('earlier');
+  expect(gate.status()).toMatchObject({sameBrowserPersistence:false,lastSaveSucceeded:false,lastMutationSucceeded:false,ioFailure:failure,mutationFailure:failure,readFailure:false});
+  expect(bound.persistent).toBe(false);expect(gate.status().message).toContain('browser '+label+' failed');
+  expect(mutate).toThrow('synthetic mutation failure');expect(memory.getItem(key(AUTH_A,STUDENT_A))).toBe('earlier');
+  storage[method].mockImplementation(memory[method]);mutate();
+  expect(gate.status()).toMatchObject({sameBrowserPersistence:true,lastSaveSucceeded:failure==='write',lastMutationSucceeded:true,lastMutation:failure,ioFailure:null,mutationFailure:null,readFailure:false});
+  expect(bound.persistent).toBe(true);expect(memory.getItem(key(AUTH_A,STUDENT_A))).toBe(failure==='write'?'retried':null);
 });
 test('failed mapping metadata inspection cannot open data or erase earlier records',async()=>{
   const memory=store({'old-save':'retained'}),storage={getItem:()=>{throw Error('synthetic metadata read');},setItem:vi.fn(memory.setItem),removeItem:memory.removeItem};
