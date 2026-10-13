@@ -1,3 +1,4 @@
+import {administrationAvailable} from './admin-preview.mjs?v=admin-preview-20261013';
 import {arrangementChoices,canTryArrangement,applyArrangement,showSignPosition} from './market-arrangement.mjs?v=market-arrangement-20261012';
 import {inAdministration,nearestInteraction} from './administration-flow.js?v=market-admin-20261012';
 import * as THREE from 'three';
@@ -8,11 +9,11 @@ import {marketCharacters} from './market-characters.js?v=market-admin-20261012';
 import {marketSurroundings} from './market-surroundings.js?v=ecc-ba60122';
 const money=n=>'$'+(n/100).toFixed(2);
 // Campus materials and locally optimised NPCs; practice state remains independent.
-export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{},campusPalette,campusGrass,captureBriefing}){
- const reviewMode=new URLSearchParams(location.search).get('market-review')==='1';
+export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{},campusPalette,campusGrass,captureBriefing,adminReview=false}){
+ const publicAdminReview=adminReview===true,reviewMode=publicAdminReview||new URLSearchParams(location.search).get('market-review')==='1';
  const reviewData=new Map();
  if(reviewMode)storage={getItem:k=>reviewData.get(k)??null,setItem:(k,v)=>reviewData.set(k,v),removeItem:k=>reviewData.delete(k)};
- const store=createPracticeStore(storage),scene=new THREE.Scene();let celebrationTime=0;
+ const store=createPracticeStore(storage),scene=new THREE.Scene();const canVisitAdministration=()=>administrationAvailable(store.state,publicAdminReview);let celebrationTime=0;
  scene.background=new THREE.Color('#b9dce3');scene.fog=new THREE.Fog('#b9dce3',24,58);
  scene.add(new THREE.HemisphereLight('#e1f2ff','#98b697',1.15));
  const sun=new THREE.DirectionalLight('#ffdfb2',3.2);sun.position.set(-16,24,18);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-18,right:18,top:18,bottom:-18,near:1,far:70});sun.shadow.normalBias=.035;scene.add(sun);
@@ -118,6 +119,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=admin-guidance-20261013',import.meta.url).href;document.head.append(css);
  const hud=document.createElement('section');hud.id='market-hud';hud.hidden=true;hud.setAttribute('aria-label','Live Music and Sunday Markets practice');
  hud.innerHTML='<details id="market-card"><summary>Your first gig <span aria-hidden="true">⌄</span></summary><div class="market-card-details"><div class="market-kicker">SUNDAY MARKET / LOCAL PRACTICE</div><h2>Your first gig</h2><div class="market-balance" id="market-balance"></div><div class="market-tools"><button id="market-journal">Journal & map</button><button id="market-exit">Return to campus</button></div><p class="market-status" id="market-status" role="status"></p></div></details><p id="market-objective" aria-live="polite"></p><button id="market-reception" hidden>Visit Reception</button><button id="market-test" hidden>Watch a test group</button><button id="market-replay" hidden>Start a fresh shift…</button>';
+ if(publicAdminReview){const note=document.createElement('p');note.id='market-review-notice';note.textContent='Public Admin preview · not saved · no wages or crew pass';hud.append(note);}
  document.getElementById('experience').append(hud);
  const dialog=document.createElement('dialog');dialog.id='market-dialog';dialog.setAttribute('aria-labelledby','market-dialog-title');document.body.append(dialog);
  let introTimer=null,introFrame=0,introPaused=false,exitArmed=false;
@@ -129,7 +131,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  dialog.addEventListener('close',()=>document.getElementById('scene').focus());
  dialog.addEventListener('cancel',()=>{clearTimeout(introTimer);const restore=observationHold;observationHold=false;if(restore)sync();onClose();});
  function show(title,body,choices=[],extra=''){if(chapterPlayback)endPreview();
-  clearTimeout(introTimer);introTimer=null;onPause();dialog.classList.remove('market-intro');dialog.replaceChildren();const eyebrow=document.createElement('div');eyebrow.className='market-kicker';eyebrow.textContent='SUNDAY MARKETS / PRACTICE';dialog.append(eyebrow);
+  clearTimeout(introTimer);introTimer=null;onPause();dialog.classList.remove('market-intro');dialog.replaceChildren();const eyebrow=document.createElement('div');eyebrow.className='market-kicker';eyebrow.textContent=publicAdminReview?'PUBLIC ADMIN PREVIEW / NOT SAVED':'SUNDAY MARKETS / PRACTICE';dialog.append(eyebrow);
   const h=document.createElement('h2');h.id='market-dialog-title';h.textContent=title;dialog.append(h);
   const p=document.createElement('p');p.className='market-body';p.textContent=body;dialog.append(p);if(title==='Mara’s roster and order record'){const figure=document.createElement('figure');figure.className='market-record-author';const portrait=document.createElement('img');portrait.src=new URL('./assets/community-cast-20260927/mara-portrait.png',import.meta.url).href;portrait.alt='Mara, Juniper Kitchen owner and record author';portrait.width=portrait.height=112;const caption=document.createElement('figcaption');caption.textContent='Mara · Juniper Kitchen';figure.append(portrait,caption);p.before(figure);}
   if(extra){const note=document.createElement('p');note.className='market-note';note.textContent=extra;dialog.append(note);}
@@ -139,7 +141,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   if(!dialog.open)dialog.showModal();
   (actions.querySelector('button:not(:disabled)')||leave).focus();
  }
- function commit(type,success){const before=store.state.badges;const ok=store.dispatch(type);sync();if(ok){const gained=store.state.badges.filter(b=>!before.includes(b));announce(success+(gained.length?' · Game badge: '+gained.map(b=>BADGES[b][0]).join(', '):''));}else if(store.error)announce(store.error);return ok;}
+ function commit(type,success){if(publicAdminReview&&['pay','research-fee'].includes(typeof type==='string'?type:type?.type)){announce('Public preview: no wages or fees are paid or saved.');return false;}const before=store.state.badges;const ok=store.dispatch(type);sync();if(ok){const gained=store.state.badges.filter(b=>!before.includes(b));announce(success+(gained.length?' · Game badge: '+gained.map(b=>BADGES[b][0]).join(', '):''));}else if(store.error)announce(store.error);return ok;}
  function mara(){
   const s=store.state;if(s.revision===3)return agencyMara();if(s.revision===2)return researchMara();
   if(!s.accepted)show('Mara: “You made it.”','“First market with phone preorders. Great for sales… but nobody knows where to collect. Want a short shift helping people find their food?”',[
@@ -373,7 +375,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   ['Meet Nora at her desk',goToNora],['I’ll walk there',()=>{close();refreshOfficeGuidance();}]
  ],'You can explore other offices later through Office / places.');}
  function refreshOfficeGuidance(){
-  hud.querySelector('#market-reception').hidden=!marketComplete(store.state)||activeDistrict;
+  hud.querySelector('#market-reception').hidden=!canVisitAdministration()||activeDistrict;
   const summary=hud.querySelector('#market-card summary').firstChild,title=activeDistrict?'Markets Administration ':'Your first gig ';if(summary.textContent!==title)summary.textContent=title;
   for(const id of ['market-balance','market-status'])hud.querySelector('#'+id).hidden=activeDistrict;
   districtRoute.hidden=districtHelp.hidden=!activeDistrict;
@@ -409,7 +411,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  function returnMarket(){districtVisit++;activeDistrict=false;districtRoute.hidden=true;districtHelp.hidden=true;close();onTravel({x:-8.7,y:0,z:4,yaw:Math.PI/2});sync();}
  let districtPreparing=null,districtRetryAt=0,lastOfficePosition=null;
  function prepareDistrict(){
-  if(!marketComplete(store.state))return Promise.resolve();
+  if(!canVisitAdministration())return Promise.resolve();
   if(district)return Promise.resolve();
   if(districtPreparing)return districtPreparing;
   districtPreparing=(async()=>{
@@ -420,7 +422,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   })().finally(()=>districtPreparing=null);return districtPreparing;
  }
  async function visitDistrict(week=2){
-  if(!marketComplete(store.state))return mara();
+  if(!canVisitAdministration())return mara();
   const visit=++districtVisit;
   show('Entering the administration centre…','The new places load only when you visit. Close this panel to stay here.');const title=dialog.querySelector('h2');
   try{
@@ -434,7 +436,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  const stopPreview=document.createElement('button');stopPreview.id='market-preview-stop';stopPreview.textContent='End rehearsal';stopPreview.hidden=true;hud.append(stopPreview);
  const endPreview=()=>{chapterPlayback=null;stopPreview.hidden=true;sync();};stopPreview.onclick=endPreview;
  async function openChapters(week,sourceId,resourceId){
-  if(!marketComplete(store.state)&&resourceId!=='initiative')return initiativeSheet();
+  if(!canVisitAdministration()&&resourceId!=='initiative')return initiativeSheet();
   if(activeDistrict&&[2,3,4].includes(week))districtWeek=week;
   const route=()=>sourceId==='signal'?openingChapters.signal():resourceId==='library'?openingChapters.library():resourceId?openingChapters.resource(resourceId):sourceId==='briefing'?openingChapters.briefing():sourceId?openingChapters.inspect(sourceId):openingChapters.open(week);
   if(openingChapters){route();return;}
@@ -443,7 +445,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   try{
    chapterModule ||= (chapterAttempts++ ? import('./opening-chapters.js?v=short-arrival-20260929&retry='+chapterAttempts) : import('./opening-chapters.js?v=short-arrival-20260929')).catch(error=>{chapterModule=null;throw error;});
    const {createOpeningChapters}=await chapterModule;
-   openingChapters ||= createOpeningChapters({show,dialog,close,laterAvailable:()=>marketComplete(store.state),onResearchPay:()=>{if(store.state.researchPaid)return 'Your $5 research fee is already in this market practice; replay does not pay again.';if(!store.state.researchReviewed&&!commit('research-review','Research review complete.'))return store.error||'Review could not be saved. Retry claiming your fee.';return commit('research-fee','Research fee +$5.00 paid into your market wallet.')?'Research fee +$5.00 paid. Market wallet: '+money(store.state.wallet)+'.':store.error||'Payment not completed. Retry claiming your fee.';},onExplore:visitDistrict,onPlan:(...args)=>{lastPlan=args;district?.setPlan(...args);},onApplication:value=>{lastApplication=value;district?.setApplication(value);},onPreview:served=>{if(activeDistrict)returnMarket();else close();chapterPlayback={time:0,served};stopPreview.hidden=false;announce('Fictional rehearsal: watch which groups can be supported. End it at any time.');},onWorldEvent:({title,detail})=>{
+   openingChapters ||= createOpeningChapters({show,dialog,close,laterAvailable:()=>canVisitAdministration(),onResearchPay:()=>{if(publicAdminReview)return 'Public preview: no research fee is paid or saved.';if(store.state.researchPaid)return 'Your $5 research fee is already in this market practice; replay does not pay again.';if(!store.state.researchReviewed&&!commit('research-review','Research review complete.'))return store.error||'Review could not be saved. Retry claiming your fee.';return commit('research-fee','Research fee +$5.00 paid into your market wallet.')?'Research fee +$5.00 paid. Market wallet: '+money(store.state.wallet)+'.':store.error||'Payment not completed. Retry claiming your fee.';},onExplore:visitDistrict,onPlan:(...args)=>{lastPlan=args;district?.setPlan(...args);},onApplication:value=>{lastApplication=value;district?.setApplication(value);},onPreview:served=>{if(activeDistrict)returnMarket();else close();chapterPlayback={time:0,served};stopPreview.hidden=false;announce('Fictional rehearsal: watch which groups can be supported. End it at any time.');},onWorldEvent:({title,detail})=>{
     if(title==='BULLETIN CHECKED')district?.postBulletin();
     announce(title+' · '+detail);
    }});
@@ -454,16 +456,16 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  function changingWorld(){
   show('Work is changing / notice one connection','Look at the phone orders, ready-to-collect bags and two kinds of queue. A change outside the stall has changed the work inside it. What would you like to investigate?',[
    ['Phone ordering → work at the stall',()=>show('A new way to order','Customers can order and pay before arriving. Mara and Sam now need to coordinate two streams: taking walk-up orders and packing phone orders for collection. Faster ordering can still create a collection bottleneck.',[
-    ['Ask Sam about the workflow',sam],['Watch the opening queue',beginObservation],...(marketComplete(store.state)?[['What might change next?',nextWeek]]:[])
+    ['Ask Sam about the workflow',sam],['Watch the opening queue',beginObservation],...(canVisitAdministration()?[['What might change next?',nextWeek]]:[])
    ],'Change → possible impact on work. Technology can change tasks; it does not automatically remove the whole job.')],
    ['Try a what-if: fewer takeaway bags',()=>show('What if customers brought reusable bags?','Imagine more customers want less packaging. How might packing, hygiene checks and the collection space need to change? Look at the bags and collection counter, then discuss one possible effect with your teacher or a partner.',[
-    ['Back to the clues',changingWorld],...(marketComplete(store.state)?[['What might change next?',nextWeek]]:[])
+    ['Back to the clues',changingWorld],...(canVisitAdministration()?[['What might change next?',nextWeek]]:[])
    ],'A fictional sustainability question, not a new simulated outcome. No answer is collected or scored.')],
-   ...(marketComplete(store.state)?[['What might change next?',nextWeek]]:[])
+   ...(canVisitAdministration()?[['What might change next?',nextWeek]]:[])
   ],'Explore now or come back through Journal & map. This is a first encounter, not a megatrends assessment. Your pay is unchanged.');
  }
  function nextWeek(){
-  if(!marketComplete(store.state))return mara();
+  if(!canVisitAdministration())return mara();
   show('Next / follow the change','This week: I arrived. I contributed. I noticed work changing.\n\nNext, investigate a changing job: what is changing, who might be affected, and which information would help you check your first impression? Technology is one influence; climate, population, economies and customer habits can matter too.',[
    ['Continue / Weeks 2–4',()=>openChapters(2)],['Return to the clues',changingWorld],['Keep exploring',close]
   ],'Discuss one change → possible impact on work. There is no required written submission, extra badge or completion score here.');
@@ -473,7 +475,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   show('Your market journal',`${s.paid?'First shift complete.':s.accepted?'Shift in progress.':'A first opportunity is waiting.'} Wallet ${money(s.wallet)} · Savings ${money(s.savings)}. ${s.rested?'You took a free break.':''} ${s.encore?'Ticket stub: MY FIRST GIG — Juniper Kitchen crew.':s.pass?'Crew pass: ready to use beside the stage.':''} ${badges||'Game badges will describe the skills you practise.'}`,[
    ['Replay Mara’s welcome',maraIntro],
    ['Money & keepsakes in Stats',()=>{close();document.getElementById('exploration-stats-toggle')?.click();}],
-   [s.paid?'Explore the administration centre':'Markets Administration · after the first gig',()=>s.paid?visitDistrict(2):show('Your next assignment','Finish your agreed first gig with Mara, then visit Reception through the west entrance. Nora checks evidence, Dev tests work plans, and the opportunities team helps Alex apply.',[['Keep exploring',close]])],
+   [canVisitAdministration()?'Explore the administration centre':'Markets Administration · after the first gig',()=>canVisitAdministration()?visitDistrict(2):show('Your next assignment','Finish your agreed first gig with Mara, then visit Reception through the west entrance. Nora checks evidence, Dev tests work plans, and the opportunities team helps Alex apply.',[['Keep exploring',close]])],
    ...(s.paid?[["Work is changing / explore the clues",changingWorld]]:[]),
    ['Where do I go?',()=>show('Around the market','Mara: Juniper Kitchen, ahead.\nCustomer and queue view: left of the entrance path.\nSam: Juniper crew. Work bench: right of the stall.\nStage: right of Juniper. Crew pass: front-right corner.\nLittle Finds: left. Savings and keepsakes: Stats.\nFree break: bench in front of the stage.',[], 'Use WASD / arrow keys or the movement controls. Drag to look. Walk close, then press E or tap the interaction button. All activities are untimed.')],
    ['My first gig / case note',caseNote,s.revision!==3],
@@ -488,7 +490,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   if(s.revision===3)hud.querySelector('#market-objective').textContent=!s.accepted?'Start: meet Mara at Juniper Kitchen.':s.paid?'Shift complete. Your case note and crew pass are in the journal.':testing>0?'The next customers are arriving. Watch what happens.':!s.tested?'Try an idea at the work bench, watch the queue, then share what you found with Mara.':'Group finished: check the results, then talk them through with Mara. You can also revise at the test bench.';
   if(marketComplete(s))hud.querySelector('#market-objective').textContent='Shift complete. Next: Reception through the west entrance for your next paid gig. Your crew pass is ready at the stage.';
   hud.querySelector('#market-test').hidden=s.revision!==3||!s.accepted||s.paid||s.tested||s.trials.length>=12||testing>0||watching>0;
-  hud.querySelector('#market-replay').hidden=!s.paid;if(reviewMode)hud.querySelector('.market-kicker').textContent='FRESH REVIEW / NOT SAVED';
+  hud.querySelector('#market-replay').hidden=!s.paid;if(reviewMode)hud.querySelector('.market-kicker').textContent=publicAdminReview?'PUBLIC ADMIN PREVIEW / NOT SAVED':'FRESH REVIEW / NOT SAVED';
   hud.querySelector('#market-balance').textContent=`Wallet ${money(s.wallet)} · Saved ${money(s.savings)} · ${s.badges.length} game badges`;
   sign.visible=signText.visible=s.placed==='place-counter'||s.placed==='place-path'||s.attempted||s.solution==='sign';const good=s.placed==='place-path'||s.solution==='sign';sign.position.set(good?2.4:0,good?0:1,good?-1.8:-5);
   crewRibbon.visible=s.pass;ticket.visible=s.encore;plant.visible=s.purchases.includes("plant");Object.entries(trinkets).forEach(([id,prop])=>prop.visible=s.purchases.includes(id));thanks.visible=s.encore;audience.forEach(p=>p.visible=s.encore);celebrationLights.forEach(m=>m.visible=s.encore);stageGlow.visible=s.rested||s.encore;customerLabel.visible=!s.solution;keepsake.visible=s.keepsake;lanterns[0].visible=s.tax>0;lanterns[1].visible=s.donated>0;
@@ -521,13 +523,13 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   get observing(){return watching>0||observationHold||testing>0||Boolean(chapterPlayback);},
   scene,spawn:new THREE.Vector3(0,0,15),isOpen:()=>dialog.open,
   setVisible(value){exitArmed=false;visible=value;hud.hidden=!value;document.getElementById('experience').classList.toggle('in-market',value);if(!value){districtVisit++;activeDistrict=false;districtRoute.hidden=districtHelp.hidden=true;endPreview();clearTimeout(introTimer);watching=0;observationHold=false;testing=0;close();stopMusic();}else{cast.start();store.reload();sync();announce(store.error||lastAnnounced||(store.state.paid?'Resuming a completed practice shift.':'Walk close to Mara, then press E or tap Talk to Mara.'));}},
-  interaction(p){if(dialog.open||watching>0||testing>0||chapterPlayback)return null;const current=store.state;const candidates=inAdministration(p.x,activeDistrict)?(district?.spots||[]):[...spots,...(marketComplete(current)?adminSpots:[])];return nearestInteraction(candidates.map(s=>s.action===customer&&current.revision!==3&&current.solution?{...s,x:2.8,z:-2}:s.action===sam&&current.revision===3?{...s,x:current.plan.helper==='greet'?1.5:current.plan.helper==='collect'?collection.position.x:1.5,z:current.plan.helper==='greet'?-1.6:current.plan.helper==='collect'?collection.position.z+.9:-3.3}:s.action===sam&&(current.placed==='assign-helper'||current.solution==='helper')?{...s,x:1.5,z:-2.3}:s),p);},
-  move(p,delta){if(watching>0||testing>0||chapterPlayback)return {x:p.x,y:p.y,z:p.z};const next={x:p.x,y:0,z:p.z},valid=(x,z)=>((x>-11.4&&x<11.4&&z>-12.7&&z<18)||(marketComplete(store.state)&&district&&x>-34&&x<-12.8&&z>-12.5&&z<12.5)||(marketComplete(store.state)&&district&&x>=-12.8&&x<=-11.4&&z>2.7&&z<5.3))&&!obstacles.some(o=>o.enabled!==false&&Math.abs(x-o.x)<o.w/2+.3&&Math.abs(z-o.z)<o.d/2+.3);if(valid(p.x+delta.x,p.z))next.x+=delta.x;if(valid(next.x,p.z+delta.z))next.z+=delta.z;return next;},
+  interaction(p){if(dialog.open||watching>0||testing>0||chapterPlayback)return null;const current=store.state;const candidates=inAdministration(p.x,activeDistrict)?(district?.spots||[]):[...spots,...(canVisitAdministration()?adminSpots:[])];return nearestInteraction(candidates.map(s=>s.action===customer&&current.revision!==3&&current.solution?{...s,x:2.8,z:-2}:s.action===sam&&current.revision===3?{...s,x:current.plan.helper==='greet'?1.5:current.plan.helper==='collect'?collection.position.x:1.5,z:current.plan.helper==='greet'?-1.6:current.plan.helper==='collect'?collection.position.z+.9:-3.3}:s.action===sam&&(current.placed==='assign-helper'||current.solution==='helper')?{...s,x:1.5,z:-2.3}:s),p);},
+  move(p,delta){if(watching>0||testing>0||chapterPlayback)return {x:p.x,y:p.y,z:p.z};const next={x:p.x,y:0,z:p.z},valid=(x,z)=>((x>-11.4&&x<11.4&&z>-12.7&&z<18)||(canVisitAdministration()&&district&&x>-34&&x<-12.8&&z>-12.5&&z<12.5)||(canVisitAdministration()&&district&&x>=-12.8&&x<=-11.4&&z>2.7&&z<5.3))&&!obstacles.some(o=>o.enabled!==false&&Math.abs(x-o.x)<o.w/2+.3&&Math.abs(z-o.z)<o.d/2+.3);if(valid(p.x+delta.x,p.z))next.x+=delta.x;if(valid(next.x,p.z+delta.z))next.z+=delta.z;return next;},
   update(dt,t,camera,playerPosition){lastOfficePosition=playerPosition?.x??null;if(!visible)return;
-   if(marketComplete(store.state)&&playerPosition&&playerPosition.x<-5&&!district&&!districtPreparing&&performance.now()>districtRetryAt){districtRetryAt=performance.now()+10000;prepareDistrict().catch(()=>announce('Administration is still loading. Use Enter to retry.'));}
+   if(canVisitAdministration()&&playerPosition&&playerPosition.x<-5&&!district&&!districtPreparing&&performance.now()>districtRetryAt){districtRetryAt=performance.now()+10000;prepareDistrict().catch(()=>announce('Administration is still loading. Use Enter to retry.'));}
 
    if(playerPosition&&district){const inside=inAdministration(playerPosition.x,activeDistrict);if(inside!==activeDistrict){activeDistrict=inside;if(!inside){sync();}else {refreshOfficeGuidance();if(!receptionSeen)reception();}}if(inside){if(!dialog.open&&playerPosition.z>4.4&&playerPosition.x<-23)districtWeek=4;else if(!dialog.open&&playerPosition.z<-3&&playerPosition.x<-23)districtWeek=2;else if(!dialog.open&&playerPosition.x>-23&&playerPosition.z<1)districtWeek=3;refreshOfficeGuidance();}}
-   entranceExterior.forEach(part=>part.visible=marketComplete(store.state)&&!activeDistrict);if(gardener)gardener.visible=marketComplete(store.state)&&!activeDistrict;
+   entranceExterior.forEach(part=>part.visible=canVisitAdministration()&&!activeDistrict);if(gardener)gardener.visible=canVisitAdministration()&&!activeDistrict;
 if(playerPosition){if(playerPosition.z<10.4)exitArmed=true;if(exitArmed&&!dialog.open&&!watching&&!testing&&Math.abs(playerPosition.x)<4&&playerPosition.z>11.4){exitArmed=false;onExit();return;}}const focused=watching>0||observationHold||testing>0;for(const {sprite,width}of labels){const s=store.state;const isMara=sprite===maraLabel;const nearby=camera.position.distanceTo(sprite.position)<7;const relevant=sprite===customerLabel||sprite===helperLabel||sprite===queueLabel?s.accepted:sprite===crewRibbon?s.pass:sprite===stageBreakLabel?s.rested||s.paid:s.paid; sprite.material.visible=(!focused||observationLabels.includes(sprite))&&(isMara||observationLabels.includes(sprite)||relevant||nearby); const factor=Math.min(1,camera.position.distanceTo(sprite.position)/12);sprite.scale.set(width*factor,width*factor/4,1);}const s=store.state;collectionLabel.visible=s.accepted||camera.position.distanceTo(collection.position)<7;
    if(!dialog.open&&watching>0){
     watching+=dt;
@@ -576,6 +578,6 @@ if(playerPosition){if(playerPosition.z<10.4)exitArmed=true;if(exitArmed&&!dialog
    if(gardener)gardener.rotation.z=reduced?0:Math.sin(t*1.2)*.04;
    cast.update(dt,reduced);
    performer.rotation.z=window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:Math.sin(t*2)*.03;},
-  journal,caseNote,openChapters,visitDistrict,refreshPractice:()=>{store.reload();sync();},marketMoney:()=>{store.reload();return {...store.state,error:store.error,locked:store.locked};},changeMoney:type=>{store.reload();const ok=['save','withdraw','donate'].includes(type)&&store.dispatch(type);sync();return {ok,error:store.error};},replayIntro:maraIntro,snapshot:()=>({officeFlow:{visible,active:activeDistrict,receptionSeen,week:districtWeek,playerX:lastOfficePosition},...(district?{district:district.snapshot()}:{}),chapters:openingChapters?.snapshot()||null,guidance:labels.filter(l=>l.sprite.visible&&l.sprite.material.visible).map(l=>l.sprite===maraLabel?'Mara':l.sprite===queueLabel?'Customer flow':l.sprite===customerLabel?'Waiting customer':l.sprite===helperLabel?'Sam':'Market activity'),observation:{running:watching>0,elapsed:watching,holding:observationHold,testing:testing>0},visuals:cast.snapshot(),practice:true,...store.state,storageError:store.error})
+  journal,caseNote,openChapters,visitDistrict,refreshPractice:()=>{store.reload();sync();},marketMoney:()=>{store.reload();return {...store.state,error:store.error,locked:store.locked};},changeMoney:type=>{store.reload();const ok=['save','withdraw','donate'].includes(type)&&store.dispatch(type);sync();return {ok,error:store.error};},replayIntro:maraIntro,snapshot:()=>({adminReview:publicAdminReview,officeFlow:{visible,active:activeDistrict,receptionSeen,week:districtWeek,playerX:lastOfficePosition},...(district?{district:district.snapshot()}:{}),chapters:openingChapters?.snapshot()||null,guidance:labels.filter(l=>l.sprite.visible&&l.sprite.material.visible).map(l=>l.sprite===maraLabel?'Mara':l.sprite===queueLabel?'Customer flow':l.sprite===customerLabel?'Waiting customer':l.sprite===helperLabel?'Sam':'Market activity'),observation:{running:watching>0,elapsed:watching,holding:observationHold,testing:testing>0},visuals:cast.snapshot(),practice:true,...store.state,storageError:store.error})
  };
 }
