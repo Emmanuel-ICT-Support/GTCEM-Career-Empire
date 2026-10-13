@@ -1,0 +1,42 @@
+# Admin guidance and archived avatar controls — 13 October 2026
+
+Authorized scope: ECC repository only, based on verified PR53 main
+`46d63d4d55a24123d3a578e3d257f0625f462426`. The original release checkout at
+`bdc6be7` retains its unrelated asset symlinks and untracked QA files. This
+isolated local clone uses shared Git objects and a sparse source checkout.
+No `.agents/skills` files exist in this baseline; root AGENTS.md was inspected.
+
+## Batch 1: next paid gig
+
+All three retained first-gig completion flows now offer Visit Reception and
+identify the west entrance. After pay, the compact objective and a Reception
+shortcut remain visible outside the collapsed Journal. The shortcut hides
+inside Administration and before pay. Existing Reception introduces Nora and
+her research fee; later curriculum disclosure remains as implemented.
+`marketComplete(s)` remains exactly `s.paid === true`. No gate, wage, reward,
+curriculum, model, map, startup or photo-handover logic changed. Runtime import
+and entry cache tags and affected release-manifest hashes were refreshed.
+
+Validation on this commit candidate:
+
+- 37 focused Vitest tests pass: first-gig state, agency, research fee and
+  Administration boundary/interaction logic.
+- Six installed-Chrome browser scenarios pass at 1280px and 390px: newly paid
+  completion, returning paid shortcut outside collapsed Journal, and existing
+  Reception/source/work-plan/application scenarios.
+- New browser checks verify no Administration modules before explicit visit,
+  hidden shortcut before pay, exactly $18 wages, byte-identical saved practice
+  data across the returning-player visit, and shortcut hiding after reset.
+- Phone screenshots inspected; Reception dialog fits without horizontal
+  overflow. Screenshot evidence and run log are under ignored
+  `coverage/ecc-admin-avatar/` and `coverage/admin-browser.log`.
+- Development source/reference check passes; staged release verification passes
+  270 exact hashes and 82 reachable local modules; syntax and whitespace pass.
+
+Execution notes: sandbox denied the first localhost bind. Approved execution
+permission allowed browser QA. Default Playwright Chromium is absent; installed
+Chrome was used with a local QA config. An initial new-test run had two overly
+broad snapshot comparisons that included expected office runtime changes; the
+assertions were corrected to compare the saved practice record. Final six checks
+pass. Full CI/startup probes and physical devices were intentionally not run,
+following the requested focused scope. Public deployment is not yet verified.

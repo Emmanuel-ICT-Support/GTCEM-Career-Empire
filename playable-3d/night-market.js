@@ -115,9 +115,9 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
 
  for(const x of [5.5,8.5]){box(.09,2.5,.09,x,1.25,7,'#b39a77');lanterns.push(orb(.2,x,2.5,7,'#ffd578',scene,true));}
 
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=market-arrangement-20261012',import.meta.url).href;document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=admin-guidance-20261013',import.meta.url).href;document.head.append(css);
  const hud=document.createElement('section');hud.id='market-hud';hud.hidden=true;hud.setAttribute('aria-label','Live Music and Sunday Markets practice');
- hud.innerHTML='<details id="market-card"><summary>Your first gig <span aria-hidden="true">⌄</span></summary><div class="market-card-details"><div class="market-kicker">SUNDAY MARKET / LOCAL PRACTICE</div><h2>Your first gig</h2><div class="market-balance" id="market-balance"></div><div class="market-tools"><button id="market-journal">Journal & map</button><button id="market-exit">Return to campus</button></div><p class="market-status" id="market-status" role="status"></p></div></details><p id="market-objective" aria-live="polite"></p><button id="market-test" hidden>Watch a test group</button><button id="market-replay" hidden>Start a fresh shift…</button>';
+ hud.innerHTML='<details id="market-card"><summary>Your first gig <span aria-hidden="true">⌄</span></summary><div class="market-card-details"><div class="market-kicker">SUNDAY MARKET / LOCAL PRACTICE</div><h2>Your first gig</h2><div class="market-balance" id="market-balance"></div><div class="market-tools"><button id="market-journal">Journal & map</button><button id="market-exit">Return to campus</button></div><p class="market-status" id="market-status" role="status"></p></div></details><p id="market-objective" aria-live="polite"></p><button id="market-reception" hidden>Visit Reception</button><button id="market-test" hidden>Watch a test group</button><button id="market-replay" hidden>Start a fresh shift…</button>';
  document.getElementById('experience').append(hud);
  const dialog=document.createElement('dialog');dialog.id='market-dialog';dialog.setAttribute('aria-labelledby','market-dialog-title');document.body.append(dialog);
  let introTimer=null,introFrame=0,introPaused=false,exitArmed=false;
@@ -150,11 +150,11 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
    ['Put a clear pickup sign beside the path',()=>solve('sign-clear')]
   ]);
   else if(!s.paid)show('“That’s working!”',s.solution==='helper'?'“Sam is guiding people to collection. You found a way to share the job.”':'“People can see the sign from the path. They know where to collect.”',[
-   ['Finish the shift · receive $18',()=>{if(commit('pay','Paid once: $18 to your wallet; $2 to the local practice community fund.'))show('First shift, done.','Mara: “Thanks. Come back next time—these new ways of working will keep us on our toes.”',[
-    ['Explore the market',close],['Open my journal',journal]
+   ['Finish the shift · receive $18',()=>{if(commit('pay','Paid once: $18 to your wallet; $2 to the local practice community fund.'))show('First shift, done.','Mara: “Thanks. For your next paid gig, visit Reception through the west entrance.”',[
+    ['Visit Reception',()=>visitDistrict(2)],['Explore the market',close],['Open my journal',journal]
    ],'Practice receipt: $20 gross − $2 community tax = $18 net. The community lantern is now lit. Save, choose a small keepsake, or take a free stage break.');else journal();}]
   ]);
-  else show('“Good to see you again.”','“Your first shift is already paid. Enjoy the market. Next time, we might need to rethink the whole menu.”',[['See my market journal',journal]],'This is the end of this playable opening. Future episodes are not built yet.');
+  else show('“Good to see you again.”','“Your first shift is already paid. Visit Reception through the west entrance for your next paid gig, or enjoy the market.”',[['Visit Reception',()=>visitDistrict(2)],['See my market journal',journal]]);
  }
  const maraFrames=[
   ['Meet the Juniper crew','“I’m Mara. I own Juniper Kitchen, selling fresh rice bowls. It’s busy and the queue feels disorganised. Sam helps me pack.”'],
@@ -240,7 +240,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  }
  function handover(){const s=store.state;
   show('Your experiment counts','Mara: “Thanks for trying it and checking the result. We can use what you found. Your agreed wages are ready.”',[
-   ['Finish the shift · receive $18 and crew pass',()=>{if(commit('pay','Paid $18 after $2 community tax. Crew pass earned for the agreed work.'))show('First gig complete','Your wages and crew pass are yours. Your case note keeps the experiments and your own explanation together.',[['My first gig / case note',caseNote],['Explore the market',close]],'$20 gross − $2 community tax = $18 net. Reflection text is not graded and never changes your pay.');else journal();},s.paid],
+   ['Finish the shift · receive $18 and crew pass',()=>{if(commit('pay','Paid $18 after $2 community tax. Crew pass earned for the agreed work.'))show('First gig complete','Your wages and crew pass are yours. Next: visit Reception through the west entrance for your next paid gig. Your case note keeps your experiments and explanation.',[['Visit Reception',()=>visitDistrict(2)],['My first gig / case note',caseNote],['Explore the market',close]],'$20 gross − $2 community tax = $18 net. Reflection text is not graded and never changes your pay.');else journal();},s.paid],
    ['My first gig / case note',caseNote]
   ]);
  }
@@ -287,7 +287,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   ]);
   if(!s.reviewed)return show('Try your idea, then check it','Mara: “Yes, let’s test that. Keep the ordering counter open and the walkway clear. Come back when you have seen what helps.”',[],s.proposal==='sign'?'Use the setup station to the right of the path. Choose a sign position, then watch the next group of customers.':'Agree the collection role with Sam, then watch the next group of customers at the setup station.');
   if(!s.paid)return show('You made a difference',s.proposal==='sign'?'Mara: “You checked the workflow, spoke up, and tested a sign customers could actually see.”':'Mara: “You checked the workflow and gave Sam a clear role. Customers now know which queue they need.”',[
-   ['Finish the shift · receive $18 and crew pass',()=>{if(commit('pay','Paid $18 after $2 community tax. Crew pass earned.'))show('Your first gig — earned','Your Initiative and Problem solving game badges remember what you did. Your crew pass is ready at the front-right corner of the stage.',[['Explore the market',close],['Open my journal',journal]],'$20 gross − $2 community tax = $18 net. The pass is an extra thank-you; your wages are yours to save, spend or give.');else journal();}]
+   ['Finish the shift · receive $18 and crew pass',()=>{if(commit('pay','Paid $18 after $2 community tax. Crew pass earned.'))show('Your first gig — earned','Your game badges remember what you practised. Next: visit Reception through the west entrance for your next paid gig. Your crew pass is ready at the front-right corner of the stage.',[['Visit Reception',()=>visitDistrict(2)],['Explore the market',close],['Open my journal',journal]],'$20 gross − $2 community tax = $18 net. The pass is an extra thank-you; your wages are yours to save, spend or give.');else journal();}]
   ]);
   show('Shift complete — enjoy your day','Your wages have already been paid. Take your crew pass to the stage-side spot, or enjoy the free music area.',[['Open my journal',journal]]);
  }
@@ -373,6 +373,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   ['Meet Nora at her desk',goToNora],['I’ll walk there',()=>{close();refreshOfficeGuidance();}]
  ],'You can explore other offices later through Office / places.');}
  function refreshOfficeGuidance(){
+  hud.querySelector('#market-reception').hidden=!marketComplete(store.state)||activeDistrict;
   const summary=hud.querySelector('#market-card summary').firstChild,title=activeDistrict?'Markets Administration ':'Your first gig ';if(summary.textContent!==title)summary.textContent=title;
   for(const id of ['market-balance','market-status'])hud.querySelector('#'+id).hidden=activeDistrict;
   districtRoute.hidden=districtHelp.hidden=!activeDistrict;
@@ -481,10 +482,11 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
    ['Restart this practice…',restartPractice]
   ],store.error||(reviewMode?'Fresh review: progress lasts until reload and never changes your saved market. Game badges are practice only.':'One anonymous practice save in this browser, shared by its local characters. Game badges are not portfolio evidence or résumé claims. No student login.'));
  }
- hud.querySelector('#market-replay').onclick=restartPractice;hud.querySelector('#market-journal').onclick=journal;hud.querySelector('#market-exit').onclick=onExit;
+ hud.querySelector('#market-reception').onclick=()=>visitDistrict(2);hud.querySelector('#market-replay').onclick=restartPractice;hud.querySelector('#market-journal').onclick=journal;hud.querySelector('#market-exit').onclick=onExit;
  function sync(){
   const s=store.state;hud.querySelector('#market-objective').textContent=!s.accepted?'Start: meet Mara at Juniper Kitchen.':s.revision===1?'Earlier practice saved. Continue it, or start a fresh revised shift.':!s.proposal?`Investigate: customer ${s.listened?'✓':'—'} · queue ${s.observed?'✓':'—'} · Sam’s workflow ${s.learned?'✓':'—'}. Then propose an idea to Mara.`:!s.placed?(s.proposal==='helper'?'Agree Sam’s role, then visit the setup station.':'Place your sign at the Juniper work bench beside the stall.'):!s.solution?(s.tested?'Trial: customers missed the counter sign. Revise at the setup station.':'Try it with the next customers at the setup station.'):!s.reviewed?'Check the result: speak to the customer at collection.':!s.paid?'Return to Mara for your wages and crew pass.':!s.encore?'Shift complete! Use your crew pass at the front-right corner of the stage.':'First gig complete. Ticket saved in your journal. Enjoy the market.';
   if(s.revision===3)hud.querySelector('#market-objective').textContent=!s.accepted?'Start: meet Mara at Juniper Kitchen.':s.paid?'Shift complete. Your case note and crew pass are in the journal.':testing>0?'The next customers are arriving. Watch what happens.':!s.tested?'Try an idea at the work bench, watch the queue, then share what you found with Mara.':'Group finished: check the results, then talk them through with Mara. You can also revise at the test bench.';
+  if(marketComplete(s))hud.querySelector('#market-objective').textContent='Shift complete. Next: Reception through the west entrance for your next paid gig. Your crew pass is ready at the stage.';
   hud.querySelector('#market-test').hidden=s.revision!==3||!s.accepted||s.paid||s.tested||s.trials.length>=12||testing>0||watching>0;
   hud.querySelector('#market-replay').hidden=!s.paid;if(reviewMode)hud.querySelector('.market-kicker').textContent='FRESH REVIEW / NOT SAVED';
   hud.querySelector('#market-balance').textContent=`Wallet ${money(s.wallet)} · Saved ${money(s.savings)} · ${s.badges.length} game badges`;

@@ -42,7 +42,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "5abd401c7f4069a11c426eac6ed5486027776c2a1f27590923b0e579b30acc71"
+      "sha256": "74a3e1bcf54aa1b403bb02aaca7df927e4e344d404b30f204db3b863af36b072"
     },
     {
       "path": "arcade-carnival.js",
@@ -814,7 +814,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "cee447b5e2a8b9b433f4d84f64bf0fb5cb5a43c229a27bc526725a708e1bedac"
+      "sha256": "dbca631dc88086896c8c9dc7d5446868eb7821aff605c4bc53f8a9d47103c233"
     },
     {
       "path": "header-controls.css",
@@ -838,7 +838,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "4373c8d908991896c6fea445f9258efbbdb979b5ec3227e171af71fcec77508b"
+      "sha256": "57ee0c786180f54a151c00cead94f27f8fc3831512e9129adec5e24900169c49"
     },
     {
       "path": "intro-taster.css",
@@ -902,11 +902,11 @@
     },
     {
       "path": "night-market.css",
-      "sha256": "ab2bf5d2d7ac2aa3666f1c370f5aa35cbb6677b6b21bc8d93d83eb61bc43daf8"
+      "sha256": "986656728ac6c38d95001cd80ab2dec103039c88d829de390b25c5d60cdba3b2"
     },
     {
       "path": "night-market.js",
-      "sha256": "0e6e78145b4ddaadfb2d06511e01500fde168db1d2fa7e95e1b944d7847616b8"
+      "sha256": "49c1180d6352fe8dc7d83bdb8b367c6788fc1f80f390a2c34868473639475e00"
     },
     {
       "path": "opening-chapters-state.js",
