@@ -49,3 +49,14 @@ The Auth case is synthetic contract coverage, not real student-login acceptance.
 No real accounts, credentials, provider/SQL/RLS changes, physical devices, full
 CI or broad startup probes. No merge or deployment is claimed by this candidate;
 publication follows scoped review through the existing native access.
+
+## Exact-head CI harness repair
+
+The first PR56 head reproduced three runtime-recovery unit failures: two Market
+construction/navigation assertions and the paused-diagnostics check. Both VM
+contexts omitted the new adminReviewRequested dependency; the real app already
+initializes it. Added false to the two normal-play contexts only. All existing
+assertions and runtime code remain unchanged. The affected nine recovery tests
+and five preview unit tests now pass together (14 checks). Required source and
+271hash/83module release checks pass again. No broad/browser rerun is needed for
+this fixture-only repair; no merge/deployment is authorized by this note.
