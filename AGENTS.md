@@ -1,3 +1,7 @@
+## Public Admin review shortcut candidate — 13 October 2026
+
+Explicitly authorized Options -> Preview tools -> Open Market Admin for review. Public temporary separate tab, fresh memory-only activity state, no Mara completion/wages/tax/pass or exploration credit; normal paid gates and genuine Auth verification retained.42scoped units and11desktop/390Chrome scenarios pass, including cancel/retry/back/exit/reentry and original/verified-owner save preservation.271hashes/83modules and source checks pass. Separate from parked Market5418756 and auth PR55/4f050def. See docs/admin-review-shortcut-20261013.md. Scoped review/publication pending.
+
 ## Archived avatar controls — 13 October 2026
 
 Authorized small ECC-only update: seven existing Test characters have capability labels/descriptions; existing clothing, hair and shoe controls gain named colour presets; legacy auburn-deep imports its original colour. Eight primary names/models and selected-only loading unchanged; no garments/fitting/historical models added. 12 focused units and four desktop/phone-size Chrome Studio scenarios pass, including lazy archive, independent presets, Undo/Redo and saving. Source checks and270hashes/82modules pass. See docs/admin-avatar-20261013.md; public deployment remains separate.
