@@ -1,3 +1,7 @@
+## Archived avatar controls — 13 October 2026
+
+Authorized small ECC-only update: seven existing Test characters have capability labels/descriptions; existing clothing, hair and shoe controls gain named colour presets; legacy auburn-deep imports its original colour. Eight primary names/models and selected-only loading unchanged; no garments/fitting/historical models added. 12 focused units and four desktop/phone-size Chrome Studio scenarios pass, including lazy archive, independent presets, Undo/Redo and saving. Source checks and270hashes/82modules pass. See docs/admin-avatar-20261013.md; public deployment remains separate.
+
 ## Admin guidance — 13 October 2026
 
 Authorized ECC-only follow-up on PR53/main46d63d4. First-gig completion and the collapsed-Journal HUD now expose Reception after pay; existing paid gate, curriculum and all startup/visual/photo work retained. 37 scoped units, six desktop/phone-size Chrome scenarios, source checks and270manifest hashes/82modules pass. Full CI/startup probes and physical devices not run by task scope. See docs/admin-avatar-20261013.md. Publication verification remains separate.

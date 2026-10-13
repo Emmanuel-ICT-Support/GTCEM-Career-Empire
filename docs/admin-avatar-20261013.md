@@ -40,3 +40,42 @@ broad snapshot comparisons that included expected office runtime changes; the
 assertions were corrected to compare the saved practice record. Final six checks
 pass. Full CI/startup probes and physical devices were intentionally not run,
 following the requested focused scope. Public deployment is not yet verified.
+
+## Batch 2: archived character controls
+
+The same seven Test character IDs now have concise capability labels and
+consistent descriptions, including Dress ups' four existing clothing/hair/shoe
+sets, fixed outfits, the incomplete jacket fit test and legacy Body A/B controls.
+The archive remains collapsed and its catalog imports only after opening it.
+The eight named whole-character entries, their catalog, rigs, GLBs and loading
+logic are unchanged.
+
+Named colour menus supplement existing colour pickers/hex inputs for Dress ups
+and the legacy A/B colour controls. Included presets cover teal, silver and deep
+auburn hair, burgundy trousers and a camel jacket. They use the existing draft,
+per-style storage, preview and Undo/Redo paths. No garment, fitting, jeans model
+or historical model/branch added. Legacy `auburn-deep` now maps to its existing
+`#8a3a22`; an explicit stored hair hex still takes precedence. Existing legacy
+hair mappings and save schema/key remain intact.
+
+Validation on the Batch 2 candidate:
+
+- 12 focused Vitest checks pass across archived profile compatibility, wardrobe
+  profiles, pants profiles and whole-avatar metadata. Coverage includes exact
+  primary names/archived IDs, deep-auburn import and explicit-hex precedence,
+  invalid-value fallback, independent colour persistence and round trips.
+- Four real installed-Chrome Studio scenarios pass at 1280px and 390px. Archive
+  opening downloads no extra model; presets cause no further model requests;
+  hair teal/silver/deep auburn, burgundy suit pants, camel suit jacket and brown
+  boots apply; switching tops remembers colour; Undo/Redo and saved values pass.
+  Both legacy bodies expose their stated controls. No captured page errors in
+  the Dress ups cases; all tested editor panels avoid horizontal overflow.
+- Desktop archive and phone hair-preset screenshots inspected. Evidence is in
+  ignored `coverage/ecc-admin-avatar/`; log: `coverage/avatar-browser.log`.
+- Development source/reference check, changed-module syntax, diff whitespace
+  and staged release verification pass (270 hashes, 82 local modules).
+
+Default Chromium and full CI/physical-device limits remain as described above.
+The successful native GitHub read outside the network sandbox confirms main is
+still PR53. Publication is attempted through the existing native credential
+setup; no credentials, security settings or repository history are rewritten.

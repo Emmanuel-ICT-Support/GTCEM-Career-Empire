@@ -20,8 +20,8 @@ import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {createWorlds,sign} from './world.js?v=ecc-ba60122';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
-import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=named-students-20261011';
-import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES} from './profiles.js?v=named-students-20261011';
+import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=test-characters-20261013';
+import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES,TEST_CHARACTER_INFO,COLOUR_PRESETS} from './profiles.js?v=test-characters-20261013';
 
 const $=id=>document.getElementById(id),canvas=$('scene');
 // Pixel readback synchronises the GPU. Reserve it for explicit visual diagnostics.
@@ -200,7 +200,17 @@ function colour(label,key){
   const input=document.createElement('input');input.type='color';input.className='colour-input';input.value=draft.colours[key];input.title=label;input.setAttribute('aria-label',label);
   input.addEventListener('change',()=>changeDraft(p=>p.colours[key]=input.value));return input;
 }
-function optionWithColour(label,key,colourKey=key){const row=document.createElement('div');row.className='field-row';row.append(field(label,key,'select',OPTIONS[key]),colour(`${label} colour`,colourKey));return row;}
+function colourPreset(label,presets,value,apply){
+  const wrapper=document.createElement('label');wrapper.className='field';
+  const caption=document.createElement('span');caption.textContent=label+' colour preset';
+  const select=document.createElement('select');select.setAttribute('aria-label',caption.textContent);
+  select.add(new Option('Custom / choose a preset',''));
+  for(const [name,hex]of presets)select.add(new Option(name,hex));
+  select.value=presets.find(([,hex])=>hex.toUpperCase()===value.toUpperCase())?.[1]||'';
+  select.addEventListener('change',()=>{if(select.value)changeDraft(p=>apply(p,select.value));});
+  wrapper.append(caption,select);return wrapper;
+}
+function optionWithColour(label,key,colourKey=key){const row=document.createElement('div');row.className='field-row';row.append(field(label,key,'select',OPTIONS[key]),colour(`${label} colour`,colourKey));if(COLOUR_PRESETS[colourKey])row.append(colourPreset(label,COLOUR_PRESETS[colourKey],draft.colours[colourKey],(p,value)=>{p.colours[colourKey]=value;}));return row;}
 function wardrobeCategoryCards(){
   const nav=document.createElement('div');nav.className='wardrobe-categories';nav.setAttribute('role','group');nav.setAttribute('aria-label','Clothing sections');
   for(const [key,title,thumb] of [['tops','Tops','top-'+(draft.workTop==='none'?'scrubs':draft.workTop)],['pants','Pants','pants-'+draft.pantsStyle],['hair','Hair','hair-'+(draft.hairStyle==='none'?'sweep':draft.hairStyle)],['shoes','Shoes','shoes-'+(draft.shoeStyle==='none'?'trainers':draft.shoeStyle)]]){
@@ -233,7 +243,7 @@ function accessoryColourControls(section){
   const apply=()=>{const value=hex.value.trim().replace(/^#?/,'#').toUpperCase();if(!/^#[0-9A-F]{6}$/.test(value)){hex.setAttribute('aria-invalid','true');error.textContent='Use six hex digits, for example #543321.';return;}hex.removeAttribute('aria-invalid');error.textContent='';hex.value=value;if(value!==draft[field][style])changeDraft(p=>{p[field][style]=value;});};
   hex.addEventListener('change',apply);hex.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();apply();}});
   const picker=document.createElement('input');picker.type='color';picker.className='colour-input';picker.value=draft[field][style];picker.setAttribute('aria-label',title+' colour');picker.addEventListener('change',()=>changeDraft(p=>{p[field][style]=picker.value.toUpperCase();}));
-  label.append(caption,hex,error);controls.append(label,picker);return controls;
+  label.append(caption,hex,error);controls.append(label,picker,colourPreset(title,COLOUR_PRESETS[isHair?'hair':'shoes'],draft[field][style],(p,value)=>{p[field][style]=value;}));return controls;
 }
 function renderEditor(){
   const root=$('editor-fields');root.replaceChildren();
@@ -241,20 +251,21 @@ function renderEditor(){
   const simple=isSimpleBody(draft.body);
   if(editorTab==='identity'){
     const choices=WHOLE_AVATARS.map(({id,name})=>[id,name]);
-    if(!choices.some(([id])=>id===draft.body))choices.unshift([draft.body,'Current: '+bodyName(draft.body)+' (test)']);
+    if(!choices.some(([id])=>id===draft.body))choices.unshift([draft.body,'Current: '+bodyName(draft.body)]);
     root.append(field('Name','name'),field('Character','body','select',choices));
     const tests=document.createElement('details');
-    const summary=document.createElement('summary');summary.textContent='Test characters';tests.append(summary);
+    const summary=document.createElement('summary');summary.textContent='Test characters';tests.append(summary);const archiveNote=document.createElement('p');archiveNote.className='hint';archiveNote.textContent='Archived experiments with different capabilities. Choose a test to see what it supports.';tests.append(archiveNote);
     tests.addEventListener('toggle',async()=>{
       if(!tests.open || tests.dataset.loaded)return;
       tests.dataset.loaded='loading';
-      try{const {TEST_AVATARS}=await import('./test-avatar-catalog.mjs?v=named-students-20261011');
+      try{const {TEST_AVATARS}=await import('./test-avatar-catalog.mjs?v=test-characters-20261013');
         if(!tests.isConnected)return;
         tests.append(field('Test character','body','select',TEST_AVATARS));tests.dataset.loaded='ready';
       }catch{delete tests.dataset.loaded;const note=document.createElement('p');note.textContent='Could not load test choices. Close and reopen to retry.';tests.append(note);}
     });root.append(tests);
+    if(TEST_CHARACTER_INFO[draft.body]){const note=document.createElement('p');note.className='hint';note.textContent=TEST_CHARACTER_INFO[draft.body].description;root.append(note);}
     if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=WHOLE_AVATARS.some(item=>item.id===draft.body)?'This whole character keeps their own appearance and animations.':draft.body==='pantstest'?'Choose clothes, hair, shoes and their colours in Style.':draft.body==='schoolboy'?'School-student test model. Face, skin and hair controls are not available yet.':draft.body==='shirt'?'Shirt avatar test model. Face, skin and hair controls are not available yet.':'Base reference avatar. Face, skin and hair controls are not available yet.';root.append(note);
+      if(WHOLE_AVATARS.some(item=>item.id===draft.body)){const note=document.createElement('p');note.className='hint';note.textContent='This whole character keeps their own appearance and animations.';root.append(note);}
     }else{
       root.append(field('Face','face','select',OPTIONS.face));
       const skin=document.createElement('div');skin.className='field';const label=document.createElement('span');label.textContent='Skin tone';skin.append(label);
@@ -278,6 +289,7 @@ function renderEditor(){
       const applyHex=()=>{const value=hex.value.trim().replace(/^#?/,'#').toUpperCase();if(!/^#[0-9A-F]{6}$/.test(value)){hex.setAttribute('aria-invalid','true');error.textContent='Use six hex digits, for example #397D88.';return;}if(value===draft.topColour){hex.value=value;hex.removeAttribute('aria-invalid');error.textContent='';return;}changeDraft(p=>{p.topColour=value;p.topColours[p.workTop==='none'?'scrubs':p.workTop]=value;});};
       hex.addEventListener('change',applyHex);hex.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();applyHex();}});
       label.append(title,hex,error);controls.append(label,picker);root.append(controls);
+      if(draft.workTop!=='none')root.append(colourPreset('Top',COLOUR_PRESETS.top,draft.topColour,(p,value)=>{p.topColour=value;p.topColours[p.workTop]=value;}));
       }
       if(wardrobeSection==='pants'){
       root.append(garmentCards('pants'));
@@ -290,18 +302,19 @@ function renderEditor(){
       const applyHex=()=>{const value=hex.value.trim().replace(/^#?/,'#').toUpperCase();if(!/^#[0-9A-F]{6}$/.test(value)){hex.setAttribute('aria-invalid','true');error.textContent='Use six hex digits, for example #397D88.';return;}if(value===draft.pantsColours[draft.pantsStyle]){hex.value=value;hex.removeAttribute('aria-invalid');error.textContent='';return;}changeDraft(p=>{p.pantsColours[p.pantsStyle]=value;});};
       hex.addEventListener('change',applyHex);hex.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();applyHex();}});
       label.append(title,hex,error);controls.append(label,picker);root.append(controls);
+      if(draft.outer!=='none')root.append(colourPreset('Pants',COLOUR_PRESETS.bottom,draft.pantsColours[draft.pantsStyle],(p,value)=>{p.pantsColours[p.pantsStyle]=value;}));
       }
       const note=document.createElement('p');note.className='hint';note.textContent='Each style remembers its colour. Save to keep your choices.';root.append(note);
     }else if(draft.body==='jackettest'){
       root.append(field('Jacket','outer','select',[['blazer','Navy blazer'],['none','Off - inspect fit']]));
-      const note=document.createElement('p');note.className='hint';note.textContent='Dressing test. Jacket-off reveals missing body areas. Walking preview uses a simple test cycle.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=TEST_CHARACTER_INFO.jackettest.description;root.append(note);
     }else if(simple){
-      const note=document.createElement('p');note.className='hint';note.textContent=WHOLE_AVATARS.some(item=>item.id===draft.body)?'This character comes with their own outfit.':draft.body==='pantstest'?'The pants stay on for this walking test. Changing clothes is not available for this outfit yet.':draft.body==='schoolboy'?'This school-student model uses its own uniform and styling.':draft.body==='shirt'?'This test model includes a white shirt, short teal tie and black shorts.':'This is the normal reference avatar.';root.append(note);
+      const note=document.createElement('p');note.className='hint';note.textContent=WHOLE_AVATARS.some(item=>item.id===draft.body)?'This character comes with their own outfit.':TEST_CHARACTER_INFO[draft.body].description;root.append(note);
     }else{
       root.append(optionWithColour('Top','top'),optionWithColour('Bottom','bottom'),optionWithColour('Outer layer','outer'));
       const jumper=document.createElement('label');jumper.className='binary-field';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=draft.jumper;checkbox.addEventListener('change',()=>changeDraft(p=>p.jumper=checkbox.checked));jumper.append(checkbox,'Knit jumper');root.append(jumper);
       const knit=document.createElement('label');knit.className='binary-field';knit.append('Jumper colour',colour('Jumper colour','jumper'));root.append(knit);
-      root.append(field('Accessory','accessory','select',OPTIONS.accessory));const shoes=document.createElement('label');shoes.className='binary-field';shoes.append('Shoe colour',colour('Shoe colour','shoes'));root.append(shoes);
+      root.append(field('Accessory','accessory','select',OPTIONS.accessory));const shoes=document.createElement('label');shoes.className='binary-field';shoes.append('Shoe colour',colour('Shoe colour','shoes'));root.append(shoes,colourPreset('Shoe',COLOUR_PRESETS.shoes,draft.colours.shoes,(p,value)=>{p.colours.shoes=value;}));
     }
   }else root.append(field('Future occupation','occupation','textarea'),field('Training pathway','training','textarea'),field('A strength I bring','strength','textarea'));
   icons();

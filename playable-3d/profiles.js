@@ -5,12 +5,28 @@ export const PANTS_DEFAULTS = {chef:'#37424A',tradie:'#B18A54',suit:'#33465E',sc
 export const TOP_DEFAULTS = {scrubs:'#397D88',work:'#BC9864',chef:'#EEEDE5',suit:'#33465E'};
 export const HAIR_DEFAULTS = {sweep:'#543321',curls:'#30251F',bob:'#70412D',ponytail:'#543321'};
 export const SHOE_DEFAULTS = {trainers:'#647D91',boots:'#AD8049',dress:'#302B29',clogs:'#397D88'};
+export const TEST_CHARACTER_INFO = {
+  pantstest:{label:'Dress ups · clothes & colours',description:'Dress ups supports four tops, four trousers, four hairstyles and four shoe styles, with a remembered colour for each. Choose them in Style.'},
+  jackettest:{label:'Jacket fit test · incomplete body',description:'Archived jacket fit test. Style can show or hide the jacket; jacket-off reveals missing body areas. Walking uses a simple test cycle.'},
+  schoolboy:{label:'School student · fixed uniform',description:'Archived school-student model with its own uniform. Face, skin, hair and clothing changes are unavailable.'},
+  tripo:{label:'Base avatar · fixed appearance',description:'Archived reference model with a fixed appearance. Face, skin, hair and clothing changes are unavailable.'},
+  shirt:{label:'Shirt test · fixed outfit',description:'Archived model wearing a white shirt, short teal tie and black shorts. Face, skin, hair and clothing changes are unavailable.'},
+  a:{label:'Body A · legacy customisable',description:'Legacy Body A supports face, skin, hair and eye colour in Identity; clothing, accessories and colours in Style.'},
+  b:{label:'Body B · legacy customisable',description:'Legacy Body B supports face, skin, hair and eye colour in Identity; clothing, accessories and colours in Style.'}
+};
+export const COLOUR_PRESETS = {
+  hair:[['Brown','#543321'],['Black','#171717'],['Blonde','#CFAD63'],['Auburn','#923F29'],['Deep auburn','#8A3A22'],['Silver','#B7B7B0'],['Teal','#107E7A']],
+  top:[['Teal','#397D88'],['White','#EEEDE5'],['Navy','#33465E'],['Camel','#B08A4D']],
+  bottom:[['Navy','#33465E'],['Burgundy','#75233D'],['Teal','#397D88']],
+  outer:[['Navy','#243947'],['Camel','#B08A4D']],
+  shoes:[['Black','#302B29'],['Brown','#AD8049'],['Silver','#B7B7B0'],['Teal','#397D88']]
+};
 export const OPTIONS = {
   hairStyle: [['sweep','Short sweep'],['curls','Soft curls'],['bob','Side-part bob'],['ponytail','Ponytail'],['none','No hair']],
   shoeStyle: [['trainers','Trainers'],['boots','Work boots'],['dress','Dress shoes'],['clogs','Clogs'],['none','Bare feet']],
   workTop: [['scrubs','Hospital scrub top'],['work','Work shirt'],['chef','Chef jacket'],['suit','Suit jacket'],['none','No top']],
   pantsStyle: [['chef','Chef pants'],['tradie','Tradie work pants'],['suit','Suit pants'],['scrubs','Hospital scrub pants']],
-  body: [...WHOLE_AVATARS.map(({id,name})=>[id,name]),['pantstest','Dress ups'],['jackettest','White avatar - jacket test'],['schoolboy','School student'],['tripo','Base avatar'],['shirt','Shirt avatar (test)'],['a','Body A'],['b','Body B']],
+  body: [...WHOLE_AVATARS.map(({id,name})=>[id,name]),...Object.entries(TEST_CHARACTER_INFO).map(([id,{label}])=>[id,label])],
   face: [['soft','Soft'],['round','Round'],['defined','Defined']],
   hair: [['waves','Tousled'],['bob','Side-part bob'],['ponytail','Ponytail'],['none','No hair']],
   top: [['shirt','Shirt & tie'],['scrubs','Scrub top'],['chef','Chef jacket']],
@@ -73,7 +89,7 @@ export function migrateLegacyProfile(source,id='imported') {
   if (source.accessory==='safety-goggles-clear')warnings.push('safety goggles (glasses preview)');
   const colourSlots={hair:'hair',top:'shirt',bottom:'pants',outer:'blazer',jumper:'jumper',shoes:'shoes'};
   for (const [target,key] of Object.entries(colourSlots)) if(source.colours?.[key])profile.colours[target]=source.colours[key];
-  if(!source.colours?.hair)profile.colours.hair=({brown:'#5a3524',black:'#171717',blonde:'#cfad63',auburn:'#923f29',silver:'#b7b7b0',teal:'#107e7a'})[source.hairColour] || DEFAULT_COLOURS.hair;
+  if(!source.colours?.hair)profile.colours.hair=({brown:'#5a3524',black:'#171717',blonde:'#cfad63',auburn:'#923f29','auburn-deep':'#8a3a22',silver:'#b7b7b0',teal:'#107e7a'})[source.hairColour] || DEFAULT_COLOURS.hair;
   profile.colours.eye=({brown:'#6f3b18',blue:'#238fcc',green:'#3f9b4a',amber:'#bd841f',grey:'#788995'})[source.eyeColour]||DEFAULT_COLOURS.eye;
   if(source.pants==='ecc-burgundy-pants'&&!source.colours?.pants)profile.colours.bottom='#75233d';
   if(source.blazer==='camel-blazer'&&!source.colours?.blazer)profile.colours.outer='#b08a4d';
