@@ -1,3 +1,7 @@
+## Student identity contract: code-only review draft — 13 October 2026
+
+Explicitly authorized synthetic preparation reconciled with published PR56/e88724dc. New student-session-contract.mjs is unimported by application entry points; server membership endpoint is not implemented. 40 focused units characterize gaps and check receipt-bound ownership, superseded verification, immutable mapping/quarantine, separate mutation/read failures, bounded failure, renewal and event cleanup. Legacy ce-player:<AuthUUID>: saves are retained but unread; continuity recovery needs separate reviewed approval. Existing login/game/session/source assets, SQL/RLS/grants/providers/accounts unchanged from published main. No secure-login acceptance or deployment claim. See docs/student-identity-contract-20261013.md; parked Market5418756 remains excluded.
+
 ## Public Admin review shortcut candidate — 13 October 2026
 
 Explicitly authorized Options -> Preview tools -> Open Market Admin for review. Public temporary separate tab, fresh memory-only activity state, no Mara completion/wages/tax/pass or exploration credit; normal paid gates and genuine Auth verification retained.42scoped units and11desktop/390Chrome scenarios pass, including cancel/retry/back/exit/reentry and original/verified-owner save preservation.271hashes/83modules and source checks pass. Separate from parked Market5418756 and auth PR55/4f050def. See docs/admin-review-shortcut-20261013.md. Scoped review/publication pending.
