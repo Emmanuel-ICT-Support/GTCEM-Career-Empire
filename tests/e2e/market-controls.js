@@ -9,8 +9,9 @@ export async function enterMarket(page){
 // Ordinary shortcuts stop outdoors. Enter using real walking and the door button.
 export async function walkThroughMarketEntrance(page,{waitForEntry=true}={}){
  if(await page.locator('#exploration-options').count()&&await page.locator('#exploration-options').evaluate(e=>e.open))await page.locator('#resume-options').click();
- await page.locator('#scene').focus();await page.keyboard.down('KeyW');
- try{await page.getByRole('button',{name:'Enter Live Music & Sunday Markets',exact:true}).waitFor({state:'visible',timeout:15000});}finally{await page.keyboard.up('KeyW');}
+ // The shortcut resolves asynchronously and clears old input on arrival.
+ await page.waitForFunction(()=>{const s=JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}'),p=s.position;return s.mode==='town'&&p&&Math.abs(p[0]-43)<.3&&p[2]>-20&&p[2]<-17;},null,{timeout:30000});
+ await walkMarket(page,'KeyW',{selector:'#interact',text:'Enter Live Music & Sunday Markets'},15000);
  await page.getByRole('button',{name:'Enter Live Music & Sunday Markets',exact:true}).click();
  if(waitForEntry){
   await page.locator('#market-hud').waitFor({state:'visible',timeout:30000});
@@ -31,7 +32,7 @@ export async function walkMarket(page,key,stop,timeout=90000){
  const stopped=page.evaluate(({key,stop,timeout})=>new Promise((resolve,reject)=>{
   const started=performance.now(),release=()=>window.dispatchEvent(new KeyboardEvent('keyup',{code:key,bubbles:true}));
   function check(){const sample=window.observeMarketWalking?.(),value=sample?.position?.[{x:0,y:1,z:2}[stop.axis]],element=stop.selector&&document.querySelector(stop.selector);
-   const reached=stop.mode?sample?.mode===stop.mode:stop.scene?Boolean(sample?.scene):stop.selector?Boolean(element?.getClientRects().length)&&element.textContent===stop.text:(stop.decrease??(key==='KeyW'||key==='KeyA')?value<=stop.limit:value>=stop.limit);
+   const reached=stop.mode?sample?.mode===stop.mode:stop.scene?Boolean(sample?.scene):stop.selector?Boolean(element?.getClientRects().length)&&element.textContent.trim()===stop.text:(stop.decrease??(key==='KeyW'||key==='KeyA')?value<=stop.limit:value>=stop.limit);
    if(reached){release();resolve(sample);return;}if(performance.now()-started>timeout){release();reject(Error('Market keyboard waypoint timeout '+JSON.stringify({sample,stop})));return;}requestAnimationFrame(check);
   }requestAnimationFrame(check);
  }),{key,stop,timeout});

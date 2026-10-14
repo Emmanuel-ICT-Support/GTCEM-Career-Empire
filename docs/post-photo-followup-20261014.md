@@ -83,3 +83,34 @@ The separate revised My Life phase-outline browser check passed (2.0 seconds),
 including Phases 0/1/2/11, twelve phase cards, printable PDF link and preserved
 My work navigation. All five Market/Admin curriculum modules have exact bytes
 matching published base e88724dc, recorded in unchanged-market-curriculum.json.
+
+## Terminal CI on follow-up 2586327
+
+CI38490746467 finished failure on exact head258632726a43eea00ceeda6b6533819054d0e7a5.
+All248 units, five CI count-proof tests, source checks and278 hashes passed.
+Startup passed in46.2seconds. Three essential journeys passed (both real Admin
+walks and the full teacher/photo/Market/My Life return); three failed. The
+Chapel waypoint remains unresolved (-3.94 vs -7.6 in20seconds). Companion
+movement again reported exactly0.043m against>0.15, matching the published-base
+failure from a fixed500ms input hold. The actual-photo test hit its default5s
+tour deadline even though the on-demand module and CSS returned200; the teacher
+case used the same tour successfully later in that run. Full shards were skipped
+and the consolidation job failed accordingly.
+
+The affected harness waits now allow a bounded30s for the on-demand tour, and
+companion motion holds real input until actual displacement exceeds0.15m,
+releasing in the browser frame with a15s bound. This preserves the asserted
+behavior without changing production startup, geometry, curriculum or rewards.
+The Mac execution connection temporarily dropped during CI, but GitHub's
+read-only connector supplied the terminal logs; native execution then recovered.
+
+The first readiness-repair rerun had two passes and one teacher-route failure.
+Its actual state showed the stationary player at(43,-17.8),60FPS: the test sent
+W before the asynchronous campus shortcut completed and cleared old input.
+The shared entrance helper now waits for the real outdoor arrival and lets a
+browser animation frame release input when the visible door prompt appears.
+All five affected installed-Chrome scenarios then passed in1.8minutes (actual
+photo, companion motion, teacher return and desktop/390 Administration walks).
+This final repair affects test harnesses only; no new broad/startup rerun was
+started locally. The new pushed head's CI must be reported separately from the
+terminal failure on2586327. Publication approval is still pending.
