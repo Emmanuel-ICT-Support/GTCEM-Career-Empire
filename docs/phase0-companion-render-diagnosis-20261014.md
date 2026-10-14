@@ -98,3 +98,15 @@ a separate authentic pre-Market keyboard flight check. No broad repair is
 merged, and no local browser is used. The original pre-Market photo fixture
 uses the normal teacher/photo action, which prepares real campus scenery;
 the cold My Life return was a separate later scene.
+
+The independent pre-Market flight test creates the real teacher photo from the
+post-mural checkpoint, chooses the real loaded Sprout, and requires campusReady
+from ordinary orientation preparation. It uses the visible speed slider and
+actual E/W/A/S/D/L key controls to fly to Arrival Gardens and land. Its probe
+only reads camera/player coordinates; there are no camera/player assignments,
+no manufactured ready flags, and no Market runtime request before landing.
+It stops at the menu beat (3), complementing the full photo/course/Market case.
+Its 120-second cap does not change the original photo or companion deadlines.
+Syntax and discovery list exactly four focused cases; browser results remain
+pending. The earlier synthetic roof-target landing coverage is retained in
+the original case and is not presented as keyboard flight acceptance.
