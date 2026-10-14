@@ -24,7 +24,7 @@ export function createOrientationTour({storage,photo,summary,helper,chooseHelper
  async function action(){
   if(!active||busy)return;busy=true;notice='';const request=generation;q('[data-action]').disabled=true;
   try{
-   if(step===0){await chooseHelper();if(request!==generation)return;step=1;}
+   if(step===0){await chooseHelper(message=>{if(request===generation){notice=message;render();}});if(request!==generation)return;notice='';step=1;}
    else if(step===1){step=2;render();resume();if(!fly())notice='Flyover is still preparing. Try Resume Flyover when campus is ready.';}
    else if(step===2){resume();if(!fly())q('[data-status]').textContent='Close any open panel, then try Flyover again.';busy=false;q('[data-action]').disabled=false;return;}
    else if(step===3){openOptions();awaitingClose=true;}

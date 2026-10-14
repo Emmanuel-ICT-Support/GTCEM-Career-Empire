@@ -8,7 +8,7 @@ import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-2026101
 import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
 import {keepOutdoorClearance,keepChapelClearance,campusEntryFraming} from './camera-clearance.mjs?v=ecc-ba60122';
-import {createDiscovery} from './discovery-opening.js?v=ecc-ba60122';
+import {createDiscovery} from './discovery-opening.js?v=handover-ready-20261014';
 import {createLocomotion, STEP, turnTowards,accumulateTravelTime} from './locomotion.js?v=ecc-ba60122';
 import {createHelperPicker} from './helper-picker.js?v=options-companion-20261012';
 import {createExplorer} from '../economy-lab/exploration.mjs?v=navigation-20261012';
@@ -43,7 +43,7 @@ let discovery=null,intro=null,explorationTools=null,revealCameraStart=null;
 let frameGate,surfaceUploads,portraitCapturePending=false;
 let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flourishing',draft,editorTab='identity';
 let wardrobeSection='pants';
-let nightMarket=null,orientationTour=null,orientationTourLoad=null,companionApply=null;
+let nightMarket=null,orientationTour=null,orientationTourLoad=null,orientationTourAttempt=0,companionApply=null;
 let echo=null;
 const locomotion=createLocomotion();
 let renderMotion=null;
@@ -835,19 +835,19 @@ let companionOffered=gameStorage.getItem('ce-companion-offered')==='1';
 let orientationHandoverSeen=false,orientationSummary=orientationHandoverCopy({earned:null,tax:null});
 async function showOrientationHandover({restore=false}={}){
  if(!discovery?.snapshot().souvenir)return;
- orientationHandoverSeen=true;resetNavigationInput();actor.setWalking(false);closeExplorationOptions(false);explorationTools?.close();$('discovery-dialog').close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;
+ resetNavigationInput();actor.setWalking(false);closeExplorationOptions(false);explorationTools?.close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;
  orientationSummary=orientationHandoverCopy({earned:null,tax:null});try{orientationSummary=orientationHandoverCopy(await explorationTools.completeOrientation());}catch{}
- if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=phases-20261014').then(({createOrientationTour})=>{
+ if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=handover-ready-20261014&retry='+orientationTourAttempt).then(({createOrientationTour})=>{
   orientationTour=createOrientationTour({storage:gameStorage,photo:()=>discovery.photo(),summary:()=>orientationSummary,helper:()=>helperPicker.selected(),
-   chooseHelper:async()=>{await helperPicker.choose(true);await companionApply;if(helperPicker.selected().model&&echo?.snapshot().helperStatus==='failed')throw Error('Companion unavailable');},
+   chooseHelper:async preparing=>{await helperPicker.choose(true);const selected=helperPicker.selected();if(selected.model)preparing(selected.name+' is getting ready. You can skip the tour while your companion prepares.');await companionApply;if(selected.model&&echo?.snapshot().helperStatus==='failed')throw Error('Companion unavailable');},
    fly:()=>{closeExplorationOptions(false);explorationTools.showMap();return flyover.enter();},openOptions:()=>{$('exploration-options').open=true;},optionsOpen:()=>Boolean($('exploration-options')?.open),
    openStats:()=>explorationTools.showStats(),statsOpen:()=>explorationTools.open(),
    openCourse:()=>navigateRunModule('../economy-lab/?section=course&tour-return=1'),goMarket:goToMarketEntrance,
    pause:()=>{resetNavigationInput();actor.setWalking(false);},resume:()=>{resetNavigationInput();canvas.focus({preventScroll:true});},
    stop:()=>{flyover?.exit();closeExplorationOptions(false);explorationTools?.close();if(helperPicker.open())$('helper-picker').querySelector('[data-cancel]').click();}
   });return orientationTour;
- }).catch(error=>{orientationTourLoad=null;toast('The campus tour could not open. Your photo is intact. Replay the tour from Options to retry.');throw error;});
- const tour=await orientationTourLoad;tour.start({restore});
+ }).catch(error=>{orientationTourLoad=null;orientationTourAttempt++;toast('The campus tour could not open. Your photo is intact. Choose Continue or replay the tour from Options to retry.');throw error;});
+ const tour=await orientationTourLoad;orientationHandoverSeen=true;$('discovery-dialog').close();tour.start({restore});
 }
 function landFromFlyover(point,heading){
  if(mode!=='town'||!campusReady)return false;

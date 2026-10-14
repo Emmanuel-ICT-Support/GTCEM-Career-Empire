@@ -1,8 +1,8 @@
 {
-  "release": "post-photo-tour-blueprint-20261014",
+  "release": "post-photo-tour-handover-ready-20261014",
   "gameUrl": "/playable-3d/",
   "baseCommit": "e88724dcae46de7739625fbbd54ae77091378c3c",
-  "scope": "Draft post-photo companion tour, safe ground landing, outside-campus-building Market shortcuts and student-only draft numbered Phase 0-11 course outline. Existing startup, assets, photo capture, paid Market gates and public Admin review are preserved. No publication or curriculum completion. Blueprint overview is available in the existing menu in a separate accessible tab; Admin review menu re-entry remains direct Reception.",
+  "scope": "Draft post-photo companion tour, safe ground landing, outside-campus-building Market shortcuts and student-only draft numbered Phase 0-11 course outline. Existing startup, assets, photo capture, paid Market gates and public Admin review are preserved. No publication or curriculum completion. Blueprint overview is available in the existing menu in a separate accessible tab; Admin review menu re-entry remains direct Reception. Photo review stays visible during tour preparation; selected-companion loading has explicit feedback and failed tour loads can retry.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -42,7 +42,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "1e39cce828d0a11e2b951a67c394476070d879c36ba1d97f5d272c1a00a19221"
+      "sha256": "d52a4932c2022d4abac772c152207b641db85bfeadec5f4b6d3d716f0a0bbf43"
     },
     {
       "path": "arcade-carnival.js",
@@ -590,7 +590,7 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "2f379b21b10d11caaf028f4d78d90834d65c5987bf74f827da03c45fe9f1debc"
+      "sha256": "e38b98a51d6889edad7dc337364a7043fe4c89189d3a6421811db4d40a43eb55"
     },
     {
       "path": "discovery-state.mjs",
@@ -814,7 +814,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "cc01226e5a3c44bb3e19d239cf0de50f56b29708c7f4e1753fa574bb51ca88de"
+      "sha256": "3a67c3726b0f6912eea25e7c799ee76089a1fe48e5d2f03efa55e59386a6d863"
     },
     {
       "path": "header-controls.css",
@@ -838,7 +838,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "a71b2693e45ce7f99b2576cbb70e1c3cde27da89d1af932edb9b5bbf75cb5d4e"
+      "sha256": "ca705a2661b0007194e57e44c0a2a89dd2bf746b37094caf005f47de3ee24c3a"
     },
     {
       "path": "intro-taster.css",
@@ -1094,7 +1094,7 @@
     },
     {
       "path": "orientation-tour.mjs",
-      "sha256": "4a214c5fae58a6622c8a81614958c5ae2ebf5d863fc261b0210f4f28cb4f777a"
+      "sha256": "af1b35cb18593eb5aa5a3fe6249fa7e88849f1915c08bc83e808950b34860e61"
     },
     {
       "path": "orientation-tour.css",

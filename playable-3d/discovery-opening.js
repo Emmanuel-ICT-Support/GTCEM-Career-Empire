@@ -5,7 +5,7 @@ import {KEY,normalise,advance,collectShot,reward,restart,chooseStyle,discoveryLo
 import {frameAt,moveFrame,cropSquare} from './scout-framing.mjs';
 export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capture,pause,reveal,explore,personalise,market,castReady,frameReveal,stageCast,releaseReveal,pathsReady=()=>true,muralReady=()=>true,onLocation=()=>{},beforeCapture=async()=>{},enterQuiet=()=>{},onParcel=()=>{},onPhotoFinish=()=>{},storage=localStorage,available=()=>true}){
  const proximity=createProximityGate();
- let development=0,photoReviewPending=false;
+ let development=0,photoReviewPending=false,photoHandoverBusy=false;
  let state;try{state=normalise(JSON.parse(storage.getItem(KEY)));}catch{state=normalise(null);}
  const restartURL=new URL(location.href);
  if(restartURL.searchParams.get('restartTrail')==='1'){state=restart(state);try{storage.setItem(KEY,JSON.stringify(state));}catch{}restartURL.searchParams.delete('restartTrail');history.replaceState(null,'',restartURL);}
@@ -157,7 +157,15 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  $('discovery-open').onclick=()=>{scoutPlace=null;if(sequence)endScene();if(state.skipped){state={...state,skipped:false};save();}show();};
  $('discovery-help').onclick=()=>{scoutPlace=null;if(sequence)endScene();show(true);if(state.step===0)$('discovery-hint').textContent='Walk toward the parcel with WASD or arrows. It opens when you approach. Tab reaches every button. Escape closes this clue. Movement assistance jumps to the pictured place without collecting it. You may leave, return or skip at any time.';};
  $('discovery-close').onclick=()=>{scoutPlace=null;dialog.close();explore();};
- function continuePhotoReview(){if(captureBusy)return;scoutPlace=null;dialog.close();explore();if(photoReviewPending&&state.souvenir){photoReviewPending=false;onPhotoFinish();}}
+ async function continuePhotoReview(){
+  if(captureBusy||photoHandoverBusy)return;scoutPlace=null;
+  if(photoReviewPending&&state.souvenir){
+   photoHandoverBusy=true;$('discovery-continue').disabled=true;$('discovery-continue').textContent='Opening your campus tour…';
+   try{await onPhotoFinish();photoReviewPending=false;if(dialog.open){dialog.close();explore();}}
+   catch{$('discovery-hint').textContent='Your photo is safe. The campus tour could not open; choose Continue to retry.';}
+   finally{photoHandoverBusy=false;$('discovery-continue').disabled=false;$('discovery-continue').textContent='Continue';}
+  }else{dialog.close();explore();}
+ }
  $('discovery-continue').onclick=continuePhotoReview;
  $('discovery-clearer').onclick=()=>{hint=true;renderDialog();};
  $('discovery-skip').onclick=()=>{endScene();state={...state,skipped:true};save();dialog.close();explore();};
