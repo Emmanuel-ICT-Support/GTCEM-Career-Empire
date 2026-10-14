@@ -1,3 +1,7 @@
+## Broad failure repair checkpoint — 14 October 2026
+
+Isolated a0b7e34 candidate. Seven historical browser cases repaired with intact gameplay assertions: Market copy3, deliberately pending recovery2, actual-ready guest map/fresh reload2. All7 pass in sequential native Chrome;23 scoped units, source check and278 hashes/85 modules pass. Admin2/Stats4/movement3/Chapel1 pass unchanged. Exact Blueprint Phase1 route measured cold live walkable7.3–8.8s/full cast13.1s; local candidate outdoor entry2.1s with actual walking, not hosted performance equivalence. User25s stall not reproduced or waived. No runtime patch/full suite/push/deploy. See docs/broad-failure-checkpoint-20261014.md.
+
 ## Draft PR57 requested follow-up - 14 October 2026
 
 Blueprint is inside the existing menu with a labelled, keyboard-accessible new tab and noopener. Student outline uses Phase 0 orientation, Phase 1 Mara paid Initiative gig, Phase 2 changing world; stable J0-J10 remain and new INTRO row precedes them. Phase 6 later Mara visit remains distinct. Two-page PDF rendered/visually checked and replaced the same Library identity. Explicit Admin review menu re-entry is direct Reception; ordinary routes stay outdoors. Original CI38487929320 finished failure: source/unit/startup pass, two Admin walks pass, four critical failures including stale/changed harness expectations and an unresolved Chapel waypoint. No full-CI or publication claim. See docs/post-photo-followup-20261014.md; merge/deployment still await approval.
