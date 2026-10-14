@@ -818,7 +818,7 @@
     },
     {
       "path": "header-controls.css",
-      "sha256": "b1f91df7f1c126b13b18421eb31f0965c09510876274d881e4383684f554d196"
+      "sha256": "bc2cb3afc2bc37639ecff65214a388e1cb597121ca638b320dbed3f4317de016"
     },
     {
       "path": "helper-model.js",
@@ -838,7 +838,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "ca705a2661b0007194e57e44c0a2a89dd2bf746b37094caf005f47de3ee24c3a"
+      "sha256": "2bfd7cef114ae38442d382e24d99f2726f50f853109b77faabcc49c0cfdd8cf8"
     },
     {
       "path": "intro-taster.css",
