@@ -10,7 +10,7 @@ renderer.render=function(...args){
  });return originalCompanionRender.apply(this,args);
 };
 window.companionRenderProbe=()=>{
- const state={...JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}'),entryReady},root=echo?.root;
+ const state={...JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}'),entryReady,echo:echo?.snapshot()},root=echo?.root;
  const livePosition=actor?.model.position.toArray(),entryVisibleMs=Number(canvas.dataset.entryVisibleMs)||null;
  if(!root)return {...currentCompanionChoice(),state,livePosition,entryVisibleMs,frame:renderer?.info.render.frame};
  // SkinnedMesh.updateMatrixWorld refreshes bindMatrixInverse. The inherited
