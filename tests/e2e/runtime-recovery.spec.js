@@ -1,9 +1,29 @@
 import {test,expect} from '@playwright/test';
 import {enterMarket} from './market-controls.js';
+test.afterEach(async({page},info)=>{
+ if(process.env.CE_RECOVERY_DRAWS!=='1')return;
+ const observations=[];
+ try{
+  // A failed entry deadline stays failed. Continue only to collect the separate
+  // Stats/draw trace, without changing any canonical assertion or its budget.
+  if(process.env.CE_RECOVERY_TRACE_AFTER_FAILURE==='1'&&info.title.startsWith('Stats changes')){
+   await expect.poll(()=>state(page),{timeout:10000}).toMatchObject({entryReady:true});
+   const options=page.locator('#exploration-options');if(!await options.evaluate(e=>e.open))await options.locator(':scope > summary').click();
+   await expect.poll(()=>state(page),{timeout:10000}).toMatchObject({avatarFallback:false,surfaceDetailPending:0});
+   const panel=page.getByRole('region',{name:'Exploration tools'});if(!await panel.isVisible())await page.locator('#exploration-stats-toggle').click();
+   await expect(panel.getByRole('heading',{name:'Market money',exact:true})).toBeVisible();
+   observations.push({phase:'before-save',probe:await page.evaluate(()=>window.recoveryProbe()),state:await state(page)});
+   if(!(await panel.innerText()).includes('Wallet $13.00 · Savings $5.00'))await panel.getByRole('button',{name:'Save $5',exact:true}).click();
+   await expect(panel).toContainText('Wallet $13.00 · Savings $5.00');
+   for(let i=0;i<4;i++){await page.waitForTimeout(1000);observations.push({phase:'after-save-'+i,probe:await page.evaluate(()=>window.recoveryProbe()),state:await state(page)});}
+  }
+ }catch(error){observations.push({diagnosticError:String(error)});}
+ try{await info.attach('actual-world-draws',{body:JSON.stringify({diagnosticOnly:true,observations,final:await page.evaluate(()=>window.recoveryProbe?.())},null,2),contentType:'application/json'});}catch{}
+});
 async function state(page){const start=Date.now();const sampled=await page.evaluate(()=>({pageMs:performance.now(),state:JSON.parse(document.querySelector('#diagnostics')?.dataset.state||'{}')}));console.log('RECOVERY_SAMPLE',JSON.stringify({nodeStart:start,nodeEnd:Date.now(),pageMs:sampled.pageMs,runId:sampled.state.runId,mode:sampled.state.mode,opening:sampled.state.marketOpening,statsOpen:sampled.state.exploration?.statsOpen,wallet:sampled.state.exploration?.market?.wallet,frames:sampled.state.renderedFrames}));return sampled.state;}
 async function start(page,id='recovery'){
  await page.addInitScript(id=>sessionStorage.setItem('ce-game-run-handoff-v1',JSON.stringify({id,createdAt:Date.now(),data:{'ce-taster-intro-v1:avery':'seen','ce-night-market-practice-v1':JSON.stringify({version:3,events:['accept','share-plan','run-trial','inspect-trial','consolidate','pay']})}})),id);
- await page.route('**/app.js?*',async route=>{const response=await route.fetch();await route.fulfill({response,body:await response.text()+`\nwindow.recoveryProbe=()=>({mode,marketOpening,renderedFrames,teachers:teachers.length,teacherModuleFailure});`});});
+ await page.route('**/app.js?*',async route=>{const response=await route.fetch();let source=await response.text();if(process.env.CE_RECOVERY_DRAWS==='1'){const needle="frames++;renderedFrames++;canvas.dataset.rendered='true';";if(!source.includes(needle))throw Error('Missing actual-world-draw hook');source=source.replace(needle,needle+"(window.__recoveryDraws||=[]).push({pageMs:performance.now(),frame:renderedFrames,stamp:lastPausedSceneStamp,helper:echo?.snapshot(),children:scene.children.length,avatar:actor.model.uuid,teachers:teachers.length});");}await route.fulfill({response,body:source+`\nwindow.recoveryProbe=()=>({mode,marketOpening,renderedFrames,renderBackend,draws:window.__recoveryDraws,teachers:teachers.length,teacherModuleFailure});`});});
  await page.goto('/playable-3d/?guestRun='+id);await expect.poll(()=>state(page),{timeout:30000}).toMatchObject({entryReady:true});
 }
 async function holdFirstMarket(page){let release,held=false,first=true;const gate=new Promise(r=>release=r);await page.route('**/night-market.js?*',async route=>{if(!first)return route.continue();first=false;held=true;await gate;const response=await route.fetch();await route.fulfill({response});});return {release,held:()=>held};}

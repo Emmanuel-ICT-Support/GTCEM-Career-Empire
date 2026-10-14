@@ -1,0 +1,1900 @@
+{
+  "originalRun": 38543515871,
+  "originalCandidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+  "qaCommit": "fb7cb02f5bc7233cb858f283f9a17cc63e9b2595",
+  "followOnBase": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+  "scope": 47,
+  "entries": [
+    {
+      "id": "03a67d94c492fc696dc5-3f6e60e1c1a432d12ef2:chromium:0",
+      "file": "admin-preview.spec.js",
+      "title": "public shortcut opens isolated fresh Admin and preserves normal gates 1280",
+      "titlePath": [
+        "admin-preview.spec.js",
+        "public shortcut opens isolated fresh Admin and preserves normal gates 1280"
+      ],
+      "outcome": "failed",
+      "shard": 1,
+      "group": "observer-admin-live-route",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-1/browser-evidence/admin-preview-public-short-009a7-preserves-normal-gates-1280-chromium/error-context.md",
+        "shard-1/browser-report.json"
+      ],
+      "notes": "unresolved Admin re-entry: stale published Town state versus actual route",
+      "proof": [
+        {
+          "label": "c72-control-and-observer-proof",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "report": "coverage/full-integration-run-38543515871/targeted-followup.json"
+        },
+        {
+          "label": "c72-control-and-observer-proof",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "report": "coverage/full-integration-run-38543515871/admin-observer-native.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "c72-control-and-observer-proof",
+        "report": "coverage/full-integration-run-38543515871/admin-observer-native.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "03a67d94c492fc696dc5-f70b4a3b46644becf9a2:chromium:0",
+      "file": "admin-preview.spec.js",
+      "title": "public shortcut opens isolated fresh Admin and preserves normal gates 390",
+      "titlePath": [
+        "admin-preview.spec.js",
+        "public shortcut opens isolated fresh Admin and preserves normal gates 390"
+      ],
+      "outcome": "failed",
+      "shard": 1,
+      "group": "observer-admin-live-route",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-1/browser-evidence/admin-preview-public-short-b1b62--preserves-normal-gates-390-chromium/error-context.md",
+        "shard-1/browser-report.json"
+      ],
+      "notes": "unresolved Admin re-entry: stale published Town state versus actual route",
+      "proof": [
+        {
+          "label": "c72-control-and-observer-proof",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "report": "coverage/full-integration-run-38543515871/targeted-followup.json"
+        },
+        {
+          "label": "c72-control-and-observer-proof",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "report": "coverage/full-integration-run-38543515871/admin-observer-native.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "c72-control-and-observer-proof",
+        "report": "coverage/full-integration-run-38543515871/admin-observer-native.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "6b3588018c5b079b960f-901b8156a76c5fb6f03b:chromium:0",
+      "file": "campus-visual-restoration.spec.js",
+      "title": "normal arrival view, original planting, world phases and real parcel 1280",
+      "titlePath": [
+        "campus-visual-restoration.spec.js",
+        "normal arrival view, original planting, world phases and real parcel 1280"
+      ],
+      "outcome": "failed",
+      "shard": 1,
+      "group": "scene-and-journey",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-1/browser-evidence/campus-visual-restoration--a9293-phases-and-real-parcel-1280-chromium/error-context.md",
+        "shard-1/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "07add69f706d7a94ee08-d90a0995f07b101723bd:chromium:0",
+      "file": "echo.spec.js",
+      "title": "staged tasks, skips, persistence and revisiting do not fabricate completion",
+      "titlePath": [
+        "echo.spec.js",
+        "staged tasks, skips, persistence and revisiting do not fabricate completion"
+      ],
+      "outcome": "failed",
+      "shard": 1,
+      "group": "runtime-save-guidance",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-1/browser-evidence/echo-staged-tasks-skips-pe-550ec-do-not-fabricate-completion-chromium/error-context.md",
+        "shard-1/browser-report.json"
+      ],
+      "notes": "runtime: save-to-Echo propagation waits for entry-ready update",
+      "proof": [
+        {
+          "label": "c72-control-and-observer-proof",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "report": "coverage/full-integration-run-38543515871/targeted-followup.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "c72-control-and-observer-proof",
+        "report": "coverage/full-integration-run-38543515871/targeted-followup.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "d8bfe92b011c8c8d6abc-f77f8dd1aace42f1e031:chromium:0",
+      "file": "entry-visibility-probe.spec.js",
+      "title": "complete campus, parcel walking and reachable rear-building visibility 1280",
+      "titlePath": [
+        "entry-visibility-probe.spec.js",
+        "complete campus, parcel walking and reachable rear-building visibility 1280"
+      ],
+      "outcome": "failed",
+      "shard": 1,
+      "group": "movement-and-navigation",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-1/browser-evidence/entry-visibility-probe-com-78e33-ar-building-visibility-1280-chromium/error-context.md",
+        "shard-1/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "movement-native-c72-exact",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "movement-native-c72-exact",
+        "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "d8bfe92b011c8c8d6abc-d04eaf8d7c7b1ecfc004:chromium:0",
+      "file": "entry-visibility-probe.spec.js",
+      "title": "complete campus, parcel walking and reachable rear-building visibility 390",
+      "titlePath": [
+        "entry-visibility-probe.spec.js",
+        "complete campus, parcel walking and reachable rear-building visibility 390"
+      ],
+      "outcome": "failed",
+      "shard": 1,
+      "group": "movement-and-navigation",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-1/browser-evidence/entry-visibility-probe-com-b3c2a-ear-building-visibility-390-chromium/error-context.md",
+        "shard-1/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "movement-native-c72-exact",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "movement-native-c72-exact",
+        "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "5f9751d98ac40ecc4e25-aebe5f554f44326c45ee:chromium:0",
+      "file": "full-campus-transition.spec.js",
+      "title": "real entry upgrades to a visibly rendered full campus without duplicate roots or errors",
+      "titlePath": [
+        "full-campus-transition.spec.js",
+        "real entry upgrades to a visibly rendered full campus without duplicate roots or errors"
+      ],
+      "outcome": "failed",
+      "shard": 1,
+      "group": "observer-async-frame",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-1/browser-evidence/full-campus-transition-rea-21642-t-duplicate-roots-or-errors-chromium/error-context.md",
+        "shard-1/browser-report.json"
+      ],
+      "notes": "observer race: samples frame counter immediately after async campus readiness",
+      "proof": [
+        {
+          "label": "c72-control-and-observer-proof",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "report": "coverage/full-integration-run-38543515871/targeted-contracts.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "c72-control-and-observer-proof",
+        "report": "coverage/full-integration-run-38543515871/targeted-contracts.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "23ec9d76fe6716af45f2-e3f4dc72242033fd4260:chromium:0",
+      "file": "guest-first.spec.js",
+      "title": "full natural intro hands over to envelope and actual Chapel without loading EST or market",
+      "titlePath": [
+        "guest-first.spec.js",
+        "full natural intro hands over to envelope and actual Chapel without loading EST or market"
+      ],
+      "outcome": "failed",
+      "shard": 1,
+      "group": "scene-and-journey",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-1/browser-evidence/guest-first-full-natural-i-ec7a1-thout-loading-EST-or-market-chromium/error-context.md",
+        "shard-1/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "b25e0474f6aecaf77a79-bf15a45b8b545bd5c6ee:chromium:0",
+      "file": "market-stats.spec.js",
+      "title": "Market money and collection stay available 1280 default",
+      "titlePath": [
+        "market-stats.spec.js",
+        "Market money and collection stay available 1280 default"
+      ],
+      "outcome": "failed",
+      "shard": 2,
+      "group": "stats-and-map-state",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-2/browser-evidence/market-stats-Market-money--26973-stay-available-1280-default-chromium/error-context.md",
+        "shard-2/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "2888452356d212611486-13fee00b8a9be3ea9911:chromium:0",
+      "file": "market-transition.spec.js",
+      "title": "completed photo hands over from full campus to visible Market and real walking interaction",
+      "titlePath": [
+        "market-transition.spec.js",
+        "completed photo hands over from full campus to visible Market and real walking interaction"
+      ],
+      "outcome": "failed",
+      "shard": 2,
+      "group": "movement-and-navigation",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-2/browser-evidence/market-transition-complete-f65b9-nd-real-walking-interaction-chromium/error-context.md",
+        "shard-2/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "movement-native-c72-exact",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "movement-native-c72-exact",
+        "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-186144f83b0833af1dbe:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "live default map and Stats 1280",
+      "titlePath": [
+        "navigation-map.spec.js",
+        "live default map and Stats 1280"
+      ],
+      "outcome": "failed",
+      "shard": 2,
+      "group": "stats-and-map-state",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-2/browser-evidence/navigation-map-live-default-map-and-Stats-1280-chromium/error-context.md",
+        "shard-2/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        },
+        {
+          "label": "map-software-run-id-trace",
+          "renderer": "software",
+          "outcome": "failed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/map-software-run-id-trace/report.json"
+        }
+      ],
+      "latestFailure": {
+        "message": "Error: Timeout 30000ms exceeded while waiting on the predicate",
+        "stack": "Error: Timeout 30000ms exceeded while waiting on the predicate\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/navigation-map.spec.js:7:560",
+        "location": {
+          "file": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/navigation-map.spec.js",
+          "column": 560,
+          "line": 7
+        },
+        "snippet": "   5 | test.afterEach(async({page},info)=>{if(process.env.CE_RUN_ID_TRACE!=='1')return;try{await info.attach('run-id-observations',{body:JSON.stringify(await page.evaluate(()=>window.__runIdObservations||[]),null,2),contentType:'application/json'});}catch{}});\n   6 | for(const width of [1280,390])test(`live default map and Stats ${width}`,async({page})=>{\n>  7 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});const requests=[];page.on('request',r=>requests.push(r.url()));await page.goto('/playable-3d/');await expect(page.locator('#taster-intro')).toBeVisible({timeout:90000});await page.locator('#taster-skip').click();await expect(page.locator('#campus-minimap')).toBeVisible();expect(await page.locator('#campus-minimap').getAttribute('data-target')).toBe('parcel');await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').entryReady),{timeout:30000}).toBe(true);const marker=page.locator('#campus-minimap [data-position]');const before=await marker.getAttribute('cy');await page.locator('#scene').focus();await page.keyboard.down('KeyW');await page.waitForTimeout(1200);await page.keyboard.up('KeyW');await expect.poll(()=>marker.getAttribute('cy')).not.toBe(before);await page.locator('#exploration-stats-toggle').click();await expect(page.locator('.tools-content')).toContainText('Available');await page.locator('.tools-close').click();await page.screenshot({path:`coverage/map-${width}.png`});await page.getByRole('button',{name:'Hide map',exact:true}).click();await expect(page.locator('#campus-minimap')).toBeHidden();const runId=await reportedRunId(page);await page.reload();await expect(page.locator('#taster-intro')).toBeVisible({timeout:30000});await page.locator('#taster-skip').click();await expect(page.getByRole('button',{name:'Hide map',exact:true})).toBeVisible({timeout:30000});await expect(page.locator('#campus-minimap')).toBeVisible();await expect.poll(()=>reportedRunId(page)).not.toBe(runId);expect(requests.filter(u=>/test.*\\.glb/.test(u))).toEqual([]);\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ^\n   8 | });\n   9 | for(const width of [1280,390])ownedTest(`returning photo handover and once-only rewards ${width}`,async({page})=>{\n  10 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});await page.addInitScript(()=>{if(localStorage.getItem('ce-player:e2e-owned:'+'seeded'))return;const c=document.createElement('canvas');c.width=c.height=4;localStorage.setItem('ce-player:e2e-owned:'+'ce-missing-frame-local-review-v1',JSON.stringify({step:4,chapelVisited:true,shots:{mural:{label:'Mural',image:c.toDataURL('image/jpeg')}},souvenir:c.toDataURL('image/png')}));localStorage.setItem('ce-player:e2e-owned:'+'seeded','true');});await page.goto('/playable-3d/');await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','market');await page.locator('#exploration-help').click();await expect(page.locator('#discovery-copy')).toContainText('Continue for your companion campus tour');await page.locator('#discovery-market-handover').click();await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','0');await page.locator('#orientation-tour [data-action]').click();await expect(page.locator('#helper-picker')).toBeVisible();await page.locator('#helper-picker [data-continue]').click();await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','1');await page.locator('#orientation-tour [data-skip]').click();await enterMarket(page);await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state).mode),{timeout:90000}).toBe('market');await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1')||'{\"events\":[]}').events.filter(e=>e.type==='initiative').length)).toBe(3);const marketWallet=await page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1')));expect(marketWallet.events.filter(e=>e.type==='exploration'&&e.milestone==='market')).toHaveLength(1);await page.locator('#exploration-stats-toggle').click();await expect(page.locator('.tools-content')).toContainText('Completed market destination');await expect(page.locator('.stats-money')).toContainText('Your community taxes');await expect(page.locator('.stats-collection [data-collected=\"true\"]')).toHaveCount(4);await page.screenshot({path:`coverage/stats-${width}.png`});await page.locator('.tools-close').click();await page.reload();await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1')).events.filter(e=>e.type==='initiative').length)).toBe(3);await page.locator('#exploration-help').click();await page.locator('#discovery-market-handover').click();await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','0');await page.locator('#orientation-tour [data-skip]').click();await enterMarket(page);await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state).mode),{timeout:90000}).toBe('market');expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1')))).toEqual(marketWallet);"
+      },
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": {
+        "outcome": "failed",
+        "label": "map-software-run-id-trace",
+        "report": "coverage/broader-targeted-20261014/map-software-run-id-trace/report.json"
+      },
+      "remainingRequirement": "Original software failure is not cleared by the native result",
+      "currentNotes": "Native passes. Software recheck failed initial entry before the original fresh-run identity failure could be reproduced. Identity assertion unchanged; trace does not establish a stale-ID cause."
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-ff47dd182c944e6e4ccb:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "live default map and Stats 390",
+      "titlePath": [
+        "navigation-map.spec.js",
+        "live default map and Stats 390"
+      ],
+      "outcome": "failed",
+      "shard": 2,
+      "group": "stats-and-map-state",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-2/browser-evidence/navigation-map-live-default-map-and-Stats-390-chromium/error-context.md",
+        "shard-2/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        },
+        {
+          "label": "map-software-run-id-trace",
+          "renderer": "software",
+          "outcome": "failed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/map-software-run-id-trace/report.json"
+        }
+      ],
+      "latestFailure": {
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 30000ms exceeded while waiting on the predicate",
+        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 30000ms exceeded while waiting on the predicate\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/navigation-map.spec.js:7:560",
+        "location": {
+          "file": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/navigation-map.spec.js",
+          "column": 560,
+          "line": 7
+        },
+        "snippet": "   5 | test.afterEach(async({page},info)=>{if(process.env.CE_RUN_ID_TRACE!=='1')return;try{await info.attach('run-id-observations',{body:JSON.stringify(await page.evaluate(()=>window.__runIdObservations||[]),null,2),contentType:'application/json'});}catch{}});\n   6 | for(const width of [1280,390])test(`live default map and Stats ${width}`,async({page})=>{\n>  7 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});const requests=[];page.on('request',r=>requests.push(r.url()));await page.goto('/playable-3d/');await expect(page.locator('#taster-intro')).toBeVisible({timeout:90000});await page.locator('#taster-skip').click();await expect(page.locator('#campus-minimap')).toBeVisible();expect(await page.locator('#campus-minimap').getAttribute('data-target')).toBe('parcel');await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').entryReady),{timeout:30000}).toBe(true);const marker=page.locator('#campus-minimap [data-position]');const before=await marker.getAttribute('cy');await page.locator('#scene').focus();await page.keyboard.down('KeyW');await page.waitForTimeout(1200);await page.keyboard.up('KeyW');await expect.poll(()=>marker.getAttribute('cy')).not.toBe(before);await page.locator('#exploration-stats-toggle').click();await expect(page.locator('.tools-content')).toContainText('Available');await page.locator('.tools-close').click();await page.screenshot({path:`coverage/map-${width}.png`});await page.getByRole('button',{name:'Hide map',exact:true}).click();await expect(page.locator('#campus-minimap')).toBeHidden();const runId=await reportedRunId(page);await page.reload();await expect(page.locator('#taster-intro')).toBeVisible({timeout:30000});await page.locator('#taster-skip').click();await expect(page.getByRole('button',{name:'Hide map',exact:true})).toBeVisible({timeout:30000});await expect(page.locator('#campus-minimap')).toBeVisible();await expect.poll(()=>reportedRunId(page)).not.toBe(runId);expect(requests.filter(u=>/test.*\\.glb/.test(u))).toEqual([]);\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ^\n   8 | });\n   9 | for(const width of [1280,390])ownedTest(`returning photo handover and once-only rewards ${width}`,async({page})=>{\n  10 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});await page.addInitScript(()=>{if(localStorage.getItem('ce-player:e2e-owned:'+'seeded'))return;const c=document.createElement('canvas');c.width=c.height=4;localStorage.setItem('ce-player:e2e-owned:'+'ce-missing-frame-local-review-v1',JSON.stringify({step:4,chapelVisited:true,shots:{mural:{label:'Mural',image:c.toDataURL('image/jpeg')}},souvenir:c.toDataURL('image/png')}));localStorage.setItem('ce-player:e2e-owned:'+'seeded','true');});await page.goto('/playable-3d/');await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','market');await page.locator('#exploration-help').click();await expect(page.locator('#discovery-copy')).toContainText('Continue for your companion campus tour');await page.locator('#discovery-market-handover').click();await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','0');await page.locator('#orientation-tour [data-action]').click();await expect(page.locator('#helper-picker')).toBeVisible();await page.locator('#helper-picker [data-continue]').click();await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','1');await page.locator('#orientation-tour [data-skip]').click();await enterMarket(page);await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state).mode),{timeout:90000}).toBe('market');await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1')||'{\"events\":[]}').events.filter(e=>e.type==='initiative').length)).toBe(3);const marketWallet=await page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1')));expect(marketWallet.events.filter(e=>e.type==='exploration'&&e.milestone==='market')).toHaveLength(1);await page.locator('#exploration-stats-toggle').click();await expect(page.locator('.tools-content')).toContainText('Completed market destination');await expect(page.locator('.stats-money')).toContainText('Your community taxes');await expect(page.locator('.stats-collection [data-collected=\"true\"]')).toHaveCount(4);await page.screenshot({path:`coverage/stats-${width}.png`});await page.locator('.tools-close').click();await page.reload();await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1')).events.filter(e=>e.type==='initiative').length)).toBe(3);await page.locator('#exploration-help').click();await page.locator('#discovery-market-handover').click();await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','0');await page.locator('#orientation-tour [data-skip]').click();await enterMarket(page);await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state).mode),{timeout:90000}).toBe('market');expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1')))).toEqual(marketWallet);"
+      },
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": {
+        "outcome": "failed",
+        "label": "map-software-run-id-trace",
+        "report": "coverage/broader-targeted-20261014/map-software-run-id-trace/report.json"
+      },
+      "remainingRequirement": "Original software failure is not cleared by the native result",
+      "currentNotes": "Native passes. Software recheck failed initial entry before the original fresh-run identity failure could be reproduced. Identity assertion unchanged; trace does not establish a stale-ID cause."
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-b1abb8fbfdc213beb393:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "returning photo handover and once-only rewards 1280",
+      "titlePath": [
+        "navigation-map.spec.js",
+        "returning photo handover and once-only rewards 1280"
+      ],
+      "outcome": "failed",
+      "shard": 2,
+      "group": "obsolete-photo-copy",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-2/browser-evidence/navigation-map-returning-p-7fa5e--and-once-only-rewards-1280-chromium/error-context.md",
+        "shard-2/browser-report.json"
+      ],
+      "notes": "obsolete photo-copy requirement",
+      "proof": [
+        {
+          "label": "c72-control-and-observer-proof",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "report": "coverage/full-integration-run-38543515871/targeted-contracts.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "c72-control-and-observer-proof",
+        "report": "coverage/full-integration-run-38543515871/targeted-contracts.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-03d3ffa69ca8c1f803fb:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "returning photo handover and once-only rewards 390",
+      "titlePath": [
+        "navigation-map.spec.js",
+        "returning photo handover and once-only rewards 390"
+      ],
+      "outcome": "failed",
+      "shard": 2,
+      "group": "obsolete-photo-copy",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-2/browser-evidence/navigation-map-returning-p-b2e19-r-and-once-only-rewards-390-chromium/error-context.md",
+        "shard-2/browser-report.json"
+      ],
+      "notes": "obsolete photo-copy requirement",
+      "proof": [
+        {
+          "label": "c72-control-and-observer-proof",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "report": "coverage/full-integration-run-38543515871/targeted-contracts.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "c72-control-and-observer-proof",
+        "report": "coverage/full-integration-run-38543515871/targeted-contracts.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "74080a16223bd5b4dce5-f3a5df9f29f4ae685c6b:chromium:0",
+      "file": "options-companion.spec.js",
+      "title": "selected Sprout appears in market, switches/removes, follows same-run module return and resets fresh",
+      "titlePath": [
+        "options-companion.spec.js",
+        "selected Sprout appears in market, switches/removes, follows same-run module return and resets fresh"
+      ],
+      "outcome": "failed",
+      "shard": 2,
+      "group": "companion-and-return",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-2/browser-evidence/options-companion-selected-dee4a-ule-return-and-resets-fresh-chromium/error-context.md",
+        "shard-2/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "76a895559bda3373ce86-cc73f28688c58aeb411b:chromium:0",
+      "file": "render-budget.spec.js",
+      "title": "Auto keeps controls available, manual quality works, and hidden views stop rendering",
+      "titlePath": [
+        "render-budget.spec.js",
+        "Auto keeps controls available, manual quality works, and hidden views stop rendering"
+      ],
+      "outcome": "failed",
+      "shard": 2,
+      "group": "runtime-quality-handler",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-2/browser-evidence/render-budget-Auto-keeps-c-bbd65-hidden-views-stop-rendering-chromium/error-context.md",
+        "shard-2/browser-report.json"
+      ],
+      "notes": "runtime: qualityChange uses old Auto pixel ratio until next rendered frame",
+      "proof": [
+        {
+          "label": "c72-control-and-observer-proof",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "report": "coverage/full-integration-run-38543515871/targeted-followup.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "c72-control-and-observer-proof",
+        "report": "coverage/full-integration-run-38543515871/targeted-followup.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "e85aabbb1dbb45cc0cdb-96fc42825f66c6278328:chromium:0",
+      "file": "runtime-recovery.spec.js",
+      "title": "Stats changes publish while the cached world keeps its honest frame count",
+      "titlePath": [
+        "runtime-recovery.spec.js",
+        "Stats changes publish while the cached world keeps its honest frame count"
+      ],
+      "outcome": "failed",
+      "shard": 2,
+      "group": "stats-and-map-state",
+      "status": "software-entry-blocks-frame-cache-check",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-2/browser-evidence/runtime-recovery-Stats-cha-fc4d5-eeps-its-honest-frame-count-chromium/error-context.md",
+        "shard-2/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "failed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        },
+        {
+          "label": "stats-software-actual-draws",
+          "renderer": "software",
+          "outcome": "failed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/stats-software-actual-draws/report.json"
+        },
+        {
+          "label": "stats-software-post-deadline-trace",
+          "renderer": "software",
+          "outcome": "failed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/stats-software-post-deadline-trace/report.json"
+        },
+        {
+          "label": "stats-software-ui-draw-trace",
+          "renderer": "software",
+          "outcome": "failed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/stats-software-ui-draw-trace/report.json"
+        }
+      ],
+      "latestFailure": {
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatchObject\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Object {\u001b[39m\n\u001b[32m-   \"entryReady\": true,\u001b[39m\n\u001b[32m- }\u001b[39m\n\u001b[31m+ Object {}\u001b[39m\n\nCall Log:\n- Timeout 30000ms exceeded while waiting on the predicate",
+        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatchObject\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Object {\u001b[39m\n\u001b[32m-   \"entryReady\": true,\u001b[39m\n\u001b[32m- }\u001b[39m\n\u001b[31m+ Object {}\u001b[39m\n\nCall Log:\n- Timeout 30000ms exceeded while waiting on the predicate\n    at start (/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/runtime-recovery.spec.js:27:99)\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/runtime-recovery.spec.js:40:25",
+        "location": {
+          "file": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/runtime-recovery.spec.js",
+          "column": 99,
+          "line": 27
+        },
+        "snippet": "  25 |  await page.addInitScript(id=>sessionStorage.setItem('ce-game-run-handoff-v1',JSON.stringify({id,createdAt:Date.now(),data:{'ce-taster-intro-v1:avery':'seen','ce-night-market-practice-v1':JSON.stringify({version:3,events:['accept','share-plan','run-trial','inspect-trial','consolidate','pay']})}})),id);\n  26 |  await page.route('**/app.js?*',async route=>{const response=await route.fetch();let source=await response.text();if(process.env.CE_RECOVERY_DRAWS==='1'){const needle=\"frames++;renderedFrames++;canvas.dataset.rendered='true';\";if(!source.includes(needle))throw Error('Missing actual-world-draw hook');source=source.replace(needle,needle+\"(window.__recoveryDraws||=[]).push({pageMs:performance.now(),frame:renderedFrames,stamp:lastPausedSceneStamp,helper:echo?.snapshot(),children:scene.children.length,avatar:actor.model.uuid,teachers:teachers.length});\");}await route.fulfill({response,body:source+`\\nwindow.recoveryProbe=()=>({mode,marketOpening,renderedFrames,renderBackend,draws:window.__recoveryDraws,teachers:teachers.length,teacherModuleFailure});`});});\n> 27 |  await page.goto('/playable-3d/?guestRun='+id);await expect.poll(()=>state(page),{timeout:30000}).toMatchObject({entryReady:true});\n     |                                                                                                   ^\n  28 | }\n  29 | async function holdFirstMarket(page){let release,held=false,first=true;const gate=new Promise(r=>release=r);await page.route('**/night-market.js?*',async route=>{if(!first)return route.continue();first=false;held=true;await gate;const response=await route.fetch();await route.fulfill({response});});return {release,held:()=>held};}\n  30 | test('pending Market travel yields to visible Character Studio and late completion stays cancelled',async({page},info)=>{"
+      },
+      "nativeVerification": {
+        "outcome": "failed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": {
+        "outcome": "failed",
+        "label": "stats-software-ui-draw-trace",
+        "report": "coverage/broader-targeted-20261014/stats-software-ui-draw-trace/report.json"
+      },
+      "remainingRequirement": "Original software failure is not cleared by the native result",
+      "currentNotes": "Native stable-frame precondition is software-specific. Three software attempts failed the unchanged entry deadline. Post-deadline UI trace saved 500, wallet 1300, with actual/internal/published frames all stable at 2; original hosted third-frame failure remains unresolved."
+    },
+    {
+      "id": "256d4c3724a264a5e24b-47f6fd00ea22e9383e2b:chromium:0",
+      "file": "movement.spec.js",
+      "title": "player travel, gait, turn and stop at 1280",
+      "titlePath": [
+        "movement.spec.js",
+        "player travel, gait, turn and stop at 1280"
+      ],
+      "outcome": "failed",
+      "shard": 4,
+      "group": "movement-and-navigation",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-4/browser-evidence/movement-player-travel-gait-turn-and-stop-at-1280-chromium/error-context.md",
+        "shard-4/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "movement-native-c72-exact",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "movement-native-c72-exact",
+        "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "4371beb84ab7f983f1e3-ed0794f06f59b08921d6:chromium:0",
+      "file": "night-market-research.spec.js",
+      "title": "fresh review uses the actual game and leaves existing saves untouched",
+      "titlePath": [
+        "night-market-research.spec.js",
+        "fresh review uses the actual game and leaves existing saves untouched"
+      ],
+      "outcome": "failed",
+      "shard": 4,
+      "group": "movement-and-navigation",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-4/browser-evidence/night-market-research-fres-fa0b3-es-existing-saves-untouched-chromium/error-context.md",
+        "shard-4/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "movement-native-c72-exact",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "movement-native-c72-exact",
+        "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "73a463ed7338ee852e1f-ed653a591d9209710b1f:chromium:0",
+      "file": "night-market.spec.js",
+      "title": "legacy night market complete loop and saved rewards at 1280px",
+      "titlePath": [
+        "night-market.spec.js",
+        "legacy night market complete loop and saved rewards at 1280px"
+      ],
+      "outcome": "failed",
+      "shard": 4,
+      "group": "movement-and-navigation",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-4/browser-evidence/night-market-legacy-night--e1cc2-and-saved-rewards-at-1280px-chromium/error-context.md",
+        "shard-4/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "movement-native-c72-exact",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "movement-native-c72-exact",
+        "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "73a463ed7338ee852e1f-4d1c42276bfc3e1c85f6:chromium:0",
+      "file": "night-market.spec.js",
+      "title": "legacy night market complete loop and saved rewards at 390px",
+      "titlePath": [
+        "night-market.spec.js",
+        "legacy night market complete loop and saved rewards at 390px"
+      ],
+      "outcome": "failed",
+      "shard": 4,
+      "group": "movement-and-navigation",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-4/browser-evidence/night-market-legacy-night--30e25--and-saved-rewards-at-390px-chromium/error-context.md",
+        "shard-4/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "movement-native-c72-exact",
+          "renderer": "native",
+          "outcome": "failed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+        },
+        {
+          "label": "legacy-phone-native-resources",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/legacy-phone-native-resources/report.json"
+        }
+      ],
+      "latestFailure": {
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeHidden\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#loading')\nExpected: hidden\nReceived: visible\nTimeout:  30000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeHidden\" with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for locator('#loading')\u001b[22m\n\u001b[2m    7 \u00d7 locator resolved to <div id=\"loading\" role=\"status\" class=\"loading\">\u2026</div>\u001b[22m\n\u001b[2m      - unexpected value \"visible\"\u001b[22m\n",
+        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeHidden\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#loading')\nExpected: hidden\nReceived: visible\nTimeout:  30000ms\n\nCall log:\n\u001b[2m  - Expect \"toBeHidden\" with timeout 30000ms\u001b[22m\n\u001b[2m  - waiting for locator('#loading')\u001b[22m\n\u001b[2m    7 \u00d7 locator resolved to <div id=\"loading\" role=\"status\" class=\"loading\">\u2026</div>\u001b[22m\n\u001b[2m      - unexpected value \"visible\"\u001b[22m\n\n    at open (/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/night-market.spec.js:5:119)\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/night-market.spec.js:8:361",
+        "location": {
+          "file": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/night-market.spec.js",
+          "column": 119,
+          "line": 5
+        },
+        "snippet": "  3 | const path='/playable-3d/?experience=night-market';\n  4 | const data=page=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));\n> 5 | async function open(page){await page.goto(path,{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page);await expect(page.locator('#market-hud')).toBeVisible({timeout:30000});await expect(page.locator('#loading')).toBeHidden();}\n    |                                                                                                                       ^\n  6 | async function walkUntil(page,key,label){await page.keyboard.down(key);try{await expect(page.locator('#interact')).toHaveText(label,{timeout:12000});}finally{await page.keyboard.up(key);}}\n  7 | for(const width of [1280,390])test(`legacy night market complete loop and saved rewards at ${width}px`,async({page},info)=>{\n  8 |  test.setTimeout(120000);await page.addInitScript(()=>{if(!localStorage.getItem('ce-player:e2e-owned:'+'ce-night-market-practice-v1'))localStorage.setItem('ce-player:e2e-owned:'+'ce-night-market-practice-v1',JSON.stringify({version:1,events:[]}));});await page.setViewportSize({width,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));await open(page);"
+      },
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "legacy-phone-native-resources",
+        "report": "coverage/broader-targeted-20261014/legacy-phone-native-resources/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result",
+      "currentNotes": "Native exact batch failed initial loading once, then unchanged single-case recheck passed. Original software failure was a later Mara walking waypoint; neither failure is discarded."
+    },
+    {
+      "id": "cdb152c82c07550b9af3-fe5898244fd3e71d8348:chromium:0",
+      "file": "playable-scenery.spec.js",
+      "title": "campus waits for both buildings and keeps destinations and movement",
+      "titlePath": [
+        "playable-scenery.spec.js",
+        "campus waits for both buildings and keeps destinations and movement"
+      ],
+      "outcome": "failed",
+      "shard": 4,
+      "group": "scene-and-journey",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-4/browser-evidence/playable-scenery-campus-wa-d6e35-s-destinations-and-movement-chromium/error-context.md",
+        "shard-4/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "78e3358702c963346e2e-8c0ca87f2f8cf2502e72:chromium:0",
+      "file": "playable-startup.spec.js",
+      "title": "startup loads only the active avatar and keeps the studio and hall usable",
+      "titlePath": [
+        "playable-startup.spec.js",
+        "startup loads only the active avatar and keeps the studio and hall usable"
+      ],
+      "outcome": "failed",
+      "shard": 4,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-4/browser-evidence/playable-startup-startup-l-c110f--the-studio-and-hall-usable-chromium/error-context.md",
+        "shard-4/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "b51f14742deb626ab7dd-4746a5f3fc34a7168e15:chromium:0",
+      "file": "startup-exterior.spec.js",
+      "title": "delayed courtyard surface must not hold initial rendering and curriculum access",
+      "titlePath": [
+        "startup-exterior.spec.js",
+        "delayed courtyard surface must not hold initial rendering and curriculum access"
+      ],
+      "outcome": "failed",
+      "shard": 4,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-4/browser-evidence/startup-exterior-delayed-c-995e7-ering-and-curriculum-access-chromium/error-context.md",
+        "shard-4/browser-report.json"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "e224d913d340be3539a9-19289924de90ede37d1f:chromium:0",
+      "file": "arrival-gardens.spec.js",
+      "title": "arrival walk reaches Studio and retains avatar save after reload",
+      "titlePath": [
+        "arrival-gardens.spec.js",
+        "arrival walk reaches Studio and retains avatar save after reload"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "movement-and-navigation",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/arrival-gardens-arrival-wa-b4838-ns-avatar-save-after-reload-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "movement-native-c72-exact",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "movement-native-c72-exact",
+        "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "b3adf1190a1c36202269-d95e86dd5fca77d2a865:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "slow saved avatar, Studio and poster never gate EST at 1280px",
+      "titlePath": [
+        "curriculum-loading.spec.js",
+        "slow saved avatar, Studio and poster never gate EST at 1280px"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/curriculum-loading-slow-sa-710fa-er-never-gate-EST-at-1280px-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "b3adf1190a1c36202269-12fee0d382740751cd3b:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "slow saved avatar, Studio and poster never gate EST at 390px",
+      "titlePath": [
+        "curriculum-loading.spec.js",
+        "slow saved avatar, Studio and poster never gate EST at 390px"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/curriculum-loading-slow-sa-f3b9e-ter-never-gate-EST-at-390px-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "b3adf1190a1c36202269-1a83e5cda9f3502a1110:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "unavailable saved clothing uses fallback and never fetches other outfits",
+      "titlePath": [
+        "curriculum-loading.spec.js",
+        "unavailable saved clothing uses fallback and never fetches other outfits"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/curriculum-loading-unavail-ad073-never-fetches-other-outfits-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "7c5ef01cf86c3d359fe4-5f8e2171ff09f8df0dff:chromium:0",
+      "file": "ecc-courtyard.spec.js",
+      "title": "courtyard review opens the playable world and survives quality, resize and destination changes",
+      "titlePath": [
+        "ecc-courtyard.spec.js",
+        "courtyard review opens the playable world and survives quality, resize and destination changes"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "scene-and-journey",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/ecc-courtyard-courtyard-re-6ccab-ize-and-destination-changes-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "2cbe4eeaf4ec2b9078e5-b2ef1359041717b56577:chromium:0",
+      "file": "first-play.spec.js",
+      "title": "Arrival retains complete geometry and usable walking while optional surfaces wait",
+      "titlePath": [
+        "first-play.spec.js",
+        "Arrival retains complete geometry and usable walking while optional surfaces wait"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/first-play-Arrival-retains-c968d-hile-optional-surfaces-wait-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "2cbe4eeaf4ec2b9078e5-6909de142b88be6e2d64:chromium:0",
+      "file": "first-play.spec.js",
+      "title": "a failed optional surface retries without replacing complete entry landscape",
+      "titlePath": [
+        "first-play.spec.js",
+        "a failed optional surface retries without replacing complete entry landscape"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/first-play-a-failed-option-9912d-ng-complete-entry-landscape-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "85ab4d0bdf6e6aa79f84-8a536e58fb23fa8b86d4:chromium:0",
+      "file": "game-entry-loading.spec.js",
+      "title": "game entry loads only the active avatar and worn clothes",
+      "titlePath": [
+        "game-entry-loading.spec.js",
+        "desktop current wardrobe",
+        "game entry loads only the active avatar and worn clothes"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/game-entry-loading-desktop-07874-ive-avatar-and-worn-clothes-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "85ab4d0bdf6e6aa79f84-d61bfb38820a9e0b19a2:chromium:0",
+      "file": "game-entry-loading.spec.js",
+      "title": "game entry loads only the active avatar and worn clothes",
+      "titlePath": [
+        "game-entry-loading.spec.js",
+        "phone default avatar",
+        "game entry loads only the active avatar and worn clothes"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/game-entry-loading-phone-d-55f90-ive-avatar-and-worn-clothes-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "8a94587f89b4ab1cab50-a5193141f2fa2c365610:chromium:0",
+      "file": "startup-campus-entry.spec.js",
+      "title": "video to complete exterior, walking and automatic parcel at 1280",
+      "titlePath": [
+        "startup-campus-entry.spec.js",
+        "video to complete exterior, walking and automatic parcel at 1280"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-eight-second-budget",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/startup-campus-entry-video-1b422-nd-automatic-parcel-at-1280-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved strict software performance failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result",
+      "currentNotes": "Eight-second limits retained. Same-app cold-skip comparison measures a 23-second first-draw shader compilation stall on SwiftShader; native passes. No software exception accepted."
+    },
+    {
+      "id": "8a94587f89b4ab1cab50-3ecdaef3f0cd3a854734:chromium:0",
+      "file": "startup-campus-entry.spec.js",
+      "title": "video to complete exterior, walking and automatic parcel at 390",
+      "titlePath": [
+        "startup-campus-entry.spec.js",
+        "video to complete exterior, walking and automatic parcel at 390"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-eight-second-budget",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/startup-campus-entry-video-91dbf-and-automatic-parcel-at-390-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved strict software performance failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result",
+      "currentNotes": "Eight-second limits retained. Same-app cold-skip comparison measures a 23-second first-draw shader compilation stall on SwiftShader; native passes. No software exception accepted."
+    },
+    {
+      "id": "8beb0a03f378ffff1fdf-3b33fcfd8145004f253a:chromium:0",
+      "file": "startup-costs.spec.js",
+      "title": "measure complete campus handover costs cold-skip",
+      "titlePath": [
+        "startup-costs.spec.js",
+        "measure complete campus handover costs cold-skip"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-eight-second-budget",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/startup-costs-measure-comp-44e56-us-handover-costs-cold-skip-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved strict software performance failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        },
+        {
+          "label": "software-cold-cost",
+          "renderer": "software",
+          "outcome": "failed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/software-cold-cost.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": {
+        "outcome": "failed",
+        "label": "software-cold-cost",
+        "report": "coverage/broader-targeted-20261014/software-cold-cost.json"
+      },
+      "remainingRequirement": "Original software failure is not cleared by the native result",
+      "currentNotes": "Eight-second limits retained. Same-app cold-skip comparison measures a 23-second first-draw shader compilation stall on SwiftShader; native passes. No software exception accepted."
+    },
+    {
+      "id": "d10a8235e6ed24c4cc22-725463996d999197e399:chromium:0",
+      "file": "startup-performance.spec.js",
+      "title": "normal play avoids GPU pixel probes and uses shared building textures",
+      "titlePath": [
+        "startup-performance.spec.js",
+        "normal play avoids GPU pixel probes and uses shared building textures"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "movement-and-navigation",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/startup-performance-normal-ad5fb-es-shared-building-textures-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "movement-native-c72-exact",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "movement-native-c72-exact",
+        "report": "coverage/broader-targeted-20261014/movement-native-c72-exact/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "4fbb9f13b83f01ed98fd-e285d5d8c12953bd8beb:chromium:0",
+      "file": "startup-surface-gate.spec.js",
+      "title": "a stalled decorative surface cannot trap the player behind Arrival readiness",
+      "titlePath": [
+        "startup-surface-gate.spec.js",
+        "a stalled decorative surface cannot trap the player behind Arrival readiness"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/startup-surface-gate-a-sta-44604-er-behind-Arrival-readiness-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "4fbb9f13b83f01ed98fd-11b890e75eefdcbd0f2e:chromium:0",
+      "file": "startup-surface-gate.spec.js",
+      "title": "complete intro reaches natural end and hands over to usable movement",
+      "titlePath": [
+        "startup-surface-gate.spec.js",
+        "complete intro reaches natural end and hands over to usable movement"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "startup-readiness-and-recovery",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/startup-surface-gate-compl-a3645-nds-over-to-usable-movement-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "startup-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "startup-native-c72",
+        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "bac31e839d91e17ab470-85692b0ce0133a810d48:chromium:0",
+      "file": "suit-flicker.spec.js",
+      "title": "playable suit shadows follow every walking frame at 1280",
+      "titlePath": [
+        "suit-flicker.spec.js",
+        "playable suit shadows follow every walking frame at 1280"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "scene-and-journey",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/suit-flicker-playable-suit-8f9f2-every-walking-frame-at-1280-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "bac31e839d91e17ab470-29efc6a6de61e8589ba0:chromium:0",
+      "file": "suit-flicker.spec.js",
+      "title": "playable suit shadows follow every walking frame at 390",
+      "titlePath": [
+        "suit-flicker.spec.js",
+        "playable suit shadows follow every walking frame at 390"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "scene-and-journey",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/suit-flicker-playable-suit-33287--every-walking-frame-at-390-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "85ffa85fbf5de817fe2e-7230e18d4ca2474202f2:chromium:0",
+      "file": "teacher-revisit.spec.js",
+      "title": "same-run photo teachers stay visible after cancellation, market/module returns and repeat greetings",
+      "titlePath": [
+        "teacher-revisit.spec.js",
+        "same-run photo teachers stay visible after cancellation, market/module returns and repeat greetings"
+      ],
+      "outcome": "failed",
+      "shard": 3,
+      "group": "companion-and-return",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3/browser-evidence/teacher-revisit-same-run-p-f1564-eturns-and-repeat-greetings-chromium/error-context.md",
+        "shard-3-job.log"
+      ],
+      "notes": "unresolved hosted failure",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Original software failure is not cleared by the native result"
+    },
+    {
+      "id": "f523f6e6b14fb0f55f49-3117d03f39ba1649922d:chromium:0",
+      "file": "whole-characters.spec.js",
+      "title": "named characters: selected-only startup, lazy tests, rig measurements, switching and persistence",
+      "titlePath": [
+        "whole-characters.spec.js",
+        "named characters: selected-only startup, lazy tests, rig measurements, switching and persistence"
+      ],
+      "outcome": "interrupted",
+      "shard": 3,
+      "group": "unfinished-avatars",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3-job.log"
+      ],
+      "notes": "Job budget interrupted or prevented this case",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Bounded software execution of this originally unfinished case",
+      "currentNotes": "All five interrupted/unstarted cases completed and passed natively with original selected-only/rig/persistence/failure assertions. Original software execution remains unconfirmed."
+    },
+    {
+      "id": "f523f6e6b14fb0f55f49-6a30d62c6383792b1e26:chromium:0",
+      "file": "whole-characters.spec.js",
+      "title": "simulated phone: optional Studio layout and failed selected model keeps the player",
+      "titlePath": [
+        "whole-characters.spec.js",
+        "simulated phone: optional Studio layout and failed selected model keeps the player"
+      ],
+      "outcome": "notRun",
+      "shard": 3,
+      "group": "unfinished-avatars",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3-job.log"
+      ],
+      "notes": "Job budget interrupted or prevented this case",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Bounded software execution of this originally unfinished case",
+      "currentNotes": "All five interrupted/unstarted cases completed and passed natively with original selected-only/rig/persistence/failure assertions. Original software execution remains unconfirmed."
+    },
+    {
+      "id": "f523f6e6b14fb0f55f49-2397768dfe0a366aedc9:chromium:0",
+      "file": "whole-characters.spec.js",
+      "title": "saved test character remains active and available without opening test catalog",
+      "titlePath": [
+        "whole-characters.spec.js",
+        "saved test character remains active and available without opening test catalog"
+      ],
+      "outcome": "notRun",
+      "shard": 3,
+      "group": "unfinished-avatars",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3-job.log"
+      ],
+      "notes": "Job budget interrupted or prevented this case",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Bounded software execution of this originally unfinished case",
+      "currentNotes": "All five interrupted/unstarted cases completed and passed natively with original selected-only/rig/persistence/failure assertions. Original software execution remains unconfirmed."
+    },
+    {
+      "id": "f523f6e6b14fb0f55f49-c0ab61d490abd6325a22:chromium:0",
+      "file": "whole-characters.spec.js",
+      "title": "failed saved main model leaves a playable fallback and preserves the saved choice",
+      "titlePath": [
+        "whole-characters.spec.js",
+        "failed saved main model leaves a playable fallback and preserves the saved choice"
+      ],
+      "outcome": "notRun",
+      "shard": 3,
+      "group": "unfinished-avatars",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3-job.log"
+      ],
+      "notes": "Job budget interrupted or prevented this case",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Bounded software execution of this originally unfinished case",
+      "currentNotes": "All five interrupted/unstarted cases completed and passed natively with original selected-only/rig/persistence/failure assertions. Original software execution remains unconfirmed."
+    },
+    {
+      "id": "f523f6e6b14fb0f55f49-d60e45a91087699e159c:chromium:0",
+      "file": "whole-characters.spec.js",
+      "title": "named choices avoid the previous release empty-catalog URL",
+      "titlePath": [
+        "whole-characters.spec.js",
+        "named choices avoid the previous release empty-catalog URL"
+      ],
+      "outcome": "notRun",
+      "shard": 3,
+      "group": "unfinished-avatars",
+      "status": "native-pass-software-confirmation-open",
+      "originalRun": 38543515871,
+      "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
+      "evidence": [
+        "shard-3-job.log"
+      ],
+      "notes": "Job budget interrupted or prevented this case",
+      "proof": [
+        {
+          "label": "remainder-native-c72",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+        }
+      ],
+      "nativeVerification": {
+        "outcome": "passed",
+        "label": "remainder-native-c72",
+        "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
+      },
+      "softwareFollowOn": null,
+      "remainingRequirement": "Bounded software execution of this originally unfinished case",
+      "currentNotes": "All five interrupted/unstarted cases completed and passed natively with original selected-only/rig/persistence/failure assertions. Original software execution remains unconfirmed."
+    }
+  ],
+  "followOnSummary": {
+    "distinctOriginalNongreenIDs": 47,
+    "nativeLatest": {
+      "passed": 46,
+      "failed": 1
+    },
+    "originalOutcomeImmutable": {
+      "failed": 42,
+      "interrupted": 1,
+      "notRun": 4
+    },
+    "softwareFailuresClearedByNative": 0,
+    "fullSuiteRerun": false,
+    "broadPublication": false,
+    "marketD0912bbIntegrated": false
+  },
+  "analysisEvidence": [
+    "coverage/broader-targeted-20261014/software-cost-detail.json",
+    "coverage/broader-targeted-20261014/native-cost-detail.json",
+    "coverage/broader-targeted-20261014/software-gl-detail.json",
+    "coverage/broader-targeted-20261014/software-precompile-detail.json",
+    "coverage/broader-targeted-20261014/software-shader-log-detail.json",
+    "coverage/broader-targeted-20261014/stats-software-ui-draw-trace/actual-world-draws.json"
+  ]
+}

@@ -86,3 +86,8 @@ reports/screenshots, targeted-followup.json, targeted-contracts.json and the
 software Admin diagnostic. The reconciliation is reproducible with
 reconcile.py. Published focused PR57 main remains fec76572; this follow-on is
 unpublished on repair/integration-followup-20261014.
+
+The subsequent bounded investigation is recorded in
+[broader-root-causes-20261014.md](broader-root-causes-20261014.md), with a
+47-ID machine-readable failure ledger. It adds native verification and measured
+software-renderer evidence without changing this original hosted outcome.
