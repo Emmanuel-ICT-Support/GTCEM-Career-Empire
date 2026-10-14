@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     env:
-      REFERENCE_GAME_SHA: 1aa6830f9b53bef15eaad9251541951a3c923e06
+      REFERENCE_GAME_SHA: 677c16739fbf3493cbee63a22391d44da2471767
       PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/phase0-hosted/browser-report.json
     steps:
       - uses: actions/checkout@v4
@@ -93,7 +93,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      REFERENCE_GAME_SHA: 1aa6830f9b53bef15eaad9251541951a3c923e06
+      REFERENCE_GAME_SHA: 677c16739fbf3493cbee63a22391d44da2471767
       PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/companion-matrix/browser-report.json
     steps:
       - uses: actions/checkout@v4
