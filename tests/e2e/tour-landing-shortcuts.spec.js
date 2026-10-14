@@ -14,8 +14,9 @@ test('safe roof landing and ordinary map/menu shortcuts keep arrivals outdoors',
  });
  await page.route('**/app.js?*',async route=>{const response=await route.fetch();await route.fulfill({response,body:await response.text()+`\nwindow.landingProbe=()=>({mode,campusReady,position:actor.model.position.toArray(),yaw,fly:flyover?.active});window.targetLandingCamera=(x,y,z)=>camera.position.set(x,y,z);`});});
  const probe=()=>page.evaluate(()=>window.landingProbe?.());
- await page.goto('/playable-3d/?guestRun=landing-shortcuts&view=home-economics');
- await expect.poll(probe,{timeout:45000}).toMatchObject({mode:'town',campusReady:true});await expect(page.locator('#loading')).toBeHidden();
+ await page.goto('/playable-3d/?guestRun=landing-shortcuts');
+ await page.locator('#exploration-options > summary').click();await page.locator('#destination-menu > summary').click();await page.locator('#market-destination').click();
+ await expect.poll(probe,{timeout:45000}).toMatchObject({mode:'town',campusReady:true});await expect(page.locator('#loading')).toBeHidden();await expect.poll(async()=>(await probe()).position[0],{timeout:30000}).toBeCloseTo(43,3);if(await page.locator('#exploration-options').evaluate(element=>element.open))await page.locator('#resume-options').click();await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','market');
  await page.locator('#scene').focus();await page.keyboard.press('KeyF');await expect(page.locator('#flyover-land')).toBeVisible();await page.evaluate(()=>targetLandingCamera(43,40,-26));await page.locator('#scene').focus();await page.keyboard.press('KeyL');await page.keyboard.press('KeyL');await expect.poll(probe).toMatchObject({mode:'town',fly:false,yaw:0});
  const roof=await probe();expect(roof.position[2]).toBeGreaterThan(-20);expect(roof.position[1]).toBeLessThan(.6);await page.screenshot({path:info.outputPath('safe-market-roof-landing.png')});
  async function returnToStart(){await page.locator('#scene').focus();await page.keyboard.press('KeyF');await expect(page.locator('#flyover-land')).toBeVisible();await page.evaluate(()=>targetLandingCamera(-7,20,23.3));await page.keyboard.press('KeyL');await expect.poll(probe).toMatchObject({mode:'town',fly:false});await expect.poll(async()=>(await probe()).position[0]).toBeCloseTo(-7,3);}
