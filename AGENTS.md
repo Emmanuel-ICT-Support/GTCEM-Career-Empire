@@ -1,3 +1,7 @@
+## Isolated Markets curriculum candidate - 14 October 2026
+
+User explicitly authorises source edits, tests, takeaway resources, recall game and practice stickers. Separate first batch on integration082805ba: exact five behaviours, optional supported action vignettes, one-at-a-time teaching cards, after-job recall, My Work takeaway and three existing Stats collection stickers.267units/coverage and13scoped browser cases pass; original pay/legacy saves retained. Mastery remains unverified; guest reset/account rules unchanged. Sparse EST media prevent filesystem source-check completion; staged Git checks are separate. No publication; show revised flow first. See docs/market-curriculum-first-batch-20261014.md.
+
 ## Draft PR57 requested follow-up - 14 October 2026
 
 Blueprint is inside the existing menu with a labelled, keyboard-accessible new tab and noopener. Student outline uses Phase 0 orientation, Phase 1 Mara paid Initiative gig, Phase 2 changing world; stable J0-J10 remain and new INTRO row precedes them. Phase 6 later Mara visit remains distinct. Two-page PDF rendered/visually checked and replaced the same Library identity. Explicit Admin review menu re-entry is direct Reception; ordinary routes stay outdoors. Original CI38487929320 finished failure: source/unit/startup pass, two Admin walks pass, four critical failures including stale/changed harness expectations and an unresolved Chapel waypoint. No full-CI or publication claim. See docs/post-photo-followup-20261014.md; merge/deployment still await approval.

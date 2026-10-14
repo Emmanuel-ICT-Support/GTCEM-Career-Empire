@@ -1,8 +1,8 @@
 {
-  "release": "post-photo-tour-market-ready-20261014",
+  "release": "market-curriculum-release-20261015",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "e88724dcae46de7739625fbbd54ae77091378c3c",
-  "scope": "Draft post-photo companion tour, safe ground landing, outside-campus-building Market shortcuts and student-only draft numbered Phase 0-11 course outline. Existing startup, assets, photo capture, paid Market gates and public Admin review are preserved. No publication or curriculum completion. Blueprint overview is available in the existing menu in a separate accessible tab; Admin review menu re-entry remains direct Reception. Photo review stays visible during tour preparation; selected-companion loading has explicit feedback and failed tour loads can retry.",
+  "baseCommit": "fec76572a26af62678ac6324216ac460e93deb36",
+  "scope": "Markets-only release candidate: cherry-picked reviewed curriculum actions, story recall and grounded exit/map fixes onto live PR57; broader repair branch and unfinished opening/passcode work remain separate.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,23 @@
     },
     {
       "path": "../economy-lab/app.mjs",
-      "sha256": "a8e46992459abe30663dd53d2d1618c8c21303e42fe945f289744e358f71ad43"
+      "sha256": "e24ef30a9955de5a3480b623a5fba9f3c4252ffd5d2ed6613bf5ca818b60c8d9"
+    },
+    {
+      "path": "../economy-lab/course-outline-print.html",
+      "sha256": "5121aa16f09bd2c8d71401693f762cbfc7f99810d915cbf6be56fab1defea4e0"
+    },
+    {
+      "path": "../economy-lab/course-outline.json",
+      "sha256": "1300957bf1656ca89f7ed282f001045b58f6b00a6f934b2dce3fef4766da1bdd"
+    },
+    {
+      "path": "../economy-lab/course-outline.mjs",
+      "sha256": "b38ec8be73bca10999fcd004dec9a1f2673f3793645d49df02b7322d63733890"
+    },
+    {
+      "path": "../economy-lab/course-outline.pdf",
+      "sha256": "d101e9fb8700158a3902c76ce45d20b21adc7fce567637a26b0c3717184eec58"
     },
     {
       "path": "../economy-lab/economy.mjs",
@@ -22,7 +38,7 @@
     },
     {
       "path": "../economy-lab/index.html",
-      "sha256": "68c30204e3c1f6f0bda1d2bb5839f054bd5b0730a345d244b5ed1c6475accc54"
+      "sha256": "8ccbfc20fd523532b2583eb24294317216c35b198bb1d9f8664a624b9bb3c395"
     },
     {
       "path": "../economy-lab/style.css",
@@ -30,11 +46,15 @@
     },
     {
       "path": "../economy-lab/work-ui.mjs",
-      "sha256": "78aaba0b9d95d8298d28e2e59b3f7a9b274d53782a30187bd5dbe6a0fa36ed81"
+      "sha256": "c66f122a16cb69aea859e3c849a2575bd1d35103d1fcfac932c99f0e470d8649"
     },
     {
       "path": "../src/services/feedback-widget.js",
       "sha256": "90bad9446f2e31fcf75b36eac271b50de898222999ed709dd925aacd91a542b0"
+    },
+    {
+      "path": "admin-preview.mjs",
+      "sha256": "3edf8031ade0246f764c4c4b2db4bc678f5eef0b3efdf7f4c2ef02f902ec4ce5"
     },
     {
       "path": "administration-flow.js",
@@ -42,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "00cc22a9074ac6165225aa916315ae23be90710f6bdd9855802b86d3b9412e5d"
+      "sha256": "135f2bf873dd3bdb701a93594d63959899867d245a2d6a05f1a6099e9301efee"
     },
     {
       "path": "arcade-carnival.js",
@@ -790,7 +810,7 @@
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "1a0da8a04e5fc55eb985bd1c27cccac8d7a1d0bf7de28902c9490371a746209c"
+      "sha256": "d2e55715964213a4de69f5323969a167fc398fd83ba4f8e86de480f8c5811bd2"
     },
     {
       "path": "field-guide.html",
@@ -814,7 +834,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "9d59a567e9063625e231793df68216152deb1b4bfe9f82cb400973ec3584e2f8"
+      "sha256": "fb553ddb5936c167b5eff3a2c4a62065190eddd73424f9e27e2474271c7b5b3e"
     },
     {
       "path": "header-controls.css",
@@ -838,7 +858,15 @@
     },
     {
       "path": "index.html",
-      "sha256": "ba5f2bc305e7a1a1201fa3c0bded33b7a0166306e30c5de4a4926dfcf5b03119"
+      "sha256": "59d4a2ae20514bddf210dc1470f9245b82da10604b33791811aa6aba15f502e2"
+    },
+    {
+      "path": "initiative-field-guide.html",
+      "sha256": "046d909efe95ae27f4e638560f1ebff0fa65b018b8f9bf5599feb89441e87851"
+    },
+    {
+      "path": "initiative-progress.mjs",
+      "sha256": "46a61c5c62e2c43c2695d2fa4dc15a46c47149c50489665b43195491ea1db69a"
     },
     {
       "path": "intro-taster.css",
@@ -853,12 +881,16 @@
       "sha256": "70a748903a79f15a5582d83fa282c407a0414e3e94ecb9ecc63397d5a1385613"
     },
     {
+      "path": "landing.mjs",
+      "sha256": "4b27bdd89783eaa6e9d4af532a158b5c5a674fa546c8c712cdc497ff471ab0a3"
+    },
+    {
       "path": "learning-resources.css",
       "sha256": "977b6713e70bb8ea71c2ece0062e40176a0716d69d634bfc631f23d219abf6bf"
     },
     {
       "path": "learning-resources.js",
-      "sha256": "b51f02bc82d3b3d0011fd0fefa8173d46ad6674df4e433ead5f5bad7bd061fad"
+      "sha256": "c3c490771f649ec05630d49bdcbefd1afc477bbfd23fe188b54eae2d66e12635"
     },
     {
       "path": "locomotion.js",
@@ -866,7 +898,7 @@
     },
     {
       "path": "market-arrangement.mjs",
-      "sha256": "244bfb6318ebb7c2c2fa36e66c264b7aff8c02ba1c35f0d7b58e5c2173325a72"
+      "sha256": "f355cf37780e62ff7488385bb5146aa2c968ac1ce000ad7a0afc977e8ac1acf2"
     },
     {
       "path": "market-characters.js",
@@ -874,11 +906,19 @@
     },
     {
       "path": "market-collection.mjs",
-      "sha256": "2d2a287898a4fc48fbde91c1c261e024be849702c28bc366edf130dcc76e5cb6"
+      "sha256": "d96c2acd73269e3d8cbec1901c8eb5abdc6a211da5282e5cc4e1338e406b16e1"
     },
     {
       "path": "market-food.js",
       "sha256": "e50734bd175770224d80d429a8c7873b0f0ddea476b1bde27b858f9b11196f3c"
+    },
+    {
+      "path": "market-initiative.css",
+      "sha256": "6b8ec196ce1a5765563a1bae2383044977286f6f81e36f465056d6936f6a7e84"
+    },
+    {
+      "path": "market-initiative.mjs",
+      "sha256": "dde8edf4413a61df0dbeba9530dcbbe9cd59f26a30491782dd24dbf58aabcbf9"
     },
     {
       "path": "market-surroundings.js",
@@ -894,11 +934,11 @@
     },
     {
       "path": "night-market-agency.js",
-      "sha256": "918d0b3403ab11d267ba128c1af343f5a0187d4e52ba927b51a188c3bcccb83d"
+      "sha256": "a3eeb30f5053ccfceb7649d1d8d136ef2ebf1e4c8c675c60af089968f60f3372"
     },
     {
       "path": "night-market-state.js",
-      "sha256": "5b4b6d5329656811cff0a868b7fe883a0358347da358107b441b1804e7e8f233"
+      "sha256": "88f5539576add701a442e467efaf9aa14487d4d0b7cc65d4c6b3011e79a7418d"
     },
     {
       "path": "night-market.css",
@@ -906,7 +946,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "9e70b9df475b853be20a834eb2bfffe6badf471fe6747692bd1f63e6508049b9"
+      "sha256": "94d5f1fa7e2baa26a6592f0e1d614121a20fde015e3f3d8a2f75d292e7609d35"
     },
     {
       "path": "opening-chapters-state.js",
@@ -914,11 +954,19 @@
     },
     {
       "path": "opening-chapters.js",
-      "sha256": "f6800efd34af19c9a4a351821bc34fe9822332ec288fe0d55f150ed386ef1be0"
+      "sha256": "8e3d13a143fc225e6e25df442160389d6c6c7dd4a0d80a254b2dc8682cf8a195"
     },
     {
       "path": "opening-district.js",
       "sha256": "b43f5007a8f9881fa766d74e575b1f17f40cffefe073a5c61d3572f3a0295ef4"
+    },
+    {
+      "path": "orientation-tour.css",
+      "sha256": "80b272c6037165abf47b7d214112d40ffa2ac548889bdf8be5d98bac6ea26c58"
+    },
+    {
+      "path": "orientation-tour.mjs",
+      "sha256": "9c86d677f6d6450c8747a956ce40e6be4d001fd32d7a0b41a07b533d05b55e1a"
     },
     {
       "path": "phone-assets.js",
@@ -1083,38 +1131,6 @@
     {
       "path": "world.js",
       "sha256": "1e850ae11ca852c0658a601de3f1983ba5b2ed83841315998ef61a81619e44c4"
-    },
-    {
-      "path": "admin-preview.mjs",
-      "sha256": "3edf8031ade0246f764c4c4b2db4bc678f5eef0b3efdf7f4c2ef02f902ec4ce5"
-    },
-    {
-      "path": "landing.mjs",
-      "sha256": "4b27bdd89783eaa6e9d4af532a158b5c5a674fa546c8c712cdc497ff471ab0a3"
-    },
-    {
-      "path": "orientation-tour.mjs",
-      "sha256": "9c86d677f6d6450c8747a956ce40e6be4d001fd32d7a0b41a07b533d05b55e1a"
-    },
-    {
-      "path": "orientation-tour.css",
-      "sha256": "80b272c6037165abf47b7d214112d40ffa2ac548889bdf8be5d98bac6ea26c58"
-    },
-    {
-      "path": "../economy-lab/course-outline.mjs",
-      "sha256": "b38ec8be73bca10999fcd004dec9a1f2673f3793645d49df02b7322d63733890"
-    },
-    {
-      "path": "../economy-lab/course-outline.json",
-      "sha256": "1300957bf1656ca89f7ed282f001045b58f6b00a6f934b2dce3fef4766da1bdd"
-    },
-    {
-      "path": "../economy-lab/course-outline-print.html",
-      "sha256": "5121aa16f09bd2c8d71401693f762cbfc7f99810d915cbf6be56fab1defea4e0"
-    },
-    {
-      "path": "../economy-lab/course-outline.pdf",
-      "sha256": "d101e9fb8700158a3902c76ce45d20b21adc7fce567637a26b0c3717184eec58"
     }
   ],
   "estVideo": {
