@@ -1,32 +1,10 @@
 import {test,expect} from '@playwright/test';
 import {enterMarket} from './market-controls.js';
+import {observeCompanionRendering} from './companion-render-controls.js';
 test('selected Sprout is visibly rendered in the active town and Market scenes',async({page},info)=>{
  test.setTimeout(90000);const errors=[];page.on('pageerror',e=>{errors.push(e.message);console.log('COMPANION_PAGE_ERROR',e.message);});
  await page.addInitScript(()=>{const c=document.createElement('canvas');c.width=c.height=4;sessionStorage.setItem('ce-game-run-handoff-v1',JSON.stringify({id:'visible-companion',createdAt:Date.now(),data:{'ce-taster-intro-v1:avery':'seen','ce-missing-frame-local-review-v1':JSON.stringify({step:4,chapelVisited:true,shots:{mural:{label:'Fixture mural',image:c.toDataURL('image/jpeg')}},souvenir:c.toDataURL()})}}));});
- await page.route('**/app.js?*',async route=>{const response=await route.fetch();await route.fulfill({response,body:await response.text()+`
-const companionDrawFrames=new WeakMap(),instrumentedCompanionMeshes=new WeakSet(),originalCompanionRender=renderer.render;
-renderer.render=function(...args){
- echo?.root?.traverse(mesh=>{if(!mesh.isMesh||instrumentedCompanionMeshes.has(mesh))return;
-  instrumentedCompanionMeshes.add(mesh);const previous=mesh.onAfterRender;
-  mesh.onAfterRender=function(...drawArgs){previous.apply(this,drawArgs);companionDrawFrames.set(this,renderer.info.render.frame);};
- });return originalCompanionRender.apply(this,args);
-};
-window.companionRenderProbe=()=>{
- const state={...JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}'),entryReady},root=echo?.root;
- const livePosition=actor?.model.position.toArray(),entryVisibleMs=Number(canvas.dataset.entryVisibleMs)||null;
- if(!root)return {state,livePosition,entryVisibleMs,frame:renderer?.info.render.frame};
- // SkinnedMesh.updateMatrixWorld refreshes bindMatrixInverse. The inherited
- // updateWorldMatrix does not; computing a sphere then can poison renderer culling.
- root.updateMatrixWorld(true);camera.updateMatrixWorld(true);
- const frustum=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse));
- let visibleMeshes=0,drawnMeshes=0;const meshes=[];
- root.traverse(o=>{if(!o.isMesh)return;let visible=true;for(let p=o;p;p=p.parent)visible&&=p.visible;
-  const intersects=frustum.intersectsObject(o),drawn=companionDrawFrames.get(o)===renderer.info.render.frame;
-  if(visible&&intersects)visibleMeshes++;if(visible&&drawn)drawnMeshes++;
-  const box=new THREE.Box3().setFromObject(o),center=box.getCenter(new THREE.Vector3());
-  meshes.push({name:o.name,visible,intersects,drawn,min:box.min.toArray(),max:box.max.toArray(),projected:center.project(camera).toArray()});
- });return {state,livePosition,entryVisibleMs,frame:renderer.info.render.frame,parentMatches:root.parent===activeScene(),visibleMeshes,drawnMeshes,meshes,camera:camera.position.toArray()};
-};`});});
+ await observeCompanionRendering(page);
  const sample=()=>page.evaluate(()=>window.companionRenderProbe?.());
  const rendered=(mode,after)=>expect.poll(async()=>{const s=await sample();return {state:s?.state,parentMatches:s?.parentMatches,inView:s?.visibleMeshes>0,drawn:s?.drawnMeshes>0,frameAdvanced:s?.frame>after};},{timeout:30000}).toMatchObject({state:{mode,echo:{helper:'sprout',helperStatus:'ready',visible:true,meshes:1}},parentMatches:true,inView:true,drawn:true,frameAdvanced:true});
  await page.goto('/playable-3d/?guestRun=visible-companion');
