@@ -1,4 +1,5 @@
 import {test,expect} from './campus-fixtures.js';
+import {walkThroughMarketEntrance} from './market-controls.js';
 for(const width of [1280,768,390])test(`My Life stays separate from phase and account at ${width}`,async({page},info)=>{
  test.setTimeout(60000);await page.setViewportSize({width,height:844});
  await page.goto('/playable-3d/?review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});
@@ -11,7 +12,7 @@ for(const width of [1280,768,390])test(`My Life stays separate from phase and ac
 test('Juniper food and staff clear the shallow counter in packing and collection roles',async({page},info)=>{
  test.setTimeout(90000);await page.setViewportSize({width:1280,height:844});
  await page.route('**/app.js?*',async r=>{const response=await r.fetch();await r.fulfill({response,body:(await response.text())+'\nwindow.stallReview=()=>({market:nightMarket,camera,renderer,THREE});'});});
- await page.goto('/playable-3d/?experience=sunday-markets&market-review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});
+ await page.goto('/playable-3d/?experience=sunday-markets&market-review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page);
  await expect.poll(()=>page.evaluate(()=>window.stallReview().market?.snapshot().visuals.ready),{timeout:30000}).toBe(14);
  const geometry=await page.evaluate(()=>{const {market,THREE:T}=window.stallReview();market.scene.updateMatrixWorld(true);return {bowls:market.scene.children.filter(o=>o.name.includes('rice bowl')).length,staff:['mara','sam'].map(id=>{const actor=market.scene.getObjectByName('Market actor / '+id),model=actor.children.at(-1);model.traverse(o=>{if(o.isSkinnedMesh)o.skeleton.update()});const box=new T.Box3().setFromObject(model,true);return {id,min:box.min.toArray(),max:box.max.toArray()};})};});
  console.log('STALL_CLEARANCE',JSON.stringify(geometry));expect(geometry.bowls).toBe(6);

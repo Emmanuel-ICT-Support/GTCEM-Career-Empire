@@ -812,7 +812,7 @@ function animate(){
 function setupExplorationMenus(){
  const options=document.createElement('details');options.id='exploration-options';options.className='header-menu';options.innerHTML='<summary>Options</summary><div id="exploration-option-list"><p id="options-pause-note">Movement paused while Options is open.</p><button type="button" id="resume-options">Close options / Resume</button></div>';$('header-controls').append(options);
  const list=$('exploration-option-list');
- for(const selector of ['#destination-menu','#world-tools','#header-phase','#flyover-slot','#choose-helper','#my-life-link','.legacy-link']){const item=document.querySelector(selector);if(item){item.hidden=false;list.append(item);if(item.id==='header-phase')$('phase').hidden=false;}}
+ for(const selector of ['#destination-menu','#world-tools','#header-phase','#flyover-slot','#choose-helper','#my-life-link','#blueprint-link','.legacy-link']){const item=document.querySelector(selector);if(item){item.hidden=false;list.append(item);if(item.id==='header-phase')$('phase').hidden=false;}}
  $('choose-helper').textContent='Optional companion';$('choose-helper').hidden=!discovery?.snapshot().souvenir;
  // Optional character editing keeps the quiet exploration entry.
  $('studio-view').hidden=true;
@@ -837,7 +837,7 @@ async function showOrientationHandover({restore=false}={}){
  if(!discovery?.snapshot().souvenir)return;
  orientationHandoverSeen=true;resetNavigationInput();actor.setWalking(false);closeExplorationOptions(false);explorationTools?.close();$('discovery-dialog').close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;
  orientationSummary=orientationHandoverCopy({earned:null,tax:null});try{orientationSummary=orientationHandoverCopy(await explorationTools.completeOrientation());}catch{}
- if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=post-photo-tour-20261013').then(({createOrientationTour})=>{
+ if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=phases-20261014').then(({createOrientationTour})=>{
   orientationTour=createOrientationTour({storage:gameStorage,photo:()=>discovery.photo(),summary:()=>orientationSummary,helper:()=>helperPicker.selected(),
    chooseHelper:async()=>{await helperPicker.choose(true);await companionApply;if(helperPicker.selected().model&&echo?.snapshot().helperStatus==='failed')throw Error('Companion unavailable');},
    fly:()=>{closeExplorationOptions(false);explorationTools.showMap();return flyover.enter();},openOptions:()=>{$('exploration-options').open=true;},optionsOpen:()=>Boolean($('exploration-options')?.open),
@@ -856,7 +856,7 @@ function landFromFlyover(point,heading){
  resetNavigationInput();worlds.teleport(false,landed.x,landed.z,landed.y);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=(atMarket?0:heading)+Math.PI;actor.setWalking(false);yaw=atMarket?0:heading;aerial=false;$('aerial').setAttribute('aria-pressed','false');
  setLocation(atMarket?'Outside Sunday Markets':'Campus · safely landed');orientationTour?.landed(landed);requestAnimationFrame(()=>updateCamera(1,true));return true;
 }
-async function goToMarketEntrance(){orientationTour?.stop();return campusSpot(MARKET_APPROACH.x,MARKET_APPROACH.z,'Outside Sunday Markets',MARKET_APPROACH.yaw);}
+async function goToMarketEntrance(){orientationTour?.stop();if(adminReviewRequested)return openMarket();return campusSpot(MARKET_APPROACH.x,MARKET_APPROACH.z,'Outside Sunday Markets',MARKET_APPROACH.yaw);}
 
 function openWholeCharacterChoice(){
  const options=$('exploration-options');if(options)options.open=false;

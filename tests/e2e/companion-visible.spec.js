@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {enterMarket} from './market-controls.js';
 test('selected Sprout is visibly rendered in the active town and Market scenes',async({page},info)=>{
  test.setTimeout(90000);const errors=[];page.on('pageerror',e=>{errors.push(e.message);console.log('COMPANION_PAGE_ERROR',e.message);});
  await page.addInitScript(()=>{const c=document.createElement('canvas');c.width=c.height=4;sessionStorage.setItem('ce-game-run-handoff-v1',JSON.stringify({id:'visible-companion',createdAt:Date.now(),data:{'ce-taster-intro-v1:avery':'seen','ce-missing-frame-local-review-v1':JSON.stringify({step:4,chapelVisited:true,shots:{mural:{label:'Fixture mural',image:c.toDataURL('image/jpeg')}},souvenir:c.toDataURL()})}}));});
@@ -8,6 +9,6 @@ test('selected Sprout is visibly rendered in the active town and Market scenes',
  await page.goto('/playable-3d/?guestRun=visible-companion');await expect.poll(async()=>(await sample())?.state,{timeout:30000}).toMatchObject({entryReady:true});const before=await sample();
  await page.locator('#exploration-options > summary').click();await page.locator('#choose-helper').click();await page.locator('[name=guidance][value=creature]').check();await page.locator('[name=helper][value=sprout]').check();await page.locator('[data-continue]').click();
  await rendered('town',before.frame);const town=await sample();await page.screenshot({path:info.outputPath('sprout-town.png')});expect(town.parentMatches).toBe(true);expect(town.visibleMeshes).toBeGreaterThan(0);expect(town.frame).toBeGreaterThan(before.frame);
- await page.locator('#exploration-options > summary').click();await page.locator('#destination-menu > summary').click();await page.locator('#market-destination').click();if(await page.locator('#exploration-options').evaluate(e=>e.open))await page.locator('#resume-options').click();
+ await enterMarket(page);
  await rendered('market',town.frame);const market=await sample();expect(market.parentMatches).toBe(true);expect(market.visibleMeshes).toBeGreaterThan(0);expect(market.frame).toBeGreaterThan(town.frame);await page.screenshot({path:info.outputPath('sprout-market.png')});expect(errors).toEqual([]);await info.attach('companion-scenes',{body:JSON.stringify({town,market},null,2),contentType:'application/json'});
 });

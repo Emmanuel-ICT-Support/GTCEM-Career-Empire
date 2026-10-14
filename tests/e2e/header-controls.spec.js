@@ -1,4 +1,5 @@
 import {test,expect} from './campus-fixtures.js';
+import {walkThroughMarketEntrance} from './market-controls.js';
 const state=p=>p.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
 for(const width of [1280,854,390])test(`banner controls are clear and destinations work at ${width}`,async({page},info)=>{
  test.setTimeout(150000);await page.setViewportSize({width,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -25,6 +26,7 @@ for(const width of [1280,854,390])test(`banner controls are clear and destinatio
  if(width===854){
   for(const [id,mode]of [['home','town'],['chapel','chapel'],['media','town'],['space','town'],['market','market'],['studio-view','studio']]){
    await page.locator('#places-toggle').click();await page.locator(id==='studio-view'?'#studio-view':`#${id}-destination`).click();
+   if(id==='market')await walkThroughMarketEntrance(page);
    await expect.poll(async()=>(await state(page)).mode,{timeout:30000}).toBe(mode);
    if(id==='media')await expect(page.locator('#location-title')).toHaveText('English and Media');
    if(id==='space')await expect(page.locator('#location-title')).toHaveText('SPACE');

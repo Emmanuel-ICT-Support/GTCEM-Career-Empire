@@ -1,4 +1,4 @@
-import {mountCourseOutline} from './course-outline.mjs?v=post-photo-tour-20261013';
+import {mountCourseOutline} from './course-outline.mjs?v=phases-20261014';
 import {browserRun} from '../playable-3d/game-session.mjs?v=guest-first-20261012';
 const gameRun=await browserRun({newEntry:false});const gameStorage=gameRun.storage;
 import {MILESTONES} from './exploration.mjs?v=navigation-20261012';

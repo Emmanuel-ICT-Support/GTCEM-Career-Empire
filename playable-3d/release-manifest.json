@@ -1,8 +1,8 @@
 {
-  "release": "post-photo-tour-20261013",
+  "release": "post-photo-tour-blueprint-20261014",
   "gameUrl": "/playable-3d/",
   "baseCommit": "e88724dcae46de7739625fbbd54ae77091378c3c",
-  "scope": "Draft post-photo companion tour, safe ground landing, outside-campus-building Market shortcuts and student-only draft course outline. Existing startup, assets, photo capture, paid Market gates and public Admin review are preserved. No publication or curriculum completion.",
+  "scope": "Draft post-photo companion tour, safe ground landing, outside-campus-building Market shortcuts and student-only draft numbered Phase 0-11 course outline. Existing startup, assets, photo capture, paid Market gates and public Admin review are preserved. No publication or curriculum completion. Blueprint overview is available in the existing menu in a separate accessible tab; Admin review menu re-entry remains direct Reception.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,7 @@
     },
     {
       "path": "../economy-lab/app.mjs",
-      "sha256": "00dc0935dc252ede733c5c50abd1ab278418d5d1b47297b18610fa09ee4f56c2"
+      "sha256": "a8e46992459abe30663dd53d2d1618c8c21303e42fe945f289744e358f71ad43"
     },
     {
       "path": "../economy-lab/economy.mjs",
@@ -22,7 +22,7 @@
     },
     {
       "path": "../economy-lab/index.html",
-      "sha256": "443adae70f7399c1963ae18744ef2d353500fd3e191f34f1b5a0308aa8e518b0"
+      "sha256": "68c30204e3c1f6f0bda1d2bb5839f054bd5b0730a345d244b5ed1c6475accc54"
     },
     {
       "path": "../economy-lab/style.css",
@@ -42,7 +42,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "196915de961a35c4feb6ca27fa03c93a1f7aa165ecd061952f7b3092da0c6945"
+      "sha256": "1e39cce828d0a11e2b951a67c394476070d879c36ba1d97f5d272c1a00a19221"
     },
     {
       "path": "arcade-carnival.js",
@@ -814,7 +814,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "aa5255ea86ba81f1dc5923c087d69aa069d4cb7f7cd95de09b53ab4260639332"
+      "sha256": "cc01226e5a3c44bb3e19d239cf0de50f56b29708c7f4e1753fa574bb51ca88de"
     },
     {
       "path": "header-controls.css",
@@ -838,7 +838,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "25726b6279648ea2032ba00d7f02c3c612bf22aa5cd2b29cb8b484fc52d18bbf"
+      "sha256": "a71b2693e45ce7f99b2576cbb70e1c3cde27da89d1af932edb9b5bbf75cb5d4e"
     },
     {
       "path": "intro-taster.css",
@@ -970,7 +970,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "9b1b9eb9c35bcf0b6c90134ef3a0383221b1cc446e72bb5d679cbd79a8456359"
+      "sha256": "7ccc47fd6828e9b3d3d67ceff9c566c48d8239dbc3dce65fc5b4912b4f07d921"
     },
     {
       "path": "taster-assets/career-empire-intro.mp4",
@@ -1094,7 +1094,7 @@
     },
     {
       "path": "orientation-tour.mjs",
-      "sha256": "aa5c69d5e6ce870f2a2817d06905103fa4aad895b13bd396f264e8d78c57a7ed"
+      "sha256": "4a214c5fae58a6622c8a81614958c5ae2ebf5d863fc261b0210f4f28cb4f777a"
     },
     {
       "path": "orientation-tour.css",
@@ -1102,19 +1102,19 @@
     },
     {
       "path": "../economy-lab/course-outline.mjs",
-      "sha256": "6a9a70d551c733a329d3f674e650fe8b6cc2866d9dd3fe4841cfcb02cfc372a4"
+      "sha256": "b38ec8be73bca10999fcd004dec9a1f2673f3793645d49df02b7322d63733890"
     },
     {
       "path": "../economy-lab/course-outline.json",
-      "sha256": "d026e84dbf0ddb15d6326d9faf3f2bbbe30ddad479bd44fddf32ec6b07b61227"
+      "sha256": "1300957bf1656ca89f7ed282f001045b58f6b00a6f934b2dce3fef4766da1bdd"
     },
     {
       "path": "../economy-lab/course-outline-print.html",
-      "sha256": "b3b72aa989b9a3aa3154a849b329c2963a2b6568476e96045c98ed4633b7740e"
+      "sha256": "5121aa16f09bd2c8d71401693f762cbfc7f99810d915cbf6be56fab1defea4e0"
     },
     {
       "path": "../economy-lab/course-outline.pdf",
-      "sha256": "7e2facfaa84357d31b613bcd444d4cd106d510b1dd9dea7191bff70d5f12868b"
+      "sha256": "d101e9fb8700158a3902c76ce45d20b21adc7fce567637a26b0c3717184eec58"
     }
   ],
   "estVideo": {

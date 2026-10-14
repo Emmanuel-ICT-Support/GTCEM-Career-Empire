@@ -1,4 +1,5 @@
 import {test,expect} from './campus-fixtures.js';
+import {walkThroughMarketEntrance} from './market-controls.js';
 // Isolated real module/DOM/scene integration. Separate from full avatar navigation.
 for(const width of [1280,390])test(`research mission and pass ${width}`,async({page})=>{
  await page.setViewportSize({width,height:844});
@@ -36,10 +37,10 @@ test('fresh review uses the actual game and leaves existing saves untouched',asy
  const old=JSON.stringify({version:1,events:['accept','helper','pay','buy']});
  await page.addInitScript(value=>localStorage.setItem('ce-player:e2e-owned:'+'ce-night-market-practice-v1',value),old);
  await page.goto('/playable-3d/?experience=night-market&market-review=1',{waitUntil:'domcontentloaded'});
- await expect(page.locator('#loading')).toBeHidden({timeout:30000});await expect(page.locator('#market-objective')).toHaveText('Start: meet Mara at Juniper Kitchen.');
+ await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page);await expect(page.locator('#market-objective')).toHaveText('Start: meet Mara at Juniper Kitchen.');
  await page.keyboard.down('w');try{await expect(page.locator('#interact')).toHaveText('Talk to Mara',{timeout:15000});}finally{await page.keyboard.up('w');}
  await page.locator('#interact').click();await page.getByRole('button',{name:'Take the shift',exact:true}).click();
  await expect(page.locator('#market-objective')).toContainText('Your goal: make service smoother.');
  expect(await page.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:'+'ce-night-market-practice-v1'))).toBe(old);
- await page.reload();await expect(page.locator('#market-objective')).toHaveText('Start: meet Mara at Juniper Kitchen.',{timeout:30000});
+ await page.reload();await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page);await expect(page.locator('#market-objective')).toHaveText('Start: meet Mara at Juniper Kitchen.',{timeout:30000});
 });
