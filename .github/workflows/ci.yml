@@ -5,6 +5,12 @@ name: CI
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_call:
+    inputs:
+      focused:
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   checks:
@@ -24,10 +30,24 @@ jobs:
         run: npm ci
 
       - name: Run source checks and unit coverage once
+        if: ${{ !inputs.focused }}
         run: npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs
 
+      - name: Verify focused lane policy and saved runtime handlers
+        if: ${{ inputs.focused }}
+        run: |
+          npm run check
+          mkdir -p coverage
+          npx vitest run tests/unit/runtime-test-policy.test.mjs tests/unit/render-quality.test.mjs tests/unit/control-completion.test.mjs --reporter=default --reporter=json --outputFile=coverage/focused-units.json
+          node --test scripts/ci-shard-proof.test.mjs scripts/focused-workflow-proof.test.mjs
+
       - name: Collect full browser inventory
+        if: ${{ !inputs.focused }}
         run: npx playwright test --list --reporter=json > coverage/browser-inventory.json
+
+      - name: Collect only the two software compatibility cases
+        if: ${{ inputs.focused }}
+        run: npx playwright test --config qa/ecc-software-compatibility.playwright.config.mjs --list --reporter=json > coverage/software-compatibility-inventory.json
 
       - name: Upload coverage report
         if: always()
@@ -39,6 +59,7 @@ jobs:
           retention-days: 3
 
   critical:
+    if: ${{ !inputs.focused }}
     needs: checks
     runs-on: ubuntu-latest
     steps:
@@ -80,7 +101,7 @@ jobs:
 
   browser:
     needs: [checks, critical]
-    if: needs.checks.result == 'success' && needs.critical.result == 'success'
+    if: ${{ !inputs.focused && needs.checks.result == 'success' && needs.critical.result == 'success' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -136,6 +157,7 @@ jobs:
         env:
           CE_BROWSER_CHANNEL: chromium
           CE_COLD_SHADERS: '1'
+          CE_RECOVERY_DRAWS: ${{ inputs.focused && '1' || '0' }}
           CE_TEST_OUTPUT: coverage/runtime-software-compatibility/browser
           PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/runtime-software-compatibility/browser-report.json
       - name: Report functionality and measured waiting without a software SLA
@@ -149,10 +171,40 @@ jobs:
           if-no-files-found: warn
           retention-days: 3
 
+  focused-proof:
+    if: ${{ always() && inputs.focused }}
+    needs: [checks, software-compatibility]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: focused-checks
+      - uses: actions/download-artifact@v4
+        with:
+          name: runtime-software-compatibility
+          path: focused-software
+      - name: Prove exact focused execution and preserve qualification limits
+        env:
+          CHECKS_RESULT: ${{ needs.checks.result }}
+          COMPATIBILITY_RESULT: ${{ needs['software-compatibility'].result }}
+        run: node scripts/focused-workflow-proof.mjs focused-checks/software-compatibility-inventory.json focused-software/browser-report.json focused-software/runtime-lanes.json focused-checks/focused-units.json coverage/focused-workflow-proof.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: focused-workflow-proof
+          path: coverage/focused-workflow-proof.json
+          if-no-files-found: warn
+          retention-days: 3
+
   test:
     name: test
     needs: [checks, critical, browser, software-compatibility]
-    if: always()
+    if: ${{ always() && !inputs.focused }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
