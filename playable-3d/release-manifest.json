@@ -42,7 +42,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "e7239837980301c99e9f460ec7af32c65573d3348d9e2dfd54930e00caee8c82"
+      "sha256": "6cad60f576b34b54fc427e5aaac288ce2eb462fb3167e3d9cadb862457751037"
     },
     {
       "path": "arcade-carnival.js",
@@ -814,7 +814,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "fd1f4b8bef04ff06f41d4918aa6950dbf6de47fc174b0bf5290cefebcb92c98a"
+      "sha256": "7080c796c6b1bbca94acb8f77936aa3b427537637230446a83401aef8c8b5179"
     },
     {
       "path": "header-controls.css",
@@ -838,7 +838,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "91dc9e13b9625032d4785f7965880bba6679426355022db27a93b6a8ac123c3b"
+      "sha256": "c1d31b19f1a73d70f6fb7580ada6fc40de74ffa8f565d5f750e0f502443ac845"
     },
     {
       "path": "intro-taster.css",
@@ -1119,6 +1119,10 @@
     {
       "path": "campus-asset-url.mjs",
       "sha256": "23e49373e38c465658c002dcc45217762a6d0332416e68b8afde37d4671b97f4"
+    },
+    {
+      "path": "est-camera.mjs",
+      "sha256": "364da9308cf57aea65f54645923017c6267d5347bb983315fd5f17334c07cf3f"
     }
   ],
   "estVideo": {
