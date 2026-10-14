@@ -1,41 +1,34 @@
 import {test,expect} from './campus-fixtures.js';
 const state=page=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
 
-test('Arrival is playable while distant models and textures wait, then opens the whole campus',async({page},info)=>{
+test('Arrival retains complete geometry and usable walking while optional surfaces wait',async({page},info)=>{
  test.setTimeout(120000);let release;const gate=new Promise(resolve=>release=resolve),errors=[],requests=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
- await page.route('**/mature-eucalypt-a-packed.glb',async route=>{await gate;await route.continue();});
- await page.route('**/grass-ecc-campus-v1-lossless.webp',async route=>{await gate;await route.continue();});
+ await page.route('**/plaza/limestone-ecc-campus-v1.png',async route=>{await gate;await route.continue();});
  try{
   await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});
   await expect(page.locator('#loading')).toBeHidden({timeout:45000});
-  await expect.poll(async()=>(await state(page)).mode).toBe('town');
-  expect((await state(page)).campusReady).toBe(false);await expect.poll(async()=>(await state(page)).arrivalRestricted).toBe(true);
-  const start=(await state(page)).position[2];
+  await expect.poll(async()=>(await state(page)),{timeout:30000}).toMatchObject({mode:'town',entryReady:true,campusReady:false,arrivalRestricted:false});
+  expect((await state(page)).scenery.trees).toBe(19);expect((await state(page)).scenery.buildings).toBe(2);
+  const start=(await state(page)).position[2];await page.locator('#scene').focus();
   await page.keyboard.down('w');await page.waitForTimeout(700);await page.keyboard.up('w');
   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);
-  await page.keyboard.down('Shift');await page.keyboard.down('w');await page.waitForTimeout(5000);await page.keyboard.up('w');await page.keyboard.up('Shift');
-  expect((await state(page)).position[2]).toBeGreaterThanOrEqual(3.49);
-  await page.locator('#places-toggle').click();await page.locator('#home-destination').click();
+  await page.keyboard.down('Shift');await page.keyboard.down('w');await page.waitForTimeout(1200);await page.keyboard.up('w');await page.keyboard.up('Shift');
+  await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-3);
   await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled();
-  await expect(page.locator('#campus-progress')).toBeHidden();
-  await page.locator('#save-avatar').click();await expect.poll(async()=>(await state(page)).mode).toBe('town');
-  expect((await state(page)).campusReady).toBe(false);
-  await page.screenshot({path:info.outputPath('playable-arrival.png')});
-  await page.setViewportSize({width:390,height:844});
-  const notice=await page.locator('#campus-progress').boundingBox();
-  expect(notice.x).toBeGreaterThanOrEqual(0);expect(notice.x+notice.width).toBeLessThanOrEqual(390);
+  await expect(page.locator('#campus-progress')).toBeHidden();await page.locator('#save-avatar').click();await expect.poll(async()=>(await state(page)).mode).toBe('town');
+  await page.screenshot({path:info.outputPath('playable-arrival.png')});await page.setViewportSize({width:390,height:844});
+  await expect(page.locator('#campus-retry')).toBeVisible({timeout:30000});
+  const notice=await page.locator('#campus-progress').boundingBox();expect(notice.x).toBeGreaterThanOrEqual(0);expect(notice.x+notice.width).toBeLessThanOrEqual(390);
   await expect.poll(async()=>{const n=await page.locator('#campus-progress').boundingBox(),c=await page.locator('#world-tools').boundingBox();return n.y-(c.y+c.height);}).toBeGreaterThanOrEqual(0);
-  await expect(page.locator('#places-toggle')).toBeInViewport();
-  await page.screenshot({path:info.outputPath('playable-arrival-phone.png')});
-  await page.setViewportSize({width:1280,height:720});
-  release();await expect.poll(async()=>(await state(page)).campusReady,{timeout:60000}).toBe(true);
-  const timing=await page.evaluate(()=>({first:Number(document.querySelector('#scene').dataset.firstFrameMs),optional:performance.getEntriesByType('resource').filter(r=>/mature-eucalypt-a-packed|grass-ecc-campus-v1-lossless/.test(r.name)).map(r=>r.startTime)}));
+  await expect(page.locator('#places-toggle')).toBeInViewport();await page.screenshot({path:info.outputPath('playable-arrival-phone.png')});
+  await page.setViewportSize({width:1280,height:720});release();await expect.poll(async()=>(await state(page)).surfaceDetailPending,{timeout:30000}).toBe(0);
+  await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();await expect.poll(async()=>(await state(page)).campusReady,{timeout:60000}).toBe(true);
+  const timing=await page.evaluate(()=>({first:Number(document.querySelector('#scene').dataset.firstFrameMs),optional:performance.getEntriesByType('resource').filter(r=>r.name.includes('/plaza/limestone-ecc-campus-v1.png')).map(r=>r.startTime)}));
   expect(timing.optional.length).toBeGreaterThan(0);expect(timing.optional.every(t=>t>=timing.first)).toBe(true);
   expect((await state(page)).arrivalRestricted).toBe(false);expect((await state(page)).scenery.trees).toBe(19);
   await page.locator('#places-toggle').click();await page.locator('#home-destination').click();await expect.poll(async()=>(await state(page)).position[0]).toBeCloseTo(1.385,1);
-  await page.screenshot({path:info.outputPath('complete-campus.png')});
-  expect(requests.some(u=>/mr-middleton|occupational-top-chef/.test(u))).toBe(false);expect(errors).toEqual([]);
+  await page.screenshot({path:info.outputPath('complete-campus.png')});expect(requests.some(u=>/mr-middleton|occupational-top-chef/.test(u))).toBe(false);expect(errors).toEqual([]);
  }finally{release();}
 });
 
