@@ -118,9 +118,40 @@ jobs:
           if-no-files-found: warn
           retention-days: 3
 
+  software-compatibility:
+    name: Software startup compatibility (waiting time measured separately)
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Check real software startup, walking and cached Stats
+        run: npx playwright test --config qa/ecc-software-compatibility.playwright.config.mjs --workers=1 --retries=0 --reporter=line,json
+        env:
+          CE_BROWSER_CHANNEL: chromium
+          CE_COLD_SHADERS: '1'
+          CE_TEST_OUTPUT: coverage/runtime-software-compatibility/browser
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/runtime-software-compatibility/browser-report.json
+      - name: Report functionality and measured waiting without a software SLA
+        if: always()
+        run: node scripts/runtime-lane-report.mjs coverage/runtime-software-compatibility/runtime-lanes.json coverage/runtime-software-compatibility/browser-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: runtime-software-compatibility
+          path: coverage/runtime-software-compatibility/
+          if-no-files-found: warn
+          retention-days: 3
+
   test:
     name: test
-    needs: [checks, critical, browser]
+    needs: [checks, critical, browser, software-compatibility]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -154,11 +185,23 @@ jobs:
           BROWSER_RESULT: ${{ needs.browser.result }}
         run: node scripts/ci-shard-proof.mjs coverage-checks/browser-inventory.json ci-evidence coverage/browser-rollup.json
 
+      - name: Report actual runtime lanes separately from unique inventory accounting
+        if: always()
+        run: node scripts/runtime-lane-report.mjs coverage/runtime-lanes.json ci-evidence
+
+      - name: Require the separate compatibility check
+        if: always()
+        env:
+          COMPATIBILITY_RESULT: ${{ needs['software-compatibility'].result }}
+        run: test "$COMPATIBILITY_RESULT" = success
+
       - name: Upload consolidated count proof
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: browser-count-proof
-          path: coverage/browser-rollup.json
+          path: |
+            coverage/browser-rollup.json
+            coverage/runtime-lanes.json
           if-no-files-found: warn
           retention-days: 3

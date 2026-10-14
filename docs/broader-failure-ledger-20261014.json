@@ -661,7 +661,7 @@
       "outcome": "failed",
       "shard": 2,
       "group": "stats-and-map-state",
-      "status": "software-entry-blocks-frame-cache-check",
+      "status": "explicit-software-cache-functional-pass; historical-failure-retained",
       "originalRun": 38543515871,
       "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
       "evidence": [
@@ -701,6 +701,19 @@
           "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
           "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
           "report": "coverage/broader-targeted-20261014/stats-software-ui-draw-trace/report.json"
+        },
+        {
+          "label": "approved-software-compatibility",
+          "renderer": "software",
+          "requestedRenderer": "software",
+          "runtimeLane": "software-compatibility",
+          "outcome": "passed",
+          "baseCommit": "b5d2dd861c6b60dd57f359dcf5e598deb4a1ebde",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "runtimeVariant": "baseline",
+          "diagnosticOnly": false,
+          "report": "coverage/broader-targeted-20261014/approved-software-compatibility/report.json",
+          "runtimeLaneReport": "coverage/broader-targeted-20261014/approved-software-compatibility/runtime-lanes.json"
         }
       ],
       "latestFailure": {
@@ -719,12 +732,12 @@
         "report": "coverage/broader-targeted-20261014/remainder-native-c72/report.json"
       },
       "softwareFollowOn": {
-        "outcome": "failed",
-        "label": "stats-software-ui-draw-trace",
-        "report": "coverage/broader-targeted-20261014/stats-software-ui-draw-trace/report.json"
+        "outcome": "passed",
+        "label": "approved-software-compatibility",
+        "report": "coverage/broader-targeted-20261014/approved-software-compatibility/report.json"
       },
       "remainingRequirement": "Original software failure is not cleared by the native result",
-      "currentNotes": "Native stable-frame precondition is software-specific. Three software attempts failed the unchanged entry deadline. Post-deadline UI trace saved 500, wallet 1300, with actual/internal/published frames all stable at 2; original hosted third-frame failure remains unresolved."
+      "currentNotes": "Explicit software fixture tests the actual paused-frame cache. Existing 60s whole-case watchdog allows initial real readiness (30.179s); wallet and unchanged exact frozen frame assertions pass. The old third-frame failure is retained, not rewritten as a runtime fix."
     },
     {
       "id": "256d4c3724a264a5e24b-47f6fd00ea22e9383e2b:chromium:0",
@@ -1350,7 +1363,7 @@
       "outcome": "failed",
       "shard": 3,
       "group": "startup-eight-second-budget",
-      "status": "native-pass-software-confirmation-open",
+      "status": "qualified-gpu-performance-pass; historical-software-wait-retained",
       "originalRun": 38543515871,
       "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
       "evidence": [
@@ -1366,16 +1379,29 @@
           "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
           "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
           "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        },
+        {
+          "label": "approved-gpu-performance",
+          "renderer": "native",
+          "requestedRenderer": "native",
+          "runtimeLane": "gpu-performance",
+          "outcome": "passed",
+          "baseCommit": "b5d2dd861c6b60dd57f359dcf5e598deb4a1ebde",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "runtimeVariant": "baseline",
+          "diagnosticOnly": false,
+          "report": "coverage/broader-targeted-20261014/approved-gpu-performance/report.json",
+          "runtimeLaneReport": "coverage/broader-targeted-20261014/approved-gpu-performance/runtime-lanes.json"
         }
       ],
       "nativeVerification": {
         "outcome": "passed",
-        "label": "startup-native-c72",
-        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        "label": "approved-gpu-performance",
+        "report": "coverage/broader-targeted-20261014/approved-gpu-performance/report.json"
       },
       "softwareFollowOn": null,
       "remainingRequirement": "Original software failure is not cleared by the native result",
-      "currentNotes": "Eight-second limit retained. Fresh-browser software control is 24.370s versus native 1.865s. Exact lighting-cache experiment failed (25.391/26.355s software); native control/candidate pass. Expanded profiling shows driver/GPU blocking moving into getExtension, so earlier pure-compilation attribution is refined. No runtime optimisation or support/test exception adopted."
+      "currentNotes": "User approved separate runtime lanes. GPU 8s retained and three current checks pass at 1.282\u20131.638s on actual Metal. Cold software compatibility passes functionally at 22.678s with wait acceptance null; original ~24s failure and original hosted outcome remain unchanged, software not fixed."
     },
     {
       "id": "8a94587f89b4ab1cab50-3ecdaef3f0cd3a854734:chromium:0",
@@ -1388,7 +1414,7 @@
       "outcome": "failed",
       "shard": 3,
       "group": "startup-eight-second-budget",
-      "status": "native-pass-software-confirmation-open",
+      "status": "qualified-gpu-performance-pass; historical-software-wait-retained",
       "originalRun": 38543515871,
       "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
       "evidence": [
@@ -1404,16 +1430,29 @@
           "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
           "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
           "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        },
+        {
+          "label": "approved-gpu-performance",
+          "renderer": "native",
+          "requestedRenderer": "native",
+          "runtimeLane": "gpu-performance",
+          "outcome": "passed",
+          "baseCommit": "b5d2dd861c6b60dd57f359dcf5e598deb4a1ebde",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "runtimeVariant": "baseline",
+          "diagnosticOnly": false,
+          "report": "coverage/broader-targeted-20261014/approved-gpu-performance/report.json",
+          "runtimeLaneReport": "coverage/broader-targeted-20261014/approved-gpu-performance/runtime-lanes.json"
         }
       ],
       "nativeVerification": {
         "outcome": "passed",
-        "label": "startup-native-c72",
-        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        "label": "approved-gpu-performance",
+        "report": "coverage/broader-targeted-20261014/approved-gpu-performance/report.json"
       },
       "softwareFollowOn": null,
       "remainingRequirement": "Original software failure is not cleared by the native result",
-      "currentNotes": "Eight-second limit retained. Fresh-browser software control is 24.370s versus native 1.865s. Exact lighting-cache experiment failed (25.391/26.355s software); native control/candidate pass. Expanded profiling shows driver/GPU blocking moving into getExtension, so earlier pure-compilation attribution is refined. No runtime optimisation or support/test exception adopted."
+      "currentNotes": "User approved separate runtime lanes. GPU 8s retained and three current checks pass at 1.282\u20131.638s on actual Metal. Cold software compatibility passes functionally at 22.678s with wait acceptance null; original ~24s failure and original hosted outcome remain unchanged, software not fixed."
     },
     {
       "id": "8beb0a03f378ffff1fdf-3b33fcfd8145004f253a:chromium:0",
@@ -1426,7 +1465,7 @@
       "outcome": "failed",
       "shard": 3,
       "group": "startup-eight-second-budget",
-      "status": "native-pass-software-confirmation-open",
+      "status": "qualified-gpu-performance-pass; historical-software-wait-retained",
       "originalRun": 38543515871,
       "candidate": "082805ba08e0f490062ff6be25f65619ad8eee50",
       "evidence": [
@@ -1496,20 +1535,46 @@
           "runtimeVariant": "precomputed-room-environment",
           "diagnosticOnly": true,
           "report": "coverage/broader-targeted-20261014/shader-cached-software-final-attribution/report.json"
+        },
+        {
+          "label": "approved-gpu-performance",
+          "renderer": "native",
+          "requestedRenderer": "native",
+          "runtimeLane": "gpu-performance",
+          "outcome": "passed",
+          "baseCommit": "b5d2dd861c6b60dd57f359dcf5e598deb4a1ebde",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "runtimeVariant": "baseline",
+          "diagnosticOnly": false,
+          "report": "coverage/broader-targeted-20261014/approved-gpu-performance/report.json",
+          "runtimeLaneReport": "coverage/broader-targeted-20261014/approved-gpu-performance/runtime-lanes.json"
+        },
+        {
+          "label": "approved-software-compatibility",
+          "renderer": "software",
+          "requestedRenderer": "software",
+          "runtimeLane": "software-compatibility",
+          "outcome": "passed",
+          "baseCommit": "b5d2dd861c6b60dd57f359dcf5e598deb4a1ebde",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "runtimeVariant": "baseline",
+          "diagnosticOnly": false,
+          "report": "coverage/broader-targeted-20261014/approved-software-compatibility/report.json",
+          "runtimeLaneReport": "coverage/broader-targeted-20261014/approved-software-compatibility/runtime-lanes.json"
         }
       ],
       "nativeVerification": {
         "outcome": "passed",
-        "label": "shader-native-baseline-cold",
-        "report": "coverage/broader-targeted-20261014/shader-native-baseline-cold/report.json"
+        "label": "approved-gpu-performance",
+        "report": "coverage/broader-targeted-20261014/approved-gpu-performance/report.json"
       },
       "softwareFollowOn": {
-        "outcome": "failed",
-        "label": "shader-baseline-software-cold",
-        "report": "coverage/broader-targeted-20261014/shader-baseline-software-cold/report.json"
+        "outcome": "passed",
+        "label": "approved-software-compatibility",
+        "report": "coverage/broader-targeted-20261014/approved-software-compatibility/report.json"
       },
       "remainingRequirement": "Original software failure is not cleared by the native result",
-      "currentNotes": "Eight-second limit retained. Fresh-browser software control is 24.370s versus native 1.865s. Exact lighting-cache experiment failed (25.391/26.355s software); native control/candidate pass. Expanded profiling shows driver/GPU blocking moving into getExtension, so earlier pure-compilation attribution is refined. No runtime optimisation or support/test exception adopted.",
+      "currentNotes": "User approved separate runtime lanes. GPU 8s retained and three current checks pass at 1.282\u20131.638s on actual Metal. Cold software compatibility passes functionally at 22.678s with wait acceptance null; original ~24s failure and original hosted outcome remain unchanged, software not fixed.",
       "latestFailure": {
         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m8000\u001b[39m\nReceived:   \u001b[31m26355.200000001118\u001b[39m",
         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m8000\u001b[39m\nReceived:   \u001b[31m26355.200000001118\u001b[39m\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/startup-costs.spec.js:31:262",
@@ -1943,7 +2008,8 @@
     "softwareFailuresClearedByNative": 0,
     "fullSuiteRerun": false,
     "broadPublication": false,
-    "marketD0912bbIntegrated": false
+    "marketD0912bbIntegrated": false,
+    "approvedLaneQualifiedDistinctIDs": 47
   },
   "analysisEvidence": [
     "coverage/broader-targeted-20261014/software-cost-detail.json",
@@ -1958,9 +2024,26 @@
     "measurements": "docs/software-startup-experiment-20261014.json",
     "publishedBlueprintRevision": "V2.28 / 14 October 2026",
     "publishedBlueprintBlob": "cb1d1b90635c6e4b47f70c225753e91a4c499192",
-    "status": "support-contract-decision-required; software startup not fixed",
+    "status": "approved split implemented; software limitation retained and realistic school-device validation outstanding",
     "runtimeOptimisationRetained": false,
     "eightSecondWaiver": false,
-    "proposedTestStrategyImplemented": false
+    "proposedTestStrategyImplemented": true,
+    "implementationReport": "docs/approved-runtime-lanes-20261014.md"
+  },
+  "runtimeTestingSplit": {
+    "approved": true,
+    "implemented": true,
+    "gpuTargetMs": 8000,
+    "softwareWaitingAcceptanceMs": null,
+    "softwareStartupFixed": false,
+    "schoolDeviceValidation": "outstanding",
+    "acceleratedFocusedCasesPassed": 3,
+    "softwareCompatibilityFocusedCasesPassed": 2,
+    "approvedLaneQualifiedDistinctOriginalNongreenIDs": 47,
+    "originalInventoryPreserved": 233,
+    "currentInventory": 234,
+    "fullBrowserExecutionRerun": false,
+    "publicationPerformed": false,
+    "marketIntegrated": false
   }
 }

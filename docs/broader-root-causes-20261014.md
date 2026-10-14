@@ -1,5 +1,10 @@
 # Targeted broader failure investigation, 14 October 2026
 
+**Subsequent approved scope:** accelerated eight-second performance and separate
+software compatibility reporting are implemented in
+[approved-runtime-lanes-20261014.md](approved-runtime-lanes-20261014.md).
+The historical investigation and failed results below remain preserved.
+
 The original hosted run remains failed: 186 passed, 42 failed, one interrupted
 and four not started out of 233 IDs. Its reports, count proof, logs and ZIPs
 are preserved. This investigation does not rerun the 233-case suite or approve

@@ -1,5 +1,11 @@
 # Software startup: support decision and bounded experiment
 
+**Subsequent decision:** the user approved the proposed split on 14 October.
+It is now implemented and scoped checks are recorded in
+[approved-runtime-lanes-20261014.md](approved-runtime-lanes-20261014.md).
+The investigation below is retained as the evidence preceding that decision;
+software startup remains unfixed and no numerical software wait was approved.
+
 The software startup failure is **not fixed**. One reversible lighting-cache
 candidate preserved the scene but did not meet the unchanged eight-second
 handover target. It is not included in runtime source or the release assets.

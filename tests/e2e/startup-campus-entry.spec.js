@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {reportRuntimeObservation,assertRuntimeObservation} from './runtime-lanes.js';
 
 for(const width of [1280,390])test(`video to complete exterior, walking and automatic parcel at ${width}`,async({page},info)=>{
  test.setTimeout(60000);await page.setViewportSize({width,height:844});
@@ -14,7 +15,7 @@ for(const width of [1280,390])test(`video to complete exterior, walking and auto
   await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await page.locator('#taster-play').click();await page.waitForFunction(()=>document.querySelector('#taster-video')?.currentTime>.1,{},{timeout:5000});
   const exploringAt=await page.evaluate(()=>performance.now());await page.locator('#taster-skip').click();
   await expect.poll(async()=>(await sample())?.state,{timeout:30000}).toMatchObject({entryReady:true,avatarBody:'antonio',campusReady:false});
-  const entry=await sample();expect(entry.entryVisibleMs).toBeGreaterThan(0);expect(entry.entryVisibleMs-exploringAt).toBeLessThan(8000);expect(entry.roots).toHaveLength(2);expect(entry.roots.every(o=>o.visible&&o.meshes>0&&o.inView>0)).toBe(true);expect(entry.garden).toBe(true);expect(entry.rooms).toBe(false);expect(entry.state.scenery.trees).toBe(19);expect(requests.some(url=>/mature-eucalypt/.test(url))).toBe(true);expect(requests.some(url=>/learning-interiors\.js|\/studio\.js/.test(url))).toBe(false);
+  const entry=await sample();expect(entry.entryVisibleMs).toBeGreaterThan(0);const runtime=await reportRuntimeObservation(info,{renderer:entry.state.renderBackend,handoverMs:Math.max(0,entry.entryVisibleMs-exploringAt),navigationToReadyMs:entry.entryVisibleMs});assertRuntimeObservation(runtime);expect(entry.roots).toHaveLength(2);expect(entry.roots.every(o=>o.visible&&o.meshes>0&&o.inView>0)).toBe(true);expect(entry.garden).toBe(true);expect(entry.rooms).toBe(false);expect(entry.state.scenery.trees).toBe(19);expect(requests.some(url=>/mature-eucalypt/.test(url))).toBe(true);expect(requests.some(url=>/learning-interiors\.js|\/studio\.js/.test(url))).toBe(false);
   await page.screenshot({path:info.outputPath('entry.png')});const before=entry.state.position;
   await page.locator('#scene').focus();await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await page.keyboard.down('KeyW');
   try{await expect.poll(async()=>(await sample())?.state.discovery?.step,{timeout:10000}).toBe(1);}finally{await page.keyboard.up('KeyW');}

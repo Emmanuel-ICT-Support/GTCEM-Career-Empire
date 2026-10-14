@@ -1,5 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {walkToMap} from './walk-to-map.js';
+import {reportRuntimeObservation,assertRuntimeObservation} from './runtime-lanes.js';
 import {installShaderProgramProfile} from '../../qa/shader-program-profile.js';
 import {setupEnvironmentExperiment,finishEnvironmentExperiment} from '../../qa/environment-cache-experiment.mjs';
 test.afterEach(async({page},info)=>{if(process.env.CE_ENV_CAPTURE_PATH||process.env.CE_ENV_CACHE_PATH)await finishEnvironmentExperiment(page,info);});
@@ -28,5 +29,6 @@ for(const experience of ['cold-skip','natural-video'])test(`measure complete cam
  await expect.poll(()=>page.evaluate(()=>JSON.parse(document.querySelector('#diagnostics')?.dataset.state||'{}')),{timeout:30000}).toMatchObject({entryReady:true,avatarBody:'antonio'});await expect(page.locator('#loading')).toBeHidden();
  const timing=await page.evaluate(()=>{window.__startupCostsDone=true;return {at:performance.now(),costs:window.__startupCosts,longTasks:window.__startupLongTasks,glCosts:window.__startupGLCosts,glTotals:window.__startupGLTotals,resources:performance.getEntriesByType('resource').filter(r=>r.name.startsWith(location.origin)).map(r=>({path:new URL(r.name).pathname,startMs:r.startTime,responseStartMs:r.responseStart,responseEndMs:r.responseEnd,durationMs:r.duration,bytes:r.decodedBodySize,transferBytes:r.transferSize})),state:JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}')};});
  const ready=timing.costs.find(c=>c.phase==='entry-ready'),handover=timing.costs.find(c=>c.phase===(experience==='cold-skip'?'user-start-exploring':'video-ended'));expect(ready).toBeTruthy();expect(handover).toBeTruthy();const handoverDelayMs=Math.max(0,ready.pageMs-handover.pageMs);console.log('STARTUP_COST_SUMMARY',JSON.stringify({experience,handoverDelayMs,totalToEntryReadyMs:ready.pageMs,markers:timing.costs.filter(c=>!['canvas-submit','gpu-complete'].includes(c.phase))}));await info.attach('startup-costs',{body:JSON.stringify({experience,handoverDelayMs,...timing},null,2),contentType:'application/json'});
- await page.screenshot({path:info.outputPath(experience+'-complete-campus.png')});await walkToMap(page,'KeyW','z',16.7);await expect(page.locator('#discovery-dialog')).toBeVisible();expect(errors).toEqual([]);if(experience==='cold-skip')expect(handoverDelayMs).toBeLessThan(8000);
+ const runtime=await reportRuntimeObservation(info,{renderer:timing.state.renderBackend,handoverMs:handoverDelayMs,navigationToReadyMs:ready.pageMs,performanceRequired:experience==='cold-skip'});
+ await page.screenshot({path:info.outputPath(experience+'-complete-campus.png')});await walkToMap(page,'KeyW','z',16.7);await expect(page.locator('#discovery-dialog')).toBeVisible();expect(errors).toEqual([]);assertRuntimeObservation(runtime);
 });
