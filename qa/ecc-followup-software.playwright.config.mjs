@@ -1,2 +1,3 @@
-import base from './ecc-admin-preview.playwright.config.mjs';
-export default {...base,outputDir:'../coverage/full-integration-run-38543515871/admin-software',projects:base.projects.map(p=>({...p,use:{...p.use,launchOptions:{args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}}}))};
+import base from '../playwright.config.mjs';
+import path from 'node:path';
+export default {...base,testDir:'../tests/e2e',outputDir:path.resolve(process.env.CE_TEST_OUTPUT||'coverage/runtime-lanes/admin-software-followup/browser'),webServer:{...base.webServer,cwd:process.cwd()},projects:base.projects.map(p=>({...p,use:{...p.use,channel:process.env.CE_BROWSER_CHANNEL||'chrome',launchOptions:{args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}}}))};
