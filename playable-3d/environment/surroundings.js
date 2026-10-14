@@ -7,7 +7,7 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
 import {thinGeometry} from '../ecc-preview/authored-garden.js?v=ecc-ba60122';
 // Stage 2 composition study. Reference-derived silhouettes, not enterable buildings.
-export async function addSurroundings(scene,palette){
+export async function addSurroundings(scene,palette,treeSource){
  const existing=scene.getObjectByName('Approved campus surroundings and connections');if(existing)return existing;
  addExteriorLandmarks(scene,palette);
  await addTeachingDetail(scene,palette);
@@ -17,8 +17,10 @@ export async function addSurroundings(scene,palette){
  function box(g,w,h,d,m,x,y,z){const o=new T.Mesh(new T.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.receiveShadow=true;g.add(o);return o;}
  // Home Economics is a low connecting roofline, subordinate to the hero Chapel.
  const extension=campusExtensions(root,palette);root.userData.extraBeds=extension.beds;
- const asset=await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('./assets/campus-landscape/mature-eucalypt-a-packed.glb');asset.scene=batchStatic(asset.scene);asset.scene.updateMatrixWorld(true);
- const bounds=new T.Box3().setFromObject(asset.scene),center=bounds.getCenter(new T.Vector3()),height=bounds.max.y-bounds.min.y;
+ // Reuse entry geometry; clone object transforms while retaining the same meshes/maps.
+ const source=treeSource||(await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync('./assets/campus-landscape/mature-eucalypt-a-packed.glb')).scene;
+ const tree=batchStatic(source.clone(true));tree.updateMatrixWorld(true);
+ const bounds=new T.Box3().setFromObject(tree),center=bounds.getCenter(new T.Vector3()),height=bounds.max.y-bounds.min.y;
  const normal=new T.Matrix4().makeTranslation(-center.x,-bounds.min.y,-center.z);
  // Staggered western and southern tree belt, outside the playing oval.
  const trees=[];
@@ -27,7 +29,7 @@ export async function addSurroundings(scene,palette){
  for(let i=0;i<18;i++)trees.push({x:-32+i*4.3,z:34+(i%2)*.5,h:6.6+(i%3)*.3});
  for(let i=0;i<14;i++)trees.push({x:-27+i*4.1,z:-72+(i%2)*.5,h:6.5+(i%3)*.35});
  root.userData.treePlacements=trees;
- asset.scene.traverse(o=>{
+ tree.traverse(o=>{
   if(!o.isMesh)return;const geo=o.geometry.clone().applyMatrix4(o.matrixWorld).applyMatrix4(normal);
   const instances=geometry=>{const inst=new T.InstancedMesh(geometry,o.material,trees.length);inst.name='Oval edge eucalypts';trees.forEach(({x,z,h},i)=>{const scale=h/height;inst.setMatrixAt(i,new T.Matrix4().compose(new T.Vector3(x,0,z),new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),i*1.7),new T.Vector3(scale,scale,scale)));});inst.castShadow=inst.receiveShadow=true;inst.computeBoundingSphere();return inst;};
   if(!/^leaf/.test(o.material.name)){root.add(instances(geo));return;}

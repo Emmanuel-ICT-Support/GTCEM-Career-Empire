@@ -21,7 +21,7 @@ test('startup loads only the active avatar and keeps the studio and hall usable'
   await page.locator('#places-toggle').click();await page.locator('#studio-view').click();
   await selectTestCharacter(page,'shirt');
   await expect.poll(()=>requests.some(u=>u.endsWith('player-uniform-shirt-20260908.glb'))).toBeTruthy();
-  await expect(page.locator('#editor-fields .hint')).toContainText('Shirt avatar test model');
+  await expect(page.locator('#editor-fields')).toContainText('Archived model wearing a white shirt, short teal tie and black shorts.');await expect(page.locator('#editor-fields')).toContainText('Face, skin, hair and clothing changes are unavailable.');
   await selectTestCharacter(page,'a');
   await expect(page.locator('#edit-state')).toHaveText('Unsaved',{timeout:30000});
   await selectTestCharacter(page,'b');

@@ -1,11 +1,12 @@
 import {test,expect} from './campus-fixtures.js';
-test('delayed courtyard must not hold game entry',async({page},info)=>{
+test('delayed courtyard surface must not hold initial rendering and curriculum access',async({page},info)=>{
  test.setTimeout(60000);
- await page.route('**/ecc-exterior-annotations.glb?*',async route=>{await new Promise(r=>setTimeout(r,8000));await route.continue();});
+ await page.route('**/ecc-preview/assets/authored-courtyard/stone-surface-diffuse.webp',async route=>{await new Promise(r=>setTimeout(r,8000));await route.continue();});
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});
  await expect(page.locator('#loading')).toBeHidden({timeout:25000});
+ await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true',{timeout:25000});
  const ms=await page.locator('#scene').evaluate(e=>Number(e.dataset.firstFrameMs));
- console.log('Courtyard delayed first frame:',ms);
+ console.log('Courtyard surface delayed first frame:',ms);
  await info.attach('timing',{body:JSON.stringify({firstFrameMs:ms,delayMs:8000}),contentType:'application/json'});
  await page.locator('#places-toggle').click();await page.locator('#est-destination').click();
  await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}').mode)).toBe('interior');
@@ -22,7 +23,7 @@ test('failed courtyard keeps curriculum usable and retry opens campus once',asyn
  await expect(page.locator('#campus-retry')).toBeVisible({timeout:30000});
  await expect.poll(async()=>(await state()).arrivalRestricted).toBe(true);
  await page.locator('#places-toggle').click();await page.locator('#careers-destination').click();await expect.poll(async()=>(await state()).mode).toBe('careers');
- fail=false;await page.locator('#places-toggle').click();await page.locator('#town-view').click();await page.locator('#campus-retry').click();
+ await page.locator('#places-toggle').click();await page.locator('#town-view').click();await expect(page.locator('#campus-retry')).toBeVisible({timeout:30000});fail=false;await page.locator('#campus-retry').click();await expect.poll(async()=>(await state()).entryReady,{timeout:45000}).toBe(true);await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();
  await expect.poll(async()=>(await state()).campusReady,{timeout:45000}).toBe(true);
  expect((await state()).arrivalRestricted).toBe(false);
  const finished=await page.evaluate(()=>window.exteriorCheck());expect(finished.children).toBe(1);expect(finished.colliders).toBeGreaterThan(20);
