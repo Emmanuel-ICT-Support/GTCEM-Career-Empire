@@ -6,7 +6,7 @@
       "title": "Communication",
       "description": "Convey information clearly and effectively using written, verbal, and non-verbal communication.",
       "iconLabel": "Communication",
-      "logoPath": "../Assets/employability-logos/main/communication.png",
+      "logoPath": "../dashboards/skill-icons/v3/communication@256.webp",
       "subskills": [
         {
           "id": "terminology-spelling-grammar",
@@ -35,7 +35,7 @@
       "title": "Digital Literacy",
       "description": "Use digital tools safely, effectively, and responsibly for research, communication, and work.",
       "iconLabel": "Digital Literacy",
-      "logoPath": "../Assets/employability-logos/main/digital-literacy.png",
+      "logoPath": "../dashboards/skill-icons/v3/digital-literacy@256.webp",
       "subskills": [
         {
           "id": "reliable-online-research",
@@ -64,7 +64,7 @@
       "title": "Teamwork",
       "description": "Work effectively with others by contributing reliably and building strong working relationships.",
       "iconLabel": "Teamwork",
-      "logoPath": "../Assets/employability-logos/main/teamwork.png",
+      "logoPath": "../dashboards/skill-icons/v3/teamwork@256.webp",
       "subskills": [
         {
           "id": "build-rapport",
@@ -93,7 +93,7 @@
       "title": "Time Management",
       "description": "Plan, prioritise, and adapt time and tasks to meet deadlines effectively.",
       "iconLabel": "Time Management",
-      "logoPath": "../Assets/employability-logos/main/time-management.png",
+      "logoPath": "../dashboards/skill-icons/v3/time-management@256.webp",
       "subskills": [
         {
           "id": "plan-and-prioritise",
@@ -117,7 +117,7 @@
       "title": "Critical Thinking",
       "description": "Use evidence, analysis, and reflection to make informed judgments and decisions.",
       "iconLabel": "Critical Thinking",
-      "logoPath": "../Assets/employability-logos/main/critical-thinking.png",
+      "logoPath": "../dashboards/skill-icons/v3/critical-thinking@256.webp",
       "subskills": [
         {
           "id": "research-and-information-gathering",
@@ -141,7 +141,7 @@
       "title": "Problem-Solving",
       "description": "Identify issues, generate options, and apply structured decision-making to resolve problems.",
       "iconLabel": "Problem-Solving",
-      "logoPath": "../Assets/employability-logos/main/problem-solving.png",
+      "logoPath": "../dashboards/skill-icons/v3/problem-solving@256.webp",
       "subskills": [
         {
           "id": "questioning-techniques",

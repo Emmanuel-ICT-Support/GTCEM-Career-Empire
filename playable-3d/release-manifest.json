@@ -1,8 +1,8 @@
 {
-  "release": "test-visual-restoration-handover-20261012",
+  "release": "post-photo-tour-market-ready-20261014",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "cb05d4ef12addb53f0c744655bfbb19261f18671",
-  "scope": "Personal test copy: original student camera, original opening trees and gardens, complete exterior geometry and actual completed entry frame; restored world phases, original rendered mural and accurate photo-to-Mara handover. Deferred interiors and decorative detail remain separate. Exact failures are recorded in QA.",
+  "baseCommit": "e88724dcae46de7739625fbbd54ae77091378c3c",
+  "scope": "Draft post-photo companion tour, safe ground landing, outside-campus-building Market shortcuts and student-only draft numbered Phase 0-11 course outline. Existing startup, assets, photo capture, paid Market gates and public Admin review are preserved. No publication or curriculum completion. Blueprint overview is available in the existing menu in a separate accessible tab; Admin review menu re-entry remains direct Reception. Photo review stays visible during tour preparation; selected-companion loading has explicit feedback and failed tour loads can retry.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,7 @@
     },
     {
       "path": "../economy-lab/app.mjs",
-      "sha256": "125a79fa63d7f8be0bdef794d70f230b2d386a58395365220b44084bb6f9cca6"
+      "sha256": "a8e46992459abe30663dd53d2d1618c8c21303e42fe945f289744e358f71ad43"
     },
     {
       "path": "../economy-lab/economy.mjs",
@@ -22,11 +22,11 @@
     },
     {
       "path": "../economy-lab/index.html",
-      "sha256": "28eb077b0a0658a649a08b5a3b5eba6a564cc505b94597751bba5cb152aed212"
+      "sha256": "68c30204e3c1f6f0bda1d2bb5839f054bd5b0730a345d244b5ed1c6475accc54"
     },
     {
       "path": "../economy-lab/style.css",
-      "sha256": "32433cf5e1af340b518976bb955c037b687f89f19ceb3e2c6529cafc5c4679a0"
+      "sha256": "3960ef593daf83f8d219b9596618acaa5951f2d22ecf7c5f027e0ea7b9c67908"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
@@ -42,7 +42,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "adebcc6f4849cf91e6b8939c05a51f8417ce98e9b7ccabdacb829bdb7d745e52"
+      "sha256": "00cc22a9074ac6165225aa916315ae23be90710f6bdd9855802b86d3b9412e5d"
     },
     {
       "path": "arcade-carnival.js",
@@ -586,11 +586,11 @@
     },
     {
       "path": "discovery-opening.css",
-      "sha256": "6222aae5142ed71279343a0adc405c6629cd932b22c8ee15d4e10592e1538c7f"
+      "sha256": "0be4c8b0034c894d0eff48e0d3a83179262f0c45b758741cee2b1276db5b03ac"
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "2f379b21b10d11caaf028f4d78d90834d65c5987bf74f827da03c45fe9f1debc"
+      "sha256": "9b1514ab0cd5d0dc9ee6c791acd02fe4aac07bf296f81a76e640365d4c094df3"
     },
     {
       "path": "discovery-state.mjs",
@@ -786,11 +786,11 @@
     },
     {
       "path": "exploration-tools.css",
-      "sha256": "2b9172eed101111806e3afcb008a69315c88a841c0b8990a56682662fd269088"
+      "sha256": "9b6f590234820b88d90b3b17b9fc60f0f4322de4cd9e6eb7bf82ea378f2c39e3"
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "f9eb2d02b178913b30cac885c2fdaeafe78f09610415de4f131752643fae9fcd"
+      "sha256": "1a0da8a04e5fc55eb985bd1c27cccac8d7a1d0bf7de28902c9490371a746209c"
     },
     {
       "path": "field-guide.html",
@@ -798,11 +798,11 @@
     },
     {
       "path": "flyover.css",
-      "sha256": "e4bbe25e03beab5c19da2b247f4158e1809cf08b01b7c3885c5486d49d87b335"
+      "sha256": "4caf8a41b1ccafd9b11520c3c840c279b15ac0f9927736a1632c3cbac444d7d3"
     },
     {
       "path": "flyover.js",
-      "sha256": "aa9f2e1f3d6bba32a67e1141eabf5644000f8ddae06a35dbb53f084d1fbd5cc0"
+      "sha256": "82faae128e8dbd94de8c4ac1487b200bb770d1d9a3b63a1443320714a779ecdb"
     },
     {
       "path": "frame-budget.mjs",
@@ -814,7 +814,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "8b52ed3732164ca130c53e9b7080a0987e5720d69982df78df34b03f524aaa53"
+      "sha256": "9d59a567e9063625e231793df68216152deb1b4bfe9f82cb400973ec3584e2f8"
     },
     {
       "path": "header-controls.css",
@@ -838,7 +838,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "15bec3e5cbf8a2e9481741840ad86f3021a24721013d5bef75515ff4c3350796"
+      "sha256": "ba5f2bc305e7a1a1201fa3c0bded33b7a0166306e30c5de4a4926dfcf5b03119"
     },
     {
       "path": "intro-taster.css",
@@ -970,7 +970,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "9b1b9eb9c35bcf0b6c90134ef3a0383221b1cc446e72bb5d679cbd79a8456359"
+      "sha256": "7ccc47fd6828e9b3d3d67ceff9c566c48d8239dbc3dce65fc5b4912b4f07d921"
     },
     {
       "path": "taster-assets/career-empire-intro.mp4",
@@ -1082,11 +1082,39 @@
     },
     {
       "path": "world.js",
-      "sha256": "d7591f281df016f96e687c567dee8187ad5158076960f2ab3cad80139edb3ccc"
+      "sha256": "1e850ae11ca852c0658a601de3f1983ba5b2ed83841315998ef61a81619e44c4"
     },
     {
       "path": "admin-preview.mjs",
       "sha256": "3edf8031ade0246f764c4c4b2db4bc678f5eef0b3efdf7f4c2ef02f902ec4ce5"
+    },
+    {
+      "path": "landing.mjs",
+      "sha256": "4b27bdd89783eaa6e9d4af532a158b5c5a674fa546c8c712cdc497ff471ab0a3"
+    },
+    {
+      "path": "orientation-tour.mjs",
+      "sha256": "9c86d677f6d6450c8747a956ce40e6be4d001fd32d7a0b41a07b533d05b55e1a"
+    },
+    {
+      "path": "orientation-tour.css",
+      "sha256": "80b272c6037165abf47b7d214112d40ffa2ac548889bdf8be5d98bac6ea26c58"
+    },
+    {
+      "path": "../economy-lab/course-outline.mjs",
+      "sha256": "b38ec8be73bca10999fcd004dec9a1f2673f3793645d49df02b7322d63733890"
+    },
+    {
+      "path": "../economy-lab/course-outline.json",
+      "sha256": "1300957bf1656ca89f7ed282f001045b58f6b00a6f934b2dce3fef4766da1bdd"
+    },
+    {
+      "path": "../economy-lab/course-outline-print.html",
+      "sha256": "5121aa16f09bd2c8d71401693f762cbfc7f99810d915cbf6be56fab1defea4e0"
+    },
+    {
+      "path": "../economy-lab/course-outline.pdf",
+      "sha256": "d101e9fb8700158a3902c76ce45d20b21adc7fce567637a26b0c3717184eec58"
     }
   ],
   "estVideo": {

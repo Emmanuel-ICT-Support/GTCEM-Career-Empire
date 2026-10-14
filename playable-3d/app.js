@@ -1,17 +1,18 @@
+import {MARKET_APPROACH} from './landing.mjs?v=post-photo-tour-20261013';
 import {isAdminPreview,adminPreviewURL,createPreviewStorage} from './admin-preview.mjs?v=admin-preview-20261013';
 import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=ecc-ba60122';
 import {renderQuality,rendererName} from './render-quality.mjs?v=ecc-ba60122';
 import {waitForPriorityAsset,withAssetDeadline,canClearDetailWarning} from './startup-assets.mjs?v=ecc-ba60122';
-import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=ecc-ba60122';
+import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=tour-panel-close-20261014';
 import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
 import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
 import {keepOutdoorClearance,keepChapelClearance,campusEntryFraming} from './camera-clearance.mjs?v=ecc-ba60122';
-import {createDiscovery} from './discovery-opening.js?v=ecc-ba60122';
+import {createDiscovery} from './discovery-opening.js?v=guided-photo-20261014';
 import {createLocomotion, STEP, turnTowards,accumulateTravelTime} from './locomotion.js?v=ecc-ba60122';
 import {createHelperPicker} from './helper-picker.js?v=options-companion-20261012';
 import {createExplorer} from '../economy-lab/exploration.mjs?v=navigation-20261012';
-import {createFlyover} from './flyover.js?v=student-usability-20260924';
+import {createFlyover} from './flyover.js?v=post-photo-tour-20261013';
 import {configurePhoneAssets} from './phone-assets.js?v=phone-load-20260917';
 import {ECC_HOME} from './ecc-preview/landmark-layout.js?v=exterior2';
 import {createJoystick} from './joystick.js?v=1';
@@ -19,7 +20,7 @@ import {afterFirstPaint} from './deferred-textures.js?v=ecc-ba60122';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds,sign} from './world.js?v=ecc-ba60122';
+import {createWorlds,sign} from './world.js?v=post-photo-tour-20261013';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=test-characters-20261013';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES,TEST_CHARACTER_INFO,COLOUR_PRESETS} from './profiles.js?v=test-characters-20261013';
@@ -42,16 +43,16 @@ let discovery=null,intro=null,explorationTools=null,revealCameraStart=null;
 let frameGate,surfaceUploads,portraitCapturePending=false;
 let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flourishing',draft,editorTab='identity';
 let wardrobeSection='pants';
-let nightMarket=null;
+let nightMarket=null,orientationTour=null,orientationTourLoad=null,orientationTourAttempt=0,companionApply=null;
 let echo=null;
 const locomotion=createLocomotion();
 let renderMotion=null;
-const helperPicker=createHelperPicker({storage:gameStorage,guest:gameSession?.isGuest,profile:()=>state.activeId,onOpen:()=>{closeExplorationOptions(false);echo?.close();if(actor)resetNavigationInput();},onClose:()=>{resetNavigationInput();canvas.focus({preventScroll:true});},onChange:(helper,persistent)=>{if(discovery?.snapshot().souvenir){companionOffered=true;gameStorage.setItem('ce-companion-offered','1');}applySelectedCompanion(helper);if(!persistent&&actor)toast('Your guidance preference is selected for this tab. Browser storage is unavailable.');}});
+const helperPicker=createHelperPicker({storage:gameStorage,guest:gameSession?.isGuest,profile:()=>state.activeId,onOpen:()=>{closeExplorationOptions(false);echo?.close();if(actor)resetNavigationInput();},onClose:()=>{resetNavigationInput();canvas.focus({preventScroll:true});},onChange:(helper,persistent)=>{if(discovery?.snapshot().souvenir){companionOffered=true;gameStorage.setItem('ce-companion-offered','1');}companionApply=applySelectedCompanion(helper);if(!persistent&&actor)toast('Your guidance preference is selected for this tab. Browser storage is unavailable.');}});
 document.getElementById('choose-helper').onclick=()=>helperPicker.choose(true);
 document.getElementById('guidance-help').onclick=()=>{if(echo)echo.showHelp();else toast('Guidance is preparing. Try again in a moment.');};
 let shadowScene=null,shadowTime=-Infinity,shadowActor=null,shadowActorYaw=0;
 const shadowActorPosition=new THREE.Vector3();
-function echoAction(action){if(action==='studio')openStudio();else if(action==='market')openMarket();else visitResources();}
+function echoAction(action){if(action==='studio')openStudio();else if(action==='market')goToMarketEntrance();else visitResources();}
 async function visitResources(){await setMode('town');worlds.teleport(false,-7,23.3);actor.model.position.copy(worlds.position(false));yaw=0;aerial=false;setLocation('Course Documents · Arrival Gardens');updateCamera(1,true);echo?.showResources();}
 let echoLoad=null;
 async function loadEcho(){
@@ -69,7 +70,7 @@ const marketDialogOpen=()=>Boolean(nightMarket?.isOpen());
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
 let chapelTilt=0,flyover;
 function resetNavigationInput(){renderMotion=null;locomotion.reset();keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
-function explorationMenuOpen(){return Boolean(document.querySelector('#exploration-options')?.open||document.querySelector('#whole-character-choice')?.open||document.querySelector('#orientation-handover')?.open||explorationTools?.open());}
+function explorationMenuOpen(){return Boolean(orientationTour?.blocksWalking()||document.querySelector('#exploration-options')?.open||document.querySelector('#whole-character-choice')?.open||document.querySelector('#orientation-handover')?.open||explorationTools?.open());}
 function canFlyover(){return !intro?.open()&&!discovery?.open()&&!echo?.open()&&mode==='town'&&campusReady&&!enteringHall&&!enteringCareers&&!studioLoadPending&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!$('leave-dialog').open;}
 let studioLoadPending=false;
 const explorationReview=new URLSearchParams(location.search).get('market-review')==='1'||new URLSearchParams(location.search).get('review')==='1';
@@ -444,7 +445,7 @@ async function setMode(next){
   if(['studio','market'].includes(next)&&!adminReviewRequested)await explore(next);
   return true;
 }
-function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='careers'?'EXPLORE YOUR FUTURE':mode==='chapel'?'A PLACE TO PAUSE':mode==='interior'?'THE LEARNING HALL':'CAREER EMPIRE · YOUR FIRST DAY';$('location-subtitle').textContent=mode==='careers'?'Shop on your left · My Life desk on your right':mode==='chapel'?'Quiet reflection · Drag down to look up':mode==='interior'?'CORE / TERM / VTCS / BOSS':title==='Market Courtyard'?'Live Music & Sunday Markets':title==='Home Base'?'ECC welcome / Chapel / Campus paths':'Arrival Gardens / Avatar Studio';}
+function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='careers'?'EXPLORE YOUR FUTURE':mode==='chapel'?'A PLACE TO PAUSE':mode==='interior'?'THE LEARNING HALL':'CAREER EMPIRE · YOUR FIRST DAY';$('location-subtitle').textContent=mode==='careers'?'Shop on your left · My Life desk on your right':mode==='chapel'?'Quiet reflection · Drag down to look up':mode==='interior'?'CORE / TERM / VTCS / BOSS':['Market Courtyard','Outside Sunday Markets'].includes(title)?'Live Music & Sunday Markets · Walk forward to enter':title==='Home Base'?'ECC welcome / Chapel / Campus paths':'Arrival Gardens / Avatar Studio';}
 function leaveStudio(callback){if(dirty()){pendingLeave=callback;$('leave-dialog').showModal();}else callback();}
 function saveDraft(){if($('save-avatar').disabled){toast('Wait for the selected outfit to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{gameStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
 function openStudio(){if(mode==='studio')return;setMode('studio');}
@@ -511,7 +512,7 @@ async function campusSpot(x,z,heading,angle=0){
   const go=async()=>{await setMode('town');const request=modeRequest;
     try{await ensureCampus();}catch{return;}
     if(request!==modeRequest||mode!=='town')return;
-    worlds.teleport(false,x,z);actor.model.position.copy(worlds.position(false));yaw=angle;
+    worlds.teleport(false,x,z);actor.model.position.copy(worlds.position(false));if(heading==='Outside Sunday Markets')actor.model.rotation.y=angle+Math.PI;yaw=angle;
     setLocation(heading);updateCamera(1,true);
   };
   if(mode==='studio')leaveStudio(go);else await go();
@@ -666,7 +667,7 @@ function bindEvents(){
   header.addEventListener('keydown',e=>{if(e.key==='Escape')menus.forEach(menu=>menu.open=false);});
   $('destination-bar').addEventListener('click',e=>{if(e.target.closest('button')&&!e.target.closest('#arrival-mission')){$('destination-menu').open=false;canvas.focus();}});
   $('resources-destination').addEventListener('click',()=>mode==='studio'?leaveStudio(visitResources):visitResources());
-  $('market-destination').addEventListener('click',()=>mode==='studio'?leaveStudio(openMarket):openMarket());
+  $('market-destination').addEventListener('click',goToMarketEntrance);
   $('oval-destination').addEventListener('click',()=>campusSpot(-4,-49.8,'Oval'));
   $('media-destination').addEventListener('click',()=>campusSpot(-4,-45,'English and Media',Math.PI));
   $('space-destination').addEventListener('click',()=>campusSpot(7,-53,'SPACE',-Math.PI/2));
@@ -737,7 +738,7 @@ function animate(){
   if(intro?.open()){if(now-introWarmTime<.5)return;introWarmTime=now;}
   // Background game tabs must not compete with the visible game for the GPU.
   if(document.hidden){accumulator=0;frames=0;metricsTime=now;return;}
-  flyover?.refresh();
+  orientationTour?.update();flyover?.refresh();
   if(flyover?.active){if(!document.hidden&&!feedbackOpen()){flyover.update(dt);worlds.update(now,camera);}}
   else if((mode!=='town'||entryReady)&&!marketOpening&&!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open){
     if(tapMovement){if(performance.now()<tapMovement.until)keys.add(tapMovement.key);else{keys.delete(tapMovement.key);tapMovement=null;}}
@@ -811,7 +812,7 @@ function animate(){
 function setupExplorationMenus(){
  const options=document.createElement('details');options.id='exploration-options';options.className='header-menu';options.innerHTML='<summary>Options</summary><div id="exploration-option-list"><p id="options-pause-note">Movement paused while Options is open.</p><button type="button" id="resume-options">Close options / Resume</button></div>';$('header-controls').append(options);
  const list=$('exploration-option-list');
- for(const selector of ['#destination-menu','#world-tools','#header-phase','#choose-helper','#my-life-link','.legacy-link']){const item=document.querySelector(selector);if(item){item.hidden=false;list.append(item);if(item.id==='header-phase')$('phase').hidden=false;}}
+ for(const selector of ['#destination-menu','#world-tools','#header-phase','#flyover-slot','#choose-helper','#my-life-link','#blueprint-link','.legacy-link']){const item=document.querySelector(selector);if(item){item.hidden=false;list.append(item);if(item.id==='header-phase')$('phase').hidden=false;}}
  $('choose-helper').textContent='Optional companion';$('choose-helper').hidden=!discovery?.snapshot().souvenir;
  // Optional character editing keeps the quiet exploration entry.
  $('studio-view').hidden=true;
@@ -819,26 +820,49 @@ function setupExplorationMenus(){
  const all=document.createElement('a');all.href='?mode=full';all.textContent='All campus activities';list.append(all);
  const previewTools=document.createElement('details');previewTools.id='preview-tools';const previewTitle=document.createElement('summary');previewTitle.textContent='Preview tools';const previewNote=document.createElement('p');previewNote.textContent='Public preview tools. Opens a temporary tab without changing your playthrough.';const adminLink=document.createElement('a');adminLink.id='admin-review-entry';adminLink.textContent='Open Market Admin for review';adminLink.href=adminPreviewURL(location.href);adminLink.target='_blank';adminLink.rel='noopener noreferrer';adminLink.onclick=()=>closeExplorationOptions(false);previewTools.append(previewTitle,previewNote,adminLink);list.append(previewTools);
  const trail=$('discovery');const more=document.createElement('details');more.id='exploration-trail-options';more.innerHTML='<summary>Picture trail</summary>';more.append(trail);trail.hidden=false;list.append(more);list.append($('discovery-still').closest('label'));
+ const replay=document.createElement('button');replay.id='replay-campus-tour';replay.textContent='Replay companion tour';replay.onclick=()=>{closeExplorationOptions(false);showOrientationHandover().catch(()=>{});};list.append(replay);
  const help=document.createElement('button');help.id='exploration-help';help.textContent='Help';help.onclick=()=>{options.open=false;explorationTools?.close();$('discovery-help').click();};$('header-controls').prepend(help);
  $('resume-options').onclick=()=>closeExplorationOptions();
- options.addEventListener('toggle',()=>{if(options.open){explorationTools?.close();resetNavigationInput();actor?.setWalking(false);}else if(document.activeElement===options.querySelector('summary')){resetNavigationInput();canvas.focus({preventScroll:true});}});
+ options.addEventListener('toggle',()=>{if(options.open){explorationTools?.close();resetNavigationInput();actor?.setWalking(false);}else if(document.activeElement===options.querySelector('summary')){resetNavigationInput();canvas.focus({preventScroll:true});}if(!options.open)orientationTour?.update();});
  document.addEventListener('keydown',event=>{if(options.open&&event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();closeExplorationOptions();}},true);
  let dismissalTarget=null;
  document.addEventListener('pointerdown',event=>{if(!options.open){dismissalTarget=null;return;}if(options.contains(event.target))return;const world=event.target===canvas||event.target.closest('.movement');closeExplorationOptions(Boolean(world));if(world){dismissalTarget=event.target;event.preventDefault();event.stopImmediatePropagation();}},true);
  document.addEventListener('click',event=>{if(dismissalTarget===event.target){dismissalTarget=null;event.preventDefault();event.stopImmediatePropagation();}},true);
  const status=document.createElement('p');status.id='companion-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.hidden=true;$('experience').append(status);
 }
-function closeExplorationOptions(focus=true){const options=$('exploration-options');if(options){options.open=false;options.querySelectorAll('details').forEach(menu=>menu.open=false);}resetNavigationInput();if(focus)canvas.focus({preventScroll:true});}
+function closeExplorationOptions(focus=true){const options=$('exploration-options');if(options){options.open=false;options.querySelectorAll('details').forEach(menu=>menu.open=false);}resetNavigationInput();orientationTour?.update();if(focus)canvas.focus({preventScroll:true});}
 let companionOffered=gameStorage.getItem('ce-companion-offered')==='1';
-let orientationHandoverSeen=false;
-async function showOrientationHandover(){
+let orientationHandoverSeen=false,orientationSummary=orientationHandoverCopy({earned:null,tax:null});
+async function showOrientationHandover({restore=false}={}){
  if(!discovery?.snapshot().souvenir)return;
- orientationHandoverSeen=true;resetNavigationInput();actor.setWalking(false);closeExplorationOptions(false);explorationTools?.close();$('discovery-dialog').close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;
- let dialog=$('orientation-handover');
- if(!dialog){dialog=document.createElement('dialog');dialog.id='orientation-handover';dialog.setAttribute('aria-labelledby','orientation-handover-title');dialog.innerHTML='<h2 id="orientation-handover-title">First activity complete!</h2><p id="orientation-handover-summary"></p><p>Next, head to the markets for your first curriculum activity about showing initiative. Use the map at the bottom of the screen to walk towards Sunday Market Gardens and help Mara.</p><div class="dialog-actions"><button id="orientation-continue">Continue exploring</button><button id="orientation-market" class="primary">Head to Market</button></div>';document.body.append(dialog);$('orientation-continue').onclick=()=>dialog.close();$('orientation-market').onclick=()=>{dialog.close();openMarket();};dialog.addEventListener('close',()=>{resetNavigationInput();canvas.focus({preventScroll:true});});}
- $('orientation-handover-summary').textContent='Your progress is being saved…';if(!dialog.open)dialog.showModal();
- try{$('orientation-handover-summary').textContent=orientationHandoverCopy(await explorationTools.completeOrientation());}catch{$('orientation-handover-summary').textContent=orientationHandoverCopy({earned:null,tax:null});}
+ resetNavigationInput();actor.setWalking(false);closeExplorationOptions(false);explorationTools?.close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;
+ orientationSummary=orientationHandoverCopy({earned:null,tax:null});try{orientationSummary=orientationHandoverCopy(await explorationTools.completeOrientation());}catch{}
+ if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=market-tour-ready-20261014&retry='+orientationTourAttempt).then(({createOrientationTour})=>{
+  orientationTour=createOrientationTour({storage:gameStorage,photo:()=>discovery.photo(),summary:()=>orientationSummary,helper:()=>helperPicker.selected(),
+   chooseHelper:async preparing=>{await helperPicker.choose(true);const selected=helperPicker.selected();if(selected.model)preparing(selected.name+' is getting ready. You can skip the tour while your companion prepares.');await companionApply;if(selected.model&&echo?.snapshot().helperStatus==='failed')throw Error('Companion unavailable');},
+   fly:()=>{closeExplorationOptions(false);explorationTools.showMap();return flyover.enter();},openOptions:()=>{$('exploration-options').open=true;},optionsOpen:()=>Boolean($('exploration-options')?.open),
+   openStats:()=>explorationTools.showStats(),statsOpen:()=>explorationTools.open(),
+   openCourse:()=>navigateRunModule('../economy-lab/?section=course&tour-return=1'),goMarket:async current=>{
+    if(adminReviewRequested){if(!current())return false;await openMarket();return mode==='market';}
+    const request=modeRequest;try{await ensureCampus();}catch{return false;}
+    if(!current()||request!==modeRequest)return false;
+    await campusSpot(MARKET_APPROACH.x,MARKET_APPROACH.z,'Outside Sunday Markets',MARKET_APPROACH.yaw);
+    return mode==='town'&&Math.hypot(actor.model.position.x-MARKET_APPROACH.x,actor.model.position.z-MARKET_APPROACH.z)<.3;
+   },
+   pause:()=>{resetNavigationInput();actor.setWalking(false);},resume:()=>{resetNavigationInput();canvas.focus({preventScroll:true});},
+   stop:()=>{flyover?.exit();closeExplorationOptions(false);explorationTools?.close();if(helperPicker.open())$('helper-picker').querySelector('[data-cancel]').click();}
+  });return orientationTour;
+ }).catch(error=>{orientationTourLoad=null;orientationTourAttempt++;toast('The campus tour could not open. Your photo is intact. Choose Continue or replay the tour from Options to retry.');throw error;});
+ const tour=await orientationTourLoad;orientationHandoverSeen=true;$('discovery-dialog').close();tour.start({restore});
 }
+function landFromFlyover(point,heading){
+ if(mode!=='town'||!campusReady)return false;
+ const atMarket=Math.abs(point.x-43)<7.5&&point.z>-31&&point.z<-16;
+ const landed=worlds.findLanding(atMarket?MARKET_APPROACH:point);if(!landed)return false;
+ resetNavigationInput();worlds.teleport(false,landed.x,landed.z,landed.y);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=(atMarket?0:heading)+Math.PI;actor.setWalking(false);yaw=atMarket?0:heading;aerial=false;$('aerial').setAttribute('aria-pressed','false');
+ setLocation(atMarket?'Outside Sunday Markets':'Campus · safely landed');orientationTour?.landed(landed);requestAnimationFrame(()=>updateCamera(1,true));return true;
+}
+async function goToMarketEntrance(){orientationTour?.stop();if(adminReviewRequested)return openMarket();return campusSpot(MARKET_APPROACH.x,MARKET_APPROACH.z,'Outside Sunday Markets',MARKET_APPROACH.yaw);}
 
 function openWholeCharacterChoice(){
  const options=$('exploration-options');if(options)options.open=false;
@@ -867,12 +891,12 @@ async function boot(){
     worlds=await createWorlds(message=>{$('loading-message').textContent=message;},()=>{detailFailed=true;detailNotice();},(hydrate,options)=>surfaceUploads.schedule(hydrate,options));applyRenderQuality();
     $('loading-message').textContent='Preparing your first view...';worlds.town.environment=environment.texture;worlds.town.environmentIntensity=.28;worlds.interior.environment=environment.texture;worlds.interior.environmentIntensity=.55;worlds.careers.environment=environment.texture;worlds.careers.environmentIntensity=.55;worlds.chapel.environment=environment.texture;worlds.chapel.environmentIntensity=.35;
     THREE.Cache.clear();THREE.Cache.enabled=false;
-    worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');actor=createFallbackCharacter();actor.model.position.copy(worlds.position(false));worlds.town.add(actor.model);populateProfiles();updateActor(avatarReady);flyover=createFlyover({camera,keys,canvas,root:$('experience'),canEnter:canFlyover,resetInput:resetNavigationInput,fog:()=>worlds.town.fog});bindEvents();resize();
+    worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');actor=createFallbackCharacter();actor.model.position.copy(worlds.position(false));worlds.town.add(actor.model);populateProfiles();updateActor(avatarReady);flyover=createFlyover({camera,keys,canvas,root:$('experience'),canEnter:canFlyover,canShow:()=>mode==='town'&&campusReady,beforeEnter:()=>closeExplorationOptions(false),resetInput:resetNavigationInput,fog:()=>worlds.town.fog,onLand:landFromFlyover});bindEvents();resize();
     await setMode('town');yaw=0;updateCamera(1,true);
-    if(marketRequested)await openMarket();
+    if(marketRequested&&adminReviewRequested)await openMarket();
     // A shareable, playable quality-review viewpoint; normal entry remains Arrival Gardens.
-    const viewpoints={'discovery-mural':{p:[10.6,-38.4,Math.PI/2],name:'Mural detail'},'discovery-oval':{p:[-4,-57,Math.PI],name:'Oval · filming spot'},'teachers':{p:[-4,-49.8,0],name:'Meet your teachers · Oval'},'mr-middleton':{p:[-7,-50,0],name:'Mr Middleton · Oval'},'mr-psandodakis':{p:[-1,-50,0],name:'Mr Psandodakis · Oval'},'garden-pond':{p:[32,-10,Math.PI/2],name:'Garden pond'},'fountain-walk':{p:[-2.6,5.5,0],name:'Fountain walk'},'garden-benches':{p:[-5.8,-8,Math.PI/2],name:'Garden seating'},'chapel-exterior':{p:[-1.5,-4.5,.58],name:'Chapel exterior'},'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Market Courtyard'}};
-    const view=marketRequested?null:new URLSearchParams(location.search).get('view');
+    const viewpoints={'discovery-mural':{p:[10.6,-38.4,Math.PI/2],name:'Mural detail'},'discovery-oval':{p:[-4,-57,Math.PI],name:'Oval · filming spot'},'teachers':{p:[-4,-49.8,0],name:'Meet your teachers · Oval'},'mr-middleton':{p:[-7,-50,0],name:'Mr Middleton · Oval'},'mr-psandodakis':{p:[-1,-50,0],name:'Mr Psandodakis · Oval'},'garden-pond':{p:[32,-10,Math.PI/2],name:'Garden pond'},'fountain-walk':{p:[-2.6,5.5,0],name:'Fountain walk'},'garden-benches':{p:[-5.8,-8,Math.PI/2],name:'Garden seating'},'chapel-exterior':{p:[-1.5,-4.5,.58],name:'Chapel exterior'},'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Outside Sunday Markets'}};
+    const view=marketRequested&&!adminReviewRequested?'home-economics':marketRequested?null:new URLSearchParams(location.search).get('view');
     const viewpoint=viewpoints[view];
     const completeView=Boolean(viewpoint||view==='chapel-interior');entryHandover=!completeView&&!studioFirst&&!marketRequested;
     if(!completeView){
@@ -884,15 +908,16 @@ async function boot(){
       }
     }else {icons();const ready=ensureCampus();animate();await ready;}
     if(!marketRequested&&new URLSearchParams(location.search).get('view')==='chapel-interior')await enterChapel();
-    if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}
+    if(viewpoint){worlds.teleport(false,viewpoint.p[0],viewpoint.p[1]);actor.model.position.copy(worlds.position(false));yaw=viewpoint.p[2];if(view==='home-economics')actor.model.rotation.y=Math.PI;aerial=false;setLocation(viewpoint.name);updateCamera(1,true);}
     if(completeView){$('loading').hidden=true;icons();}
     if(!discoveryReview&&!adminReviewRequested)afterFirstPaint().then(loadEcho).catch(error=>console.warn('Guidance unavailable; game remains playable.',error));
     if(discoveryReview){
-      discovery=createDiscovery({THREE,worlds,canvas,enterQuiet:enterChapel,storage:gameStorage,onPhotoFinish:showOrientationHandover, onParcel:()=>{explorationTools?.awardParcel();worlds.ensureChapel().catch(()=>{});},available:()=>!intro?.open()&&!helperPicker.open()&&!echo?.open()&&!explorationMenuOpen(),onLocation:label=>{if($('location-title').textContent!==label.title||$('location-subtitle').textContent!==label.subtitle){setLocation(label.title);$('location-subtitle').textContent=label.subtitle;}},beforeCapture:async()=>{resetNavigationInput();actor.setWalking(false);prepareCastPortrait(teachers,actor.model.position);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));prepareCastPortrait(teachers,actor.model.position);},pathsReady:()=>entryReady,muralReady:()=>worlds.muralReady,position:()=>actor.model.position,mode:()=>mode,travel:async target=>{if(target==='oval'){await prepareEntry();await loadTeachers({explicit:true});}if(['start','parcel','chapel-door','chapel'].includes(target))await prepareEntry();else await ensureCampus();if(target==='chapel'){await enterChapel();return;}await setMode('town');const points={start:[-7,23.3,0],parcel:[-7,16.3,0],'chapel-door':[-3.15,-8.8,1.1],mural:[10.6,-38.4,Math.PI/2],oval:[-4,-57,Math.PI]};const v=points[target];worlds.teleport(false,v[0],v[1]);actor.model.position.copy(worlds.position(false));yaw=v[2];setLocation(target==='mural'?'Mural detail':target==='oval'?'Oval · filming spot':'Arrival Gardens');updateCamera(1,true);},capture:capturePortraitFrame,pause:()=>{resetNavigationInput();actor.setWalking(false);},releaseReveal:()=>{resetNavigationInput();actor.setWalking(false);if(mode==='town'){const p=actor.model.position;yaw=Math.atan2(camera.position.x-p.x,camera.position.z-p.z);aerial=false;updateCamera(1,true);}},reveal:()=>{revealCameraStart=camera.clone();if(mode==='town')setLocation('Oval · filming spot');updateTeacherLoading();},explore:()=>canvas.focus(),personalise:()=>openWholeCharacterChoice(),market:async()=>{if(!orientationHandoverSeen)await showOrientationHandover();else await openMarket();},frameReveal:t=>{const p=actor.model.position,from=revealCameraStart||camera;const startYaw=Math.atan2(from.position.x-p.x,from.position.z-p.z);const delta=Math.atan2(Math.sin(Math.PI-startYaw),Math.cos(Math.PI-startYaw));const angle=startYaw+delta*t,initialDistance=Math.hypot(from.position.x-p.x,from.position.z-p.z),distance=THREE.MathUtils.lerp(initialDistance,6.4,t);camera.position.set(p.x+Math.sin(angle)*distance,THREE.MathUtils.lerp(from.position.y,2.5,t),p.z+Math.cos(angle)*distance);camera.lookAt(p.x,1.25,p.z+2.4*t);yaw=angle;if(t===1)actor.model.rotation.y=0;},stageCast:(t,dt)=>{const layout=revealLayout(actor.model.position);teachers.forEach(n=>n.stagePose(layout.teacherX(n.id),layout.teacherZ(t),t<1,t===1&&dt===0?.3:dt));},castReady:()=>teachers.length===2});
+      discovery=createDiscovery({THREE,worlds,canvas,enterQuiet:enterChapel,storage:gameStorage,onPhotoFinish:showOrientationHandover, onParcel:()=>{explorationTools?.awardParcel();worlds.ensureChapel().catch(()=>{});},available:()=>!intro?.open()&&!helperPicker.open()&&!echo?.open()&&!explorationMenuOpen(),onLocation:label=>{if($('location-title').textContent!==label.title||$('location-subtitle').textContent!==label.subtitle){setLocation(label.title);$('location-subtitle').textContent=label.subtitle;}},beforeCapture:async()=>{resetNavigationInput();actor.setWalking(false);prepareCastPortrait(teachers,actor.model.position);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));prepareCastPortrait(teachers,actor.model.position);},pathsReady:()=>entryReady,muralReady:()=>worlds.muralReady,position:()=>actor.model.position,mode:()=>mode,travel:async target=>{if(target==='oval'){await prepareEntry();await loadTeachers({explicit:true});}if(['start','parcel','chapel-door','chapel'].includes(target))await prepareEntry();else await ensureCampus();if(target==='chapel'){await enterChapel();return;}await setMode('town');const points={start:[-7,23.3,0],parcel:[-7,16.3,0],'chapel-door':[-3.15,-8.8,1.1],mural:[10.6,-38.4,Math.PI/2],oval:[-4,-57,Math.PI]};const v=points[target];worlds.teleport(false,v[0],v[1]);actor.model.position.copy(worlds.position(false));yaw=v[2];setLocation(target==='mural'?'Mural detail':target==='oval'?'Oval · filming spot':'Arrival Gardens');updateCamera(1,true);},capture:capturePortraitFrame,pause:()=>{resetNavigationInput();actor.setWalking(false);},releaseReveal:()=>{resetNavigationInput();actor.setWalking(false);if(mode==='town'){const p=actor.model.position;yaw=Math.atan2(camera.position.x-p.x,camera.position.z-p.z);aerial=false;updateCamera(1,true);}},reveal:()=>{revealCameraStart=camera.clone();if(mode==='town')setLocation('Oval · filming spot');updateTeacherLoading();},explore:()=>canvas.focus(),personalise:()=>openWholeCharacterChoice(),market:async()=>{if(!orientationHandoverSeen)await showOrientationHandover();else await goToMarketEntrance();},frameReveal:t=>{const p=actor.model.position,from=revealCameraStart||camera;const startYaw=Math.atan2(from.position.x-p.x,from.position.z-p.z);const delta=Math.atan2(Math.sin(Math.PI-startYaw),Math.cos(Math.PI-startYaw));const angle=startYaw+delta*t,initialDistance=Math.hypot(from.position.x-p.x,from.position.z-p.z),distance=THREE.MathUtils.lerp(initialDistance,6.4,t);camera.position.set(p.x+Math.sin(angle)*distance,THREE.MathUtils.lerp(from.position.y,2.5,t),p.z+Math.cos(angle)*distance);camera.lookAt(p.x,1.25,p.z+2.4*t);yaw=angle;if(t===1)actor.model.rotation.y=0;},stageCast:(t,dt)=>{const layout=revealLayout(actor.model.position);teachers.forEach(n=>n.stagePose(layout.teacherX(n.id),layout.teacherZ(t),t<1,t===1&&dt===0?.3:dt));},castReady:()=>teachers.length===2});
     }
     if(discoveryReview){
       setupExplorationMenus();if(discovery.snapshot().souvenir){document.body.classList.add('guest-photo-finished');if(companionOffered&&helperPicker.selected().model)afterFirstPaint().then(()=>applySelectedCompanion());}
-      explorationTools=createExplorationTools({THREE,worlds,position:()=>actor.model.position,mode:()=>mode,state:()=>discovery.snapshot(),photo:()=>discovery.photo(),reviewPhoto:()=>discovery.showPhotoFinish(),review:isolatedDiscovery||adminReviewRequested,storage:gameStorage,market:()=>nightMarket,notify:message=>toast(message),onOpen:()=>{const options=document.querySelector('#exploration-options');if(options)options.open=false;resetNavigationInput();},header:$('header-controls')});
+      if(entryParams.get('tour')&&discovery.snapshot().souvenir)afterFirstPaint().then(()=>showOrientationHandover({restore:entryParams.get('tour')==='resume'})).catch(()=>{});
+      explorationTools=createExplorationTools({THREE,worlds,position:()=>actor.model.position,navigationPosition:()=>flyover?.active?camera.position:actor.model.position,navigationTarget:()=>orientationTour?.target(),routeMarket:goToMarketEntrance,mode:()=>mode,state:()=>discovery.snapshot(),photo:()=>discovery.photo(),reviewPhoto:()=>discovery.showPhotoFinish(),review:isolatedDiscovery||adminReviewRequested,storage:gameStorage,market:()=>nightMarket,notify:message=>toast(message),onOpen:()=>{const options=document.querySelector('#exploration-options');if(options)options.open=false;resetNavigationInput();},onClose:()=>orientationTour?.update(),header:$('header-controls')});
       const introStorage=gameStorage;
       intro=window.CareerEmpireIntro?.intro||createTasterIntro({profile:state.activeId,storage:introStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onResume:()=>{resetNavigationInput();updateEntryLoading();updateCamera(1,true);},focusTarget:canvas});
       if(window.CareerEmpireIntro){window.CareerEmpireIntro.bridge.pause=()=>{resetNavigationInput();actor.setWalking(false);};window.CareerEmpireIntro.bridge.resume=()=>{resetNavigationInput();updateEntryLoading();updateCamera(1,true);};}

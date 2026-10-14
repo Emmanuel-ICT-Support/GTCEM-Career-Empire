@@ -2,7 +2,9 @@ import {test,expect} from './campus-fixtures.js';
 const key='ce-player:e2e-owned:career-empire-3d-profiles-v2-tripo';
 const primary=['Antonio','Cerys','Che','Diego','Hannah','Lilly','Sienna','Taj'];
 const snapshot=page=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}'));
-const glbs=urls=>urls.filter(u=>/\.glb(?:[?]|$)/.test(u));
+// Campus scenery can keep streaming after Studio opens. Only character and
+// wardrobe requests belong to the selected-only avatar assertion.
+const glbs=urls=>urls.filter(u=>/\/assets\/(?:whole-characters\/[^/]+|avatar-[^/]+|player-[^/]+|studio-walking-base|studio-separate-pants|occupational-[^/]+|hospital-scrub-top|hair-[^/]+|shoes-[^/]+|neckline-skin)\.glb(?:[?]|$)/.test(u));
 async function ready(page,width){
  await page.setViewportSize({width,height:844});await page.goto('/playable-3d/?outfit=wardrobe',{waitUntil:'domcontentloaded'});
  await expect(page.locator('#loading')).toBeHidden({timeout:45000});await expect(page.locator('#save-avatar')).toBeEnabled({timeout:20000});

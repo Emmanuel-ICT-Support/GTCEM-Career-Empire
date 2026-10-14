@@ -1,3 +1,4 @@
+import {mountCourseOutline} from './course-outline.mjs?v=phases-20261014';
 import {browserRun} from '../playable-3d/game-session.mjs?v=guest-first-20261012';
 const gameRun=await browserRun({newEntry:false});const gameStorage=gameRun.storage;
 import {MILESTONES} from './exploration.mjs?v=navigation-20261012';
@@ -24,7 +25,7 @@ let currentView='overview',receiptTimer;
 const views={overview:{title:'YOUR PRACTICE WORLD',description:'Earn, make room for what matters, and see your world change.',panel:'overview',action:'Explore my choices'},home:{title:'HOME BASE / MAKE IT YOURS',description:'A desk, a laptop, a green corner. Purchases have a place.',panel:'shop',action:'Make room for something new'},community:{title:'OUR CLASS WORLD / SIMULATED',description:'Class investments will change the playable world and its work opportunities. This is a local simulation.',panel:'impact',action:'See the local fund'}};
 const panel=$('player-panel');
 function selectPanel(name){
- for(const id of ['overview','play','earn','shop','impact','money','progress','work'])$('panel-'+id).hidden=!(id===name);
+ for(const id of ['overview','play','earn','shop','impact','money','progress','work','course'])$('panel-'+id).hidden=!(id===name);
  for(const b of document.querySelectorAll('[data-panel]'))b.setAttribute('aria-pressed',String(b.dataset.panel===name));
  panel.querySelector('.panel-content').scrollTop=0;
 }
@@ -96,7 +97,7 @@ for(const b of document.querySelectorAll('[data-open]'))b.onclick=()=>openPanel(
 const workLibrary=mountWork({storage:gameStorage,review:reviewMode,onChange:state=>{const active=state.entries.filter(x=>!x.archived);const latest=[...active].sort((a,b)=>Date.parse(b.revisions.at(-1).at)-Date.parse(a.revisions.at(-1).at))[0]?.revisions.at(-1);$('recent-work-title').textContent=latest?.title||'Your activity records, together.';$('recent-work-detail').textContent=latest?`Last saved ${new Date(latest.at).toLocaleString()} · ${latest.status==='finished'?'Finished by you':'Draft'}. Open the saved record to review it.`:'Save your market case note from the activity to review it here.';$('continue-work').textContent=latest?'Review my work →':'View my work →';$('progress-work-summary').textContent=`My work: ${active.filter(x=>x.revisions.at(-1).status==='finished').length} marked finished by you · ${active.filter(x=>x.revisions.at(-1).status==='draft').length} drafts. These labels do not award money, badges or assessment credit.`;}});
 $('continue-work').onclick=()=>{workLibrary.resumeLatest();openPanel('work');};
 if(reviewMode){document.querySelector('.practice-tag').textContent='REVIEW MODE';$('scene-hint').textContent='Temporary review world · Your saved Economy Lab is untouched';}
-selectPanel(document.querySelector('[data-panel][aria-pressed="true"]')?.dataset.panel||'overview');
+mountCourseOutline();selectPanel(new URLSearchParams(location.search).get('section')==='course'?'course':document.querySelector('[data-panel][aria-pressed="true"]')?.dataset.panel||'overview');
 
 render();
 $('tracker-loading').hidden=true;$('visit-home').disabled=false;

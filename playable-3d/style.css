@@ -52,3 +52,5 @@
 .mode-switch .my-life-link{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 14px;color:var(--ink);font-size:13px;font-weight:600;text-decoration:none;border-radius:5px;white-space:nowrap}
 .mode-switch .my-life-link:hover{background:#e0eadd}.mode-switch .my-life-link:focus-visible{outline:2px solid #37604b;outline-offset:2px}.my-life-link svg{width:18px;height:18px}
 @media(max-width:620px),(max-height:500px) and (max-width:950px){.mode-switch .my-life-link{width:56px;min-width:56px;padding:6px 3px;font-size:11px;line-height:1.2}.mode-switch .my-life-link svg{display:none}}
+
+.blueprint-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 12px;border:1px solid transparent;border-radius:5px;color:inherit;font-size:13px;font-weight:600;text-decoration:none}.blueprint-link:hover{background:#dce7dc}

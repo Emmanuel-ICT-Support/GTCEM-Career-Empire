@@ -8,9 +8,9 @@ test('live keyboard route reaches the actual Chapel door without changing positi
  await page.goto('/playable-3d/');await page.locator('#taster-skip').click();await expect.poll(()=>page.evaluate(()=>window.observeChapelApproach?.().state),{timeout:30000}).toMatchObject({entryReady:true});
  await walkToMap(page,'KeyW','z',16.7);await expect(page.locator('#discovery-dialog')).toBeVisible();await page.locator('#develop').press('End');await page.locator('#develop-next').click();
  await walkToMap(page,'KeyW','z',7.5);await record('south-walk');
- await walkToMap(page,'KeyD','x',-4);const turn=await record('chapel-alignment');expect(turn.physical[0]).toBeGreaterThan(-4);expect(turn.physical[0]).toBeLessThan(-1.5);
- await walkToMap(page,'KeyW','z',-7.6);const door=await record('chapel-door');expect(Math.hypot(door.physical[0]+3.15,door.physical[2]+8.8)).toBeLessThan(3);
- await page.getByRole('button',{name:'Step inside',exact:true}).click();await expect.poll(()=>page.evaluate(()=>window.observeChapelApproach().state),{timeout:30000}).toMatchObject({mode:'chapel',discovery:{step:1,developed:true}});
+ await walkToMap(page,'KeyD','x',-2.9);const turn=await record('chapel-alignment');expect(turn.physical[0]).toBeGreaterThan(-3.35);expect(turn.physical[0]).toBeLessThan(-1.9);
+ await page.keyboard.down('ShiftLeft');try{await walkToMap(page,'KeyW','z',-7.6);}finally{await page.keyboard.up('ShiftLeft');}const door=await record('chapel-door');expect(Math.hypot(door.physical[0]+3.15,door.physical[2]+8.8)).toBeLessThan(3);
+ if(!await page.getByRole('button',{name:'Step inside',exact:true}).isVisible())await page.locator('#interact').click();await page.getByRole('button',{name:'Step inside',exact:true}).click();await expect.poll(()=>page.evaluate(()=>window.observeChapelApproach().state),{timeout:30000}).toMatchObject({mode:'chapel',discovery:{step:1,developed:true}});
  await page.locator('#interact').click();await expect(page.locator('#discovery-title')).toHaveText('The colourful picture');await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','mural');expect(errors).toEqual([]);
  await info.attach('keyboard-route',{body:JSON.stringify(checkpoints,null,2),contentType:'application/json'});
 });
