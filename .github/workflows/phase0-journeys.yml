@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     env:
-      REFERENCE_GAME_SHA: 677c16739fbf3493cbee63a22391d44da2471767
+      REFERENCE_GAME_SHA: 418dd5e38edc75ebdf28e7cbb836d72b9c76499e
       PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/phase0-hosted/browser-report.json
     steps:
       - uses: actions/checkout@v4
@@ -93,7 +93,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      REFERENCE_GAME_SHA: 677c16739fbf3493cbee63a22391d44da2471767
+      REFERENCE_GAME_SHA: 418dd5e38edc75ebdf28e7cbb836d72b9c76499e
       PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/companion-matrix/browser-report.json
     steps:
       - uses: actions/checkout@v4
@@ -121,7 +121,7 @@ jobs:
               launchOptions:{...p.use.launchOptions,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}}}))};
           JS
       - name: Check the seven creatures and two mesh-free guidance choices
-        run: npx playwright test companion-matrix.spec.js --config qa/companion-matrix-hosted.playwright.config.mjs --workers=1 --max-failures=0 --reporter=line,json
+        run: npx playwright test companion-matrix.spec.js pre-market-flight.spec.js --config qa/companion-matrix-hosted.playwright.config.mjs --workers=1 --max-failures=0 --reporter=line,json
       - name: Record every option and scene result
         if: always()
         run: |
@@ -133,9 +133,13 @@ jobs:
           const receipt=JSON.parse(fs.readFileSync(root+'/'+file,'utf8'));
           const keys=receipt.rows.map(row=>row.id+':'+row.mode);
           const expected=[...receipt.roster,...receipt.guidance].flatMap(id=>['town','market'].map(mode=>id+':'+mode));
-          const complete=receipt.reportedRows===18&&keys.length===new Set(keys).size&&expected.every(key=>keys.includes(key));
+          const rowComplete=receipt.reportedRows===18&&keys.length===new Set(keys).size&&expected.every(key=>keys.includes(key));
+          const report=JSON.parse(fs.readFileSync('coverage/companion-matrix/browser-report.json','utf8'));
+          const walk=suites=>suites.flatMap(s=>[...(s.specs||[]).flatMap(spec=>(spec.tests||[]).map(test=>({file:spec.file,title:spec.title,results:(test.results||[]).map(r=>r.status)}))),...walk(s.suites||[])]);
+          const cases=walk(report.suites||[]),caseComplete=cases.length===2&&cases.every(c=>c.results.length===1&&['passed','failed','timedOut'].includes(c.results[0]))&&!(report.errors||[]).length;
+          const complete=rowComplete&&caseComplete;
           const proof={referenceGameSha:process.env.REFERENCE_GAME_SHA,qaCommit:process.env.GITHUB_SHA,
-            expected:18,reported:receipt.reportedRows,complete,
+            expected:18,reported:receipt.reportedRows,complete,rowComplete,caseComplete,cases,
             passed:receipt.rows.filter(row=>row.status==='passed').length,
             failed:receipt.rows.filter(row=>row.status!=='passed').length,
             rows:receipt.rows.map(({id,name,mode,status,error})=>({id,name,mode,status,error}))};
