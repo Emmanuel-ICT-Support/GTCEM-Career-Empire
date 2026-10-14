@@ -15,8 +15,12 @@ test('phone reduced-motion component has full transcript and immediate exit',asy
 });
 test('canonical no-query entry skips intro into the real scene without writing trail progress',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/playable-3d/');await expect(page.locator('#taster-intro')).toBeVisible({timeout:90000});const before=await page.evaluate(()=>localStorage.getItem('ce-missing-frame-local-review-v1'));await page.locator('#taster-skip').click();
- // One read retains every assertion without repeatedly forcing screenshots of
- // the full software-rendered campus in the hosted trace.
+ // The immediate intro shell precedes the lazy game DOM. Wait for the actual
+ // entry frame, then prove that the released student controls move the player.
+ const state=()=>page.evaluate(()=>JSON.parse(document.querySelector('#diagnostics')?.dataset.state||'{}'));
+ await expect.poll(state,{timeout:30000}).toMatchObject({entryReady:true});await expect(page.locator('#loading')).toBeHidden();await expect(page.locator('#exploration-help')).toBeVisible();
+ const start=(await state()).position;await page.locator('#scene').focus();await page.keyboard.down('KeyW');
+ try{await expect.poll(async()=>(await state()).position?.[2],{timeout:10000}).toBeLessThan(start[2]-.15);}finally{await page.keyboard.up('KeyW');}
  const result=await page.evaluate(()=>({introOpen:document.querySelector('#taster-intro').open,companionOpen:document.querySelector('#helper-picker').open,clueVisible:document.querySelector('#exploration-help').getBoundingClientRect().width>0,sceneVisible:document.querySelector('#scene').getBoundingClientRect().width>0,parcelText:document.querySelector('#discovery-response').textContent,trail:localStorage.getItem('ce-missing-frame-local-review-v1')}));
  expect(result.introOpen).toBe(false);expect(result.companionOpen).toBe(false);expect(result.clueVisible).toBe(true);expect(result.sceneVisible).toBe(true);expect(result.parcelText).toContain('parcel');expect(result.trail).toBe(before);
 });
