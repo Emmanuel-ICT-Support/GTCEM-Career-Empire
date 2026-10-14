@@ -1,0 +1,88 @@
+name: Focused Phase 0 journeys
+
+'on':
+  push:
+    branches: [qa/phase0-journeys-20261014]
+
+permissions:
+  contents: read
+
+jobs:
+  two-journeys:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      REFERENCE_GAME_SHA: a0b7e34f9aacce424ebb5d6b343ffc12ee4fa6f9
+      PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/phase0-hosted/browser-report.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Prove this QA commit changes only workflow infrastructure
+        run: git diff --exit-code "$REFERENCE_GAME_SHA" HEAD -- . ':!.github/workflows/phase0-journeys.yml'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Configure software rendering and read-only final evidence
+        run: |
+          mkdir -p qa coverage/phase0-hosted
+          cat > qa/phase0-hosted.playwright.config.mjs <<'JS'
+          import base from '../playwright.config.mjs';
+          export default {...base,testDir:'../tests/e2e',workers:1,
+            outputDir:'../coverage/phase0-hosted/browser-evidence',
+            webServer:{...base.webServer,cwd:process.cwd()},
+            projects:base.projects.map(p=>({...p,use:{...p.use,
+              launchOptions:{...p.use.launchOptions,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}}}))};
+          JS
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import {createHash} from 'node:crypto';
+          const files=['tests/e2e/photo-handover.spec.js','tests/e2e/companion-visible.spec.js'];
+          const before=files.map(file=>({file,sha256:createHash('sha256').update(fs.readFileSync(file)).digest('hex')}));
+          // Add observation only. All existing test controls, assertions and deadlines remain unchanged.
+          const hook=`
+          test.afterEach(async({page},info)=>{
+            try {
+              const evidence=await Promise.race([page.evaluate(()=>{
+                const canvas=document.querySelector('#scene'),gl=canvas?.getContext('webgl2'),ext=gl?.getExtension('WEBGL_debug_renderer_info');
+                return {renderer:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):null,
+                  state:JSON.parse(document.querySelector('#diagnostics')?.dataset.state||'{}'),
+                  companion:window.companionRenderProbe?.(),
+                  tour:{step:document.querySelector('#orientation-tour')?.dataset.step,text:document.querySelector('#orientation-tour')?.textContent},
+                  photoOpen:document.querySelector('#discovery-dialog')?.open};
+              }),new Promise((_,reject)=>setTimeout(()=>reject(Error('Final evidence unavailable within 5 seconds')),5000))]);
+              console.log('FOCUSED_SOFTWARE_EVIDENCE',JSON.stringify({title:info.title,status:info.status,...evidence}));
+              await info.attach('software-state',{body:JSON.stringify(evidence,null,2),contentType:'application/json'});
+              await page.screenshot({path:info.outputPath('final-software-view.png')});
+            } catch(error) {console.log('Final observation unavailable:',error.message);}
+          });
+          `;
+          for(const file of files)fs.appendFileSync(file,hook);
+          fs.writeFileSync('coverage/phase0-hosted/source-proof.json',JSON.stringify({referenceGameSha:process.env.REFERENCE_GAME_SHA,qaCommit:process.env.GITHUB_SHA,before},null,2));
+          JS
+      - name: Run exactly the two affected journeys
+        run: npx playwright test photo-handover.spec.js companion-visible.spec.js --config qa/phase0-hosted.playwright.config.mjs --workers=1 --max-failures=0 --reporter=line,json
+      - name: Record exact terminal case count
+        if: always()
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const path='coverage/phase0-hosted/browser-report.json';
+          if(!fs.existsSync(path))throw Error('No execution report produced');
+          const report=JSON.parse(fs.readFileSync(path,'utf8'));
+          const walk=suites=>suites.flatMap(s=>[...(s.specs||[]).flatMap(spec=>(spec.tests||[]).map(test=>({file:spec.file,title:spec.title,results:(test.results||[]).map(r=>r.status)}))),...walk(s.suites||[])]);
+          const cases=walk(report.suites||[]),complete=cases.length===2&&cases.every(c=>c.results.length===1&&['passed','failed','timedOut'].includes(c.results[0]))&&!(report.errors||[]).length;
+          const proof={referenceGameSha:process.env.REFERENCE_GAME_SHA,qaCommit:process.env.GITHUB_SHA,expected:2,reported:cases.length,complete,cases};
+          fs.writeFileSync('coverage/phase0-hosted/count-proof.json',JSON.stringify(proof,null,2));console.log(JSON.stringify(proof));
+          if(!complete)process.exitCode=1;
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase0-two-journeys-${{ github.sha }}
+          path: coverage/phase0-hosted/
+          if-no-files-found: warn
+          retention-days: 3

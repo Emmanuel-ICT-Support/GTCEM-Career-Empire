@@ -1,5 +1,0 @@
-# Physical Market gate — 12 October 2026
-
-Follow-up to df2db693, separate from Administration restoration. The old Market boundary had no exit trigger; walking toward the entrance stopped at the scene limit. Added a one-shot exit armed only after entering the courtyard. Crossing outward through the entrance at local z>11.4 returns to campus `(43, -17.8)`, outside its Market gateway, facing into campus. Gate entry is walking-triggered at the campus gateway, with a 1.2-second cooldown; returning opens the retained Market instance at its outside spawn. Entry loading is prepared before changing scene, so a failure keeps the Market usable and allows retry. Input resets at transition; no E/click required.
-
-Two actual native-Chrome scenarios pass (1280×844 and simulated 390×844), covering first entry → walk out → no immediate re-entry → walk back → accept a shift → walk out/back → same guest-run id and unchanged practice events. No save reset or economy mutation introduced. Local screenshots `/tmp/market-gate-outside-{1280,390}.png` are retained in task-2/evidence. Not published.
