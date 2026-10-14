@@ -69,7 +69,7 @@ test('every selectable companion renders, follows and retains its choice from ca
    await choose(helper);await verify(helper,'town');
    // No selection changes at the scene boundary: prove the chosen guide persists.
    await enterMarket(page);await verify(helper,'market');
-   await page.locator('#market-card > summary').click();await page.locator('#market-exit').click();
+   if(!await page.locator('#market-card').evaluate(element=>element.open))await page.locator('#market-card > summary').click();await page.locator('#market-exit').click();
    await page.waitForFunction(()=>window.companionRenderProbe?.().state.mode==='town',null,{timeout:30000});
    expect((await sample()).selected).toBe(helper.id);expect((await sample()).saved).toBe(helper.id);
   }
