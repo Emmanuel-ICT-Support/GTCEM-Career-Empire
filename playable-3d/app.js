@@ -448,7 +448,7 @@ async function setMode(next){
 }
 function setLocation(title){$('location-title').textContent=title;$('district-label').textContent=mode==='careers'?'EXPLORE YOUR FUTURE':mode==='chapel'?'A PLACE TO PAUSE':mode==='interior'?'THE LEARNING HALL':'CAREER EMPIRE · YOUR FIRST DAY';$('location-subtitle').textContent=mode==='careers'?'Shop on your left · My Life desk on your right':mode==='chapel'?'Quiet reflection · Drag down to look up':mode==='interior'?'CORE / TERM / VTCS / BOSS':['Market Courtyard','Outside Sunday Markets'].includes(title)?'Live Music & Sunday Markets · Walk forward to enter':title==='Home Base'?'ECC welcome / Chapel / Campus paths':'Arrival Gardens / Avatar Studio';}
 function leaveStudio(callback){if(dirty()){pendingLeave=callback;$('leave-dialog').showModal();}else callback();}
-function saveDraft(){if($('save-avatar').disabled){toast('Wait for the selected outfit to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{gameStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
+function saveDraft(){if($('save-avatar').disabled){toast('Wait for the selected outfit to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{gameStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}echo?.guidance({avatarSaved:true});}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
 function openStudio(){if(mode==='studio')return;setMode('studio');}
 let enteringHall=false,enteringCareers=false;
 async function enterHall(){
@@ -658,7 +658,7 @@ function openModule(name,stage,url){
 }
 function closeModule(){moduleObserver?.disconnect();clearTimeout(moduleTimer);$('module-overlay').hidden=true;$('experience').inert=false;$('module-frame').onload=null;$('module-frame').removeAttribute('src');canvas.focus();}
 function phaseChange(name){if(!Object.hasOwn(PHASES,name))return;phase=name;worlds.phase(name);$('phase').value=name;}
-function qualityChange(){const q=$('quality').value;renderer.setPixelRatio(q==='low'?Math.min(devicePixelRatio,1):q==='high'?Math.min(devicePixelRatio,2):sharpRatio);renderer.shadowMap.enabled=renderQuality(renderBackend,q,devicePixelRatio).shadows;resize();}
+function qualityChange(){const quality=renderQuality(renderBackend,$('quality').value,devicePixelRatio);renderer.setPixelRatio(quality.pixelRatio);renderer.shadowMap.enabled=quality.shadows;resize();}
 function bindEvents(){
   document.addEventListener('visibilitychange',()=>{lastTime=clock.getElapsedTime();accumulator=0;frames=0;metricsTime=lastTime;if(document.hidden)resetNavigationInput();});
   const header=document.querySelector('.topbar');

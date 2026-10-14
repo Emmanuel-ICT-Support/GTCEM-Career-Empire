@@ -1,8 +1,8 @@
 {
-  "release": "broad-integrated-20261014",
+  "release": "control-completion-20261014",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "fec76572a26af62678ac6324216ac460e93deb36",
-  "scope": "Unpublished integration of tested broad repairs with the accepted PR57 opening tour, companion, safe landing, course and final-arrival fixes. Header wrapping, composed phone asset routing, static tree reuse, fixed-world interaction priority and EST-only indoor framing; all existing scenery, exterior camera, paid gates, eight primary avatars and selected-only archive/helper loading preserved.",
+  "baseCommit": "082805ba08e0f490062ff6be25f65619ad8eee50",
+  "scope": "Unpublished follow-on to the exact full-suite candidate: notify existing Echo guidance on successful avatar save and apply the existing renderer quality policy immediately. All original gates, scenery, movement, photo/tour flow and lazy selections retained.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "12a5324f97a6f1dda9a43cdd1697394a87a970d2db25b6d376a7d51fb2f4c369"
+      "sha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6"
     },
     {
       "path": "arcade-carnival.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "22b646da17dd5c151fff5b7ad36ee8bb85992768937e1af1e446d818edd781db"
+      "sha256": "3ae4bb06df1adfc4b2b832298fe327b67981a39c7d3443c0103ad42773c8237f"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "d3ba8de975f543c34717e28f3593451f1b37fbe7e5b98766f28706c3964aee55"
+      "sha256": "fd827d857f1741d0f7320d01511176df9409e535fee93f54c64fa5aabb190d2a"
     },
     {
       "path": "intro-taster.css",

@@ -1,3 +1,7 @@
+## Hosted broader result and focused control follow-on — 14 October 2026
+
+Run38543515871 on candidate082805b / QAfb7cb02 finished failure:186passed,42failed,1interrupted,4notstarted,0skipped. Shard3 hit45-minute job limit and emitted no JSON; original JSON proof reports175cases and correctly fails completeness. Logs reconcile all233IDs. Follow-on repair/integration-followup-20261014 fixes actual save-to-Echo notification and immediate quality policy;12 relevant units and8distinct native browser cases pass; full follow-on unit confirmation259/259 in59files passes. Photo-copy/current-frame observers repaired; Instrumented Admin re-entry observer2/2 also passes; software diagnostic completed re-entry but timed out later in the normal-gate segment. Remaining software performance/movement/recovery failures stay open; no threshold waiver, new full run or broad publication. Live PR57fec76572 preserved. See docs/full-integration-result-20261014.md and ignored coverage/full-integration-run-38543515871 evidence.
+
 ## Unpublished merge-aware broader candidate — 14 October 2026
 
 Current integration branch starts from published PR57 main fec76572 and merges tested repairs through5712d35. Preserve the accepted opening/tour/companion/final-arrival fixes; do not restore old cache tags or manifests. 257 units and source checks pass; staged280 hashes/87modules verified. One complete233-case browser run and exact accounting remain pending. Report before broader publication; live focused release remains intact. See docs/broad-integration-candidate-20261014.md.
