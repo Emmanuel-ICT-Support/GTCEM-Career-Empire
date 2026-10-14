@@ -91,7 +91,7 @@ for(const p of placements.filter(p=>p.id.includes('eucalypt')||p.id.includes('mu
 const buildings=installCampusBuildings(scene,palette,loaded,rect,colliders);
 for(const b of colliders)physics.block(...b);
 // Northern water remains outside the walking boundary; eastern pond and fountain use existing bodies.
-return {group,buildings:buildings.map(({model,...spec})=>spec),placements,colliders:colliders.length};
+return {group,buildings:buildings.map(({model,...spec})=>spec),placements,colliders:colliders.length,treeSource:loaded.get('mature-eucalypt-a')?.scene};
 }
 
 function installCampusBuildings(scene,palette,loaded,rect,colliders){

@@ -20,7 +20,7 @@ import {afterFirstPaint} from './deferred-textures.js?v=ecc-ba60122';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds,sign} from './world.js?v=phone-routing-20261014';
+import {createWorlds,sign} from './world.js?v=phone-tree-reuse-20261014';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=test-characters-20261013';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES,TEST_CHARACTER_INFO,COLOUR_PRESETS} from './profiles.js?v=test-characters-20261013';
@@ -341,7 +341,7 @@ async function ensureCampus(){
       const failure=results.find(result=>result.status==='rejected');if(failure)throw failure.reason;
       await new Promise(resolve=>setTimeout(resolve,0));
       if(!environmentReady){
-        const {integrateEnvironment}=await import('./environment.js?v=ecc-ba60122');
+        const {integrateEnvironment}=await import('./environment.js?v=phone-tree-reuse-20261014');
         const before=new Set(worlds.town.children);
         try{await integrateEnvironment(worlds);worlds.syncWalkingSurfaces();environmentReady=true;}
         catch(error){for(const child of [...worlds.town.children])if(!before.has(child))child.removeFromParent();throw error;}
@@ -390,7 +390,7 @@ async function prepareEntry(){
  if(entryReady)return;
  if(entryLoad)return entryLoad;
  entryFailure=false;entryPreparing=true;entryGeometryReady=false;entryDrawSubmitted=false;updateEntryLoading();campusNotice('Preparing the outdoor path to the envelope and Chapel…');
- const environmentModule=environmentReady?null:(entryEnvironmentModule||=import('./environment.js?v=ecc-ba60122'));environmentModule?.catch(()=>{});
+ const environmentModule=environmentReady?null:(entryEnvironmentModule||=import('./environment.js?v=phone-tree-reuse-20261014'));environmentModule?.catch(()=>{});
  // Complete exterior geometry and original opening planting during the intro; interiors and decorative maps remain deferred.
  const originalExteriors=worlds.loadBuildingExteriors();
  entryLoad=Promise.all([worlds.loadEntry(),originalExteriors,entryAvatarPriority?waitForPriorityAsset(entryAvatarPriority):Promise.resolve()]).then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}showMarketExteriorSigns();worlds.loadMuralTexture().catch(()=>{detailFailed=true;detailNotice();});entryGeometryReady=true;updateCamera(1,true);if(mode==='town')await waitForVisibleEntryFrame();entryReady=true;entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;updateEntryLoading();canvas.dataset.entryVisibleMs=String(performance.now());startSurfaceDetail();}).catch(error=>{entryFailure=true;campusNotice('Campus buildings could not load. Retry to open campus.',true);updateEntryLoading();throw error;}).finally(()=>{entryPreparing=false;entryLoad=null;});
@@ -881,7 +881,7 @@ async function boot(){
     const avatarReady=loadProfileKit(copy(active())).then(()=>true,()=>false);entryAvatarPriority=avatarReady;
     // Fetch only the lightweight exterior module graph while the selected avatar
     // has asset priority. Geometry integration still waits for the entry paths.
-    entryEnvironmentModule=import('./environment.js?v=ecc-ba60122');entryEnvironmentModule.catch(()=>{entryEnvironmentModule=null;});
+    entryEnvironmentModule=import('./environment.js?v=phone-tree-reuse-20261014');entryEnvironmentModule.catch(()=>{entryEnvironmentModule=null;});
     worlds=await createWorlds(message=>{$('loading-message').textContent=message;},()=>{detailFailed=true;detailNotice();},(hydrate,options)=>surfaceUploads.schedule(hydrate,options));applyRenderQuality();
     $('loading-message').textContent='Preparing your first view...';worlds.town.environment=environment.texture;worlds.town.environmentIntensity=.28;worlds.interior.environment=environment.texture;worlds.interior.environmentIntensity=.55;worlds.careers.environment=environment.texture;worlds.careers.environmentIntensity=.55;worlds.chapel.environment=environment.texture;worlds.chapel.environmentIntensity=.35;
     THREE.Cache.clear();THREE.Cache.enabled=false;

@@ -5,7 +5,7 @@ import {buildExterior} from './ecc-preview/model.js?v=ecc-ba60122';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {findSafeLanding} from './landing.mjs?v=post-photo-tour-20261013';
 import {createDeferredTextures} from './deferred-textures.js?v=ecc-ba60122';
-import {createCampusLandscape,createCampusPaths,createCampusBuildingExteriors} from './campus-landscape.js?v=phone-routing-20261014';
+import {createCampusLandscape,createCampusPaths,createCampusBuildingExteriors} from './campus-landscape.js?v=phone-tree-reuse-20261014';
 import {arrivalPrecinct} from './arrival-precinct.js?v=ecc-ba60122';
 /**
  * Modular tile-kit plaza ground (Career Empire daytime campus).
