@@ -3,7 +3,7 @@ import {test,expect} from './campus-fixtures.js';
 const state=page=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
 test('curriculum rooms remain accessible when campus decoration and Studio fail',async({page},info)=>{
  test.setTimeout(90000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.route('**/mature-eucalypt-b-packed.glb',r=>r.abort());
+ await page.route('**/assets/plaza/limestone-ecc-campus-v1.png',r=>r.abort());
  await page.route('**/studio.js?*',r=>r.abort());
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});
  await expect(page.locator('#loading')).toBeHidden({timeout:30000});
@@ -30,11 +30,12 @@ for(const width of [1280,390])test(`slow saved avatar, Studio and poster never g
  page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
  const saved=JSON.stringify({activeId:'saved',profiles:[{id:'saved',name:'Saved student',body:'schoolboy'},{id:'other',name:'Other',body:'a'}]});
  await page.addInitScript(saved=>localStorage.setItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo',saved),saved);
- for(const glob of ['**/player-schoolboy*.glb','**/studio.js?*','**/est-lab-systems-poster.png','**/mature-eucalypt-b-packed.glb'])await page.route(glob,async r=>{await gate;await r.continue();});
+ // Original trees are required entry geometry; hold deferred surface detail instead.
+ for(const glob of ['**/player-schoolboy*.glb','**/studio.js?*','**/est-lab-systems-poster.png','**/assets/plaza/limestone-ecc-campus-v1.png'])await page.route(glob,async r=>{await gate;await r.continue();});
  try{
   await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:15000});
   await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);
-  const start=(await state(page)).position[2];await page.keyboard.down('w');await page.waitForTimeout(650);await page.keyboard.up('w');
+  await expect.poll(async()=>(await state(page)).entryReady,{timeout:30000}).toBe(true);const start=(await state(page)).position[2];await page.locator('#scene').focus();await page.keyboard.down('w');await page.waitForTimeout(650);await page.keyboard.up('w');
   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);
   await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');
   await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
