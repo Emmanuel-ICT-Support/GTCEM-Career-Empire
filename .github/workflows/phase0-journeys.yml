@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     env:
-      REFERENCE_GAME_SHA: 418dd5e38edc75ebdf28e7cbb836d72b9c76499e
+      REFERENCE_GAME_SHA: 9fbff0cd8c626df2cb72e95dc432a3d8f7069001
       PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/phase0-hosted/browser-report.json
     steps:
       - uses: actions/checkout@v4
@@ -89,67 +89,66 @@ jobs:
           if-no-files-found: warn
           retention-days: 3
 
-  companion-matrix:
+  landing-shortcuts:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 6
     env:
-      REFERENCE_GAME_SHA: 418dd5e38edc75ebdf28e7cbb836d72b9c76499e
-      PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/companion-matrix/browser-report.json
+      REFERENCE_GAME_SHA: 9fbff0cd8c626df2cb72e95dc432a3d8f7069001
+      ACCEPTED_GAME_SHA: 418dd5e38edc75ebdf28e7cbb836d72b9c76499e
+      PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/landing-shortcuts/browser-report.json
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
-      - name: Prove the exact candidate application and tests
+      - name: Prove exact candidate and unchanged accepted companion/flight runtime
         run: |
-          git fetch --no-tags origin "$REFERENCE_GAME_SHA"
+          git fetch --no-tags origin "$REFERENCE_GAME_SHA" "$ACCEPTED_GAME_SHA"
           git diff --exit-code "$REFERENCE_GAME_SHA" HEAD -- . ':!.github/workflows/phase0-journeys.yml'
+          git diff --exit-code "$ACCEPTED_GAME_SHA" "$REFERENCE_GAME_SHA" -- . ':!docs/phase0-companion-render-diagnosis-20261014.md' ':!tests/e2e/photo-handover.spec.js' ':!tests/e2e/tour-landing-shortcuts.spec.js'
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - name: Configure the single software-rendered matrix
+      - name: Configure the moved landing and shortcut coverage
         run: |
-          mkdir -p qa coverage/companion-matrix
-          cat > qa/companion-matrix-hosted.playwright.config.mjs <<'JS'
+          mkdir -p qa coverage/landing-shortcuts
+          cat > qa/landing-shortcuts-hosted.playwright.config.mjs <<'JS'
           import base from '../playwright.config.mjs';
           export default {...base,testDir:'../tests/e2e',workers:1,
-            outputDir:'../coverage/companion-matrix/browser-evidence',
+            outputDir:'../coverage/landing-shortcuts/browser-evidence',
             webServer:{...base.webServer,cwd:process.cwd()},
             projects:base.projects.map(p=>({...p,use:{...p.use,
               launchOptions:{...p.use.launchOptions,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}}}))};
           JS
-      - name: Check the seven creatures and two mesh-free guidance choices
-        run: npx playwright test companion-matrix.spec.js pre-market-flight.spec.js --config qa/companion-matrix-hosted.playwright.config.mjs --workers=1 --max-failures=0 --reporter=line,json
-      - name: Record every option and scene result
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          fs.writeFileSync('coverage/landing-shortcuts/accepted-baseline.json',JSON.stringify({
+            candidate:process.env.REFERENCE_GAME_SHA,unchangedAcceptedRuntime:process.env.ACCEPTED_GAME_SHA,
+            acceptedRun:'https://github.com/Emmanuel-ICT-Support/GTCEM-Career-Empire/actions/runs/38522355736',
+            acceptedMatrixAndKeyboardFlightArtifact:11873964920},null,2));
+          JS
+      - name: Check the preserved roof, map and menu targets independently
+        run: npx playwright test tour-landing-shortcuts.spec.js --config qa/landing-shortcuts-hosted.playwright.config.mjs --workers=1 --max-failures=0 --reporter=line,json
+      - name: Record the exact terminal case
         if: always()
         run: |
           node --input-type=module <<'JS'
           import fs from 'node:fs';
-          const root='coverage/companion-matrix/browser-evidence';
-          const file=fs.existsSync(root)&&fs.readdirSync(root,{recursive:true}).find(p=>p.endsWith('/companion-matrix.json'));
-          if(!file)throw Error('No per-option matrix receipt produced');
-          const receipt=JSON.parse(fs.readFileSync(root+'/'+file,'utf8'));
-          const keys=receipt.rows.map(row=>row.id+':'+row.mode);
-          const expected=[...receipt.roster,...receipt.guidance].flatMap(id=>['town','market'].map(mode=>id+':'+mode));
-          const rowComplete=receipt.reportedRows===18&&keys.length===new Set(keys).size&&expected.every(key=>keys.includes(key));
-          const report=JSON.parse(fs.readFileSync('coverage/companion-matrix/browser-report.json','utf8'));
+          const path='coverage/landing-shortcuts/browser-report.json';
+          if(!fs.existsSync(path))throw Error('No execution report produced');
+          const report=JSON.parse(fs.readFileSync(path,'utf8'));
           const walk=suites=>suites.flatMap(s=>[...(s.specs||[]).flatMap(spec=>(spec.tests||[]).map(test=>({file:spec.file,title:spec.title,results:(test.results||[]).map(r=>r.status)}))),...walk(s.suites||[])]);
-          const cases=walk(report.suites||[]),caseComplete=cases.length===2&&cases.every(c=>c.results.length===1&&['passed','failed','timedOut'].includes(c.results[0]))&&!(report.errors||[]).length;
-          const complete=rowComplete&&caseComplete;
-          const proof={referenceGameSha:process.env.REFERENCE_GAME_SHA,qaCommit:process.env.GITHUB_SHA,
-            expected:18,reported:receipt.reportedRows,complete,rowComplete,caseComplete,cases,
-            passed:receipt.rows.filter(row=>row.status==='passed').length,
-            failed:receipt.rows.filter(row=>row.status!=='passed').length,
-            rows:receipt.rows.map(({id,name,mode,status,error})=>({id,name,mode,status,error}))};
-          fs.writeFileSync('coverage/companion-matrix/count-proof.json',JSON.stringify(proof,null,2));console.log(JSON.stringify(proof));
+          const cases=walk(report.suites||[]),complete=cases.length===1&&cases.every(c=>c.results.length===1&&['passed','failed','timedOut'].includes(c.results[0]))&&!(report.errors||[]).length;
+          const proof={referenceGameSha:process.env.REFERENCE_GAME_SHA,qaCommit:process.env.GITHUB_SHA,expected:1,reported:cases.length,complete,cases};
+          fs.writeFileSync('coverage/landing-shortcuts/count-proof.json',JSON.stringify(proof,null,2));console.log(JSON.stringify(proof));
           if(!complete)process.exitCode=1;
           JS
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: companion-matrix-${{ github.sha }}
-          path: coverage/companion-matrix/
+          name: landing-shortcuts-${{ github.sha }}
+          path: coverage/landing-shortcuts/
           if-no-files-found: warn
           retention-days: 3
