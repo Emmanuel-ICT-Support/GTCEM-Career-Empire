@@ -24,3 +24,5 @@ body{background:#eaf0e8}button{border-radius:6px;font-weight:600}button:hover:no
 .back-to-game{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1px solid #bbc7bd;border-radius:6px;color:#243f38;background:#f7f9f4;text-decoration:none;font-weight:600;white-space:nowrap;margin-left:auto}
 .topbar .practice-tag{margin-left:0}#tracker-loading{margin:0;padding:12px 24px;background:#fff3d6;color:#243f38;font-size:13px}
 @media(max-width:720px){.topbar{gap:8px;padding:10px 12px}.topbar .practice-tag{display:none}.topbar .brand{font-size:10px;gap:6px}.topbar .brand-mark{display:none}.topbar button{min-width:0;padding:10px}.back-to-game{font-size:12px;padding:8px}.topbar .brand small{font-size:8px}}
+
+#panel-course .course-unit{margin:24px 0}#panel-course article{margin:12px 0;padding:14px;border:1px solid #c2d0c5;border-radius:12px;background:#f7faf4}#panel-course article h4{font-size:17px;margin:0 0 8px}#panel-course article p{line-height:1.55}#panel-course .actions a{display:inline-block;min-height:44px;padding:10px 14px;border:1px solid #91aa9b;border-radius:8px;color:#234a3b;background:#fff;text-decoration:none}

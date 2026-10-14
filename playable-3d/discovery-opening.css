@@ -76,3 +76,5 @@
 #orientation-handover{width:min(440px,calc(100vw - 28px));border-radius:14px;background:#fff9ea;color:#18332f}
 #orientation-handover p{font-size:15px;line-height:1.5}
 #orientation-handover .dialog-actions{flex-wrap:wrap;gap:8px}
+
+.discovery-review.guest-photo-finished #flyover-slot{display:inline-flex!important}

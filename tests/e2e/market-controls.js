@@ -4,6 +4,9 @@ export async function enterMarket(page){
  if(!await page.locator('#destination-menu').evaluate(e=>e.open))await page.locator('#destination-menu > summary').click();
  await page.locator('#market-destination').click();
  if(await page.locator('#exploration-options').evaluate(e=>e.open))await page.locator('#resume-options').click();
+ await page.locator('#scene').focus();await page.keyboard.down('KeyW');
+ try{await page.getByRole('button',{name:'Enter Live Music & Sunday Markets',exact:true}).waitFor({state:'visible',timeout:15000});}finally{await page.keyboard.up('KeyW');}
+ await page.getByRole('button',{name:'Enter Live Music & Sunday Markets',exact:true}).click();
 }
 
 export async function observeMarketWalking(page){

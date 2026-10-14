@@ -1,8 +1,8 @@
 {
-  "release": "test-visual-restoration-handover-20261012",
+  "release": "post-photo-tour-20261013",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "cb05d4ef12addb53f0c744655bfbb19261f18671",
-  "scope": "Personal test copy: original student camera, original opening trees and gardens, complete exterior geometry and actual completed entry frame; restored world phases, original rendered mural and accurate photo-to-Mara handover. Deferred interiors and decorative detail remain separate. Exact failures are recorded in QA.",
+  "baseCommit": "e88724dcae46de7739625fbbd54ae77091378c3c",
+  "scope": "Draft post-photo companion tour, safe ground landing, outside-campus-building Market shortcuts and student-only draft course outline. Existing startup, assets, photo capture, paid Market gates and public Admin review are preserved. No publication or curriculum completion.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -10,7 +10,7 @@
     },
     {
       "path": "../economy-lab/app.mjs",
-      "sha256": "125a79fa63d7f8be0bdef794d70f230b2d386a58395365220b44084bb6f9cca6"
+      "sha256": "00dc0935dc252ede733c5c50abd1ab278418d5d1b47297b18610fa09ee4f56c2"
     },
     {
       "path": "../economy-lab/economy.mjs",
@@ -22,11 +22,11 @@
     },
     {
       "path": "../economy-lab/index.html",
-      "sha256": "28eb077b0a0658a649a08b5a3b5eba6a564cc505b94597751bba5cb152aed212"
+      "sha256": "443adae70f7399c1963ae18744ef2d353500fd3e191f34f1b5a0308aa8e518b0"
     },
     {
       "path": "../economy-lab/style.css",
-      "sha256": "32433cf5e1af340b518976bb955c037b687f89f19ceb3e2c6529cafc5c4679a0"
+      "sha256": "3960ef593daf83f8d219b9596618acaa5951f2d22ecf7c5f027e0ea7b9c67908"
     },
     {
       "path": "../economy-lab/work-ui.mjs",
@@ -42,7 +42,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "adebcc6f4849cf91e6b8939c05a51f8417ce98e9b7ccabdacb829bdb7d745e52"
+      "sha256": "196915de961a35c4feb6ca27fa03c93a1f7aa165ecd061952f7b3092da0c6945"
     },
     {
       "path": "arcade-carnival.js",
@@ -586,7 +586,7 @@
     },
     {
       "path": "discovery-opening.css",
-      "sha256": "6222aae5142ed71279343a0adc405c6629cd932b22c8ee15d4e10592e1538c7f"
+      "sha256": "0be4c8b0034c894d0eff48e0d3a83179262f0c45b758741cee2b1276db5b03ac"
     },
     {
       "path": "discovery-opening.js",
@@ -786,11 +786,11 @@
     },
     {
       "path": "exploration-tools.css",
-      "sha256": "2b9172eed101111806e3afcb008a69315c88a841c0b8990a56682662fd269088"
+      "sha256": "9b6f590234820b88d90b3b17b9fc60f0f4322de4cd9e6eb7bf82ea378f2c39e3"
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "f9eb2d02b178913b30cac885c2fdaeafe78f09610415de4f131752643fae9fcd"
+      "sha256": "8221e3e2d2330ef2372e067d24e4b0fe4eda5ed6f3b9f1fff7c56ced6d075c52"
     },
     {
       "path": "field-guide.html",
@@ -798,11 +798,11 @@
     },
     {
       "path": "flyover.css",
-      "sha256": "e4bbe25e03beab5c19da2b247f4158e1809cf08b01b7c3885c5486d49d87b335"
+      "sha256": "4caf8a41b1ccafd9b11520c3c840c279b15ac0f9927736a1632c3cbac444d7d3"
     },
     {
       "path": "flyover.js",
-      "sha256": "aa9f2e1f3d6bba32a67e1141eabf5644000f8ddae06a35dbb53f084d1fbd5cc0"
+      "sha256": "82faae128e8dbd94de8c4ac1487b200bb770d1d9a3b63a1443320714a779ecdb"
     },
     {
       "path": "frame-budget.mjs",
@@ -814,7 +814,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "8b52ed3732164ca130c53e9b7080a0987e5720d69982df78df34b03f524aaa53"
+      "sha256": "aa5255ea86ba81f1dc5923c087d69aa069d4cb7f7cd95de09b53ab4260639332"
     },
     {
       "path": "header-controls.css",
@@ -838,7 +838,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "15bec3e5cbf8a2e9481741840ad86f3021a24721013d5bef75515ff4c3350796"
+      "sha256": "25726b6279648ea2032ba00d7f02c3c612bf22aa5cd2b29cb8b484fc52d18bbf"
     },
     {
       "path": "intro-taster.css",
@@ -1082,11 +1082,39 @@
     },
     {
       "path": "world.js",
-      "sha256": "d7591f281df016f96e687c567dee8187ad5158076960f2ab3cad80139edb3ccc"
+      "sha256": "1e850ae11ca852c0658a601de3f1983ba5b2ed83841315998ef61a81619e44c4"
     },
     {
       "path": "admin-preview.mjs",
       "sha256": "3edf8031ade0246f764c4c4b2db4bc678f5eef0b3efdf7f4c2ef02f902ec4ce5"
+    },
+    {
+      "path": "landing.mjs",
+      "sha256": "4b27bdd89783eaa6e9d4af532a158b5c5a674fa546c8c712cdc497ff471ab0a3"
+    },
+    {
+      "path": "orientation-tour.mjs",
+      "sha256": "aa5c69d5e6ce870f2a2817d06905103fa4aad895b13bd396f264e8d78c57a7ed"
+    },
+    {
+      "path": "orientation-tour.css",
+      "sha256": "80b272c6037165abf47b7d214112d40ffa2ac548889bdf8be5d98bac6ea26c58"
+    },
+    {
+      "path": "../economy-lab/course-outline.mjs",
+      "sha256": "6a9a70d551c733a329d3f674e650fe8b6cc2866d9dd3fe4841cfcb02cfc372a4"
+    },
+    {
+      "path": "../economy-lab/course-outline.json",
+      "sha256": "d026e84dbf0ddb15d6326d9faf3f2bbbe30ddad479bd44fddf32ec6b07b61227"
+    },
+    {
+      "path": "../economy-lab/course-outline-print.html",
+      "sha256": "b3b72aa989b9a3aa3154a849b329c2963a2b6568476e96045c98ed4633b7740e"
+    },
+    {
+      "path": "../economy-lab/course-outline.pdf",
+      "sha256": "7e2facfaa84357d31b613bcd444d4cd106d510b1dd9dea7191bff70d5f12868b"
     }
   ],
   "estVideo": {

@@ -3,6 +3,7 @@ import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=ecc-ba60122';
 import {LEGACY} from './destinations.js?v=ecc1';
+import {findSafeLanding} from './landing.mjs?v=post-photo-tour-20261013';
 import {createDeferredTextures} from './deferred-textures.js?v=ecc-ba60122';
 import {createCampusLandscape,createCampusPaths,createCampusBuildingExteriors} from './campus-landscape.js?v=ecc-ba60122';
 import {arrivalPrecinct} from './arrival-precinct.js?v=ecc-ba60122';
@@ -521,9 +522,25 @@ export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},sch
   let buildingExteriorsLoad;
   const campus={buildings:[],placements:[],colliders:0};
   phase('flourishing');
+  function landing(point){
+    const p=townPhysics,footprints=[];
+    town.traverse(o=>{const b=o.userData.campusBuilding;if(b)footprints.push({minX:b.x-b.width/2-.4,maxX:b.x+b.width/2+.4,minZ:b.z-b.depth/2-.4,maxZ:b.z+b.depth/2+.4});});
+    for(const name of ['Market courtyard dressed exterior','English and Media — curved glazed frontage','SPACE reference-led exterior']){
+      const root=town.getObjectByName(name);if(root){const box=new THREE.Box3().setFromObject(root);footprints.push({minX:box.min.x-.3,maxX:box.max.x+.3,minZ:box.min.z-.3,maxZ:box.max.z+.3});}
+    }
+    const excluded=(x,z)=>footprints.some(b=>x>b.minX&&x<b.maxX&&z>b.minZ&&z<b.maxZ)||(outerAsset.obstacles||[]).some(b=>b.type==='box'?Math.abs(x-b.x)<b.w/2+.35&&Math.abs(z-(b.z-11))<b.d/2+.35:Math.hypot(x-b.x,z-(b.z-11))<(b.r||0)+.35);
+    p.world.step();
+    const probe=(x,z)=>{
+      const hit=p.world.castRayAndGetNormal(new RAPIER.Ray({x,y:.65,z},{x:0,y:-1,z:0}),.8,true,undefined,undefined,p.collider,p.body);
+      if(!hit||hit.normal.y<.9)return null;const y=.65-hit.timeOfImpact;
+      const occupied=p.world.intersectionWithShape({x,y:y+.82,z},{x:0,y:0,z:0,w:1},new RAPIER.Capsule(.56,.2),undefined,undefined,p.collider,p.body);
+      return occupied?null:y;
+    };
+    return findSafeLanding(point,probe,{excluded});
+  }
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {revealCampusDetail(){for(const root of pendingDetailRoots)root.visible=true;},loadBuildingExteriors,syncWalkingSurfaces:()=>addWalkingSurfaces(town),loadMuralTexture:()=>textures.startMatching(url=>url.includes('media-mural-sharp')),get muralReady(){let ready=false;town.getObjectByName('Campus teaching building exteriors')?.traverse(mesh=>{if(mesh.isMesh&&mesh.material.name==='Media mural original artwork')ready=Boolean(mesh.material.map.image?.width>1&&mesh.material.userData.artworkDrawn);});return ready;},campusGrass:materials.grass,campusPalette:palette,campusTextures:textures,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);const roots=await Promise.all([precinct.loadDetail(),outerAsset.loadDetail(),loadLandscape()]);for(const root of roots){entryPlantingRoots.add(root);root.visible=true;}addWalkingSurfaces(town);},retryDetailTextures:()=>textures.retry(),get failedSurfaceDetails(){return textures.failed;},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {findLanding:landing,revealCampusDetail(){for(const root of pendingDetailRoots)root.visible=true;},loadBuildingExteriors,syncWalkingSurfaces:()=>addWalkingSurfaces(town),loadMuralTexture:()=>textures.startMatching(url=>url.includes('media-mural-sharp')),get muralReady(){let ready=false;town.getObjectByName('Campus teaching building exteriors')?.traverse(mesh=>{if(mesh.isMesh&&mesh.material.name==='Media mural original artwork')ready=Boolean(mesh.material.map.image?.width>1&&mesh.material.userData.artworkDrawn);});return ready;},campusGrass:materials.grass,campusPalette:palette,campusTextures:textures,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);const roots=await Promise.all([precinct.loadDetail(),outerAsset.loadDetail(),loadLandscape()]);for(const root of roots){entryPlantingRoots.add(root);root.visible=true;}addWalkingSurfaces(town);},retryDetailTextures:()=>textures.retry(),get failedSurfaceDetails(){return textures.failed;},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     get pendingSurfaceDetails(){return textures.pending;},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
@@ -540,6 +557,6 @@ export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},sch
       if(hit){const distance=Math.max(.05,hit.timeOfImpact-.3);target.set(origin.x+direction.x*distance,origin.y+direction.y*distance,origin.z+direction.z*distance);}
     },
     position(inside){const p=physical(inside).body.translation();return new THREE.Vector3(p.x,p.y-.785,p.z);},
-    teleport(inside,x,z){const p=physical(inside);p.verticalVelocity=0;p.body.setTranslation({x,y:inside?.8:.9,z},true);p.body.setNextKinematicTranslation({x,y:inside?.8:.9,z});p.world.step();}
+    teleport(inside,x,z,feetY){const p=physical(inside);p.verticalVelocity=0;const y=Number.isFinite(feetY)?feetY+.785:inside?.8:.9;p.body.setTranslation({x,y,z},true);p.body.setNextKinematicTranslation({x,y,z});p.world.step();}
   };
 }
