@@ -49,7 +49,7 @@ test('every selectable companion renders, follows and retains its choice from ca
     inView:Boolean(helper.model),drawn:Boolean(helper.model),activeScene:true,frameAdvanced:true});
    const before=await sample();
    await page.locator('#scene').focus();await page.keyboard.down('KeyW');
-   try{await page.waitForFunction(z=>window.companionRenderProbe?.().livePosition[2]<z-.2,before.livePosition[2],{timeout:10000});}
+   try{await page.waitForFunction(start=>{const p=window.companionRenderProbe?.().livePosition;return p&&Math.hypot(p[0]-start[0],p[2]-start[2])>.2;},before.livePosition,{timeout:10000});}
    finally{await page.keyboard.up('KeyW');}
    if(helper.model)await expect.poll(async()=>{
     const s=await sample(),old=before.state.echo.position,p=s.state.echo.position;
@@ -58,7 +58,7 @@ test('every selectable companion renders, follows and retains its choice from ca
      drawn:s.drawnMeshes>0,activeScene:s.parentMatches};
    },{timeout:10000}).toEqual({helperMoved:true,closeToPlayer:true,drawn:true,activeScene:true});
    const after=await sample();expect(after.selected).toBe(helper.id);expect(after.saved).toBe(helper.id);
-   row.status='passed';row.playerMoved=before.livePosition[2]-after.livePosition[2];
+   row.status='passed';row.playerMoved=Math.hypot(after.livePosition[0]-before.livePosition[0],after.livePosition[2]-before.livePosition[2]);
    row.follows=helper.model?true:'not applicable';row.evidence=after;
    if(helper.model)await page.screenshot({path:info.outputPath(helper.id+'-'+mode+'.png')});
   }catch(error){row.error=error.message;row.evidence=await sample().catch(()=>null);}

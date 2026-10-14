@@ -65,3 +65,48 @@ and back via the visible Return to campus control. Expected receipt: 18 rows,
 The test observes selected-only model requests and records each row independently.
 No local browser is used for this hosted matrix. No all-companion pass is claimed
 until its exact receipt is complete.
+
+## Full-roster terminal result and immediate panel close
+
+Run 38520495898 ended at 06:12:58 UTC with both jobs failed. The focused
+job had exactly one Sprout pass and one photo failure. The complete matrix
+reported 18 rows: 10 passed / 8 failed. Echo passed both scenes; all seven
+creatures and both mesh-free guidance modes passed Market. The remaining
+eight Town rows failed only at the real W movement predicate, after selection,
+ready state, frustum, active-scene and draw assertions succeeded. All seven
+creatures were drawn in both scenes. Full following acceptance is still pending.
+
+The matrix incorrectly assumed W must decrease Z. Market return deliberately
+sets yaw=Math.PI; the saved Town failures show increasing Z and the helper
+following near the player. This is a direction assumption in the test, not
+a mesh failure. The corrected predicate measures actual planar distance moved
+while preserving real keyboard input, the 0.2m threshold and ten-second limit.
+
+The photo test completed its original pre-Market Flyover and Land/L controls,
+then its five-second Stats-close assertion saw tour step 4. The saved final
+evidence shows step 5 with campus ready. Previously the tour observed panel
+closure in the game render loop. The repair explicitly notifies on closing
+Stats or Options, advancing the existing tour immediately without waiting
+for the next heavy draw. Switching tools internally suppresses the close
+notification, so opening another panel does not count as finishing Stats.
+Existing frame observation remains a fallback. No deadline is raised.
+
+Working source/syntax checks and 21 relevant units in three files passed.
+The exact staged manifest is verified before committing. The forthcoming
+hosted retry retains the original two cases and all 18 roster rows, and adds
+a separate authentic pre-Market keyboard flight check. No broad repair is
+merged, and no local browser is used. The original pre-Market photo fixture
+uses the normal teacher/photo action, which prepares real campus scenery;
+the cold My Life return was a separate later scene.
+
+The independent pre-Market flight test creates the real teacher photo from the
+post-mural checkpoint, chooses the real loaded Sprout, and requires campusReady
+from ordinary orientation preparation. It uses the visible speed slider and
+actual E/W/A/S/D/L key controls to fly to Arrival Gardens and land. Its probe
+only reads camera/player coordinates; there are no camera/player assignments,
+no manufactured ready flags, and no Market runtime request before landing.
+It stops at the menu beat (3), complementing the full photo/course/Market case.
+Its 120-second cap does not change the original photo or companion deadlines.
+Syntax and discovery list exactly four focused cases; browser results remain
+pending. The earlier synthetic roof-target landing coverage is retained in
+the original case and is not presented as keyboard flight acceptance.
