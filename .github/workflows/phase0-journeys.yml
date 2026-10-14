@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     env:
-      REFERENCE_GAME_SHA: 710f8e1287f8830bd86b46a69d659e30f4feceba
+      REFERENCE_GAME_SHA: 1aa6830f9b53bef15eaad9251541951a3c923e06
       PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/phase0-hosted/browser-report.json
     steps:
       - uses: actions/checkout@v4
@@ -86,5 +86,66 @@ jobs:
         with:
           name: phase0-two-journeys-${{ github.sha }}
           path: coverage/phase0-hosted/
+          if-no-files-found: warn
+          retention-days: 3
+
+  companion-matrix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      REFERENCE_GAME_SHA: 1aa6830f9b53bef15eaad9251541951a3c923e06
+      PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/companion-matrix/browser-report.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Prove the exact candidate application and tests
+        run: |
+          git fetch --no-tags origin "$REFERENCE_GAME_SHA"
+          git diff --exit-code "$REFERENCE_GAME_SHA" HEAD -- . ':!.github/workflows/phase0-journeys.yml'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Configure the single software-rendered matrix
+        run: |
+          mkdir -p qa coverage/companion-matrix
+          cat > qa/companion-matrix-hosted.playwright.config.mjs <<'JS'
+          import base from '../playwright.config.mjs';
+          export default {...base,testDir:'../tests/e2e',workers:1,
+            outputDir:'../coverage/companion-matrix/browser-evidence',
+            webServer:{...base.webServer,cwd:process.cwd()},
+            projects:base.projects.map(p=>({...p,use:{...p.use,
+              launchOptions:{...p.use.launchOptions,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}}}))};
+          JS
+      - name: Check the seven creatures and two mesh-free guidance choices
+        run: npx playwright test companion-matrix.spec.js --config qa/companion-matrix-hosted.playwright.config.mjs --workers=1 --max-failures=0 --reporter=line,json
+      - name: Record every option and scene result
+        if: always()
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const root='coverage/companion-matrix/browser-evidence';
+          const file=fs.existsSync(root)&&fs.readdirSync(root,{recursive:true}).find(p=>p.endsWith('/companion-matrix.json'));
+          if(!file)throw Error('No per-option matrix receipt produced');
+          const receipt=JSON.parse(fs.readFileSync(root+'/'+file,'utf8'));
+          const keys=receipt.rows.map(row=>row.id+':'+row.mode);
+          const expected=[...receipt.roster,...receipt.guidance].flatMap(id=>['town','market'].map(mode=>id+':'+mode));
+          const complete=receipt.reportedRows===18&&keys.length===new Set(keys).size&&expected.every(key=>keys.includes(key));
+          const proof={referenceGameSha:process.env.REFERENCE_GAME_SHA,qaCommit:process.env.GITHUB_SHA,
+            expected:18,reported:receipt.reportedRows,complete,
+            passed:receipt.rows.filter(row=>row.status==='passed').length,
+            failed:receipt.rows.filter(row=>row.status!=='passed').length,
+            rows:receipt.rows.map(({id,name,mode,status,error})=>({id,name,mode,status,error}))};
+          fs.writeFileSync('coverage/companion-matrix/count-proof.json',JSON.stringify(proof,null,2));console.log(JSON.stringify(proof));
+          if(!complete)process.exitCode=1;
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: companion-matrix-${{ github.sha }}
+          path: coverage/companion-matrix/
           if-no-files-found: warn
           retention-days: 3
