@@ -110,3 +110,33 @@ Its 120-second cap does not change the original photo or companion deadlines.
 Syntax and discovery list exactly four focused cases; browser results remain
 pending. The earlier synthetic roof-target landing coverage is retained in
 the original case and is not presented as keyboard flight acceptance.
+
+## Accepted full roster and authentic pre-Market flight
+
+Run 38522355736 completed with the matrix/flight job SUCCESS: exactly two
+cases passed, all 18 expected option/scene rows passed, zero failed rows, and
+both count/equivalence proofs passed. The independent actual photo → selected
+Sprout → keyboard Flyover → L landing at Arrival Gardens passed before any
+Market runtime request. Its camera/player probe only reads position.
+Accepted source: 418dd5e38edc75ebdf28e7cbb836d72b9c76499e.
+Artifact: https://github.com/Emmanuel-ICT-Support/GTCEM-Career-Empire/actions/runs/38522355736/artifacts/11873964920
+
+The separate two-case job had Sprout PASS and photo FAIL at the overall 120s
+cap, after successful menu/Stats/course return, Initiative, Mara, safe roof
+landing and map shortcut. It was repeating the third outside-Market menu
+arrival at line 28 when time expired. The added course round trip plus these
+repeated landing/shortcut targets made the case exceed its existing budget.
+
+The main photo case now retains the entire ordered guide, held module and
+failed-import retry, actual selected companion, first Flyover/Land controls,
+My Life return, Initiative/Mara, outside arrival, real doorway walk/entry and
+once-only reward assertions. The extra synthetic roof, map and menu target
+checks are preserved in tour-landing-shortcuts.spec.js as an independent 90s
+case; they are not deleted or skipped. The original photo cap remains 120s.
+
+Only these two tests and this diagnostic document change after the accepted
+418dd5e runtime. All production files, helper observation, full matrix and
+authentic-flight tests remain byte-identical. The next scoped run explicitly
+proves that equivalence and reuses the accepted 18-row/keyboard-flight result
+while checking the two original journeys plus the moved landing/shortcut
+case. No repeated broad suite, local browser or publication has occurred.
