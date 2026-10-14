@@ -1,0 +1,13 @@
+import {test,expect} from 'vitest';
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+import * as T from '../../playable-3d/vendor/three/build/three.module.js';
+const read=name=>readFileSync(new URL('../../playable-3d/environment/'+name,import.meta.url),'utf8');
+const body=source=>source.replace(/^import .*;\n/gm,'').replace(/export function /g,'function ').replace('export {batchStatic};','');
+const batchStatic=root=>root;
+const dressedBox=vm.runInNewContext(body(read('approved-campus-kit.js'))+';dressedBox;',{T,batchStatic});
+const createMarketExterior=vm.runInNewContext(body(read('market-exterior.js'))+';createMarketExterior;',{T,batchStatic,dressedBox});
+const addExteriorLandmarks=vm.runInNewContext(body(read('exterior-landmarks.js'))+';addExteriorLandmarks;',{T,createMarketExterior});
+const palette=()=>Object.fromEntries(['stone','paving','blue','timber','glass','glow','plaster'].map(k=>[k,new T.MeshStandardMaterial()]));
+test('existing oval, market and continued ground instantiate without image readiness or model fetches',()=>{const scene=new T.Scene(),grass=new T.MeshStandardMaterial({map:new T.Texture({width:1,height:1})}),tile=new T.Mesh(new T.PlaneGeometry(2,2),grass);tile.name='tile-kit-grass';scene.add(tile);const root=addExteriorLandmarks(scene,palette());expect(root.getObjectByName('Market courtyard dressed exterior').position.toArray()).toEqual([43,0,-26]);const oval=root.getObjectByName('Oval perimeter');expect(oval.geometry.attributes.position.count).toBe(129);const bounds=new T.Box3().setFromObject(oval);expect(bounds.min.x).toBeCloseTo(-18);expect(bounds.max.x).toBeCloseTo(10);expect(bounds.min.z).toBeCloseTo(-63);expect(bounds.max.z).toBeCloseTo(-45);const ground=root.getObjectByName('Continued campus grass tiles');expect(ground.material).toBe(grass);expect(ground.count).toBe(1939);expect(root.getObjectByName('Oval edge eucalypts')).toBeUndefined();});
+test('full setup reuses early landmarks instead of duplicating geometry',()=>{const scene=new T.Scene(),grass=new T.MeshStandardMaterial();const first=addExteriorLandmarks(scene,palette(),grass);expect(addExteriorLandmarks(scene,palette(),grass)).toBe(first);expect(scene.children.filter(o=>o.name==='Campus exterior landmarks')).toHaveLength(1);expect(first.children).toHaveLength(3);});

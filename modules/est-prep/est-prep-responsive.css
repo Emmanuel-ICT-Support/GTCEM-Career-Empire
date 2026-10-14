@@ -1,0 +1,796 @@
+/* Responsive layout rules. */
+@media (max-width: 1100px) {
+  .hero,
+  .hero-card--cinema,
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-video-shell {
+    min-height: 0;
+  }
+
+  .hero-video-chapter-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-video-controls {
+    justify-content: flex-start;
+  }
+
+  .hero-slide-deck-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-brief-panel .mission-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lab-track-panel .chapter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .core-briefing-stage {
+    min-height: 620px;
+  }
+
+  .core-briefing-scene,
+  .core-briefing-scene--sources,
+  .core-briefing-scene--gameplay {
+    grid-template-columns: 1fr;
+    align-content: center;
+  }
+
+  .core-briefing-copy {
+    max-width: none;
+  }
+
+  .core-authority-card {
+    grid-template-columns: 1fr;
+  }
+
+  .core-authority-topics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stage-map-banner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #stage-section.gameplay-viewport .stage-map-banner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .training-focus-shell,
+  .training-main-header,
+  .training-hud--compact,
+  .training-question-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .training-hud {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .training-hud-status {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .training-hud-skip {
+    justify-self: start;
+  }
+
+  .training-question-layout {
+    grid-template-rows: auto;
+    min-height: auto;
+  }
+
+  .training-card--flash .training-stack {
+    height: auto;
+    margin-top: 12px;
+  }
+
+  .training-card--flash .choice-button {
+    min-height: 68px;
+    height: auto;
+  }
+
+  .training-card--flash .choice-button strong {
+    max-width: none;
+  }
+
+  .training-focus-aside {
+    order: 2;
+  }
+
+  .training-focus-main {
+    order: 1;
+  }
+
+  .glossary-game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .glossary-memory-bank {
+    position: static;
+    max-height: none;
+  }
+
+  .glossary-memory-bank-list {
+    max-height: 340px;
+  }
+
+  .glossary-memory-board {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .glossary-flight-controls {
+    grid-template-columns: 54px 54px minmax(0, 1fr);
+  }
+
+  .glossary-flight-controls span {
+    grid-column: 1 / -1;
+  }
+
+  .glossary-scene-match-game {
+    grid-template-columns: 1fr;
+  }
+
+  .glossary-community-growth {
+    grid-template-columns: 1fr;
+  }
+
+  .glossary-chamber-rail,
+  .glossary-set-rail,
+  .glossary-mastery-strip,
+  .glossary-escape-console,
+  .glossary-arcade-grid,
+  .glossary-recall-grid,
+  .glossary-guide-panel,
+  .metrics-grid,
+  .chapter-grid,
+  .mcq-grid,
+  .choice-grid,
+  .glossary-blueprint,
+  .glossary-reward-grid,
+  .glossary-sockets,
+  .content-grid,
+  .prompt-grid,
+  .forensics-grid,
+  .builder-grid,
+  .training-grid,
+  .training-actions,
+  .training-lanes,
+  .glossary-study-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .module-shell {
+    padding: 16px 14px 42px;
+  }
+
+  .module-topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card--cinema {
+    padding: 16px;
+  }
+
+  .hero-video-badge {
+    top: 10px;
+    left: 10px;
+    max-width: calc(100% - 20px);
+    padding: 8px 10px;
+  }
+
+  .hero-video-badge strong {
+    font-size: 0.82rem;
+  }
+
+  .hero-video-chapter-panel {
+    padding: 13px;
+  }
+
+  .hero-video-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .hero-explainer-tabs {
+    top: auto;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .hero-slide-deck {
+    padding: 62px 12px 64px;
+  }
+
+  .hero-video-complete {
+    display: grid;
+    justify-items: start;
+    padding: 12px 13px;
+  }
+
+  .hero-video-complete > div {
+    justify-content: flex-start;
+  }
+
+  .hero-video-controls button {
+    min-width: 0;
+    padding: 8px 9px;
+    font-size: 0.72rem;
+  }
+
+  .hero-video-chapter-pips {
+    padding: 0 13px 13px;
+  }
+
+  .hero-video-chapter-pips button {
+    flex: 1 1 92px;
+  }
+
+  .glossary-mission-topbar {
+    flex-direction: column;
+  }
+
+  .glossary-mission-actions {
+    justify-content: flex-start;
+  }
+
+  .glossary-chamber-rail,
+  .glossary-set-rail,
+  .glossary-mastery-strip,
+  .glossary-escape-console,
+  .glossary-arcade-grid,
+  .glossary-scene-gallery,
+  .glossary-recall-grid,
+  .glossary-guide-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .glossary-guide-panel {
+    min-height: 0;
+    padding: 14px;
+  }
+
+  .glossary-guide-art {
+    min-height: 210px;
+    place-items: end center;
+  }
+
+  .glossary-guide-art img {
+    max-height: 230px;
+  }
+
+  .glossary-catch-game {
+    min-height: 500px;
+  }
+
+  .glossary-slice-game {
+    min-height: 500px;
+  }
+
+  .glossary-invaders-game {
+    padding: 13px;
+  }
+
+  .glossary-invaders-canvas {
+    min-height: 410px;
+  }
+
+  .glossary-memory-arena {
+    min-height: 760px;
+  }
+
+  .glossary-memory-board {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 22px;
+  }
+
+  .glossary-memory-card {
+    min-height: 156px;
+  }
+
+  .glossary-flight-game {
+    min-height: 520px;
+  }
+
+  .focus-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .focus-track,
+  .content-track {
+    flex-direction: column;
+  }
+
+  .content-track-menu {
+    grid-template-columns: 1fr;
+  }
+
+  .stage-map-banner,
+  #stage-section.gameplay-viewport .stage-map-banner,
+  #stage-section.gameplay-viewport .content-topic-panel--dropdown .content-track-menu {
+    grid-template-columns: 1fr;
+  }
+
+  .topic-intro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .core-briefing-stage {
+    min-height: 760px;
+  }
+
+  .core-briefing-scene {
+    inset: 54px 12px 16px;
+  }
+
+  .core-source-board,
+  .core-gameplay-layout,
+  .core-topic-cloud,
+  .core-authority-topics {
+    grid-template-columns: 1fr;
+  }
+
+  .core-authority-copy {
+    grid-template-columns: 1fr;
+  }
+
+  .core-authority-copy > .core-briefing-kicker,
+  .core-authority-copy > h3,
+  .core-authority-copy > p,
+  .core-authority-topics {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .core-syllabus-card,
+  .core-book-cover,
+  .core-authority-video-card,
+  .core-authority-media {
+    min-height: 230px;
+  }
+
+  .core-briefing-animation.is-maximized {
+    inset: 8px;
+    padding: 10px;
+  }
+
+  .core-video-sample,
+  .core-gameplay-carousel {
+    min-height: 420px;
+  }
+
+  .core-gameplay-carousel-track,
+  .core-gameplay-slide {
+    min-height: 260px;
+  }
+
+  .core-gameplay-step-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .core-gameplay-step-actions,
+  .core-gameplay-pips,
+  .core-gameplay-controls {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .core-briefing-pips,
+  .core-briefing-controls {
+    justify-content: center;
+  }
+
+  .core-briefing-guide {
+    width: 150px;
+    opacity: 0.86;
+  }
+
+  .topic-media-card {
+    aspect-ratio: auto;
+    padding: 14px;
+  }
+
+  .topic-media-stage {
+    min-height: 230px;
+  }
+
+  .topic-media-progress {
+    display: none;
+  }
+
+  .topic-intro-grid--compact .topic-media-card--portrait {
+    width: min(300px, 100%);
+    max-height: 520px;
+  }
+
+  .metrics-grid,
+  .chapter-grid,
+  .mcq-grid,
+  .choice-grid,
+  .est-guide-panel,
+  .glossary-guide-panel,
+  .glossary-set-rail,
+  .glossary-blueprint,
+  .glossary-mastery-strip,
+  .glossary-reward-grid,
+  .glossary-sockets,
+  .glossary-recall-grid,
+  .content-grid,
+  .prompt-grid,
+  .forensics-grid,
+  .builder-grid,
+  .training-grid,
+  .training-actions,
+  .training-lanes,
+  .glossary-study-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card,
+  .panel,
+  .metric {
+    padding: 18px;
+  }
+
+  .hero-card--cinema {
+    gap: 16px;
+  }
+
+  .storyline-tags span {
+    min-height: 34px;
+    padding: 8px 10px;
+  }
+
+  .mission-brief-panel .mission-list {
+    grid-template-columns: 1fr;
+  }
+
+  .content-module-grid,
+  .content-module-button {
+    grid-template-columns: 1fr;
+  }
+
+  .content-module-button {
+    justify-items: start;
+  }
+
+  .lab-track-panel .chapter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .disclosure-panel > summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .disclosure-panel > summary::after {
+    position: absolute;
+    right: 18px;
+  }
+
+  .topic-intro-button-row {
+    flex-direction: column;
+  }
+
+  .est-guide-image {
+    max-width: 260px;
+    justify-self: center;
+  }
+
+  .training-guide-mini-image {
+    width: 88px;
+  }
+
+  #stage-section.gameplay-viewport {
+    padding: 6px 8px 12px;
+  }
+
+  #stage-section.gameplay-viewport .training-hud--compact {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  #stage-section.gameplay-viewport .training-hud-rail {
+    display: block;
+    width: 100%;
+  }
+
+  #stage-section.gameplay-viewport .training-hud-copy h2 {
+    font-size: 1rem;
+  }
+
+  #stage-section.gameplay-viewport .training-hud-status small {
+    display: none;
+  }
+
+  #stage-section.gameplay-viewport .training-campaign--focus,
+  #stage-section.gameplay-viewport .training-card--flash,
+  #stage-section.gameplay-viewport .training-step {
+    padding: 10px;
+  }
+
+  #stage-section.gameplay-viewport .training-focus-shell--arc,
+  #stage-section.gameplay-viewport .training-main-header.compact {
+    grid-template-columns: 1fr;
+  }
+
+  #stage-section.gameplay-viewport .training-focus-aside--arc {
+    order: 2;
+  }
+
+  #stage-section.gameplay-viewport .training-scene-preview--arc {
+    min-height: 132px;
+  }
+
+  #stage-section.gameplay-viewport .training-focus-main {
+    order: 1;
+  }
+
+  #stage-section.gameplay-viewport .training-question-layout .training-card-lead {
+    padding: 12px;
+  }
+
+  #stage-section.gameplay-viewport .training-question-layout .training-card-lead.has-media {
+    gap: 10px;
+    grid-template-rows: minmax(210px, 1fr) auto;
+  }
+
+  #stage-section.gameplay-viewport .training-card-media {
+    width: min(76%, 260px);
+    max-height: 270px;
+    border-radius: 14px;
+  }
+
+  #stage-section.gameplay-viewport .training-card-prompt {
+    font-size: 1rem;
+    line-height: 1.22;
+  }
+
+  #stage-section.gameplay-viewport .training-feedback {
+    min-height: 0;
+    margin-top: 8px;
+  }
+
+  #stage-section.gameplay-viewport .training-card--flash .choice-button {
+    min-height: 50px;
+    padding: 10px 12px;
+  }
+
+  #stage-section.gameplay-viewport .training-card--flash .choice-button strong {
+    font-size: 1rem;
+    line-height: 1.18;
+  }
+
+  #stage-section.gameplay-viewport .arc-progress-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #stage-section.gameplay-viewport .arc-progress-step {
+    min-height: 48px;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 7px;
+    padding: 8px;
+  }
+
+  #stage-section.gameplay-viewport .arc-progress-step span {
+    width: 28px;
+    height: 28px;
+    border-radius: 10px;
+  }
+
+  #stage-section.gameplay-viewport .arc-progress-step strong {
+    font-size: 0.72rem;
+  }
+
+  #stage-section.gameplay-viewport .training-focus-shell--pilot {
+    grid-template-columns: 1fr;
+  }
+
+  #stage-section.gameplay-viewport .training-focus-shell--pilot .training-focus-aside--arc {
+    display: none;
+  }
+
+  #stage-section.gameplay-viewport .training-campaign--pilot-layout .training-main-header {
+    grid-template-columns: 1fr;
+  }
+
+  #stage-section.gameplay-viewport .training-campaign--pilot-layout .training-step--flash {
+    min-height: auto;
+  }
+
+  #stage-section.gameplay-viewport .training-campaign--pilot-layout .training-question-layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  #stage-section.gameplay-viewport .training-campaign--pilot-layout .training-card-media {
+    width: min(84%, 340px);
+    max-height: 420px;
+  }
+
+  #stage-section.gameplay-viewport .training-campaign--pilot-layout .training-card-prompt {
+    font-size: clamp(1.18rem, 4.2vw, 1.48rem);
+  }
+
+  #stage-section.gameplay-viewport .training-campaign--pilot-layout .training-card--flash .choice-button strong {
+    font-size: clamp(1.18rem, 4vw, 1.48rem);
+  }
+
+  #stage-section.gameplay-viewport .training-core-lab-banner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  #stage-section.gameplay-viewport .training-core-lab-divider {
+    display: none;
+  }
+
+  #stage-section.gameplay-viewport .training-core-lab-terms {
+    width: 100%;
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .glossary-memory-bank {
+    padding: 12px;
+  }
+
+  .glossary-memory-bank-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .glossary-memory-arena {
+    min-height: 880px;
+  }
+
+  .glossary-memory-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .glossary-memory-card {
+    min-height: 132px;
+    border-radius: 15px;
+  }
+
+  .glossary-memory-card-face {
+    padding: 10px;
+  }
+
+  .glossary-memory-card--definition .glossary-memory-card-front strong {
+    font-size: 0.66rem;
+    -webkit-line-clamp: 6;
+  }
+
+  .glossary-catch-game {
+    min-height: 520px;
+  }
+
+  .glossary-catch-road {
+    bottom: 150px;
+  }
+
+  .glossary-fall-term {
+    width: min(42%, 180px);
+  }
+
+  .glossary-fall-term--lane-1,
+  .glossary-fall-term--lane-3 {
+    left: 5%;
+  }
+
+  .glossary-fall-term--lane-2,
+  .glossary-fall-term--lane-4 {
+    left: 53%;
+  }
+
+  .glossary-catch-guide {
+    width: 84px;
+    opacity: 0.86;
+  }
+
+  .glossary-slice-game {
+    min-height: 540px;
+  }
+
+  .glossary-scene-card {
+    min-height: 0;
+  }
+
+  .glossary-scene-prompt {
+    padding: 14px;
+  }
+
+  .glossary-invaders-game {
+    padding: 12px;
+  }
+
+  .glossary-invaders-canvas {
+    min-height: 340px;
+  }
+
+  .glossary-flight-game {
+    min-height: 570px;
+  }
+
+  .glossary-flight-lanes {
+    inset: 16px 12px 190px;
+  }
+
+  .glossary-flight-capture-zone {
+    left: 8%;
+    bottom: 194px;
+    width: 86px;
+  }
+
+  .glossary-flight-capture-zone span {
+    width: 58px;
+    height: 58px;
+  }
+
+  .glossary-flight-gate {
+    width: min(64%, 260px);
+    min-height: 70px;
+    padding: 10px 11px;
+  }
+
+  .glossary-flight-player {
+    left: 3.5%;
+    width: 66px;
+    min-width: 62px;
+  }
+
+  .glossary-flight-definition {
+    left: 12px;
+    right: 12px;
+  }
+
+  .glossary-flight-controls {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .glossary-flight-capture,
+  .glossary-flight-controls span {
+    grid-column: 1 / -1;
+  }
+
+  .glossary-slice-vault {
+    grid-template-columns: 74px minmax(0, 1fr);
+    min-height: 112px;
+  }
+
+  .glossary-slice-vault img {
+    width: 74px;
+    max-height: 96px;
+  }
+
+  .glossary-slice-field {
+    bottom: 158px;
+  }
+
+  .glossary-slice-token {
+    width: min(46%, 180px);
+  }
+
+  .glossary-socket,
+  .glossary-piece {
+    min-height: auto;
+  }
+}

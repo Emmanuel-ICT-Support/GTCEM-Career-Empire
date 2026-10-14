@@ -1,0 +1,259 @@
+{
+  "generatedAt": "2026-05-07",
+  "title": "SCSA Careers and Employability Skills",
+  "style": "ECC futuristic brand suite",
+  "methodology": "Each subset keeps the parent skill mark and adds a lower-right badge.",
+  "palette": {
+    "teal": "#00718D",
+    "navy": "#1F2A55",
+    "gold": "#FFCF01",
+    "sky": "#5DC6EC",
+    "charcoal": "#414042",
+    "white": "#FFFFFF"
+  },
+  "logos": [
+    {
+      "number": "1.0",
+      "title": "Communication",
+      "categoryId": "communication",
+      "subskillId": null,
+      "badge": null,
+      "png": "./png/1.0 Communication.png",
+      "svg": "./svg/1.0 Communication.svg"
+    },
+    {
+      "number": "1.1",
+      "title": "Purpose, Audience and Format",
+      "categoryId": "communication",
+      "subskillId": "purpose-audience-format",
+      "badge": "audience",
+      "png": "./png/1.1 Communication.png",
+      "svg": "./svg/1.1 Communication.svg"
+    },
+    {
+      "number": "1.2",
+      "title": "Active Listening",
+      "categoryId": "communication",
+      "subskillId": "active-listening",
+      "badge": "listen",
+      "png": "./png/1.2 Communication.png",
+      "svg": "./svg/1.2 Communication.svg"
+    },
+    {
+      "number": "1.3",
+      "title": "Terminology, Spelling and Grammar",
+      "categoryId": "communication",
+      "subskillId": "terminology-spelling-grammar",
+      "badge": "abc",
+      "png": "./png/1.3 Communication.png",
+      "svg": "./svg/1.3 Communication.svg"
+    },
+    {
+      "number": "1.4",
+      "title": "Non-verbal Communication",
+      "categoryId": "communication",
+      "subskillId": "non-verbal-communication",
+      "badge": "hand",
+      "png": "./png/1.4 Communication.png",
+      "svg": "./svg/1.4 Communication.svg"
+    },
+    {
+      "number": "2.0",
+      "title": "Digital Literacy",
+      "categoryId": "digital-literacy",
+      "subskillId": null,
+      "badge": null,
+      "png": "./png/2.0 Digital Literacy.png",
+      "svg": "./svg/2.0 Digital Literacy.svg"
+    },
+    {
+      "number": "2.1",
+      "title": "Online Safety",
+      "categoryId": "digital-literacy",
+      "subskillId": "online-safety",
+      "badge": "lock",
+      "png": "./png/2.1 Digital Literacy.png",
+      "svg": "./svg/2.1 Digital Literacy.svg"
+    },
+    {
+      "number": "2.3",
+      "title": "Reliable Online Research",
+      "categoryId": "digital-literacy",
+      "subskillId": "reliable-online-research",
+      "badge": "research",
+      "png": "./png/2.3 Digital Literacy.png",
+      "svg": "./svg/2.3 Digital Literacy.svg"
+    },
+    {
+      "number": "2.4",
+      "title": "Electronic Communication",
+      "categoryId": "digital-literacy",
+      "subskillId": "electronic-communication",
+      "badge": "mail",
+      "png": "./png/2.4 Digital Literacy.png",
+      "svg": "./svg/2.4 Digital Literacy.svg"
+    },
+    {
+      "number": "2.5",
+      "title": "Work-related Software",
+      "categoryId": "digital-literacy",
+      "subskillId": "work-related-software",
+      "badge": "apps",
+      "png": "./png/2.5 Digital Literacy.png",
+      "svg": "./svg/2.5 Digital Literacy.svg"
+    },
+    {
+      "number": "3.0",
+      "title": "Teamwork",
+      "categoryId": "teamwork",
+      "subskillId": null,
+      "badge": null,
+      "png": "./png/3.0 Teamwork.png",
+      "svg": "./svg/3.0 Teamwork.svg"
+    },
+    {
+      "number": "3.1",
+      "title": "Team Roles and Responsibilities",
+      "categoryId": "teamwork",
+      "subskillId": "team-roles-and-responsibilities",
+      "badge": "roles",
+      "png": "./png/3.1 Teamwork.png",
+      "svg": "./svg/3.1 Teamwork.svg"
+    },
+    {
+      "number": "3.2",
+      "title": "Build Rapport",
+      "categoryId": "teamwork",
+      "subskillId": "build-rapport",
+      "badge": "rapport",
+      "png": "./png/3.2 Teamwork.png",
+      "svg": "./svg/3.2 Teamwork.svg"
+    },
+    {
+      "number": "3.3",
+      "title": "Reliability and Task Completion",
+      "categoryId": "teamwork",
+      "subskillId": "reliability-and-task-completion",
+      "badge": "checklist",
+      "png": "./png/3.3 Teamwork.png",
+      "svg": "./svg/3.3 Teamwork.svg"
+    },
+    {
+      "number": "3.4",
+      "title": "Consensus Building",
+      "categoryId": "teamwork",
+      "subskillId": "consensus-building",
+      "badge": "consensus",
+      "png": "./png/3.4 Teamwork.png",
+      "svg": "./svg/3.4 Teamwork.svg"
+    },
+    {
+      "number": "4.0",
+      "title": "Time Management",
+      "categoryId": "time-management",
+      "subskillId": null,
+      "badge": null,
+      "png": "./png/4.0 Time Management.png",
+      "svg": "./svg/4.0 Time Management.svg"
+    },
+    {
+      "number": "4.1",
+      "title": "Plan and Prioritise",
+      "categoryId": "time-management",
+      "subskillId": "plan-and-prioritise",
+      "badge": "plan",
+      "png": "./png/4.1 Time Management.png",
+      "svg": "./svg/4.1 Time Management.svg"
+    },
+    {
+      "number": "4.2",
+      "title": "Productivity Tools",
+      "categoryId": "time-management",
+      "subskillId": "productivity-tools",
+      "badge": "calendar",
+      "png": "./png/4.2 Time Management.png",
+      "svg": "./svg/4.2 Time Management.svg"
+    },
+    {
+      "number": "4.3",
+      "title": "Track and Reassess",
+      "categoryId": "time-management",
+      "subskillId": "track-and-reassess",
+      "badge": "cycle",
+      "png": "./png/4.3 Time Management.png",
+      "svg": "./svg/4.3 Time Management.svg"
+    },
+    {
+      "number": "5.0",
+      "title": "Critical Thinking",
+      "categoryId": "critical-thinking",
+      "subskillId": null,
+      "badge": null,
+      "png": "./png/5.0 Critical Thinking.png",
+      "svg": "./svg/5.0 Critical Thinking.svg"
+    },
+    {
+      "number": "5.1",
+      "title": "Research and Information Gathering",
+      "categoryId": "critical-thinking",
+      "subskillId": "research-and-information-gathering",
+      "badge": "document",
+      "png": "./png/5.1 Critical Thinking.png",
+      "svg": "./svg/5.1 Critical Thinking.svg"
+    },
+    {
+      "number": "5.2",
+      "title": "Analysis and Evaluation",
+      "categoryId": "critical-thinking",
+      "subskillId": "analysis-and-evaluation",
+      "badge": "scales",
+      "png": "./png/5.2 Critical Thinking.png",
+      "svg": "./svg/5.2 Critical Thinking.svg"
+    },
+    {
+      "number": "5.3",
+      "title": "Bias Reflection",
+      "categoryId": "critical-thinking",
+      "subskillId": "bias-reflection",
+      "badge": "eye",
+      "png": "./png/5.3 Critical Thinking.png",
+      "svg": "./svg/5.3 Critical Thinking.svg"
+    },
+    {
+      "number": "6.0",
+      "title": "Problem Solving",
+      "categoryId": "problem-solving",
+      "subskillId": null,
+      "badge": null,
+      "png": "./png/6.0 Problem Solving.png",
+      "svg": "./svg/6.0 Problem Solving.svg"
+    },
+    {
+      "number": "6.1",
+      "title": "Questioning Techniques",
+      "categoryId": "problem-solving",
+      "subskillId": "questioning-techniques",
+      "badge": "question",
+      "png": "./png/6.1 Problem Solving.png",
+      "svg": "./svg/6.1 Problem Solving.svg"
+    },
+    {
+      "number": "6.2",
+      "title": "Generate Solutions",
+      "categoryId": "problem-solving",
+      "subskillId": "generate-solutions",
+      "badge": "nodes",
+      "png": "./png/6.2 Problem Solving.png",
+      "svg": "./svg/6.2 Problem Solving.svg"
+    },
+    {
+      "number": "6.3",
+      "title": "Decision-making Models",
+      "categoryId": "problem-solving",
+      "subskillId": "decision-making-models",
+      "badge": "model",
+      "png": "./png/6.3 Problem Solving.png",
+      "svg": "./svg/6.3 Problem Solving.svg"
+    }
+  ]
+}

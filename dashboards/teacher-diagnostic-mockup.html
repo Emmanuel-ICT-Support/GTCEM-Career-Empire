@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard Diagnostic Mockup | Career Empire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./dashboard.css?v=20260629-diagnostic-beta-link-v1">
+  <link rel="stylesheet" href="./teacher-diagnostic-mockup.css?v=20260629-learner-needs-v2">
+</head>
+<body class="teacher-dashboard-page teacher-diagnostic-page">
+  <main class="page-shell">
+    <div class="dashboard-nav">
+      <a class="dashboard-nav-link" href="../auth/teacher-login.html">Teacher Login</a>
+      <a class="dashboard-nav-link" href="../auth/create-class.html">Create Class</a>
+      <a class="dashboard-nav-link" href="../auth/add-students.html">Add Students</a>
+      <a class="dashboard-nav-link" href="../auth/manage-students.html">Manage Students</a>
+      <a class="dashboard-nav-link" href="./teacher.html">Teacher Dashboard</a>
+      <a class="dashboard-nav-link active" href="./teacher-diagnostic-mockup.html">Diagnostic Mockup</a>
+      <a class="dashboard-nav-link" href="./leaderboard.html">Leaderboard</a>
+      <a class="dashboard-nav-link" href="./community.html">Community</a>
+      <a class="dashboard-nav-link" href="./global.html">Global Index</a>
+      <a class="dashboard-nav-link" href="../index.html">Open Megatrends</a>
+    </div>
+
+    <section class="diagnostic-hero">
+      <article class="diagnostic-hero-copy">
+        <div class="diagnostic-hero-badge-row">
+          <span class="eyebrow">Teacher Dashboard Preview</span>
+          <span class="diagnostic-stage-chip">Beta mockup</span>
+        </div>
+        <h1>Flexible learner diagnostic views.</h1>
+        <p class="subtitle">
+          Same Career Empire evidence, different teaching lenses. This is an idealised in-development preview, while the current teacher dashboard remains the main live view.
+        </p>
+      </article>
+      <article class="diagnostic-hero-panel" aria-label="Diagnostic model">
+        <div class="diagnostic-model-mark">ECC</div>
+        <strong>Learner profile model</strong>
+        <p>Existing platform data now. Learner voice, teacher insight, and wellbeing can be added later without losing this dashboard structure.</p>
+      </article>
+    </section>
+
+    <section class="diagnostic-mode-panel" aria-label="Dashboard view selector">
+      <div class="diagnostic-mode-copy">
+        <span class="kicker">Dashboard View</span>
+        <h2 id="diagnostic-view-title">Class Overview Diagnostic</h2>
+        <p id="diagnostic-view-summary">Where the class appears to sit across Challenge, Confidence, Purpose, Ownership, and Connection.</p>
+      </div>
+      <div class="diagnostic-view-tabs" role="tablist" aria-label="Teacher dashboard diagnostic views">
+        <button class="diagnostic-view-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="class-overview-view" id="class-overview-tab" data-view="class-overview">
+          <span>01</span>
+          <strong>Class Overview Diagnostic</strong>
+        </button>
+        <button class="diagnostic-view-tab" type="button" role="tab" aria-selected="false" aria-controls="learner-needs-view" id="learner-needs-tab" data-view="learner-needs">
+          <span>02</span>
+          <strong>Learner Needs Diagnostic</strong>
+        </button>
+        <button class="diagnostic-view-tab" type="button" role="tab" aria-selected="false" aria-controls="current-data-view" id="current-data-tab" data-view="current-data">
+          <span>03</span>
+          <strong>Current Data View</strong>
+        </button>
+      </div>
+    </section>
+
+    <section class="diagnostic-view is-active" id="class-overview-view" role="tabpanel" aria-labelledby="class-overview-tab" data-view-panel="class-overview">
+      <div class="diagnostic-overview-grid">
+        <article class="panel diagnostic-class-pulse">
+          <div class="section-title">
+            <div>
+              <h2>Class Needs Pulse</h2>
+              <p>Likely current learner needs across the selected class</p>
+            </div>
+            <span class="diagnostic-confidence-chip">Evidence confidence: moderate</span>
+          </div>
+          <div id="class-need-bars" class="need-bar-list"></div>
+        </article>
+
+        <article class="panel diagnostic-next-move">
+          <div class="section-title">
+            <div>
+              <h2>Recommended Class Move</h2>
+              <p>Whole-class response suggested by current signals</p>
+            </div>
+          </div>
+          <div class="next-move-card">
+            <span class="kicker">Next lesson focus</span>
+            <h3>Make purpose visible before the next evidence task.</h3>
+            <p>Several students are progressing but their written evidence is thin on why the task matters. Start with a quick career relevance prompt, then ask for one concrete example in the next response.</p>
+          </div>
+        </article>
+      </div>
+
+      <section class="diagnostic-need-card-grid" id="need-card-grid" aria-label="Five learner need cards"></section>
+
+      <section class="panel diagnostic-priority-panel">
+        <div class="section-title">
+          <div>
+            <h2>Priority Learners</h2>
+            <p>Students to check first, grouped by the most likely current need</p>
+          </div>
+        </div>
+        <div id="priority-learner-list" class="priority-learner-list"></div>
+      </section>
+
+      <section class="diagnostic-evidence-streams" id="class-evidence-streams" aria-label="Diagnostic evidence streams"></section>
+    </section>
+
+    <section class="diagnostic-view" id="learner-needs-view" role="tabpanel" aria-labelledby="learner-needs-tab" data-view-panel="learner-needs" hidden>
+      <section class="panel learner-drilldown-controls">
+        <div class="section-title">
+          <div>
+            <h2>Learner Needs Diagnostic</h2>
+            <p>Likely current need, evidence matrix, and next teacher move</p>
+          </div>
+        </div>
+        <div class="learner-selector-row">
+          <label for="learner-select">Student drill-down</label>
+          <select id="learner-select"></select>
+        </div>
+      </section>
+
+      <section id="learner-profile-panel" class="learner-profile-layout" aria-live="polite"></section>
+
+      <section class="panel learner-matrix-panel">
+        <div class="section-title">
+          <div>
+            <h2>Class Learner Needs Matrix</h2>
+            <p>Students down the left; diagnostic needs across the top</p>
+          </div>
+        </div>
+        <div id="learner-matrix" class="teacher-matrix-wrap"></div>
+      </section>
+    </section>
+
+    <section class="diagnostic-view" id="current-data-view" role="tabpanel" aria-labelledby="current-data-tab" data-view-panel="current-data" hidden>
+      <section class="panel current-data-intro">
+        <div>
+          <span class="kicker">Preserved View</span>
+          <h2>The current dashboard remains available.</h2>
+          <p>This lens keeps the existing operational flow for platform activity, evidence checking, module progress, glossary gaps, long-answer comparison, feedback, and store requests.</p>
+        </div>
+        <a class="diagnostic-primary-link" href="./teacher.html">Open current dashboard</a>
+      </section>
+
+      <section class="metrics-grid diagnostic-current-metrics" id="current-data-metrics"></section>
+
+      <section class="diagnostic-current-grid" id="current-data-panels" aria-label="Current dashboard panel preview"></section>
+    </section>
+  </main>
+
+  <script src="./teacher-diagnostic-mockup.js?v=20260629-learner-needs-v1"></script>
+</body>
+</html>

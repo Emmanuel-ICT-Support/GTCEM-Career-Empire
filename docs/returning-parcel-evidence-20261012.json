@@ -1,0 +1,140 @@
+{
+  "baseCommit": "1f101a69ed2d86ce07c2a6a9a112ad549b5217ee",
+  "browser": "isolated installed Chrome/native Metal",
+  "formalCases": [
+    {
+      "developed": false,
+      "position": [
+        -7.002,
+        0.085,
+        16.519
+      ],
+      "step": 1,
+      "savesUnchanged": true,
+      "noPageErrors": true
+    },
+    {
+      "developed": true,
+      "position": [
+        -7.002,
+        0.085,
+        16.58
+      ],
+      "step": 1,
+      "savesUnchanged": true,
+      "noPageErrors": true
+    }
+  ],
+  "elapsedSeconds": 36.2,
+  "unitsPassed": 13,
+  "baseline": {
+    "before": {
+      "entryReady": false,
+      "preparingNextTask": false,
+      "renderRatio": 1,
+      "discovery": {
+        "step": 1,
+        "skipped": false,
+        "souvenir": false,
+        "developed": false,
+        "shots": {},
+        "chapelVisited": false,
+        "style": "mystery",
+        "destination": "chapel",
+        "persistent": true,
+        "scene": null
+      },
+      "intro": {
+        "open": false,
+        "still": false,
+        "seen": true,
+        "playing": false
+      },
+      "avatarFallback": false,
+      "avatarBody": "cerys",
+      "campusReady": false,
+      "arrivalRestricted": true,
+      "teachers": [],
+      "scenery": {
+        "status": "pending",
+        "trees": 0,
+        "home": false,
+        "buildings": 0,
+        "errors": []
+      },
+      "mode": "town",
+      "phase": "flourishing",
+      "profileId": "returning",
+      "position": [
+        -7,
+        0,
+        23.3
+      ],
+      "fps": 0,
+      "drawCalls": 107,
+      "triangles": 1123402,
+      "pixelColours": null,
+      "animations": [
+        "idle",
+        "walk"
+      ],
+      "visibleMeshes": 1
+    },
+    "after": {
+      "entryReady": true,
+      "preparingNextTask": false,
+      "renderRatio": 1,
+      "discovery": {
+        "step": 1,
+        "skipped": false,
+        "souvenir": false,
+        "developed": false,
+        "shots": {},
+        "chapelVisited": false,
+        "style": "mystery",
+        "destination": "chapel",
+        "persistent": true,
+        "scene": null
+      },
+      "intro": {
+        "open": false,
+        "still": false,
+        "seen": true,
+        "playing": false
+      },
+      "avatarFallback": false,
+      "avatarBody": "cerys",
+      "campusReady": false,
+      "arrivalRestricted": true,
+      "teachers": [],
+      "scenery": {
+        "status": "loading",
+        "trees": 0,
+        "home": true,
+        "buildings": 0,
+        "errors": []
+      },
+      "mode": "town",
+      "phase": "flourishing",
+      "profileId": "returning",
+      "position": [
+        -7.001,
+        0.085,
+        15.939
+      ],
+      "fps": 10,
+      "drawCalls": 123,
+      "triangles": 1128747,
+      "pixelColours": null,
+      "animations": [
+        "idle",
+        "walk"
+      ],
+      "visibleMeshes": 1
+    },
+    "clueOpen": false,
+    "savedTrail": "{\"step\":1,\"shots\":{},\"chapelVisited\":false,\"skipped\":false}",
+    "wallet": null
+  },
+  "method": "standard repository range server; real keyboard auto-repeat; no teleport or forced trigger; repeated entry, idle dismissal and reload; byte-equal saved profile/trail/wallet"
+}

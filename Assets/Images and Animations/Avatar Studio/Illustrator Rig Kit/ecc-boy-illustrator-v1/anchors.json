@@ -1,0 +1,85 @@
+{
+  "id": "ecc-boy-illustrator-v1",
+  "canvas": [
+    1024,
+    1536
+  ],
+  "anchors": {
+    "headCenter": [
+      512,
+      275
+    ],
+    "leftEye": [
+      458,
+      285
+    ],
+    "rightEye": [
+      566,
+      285
+    ],
+    "browLine": [
+      512,
+      238
+    ],
+    "noseBridge": [
+      512,
+      312
+    ],
+    "mouthCenter": [
+      512,
+      370
+    ],
+    "leftEar": [
+      403,
+      295
+    ],
+    "rightEar": [
+      621,
+      295
+    ],
+    "neckCenter": [
+      512,
+      442
+    ],
+    "neckOpening": [
+      512,
+      505
+    ],
+    "leftShoulder": [
+      365,
+      520
+    ],
+    "rightShoulder": [
+      659,
+      520
+    ],
+    "waistLine": [
+      512,
+      790
+    ],
+    "hips": [
+      512,
+      860
+    ],
+    "leftHandRest": [
+      352,
+      755
+    ],
+    "rightHandRest": [
+      672,
+      755
+    ],
+    "leftFoot": [
+      438,
+      1265
+    ],
+    "rightFoot": [
+      586,
+      1265
+    ],
+    "feetBaseline": [
+      512,
+      1304
+    ]
+  }
+}

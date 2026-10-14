@@ -1,0 +1,2188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vault Bridge Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="data:,">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050814;
+      --panel: rgba(7, 14, 32, 0.82);
+      --panel-strong: rgba(8, 18, 44, 0.92);
+      --line: rgba(122, 225, 255, 0.32);
+      --text: #f8fbff;
+      --muted: #b9c8df;
+      --cyan: #61f0ff;
+      --mint: #84ffd1;
+      --gold: #ffd86c;
+      --coral: #ff8b7b;
+      --tile-size: clamp(145px, 13.5vw, 232px);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(97, 240, 255, 0.18), transparent 34rem),
+        radial-gradient(circle at 85% 8%, rgba(255, 216, 108, 0.14), transparent 30rem),
+        linear-gradient(145deg, #040712 0%, #08152e 58%, #040712 100%);
+      color: var(--text);
+      font-family: "Outfit", Arial, sans-serif;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .preview-shell {
+      width: min(1480px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 26px 0 48px;
+    }
+
+    .preview-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    h1,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 4vw, 4rem);
+      line-height: 0.94;
+      letter-spacing: 0;
+    }
+
+    .preview-header p {
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .character-switcher {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: end;
+      flex-wrap: wrap;
+    }
+
+    .character-switcher button {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(9, 19, 46, 0.78);
+      padding: 10px 16px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .character-switcher button[aria-pressed="true"] {
+      background: linear-gradient(135deg, rgba(97, 240, 255, 0.28), rgba(132, 255, 209, 0.18));
+      border-color: rgba(132, 255, 209, 0.75);
+      box-shadow: 0 0 24px rgba(97, 240, 255, 0.16);
+    }
+
+    .game-frame {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      min-height: 680px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: #071127;
+      box-shadow: 0 34px 90px rgba(0, 0, 0, 0.46);
+      isolation: isolate;
+    }
+
+    .game-frame::before,
+    .game-frame::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    .game-frame::before {
+      inset: 0;
+      background:
+        repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 6px),
+        linear-gradient(90deg, transparent, rgba(97, 240, 255, 0.06), transparent);
+      mix-blend-mode: screen;
+      opacity: 0.22;
+      animation: filmGrain 1.4s steps(2, end) infinite;
+    }
+
+    .game-frame::after {
+      top: 0;
+      bottom: 0;
+      box-shadow: inset 0 38px 0 rgba(2, 5, 14, 0.52), inset 0 -38px 0 rgba(2, 5, 14, 0.52);
+      opacity: 0.56;
+    }
+
+    .game-frame.is-crossing .game-bg {
+      animation: cameraPush 780ms ease-out;
+    }
+
+    .game-frame.is-correct .game-vignette {
+      animation: successBloom 720ms ease-out;
+    }
+
+    .game-frame.is-wrong {
+      animation: cameraShake 520ms ease-in-out;
+    }
+
+    .game-frame.is-portal .game-bg {
+      animation: portalPush 1.4s ease-in-out;
+    }
+
+    .game-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -4;
+      transform: scale(1.01);
+    }
+
+    .game-vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(3, 6, 16, 0.1), transparent 28%, rgba(3, 6, 16, 0.56)),
+        radial-gradient(circle at 50% 62%, transparent 0 35%, rgba(3, 6, 16, 0.35) 78%);
+      pointer-events: none;
+      z-index: -3;
+    }
+
+    .cinematic-scan {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -18%;
+      z-index: 1;
+      height: 28%;
+      background: linear-gradient(180deg, transparent, rgba(97, 240, 255, 0.22), transparent);
+      opacity: 0.5;
+      pointer-events: none;
+      animation: cinematicScan 4.8s linear infinite;
+    }
+
+    .scene-caption {
+      position: absolute;
+      left: 28px;
+      top: 236px;
+      z-index: 11;
+      display: grid;
+      gap: 4px;
+      width: min(260px, calc(100% - 56px));
+      padding: 10px 12px;
+      border-left: 3px solid var(--gold);
+      color: var(--text);
+      background: linear-gradient(90deg, rgba(5, 12, 30, 0.76), rgba(5, 12, 30, 0));
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.74);
+      pointer-events: none;
+    }
+
+    .scene-caption span {
+      color: var(--gold);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .scene-caption strong {
+      font-size: clamp(0.95rem, 1.45vw, 1.18rem);
+      line-height: 1.02;
+    }
+
+    .hud {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      display: grid;
+      grid-template-columns: 148px minmax(0, 1fr) 180px;
+      gap: 14px;
+      z-index: 12;
+    }
+
+    .hud-card {
+      min-height: 64px;
+      border: 1px solid rgba(132, 255, 209, 0.34);
+      border-radius: 18px;
+      background: rgba(5, 12, 30, 0.68);
+      backdrop-filter: blur(14px);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .hud-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hud-title {
+      font-size: clamp(1.1rem, 2vw, 1.55rem);
+    }
+
+    .question-card {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      z-index: 12;
+      width: min(1080px, calc(100% - 64px));
+      transform: translateX(-50%);
+      padding: 18px 24px;
+      border: 1px solid rgba(132, 255, 209, 0.54);
+      border-radius: 22px;
+      background: rgba(6, 13, 32, 0.88);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(14px);
+    }
+
+    .question-card strong {
+      display: block;
+      color: var(--mint);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 8px;
+    }
+
+    .question-card p {
+      font-size: clamp(1.02rem, 1.8vw, 1.38rem);
+      line-height: 1.34;
+      font-weight: 800;
+    }
+
+    .bridge-pieces {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .tile {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--tile-size);
+      min-height: calc(var(--tile-size) * 0.45);
+      transform: translate(-50%, -50%) scale(0.96);
+      border: 1px solid rgba(97, 240, 255, 0.44);
+      border-radius: 18px;
+      color: var(--text);
+      background:
+        linear-gradient(180deg, rgba(19, 40, 83, 0.68), rgba(7, 13, 30, 0.86)),
+        radial-gradient(circle at 50% 0%, rgba(97, 240, 255, 0.22), transparent 62%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 18px 36px rgba(0, 0, 0, 0.34),
+        0 0 20px rgba(97, 240, 255, 0.12);
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 8px;
+      padding: 18px 14px;
+      cursor: default;
+      opacity: 0.46;
+      pointer-events: auto;
+      transition:
+        transform 240ms ease,
+        border-color 240ms ease,
+        box-shadow 240ms ease,
+        background 240ms ease,
+        opacity 240ms ease,
+        filter 240ms ease;
+    }
+
+    .tile.is-active {
+      opacity: 1;
+      cursor: pointer;
+      transform: translate(-50%, -50%) scale(1);
+      border-color: rgba(132, 255, 209, 0.66);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 22px 42px rgba(0, 0, 0, 0.42),
+        0 0 30px rgba(97, 240, 255, 0.22);
+    }
+
+    .tile.is-active:hover {
+      transform: translate(-50%, -56%) scale(1.02);
+      border-color: rgba(132, 255, 209, 0.78);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 24px 42px rgba(0, 0, 0, 0.42),
+        0 0 30px rgba(97, 240, 255, 0.22);
+    }
+
+    .tile:disabled {
+      cursor: default;
+    }
+
+    .tile-letter {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #041120;
+      background: var(--mint);
+      font-weight: 900;
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+
+    .tile-term {
+      max-width: 11rem;
+      text-align: center;
+      font-size: clamp(0.88rem, 1.22vw, 1.08rem);
+      font-weight: 900;
+      line-height: 1.05;
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+
+    .tile.is-waiting {
+      filter: saturate(0.75);
+    }
+
+    .tile.is-waiting .tile-letter {
+      opacity: 0;
+    }
+
+    .tile.is-locked {
+      opacity: 1;
+      border-color: rgba(132, 255, 209, 0.9);
+      background:
+        linear-gradient(180deg, rgba(30, 105, 91, 0.82), rgba(7, 42, 43, 0.92)),
+        radial-gradient(circle at 50% 0%, rgba(132, 255, 209, 0.36), transparent 70%);
+      box-shadow: 0 0 30px rgba(132, 255, 209, 0.3), 0 18px 34px rgba(0, 0, 0, 0.38);
+      pointer-events: none;
+    }
+
+    .tile.is-locked .tile-letter {
+      color: #041120;
+      background: linear-gradient(135deg, var(--mint), var(--gold));
+    }
+
+    .tile.is-locked .tile-term {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+
+    .tile.is-dropped {
+      opacity: 0;
+      transform: translate(-50%, 54%) scale(0.68) rotate(5deg);
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    .tile.is-correct {
+      border-color: rgba(132, 255, 209, 0.98);
+      background:
+        linear-gradient(180deg, rgba(33, 82, 86, 0.8), rgba(9, 26, 38, 0.92)),
+        radial-gradient(circle at 50% 0%, rgba(132, 255, 209, 0.44), transparent 70%);
+      box-shadow: 0 0 40px rgba(132, 255, 209, 0.42), 0 24px 42px rgba(0, 0, 0, 0.44);
+      animation: correctPulse 520ms ease-in-out 2;
+    }
+
+    .tile.is-wrong {
+      border-color: rgba(255, 139, 123, 0.95);
+      background:
+        linear-gradient(180deg, rgba(86, 36, 42, 0.82), rgba(28, 9, 18, 0.92)),
+        radial-gradient(circle at 50% 0%, rgba(255, 139, 123, 0.4), transparent 70%);
+      box-shadow: 0 0 36px rgba(255, 139, 123, 0.38), 0 24px 42px rgba(0, 0, 0, 0.42);
+      animation: wrongShake 400ms ease-in-out 2;
+    }
+
+    .player {
+      position: absolute;
+      left: 50%;
+      top: 91%;
+      z-index: 10;
+      width: clamp(170px, 17vw, 260px);
+      transform: translate(-50%, -100%);
+      filter: drop-shadow(0 22px 24px rgba(0, 0, 0, 0.5));
+      pointer-events: none;
+      transition:
+        left 720ms cubic-bezier(0.18, 0.88, 0.24, 1),
+        top 720ms cubic-bezier(0.18, 0.88, 0.24, 1),
+        opacity 420ms ease,
+        width 420ms ease;
+      will-change: left, top, transform;
+    }
+
+    .player.is-idle {
+      animation: characterIdle 3.2s ease-in-out infinite;
+    }
+
+    .player.is-hopping {
+      z-index: 14;
+      animation: characterHop 720ms ease-in-out;
+    }
+
+    .player.is-celebrating {
+      z-index: 14;
+      animation: celebrateDance 1180ms ease-in-out;
+    }
+
+    .player.is-resetting {
+      z-index: 14;
+      animation: resetDrop 760ms ease-in-out;
+    }
+
+    .player.is-sad {
+      z-index: 14;
+      filter: grayscale(0.24) drop-shadow(0 22px 24px rgba(0, 0, 0, 0.5));
+      animation: sadMistake 1320ms ease-in-out;
+    }
+
+    .player.is-exiting {
+      z-index: 14;
+      width: clamp(120px, 10vw, 170px);
+      opacity: 0;
+      animation: portalExit 880ms ease-in-out forwards;
+    }
+
+    .player-ghost {
+      position: absolute;
+      z-index: 9;
+      width: clamp(170px, 17vw, 260px);
+      transform: translate(-50%, -100%);
+      filter: drop-shadow(0 22px 24px rgba(0, 0, 0, 0.34));
+      opacity: 0.34;
+      pointer-events: none;
+      animation: ghostFade 620ms ease-out forwards;
+    }
+
+    .motion-ribbon {
+      position: absolute;
+      z-index: 4;
+      height: 9px;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.88), var(--cyan), var(--mint), transparent);
+      box-shadow: 0 0 28px rgba(97, 240, 255, 0.48);
+      opacity: 0;
+      transform-origin: left center;
+      pointer-events: none;
+    }
+
+    .motion-ribbon.is-active {
+      animation: motionRibbon 720ms ease-out;
+    }
+
+    .character-emote {
+      position: absolute;
+      left: var(--emote-x, 50%);
+      top: var(--emote-y, 60%);
+      z-index: 15;
+      width: clamp(180px, 18vw, 290px);
+      aspect-ratio: 1;
+      opacity: 0;
+      transform: translate(-50%, -70%);
+      pointer-events: none;
+    }
+
+    .character-emote i {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      background: var(--gold);
+      box-shadow: 0 0 18px rgba(255, 216, 108, 0.5);
+    }
+
+    .character-emote.is-celebration {
+      opacity: 1;
+      animation: emotePop 1180ms ease-out;
+    }
+
+    .character-emote.is-celebration::before,
+    .character-emote.is-celebration::after {
+      content: "";
+      position: absolute;
+      inset: 16%;
+      border-radius: 999px;
+      border: 2px solid rgba(132, 255, 209, 0.72);
+      opacity: 0;
+      animation: celebrationRing 1180ms ease-out;
+    }
+
+    .character-emote.is-celebration::after {
+      inset: 28%;
+      border-color: rgba(255, 216, 108, 0.68);
+      animation-delay: 120ms;
+    }
+
+    .character-emote.is-celebration i {
+      animation: confettiLaunch 1080ms ease-out forwards;
+    }
+
+    .character-emote.is-sad {
+      opacity: 1;
+      width: clamp(150px, 15vw, 235px);
+      transform: translate(-50%, -78%);
+      animation: sadCloud 1320ms ease-in-out;
+    }
+
+    .character-emote.is-sad::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 40%;
+      width: 44%;
+      height: 26%;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 28% 44%, rgba(185, 200, 223, 0.92) 0 28%, transparent 30%),
+        radial-gradient(circle at 52% 36%, rgba(147, 164, 190, 0.88) 0 34%, transparent 36%),
+        radial-gradient(circle at 72% 48%, rgba(185, 200, 223, 0.78) 0 26%, transparent 28%),
+        linear-gradient(180deg, rgba(147, 164, 190, 0.72), rgba(74, 91, 121, 0.48));
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      animation: sadCloudPuff 1320ms ease-in-out;
+    }
+
+    .character-emote.is-sad i {
+      width: 7px;
+      height: 16px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #dffaff, #61f0ff);
+      box-shadow: 0 0 16px rgba(97, 240, 255, 0.42);
+      animation: sadDrop 940ms ease-in forwards;
+    }
+
+    .character-emote i:nth-child(1) { --x: -72px; --y: -86px; --r: -24deg; animation-delay: 0ms; }
+    .character-emote i:nth-child(2) { --x: -26px; --y: -110px; --r: 18deg; animation-delay: 70ms; background: var(--mint); }
+    .character-emote i:nth-child(3) { --x: 36px; --y: -104px; --r: 34deg; animation-delay: 120ms; background: var(--cyan); }
+    .character-emote i:nth-child(4) { --x: 84px; --y: -74px; --r: -18deg; animation-delay: 40ms; }
+    .character-emote i:nth-child(5) { --x: -92px; --y: -30px; --r: 52deg; animation-delay: 160ms; background: #ff8b7b; }
+    .character-emote i:nth-child(6) { --x: 104px; --y: -22px; --r: -42deg; animation-delay: 190ms; background: var(--mint); }
+    .character-emote i:nth-child(7) { --x: -46px; --y: 12px; --r: 28deg; animation-delay: 220ms; background: var(--cyan); }
+    .character-emote i:nth-child(8) { --x: 52px; --y: 8px; --r: -16deg; animation-delay: 260ms; background: #ff8b7b; }
+
+    .character-emote.is-sad i:nth-child(1) { --x: -20px; --y: 58px; animation-delay: 250ms; }
+    .character-emote.is-sad i:nth-child(2) { --x: 10px; --y: 64px; animation-delay: 360ms; }
+    .character-emote.is-sad i:nth-child(3) { --x: 34px; --y: 50px; animation-delay: 470ms; }
+    .character-emote.is-sad i:nth-child(n+4) { display: none; }
+
+    .path-pulse {
+      position: absolute;
+      left: 50%;
+      top: 87%;
+      z-index: 2;
+      width: 160px;
+      height: 16px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--mint), transparent);
+      box-shadow: 0 0 26px rgba(97, 240, 255, 0.5);
+      transform: translate(-50%, -50%);
+      opacity: 0.56;
+      animation: runwayPulse 1.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .guide-panel {
+      position: absolute;
+      left: 24px;
+      bottom: 22px;
+      z-index: 12;
+      width: min(520px, calc(100% - 48px));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(5, 12, 30, 0.78);
+      padding: 16px 18px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.35);
+    }
+
+    .guide-panel strong {
+      display: block;
+      color: var(--gold);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .guide-panel p {
+      color: var(--text);
+      font-size: clamp(0.96rem, 1.2vw, 1.06rem);
+      line-height: 1.42;
+    }
+
+    .progress-panel {
+      position: absolute;
+      right: 24px;
+      bottom: 22px;
+      z-index: 12;
+      width: min(390px, calc(100% - 48px));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(5, 12, 30, 0.78);
+      padding: 16px 18px;
+      backdrop-filter: blur(14px);
+    }
+
+    .progress-panel strong {
+      display: block;
+      color: var(--mint);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .progress-panel p {
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+
+    .step-dots {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .step-dot {
+      height: 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .step-dot.is-secured {
+      background: linear-gradient(90deg, var(--cyan), var(--mint));
+      box-shadow: 0 0 16px rgba(132, 255, 209, 0.3);
+    }
+
+    .progress-track {
+      overflow: hidden;
+      height: 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .progress-fill {
+      width: 18%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--mint), var(--gold));
+      transition: width 520ms ease;
+    }
+
+    .reward-burst {
+      position: absolute;
+      right: 14%;
+      top: 16%;
+      z-index: 6;
+      width: 160px;
+      height: 160px;
+      border-radius: 999px;
+      pointer-events: none;
+      opacity: 0;
+      background:
+        radial-gradient(circle, #fff 0 10%, rgba(132, 255, 209, 0.75) 11% 30%, transparent 68%),
+        conic-gradient(from 0deg, transparent, rgba(255, 216, 108, 0.9), transparent, rgba(97, 240, 255, 0.8), transparent);
+      filter: blur(0.2px) drop-shadow(0 0 32px rgba(132, 255, 209, 0.6));
+    }
+
+    .reward-burst.is-active {
+      animation: burstPop 840ms ease-out;
+    }
+
+    .splash {
+      position: absolute;
+      z-index: 6;
+      width: 170px;
+      height: 120px;
+      border-radius: 999px;
+      opacity: 0;
+      background:
+        radial-gradient(circle at 30% 35%, rgba(255, 255, 255, 0.9) 0 5%, transparent 6%),
+        radial-gradient(circle at 65% 48%, rgba(255, 139, 123, 0.86) 0 12%, transparent 13%),
+        radial-gradient(circle at 50% 70%, rgba(97, 240, 255, 0.75) 0 28%, transparent 29%);
+      filter: drop-shadow(0 0 22px rgba(255, 139, 123, 0.5));
+      pointer-events: none;
+    }
+
+    .splash.is-active {
+      animation: splashPop 820ms ease-out;
+    }
+
+    .portal-effect {
+      position: absolute;
+      right: 8%;
+      top: 22%;
+      z-index: 12;
+      width: clamp(190px, 21vw, 330px);
+      aspect-ratio: 1;
+      border-radius: 999px;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.64);
+      transition: opacity 360ms ease, transform 620ms cubic-bezier(0.16, 0.9, 0.2, 1);
+    }
+
+    .portal-effect.is-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .portal-ring,
+    .portal-core,
+    .portal-door,
+    .portal-spark {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+    }
+
+    .portal-ring {
+      background:
+        conic-gradient(from 0deg, transparent 0 12%, rgba(97, 240, 255, 0.95) 16%, transparent 28%, rgba(255, 216, 108, 0.9) 38%, transparent 54%, rgba(132, 255, 209, 0.95) 66%, transparent 82%, rgba(97, 240, 255, 0.95) 96%, transparent),
+        radial-gradient(circle, transparent 44%, rgba(97, 240, 255, 0.28) 46% 51%, transparent 54%);
+      filter: drop-shadow(0 0 30px rgba(97, 240, 255, 0.7));
+      animation: portalSpin 1.9s linear infinite;
+    }
+
+    .portal-core {
+      inset: 18%;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.92) 0 10%, rgba(132, 255, 209, 0.78) 18%, rgba(97, 240, 255, 0.42) 34%, rgba(8, 18, 44, 0.2) 58%, transparent 70%);
+      box-shadow: inset 0 0 42px rgba(255, 255, 255, 0.42), 0 0 48px rgba(132, 255, 209, 0.5);
+      animation: portalBreathe 1.2s ease-in-out infinite;
+    }
+
+    .portal-door {
+      inset: 28%;
+      background:
+        linear-gradient(90deg, rgba(5, 12, 30, 0.96) 0 42%, transparent 42% 58%, rgba(5, 12, 30, 0.96) 58% 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      opacity: 0.86;
+    }
+
+    .portal-effect.is-active .portal-door {
+      animation: portalDoorOpen 1.35s ease-in-out forwards;
+    }
+
+    .portal-spark {
+      inset: -18%;
+      background:
+        radial-gradient(circle at 12% 38%, var(--gold) 0 2%, transparent 3%),
+        radial-gradient(circle at 88% 28%, var(--mint) 0 2%, transparent 3%),
+        radial-gradient(circle at 78% 82%, var(--cyan) 0 2%, transparent 3%),
+        radial-gradient(circle at 28% 76%, #fff 0 1.7%, transparent 2.7%);
+      animation: portalSparks 900ms ease-out infinite;
+    }
+
+    .portal-effect.is-final .portal-core {
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1) 0 12%, rgba(255, 216, 108, 0.9) 20%, rgba(132, 255, 209, 0.68) 38%, rgba(97, 240, 255, 0.28) 58%, transparent 72%);
+      box-shadow: inset 0 0 58px rgba(255, 255, 255, 0.56), 0 0 78px rgba(255, 216, 108, 0.52);
+    }
+
+    .round-complete {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      place-items: center;
+      padding: 28px;
+      background: rgba(3, 6, 16, 0.68);
+      backdrop-filter: blur(10px);
+    }
+
+    .round-complete.is-visible {
+      display: grid;
+    }
+
+    .round-card {
+      width: min(620px, 100%);
+      border: 1px solid rgba(255, 216, 108, 0.55);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 216, 108, 0.18), transparent 38%),
+        rgba(6, 13, 32, 0.95);
+      padding: 28px;
+      text-align: center;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.46), 0 0 42px rgba(255, 216, 108, 0.22);
+    }
+
+    .round-card h2 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .round-card p {
+      margin: 0 auto 22px;
+      max-width: 480px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .reward-count {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 0 0 22px;
+    }
+
+    .reward-count span {
+      border: 1px solid rgba(132, 255, 209, 0.28);
+      border-radius: 14px;
+      background: rgba(8, 18, 44, 0.78);
+      padding: 10px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .reward-count strong {
+      display: block;
+      color: var(--text);
+      font-size: 1.25rem;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .round-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .round-actions button,
+    .round-actions a {
+      border: 1px solid rgba(132, 255, 209, 0.45);
+      border-radius: 16px;
+      padding: 13px 18px;
+      color: var(--text);
+      background: rgba(12, 27, 61, 0.95);
+      text-decoration: none;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .round-actions button:first-child {
+      color: #041120;
+      background: linear-gradient(135deg, var(--mint), var(--gold));
+      border-color: rgba(255, 216, 108, 0.75);
+    }
+
+    @keyframes filmGrain {
+      0%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      50% {
+        transform: translate3d(0, 4px, 0);
+      }
+    }
+
+    @keyframes cameraPush {
+      0% {
+        transform: scale(1.01) translate3d(0, 0, 0);
+        filter: saturate(1.08) contrast(1.02);
+      }
+      46% {
+        transform: scale(1.055) translate3d(-0.6%, -0.4%, 0);
+        filter: saturate(1.22) contrast(1.08);
+      }
+      100% {
+        transform: scale(1.01) translate3d(0, 0, 0);
+        filter: saturate(1.08) contrast(1.02);
+      }
+    }
+
+    @keyframes portalPush {
+      0% {
+        transform: scale(1.01);
+        filter: saturate(1.08) contrast(1.02);
+      }
+      60% {
+        transform: scale(1.07) translate3d(-1.2%, -0.8%, 0);
+        filter: saturate(1.28) contrast(1.08) brightness(1.08);
+      }
+      100% {
+        transform: scale(1.01);
+        filter: saturate(1.08) contrast(1.02);
+      }
+    }
+
+    @keyframes cameraShake {
+      0%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      20% {
+        transform: translate3d(-8px, 3px, 0);
+      }
+      42% {
+        transform: translate3d(7px, -2px, 0);
+      }
+      64% {
+        transform: translate3d(-4px, 2px, 0);
+      }
+      82% {
+        transform: translate3d(3px, 0, 0);
+      }
+    }
+
+    @keyframes successBloom {
+      0% {
+        opacity: 1;
+        filter: brightness(1);
+      }
+      42% {
+        opacity: 0.68;
+        filter: brightness(1.28);
+      }
+      100% {
+        opacity: 1;
+        filter: brightness(1);
+      }
+    }
+
+    @keyframes cinematicScan {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(520%);
+      }
+    }
+
+    @keyframes characterIdle {
+      0%, 100% {
+        transform: translate(-50%, -100%) scale(1);
+      }
+      50% {
+        transform: translate(-50%, -104%) scale(1.012);
+      }
+    }
+
+    @keyframes characterHop {
+      0% {
+        transform: translate(-50%, -100%) scale(1) rotate(0deg);
+      }
+      48% {
+        transform: translate(-50%, -120%) scale(1.04) rotate(3deg);
+      }
+      100% {
+        transform: translate(-50%, -100%) scale(1) rotate(0deg);
+      }
+    }
+
+    @keyframes ghostFade {
+      0% {
+        opacity: 0.36;
+        transform: translate(-50%, -100%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -111%) scale(0.92);
+      }
+    }
+
+    @keyframes motionRibbon {
+      0% {
+        opacity: 0;
+        clip-path: inset(0 100% 0 0);
+      }
+      18% {
+        opacity: 0.9;
+      }
+      72% {
+        clip-path: inset(0 0 0 0);
+      }
+      100% {
+        opacity: 0;
+        clip-path: inset(0 0 0 100%);
+      }
+    }
+
+    @keyframes celebrateBob {
+      0%, 100% {
+        transform: translate(-50%, -100%) scale(1);
+      }
+      50% {
+        transform: translate(-50%, -106%) scale(1.03);
+      }
+    }
+
+    @keyframes celebrateDance {
+      0%, 100% {
+        transform: translate(-50%, -100%) scale(1) rotate(0deg);
+      }
+      16% {
+        transform: translate(-52%, -116%) scale(1.06) rotate(-8deg);
+      }
+      32% {
+        transform: translate(-48%, -106%) scale(1.03) rotate(7deg);
+      }
+      48% {
+        transform: translate(-50%, -122%) scale(1.08) rotate(-4deg);
+      }
+      66% {
+        transform: translate(-54%, -104%) scale(1.04) rotate(6deg);
+      }
+      84% {
+        transform: translate(-46%, -112%) scale(1.06) rotate(-5deg);
+      }
+    }
+
+    @keyframes sadMistake {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -100%) scale(1) rotate(0deg);
+      }
+      18% {
+        opacity: 0.95;
+        transform: translate(-52%, -94%) scale(0.98) rotate(-4deg);
+      }
+      42% {
+        opacity: 0.82;
+        transform: translate(-48%, -86%) scale(0.94) rotate(6deg);
+      }
+      68% {
+        opacity: 0.88;
+        transform: translate(-51%, -91%) scale(0.96) rotate(-5deg);
+      }
+      100% {
+        opacity: 0.78;
+        transform: translate(-50%, -88%) scale(0.94) rotate(-3deg);
+      }
+    }
+
+    @keyframes emotePop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -70%) scale(0.72);
+      }
+      14% {
+        opacity: 1;
+        transform: translate(-50%, -70%) scale(1.06);
+      }
+      72% {
+        opacity: 1;
+        transform: translate(-50%, -70%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -70%) scale(0.92);
+      }
+    }
+
+    @keyframes celebrationRing {
+      0% {
+        opacity: 0;
+        transform: scale(0.34);
+      }
+      18% {
+        opacity: 0.96;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.26);
+      }
+    }
+
+    @keyframes confettiLaunch {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.38) rotate(0deg);
+      }
+      18% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0.82) rotate(var(--r));
+      }
+    }
+
+    @keyframes sadCloud {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -74%) scale(0.82);
+      }
+      18% {
+        opacity: 1;
+        transform: translate(-50%, -82%) scale(1.02);
+      }
+      72% {
+        opacity: 1;
+        transform: translate(-50%, -78%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -88%) scale(0.9);
+      }
+    }
+
+    @keyframes sadCloudPuff {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.72);
+      }
+      18% {
+        opacity: 0.96;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      70% {
+        opacity: 0.9;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -54%) scale(0.96);
+      }
+    }
+
+    @keyframes sadDrop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.42);
+      }
+      24% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0.9);
+      }
+    }
+
+    @keyframes resetDrop {
+      0% {
+        transform: translate(-50%, -100%) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+      42% {
+        transform: translate(-50%, -74%) scale(0.92) rotate(-8deg);
+        opacity: 0.54;
+      }
+      100% {
+        transform: translate(-50%, -100%) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    @keyframes correctPulse {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.06);
+      }
+    }
+
+    @keyframes wrongShake {
+      0%, 100% {
+        transform: translate(-50%, -50%);
+      }
+      25% {
+        transform: translate(calc(-50% - 8px), -50%);
+      }
+      75% {
+        transform: translate(calc(-50% + 8px), -50%);
+      }
+    }
+
+    @keyframes burstPop {
+      0% {
+        opacity: 0;
+        transform: scale(0.24) rotate(-12deg);
+      }
+      30% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.34) rotate(22deg);
+      }
+    }
+
+    @keyframes splashPop {
+      0% {
+        opacity: 0;
+        transform: scale(0.4);
+      }
+      34% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.35);
+      }
+    }
+
+    @keyframes portalSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes portalBreathe {
+      0%, 100% {
+        transform: scale(0.92);
+        opacity: 0.74;
+      }
+      50% {
+        transform: scale(1.08);
+        opacity: 1;
+      }
+    }
+
+    @keyframes portalDoorOpen {
+      0% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        opacity: 0.86;
+      }
+      60% {
+        clip-path: polygon(0 0, 39% 0, 39% 100%, 0 100%, 61% 0, 100% 0, 100% 100%, 61% 100%);
+        opacity: 0.62;
+      }
+      100% {
+        clip-path: polygon(0 0, 15% 0, 15% 100%, 0 100%, 85% 0, 100% 0, 100% 100%, 85% 100%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes portalSparks {
+      0% {
+        transform: scale(0.6) rotate(0deg);
+        opacity: 0;
+      }
+      35% {
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.24) rotate(24deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes portalExit {
+      0% {
+        transform: translate(-50%, -100%) scale(1);
+        opacity: 1;
+      }
+      58% {
+        transform: translate(-50%, -108%) scale(0.82);
+        opacity: 0.78;
+      }
+      100% {
+        transform: translate(-50%, -120%) scale(0.38);
+        opacity: 0;
+      }
+    }
+
+    @keyframes runwayPulse {
+      0%, 100% {
+        opacity: 0.24;
+        transform: translate(-50%, -50%) scaleX(0.82);
+      }
+      50% {
+        opacity: 0.72;
+        transform: translate(-50%, -50%) scaleX(1.18);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .preview-header {
+        grid-template-columns: 1fr;
+      }
+
+      .character-switcher {
+        justify-content: start;
+      }
+
+      .game-frame {
+        aspect-ratio: auto;
+        min-height: 900px;
+      }
+
+      .hud {
+        grid-template-columns: 1fr;
+      }
+
+      .question-card {
+        top: 250px;
+      }
+
+      .scene-caption {
+        top: 178px;
+        left: 18px;
+      }
+
+      .tile {
+        width: clamp(112px, 28vw, 190px);
+        min-height: 72px;
+        padding: 12px 10px;
+      }
+
+      .tile-term {
+        font-size: 0.8rem;
+        max-width: 8rem;
+      }
+
+      .guide-panel,
+      .progress-panel {
+        left: 18px;
+        right: 18px;
+        width: auto;
+      }
+
+      .guide-panel {
+        bottom: 126px;
+      }
+
+      .progress-panel {
+        bottom: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .game-frame::before,
+      .cinematic-scan,
+      .player,
+      .player-ghost,
+      .character-emote,
+      .character-emote i,
+      .motion-ribbon,
+      .path-pulse,
+      .reward-burst,
+      .splash,
+      .portal-ring,
+      .portal-core,
+      .portal-spark {
+        animation: none !important;
+      }
+
+      .player {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="preview-shell">
+    <header class="preview-header">
+      <div>
+        <h1>Vault Bridge</h1>
+        <p>
+          Secure 30 glossary terms across six bridge levels. Correct answers lock the path, wrong answers reset the
+          current run to the entrance, and each clean streak opens the salary portal.
+        </p>
+      </div>
+      <div class="character-switcher" aria-label="Choose character">
+        <button type="button" data-character="mackillop" aria-pressed="true">MacKillop</button>
+        <button type="button" data-character="romero" aria-pressed="false">Romero</button>
+        <button type="button" data-character="guide" aria-pressed="false">Guide</button>
+      </div>
+    </header>
+
+    <section id="game-frame" class="game-frame" aria-label="Vault Bridge interactive prototype">
+      <img class="game-bg" src="../../Assets/Images%20and%20Animations/Glossary%20Check/Vault%20Bridge/vault-bridge-backdrop.png" alt="">
+      <div class="game-vignette" aria-hidden="true"></div>
+      <div class="cinematic-scan" aria-hidden="true"></div>
+      <div class="scene-caption" aria-live="polite">
+        <span id="scene-label">Scene 01</span>
+        <strong id="scene-title">Bridge loaded</strong>
+      </div>
+
+      <div class="hud" aria-label="Game status">
+        <div class="hud-card"><span>Secured</span><b id="round-step">0/5</b></div>
+        <div class="hud-card hud-title">Vault Bridge</div>
+        <div class="hud-card"><span>Salary / tax</span><b id="salary">$2,400</b></div>
+      </div>
+
+      <article class="question-card">
+        <strong>Definition target</strong>
+        <p id="question-text">The ability to adjust to changing work conditions and environments by recognising and pursuing opportunities.</p>
+      </article>
+
+      <div id="bridge-pieces" class="bridge-pieces" aria-label="Vault Bridge answer pieces"></div>
+      <div id="portal-effect" class="portal-effect" aria-hidden="true">
+        <span class="portal-ring"></span>
+        <span class="portal-core"></span>
+        <span class="portal-door"></span>
+        <span class="portal-spark"></span>
+      </div>
+
+      <div class="path-pulse" aria-hidden="true"></div>
+      <div id="motion-ribbon" class="motion-ribbon" aria-hidden="true"></div>
+      <img id="player" class="player" src="../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png" alt="MacKillop student character">
+      <div id="character-emote" class="character-emote" aria-hidden="true">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+      </div>
+      <div id="reward-burst" class="reward-burst" aria-hidden="true"></div>
+      <div id="splash" class="splash" aria-hidden="true"></div>
+
+      <article class="guide-panel" aria-live="polite">
+        <strong id="feedback-title">Ready</strong>
+        <p id="feedback-copy">Start from the arrow runway. Choose the right piece in each row to build a path to the portal.</p>
+      </article>
+
+      <article class="progress-panel">
+        <strong>Bridge charge</strong>
+        <p id="progress-copy">0 of 5 words secured. Wrong answers reset the bridge to the entrance.</p>
+        <div class="progress-track" aria-hidden="true"><div id="progress-fill" class="progress-fill"></div></div>
+        <div id="step-dots" class="step-dots" aria-hidden="true"></div>
+      </article>
+
+      <section id="round-complete" class="round-complete" aria-live="polite" aria-label="Vault Bridge round complete">
+        <article class="round-card">
+          <h2 id="round-complete-title">Portal clear</h2>
+          <p id="round-complete-copy">Five glossary terms secured. Salary is banked, tax is paid, and the next bridge set is ready.</p>
+          <div class="reward-count" aria-label="Vault Bridge reward summary">
+            <span><strong id="reward-level">1/6</strong>Level</span>
+            <span><strong id="reward-terms">5/30</strong>Terms</span>
+            <span><strong id="reward-salary">$4,150</strong>Salary</span>
+          </div>
+          <div class="round-actions">
+            <button id="keep-playing" type="button">Keep playing</button>
+            <a href="./index.html">Exit to EST Prep</a>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const gameFrame = document.getElementById("game-frame");
+    const player = document.getElementById("player");
+    const bridgePieces = document.getElementById("bridge-pieces");
+    const questionText = document.getElementById("question-text");
+    const feedbackTitle = document.getElementById("feedback-title");
+    const feedbackCopy = document.getElementById("feedback-copy");
+    const progressFill = document.getElementById("progress-fill");
+    const progressCopy = document.getElementById("progress-copy");
+    const roundStep = document.getElementById("round-step");
+    const salary = document.getElementById("salary");
+    const burst = document.getElementById("reward-burst");
+    const splash = document.getElementById("splash");
+    const portalEffect = document.getElementById("portal-effect");
+    const stepDots = document.getElementById("step-dots");
+    const roundComplete = document.getElementById("round-complete");
+    const characterEmote = document.getElementById("character-emote");
+    const roundCompleteTitle = document.getElementById("round-complete-title");
+    const roundCompleteCopy = document.getElementById("round-complete-copy");
+    const rewardLevel = document.getElementById("reward-level");
+    const rewardTerms = document.getElementById("reward-terms");
+    const rewardSalary = document.getElementById("reward-salary");
+    const keepPlaying = document.getElementById("keep-playing");
+    const sceneLabel = document.getElementById("scene-label");
+    const sceneTitle = document.getElementById("scene-title");
+    const motionRibbon = document.getElementById("motion-ribbon");
+    const characterButtons = Array.from(document.querySelectorAll("[data-character]"));
+
+    const TERMS_PER_LEVEL = 5;
+    const BASE_SALARY = 2400;
+    const SALARY_PER_TERM = 350;
+    const LEVEL_NAMES = [
+      "Foundation Lock",
+      "Workplace Signal",
+      "Future Industries",
+      "Learning Loop",
+      "Risk Chamber",
+      "Career Mastery"
+    ];
+    const glossaryTerms = [
+      { term: "Arbitration", definition: "A formal dispute resolution process whereby a neutral third party considers the arguments and evidence presented by disputing parties to determine a solution that will be binding for all involved." },
+      { term: "Career", definition: "The sequence and variety of roles which one undertakes throughout a lifetime. It encompasses all life roles, not just occupation, and includes all paid and unpaid work, learning, leisure activities, and community and family responsibilities." },
+      { term: "Career adaptability", definition: "The ability to adjust to changing work conditions and or environments by recognising and pursuing opportunities for a positive transition to new work roles." },
+      { term: "Career competencies", definition: "The knowledge, skills and attitudes that promote intentional career development, lifelong learning and work life balance that can be developed and strengthened over time." },
+      { term: "Career development", definition: "The lifelong process of gaining the knowledge, skills, attributes and behaviours to manage life, learning, leisure and work in order to move towards a personally determined and evolving preferred future." },
+      { term: "Cover letter", definition: "A document that accompanies a job applicant's resume which concisely communicates their interest in a job opportunity and highlights the skills and attributes that make them a suitable candidate." },
+      { term: "Demographic shift", definition: "The change in the size and nature of a population due to migration and changes in birth and death rates." },
+      { term: "Dispute resolution", definition: "A process which aims to settle a conflict or disagreement between two or more people by developing a solution which is believed to be fair to all parties." },
+      { term: "Diversity", definition: "The state of having or being composed of a variety of elements. In a work context, it refers to the inclusion of different types of people based on age, ethnicity, gender, religion and or ability disability." },
+      { term: "Economic power shift", definition: "The long term global shift away from established advanced economies to emerging market countries." },
+      { term: "Emerging industries", definition: "Industries that are in the early stages of creating new products and services or transforming existing products and services through innovation and or technology." },
+      { term: "Enterprise", definition: "The willingness to try new things, show initiative and embrace and or promote innovative activities." },
+      { term: "Enterprise culture", definition: "The shared values, beliefs, attitudes, standards and behaviours that characterise a work environment." },
+      { term: "Impactful technology", definition: "The emergence of technologies that have the capacity to improve products, services and processes, but to also cause disruption and uncertainty for society and the economy." },
+      { term: "Green industries", definition: "Industries that actively participate in protecting or improving the environment by adopting processes that reduce waste and or pollution or by producing sustainable products using environmentally friendly processes and materials." },
+      { term: "Grievance", definition: "Any real or perceived problem an employee has about their work, the workplace or someone they work with." },
+      { term: "Growth industry", definition: "An industry that is experiencing a higher than average growth rate compared to other industries." },
+      { term: "Initiative", definition: "Taking a proactive approach to completing work tasks, overcoming challenges and dealing with unexpected events." },
+      { term: "Learning opportunity", definition: "A situation that allows a person to develop knowledge, understanding and skills." },
+      { term: "Lifelong learning", definition: "The ongoing, voluntary and self motivated pursuit of knowledge, understanding and skill development for either personal or professional reasons." },
+      { term: "Mediation", definition: "A dispute resolution process whereby a neutral third party facilitates communication and negotiation between disputing parties, helping them to reach a compromised solution." },
+      { term: "Megatrend", definition: "A significant and long lasting development that has a transformative impact on the way we live, work and do business." },
+      { term: "Performance management", definition: "The continuous process of feedback and communication between an employer and an employee, so that the employee is supported in performing their work role to the best of their ability." },
+      { term: "Personal risk", definition: "A risk that directly impacts on the individual and or their family." },
+      { term: "Professional development", definition: "Undertaking learning and training to develop, refine and enhance skills, knowledge and understandings." },
+      { term: "Professional risk", definition: "A risk taken during career development which can result in improved outcomes for the individual." },
+      { term: "Resilience", definition: "The ability to endure adversity and bounce back from challenging life events." },
+      { term: "Selection criteria", definition: "The qualities, skills, abilities, knowledge and qualifications needed to perform a job role effectively." },
+      { term: "Skills shortage", definition: "A situation that occurs when employers cannot fill vacancies in an occupation or in a specialisation within that occupation." },
+      { term: "Work environment", definition: "The physical conditions, procedures and processes, and social dynamics which comprise a place of work." }
+    ];
+    const levels = Array.from({ length: Math.ceil(glossaryTerms.length / TERMS_PER_LEVEL) }, (_, index) => (
+      glossaryTerms.slice(index * TERMS_PER_LEVEL, (index + 1) * TERMS_PER_LEVEL)
+    ));
+
+    const homePosition = { x: 50, y: 91 };
+    const portalPosition = { x: 83, y: 55 };
+    const tileLandingOffset = 10;
+    const bridgeRows = [
+      [{ x: 23, y: 68 }, { x: 50, y: 68 }, { x: 77, y: 68 }],
+      [{ x: 28, y: 59 }, { x: 50, y: 59 }, { x: 72, y: 59 }],
+      [{ x: 23, y: 50 }, { x: 50, y: 50 }, { x: 77, y: 50 }],
+      [{ x: 31, y: 41 }, { x: 55, y: 41 }, { x: 79, y: 41 }],
+      [{ x: 43, y: 33 }, { x: 63, y: 33 }, { x: 83, y: 33 }]
+    ];
+
+    const characters = {
+      mackillop: {
+        name: "MacKillop",
+        ready: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png",
+        welcome: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Welcome.png",
+        action: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Pointing.png",
+        success: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Celebrating.png",
+        reset: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Encouraging.png",
+        frames: {
+          idle: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Welcome.png"
+          ],
+          action: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Welcome.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Pointing.png"
+          ],
+          success: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Pointing.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Celebrating.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Welcome.png"
+          ],
+          reset: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Encouraging.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png"
+          ],
+          sad: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Encouraging.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/MacKillop/MacKillop%20Thinking.png"
+          ]
+        }
+      },
+      romero: {
+        name: "Romero",
+        ready: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Thinking.png",
+        welcome: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Welcoming.png",
+        action: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Pointing.png",
+        success: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Celebrating.png",
+        reset: "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Encouraging.png",
+        frames: {
+          idle: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Thinking.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Welcoming.png"
+          ],
+          action: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Welcoming.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Pointing.png"
+          ],
+          success: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Pointing.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Celebrating.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Welcoming.png"
+          ],
+          reset: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Encouraging.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Thinking.png"
+          ],
+          sad: [
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Thinking.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Encouraging.png",
+            "../../Assets/Images%20and%20Animations/Emmanuel%20Student%20Characters/Romero/Romero%20Thinking.png"
+          ]
+        }
+      },
+      guide: {
+        name: "Guide",
+        ready: "../../Assets/EST%20Preparation/guide-character/guide-thinking-bottom.png",
+        welcome: "../../Assets/EST%20Preparation/guide-character/guide-thinking-top.png",
+        action: "../../Assets/EST%20Preparation/guide-character/guide-pointing.png",
+        success: "../../Assets/EST%20Preparation/guide-character/guide-celebration.png",
+        reset: "../../Assets/EST%20Preparation/guide-character/guide-thumbs-up.png",
+        frames: {
+          idle: [
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-bottom.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-top.png"
+          ],
+          action: [
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-top.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-pointing.png"
+          ],
+          success: [
+            "../../Assets/EST%20Preparation/guide-character/guide-pointing.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-celebration.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-thumbs-up.png"
+          ],
+          reset: [
+            "../../Assets/EST%20Preparation/guide-character/guide-thumbs-up.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-bottom.png"
+          ],
+          sad: [
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-bottom.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-top.png",
+            "../../Assets/EST%20Preparation/guide-character/guide-thinking-bottom.png"
+          ]
+        }
+      }
+    };
+
+    let activeCharacter = "mackillop";
+    let characterFrameTimer = null;
+    let frameClassTimer = null;
+    let emoteTimer = null;
+    let busy = false;
+    let activeLevel = 0;
+    let roundQuestions = buildLevelQuestions(activeLevel);
+    let secured = 0;
+    let lockedSelections = Array(roundQuestions.length).fill(null);
+    let tiles = [];
+
+    function getLevelName(levelIndex = activeLevel) {
+      return LEVEL_NAMES[levelIndex] || `Level ${levelIndex + 1}`;
+    }
+
+    function getTotalSecured() {
+      return Math.min(glossaryTerms.length, (activeLevel * TERMS_PER_LEVEL) + secured);
+    }
+
+    function getCurrentSalary() {
+      return BASE_SALARY + (getTotalSecured() * SALARY_PER_TERM);
+    }
+
+    function isFinalLevel() {
+      return activeLevel >= levels.length - 1;
+    }
+
+    function getDistractors(globalIndex) {
+      const offsets = [7, 13, 19, 5, 11, 17, 23];
+      const picked = [];
+      offsets.forEach((offset) => {
+        const candidate = glossaryTerms[(globalIndex + offset) % glossaryTerms.length];
+        if (candidate.term !== glossaryTerms[globalIndex].term && !picked.some(item => item.term === candidate.term)) {
+          picked.push(candidate);
+        }
+      });
+      return picked.slice(0, 2);
+    }
+
+    function buildLevelQuestions(levelIndex) {
+      const levelTerms = levels[levelIndex] || levels[0];
+      return levelTerms.map((item, index) => {
+        const globalIndex = (levelIndex * TERMS_PER_LEVEL) + index;
+        const correct = (globalIndex + levelIndex) % 3;
+        const distractors = getDistractors(globalIndex);
+        const options = Array(3);
+        let distractorIndex = 0;
+        options[correct] = item.term;
+        for (let optionIndex = 0; optionIndex < options.length; optionIndex += 1) {
+          if (!options[optionIndex]) {
+            options[optionIndex] = distractors[distractorIndex]?.term || glossaryTerms[(globalIndex + optionIndex + 3) % glossaryTerms.length].term;
+            distractorIndex += 1;
+          }
+        }
+        return {
+          term: item.term,
+          definition: item.definition,
+          options,
+          correct,
+          secureLine: `${item.term} secured. ${index + 1} of ${levelTerms.length} signals locked for ${getLevelName(levelIndex)}.`
+        };
+      });
+    }
+
+    function setPlayerPosition(x, y) {
+      player.style.left = `${x}%`;
+      player.style.top = `${y}%`;
+    }
+
+    function setFeedback(title, copy) {
+      feedbackTitle.textContent = title;
+      feedbackCopy.textContent = copy;
+    }
+
+    function stopCharacterAnimation() {
+      if (characterFrameTimer) {
+        window.clearTimeout(characterFrameTimer);
+        characterFrameTimer = null;
+      }
+    }
+
+    function setPlayerImage(src) {
+      const character = characters[activeCharacter];
+      player.src = src;
+      player.alt = `${character.name} student character`;
+    }
+
+    function setCharacterPose(pose) {
+      const character = characters[activeCharacter];
+      stopCharacterAnimation();
+      setPlayerImage(character[pose] || character.ready);
+    }
+
+    function getCharacterFrames(pose) {
+      const character = characters[activeCharacter];
+      const frames = character.frames?.[pose] || [character[pose] || character.ready];
+      return frames.filter(Boolean);
+    }
+
+    function animateCharacter(pose, options = {}) {
+      const frames = getCharacterFrames(pose);
+      const frameMs = options.frameMs || 420;
+      const loop = Boolean(options.loop);
+      let frameIndex = 0;
+
+      stopCharacterAnimation();
+      if (!frames.length) return;
+
+      function showNextFrame() {
+        setPlayerImage(frames[frameIndex % frames.length]);
+        frameIndex += 1;
+        if (loop || frameIndex < frames.length) {
+          characterFrameTimer = window.setTimeout(showNextFrame, frameMs);
+        }
+      }
+
+      showNextFrame();
+    }
+
+    function startIdleAnimation() {
+      player.classList.add("is-idle");
+      animateCharacter("idle", { loop: true, frameMs: 1500 });
+    }
+
+    function stopIdleAnimation() {
+      player.classList.remove("is-idle");
+      stopCharacterAnimation();
+    }
+
+    function setScene(label, title) {
+      sceneLabel.textContent = label;
+      sceneTitle.textContent = title;
+    }
+
+    function flashFrameClass(className, duration = 900) {
+      if (frameClassTimer) {
+        window.clearTimeout(frameClassTimer);
+      }
+      gameFrame.classList.remove("is-crossing", "is-correct", "is-wrong", "is-portal");
+      gameFrame.classList.add(className);
+      frameClassTimer = window.setTimeout(() => {
+        gameFrame.classList.remove(className);
+      }, duration);
+    }
+
+    function showMotionRibbon(from, to) {
+      const frameBox = gameFrame.getBoundingClientRect();
+      const fromX = frameBox.width * (from.x / 100);
+      const fromY = frameBox.height * (from.y / 100);
+      const toX = frameBox.width * (to.x / 100);
+      const toY = frameBox.height * (to.y / 100);
+      const deltaX = toX - fromX;
+      const deltaY = toY - fromY;
+      const length = Math.hypot(deltaX, deltaY);
+      const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+
+      motionRibbon.style.left = `${fromX}px`;
+      motionRibbon.style.top = `${fromY}px`;
+      motionRibbon.style.width = `${length}px`;
+      motionRibbon.style.transform = `rotate(${angle}deg)`;
+      motionRibbon.classList.remove("is-active");
+      void motionRibbon.offsetWidth;
+      motionRibbon.classList.add("is-active");
+    }
+
+    function showCharacterEmote(type, position, duration = 1100) {
+      if (emoteTimer) {
+        window.clearTimeout(emoteTimer);
+      }
+      characterEmote.style.setProperty("--emote-x", `${position.x}%`);
+      characterEmote.style.setProperty("--emote-y", `${position.y}%`);
+      characterEmote.classList.remove("is-celebration", "is-sad");
+      void characterEmote.offsetWidth;
+      characterEmote.classList.add(type === "sad" ? "is-sad" : "is-celebration");
+      emoteTimer = window.setTimeout(() => {
+        characterEmote.classList.remove("is-celebration", "is-sad");
+      }, duration);
+    }
+
+    function spawnPlayerGhost() {
+      const ghost = player.cloneNode(false);
+      ghost.removeAttribute("id");
+      ghost.className = "player-ghost";
+      ghost.src = player.src;
+      ghost.alt = "";
+      ghost.style.left = player.style.left || "50%";
+      ghost.style.top = player.style.top || "91%";
+      gameFrame.append(ghost);
+      window.setTimeout(() => ghost.remove(), 680);
+    }
+
+    function createBridgePieces() {
+      bridgePieces.innerHTML = "";
+      tiles = bridgeRows.flatMap((row, rowIndex) => row.map((position, optionIndex) => {
+        const tile = document.createElement("button");
+        tile.className = "tile is-waiting";
+        tile.type = "button";
+        tile.dataset.row = String(rowIndex);
+        tile.dataset.optionIndex = String(optionIndex);
+        tile.dataset.x = String(position.x);
+        tile.dataset.y = String(position.y);
+        tile.style.setProperty("--x", `${position.x}%`);
+        tile.style.setProperty("--y", `${position.y}%`);
+        tile.innerHTML = `
+          <span class="tile-letter" aria-hidden="true">...</span>
+          <span class="tile-term"></span>
+        `;
+        tile.addEventListener("click", () => handleTileClick(tile));
+        bridgePieces.append(tile);
+        return tile;
+      }));
+    }
+
+    function getRowTiles(rowIndex) {
+      return tiles.filter((tile) => Number(tile.dataset.row) === rowIndex);
+    }
+
+    function getTile(rowIndex, optionIndex) {
+      return tiles.find((tile) => Number(tile.dataset.row) === rowIndex && Number(tile.dataset.optionIndex) === optionIndex);
+    }
+
+    function currentSafePosition() {
+      if (secured <= 0) return homePosition;
+      const lastTile = getTile(secured - 1, lockedSelections[secured - 1]);
+      return lastTile ? landingPositionFor(lastTile) : homePosition;
+    }
+
+    function resetTileClasses(tile) {
+      tile.classList.remove("is-active", "is-waiting", "is-locked", "is-correct", "is-wrong", "is-dropped");
+    }
+
+    function renderBridgePieces() {
+      const question = roundQuestions[Math.min(secured, roundQuestions.length - 1)];
+      tiles.forEach((tile) => {
+        const rowIndex = Number(tile.dataset.row);
+        const optionIndex = Number(tile.dataset.optionIndex);
+        const letter = tile.querySelector(".tile-letter");
+        const term = tile.querySelector(".tile-term");
+        resetTileClasses(tile);
+        tile.disabled = true;
+        tile.dataset.answer = "waiting";
+        tile.setAttribute("aria-label", `Bridge row ${rowIndex + 1}, waiting`);
+
+        if (rowIndex < secured) {
+          if (lockedSelections[rowIndex] === optionIndex) {
+            tile.classList.add("is-locked");
+            letter.textContent = "OK";
+            term.textContent = "";
+            tile.setAttribute("aria-label", `Bridge row ${rowIndex + 1} secured`);
+          } else {
+            tile.classList.add("is-dropped");
+            letter.textContent = "";
+            term.textContent = "";
+          }
+          return;
+        }
+
+        if (rowIndex === secured && secured < roundQuestions.length) {
+          tile.classList.add("is-active");
+          tile.disabled = busy;
+          tile.dataset.answer = optionIndex === question.correct ? "correct" : "wrong";
+          letter.textContent = String.fromCharCode(65 + optionIndex);
+          term.textContent = question.options[optionIndex];
+          tile.setAttribute("aria-label", `${String.fromCharCode(65 + optionIndex)}: ${question.options[optionIndex]}`);
+          return;
+        }
+
+        tile.classList.add("is-waiting");
+        letter.textContent = "";
+        term.textContent = "";
+      });
+    }
+
+    function renderStepDots() {
+      stepDots.innerHTML = "";
+      roundQuestions.forEach((_, index) => {
+        const dot = document.createElement("span");
+        dot.className = `step-dot${index < secured ? " is-secured" : ""}`;
+        stepDots.append(dot);
+      });
+    }
+
+    function updateProgress() {
+      const totalSecured = getTotalSecured();
+      const percent = Math.round((totalSecured / glossaryTerms.length) * 100);
+      progressFill.style.width = `${percent}%`;
+      progressCopy.textContent = `Level ${activeLevel + 1} of ${levels.length}: ${secured}/${roundQuestions.length} rows secured. Total glossary bank: ${totalSecured}/${glossaryTerms.length}.`;
+      roundStep.textContent = `L${activeLevel + 1} ${secured}/${roundQuestions.length}`;
+      salary.textContent = `$${getCurrentSalary().toLocaleString()}`;
+      renderStepDots();
+    }
+
+    function renderQuestion() {
+      const question = roundQuestions[Math.min(secured, roundQuestions.length - 1)];
+      questionText.textContent = question.definition;
+      renderBridgePieces();
+    }
+
+    function landingPositionFor(tile) {
+      return {
+        x: Number(tile.dataset.x),
+        y: Number(tile.dataset.y) + tileLandingOffset
+      };
+    }
+
+    function moveTo(position) {
+      setPlayerPosition(position.x, position.y);
+    }
+
+    function setTilesDisabled(disabled) {
+      tiles.forEach((tile) => {
+        if (tile.classList.contains("is-active")) {
+          tile.disabled = disabled;
+        }
+      });
+    }
+
+    function beginMove(tile) {
+      busy = true;
+      setTilesDisabled(true);
+      stopIdleAnimation();
+      animateCharacter("action", { loop: true, frameMs: 250 });
+      player.classList.remove("is-celebrating", "is-resetting", "is-sad", "is-exiting", "is-idle");
+      player.classList.add("is-hopping");
+      const from = currentSafePosition();
+      const landing = landingPositionFor(tile);
+      spawnPlayerGhost();
+      showMotionRibbon(from, landing);
+      flashFrameClass("is-crossing", 820);
+      moveTo(landing);
+      setScene(`Scene ${activeLevel + 1}.${secured + 1}`, "Crossing to answer");
+      setFeedback("Crossing", "The character jumps to the selected bridge piece before the answer is judged.");
+    }
+
+    function finishCorrect(tile) {
+      const question = roundQuestions[Math.min(secured, roundQuestions.length - 1)];
+      const landing = landingPositionFor(tile);
+      tile.classList.add("is-correct");
+      getRowTiles(secured).forEach((rowTile) => {
+        if (rowTile !== tile) {
+          rowTile.classList.add("is-dropped");
+        }
+      });
+      animateCharacter("success", { loop: true, frameMs: 340 });
+      player.classList.remove("is-hopping");
+      player.classList.add("is-celebrating");
+      showCharacterEmote("celebration", landing, 1180);
+      flashFrameClass("is-correct", 760);
+      setScene(`Scene ${activeLevel + 1}.${secured + 1}`, "Bridge piece locked");
+      burst.classList.remove("is-active");
+      void burst.offsetWidth;
+      burst.classList.add("is-active");
+      lockedSelections[secured] = Number(tile.dataset.optionIndex);
+      secured += 1;
+      updateProgress();
+      setFeedback("Correct", question.secureLine);
+      window.setTimeout(() => {
+        if (secured >= roundQuestions.length) {
+          completeRound();
+          return;
+        }
+        renderQuestion();
+        startIdleAnimation();
+        player.classList.remove("is-celebrating");
+        moveTo(landing);
+        setScene(`Scene ${activeLevel + 1}.${secured + 1}`, "Next row live");
+        setFeedback("Next row", `Level ${activeLevel + 1}: the wrong pieces dropped away. New options have appeared on the next bridge row.`);
+        setTilesDisabled(false);
+        busy = false;
+      }, 1050);
+    }
+
+    function finishWrong(tile) {
+      tile.classList.add("is-wrong");
+      getRowTiles(secured).forEach((rowTile) => {
+        if (rowTile !== tile) {
+          rowTile.classList.add("is-dropped");
+        }
+      });
+      animateCharacter("sad", { loop: true, frameMs: 420 });
+      player.classList.remove("is-hopping");
+      player.classList.add("is-resetting", "is-sad");
+      const landing = landingPositionFor(tile);
+      showCharacterEmote("sad", landing, 1320);
+      showMotionRibbon(landing, homePosition);
+      flashFrameClass("is-wrong", 620);
+      setScene(`Scene ${activeLevel + 1}.${secured + 1}`, "Bridge collapses");
+      const tileBox = tile.getBoundingClientRect();
+      const frameBox = tile.closest(".game-frame").getBoundingClientRect();
+      splash.style.left = `${tileBox.left - frameBox.left + tileBox.width / 2 - 85}px`;
+      splash.style.top = `${tileBox.top - frameBox.top + tileBox.height / 2 - 30}px`;
+      splash.classList.remove("is-active");
+      void splash.offsetWidth;
+      splash.classList.add("is-active");
+      setFeedback("Bridge reset", "Not that one. The answer row collapses and this level run restarts from the entrance.");
+      window.setTimeout(() => {
+        secured = 0;
+        lockedSelections = Array(roundQuestions.length).fill(null);
+        updateProgress();
+        renderQuestion();
+        moveTo(homePosition);
+        player.classList.remove("is-resetting", "is-sad");
+        startIdleAnimation();
+        setScene(`Scene ${activeLevel + 1}.1`, "Entrance rebuilt");
+        setFeedback("Try again", `The ${getLevelName()} bridge has rebuilt. Start from row one and keep the streak clean.`);
+        setTilesDisabled(false);
+        busy = false;
+      }, 1350);
+    }
+
+    function renderRoundCompleteCard() {
+      const final = isFinalLevel();
+      const totalSecured = getTotalSecured();
+      roundCompleteTitle.textContent = final ? "Glossary vault mastered" : "Portal clear";
+      roundCompleteCopy.textContent = final
+        ? "All 30 glossary terms are secured. Salary is banked, tax is paid, and the full vault route is open."
+        : `${getLevelName()} cleared. Five terms are banked, tax is paid, and the next bridge level is ready.`;
+      rewardLevel.textContent = `${activeLevel + 1}/${levels.length}`;
+      rewardTerms.textContent = `${totalSecured}/${glossaryTerms.length}`;
+      rewardSalary.textContent = `$${getCurrentSalary().toLocaleString()}`;
+      keepPlaying.textContent = final ? "Replay levels" : "Next level";
+    }
+
+    function completeRound() {
+      const final = isFinalLevel();
+      setFeedback(final ? "Vault unlock" : "Portal unlock", final
+        ? "All glossary levels secured. The final salary portal is opening now."
+        : `Level ${activeLevel + 1} clear. Moving through the salary portal now.`);
+      stopIdleAnimation();
+      animateCharacter("success", { loop: true, frameMs: 320 });
+      player.classList.remove("is-celebrating");
+      player.classList.add("is-hopping");
+      showMotionRibbon(currentSafePosition(), portalPosition);
+      flashFrameClass("is-portal", 1500);
+      setScene(final ? "Final scene" : `Scene ${activeLevel + 1}.6`, "Salary portal opens");
+      moveTo(portalPosition);
+      portalEffect.classList.toggle("is-final", final);
+      portalEffect.classList.remove("is-active");
+      void portalEffect.offsetWidth;
+      portalEffect.classList.add("is-active");
+      window.setTimeout(() => {
+        player.classList.remove("is-hopping");
+        player.classList.add("is-exiting");
+        burst.classList.remove("is-active");
+        void burst.offsetWidth;
+        burst.classList.add("is-active");
+      }, 740);
+      window.setTimeout(() => {
+        renderRoundCompleteCard();
+        roundComplete.classList.add("is-visible");
+        busy = false;
+      }, 1680);
+    }
+
+    function startLevel(levelIndex) {
+      activeLevel = Math.max(0, Math.min(levelIndex, levels.length - 1));
+      roundQuestions = buildLevelQuestions(activeLevel);
+      secured = 0;
+      lockedSelections = Array(roundQuestions.length).fill(null);
+      busy = false;
+      roundComplete.classList.remove("is-visible");
+      portalEffect.classList.remove("is-active", "is-final");
+      player.classList.remove("is-hopping", "is-celebrating", "is-resetting", "is-sad", "is-exiting", "is-idle");
+      moveTo(homePosition);
+      renderQuestion();
+      updateProgress();
+      startIdleAnimation();
+      setScene(`Scene ${activeLevel + 1}.1`, "Bridge loaded");
+      setFeedback(`Level ${activeLevel + 1}: ${getLevelName()}`, "Start from the arrow runway. Secure five glossary rows to open this portal.");
+      setTilesDisabled(false);
+    }
+
+    function continueAfterPortal() {
+      const nextLevel = isFinalLevel() ? 0 : activeLevel + 1;
+      startLevel(nextLevel);
+    }
+
+    function handleTileClick(tile) {
+      if (busy || !tile.classList.contains("is-active")) return;
+      beginMove(tile);
+      window.setTimeout(() => {
+        if (tile.dataset.answer === "correct") {
+          finishCorrect(tile);
+        } else {
+          finishWrong(tile);
+        }
+      }, 760);
+    }
+
+    characterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        if (busy) return;
+        activeCharacter = button.dataset.character;
+        characterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        moveTo(currentSafePosition());
+        renderQuestion();
+        startIdleAnimation();
+        setScene(`Scene ${activeLevel + 1}.${Math.max(1, secured + 1)}`, `${characters[activeCharacter].name} loaded`);
+        setFeedback("Ready", `${characters[activeCharacter].name} is loaded. Choose the active answer piece to test the movement.`);
+      });
+    });
+
+    keepPlaying.addEventListener("click", continueAfterPortal);
+
+    createBridgePieces();
+    startLevel(0);
+  </script>
+</body>
+</html>

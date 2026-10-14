@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Initiative Module</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../dashboards/dashboard.css">
+  <link rel="stylesheet" href="./initiative.css?v=initiative-trailer-v1">
+</head>
+<body>
+  <main class="initiative-shell">
+    <nav class="dashboard-nav">
+      <a class="dashboard-nav-link" href="../../dashboards/student.html">Student Hub</a>
+      <a class="dashboard-nav-link" href="../../dashboards/leaderboard.html">Leaderboard</a>
+      <a class="dashboard-nav-link" href="../../dashboards/community.html">Community</a>
+      <a class="dashboard-nav-link" href="../../dashboards/global.html">Global Index</a>
+      <a class="dashboard-nav-link" href="../../shop/index.html">Shop</a>
+    </nav>
+
+    <header class="module-topbar">
+      <div class="brand">
+        <div class="brand-mark">IN</div>
+        <div>Initiative</div>
+      </div>
+      <div class="topbar-actions">
+        <button id="reset-module" class="ghost-button" type="button">Reset local module</button>
+      </div>
+    </header>
+
+    <section id="initiative-trailer" class="trailer-hero" aria-label="Initiative cinematic trailer">
+      <div class="trailer-frame">
+        <video id="initiative-trailer-video" class="trailer-video" autoplay muted playsinline controls preload="metadata" poster="../../Assets/videos/initiative-trailer-poster.png?v=initiative-trailer-v1">
+          <source src="../../Assets/videos/initiative-trailer.mp4?v=initiative-trailer-v1" type="video/mp4">
+        </video>
+      </div>
+      <div class="trailer-overlay">
+        <span class="eyebrow">Career Empire cinematic</span>
+        <h1>Initiative</h1>
+        <p class="subtitle">Before the module starts, watch the trailer. Then decide whether initiative is just a school word, or a real advantage.</p>
+        <div class="hero-action-row">
+          <button id="play-trailer-sound" class="secondary-button" type="button">Play with sound</button>
+          <button class="primary-button" type="button" data-jump-section="core-section" data-stage-key="core">Begin mission</button>
+        </div>
+        <div id="student-context" class="badge-row">
+          <span class="badge">Loading module profile...</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="initiative-primer" aria-label="Initiative relevance">
+      <article class="primer-card primer-card--what">
+        <span>What is this?</span>
+        <h2>The skill of moving first, wisely.</h2>
+        <p>Initiative means noticing what needs doing and taking the first useful, safe step before someone has to chase you.</p>
+      </article>
+      <article class="primer-card primer-card--why">
+        <span>Why should you care?</span>
+        <h2>It changes how people read you.</h2>
+        <p>Trust, reputation, responsibility, better tasks, stronger references, and real career options often start with a small action nobody forced you to take.</p>
+      </article>
+      <article class="primer-card primer-card--warning">
+        <span>Warning</span>
+        <h2>Initiative can go wrong.</h2>
+        <p>Rushing, taking over, ignoring instructions, or trying to control everything is not smart initiative. The skill is knowing when, why, and how to act.</p>
+      </article>
+    </section>
+
+    <section class="progress-dock" aria-label="Module progress and rewards">
+      <aside class="evidence-console challenge-console">
+        <div class="section-title">
+          <h2>Progress and Rewards</h2>
+          <p id="evidence-state">Ready</p>
+        </div>
+        <div class="console-metrics">
+          <div>
+            <span>Practice time</span>
+            <strong id="metric-active-time">0m</strong>
+          </div>
+          <div>
+            <span>Unlock gate</span>
+            <strong id="metric-core-score">0%</strong>
+          </div>
+          <div>
+            <span>Memory vault</span>
+            <strong id="metric-retention-score">0%</strong>
+          </div>
+          <div>
+            <span>Module progress</span>
+            <strong id="metric-progress">0%</strong>
+          </div>
+          <div>
+            <span>Salary earned</span>
+            <strong id="metric-salary-boost">$0</strong>
+          </div>
+          <div>
+            <span>Community boost</span>
+            <strong id="metric-tax-contribution">$0</strong>
+          </div>
+        </div>
+      </aside>
+      <div class="progress-dock__feedback">
+        <div id="reward-console" class="reward-console" aria-live="polite"></div>
+        <div id="support-signal" class="support-signal">
+          <strong>Next move waiting</strong>
+          <p>Watch the trailer, learn the five behaviours, then test whether you can spot initiative in action.</p>
+        </div>
+        <div id="intervention-plan" class="intervention-plan">
+          <strong>Next learning move</strong>
+          <p>Start with the trailer challenge.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="workflow-rail" aria-label="Initiative learning workflow">
+      <button class="rail-step is-active" type="button" data-jump-section="core-section" data-stage-key="core">
+        <span>01</span>
+        <strong>Intel Scan</strong>
+      </button>
+      <button class="rail-step" type="button" data-jump-section="core-check-section" data-stage-key="checkpoint">
+        <span>02</span>
+        <strong>Unlock Gate</strong>
+      </button>
+      <button class="rail-step" type="button" data-jump-section="pathway-section" data-stage-key="pathway">
+        <span>03</span>
+        <strong>Mission Choice</strong>
+      </button>
+      <button class="rail-step" type="button" data-jump-section="evidence-section" data-stage-key="evidence">
+        <span>04</span>
+        <strong>Proof Drop</strong>
+      </button>
+      <button class="rail-step" type="button" data-jump-section="retention-section" data-stage-key="retention">
+        <span>05</span>
+        <strong>Memory Vault</strong>
+      </button>
+    </section>
+
+    <section id="core-section" class="module-grid-layout module-stage" data-stage-key="core">
+      <div class="stage-banner stage-banner--intel">
+        <div class="stage-banner__copy">
+          <span class="stage-kicker">01 Intel Scan</span>
+          <h2>Collect the five initiative moves.</h2>
+          <p>Use the brief, video, and hook words to lock in what initiative looks like before the missions open.</p>
+        </div>
+        <span class="stage-status-pill" data-stage-status="core">Open</span>
+      </div>
+      <article class="panel core-panel">
+        <div class="section-title">
+          <h2>Field Brief</h2>
+          <p>Everyone scans this first</p>
+        </div>
+        <p class="lead-copy">
+          Initiative means proactively taking action without being told. It also means identifying opportunities,
+          suggesting improvements, helping others, and taking on responsibilities that contribute positively to the workplace.
+        </p>
+        <div id="behaviour-grid" class="behaviour-grid"></div>
+      </article>
+
+      <article class="panel media-panel">
+        <div class="section-title">
+          <h2>Watch the Dispatch</h2>
+          <p>A4 sheet and video</p>
+        </div>
+        <video controls playsinline preload="metadata" poster="../../Assets/EST Preparation/initiative-one-page-summary.png?v=initiative-summary-v2">
+          <source src="../../Assets/EST Preparation/initiative-portrait.mp4?v=initiative-summary-v2" type="video/mp4">
+        </video>
+        <details class="summary-sheet">
+          <summary>Open one-page summary</summary>
+          <img src="../../Assets/EST Preparation/initiative-one-page-summary.png?v=initiative-summary-v2" alt="Initiative one-page summary">
+        </details>
+      </article>
+    </section>
+
+    <section id="core-check-section" class="panel module-stage" data-stage-key="checkpoint">
+      <div class="stage-banner stage-banner--gate">
+        <div class="stage-banner__copy">
+          <span class="stage-kicker">02 Unlock Gate</span>
+          <h2>Clear the behaviour lock.</h2>
+          <p>Score 5 out of 6 so you know the basics are secure before choice opens.</p>
+        </div>
+        <span class="stage-status-pill" data-stage-status="checkpoint">Ready</span>
+      </div>
+      <div class="section-title">
+        <h2>Behaviour Lock</h2>
+        <p>Pass 5 out of 6 to unlock applied missions</p>
+      </div>
+      <div id="core-drill" class="drill-grid"></div>
+      <div class="button-row">
+        <button id="submit-core-drill" class="primary-button" type="button">Test the gate</button>
+        <button id="retry-core-drill" class="secondary-button" type="button">Reset gate answers</button>
+      </div>
+      <div id="core-result" class="result-panel"></div>
+      <div id="diagnostic-panel" class="diagnostic-panel is-hidden">
+        <h3>What made that hard?</h3>
+        <p>Choose the closest reason so the next retry gives you the right kind of help: more challenge, guided practice, simpler steps, or encouragement.</p>
+        <div id="diagnostic-options" class="diagnostic-options"></div>
+      </div>
+    </section>
+
+    <section id="pathway-section" class="panel module-stage" data-stage-key="pathway">
+      <div class="stage-banner stage-banner--mission">
+        <div class="stage-banner__copy">
+          <span class="stage-kicker">03 Mission Choice</span>
+          <h2>Pick your application mission.</h2>
+          <p>Choose the mode that helps the content stick, then submit proof that it taught initiative accurately.</p>
+        </div>
+        <span class="stage-status-pill" data-stage-status="pathway">Locked</span>
+      </div>
+      <div class="section-title">
+        <h2>Mission Board</h2>
+        <p id="pathway-lock-note">Locked until the Unlock Gate is cleared</p>
+      </div>
+      <div id="pathway-grid" class="pathway-grid"></div>
+      <div id="pathway-stage" class="pathway-stage">
+        <div class="empty-state">
+          <p>Clear the Unlock Gate to open the Mission Board.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="evidence-section" class="panel module-stage" data-stage-key="evidence">
+      <div class="stage-banner stage-banner--proof">
+        <div class="stage-banner__copy">
+          <span class="stage-kicker">04 Proof Drop</span>
+          <h2>Bank the same curriculum proof.</h2>
+          <p>Different missions are allowed, but everyone builds the same initiative understanding.</p>
+        </div>
+        <span class="stage-status-pill" data-stage-status="evidence">Locked</span>
+      </div>
+      <div class="section-title">
+        <h2>Proof Drop</h2>
+        <p>Same curriculum proof, different mission</p>
+      </div>
+      <div class="evidence-form">
+        <label>
+          <span>Define initiative in your own words.</span>
+          <textarea id="evidence-definition" rows="3" placeholder="Initiative means..."></textarea>
+        </label>
+        <label>
+          <span>Which initiative behaviour did your pathway focus on?</span>
+          <select id="evidence-behaviour"></select>
+        </label>
+        <label>
+          <span>Explain why your example shows initiative.</span>
+          <textarea id="evidence-why" rows="3" placeholder="This shows initiative because..."></textarea>
+        </label>
+        <label>
+          <span>How does it help the workplace or team?</span>
+          <textarea id="evidence-impact" rows="3" placeholder="It helps the workplace because..."></textarea>
+        </label>
+        <label>
+          <span>What occupation or workplace does this connect to?</span>
+          <input id="evidence-occupation" type="text" placeholder="For example, carpenter, lawyer, retail worker...">
+        </label>
+      </div>
+      <div class="button-row">
+        <button id="submit-common-evidence" class="primary-button" type="button">Bank proof</button>
+      </div>
+      <div id="evidence-feedback" class="result-panel"></div>
+    </section>
+
+    <section id="retention-section" class="panel module-stage" data-stage-key="retention">
+      <div class="stage-banner stage-banner--vault">
+        <div class="stage-banner__copy">
+          <span class="stage-kicker">05 Memory Vault</span>
+          <h2>Prove the learning held.</h2>
+          <p>The badge only opens when you can still recall the idea after the applied mission.</p>
+        </div>
+        <span class="stage-status-pill" data-stage-status="retention">Locked</span>
+      </div>
+      <div class="section-title">
+        <h2>Memory Vault</h2>
+        <p>Unlocks completion when the learning holds</p>
+      </div>
+      <div id="retention-drill" class="drill-grid"></div>
+      <div class="button-row">
+        <button id="submit-retention" class="primary-button" type="button">Seal memory vault</button>
+        <button id="save-teacher-snapshot" class="secondary-button" type="button">Save progress</button>
+      </div>
+      <div id="retention-result" class="result-panel"></div>
+    </section>
+  </main>
+
+  <script src="../../config/supabase-config.js"></script>
+  <script src="../../src/services/supabase-browser.js"></script>
+  <script src="../../src/services/economy-ledger.js"></script>
+  <script src="../../src/services/response-moderation.js?v=teacher-written-filter-v5"></script>
+  <script src="./initiative.js?v=initiative-trailer-v1"></script>
+  <script src="../../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

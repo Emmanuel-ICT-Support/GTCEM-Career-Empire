@@ -1,0 +1,86 @@
+[
+  {
+    "id": "atlas",
+    "bytes": 3297320,
+    "triangles": 14705,
+    "meshes": 1,
+    "materials": 1,
+    "textures": 3,
+    "skins": 0,
+    "animations": 0,
+    "sha256": "dd72f89abcef2dee99893c420d62bc3b743fa43949bbc0216f4a23aff5bee07b",
+    "portraitBytes": 39257
+  },
+  {
+    "id": "bloom",
+    "bytes": 3600332,
+    "triangles": 14236,
+    "meshes": 1,
+    "materials": 1,
+    "textures": 3,
+    "skins": 0,
+    "animations": 0,
+    "sha256": "fe9b02cc2f63402303ac1a687c9874552a9b630eb577f175f4a4096a3cf478d7",
+    "portraitBytes": 39650
+  },
+  {
+    "id": "echo",
+    "bytes": 142360,
+    "triangles": 4822,
+    "meshes": 10,
+    "materials": 7,
+    "textures": 0,
+    "skins": 0,
+    "animations": 0,
+    "sha256": "9aae3d290a4b5fc5b678d92328628e6d188cfff3da8241803c622ecf098850a0",
+    "portraitBytes": 24033
+  },
+  {
+    "id": "moss",
+    "bytes": 5329008,
+    "triangles": 14908,
+    "meshes": 1,
+    "materials": 1,
+    "textures": 3,
+    "skins": 0,
+    "animations": 0,
+    "sha256": "8a7665499b6e7f13ad1d0297ac3748d34745f40c97e29169be3e3de652d47492",
+    "portraitBytes": 57684
+  },
+  {
+    "id": "pax",
+    "bytes": 4004944,
+    "triangles": 14566,
+    "meshes": 1,
+    "materials": 1,
+    "textures": 3,
+    "skins": 0,
+    "animations": 0,
+    "sha256": "98f73617ad1ee04f078655b2eaa9cb769e72a29804815a484963876ab6927cfc",
+    "portraitBytes": 36220
+  },
+  {
+    "id": "spark",
+    "bytes": 4307132,
+    "triangles": 14555,
+    "meshes": 1,
+    "materials": 1,
+    "textures": 3,
+    "skins": 0,
+    "animations": 0,
+    "sha256": "46e875b41787dc6df953cb7c917aa2937950d66ac6bb765d1914c94a4d4e7e84",
+    "portraitBytes": 45894
+  },
+  {
+    "id": "sprout",
+    "bytes": 10330908,
+    "triangles": 14718,
+    "meshes": 1,
+    "materials": 1,
+    "textures": 3,
+    "skins": 1,
+    "animations": 2,
+    "sha256": "018fa84641f655a6ce906fd95e566b003907f055b575178a3388754d655f623e",
+    "portraitBytes": 45016
+  }
+]

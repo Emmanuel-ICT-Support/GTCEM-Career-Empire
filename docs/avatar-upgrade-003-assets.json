@@ -1,0 +1,516 @@
+{
+  "schemaVersion": 12,
+  "upgrade": "003",
+  "assets": [
+    {
+      "file": "Boy Blazer Separate Camel.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        544,
+        171,
+        736,
+        400
+      ],
+      "transparentPixels": 892726,
+      "sha256": "b4b6b3ab306009c7d46e79db938209cd203500815246a3bcc1856a2a70083316"
+    },
+    {
+      "file": "Boy Blazer Separate Navy.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        544,
+        171,
+        736,
+        400
+      ],
+      "transparentPixels": 891694,
+      "sha256": "f823e7bb8955909098fbf5bac27ceab1bb81a19672cd6e98e1e7bf891f20b580"
+    },
+    {
+      "file": "Boy Chef Apron Fitted.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        568,
+        193,
+        713,
+        488
+      ],
+      "transparentPixels": 890836,
+      "sha256": "6833abc3d7531a90a6c0cdfb358940250ef574fb1bae6e2c5c07630c349d414f"
+    },
+    {
+      "file": "Boy Chef Jacket Fitted.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        541,
+        178,
+        739,
+        406
+      ],
+      "transparentPixels": 888214,
+      "sha256": "40d420e4831fbde58745da892407f0870825ffccc42c685323b75c8efc9d8868"
+    },
+    {
+      "file": "Boy Full Jumper Teal.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        546,
+        192,
+        734,
+        399
+      ],
+      "transparentPixels": 892234,
+      "sha256": "af3b743dfd605eded64881aa4652d8251e852e8aada25e27a3a24f2cc18484c5"
+    },
+    {
+      "file": "Boy Full Shirt Teal Tie.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        548,
+        177,
+        732,
+        398
+      ],
+      "transparentPixels": 889054,
+      "sha256": "53c50cfc018f22a6c220286e375b68ed89f23ed2092dafa375f5646ba7de8aa8"
+    },
+    {
+      "file": "Girl Blazer Separate Camel.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        530,
+        203,
+        751,
+        438
+      ],
+      "transparentPixels": 884626,
+      "sha256": "271b69f19f0d89083c2e9b10bf4cc7bf6d7079be94891b1ed18238f4e8acbddf"
+    },
+    {
+      "file": "Girl Blazer Separate Navy.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        530,
+        204,
+        751,
+        438
+      ],
+      "transparentPixels": 883521,
+      "sha256": "e3ee5431857d66027305e9eb0207b740b33f28a0eff873ed0b9cbb1303f5a21f"
+    },
+    {
+      "file": "Girl Chef Apron Fitted.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        564,
+        224,
+        718,
+        506
+      ],
+      "transparentPixels": 890462,
+      "sha256": "a5302323b114dcb2193ec75628613c1cb197788d2d2516a133e882a7d8f2faff"
+    },
+    {
+      "file": "Girl Chef Jacket Fitted.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        531,
+        204,
+        750,
+        441
+      ],
+      "transparentPixels": 882482,
+      "sha256": "7997b7309fe7954da336ebf850e429ff78159228c1ed72234e6ae81c2dd931f4"
+    },
+    {
+      "file": "Girl Full Jumper Teal.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        530,
+        206,
+        751,
+        434
+      ],
+      "transparentPixels": 882105,
+      "sha256": "67afbdd1d531b223021fb3559c17626d37097b6aed96568e0224a218c745cbfe"
+    },
+    {
+      "file": "Girl Full Shirt Teal Tie.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        534,
+        204,
+        747,
+        433
+      ],
+      "transparentPixels": 879190,
+      "sha256": "c9674f5e25160974c060644bcb994eb9b5d0b3a6e6db1effdf5aae383bd42752"
+    },
+    {
+      "file": "Girl Hair Bob Brown.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        558,
+        41,
+        722,
+        217
+      ],
+      "transparentPixels": 907509,
+      "sha256": "b9b2b24b6ce12b8b6ee356ffe54945b1f282567de0d29d45a8ba4915d8e58297"
+    },
+    {
+      "file": "Girl Hair Ponytail Brown.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        557,
+        41,
+        750,
+        251
+      ],
+      "transparentPixels": 903282,
+      "sha256": "a019774d063253eabb8569dc27b1c0bc74eb5350a7212bf4916d228ac18bc97c"
+    },
+    {
+      "file": "Girl Hair Waves Auburn Deep.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        563,
+        36,
+        719,
+        164
+      ],
+      "transparentPixels": 910826,
+      "sha256": "8fb454ee4c1670fe53e75da9e97cefced883550619c3b5ff0f4eb50fc6e10f5e"
+    },
+    {
+      "file": "Girl Hair Waves Auburn.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        563,
+        36,
+        719,
+        164
+      ],
+      "transparentPixels": 909716,
+      "sha256": "42956cd80fc9a443b6a2c9422faa2cc164b01105fb1630c180d7688757550b6a"
+    },
+    {
+      "file": "Girl Hair Waves Black.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        563,
+        36,
+        719,
+        164
+      ],
+      "transparentPixels": 910749,
+      "sha256": "471e6825dbe6e784e1e0e4f11037cf410e67ec22520600dd0cd8549da37a5d2e"
+    },
+    {
+      "file": "Girl Hair Waves Blonde.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        563,
+        36,
+        719,
+        164
+      ],
+      "transparentPixels": 910311,
+      "sha256": "28bdb83f0c90b61457b1e73882af218754d4171e20c072b86236e1e560e2a0d9"
+    },
+    {
+      "file": "Girl Hair Waves Brown.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        563,
+        36,
+        719,
+        164
+      ],
+      "transparentPixels": 910826,
+      "sha256": "6ffc0cad2b6d7b6f1f76dbb83c9e8ec4d90f5d83099f1e560906e29d432aefca"
+    },
+    {
+      "file": "Girl Hair Waves Silver.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        563,
+        36,
+        719,
+        164
+      ],
+      "transparentPixels": 910311,
+      "sha256": "1e93841d9d605f259375faad99d31ea0dbe8699c010550ace0ccff2faec0f67e"
+    },
+    {
+      "file": "Girl Hair Waves Teal.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        563,
+        36,
+        719,
+        164
+      ],
+      "transparentPixels": 910311,
+      "sha256": "6a424ef756a98cd63b449b3ac02db03acc9a4fe199c06ff694f6cea3d2ffccf8"
+    },
+    {
+      "file": "Girl Hi Vis Vest.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        580,
+        225,
+        700,
+        399
+      ],
+      "transparentPixels": 903008,
+      "sha256": "cdc1e7abbe2613a70887952c7dc04bbd5f151488b7766914d27cb806fd4f7c3c"
+    },
+    {
+      "file": "Girl Jeans.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        574,
+        365,
+        707,
+        635
+      ],
+      "transparentPixels": 892851,
+      "sha256": "07ac01117cb48c85ef875d2d1ab58041270cc87d0662cf4162f6ea35e6987cf2"
+    },
+    {
+      "file": "Girl Lab Coat.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        535,
+        207,
+        746,
+        441
+      ],
+      "transparentPixels": 888014,
+      "sha256": "9ed0d2f61a04bbca4b9b3cc2e4a05d8a5e6226764b1d65fa69c608b5479966d3"
+    },
+    {
+      "file": "Girl Pants Burgundy.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        574,
+        365,
+        707,
+        635
+      ],
+      "transparentPixels": 892851,
+      "sha256": "a8b4285aae632b18d598ac0af39b780741964da559d5cb9ab9a80367ad88bb7a"
+    },
+    {
+      "file": "Girl Pants Navy.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        574,
+        365,
+        707,
+        635
+      ],
+      "transparentPixels": 892851,
+      "sha256": "e15ab1144cc6ad231059d493d6a2c07443fa4200080a42c369b24a6006353dd3"
+    },
+    {
+      "file": "Girl Safety Goggles Clear.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        582,
+        124,
+        700,
+        163
+      ],
+      "transparentPixels": 918908,
+      "sha256": "088cf80356fdf9610848e19a03aabb6a0599ea05d130e37b49e9f5f74635e34d"
+    },
+    {
+      "file": "Girl Scrubs Pants Teal.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        573,
+        365,
+        708,
+        635
+      ],
+      "transparentPixels": 891878,
+      "sha256": "b20d0e99e973ab2022c3e2d72223e7b018aafc9a8530988e3487785ca325514c"
+    },
+    {
+      "file": "Girl Scrubs Top Teal.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        539,
+        216,
+        741,
+        396
+      ],
+      "transparentPixels": 896463,
+      "sha256": "fbaaaf70ddbd3e93af8b637c66484918c544a1d5352086d11a18fdf339284246"
+    },
+    {
+      "file": "Girl Shoes Black.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        561,
+        625,
+        719,
+        678
+      ],
+      "transparentPixels": 916613,
+      "sha256": "4dcd23eeca984b71404169134c7c430c8baef29dbe4b5f827a0f1e87b9c32b0d"
+    },
+    {
+      "file": "Girl Shoes Brown.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        561,
+        625,
+        719,
+        678
+      ],
+      "transparentPixels": 916613,
+      "sha256": "34a20f2960455dc91fd18dc6ba4c013d3852a1311719f0cf3b291bffb65e5bb5"
+    },
+    {
+      "file": "Girl Skirt Tartan.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        558,
+        365,
+        722,
+        511
+      ],
+      "transparentPixels": 902385,
+      "sha256": "4578b55c82b45631430bc75b8df2e3c6b17c6a86093fb38fcb744f52cf691f8b"
+    },
+    {
+      "file": "Girl Tool Belt Brown.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        565,
+        368,
+        716,
+        440
+      ],
+      "transparentPixels": 913041,
+      "sha256": "0fe0557570f9fedd68b93cf0fde8e6cfc387ab289c61b5059a52c6da8c0c16e5"
+    },
+    {
+      "file": "Neutral Girl Take 2.png",
+      "canvas": [
+        1280,
+        720
+      ],
+      "bounds": [
+        539,
+        52,
+        742,
+        676
+      ],
+      "transparentPixels": 850387,
+      "sha256": "5dd16fb4c97fed9962f93335a7301571ca320bb451d2db3f10c26e722fe488f4"
+    }
+  ]
+}

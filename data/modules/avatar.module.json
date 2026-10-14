@@ -1,0 +1,148 @@
+{
+  "id": "avatar-studio",
+  "title": "Avatar Studio",
+  "curriculumArea": "Careers and Employability",
+  "theme": "Identity, future-self ownership, profile personalisation, and shop unlocks",
+  "status": "prototype",
+  "overview": {
+    "tagline": "Create a personalised future-self avatar that follows the student through Career Empire.",
+    "playerFantasy": "Build a version of yourself that can unlock gear, career outfits, interview looks, life items, and future goals through gameplay.",
+    "teacherValue": "Creates early student ownership and captures aspiration evidence before career-planning, training, and interview modules expand the profile."
+  },
+  "gameplayIdentity": {
+    "moduleFantasy": "future-self creator",
+    "playStyle": "customisation and profile building",
+    "funDrivers": [
+      "visible personal identity",
+      "unlockable cosmetic and career gear",
+      "shop-driven return visits",
+      "future pathway ownership",
+      "cross-module avatar persistence"
+    ]
+  },
+  "learningObjectives": [
+    "Identify an occupation or career area the student is curious about.",
+    "Connect avatar choices to a future-self profile rather than decoration alone.",
+    "Name training, skills, or experience that may be needed for a future pathway.",
+    "Reflect on a personal strength that could support employability."
+  ],
+  "sharedStatEffects": [
+    {
+      "stat": "career_success",
+      "description": "A clear future-self profile strengthens motivation and ownership across later modules."
+    },
+    {
+      "stat": "confidence",
+      "description": "Students build a personalised identity they can carry into interview and career-planning activities."
+    },
+    {
+      "stat": "net_worth",
+      "description": "Later shop unlocks can connect avatar upgrades to savings, spending, and long-term goals."
+    }
+  ],
+  "gameplayLoop": [
+    {
+      "step": 1,
+      "label": "Create identity",
+      "description": "The student selects an ECC-quality character base, profile style choices, clothing, and accessories."
+    },
+    {
+      "step": 2,
+      "label": "Set future intent",
+      "description": "The student names an occupation, training need, and strength."
+    },
+    {
+      "step": 3,
+      "label": "Save profile",
+      "description": "The avatar becomes part of the student's Career Empire session."
+    },
+    {
+      "step": 4,
+      "label": "Unlock upgrades",
+      "description": "Future shop stages add interview outfits, career gear, vehicles, rooms, and life items."
+    }
+  ],
+  "employabilityFocus": [
+    {
+      "categoryId": "communication",
+      "subskillIds": [
+        "purpose-audience-format",
+        "verbal-communication"
+      ],
+      "whyItFits": "Students explain who they are becoming and what they want their profile to show."
+    },
+    {
+      "categoryId": "critical-thinking",
+      "subskillIds": [
+        "research-and-information-gathering",
+        "analysis-and-evaluation"
+      ],
+      "whyItFits": "Later versions will ask students to connect occupations to training pathways and evidence."
+    },
+    {
+      "categoryId": "time-management",
+      "subskillIds": [
+        "plan-and-prioritise"
+      ],
+      "whyItFits": "Future career-plan stages should require students to sequence training, practice, and interview preparation."
+    }
+  ],
+  "activities": [
+    {
+      "id": "avatar-creator",
+      "type": "intro",
+      "title": "Avatar Creator",
+      "purpose": "Let students create a personalised future-self avatar with inclusive starter options.",
+      "awards": [
+        { "kind": "module-xp", "target": "avatar-studio", "amount": 5 }
+      ]
+    },
+    {
+      "id": "future-self-card",
+      "type": "reflection",
+      "title": "Future Self Card",
+      "purpose": "Capture the student's current occupation interest, training idea, and employability strength.",
+      "awards": [
+        { "kind": "employability-xp", "target": "communication", "amount": 3 }
+      ]
+    },
+    {
+      "id": "avatar-unlocks",
+      "type": "decision",
+      "title": "Avatar Unlocks",
+      "purpose": "Preview how shop unlocks can connect cosmetic choices to career gear and life goals.",
+      "awards": [
+        { "kind": "shared-stat", "target": "career_success", "amount": 1 }
+      ]
+    }
+  ],
+  "assessmentEvidence": [
+    {
+      "id": "future-self-profile",
+      "type": "short-response",
+      "prompt": "What occupation are you curious about, what training might you need, and what personal strength do you want to build?",
+      "teacherVisible": true
+    }
+  ],
+  "visualLanguage": {
+    "styleReference": "ECC animated student guide characters",
+    "artDirectionDecision": "The generated SVG avatar is a wireframe only. Production avatar art should use ECC-quality character bases and generated modular parts only when they match the existing Emmanuel character standard.",
+    "referenceAssets": [
+      "../Assets/ECC Branding/ECC_priority_style_reference_sheet.jpg",
+      "../Assets/Images and Animations/Student Hub/student-hub-guide.gif",
+      "../Assets/Images and Animations/Emmanuel Student Characters/MacKillop/MacKillop Welcome.png",
+      "../Assets/Images and Animations/Emmanuel Student Characters/Romero/Romero Welcoming.png",
+      "../Assets/Images and Animations/Avatar Studio/model-sheets/ecc-avatar-model-sheet-v1.png",
+      "../Assets/Images and Animations/Avatar Studio/model-sheets/ecc-avatar-model-sheet-v2-female.png",
+      "../docs/avatar-production-plan.md"
+    ],
+    "traits": [
+      "soft 3D guide-character rendering",
+      "large expressive eyes",
+      "navy uniform with teal and gold accents",
+      "holographic cyan and purple UI frames",
+      "dark future-studio preview environment with light usable picker controls",
+      "warm classroom-game lighting"
+    ]
+  }
+}

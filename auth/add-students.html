@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Students</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./auth.css?v=20260513-auth-simplify">
+</head>
+<body data-teacher-nav-active="add-students">
+  <main class="auth-shell">
+    <div class="auth-topbar">
+      <div class="brand"><div class="brand-mark">CE</div><div>Add Students</div></div>
+      <div class="top-links">
+        <a class="ghost-link" href="./index.html">Auth Home</a>
+        <a class="ghost-link" href="./student-login.html">Student Login</a>
+      </div>
+    </div>
+
+    <section class="workflow-strip">
+      <div class="workflow-title">Teacher tools</div>
+      <div class="workflow-links">
+        <a class="workflow-link" href="./teacher-login.html">Teacher Login</a>
+        <a class="workflow-link" href="./create-class.html">Create Class</a>
+        <a class="workflow-link active" href="./add-students.html">Add Students</a>
+        <a class="workflow-link" href="./manage-students.html">Manage Students</a>
+        <a class="workflow-link" href="../dashboards/teacher.html">Teacher Dashboard</a>
+      </div>
+      <div class="context-strip">
+        <div class="context-card">
+          <div class="context-label">Teacher</div>
+          <div id="teacher-name-preview" class="context-value">No teacher saved yet</div>
+        </div>
+        <div class="context-card">
+          <div class="context-label">School</div>
+          <div id="teacher-school-preview" class="context-value">School not set yet</div>
+        </div>
+        <div class="context-card">
+          <div class="context-label">Current Class</div>
+          <div id="class-preview" class="context-value">No class created yet</div>
+        </div>
+        <div class="context-card">
+          <div class="context-label">Class Code</div>
+          <div id="class-code-preview" class="context-value">Pending</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-layout">
+      <article class="form-card">
+        <span class="eyebrow">Teacher-managed Accounts</span>
+        <h1>Create student usernames without collecting student email addresses.</h1>
+        <p class="lead">Student accounts are created by teachers only. Use a simple display name and a username based on the student's name, such as a first name plus surname initial or extra surname letters.</p>
+
+        <form id="add-student-form">
+          <div class="field">
+            <label for="new-student-display-name">Student display name</label>
+            <input id="new-student-display-name" type="text" placeholder="e.g. Mia" required>
+          </div>
+          <div class="field">
+            <label for="new-student-username">Student username</label>
+            <input id="new-student-username" type="text" placeholder="e.g. MarkT or MarkTh1" required>
+            <div id="new-student-feedback" class="feedback"></div>
+            <div id="new-student-username-suggestions" class="helper"></div>
+          </div>
+          <div class="field">
+            <label for="new-student-password">Temporary password</label>
+            <input id="new-student-password" type="text" placeholder="Leave blank to auto-generate">
+            <div class="helper">No student email field is provided because students do not self-register.</div>
+          </div>
+          <div class="button-row">
+            <button class="button-primary" type="submit">Create Student Account</button>
+            <a class="button button-secondary" href="./manage-students.html">Manage Students</a>
+            <a class="button button-secondary" href="../dashboards/teacher.html">Open Teacher Dashboard</a>
+          </div>
+          <div id="generated-student-credentials" class="code-box" style="margin-top: 18px; display: none;"></div>
+        </form>
+      </article>
+
+      <div class="stack">
+        <article class="info-card">
+          <h2>Generated student accounts</h2>
+          <div id="generated-students" class="generated-list"></div>
+        </article>
+        <article class="info-card">
+          <h2>Important rules</h2>
+          <div class="pill-row">
+            <span class="pill">No student email addresses</span>
+            <span class="pill">Teacher-issued usernames only</span>
+            <span class="pill">Assign to class and school</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="../config/supabase-config.js"></script>
+  <script src="../src/services/supabase-browser.js"></script>
+  <script src="./auth.js?v=20260513-auth-simplify"></script>
+  <script src="../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

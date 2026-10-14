@@ -1,0 +1,110 @@
+{
+  "checkedAt": "2026-10-12T19:02:02.852244+00:00",
+  "baseCommit": "25619cd058e60728deaed9b00f3a7f9455eec9a7",
+  "units": {
+    "passed": 209,
+    "files": 49
+  },
+  "runs": {
+    "batch-market-stats": [
+      {
+        "name": "Market money and collection stay available 1280 default",
+        "status": "failed",
+        "durationMs": 11173
+      },
+      {
+        "name": "Market money and collection stay available 390 default",
+        "status": "passed",
+        "durationMs": 23092
+      }
+    ],
+    "batch-market-stats-after": [
+      {
+        "name": "Market money and collection stay available 1280 default",
+        "status": "passed",
+        "durationMs": 31567
+      },
+      {
+        "name": "Market money and collection stay available 390 default",
+        "status": "passed",
+        "durationMs": 22939
+      }
+    ],
+    "batch-market-admin": [
+      {
+        "name": "restored Administration reception, sources, trials and applications 1280",
+        "status": "passed",
+        "durationMs": 1713
+      },
+      {
+        "name": "restored Administration reception, sources, trials and applications 390",
+        "status": "passed",
+        "durationMs": 1559
+      },
+      {
+        "name": "actual keyboard walk through west Administration door 1280",
+        "status": "failed",
+        "durationMs": 144114
+      }
+    ],
+    "batch-admin-walk-after": [
+      {
+        "name": "actual keyboard walk through west Administration door 1280",
+        "status": "passed",
+        "durationMs": 72014
+      }
+    ],
+    "review-recovery-browser": [
+      {
+        "name": "pending Market travel yields to visible Character Studio and late completion stays cancelled",
+        "status": "passed",
+        "durationMs": 17340
+      },
+      {
+        "name": "stalled Market travel releases the campus and normal retry remains visible and walkable",
+        "status": "failed",
+        "durationMs": 39416
+      },
+      {
+        "name": "Stats changes publish while the cached world keeps its honest frame count",
+        "status": "failed",
+        "durationMs": 36777
+      }
+    ],
+    "review-recovery-sampling": [
+      {
+        "name": "stalled Market travel releases the campus and normal retry remains visible and walkable",
+        "status": "timedOut",
+        "durationMs": 65907
+      },
+      {
+        "name": "Stats changes publish while the cached world keeps its honest frame count",
+        "status": "passed",
+        "durationMs": 38253
+      }
+    ],
+    "review-market-deadline-final": [
+      {
+        "name": "stalled Market travel releases the campus and normal retry remains visible and walkable",
+        "status": "timedOut",
+        "durationMs": 66515
+      }
+    ]
+  },
+  "notRun": [
+    "Market physical exit and re-entry",
+    "Mara progressive briefing",
+    "Phone actual Administration walk",
+    "Natural mural-to-oval teacher readiness",
+    "Persistent teacher revisit",
+    "Latest strengthened Stats history assertions",
+    "Startup and photo repeat after review fixes"
+  ],
+  "sessionsRunning": [],
+  "reviewFixes": {
+    "marketOwnership": "Generation token; cancellation releases loading immediately; 15-second import deadline; fresh retry URL; late completions cannot navigate. Unit regressions pass; Studio cancellation browser passes.",
+    "teacherModule": "Failure tracked separately from NPC failures; bounded backoff and fresh module URL; explicit retry after automatic cap. Unit regressions pass; browser retry not run.",
+    "pausedDiagnostics": "1 Hz lightweight metadata independent of render scheduling; image bytes omitted; actual frame counter advances only on scene rendering. Paused Stats browser passed: wallet 1800 to 1300/savings 500, frame count 40 unchanged."
+  },
+  "remainingFailure": "Combined 60-second delayed-Market/retry/walking case timed out. Timeout recovery and retry completed; failure snapshot is Market, opening false, player z 5.257. Screenshot capture/poll completion exhausted the total budget; do not mark this acceptance green."
+}

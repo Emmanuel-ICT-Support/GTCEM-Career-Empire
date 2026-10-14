@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-labelledby="title desc">
+  <title id="title">Vault Bridge fail splash</title>
+  <desc id="desc">A red and cyan glitch splash for an incorrect glossary answer.</desc>
+  <defs>
+    <radialGradient id="fail-bg" cx="50%" cy="52%" r="54%">
+      <stop offset="0" stop-color="#ff9b7b" stop-opacity="0.86"/>
+      <stop offset="0.38" stop-color="#ff5a6f" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#071227" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="fail-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <circle cx="180" cy="180" r="154" fill="url(#fail-bg)"/>
+  <g filter="url(#fail-glow)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M72 194 C102 162 119 220 151 181 C181 145 194 217 226 176 C252 144 270 174 292 140" stroke="#64f4ff" stroke-width="12"/>
+    <path d="M82 252 C118 222 132 277 168 238 C196 207 218 258 250 220 C272 195 290 214 306 196" stroke="#84ffd1" stroke-width="9" opacity="0.72"/>
+    <path d="M113 112 L247 246M247 112 L113 246" stroke="#ffffff" stroke-width="20"/>
+    <path d="M102 78 H168M194 78h52M78 128h56M224 128h70M62 310h96M204 310h84" stroke="#ff8b7b" stroke-width="10"/>
+  </g>
+</svg>

@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Empire Teacher Pathway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --bg: #06101f;
+      --line: rgba(125, 211, 252, 0.28);
+      --line-soft: rgba(255, 255, 255, 0.12);
+      --text: #f8fbff;
+      --muted: #dbeafe;
+      --accent: #7dd3fc;
+      --gold: #fde68a;
+      --shadow: 0 30px 80px rgba(2, 8, 23, 0.48);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      font-family: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 16% 0%, rgba(59, 130, 246, 0.16), transparent 28%),
+        linear-gradient(90deg, rgba(2, 8, 23, 0.95), rgba(2, 8, 23, 0.76) 52%, rgba(2, 8, 23, 0.92)),
+        url("../Assets/landing-screenshots/ecc-future-campus-hero.png") center top / cover fixed no-repeat,
+        var(--bg);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(125, 211, 252, 0.08) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(253, 230, 138, 0.05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: 0.14;
+      pointer-events: none;
+    }
+
+    a,
+    button {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .teacher-shell {
+      position: relative;
+      width: min(1080px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 24px 0 64px;
+    }
+
+    .teacher-landing {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      gap: clamp(18px, 3vw, 28px);
+      padding: clamp(18px, 3.6vw, 42px);
+      border: 1px solid rgba(125, 211, 252, 0.24);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 68% 24%, rgba(14, 165, 233, 0.22), transparent 30%),
+        radial-gradient(circle at 50% 64%, rgba(16, 185, 129, 0.14), transparent 24%),
+        linear-gradient(110deg, rgba(2, 8, 23, 0.98), rgba(4, 16, 30, 0.88) 56%, rgba(2, 8, 23, 0.72)),
+        url("../Assets/landing-screenshots/ecc-future-campus-hero.png") center center / cover no-repeat;
+      box-shadow: var(--shadow);
+    }
+
+    .teacher-landing::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(2, 8, 23, 0.82), rgba(2, 8, 23, 0.32) 48%, rgba(2, 8, 23, 0.82)),
+        linear-gradient(180deg, rgba(2, 8, 23, 0.24), rgba(2, 8, 23, 0.92));
+      pointer-events: none;
+    }
+
+    .teacher-landing::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(125, 211, 252, 0.08) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(253, 230, 138, 0.05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(90deg, transparent, #000 28%, #000 76%, transparent);
+      opacity: 0.16;
+      pointer-events: none;
+    }
+
+    .teacher-landing > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .teacher-topline,
+    .teacher-actions,
+    .button,
+    .back-link,
+    .kicker {
+      display: flex;
+      align-items: center;
+    }
+
+    .teacher-topline {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .back-link,
+    .kicker,
+    .button {
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .back-link {
+      min-height: 42px;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.055);
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .kicker {
+      width: fit-content;
+      min-height: 30px;
+      padding: 7px 12px;
+      border: 1px solid rgba(125, 211, 252, 0.28);
+      border-radius: 999px;
+      background: rgba(14, 165, 233, 0.08);
+      color: #b9ecff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .teacher-stage {
+      display: grid;
+      grid-template-columns: minmax(310px, 0.62fr) minmax(0, 1.38fr);
+      gap: clamp(24px, 4vw, 56px);
+      align-items: center;
+    }
+
+    .teacher-hero {
+      display: grid;
+      gap: 18px;
+      align-content: center;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    .teacher-hero h1 {
+      max-width: 420px;
+      color: #ffffff;
+      font-size: clamp(3rem, 5.1vw, 5.45rem);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: 0;
+    }
+
+    .teacher-hero h1 span {
+      display: block;
+    }
+
+    .teacher-hero p {
+      width: fit-content;
+      max-width: 360px;
+      padding: 10px 13px;
+      border: 1px solid rgba(253, 230, 138, 0.22);
+      border-radius: 999px;
+      background: rgba(2, 8, 23, 0.54);
+      color: var(--gold);
+      font-size: 0.95rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .teacher-overview {
+      display: grid;
+      gap: 14px;
+      padding: clamp(14px, 2vw, 22px);
+      border: 1px solid rgba(125, 211, 252, 0.28);
+      border-radius: 24px;
+      background: rgba(2, 8, 23, 0.68);
+      box-shadow:
+        0 0 70px rgba(14, 165, 233, 0.18),
+        0 28px 70px rgba(2, 8, 23, 0.5);
+    }
+
+    .teacher-overview h2 {
+      color: #ffffff;
+      font-size: clamp(1.7rem, 3vw, 3.1rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .teacher-overview p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .embed-frame {
+      aspect-ratio: 16 / 9;
+      min-height: 0;
+      padding: 8px;
+      border: 1px solid rgba(253, 230, 138, 0.18);
+      border-radius: 20px;
+      background: rgba(2, 6, 23, 0.84);
+    }
+
+    .embed-frame video {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      display: block;
+      border-radius: 14px;
+      background: #020817;
+      object-fit: cover;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .action-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 172px;
+      padding: clamp(18px, 2vw, 24px);
+      border: 1px solid var(--line-soft);
+      border-radius: 18px;
+      background: rgba(2, 8, 23, 0.58);
+      box-shadow: 0 20px 46px rgba(2, 8, 23, 0.26);
+    }
+
+    .action-card h3 {
+      margin-bottom: 10px;
+      color: #ffffff;
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .action-card p {
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.42;
+    }
+
+    .teacher-actions {
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 22px;
+    }
+
+    .button {
+      min-height: 46px;
+      gap: 9px;
+      padding: 12px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.055);
+      color: #e2e8f0;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .button-primary {
+      border-color: rgba(147, 197, 253, 0.42);
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #ffffff;
+      box-shadow: 0 18px 38px rgba(37, 99, 235, 0.3);
+    }
+
+    .button-safety {
+      border-color: rgba(253, 230, 138, 0.34);
+      color: var(--gold);
+    }
+
+    .button:hover,
+    .back-link:hover {
+      border-color: rgba(125, 211, 252, 0.48);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .button svg,
+    .back-link svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .security-infographic {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      gap: clamp(18px, 3vw, 28px);
+      margin-top: 24px;
+      padding: clamp(18px, 3vw, 32px);
+      border: 1px solid rgba(253, 230, 138, 0.28);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 92% 12%, rgba(253, 230, 138, 0.18), transparent 24%),
+        radial-gradient(circle at 8% 82%, rgba(20, 184, 166, 0.16), transparent 28%),
+        linear-gradient(135deg, rgba(2, 8, 23, 0.94), rgba(7, 20, 37, 0.9));
+      box-shadow: 0 26px 70px rgba(2, 8, 23, 0.42);
+      scroll-margin-top: 22px;
+    }
+
+    .security-infographic::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(125, 211, 252, 0.08) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(253, 230, 138, 0.08) 1px, transparent 1px);
+      background-size: 52px 52px;
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    .security-infographic:target {
+      border-color: rgba(253, 230, 138, 0.58);
+      box-shadow:
+        0 0 0 1px rgba(253, 230, 138, 0.18),
+        0 26px 70px rgba(2, 8, 23, 0.42);
+    }
+
+    .security-infographic > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .security-header {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(260px, 1.1fr);
+      gap: clamp(18px, 3vw, 36px);
+      align-items: end;
+    }
+
+    .security-copy {
+      display: grid;
+      gap: 12px;
+    }
+
+    .security-copy h2 {
+      max-width: 640px;
+      color: #ffffff;
+      font-size: clamp(2rem, 4.2vw, 4.2rem);
+      font-weight: 800;
+      line-height: 0.94;
+      letter-spacing: 0;
+    }
+
+    .security-copy p,
+    .security-summary p,
+    .security-step p,
+    .security-note {
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.38;
+    }
+
+    .security-summary {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.24);
+      border-radius: 18px;
+      background: rgba(2, 8, 23, 0.54);
+    }
+
+    .security-summary strong {
+      display: block;
+      color: var(--gold);
+      font-size: 1.1rem;
+      line-height: 1.15;
+    }
+
+    .security-route {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .security-step {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      min-height: 176px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      background: rgba(2, 8, 23, 0.58);
+    }
+
+    .security-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 32px;
+      right: -13px;
+      width: 13px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(253, 230, 138, 0.78), rgba(125, 211, 252, 0.42));
+    }
+
+    .security-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(253, 230, 138, 0.32);
+      border-radius: 14px;
+      background: rgba(253, 230, 138, 0.1);
+      color: var(--gold);
+    }
+
+    .security-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .security-step h3 {
+      color: #ffffff;
+      font-size: 1.02rem;
+      font-weight: 800;
+      line-height: 1.12;
+    }
+
+    .security-step p {
+      font-size: 0.88rem;
+    }
+
+    .security-balances {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .security-balance {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 16px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.52);
+    }
+
+    .security-balance .security-icon {
+      width: 36px;
+      height: 36px;
+      border-color: rgba(125, 211, 252, 0.32);
+      background: rgba(14, 165, 233, 0.1);
+      color: var(--accent);
+    }
+
+    .security-balance .security-icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .security-balance h3 {
+      margin-bottom: 4px;
+      color: #ffffff;
+      font-size: 0.98rem;
+      font-weight: 800;
+      line-height: 1.12;
+    }
+
+    .security-balance p {
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 700;
+      line-height: 1.36;
+    }
+
+    .security-note {
+      padding: 14px 16px;
+      border-left: 3px solid var(--gold);
+      background: rgba(253, 230, 138, 0.08);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        background-attachment: scroll;
+      }
+
+      .teacher-shell {
+        width: min(100% - 24px, 1120px);
+        padding-bottom: 40px;
+      }
+
+      .teacher-stage,
+      .action-grid,
+      .security-header,
+      .security-route,
+      .security-balances {
+        grid-template-columns: 1fr;
+      }
+
+      .security-step {
+        min-height: 0;
+      }
+
+      .security-step:not(:last-child)::after {
+        top: auto;
+        right: auto;
+        bottom: -13px;
+        left: 36px;
+        width: 2px;
+        height: 13px;
+        background: linear-gradient(180deg, rgba(253, 230, 138, 0.78), rgba(125, 211, 252, 0.42));
+      }
+
+      .teacher-hero h1 {
+        max-width: 620px;
+        font-size: clamp(3rem, 12vw, 4.8rem);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .teacher-landing {
+        padding: 16px;
+      }
+
+      .teacher-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .button,
+      .back-link {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="teacher-shell">
+    <article class="teacher-landing" aria-labelledby="teacher-title">
+      <div class="teacher-topline">
+        <a class="back-link" href="../index.html" aria-label="Back to welcome page">
+          <i data-lucide="arrow-left"></i>
+          Back
+        </a>
+        <span class="kicker">Teacher pathway</span>
+      </div>
+
+      <section class="teacher-stage" aria-label="Career Empire teacher overview video">
+        <header class="teacher-hero">
+          <h1 id="teacher-title">
+            <span>Enter</span>
+            <span>the</span>
+            <span>teaching</span>
+            <span>universe.</span>
+          </h1>
+          <p>Press play. Step inside.</p>
+        </header>
+
+        <div class="teacher-overview">
+          <div>
+            <span class="kicker">Start here</span>
+            <h2>The overview</h2>
+            <p>See the world before you build the class.</p>
+          </div>
+          <div class="embed-frame">
+            <video controls playsinline preload="metadata" poster="../Assets/Images and Animations/Student Hub/student-hub-hero-career-empire.png">
+              <source src="../Assets/videos/Career%20Empire%20Explainer%202026.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </section>
+
+      <div class="action-grid">
+        <section class="action-card" aria-labelledby="teacher-demo-flow-title">
+          <h3 id="teacher-demo-flow-title">Preview as a student</h3>
+          <p>Borrow the learner lens before setup.</p>
+          <div class="teacher-actions">
+            <button class="button button-primary" type="button" data-demo-target="../dashboards/student.html">
+              <i data-lucide="play-circle"></i>
+              Student Hub Demo
+            </button>
+            <button class="button button-primary" type="button" data-demo-target="../modules/est-prep/index.html">
+              <i data-lucide="flask-conical"></i>
+              EST Prep Demo
+            </button>
+            <a class="button" href="../promo-video.html" target="_blank" rel="noopener noreferrer">
+              <i data-lucide="maximize-2"></i>
+              Open Video Page
+            </a>
+          </div>
+        </section>
+
+        <section class="action-card" aria-labelledby="teacher-space-title">
+          <h3 id="teacher-space-title">Open your teacher space</h3>
+          <p>Build the class when the story clicks.</p>
+          <div class="teacher-actions">
+            <a class="button button-primary" href="../auth/teacher-signup.html">
+              <i data-lucide="user-plus"></i>
+              Create Teacher Account
+            </a>
+            <a class="button" href="../auth/teacher-login.html">
+              <i data-lucide="log-in"></i>
+              Teacher Login
+            </a>
+            <a class="button button-safety" href="#security-checks" aria-label="View the security checks and balances infographic">
+              <i data-lucide="shield-check"></i>
+              Online safety concerns addressed
+            </a>
+          </div>
+        </section>
+      </div>
+    </article>
+
+    <section class="security-infographic" id="security-checks" aria-labelledby="security-checks-title">
+      <div class="security-header">
+        <div class="security-copy">
+          <span class="kicker">Security model</span>
+          <h2 id="security-checks-title">Checks and balances for a school-safe system.</h2>
+          <p>Access starts with verified teachers, stays tied to a school and class, and keeps student evidence behind teacher-controlled review.</p>
+        </div>
+        <div class="security-summary">
+          <strong>Plain-English promise</strong>
+          <p>Teachers control setup, students use lightweight classroom accounts, data is stored on Australian servers, class comparisons are de-identified, and free-text submissions are approved through the teacher dashboard.</p>
+        </div>
+      </div>
+
+      <div class="security-route" aria-label="Security checks sequence">
+        <article class="security-step">
+          <span class="security-icon"><i data-lucide="badge-check"></i></span>
+          <h3>Verified teacher entry</h3>
+          <p>Teacher signup is limited to approved school email domains with password-based login and email confirmation.</p>
+        </article>
+        <article class="security-step">
+          <span class="security-icon"><i data-lucide="users"></i></span>
+          <h3>Teacher-created students</h3>
+          <p>Students do not self-register or use email. Teachers can issue a first-name-and-initial username or a codename for a specific class.</p>
+        </article>
+        <article class="security-step">
+          <span class="security-icon"><i data-lucide="school"></i></span>
+          <h3>School and class ownership</h3>
+          <p>Every class and student belongs to one school, creating clear boundaries for dashboards and permissions.</p>
+        </article>
+        <article class="security-step">
+          <span class="security-icon"><i data-lucide="lock"></i></span>
+          <h3>School data boundaries</h3>
+          <p>The system checks each signed-in teacher's school before showing class records, so teachers only see the students and classes connected to their school.</p>
+        </article>
+        <article class="security-step">
+          <span class="security-icon"><i data-lucide="clipboard-check"></i></span>
+          <h3>Human review gate</h3>
+          <p>Learning evidence, feedback reports, and shareable responses are routed through teacher review before wider use.</p>
+        </article>
+      </div>
+
+      <div class="security-balances" aria-label="Additional security balances">
+        <article class="security-balance">
+          <span class="security-icon"><i data-lucide="eye-off"></i></span>
+          <div>
+            <h3>Private student evidence</h3>
+            <p>Students can see their own profile and progress, but not another student's private records.</p>
+          </div>
+        </article>
+        <article class="security-balance">
+          <span class="security-icon"><i data-lucide="bar-chart-3"></i></span>
+          <div>
+            <h3>De-identified class comparison</h3>
+            <p>Inside the class, students may see non-identified peer responses or totals for comparison, not named student records.</p>
+          </div>
+        </article>
+        <article class="security-balance">
+          <span class="security-icon"><i data-lucide="server"></i></span>
+          <div>
+            <h3>Australian data hosting</h3>
+            <p>Student and class data is stored on Australian servers.</p>
+          </div>
+        </article>
+        <article class="security-balance">
+          <span class="security-icon"><i data-lucide="monitor-check"></i></span>
+          <div>
+            <h3>Safe demo mode</h3>
+            <p>Teacher previews seed local demo data, keeping trial runs separate from real student accounts.</p>
+          </div>
+        </article>
+      </div>
+
+      <p class="security-note">Balance point: automation can surface patterns, but the teacher remains the accountable reviewer for class membership, student evidence, and any intervention decisions.</p>
+    </section>
+  </main>
+
+  <script>
+    const DEMO_AUTH_KEY = "career-empire-auth-demo";
+    const DEMO_SESSION_KEY = "career-empire-session";
+
+    function readDemoPlayerSession() {
+      try {
+        return JSON.parse(localStorage.getItem(DEMO_SESSION_KEY) || "{}");
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function seedDemoStudentSession() {
+      const now = new Date().toISOString();
+      const existing = readDemoPlayerSession();
+      const ownedAssets = Array.isArray(existing.ownedAssets) ? existing.ownedAssets : [];
+      const ownedAssetsByStudent = {
+        ...(existing.ownedAssetsByStudent && typeof existing.ownedAssetsByStudent === "object" ? existing.ownedAssetsByStudent : {}),
+        "demo-student": ownedAssets,
+        "demo.student": ownedAssets
+      };
+
+      localStorage.setItem(DEMO_AUTH_KEY, JSON.stringify({
+        studentLogin: {
+          id: "demo-student",
+          username: "demo.student",
+          displayName: "Demo Student",
+          schoolName: "Emmanuel Catholic College",
+          classCode: "DEMO",
+          preview: true,
+          demo: true,
+          loggedInAt: now
+        },
+        classroom: {
+          classCode: "DEMO",
+          name: "Demo Careers Class"
+        }
+      }));
+
+      localStorage.setItem(DEMO_SESSION_KEY, JSON.stringify({
+        ...existing,
+        studentId: "demo-student",
+        username: "demo.student",
+        playerName: "Demo Student",
+        schoolName: "Emmanuel Catholic College",
+        classCode: "DEMO",
+        careerTitle: existing.careerTitle || "Career Builder",
+        annualSalary: Number(existing.annualSalary ?? existing.salary ?? 25000),
+        salary: Number(existing.salary ?? existing.annualSalary ?? 25000),
+        cumulativeNetWorth: Number(existing.cumulativeNetWorth ?? 0),
+        savings: Number(existing.savings ?? 0),
+        taxPaid: Number(existing.taxPaid ?? 0),
+        yearsPlayed: Number(existing.yearsPlayed ?? 0),
+        careerLevel: Number(existing.careerLevel ?? 1),
+        jobSecurity: Number(existing.jobSecurity ?? 68),
+        workLifeBalance: Number(existing.workLifeBalance ?? 72),
+        wellbeing: Number(existing.wellbeing ?? 72),
+        socialStatus: Number(existing.socialStatus ?? 48),
+        resilience: Number(existing.resilience ?? 61),
+        techMastery: Number(existing.techMastery ?? 12),
+        climateMastery: Number(existing.climateMastery ?? 8),
+        demoMastery: Number(existing.demoMastery ?? 10),
+        economicMastery: Number(existing.economicMastery ?? 9),
+        communityVote: "none",
+        lastCommunityVote: "none",
+        ownedAssets,
+        ownedAssetsByStudent,
+        economyLog: Array.isArray(existing.economyLog) ? existing.economyLog : [],
+        checkpoint: "teacher-landing-student-preview",
+        demoMode: true,
+        updatedAt: now
+      }));
+    }
+
+    document.querySelectorAll("[data-demo-target]").forEach(button => {
+      button.addEventListener("click", () => {
+        seedDemoStudentSession();
+        window.location.href = button.dataset.demoTarget || "../dashboards/student.html";
+      });
+    });
+
+    if (window.lucide) {
+      window.lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

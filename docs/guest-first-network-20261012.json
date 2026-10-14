@@ -1,0 +1,959 @@
+{
+  "baseCommit": "d75bdd85d8b4b33c5eefaf6503413164d9270758",
+  "method": "Isolated headless installed Chrome, 1280x900, CDP 4Mbps/100ms/4xCPU, gzip range-capable local server; intro skipped only in timing probe",
+  "baseline": "Movement assertion timed out; no valid paired speedup claim",
+  "candidate": {
+    "cold": {
+      "marksMs": {
+        "intro": 730,
+        "loadingHidden": 4946.300000000047,
+        "firstDiagnostics": 5759.300000000047,
+        "avatar": 10793.40000000014
+      },
+      "movementObservedMs": 6806,
+      "requestCount": 76,
+      "wireBytes": 5054797,
+      "errors": [],
+      "requests": [
+        {
+          "path": "/playable-3d/style.css?v=stall-refine-20260924",
+          "encodedBodyBytes": 19715,
+          "startMs": 111.5,
+          "endMs": 301.9000000001397
+        },
+        {
+          "path": "/playable-3d/mobile-play.css?v=demo-20260914",
+          "encodedBodyBytes": 4940,
+          "startMs": 112.5,
+          "endMs": 259.5
+        },
+        {
+          "path": "/playable-3d/vendor/lucide/lucide.min.js?v=dressups-entry-20260921",
+          "encodedBodyBytes": 81569,
+          "startMs": 112.5,
+          "endMs": 677
+        },
+        {
+          "path": "/playable-3d/mobile-play.js?v=compact-banner-20260924",
+          "encodedBodyBytes": 516,
+          "startMs": 112.80000000004657,
+          "endMs": 230.20000000018626
+        },
+        {
+          "path": "/playable-3d/wardrobe-cards.css?v=hair-shoes-20260921",
+          "encodedBodyBytes": 2678,
+          "startMs": 112.80000000004657,
+          "endMs": 239.10000000009313
+        },
+        {
+          "path": "/playable-3d/flyover.css?v=flyover-20260917",
+          "encodedBodyBytes": 1959,
+          "startMs": 112.80000000004657,
+          "endMs": 241.5
+        },
+        {
+          "path": "/playable-3d/header-controls.css?v=gameplay-guidance-20260925",
+          "encodedBodyBytes": 8497,
+          "startMs": 112.80000000004657,
+          "endMs": 281
+        },
+        {
+          "path": "/playable-3d/echo-guide.css?v=echo-staged-20260925",
+          "encodedBodyBytes": 2395,
+          "startMs": 112.80000000004657,
+          "endMs": 337.5
+        },
+        {
+          "path": "/playable-3d/helper-picker.css?v=guidance-20260928",
+          "encodedBodyBytes": 2565,
+          "startMs": 112.80000000004657,
+          "endMs": 343.80000000004657
+        },
+        {
+          "path": "/playable-3d/discovery-opening.css?v=guest-first-20261012",
+          "encodedBodyBytes": 11687,
+          "startMs": 113.30000000004657,
+          "endMs": 373.60000000009313
+        },
+        {
+          "path": "/playable-3d/intro-taster.css?v=default-exploration-20261011",
+          "encodedBodyBytes": 2187,
+          "startMs": 113.4000000001397,
+          "endMs": 370.60000000009313
+        },
+        {
+          "path": "/playable-3d/exploration-tools.css?v=navigation-20261012",
+          "encodedBodyBytes": 2704,
+          "startMs": 113.4000000001397,
+          "endMs": 388.9000000001397
+        },
+        {
+          "path": "/playable-3d/guest-shell.mjs?v=guest-first-20261012",
+          "encodedBodyBytes": 688,
+          "startMs": 137.30000000004657,
+          "endMs": 407
+        },
+        {
+          "path": "/config/supabase-config.js",
+          "encodedBodyBytes": 166,
+          "startMs": 138.30000000004657,
+          "endMs": 439.70000000018626
+        },
+        {
+          "path": "/src/services/supabase-browser.js",
+          "encodedBodyBytes": 543,
+          "startMs": 138.80000000004657,
+          "endMs": 445.5
+        },
+        {
+          "path": "/src/services/response-moderation.js?v=teacher-written-filter-v1",
+          "encodedBodyBytes": 2532,
+          "startMs": 138.80000000004657,
+          "endMs": 475.4000000001397
+        },
+        {
+          "path": "/src/services/feedback-widget.js?v=compact-banner-20260924",
+          "encodedBodyBytes": 7174,
+          "startMs": 138.80000000004657,
+          "endMs": 490.5
+        },
+        {
+          "path": "/playable-3d/game-session.mjs?v=guest-first-20261012",
+          "encodedBodyBytes": 1372,
+          "startMs": 460.20000000018626,
+          "endMs": 577.5
+        },
+        {
+          "path": "/playable-3d/intro-taster.mjs?v=default-exploration-20261011",
+          "encodedBodyBytes": 1872,
+          "startMs": 460.20000000018626,
+          "endMs": 583.4000000001397
+        },
+        {
+          "path": "/playable-3d/profiles.js?v=named-students-20261011",
+          "encodedBodyBytes": 3284,
+          "startMs": 460.30000000004657,
+          "endMs": 590.1000000000931
+        },
+        {
+          "path": "/playable-3d/whole-avatar-catalog.mjs?v=named-students-20261011",
+          "encodedBodyBytes": 453,
+          "startMs": 591.1000000000931,
+          "endMs": 698.1000000000931
+        },
+        {
+          "path": "/playable-3d/app.js?v=guest-first-20261012",
+          "encodedBodyBytes": 25520,
+          "startMs": 730,
+          "endMs": 940.5
+        },
+        {
+          "path": "/playable-3d/taster-assets/intro-poster.jpg?v=curiosity-20261011",
+          "encodedBodyBytes": 242677,
+          "startMs": 730,
+          "endMs": 1700
+        },
+        {
+          "path": "/playable-3d/startup-assets.mjs?v=startup-20261012",
+          "encodedBodyBytes": 381,
+          "startMs": 942.6000000000931,
+          "endMs": 1052
+        },
+        {
+          "path": "/playable-3d/exploration-tools.mjs?v=guest-first-20261012",
+          "encodedBodyBytes": 4296,
+          "startMs": 942.6000000000931,
+          "endMs": 1084.8000000000466
+        },
+        {
+          "path": "/playable-3d/reveal-layout.mjs",
+          "encodedBodyBytes": 674,
+          "startMs": 942.7000000001863,
+          "endMs": 1054.6000000000931
+        },
+        {
+          "path": "/playable-3d/camera-clearance.mjs?v=default-exploration-20261011",
+          "encodedBodyBytes": 730,
+          "startMs": 942.7000000001863,
+          "endMs": 1057.8000000000466
+        },
+        {
+          "path": "/playable-3d/discovery-opening.js?v=guest-first-20261012",
+          "encodedBodyBytes": 10535,
+          "startMs": 942.7000000001863,
+          "endMs": 1111.7000000001863
+        },
+        {
+          "path": "/playable-3d/locomotion.js?v=travel-20260927",
+          "encodedBodyBytes": 498,
+          "startMs": 942.8000000000466,
+          "endMs": 1156.6000000000931
+        },
+        {
+          "path": "/economy-lab/exploration.mjs?v=navigation-20261012",
+          "encodedBodyBytes": 655,
+          "startMs": 942.8000000000466,
+          "endMs": 1166.2000000001863
+        },
+        {
+          "path": "/playable-3d/helper-picker.js?v=guest-first-20261012",
+          "encodedBodyBytes": 1608,
+          "startMs": 942.8000000000466,
+          "endMs": 1171.6000000000931
+        },
+        {
+          "path": "/playable-3d/flyover.js?v=student-usability-20260924",
+          "encodedBodyBytes": 2415,
+          "startMs": 943.4000000001397,
+          "endMs": 1196.1000000000931
+        },
+        {
+          "path": "/playable-3d/phone-assets.js?v=phone-load-20260917",
+          "encodedBodyBytes": 1132,
+          "startMs": 943.4000000001397,
+          "endMs": 1217.1000000000931
+        },
+        {
+          "path": "/playable-3d/ecc-preview/landmark-layout.js?v=exterior2",
+          "encodedBodyBytes": 190,
+          "startMs": 943.4000000001397,
+          "endMs": 1261.7000000001863
+        },
+        {
+          "path": "/playable-3d/joystick.js?v=1",
+          "encodedBodyBytes": 812,
+          "startMs": 943.5,
+          "endMs": 1270.6000000000931
+        },
+        {
+          "path": "/playable-3d/deferred-textures.js?v=startup-20261012",
+          "encodedBodyBytes": 1478,
+          "startMs": 943.6000000000931,
+          "endMs": 1282.5
+        },
+        {
+          "path": "/playable-3d/chapel.js?v=opt2-20260914",
+          "encodedBodyBytes": 6805,
+          "startMs": 943.6000000000931,
+          "endMs": 1327.7000000001863
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/environments/RoomEnvironment.js",
+          "encodedBodyBytes": 1640,
+          "startMs": 943.6000000000931,
+          "endMs": 1379
+        },
+        {
+          "path": "/playable-3d/vendor/three/build/three.module.js",
+          "encodedBodyBytes": 117574,
+          "startMs": 943.6000000000931,
+          "endMs": 1861.6000000000931
+        },
+        {
+          "path": "/playable-3d/destinations.js?v=demo-20260914",
+          "encodedBodyBytes": 288,
+          "startMs": 944.2000000001863,
+          "endMs": 1393.9000000001397
+        },
+        {
+          "path": "/playable-3d/world.js?v=guest-first-20261012",
+          "encodedBodyBytes": 13249,
+          "startMs": 944.2000000001863,
+          "endMs": 1466.2000000001863
+        },
+        {
+          "path": "/playable-3d/characters.js?v=named-students-20261011",
+          "encodedBodyBytes": 5232,
+          "startMs": 944.3000000000466,
+          "endMs": 1474.7000000001863
+        },
+        {
+          "path": "/economy-lab/economy.mjs?v=navigation-20261012",
+          "encodedBodyBytes": 2193,
+          "startMs": 1085.9000000001397,
+          "endMs": 1495.7000000001863
+        },
+        {
+          "path": "/playable-3d/proximity-gate.mjs?v=default-exploration-20261011",
+          "encodedBodyBytes": 259,
+          "startMs": 1112.7000000001863,
+          "endMs": 1505
+        },
+        {
+          "path": "/playable-3d/discovery-state.mjs?v=quiet-route-20261011",
+          "encodedBodyBytes": 1245,
+          "startMs": 1112.8000000000466,
+          "endMs": 1574.4000000001397
+        },
+        {
+          "path": "/playable-3d/scout-framing.mjs",
+          "encodedBodyBytes": 387,
+          "startMs": 1113.5,
+          "endMs": 1582.9000000001397
+        },
+        {
+          "path": "/playable-3d/helper-state.js?v=guidance-20260928",
+          "encodedBodyBytes": 639,
+          "startMs": 1172.1000000000931,
+          "endMs": 1604.3000000000466
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/utils/BufferGeometryUtils.js",
+          "encodedBodyBytes": 7995,
+          "startMs": 1329,
+          "endMs": 1658.2000000001863
+        },
+        {
+          "path": "/playable-3d/est-wall-video.js?v=load1-20260914",
+          "encodedBodyBytes": 951,
+          "startMs": 1467.8000000000466,
+          "endMs": 1694.1000000000931
+        },
+        {
+          "path": "/playable-3d/environment/approved-campus-kit.js?v=first-play-20260921",
+          "encodedBodyBytes": 3733,
+          "startMs": 1467.8000000000466,
+          "endMs": 1702.8000000000466
+        },
+        {
+          "path": "/playable-3d/ecc-preview/model.js?v=first-play-20260921",
+          "encodedBodyBytes": 7906,
+          "startMs": 1467.8000000000466,
+          "endMs": 1738.8000000000466
+        },
+        {
+          "path": "/playable-3d/destinations.js?v=ecc1",
+          "encodedBodyBytes": 288,
+          "startMs": 1467.8000000000466,
+          "endMs": 1763.2000000001863
+        },
+        {
+          "path": "/playable-3d/campus-landscape.js?v=guest-first-20261012",
+          "encodedBodyBytes": 5135,
+          "startMs": 1467.8000000000466,
+          "endMs": 1828.6000000000931
+        },
+        {
+          "path": "/playable-3d/arrival-precinct.js?v=default-exploration-20261011",
+          "encodedBodyBytes": 2596,
+          "startMs": 1467.9000000001397,
+          "endMs": 1819.6000000000931
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/loaders/DRACOLoader.js",
+          "encodedBodyBytes": 5273,
+          "startMs": 1467.9000000001397,
+          "endMs": 1874
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/loaders/GLTFLoader.js",
+          "encodedBodyBytes": 24659,
+          "startMs": 1467.9000000001397,
+          "endMs": 1933.9000000001397
+        },
+        {
+          "path": "/playable-3d/scenery.js?v=scenery-2",
+          "encodedBodyBytes": 1629,
+          "startMs": 1468.5,
+          "endMs": 1936.6000000000931
+        },
+        {
+          "path": "/playable-3d/profiles.js",
+          "encodedBodyBytes": 3284,
+          "startMs": 1468.5,
+          "endMs": 1951.9000000001397
+        },
+        {
+          "path": "/playable-3d/vendor/rapier/rapier.mjs",
+          "encodedBodyBytes": 830006,
+          "startMs": 1468.5,
+          "endMs": 4240.700000000186
+        },
+        {
+          "path": "/playable-3d/avatar-clips.mjs?v=named-students-20261011",
+          "encodedBodyBytes": 265,
+          "startMs": 1476,
+          "endMs": 1967.1000000000931
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/utils/SkeletonUtils.js",
+          "encodedBodyBytes": 3050,
+          "startMs": 1476,
+          "endMs": 1991.1000000000931
+        },
+        {
+          "path": "/playable-3d/avatar-download.js?v=entry-load-20260921",
+          "encodedBodyBytes": 600,
+          "startMs": 1476.1000000000931,
+          "endMs": 2038.8000000000466
+        },
+        {
+          "path": "/playable-3d/environment/static-batching.js?v=1",
+          "encodedBodyBytes": 1435,
+          "startMs": 1703.8000000000466,
+          "endMs": 2051
+        },
+        {
+          "path": "/playable-3d/ecc-preview/authored-courtyard.js?v=first-play-20260921",
+          "encodedBodyBytes": 5070,
+          "startMs": 1739.4000000001397,
+          "endMs": 2077.8000000000466
+        },
+        {
+          "path": "/playable-3d/ecc-preview/courtyard-detail.js?v=courtyard1",
+          "encodedBodyBytes": 3756,
+          "startMs": 1740.2000000001863,
+          "endMs": 2090.100000000093
+        },
+        {
+          "path": "/playable-3d/ecc-preview/hero-materials.js?v=courtyard1",
+          "encodedBodyBytes": 4157,
+          "startMs": 1740.4000000001397,
+          "endMs": 2108
+        },
+        {
+          "path": "/playable-3d/ecc-preview/authored-garden.js?v=annotations1",
+          "encodedBodyBytes": 3435,
+          "startMs": 1820.5,
+          "endMs": 2156.2000000001863
+        },
+        {
+          "path": "/playable-3d/environment/paving-network.js?v=student-usability-20260924",
+          "encodedBodyBytes": 895,
+          "startMs": 1829,
+          "endMs": 2158.9000000001397
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
+          "encodedBodyBytes": 7687,
+          "startMs": 1829.7000000001863,
+          "endMs": 2224.600000000093
+        },
+        {
+          "path": "/playable-3d/vendor/three/build/three.core.js",
+          "encodedBodyBytes": 276943,
+          "startMs": 1865.3000000000466,
+          "endMs": 3338
+        },
+        {
+          "path": "/playable-3d/ecc-preview/admin-signage.js?v=entry-load-20260921",
+          "encodedBodyBytes": 2142,
+          "startMs": 2079.2000000001863,
+          "endMs": 2231.100000000093
+        },
+        {
+          "path": "/playable-3d/ecc-preview/hero-materials.js?v=authored1",
+          "encodedBodyBytes": 4157,
+          "startMs": 2079.2000000001863,
+          "endMs": 2288.100000000093
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/loaders/HDRLoader.js",
+          "encodedBodyBytes": 3831,
+          "startMs": 2079.7000000001863,
+          "endMs": 2294
+        },
+        {
+          "path": "/playable-3d/environment/paving-polygons.js?v=windows1",
+          "encodedBodyBytes": 923,
+          "startMs": 2159.3000000000466,
+          "endMs": 2332.600000000093
+        },
+        {
+          "path": "/playable-3d/assets/whole-characters/antonio.glb",
+          "encodedBodyBytes": 2950378,
+          "startMs": 4368.800000000047,
+          "endMs": 10381.700000000186
+        },
+        {
+          "path": "/playable-3d/ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb?v=1",
+          "encodedBodyBytes": 261666,
+          "startMs": 10529.700000000186,
+          "endMs": 12196.600000000093
+        }
+      ]
+    },
+    "warm": {
+      "marksMs": {
+        "intro": 90.30000000004657,
+        "loadingHidden": 652.2000000001863,
+        "firstDiagnostics": 1520.8000000000466,
+        "avatar": 1520.8000000000466
+      },
+      "movementObservedMs": 2541.9000000001397,
+      "requestCount": 78,
+      "wireBytes": 1421229,
+      "errors": [],
+      "requests": [
+        {
+          "path": "/playable-3d/style.css?v=stall-refine-20260924",
+          "encodedBodyBytes": 19715,
+          "startMs": 24,
+          "endMs": 24
+        },
+        {
+          "path": "/playable-3d/vendor/lucide/lucide.min.js?v=dressups-entry-20260921",
+          "encodedBodyBytes": 81569,
+          "startMs": 24,
+          "endMs": 24
+        },
+        {
+          "path": "/playable-3d/mobile-play.css?v=demo-20260914",
+          "encodedBodyBytes": 4940,
+          "startMs": 24.100000000093132,
+          "endMs": 24.100000000093132
+        },
+        {
+          "path": "/playable-3d/mobile-play.js?v=compact-banner-20260924",
+          "encodedBodyBytes": 516,
+          "startMs": 24.4000000001397,
+          "endMs": 24.4000000001397
+        },
+        {
+          "path": "/playable-3d/flyover.css?v=flyover-20260917",
+          "encodedBodyBytes": 1959,
+          "startMs": 24.4000000001397,
+          "endMs": 24.4000000001397
+        },
+        {
+          "path": "/playable-3d/wardrobe-cards.css?v=hair-shoes-20260921",
+          "encodedBodyBytes": 2678,
+          "startMs": 24.5,
+          "endMs": 24.5
+        },
+        {
+          "path": "/playable-3d/header-controls.css?v=gameplay-guidance-20260925",
+          "encodedBodyBytes": 8497,
+          "startMs": 24.5,
+          "endMs": 24.5
+        },
+        {
+          "path": "/playable-3d/echo-guide.css?v=echo-staged-20260925",
+          "encodedBodyBytes": 2395,
+          "startMs": 24.5,
+          "endMs": 24.5
+        },
+        {
+          "path": "/playable-3d/helper-picker.css?v=guidance-20260928",
+          "encodedBodyBytes": 2565,
+          "startMs": 24.5,
+          "endMs": 24.5
+        },
+        {
+          "path": "/playable-3d/discovery-opening.css?v=guest-first-20261012",
+          "encodedBodyBytes": 11687,
+          "startMs": 24.5,
+          "endMs": 24.5
+        },
+        {
+          "path": "/playable-3d/intro-taster.css?v=default-exploration-20261011",
+          "encodedBodyBytes": 2187,
+          "startMs": 24.5,
+          "endMs": 24.5
+        },
+        {
+          "path": "/playable-3d/exploration-tools.css?v=navigation-20261012",
+          "encodedBodyBytes": 2704,
+          "startMs": 24.5,
+          "endMs": 24.5
+        },
+        {
+          "path": "/playable-3d/guest-shell.mjs?v=guest-first-20261012",
+          "encodedBodyBytes": 688,
+          "startMs": 25.200000000186265,
+          "endMs": 25.200000000186265
+        },
+        {
+          "path": "/config/supabase-config.js",
+          "encodedBodyBytes": 166,
+          "startMs": 25.200000000186265,
+          "endMs": 25.200000000186265
+        },
+        {
+          "path": "/src/services/supabase-browser.js",
+          "encodedBodyBytes": 543,
+          "startMs": 25.200000000186265,
+          "endMs": 25.200000000186265
+        },
+        {
+          "path": "/src/services/response-moderation.js?v=teacher-written-filter-v1",
+          "encodedBodyBytes": 2532,
+          "startMs": 25.300000000046566,
+          "endMs": 25.300000000046566
+        },
+        {
+          "path": "/src/services/feedback-widget.js?v=compact-banner-20260924",
+          "encodedBodyBytes": 7174,
+          "startMs": 25.300000000046566,
+          "endMs": 25.300000000046566
+        },
+        {
+          "path": "/playable-3d/game-session.mjs?v=guest-first-20261012",
+          "encodedBodyBytes": 1372,
+          "startMs": 51.200000000186265,
+          "endMs": 51.200000000186265
+        },
+        {
+          "path": "/playable-3d/intro-taster.mjs?v=default-exploration-20261011",
+          "encodedBodyBytes": 1872,
+          "startMs": 52,
+          "endMs": 52
+        },
+        {
+          "path": "/playable-3d/profiles.js?v=named-students-20261011",
+          "encodedBodyBytes": 3284,
+          "startMs": 52.10000000009313,
+          "endMs": 52.10000000009313
+        },
+        {
+          "path": "/playable-3d/whole-avatar-catalog.mjs?v=named-students-20261011",
+          "encodedBodyBytes": 453,
+          "startMs": 80.60000000009313,
+          "endMs": 80.60000000009313
+        },
+        {
+          "path": "/playable-3d/taster-assets/intro-poster.jpg?v=curiosity-20261011",
+          "encodedBodyBytes": 242677,
+          "startMs": 85.10000000009313,
+          "endMs": 85.10000000009313
+        },
+        {
+          "path": "/playable-3d/app.js?v=guest-first-20261012",
+          "encodedBodyBytes": 25520,
+          "startMs": 90.30000000004657,
+          "endMs": 90.30000000004657
+        },
+        {
+          "path": "/playable-3d/startup-assets.mjs?v=startup-20261012",
+          "encodedBodyBytes": 381,
+          "startMs": 98.20000000018626,
+          "endMs": 98.20000000018626
+        },
+        {
+          "path": "/playable-3d/exploration-tools.mjs?v=guest-first-20261012",
+          "encodedBodyBytes": 4296,
+          "startMs": 98.20000000018626,
+          "endMs": 98.20000000018626
+        },
+        {
+          "path": "/playable-3d/reveal-layout.mjs",
+          "encodedBodyBytes": 674,
+          "startMs": 98.80000000004657,
+          "endMs": 98.80000000004657
+        },
+        {
+          "path": "/playable-3d/camera-clearance.mjs?v=default-exploration-20261011",
+          "encodedBodyBytes": 730,
+          "startMs": 98.80000000004657,
+          "endMs": 98.80000000004657
+        },
+        {
+          "path": "/playable-3d/discovery-opening.js?v=guest-first-20261012",
+          "encodedBodyBytes": 10535,
+          "startMs": 98.9000000001397,
+          "endMs": 98.9000000001397
+        },
+        {
+          "path": "/playable-3d/locomotion.js?v=travel-20260927",
+          "encodedBodyBytes": 498,
+          "startMs": 98.9000000001397,
+          "endMs": 98.9000000001397
+        },
+        {
+          "path": "/playable-3d/helper-picker.js?v=guest-first-20261012",
+          "encodedBodyBytes": 1608,
+          "startMs": 99,
+          "endMs": 99
+        },
+        {
+          "path": "/economy-lab/exploration.mjs?v=navigation-20261012",
+          "encodedBodyBytes": 655,
+          "startMs": 99,
+          "endMs": 99
+        },
+        {
+          "path": "/playable-3d/flyover.js?v=student-usability-20260924",
+          "encodedBodyBytes": 2415,
+          "startMs": 99.5,
+          "endMs": 99.5
+        },
+        {
+          "path": "/playable-3d/phone-assets.js?v=phone-load-20260917",
+          "encodedBodyBytes": 1132,
+          "startMs": 99.5,
+          "endMs": 99.5
+        },
+        {
+          "path": "/playable-3d/ecc-preview/landmark-layout.js?v=exterior2",
+          "encodedBodyBytes": 190,
+          "startMs": 99.60000000009313,
+          "endMs": 99.60000000009313
+        },
+        {
+          "path": "/playable-3d/joystick.js?v=1",
+          "encodedBodyBytes": 812,
+          "startMs": 99.60000000009313,
+          "endMs": 99.60000000009313
+        },
+        {
+          "path": "/playable-3d/deferred-textures.js?v=startup-20261012",
+          "encodedBodyBytes": 1478,
+          "startMs": 99.60000000009313,
+          "endMs": 99.60000000009313
+        },
+        {
+          "path": "/playable-3d/chapel.js?v=opt2-20260914",
+          "encodedBodyBytes": 6805,
+          "startMs": 99.70000000018626,
+          "endMs": 99.70000000018626
+        },
+        {
+          "path": "/playable-3d/vendor/three/build/three.module.js",
+          "encodedBodyBytes": 117574,
+          "startMs": 99.70000000018626,
+          "endMs": 99.70000000018626
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/environments/RoomEnvironment.js",
+          "encodedBodyBytes": 1640,
+          "startMs": 99.70000000018626,
+          "endMs": 99.70000000018626
+        },
+        {
+          "path": "/playable-3d/world.js?v=guest-first-20261012",
+          "encodedBodyBytes": 13249,
+          "startMs": 100.5,
+          "endMs": 100.5
+        },
+        {
+          "path": "/playable-3d/destinations.js?v=demo-20260914",
+          "encodedBodyBytes": 288,
+          "startMs": 100.5,
+          "endMs": 100.5
+        },
+        {
+          "path": "/playable-3d/characters.js?v=named-students-20261011",
+          "encodedBodyBytes": 5232,
+          "startMs": 100.80000000004657,
+          "endMs": 100.80000000004657
+        },
+        {
+          "path": "/economy-lab/economy.mjs?v=navigation-20261012",
+          "encodedBodyBytes": 2193,
+          "startMs": 109.80000000004657,
+          "endMs": 109.80000000004657
+        },
+        {
+          "path": "/playable-3d/proximity-gate.mjs?v=default-exploration-20261011",
+          "encodedBodyBytes": 259,
+          "startMs": 109.9000000001397,
+          "endMs": 109.9000000001397
+        },
+        {
+          "path": "/playable-3d/discovery-state.mjs?v=quiet-route-20261011",
+          "encodedBodyBytes": 1245,
+          "startMs": 109.9000000001397,
+          "endMs": 109.9000000001397
+        },
+        {
+          "path": "/playable-3d/scout-framing.mjs",
+          "encodedBodyBytes": 387,
+          "startMs": 109.9000000001397,
+          "endMs": 109.9000000001397
+        },
+        {
+          "path": "/playable-3d/helper-state.js?v=guidance-20260928",
+          "encodedBodyBytes": 639,
+          "startMs": 110.70000000018626,
+          "endMs": 110.70000000018626
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/utils/BufferGeometryUtils.js",
+          "encodedBodyBytes": 7995,
+          "startMs": 111.10000000009313,
+          "endMs": 111.10000000009313
+        },
+        {
+          "path": "/playable-3d/vendor/three/build/three.core.js",
+          "encodedBodyBytes": 276943,
+          "startMs": 111.20000000018626,
+          "endMs": 111.20000000018626
+        },
+        {
+          "path": "/playable-3d/environment/approved-campus-kit.js?v=first-play-20260921",
+          "encodedBodyBytes": 3733,
+          "startMs": 111.70000000018626,
+          "endMs": 111.70000000018626
+        },
+        {
+          "path": "/playable-3d/est-wall-video.js?v=load1-20260914",
+          "encodedBodyBytes": 951,
+          "startMs": 111.70000000018626,
+          "endMs": 111.70000000018626
+        },
+        {
+          "path": "/playable-3d/ecc-preview/model.js?v=first-play-20260921",
+          "encodedBodyBytes": 7906,
+          "startMs": 111.70000000018626,
+          "endMs": 111.70000000018626
+        },
+        {
+          "path": "/playable-3d/destinations.js?v=ecc1",
+          "encodedBodyBytes": 288,
+          "startMs": 111.70000000018626,
+          "endMs": 111.70000000018626
+        },
+        {
+          "path": "/playable-3d/campus-landscape.js?v=guest-first-20261012",
+          "encodedBodyBytes": 5135,
+          "startMs": 111.80000000004657,
+          "endMs": 111.80000000004657
+        },
+        {
+          "path": "/playable-3d/arrival-precinct.js?v=default-exploration-20261011",
+          "encodedBodyBytes": 2596,
+          "startMs": 111.80000000004657,
+          "endMs": 111.80000000004657
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/loaders/GLTFLoader.js",
+          "encodedBodyBytes": 24659,
+          "startMs": 111.9000000001397,
+          "endMs": 111.9000000001397
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/loaders/DRACOLoader.js",
+          "encodedBodyBytes": 5273,
+          "startMs": 112.5,
+          "endMs": 112.5
+        },
+        {
+          "path": "/playable-3d/vendor/rapier/rapier.mjs",
+          "encodedBodyBytes": 830006,
+          "startMs": 112.60000000009313,
+          "endMs": 112.60000000009313
+        },
+        {
+          "path": "/playable-3d/scenery.js?v=scenery-2",
+          "encodedBodyBytes": 1629,
+          "startMs": 112.60000000009313,
+          "endMs": 112.60000000009313
+        },
+        {
+          "path": "/playable-3d/profiles.js",
+          "encodedBodyBytes": 3284,
+          "startMs": 112.9000000001397,
+          "endMs": 112.9000000001397
+        },
+        {
+          "path": "/playable-3d/avatar-clips.mjs?v=named-students-20261011",
+          "encodedBodyBytes": 265,
+          "startMs": 115.10000000009313,
+          "endMs": 115.10000000009313
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/utils/SkeletonUtils.js",
+          "encodedBodyBytes": 3050,
+          "startMs": 115.80000000004657,
+          "endMs": 115.80000000004657
+        },
+        {
+          "path": "/playable-3d/avatar-download.js?v=entry-load-20260921",
+          "encodedBodyBytes": 600,
+          "startMs": 115.9000000001397,
+          "endMs": 115.9000000001397
+        },
+        {
+          "path": "/playable-3d/environment/static-batching.js?v=1",
+          "encodedBodyBytes": 1435,
+          "startMs": 116.5,
+          "endMs": 116.5
+        },
+        {
+          "path": "/playable-3d/ecc-preview/authored-courtyard.js?v=first-play-20260921",
+          "encodedBodyBytes": 5070,
+          "startMs": 116.5,
+          "endMs": 116.5
+        },
+        {
+          "path": "/playable-3d/ecc-preview/courtyard-detail.js?v=courtyard1",
+          "encodedBodyBytes": 3756,
+          "startMs": 117.20000000018626,
+          "endMs": 117.20000000018626
+        },
+        {
+          "path": "/playable-3d/ecc-preview/hero-materials.js?v=courtyard1",
+          "encodedBodyBytes": 4157,
+          "startMs": 117.20000000018626,
+          "endMs": 117.20000000018626
+        },
+        {
+          "path": "/playable-3d/environment/paving-network.js?v=student-usability-20260924",
+          "encodedBodyBytes": 895,
+          "startMs": 117.30000000004657,
+          "endMs": 117.30000000004657
+        },
+        {
+          "path": "/playable-3d/ecc-preview/authored-garden.js?v=annotations1",
+          "encodedBodyBytes": 3435,
+          "startMs": 117.80000000004657,
+          "endMs": 117.80000000004657
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/libs/meshopt_decoder.module.js",
+          "encodedBodyBytes": 7687,
+          "startMs": 118,
+          "endMs": 118
+        },
+        {
+          "path": "/playable-3d/ecc-preview/admin-signage.js?v=entry-load-20260921",
+          "encodedBodyBytes": 2142,
+          "startMs": 118.4000000001397,
+          "endMs": 118.4000000001397
+        },
+        {
+          "path": "/playable-3d/ecc-preview/hero-materials.js?v=authored1",
+          "encodedBodyBytes": 4157,
+          "startMs": 118.4000000001397,
+          "endMs": 118.4000000001397
+        },
+        {
+          "path": "/playable-3d/vendor/three/examples/jsm/loaders/HDRLoader.js",
+          "encodedBodyBytes": 3831,
+          "startMs": 118.5,
+          "endMs": 118.5
+        },
+        {
+          "path": "/playable-3d/environment/paving-polygons.js?v=windows1",
+          "encodedBodyBytes": 923,
+          "startMs": 122.20000000018626,
+          "endMs": 122.20000000018626
+        },
+        {
+          "path": "/playable-3d/assets/whole-characters/antonio.glb",
+          "encodedBodyBytes": 2950378,
+          "startMs": 192.30000000004657,
+          "endMs": 666.8000000000466
+        },
+        {
+          "path": "/playable-3d/ecc-preview/assets/authored-courtyard/ecc-exterior-annotations.glb?v=1",
+          "encodedBodyBytes": 261666,
+          "startMs": 826.5,
+          "endMs": 828.3000000000466
+        },
+        {
+          "path": "/playable-3d/assets/campus-landscape/boulder-a.glb",
+          "encodedBodyBytes": 449136,
+          "startMs": 828.4000000001397,
+          "endMs": 2732.2000000001863
+        },
+        {
+          "path": "/playable-3d/ecc-preview/assets/admin-signage/cleaned-ecc-crest-source-lossless.webp",
+          "encodedBodyBytes": 971688,
+          "startMs": 828.5,
+          "endMs": 3775.9000000001397
+        }
+      ]
+    }
+  }
+}

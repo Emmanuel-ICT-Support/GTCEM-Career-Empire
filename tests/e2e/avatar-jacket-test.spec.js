@@ -1,0 +1,36 @@
+import {selectTestCharacter} from './avatar-choice.js';
+import {test, expect} from './campus-fixtures.js';
+
+
+test('jacket test supports outfit visibility, walking and saved profiles', async ({page}) => {
+  test.setTimeout(180000);
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('/playable-3d/');
+  await expect(page.locator('#loading')).toBeHidden({timeout:120000});
+  await page.locator('#places-toggle').click();await page.getByRole('button',{name:'Avatar Studio',exact:true}).click();
+  await selectTestCharacter(page,'jackettest');
+  await expect(page.locator('#save-avatar')).toBeEnabled({timeout:90000});
+  await page.locator('[data-tab="style"]').click();
+  await expect(page.getByLabel('Jacket',{exact:true})).toHaveValue('blazer');
+  const meshes=async()=>JSON.parse(await page.locator('#diagnostics').textContent()).visibleMeshes;
+  await expect.poll(meshes).toBe(30);
+  await page.screenshot({path:test.info().outputPath('studio-jacket-on.png')});
+  await page.getByLabel('Jacket',{exact:true}).selectOption('none');
+  await expect.poll(meshes).toBe(19);
+  await page.getByRole('button',{name:'Undo appearance change'}).click();
+  await expect(page.getByLabel('Jacket',{exact:true})).toHaveValue('blazer');
+  await expect.poll(meshes).toBe(30);
+  await page.getByRole('button',{name:'Walking preview',exact:true}).click();
+  await expect(page.locator('#pose-avatar')).toHaveAttribute('aria-pressed','true');
+  await page.waitForTimeout(800);
+  await page.screenshot({path:test.info().outputPath('studio-jacket-walking.png')});
+  await page.locator('#save-avatar').click();
+  await expect(page.locator('#studio-panel')).toBeHidden();
+  await page.reload();
+  await expect(page.locator('#loading')).toBeHidden({timeout:120000});
+  await page.locator('#places-toggle').click();await page.getByRole('button',{name:'Avatar Studio',exact:true}).click();
+  await expect(page.locator('#studio-panel')).toBeVisible({timeout:90000});await expect(page.locator('#save-avatar')).toBeEnabled({timeout:90000});await expect(page.getByLabel('Character',{exact:true})).toHaveValue('jackettest');
+  await page.locator('[data-tab="style"]').click();
+  await expect(page.getByLabel('Jacket',{exact:true})).toHaveValue('blazer');
+  expect(errors).toEqual([]);
+});

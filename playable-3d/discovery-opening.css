@@ -1,0 +1,80 @@
+.discovery-review #arrival-mission,.discovery-review #choose-helper,.discovery-review #new-profile,.discovery-review #my-life-link,.discovery-review #profile,.discovery-review #phase,.discovery-review [data-feedback-trigger]{display:none!important}
+#discovery{position:absolute;right:22px;bottom:65px;z-index:12;width:290px;background:#fff9e9ed;border:1px solid #cbbf99;border-radius:16px;padding:16px;color:#18332f;box-shadow:0 5px 25px #18332f22;font:15px/1.45 system-ui}#discovery small{font-size:10px;letter-spacing:1px}#discovery p{margin:8px 0}#discovery button,#discovery-dialog button{border:1px solid #9c9a78;background:#fff9e5;color:#173b35;border-radius:9px;padding:9px 12px;margin:3px;font:inherit;cursor:pointer}#discovery button:focus-visible,#discovery-dialog button:focus-visible{outline:3px solid #207fbe;outline-offset:3px}#discovery-dialog{width:min(600px,90vw);max-height:88vh;overflow:auto;border:1px solid #b2aa87;border-radius:18px;padding:25px;background:#fff9ea;color:#173b35;font:16px/1.5 system-ui}#discovery-dialog::backdrop{background:#142b3544}#discovery-dialog h2{font:28px Georgia;margin:8px 0 16px}#discovery-picture{width:100%;height:230px;object-fit:contain;background:#e5e6d8;border-radius:10px}#discovery-close{float:right}#discovery-storage{font-size:12px;color:#54665b}#discovery-hint{background:#e5eee1;padding:10px;border-radius:8px}#discovery-hint:empty{display:none}#discovery-response{font-weight:600}#discovery-after[hidden]{display:none}@media(max-width:620px){#discovery{bottom:20px;right:12px;width:240px;padding:12px;font-size:13px}#discovery-picture{height:170px}#discovery-dialog{padding:18px}.discovery-review .world-heading{max-width:240px}}@media(prefers-reduced-motion:reduce){#discovery*,#discovery-dialog*{animation:none!important;transition:none!important}}
+
+#discovery[data-step="4"]{width:240px;padding:12px;font-size:13px}#discovery[data-step="4"] #discovery-premise,#discovery[data-step="4"] .discovery-still{display:none}#discovery details{margin:6px 0}#discovery summary{cursor:pointer}#discovery-review-controls{font-size:11px}.poster-payoff #discovery-picture{height:min(48vh,420px)}.poster-payoff{width:min(480px,90vw)!important}.poster-payoff h2{font-size:23px!important}.poster-payoff #discovery-storage{font-size:10px}.poster-payoff .discovery-actions,.poster-payoff #discovery-after{display:inline}.poster-payoff #discovery-poster{background:#224c42;color:#fff9e5}.poster-payoff #discovery-copy{font-size:14px}
+
+/* Keep the teacher approach visible; captions and accessible exit/skip remain. */
+#discovery[data-cinematic="true"]{left:50%;right:auto;bottom:28px;transform:translateX(-50%);width:min(620px,calc(100vw - 48px));padding:10px 14px;background:#fff9e9e8;font-size:14px}
+#discovery[data-cinematic="true"]>small,#discovery[data-cinematic="true"] #discovery-premise,#discovery[data-cinematic="true"] #discovery-open,#discovery[data-cinematic="true"] #discovery-help,#discovery[data-cinematic="true"] details,#discovery[data-cinematic="true"] .discovery-still{display:none!important}
+.discovery-cinematic .world-heading{visibility:hidden}
+#discovery[data-cinematic="true"] #discovery-response{margin:0 0 4px}
+#discovery[data-cinematic="true"] button{padding:6px 10px;font-size:13px}
+@media(max-width:620px){#discovery[data-cinematic="true"]{bottom:12px;width:calc(100vw - 40px);font-size:12px}}
+
+/* Missing Frame: hands-on camera, scoped to the isolated local opening. */
+#scout-toy{margin:12px 0}#scout-toy input[type="range"]{display:block;width:100%;accent-color:#24796a;min-height:32px}.develop-pictures{display:flex;gap:8px;overflow:hidden;border:8px solid #18332f;border-radius:12px;background:#18332f}.develop-pictures img{width:calc(50% - 4px);height:190px;object-fit:cover}.scout-viewfinder{position:relative;overflow:hidden;border:10px solid #18332f;border-radius:12px;background:#18332f;cursor:crosshair}.scout-viewfinder>img{display:block;width:100%;height:auto}.scout-viewfinder:focus-visible{outline:3px solid #207fbe;outline-offset:3px}.scout-reticle{position:absolute;width:17%;aspect-ratio:1;border:3px solid #fff6bf;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 1px #18332f;pointer-events:none}.scout-direction{display:flex;justify-content:center}.scout-direction button{min-width:44px;min-height:44px}.scout-stamp{position:absolute;right:10px;bottom:10px;background:#ffdb7a;color:#18332f;padding:5px 10px;border-radius:4px;transform:rotate(-5deg);font-weight:800}.scout-success{box-shadow:0 0 0 4px #6daf77}.scout-success .scout-reticle{background:#ef9a28aa;border-color:#fff7de;animation:scout-pop .4s ease-out}.scout-eyes::before,.scout-eyes::after{content:'';position:absolute;top:32%;width:10%;height:20%;border-radius:50%;background:#18332f}.scout-eyes::before{left:30%}.scout-eyes::after{right:30%}.scout-miss .scout-reticle{animation:scout-wiggle .25s linear}.scout-album{display:flex;gap:10px;flex-wrap:wrap}.scout-album figure{margin:0;background:#fff;padding:7px;transform:rotate(-2deg);box-shadow:0 2px 6px #18332f22}.scout-album img{display:block;width:110px;height:110px;object-fit:cover}.scout-album figcaption{font-size:12px;max-width:110px}.chapel-compositions{display:flex;flex-wrap:wrap}#discovery-style{border:0;margin:4px 0;padding:0}#discovery-style legend{font-size:12px}#discovery-style button[aria-pressed="true"]{background:#224c42;color:#fff9e5}#discovery [hidden],#discovery-dialog [hidden]{display:none!important}@keyframes scout-pop{from{transform:translate(-50%,-50%) scale(.6)}to{transform:translate(-50%,-50%) scale(1)}}@keyframes scout-wiggle{25%{transform:translate(-55%,-50%)}75%{transform:translate(-45%,-50%)}}@media(max-width:620px){.develop-pictures img{height:140px}.scout-album img{width:85px;height:85px}}@media(prefers-reduced-motion:reduce){.scout-success .scout-reticle,.scout-miss .scout-reticle{animation:none!important}}body.discovery-still .scout-reticle{animation:none!important}
+
+/* QA polish: keep the camera and its controls compact, preserving image ratios. */
+#discovery-controls{font-size:12px;font-weight:400!important;color:#54665b}
+#discovery[data-cinematic="true"] #discovery-controls{display:none!important}
+#discovery-dialog{overflow-anchor:none;box-sizing:border-box}
+#discovery-dialog.scout-camera-dialog{font-size:14px;line-height:1.35;padding:16px 20px}
+.scout-camera-dialog h2{font-size:23px!important;margin:5px 0 8px!important}
+.scout-camera-dialog p{margin:6px 0}
+.scout-camera-dialog #scout-toy{margin:8px 0}
+.scout-camera-dialog .scout-viewfinder{width:min(100%,clamp(160px,30vh,260px));box-sizing:border-box;border-width:5px;margin:0 auto}
+.scout-camera-actions{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px;margin-top:6px}
+.scout-camera-actions .scout-direction{flex-shrink:0}
+.scout-camera-dialog button{padding:6px 9px!important}
+.scout-camera-dialog #discovery-storage{font-size:10px}
+@media(max-width:620px){#discovery-dialog.scout-camera-dialog{padding:12px}.scout-camera-dialog .scout-viewfinder{width:min(100%,28vh)}}
+
+/* Reserve the bottom touch-control row below the trail panel. */
+@media(max-width:620px),(max-height:500px) and (max-width:950px){
+ #discovery:not([data-cinematic="true"]){bottom:calc(158px + env(safe-area-inset-bottom));max-height:calc(100dvh - 290px - env(safe-area-inset-bottom));overflow:auto}
+}
+@media(max-height:500px) and (max-width:950px){
+ .discovery-review #interact,.discovery-review #movement{bottom:calc(12px + env(safe-area-inset-bottom))}
+}
+
+/* Quiet visit: no scored response, photo task or minimum dwell. */
+.discovery-review .in-chapel #discovery{display:none}
+.discovery-review .in-chapel #movement,.discovery-review .in-chapel .header-controls{opacity:.35;transition:opacity .4s}
+.discovery-review .in-chapel #movement:focus-within,.discovery-review .in-chapel .header-controls:focus-within{opacity:1}
+.discovery-review .in-chapel #location-subtitle::after{content:'What matters to you as you think about what comes next?';display:block;margin-top:.8em;max-width:33ch;line-height:1.45}
+@media(prefers-reduced-motion:reduce){.discovery-review .in-chapel #movement,.discovery-review .in-chapel .header-controls{transition:none}}
+
+@media(max-width:620px){.discovery-review .in-chapel #world-heading #location-subtitle{display:block!important;font-size:12px;line-height:1.35;max-width:28ch}.discovery-review .in-chapel #location-subtitle::after{margin-top:.5em}}
+
+@media(max-width:620px){.discovery-review .in-chapel .location-line{display:block!important}.discovery-review .in-chapel .location-line .status-dot{display:none}}
+/* Default taster keeps choices in menus and makes the world the main view. */
+.discovery-review .account,.discovery-review #header-phase,.discovery-review #flyover-slot,.discovery-review [data-feedback-slot],.discovery-review .world-heading{display:none!important}
+.discovery-review #choose-helper{display:inline-flex!important}
+.discovery-review .header-controls{gap:6px;flex-wrap:wrap;justify-content:flex-end}
+#exploration-options{position:relative}#exploration-option-list{position:absolute;right:0;top:100%;width:min(310px,90vw);max-height:75dvh;overflow:auto;padding:12px;background:#fff9ea;border:1px solid #9c9a78;border-radius:10px;box-shadow:0 4px 20px #18332f33;display:grid;gap:8px;color:#18332f}
+#exploration-options:not([open]) #exploration-option-list{display:none}#exploration-option-list .header-menu{width:100%}#exploration-option-list .destination-bar,#exploration-option-list #settings-details{position:static;max-width:100%;box-sizing:border-box}#exploration-option-list a{color:#18332f;white-space:normal}#exploration-option-list #discovery{position:static;width:auto;max-width:100%;padding:8px;box-shadow:none;margin:0;font-size:13px}#exploration-option-list #discovery>small,#exploration-option-list #discovery-premise,#exploration-option-list #discovery-controls{display:none}#discovery-review-controls{font-size:13px}#whole-character-choice{max-width:90vw;width:380px;padding:22px;border-radius:12px;background:#fff9ea;color:#18332f}#whole-character-choice::backdrop{background:#18332f66}
+.develop-pictures:has(img:only-child) img{width:100%;height:230px;object-fit:contain}.develop-pictures:has(img:only-child){border:0;background:#e5e6d8}
+.discovery-review .topbar{height:66px;box-sizing:border-box}.discovery-review .topbar .brand{flex-shrink:0}.discovery-review #exploration-help{min-height:40px}
+@media(max-width:620px){.discovery-review .topbar .brand-mark{display:none}.discovery-review .topbar .brand{font-size:9px}.discovery-review .topbar .brand strong{font-size:16px}.discovery-review .header-controls{gap:4px}.discovery-review .header-controls>button,.discovery-review .header-controls>details>summary{padding:7px;font-size:12px;min-height:40px}.develop-pictures:has(img:only-child) img{height:180px}}
+
+@media(max-width:620px){.discovery-review .topbar{flex-direction:row;align-items:center;padding:8px 10px;gap:8px}.discovery-review .header-controls{flex-wrap:nowrap;margin-left:auto;gap:2px;position:static;width:auto}.discovery-review .header-controls>button,.discovery-review .header-controls>details>summary,.discovery-review .exploration-tools button{font-size:11px;padding:7px 6px;min-height:40px}.discovery-review .topbar .brand{width:75px;min-width:75px}}
+@media(max-width:820px){.discovery-review .topbar{flex-wrap:nowrap;min-height:66px}.discovery-review .header-controls{flex-basis:auto}}
+/* Keep module access inside Options; the optional companion follows the photo. */
+.discovery-review #exploration-option-list #my-life-link{display:inline-flex!important}
+.discovery-review.guest-photo-finished #choose-helper{display:inline-flex!important}
+
+#options-pause-note{margin:0;font-size:13px;line-height:1.4}#resume-options{font-weight:700;border:1px solid #315c50;border-radius:6px;padding:10px;background:#315c50;color:#fff}#companion-status{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;z-index:10;width:max-content;max-width:calc(100% - 32px);margin:0;padding:8px 12px;border-radius:8px;background:#fff9ea;color:#18332f;font-size:13px;pointer-events:none}
+
+@media(max-width:640px){#exploration-option-list{position:fixed;top:calc(var(--game-header-height,66px) + 8px);right:12px;left:auto;width:min(310px,calc(100vw - 24px));box-sizing:border-box;max-height:calc(100dvh - var(--game-header-height,66px) - 24px)}}
+
+/* World moods remain available in the normal student exploration layout. */
+.discovery-review #exploration-option-list #header-phase{display:block!important}
+.discovery-review #exploration-option-list #phase{display:inline-block!important}
+.discovery-review #exploration-option-list .phase-control{display:flex;padding:8px;gap:10px}
+.discovery-review #exploration-option-list .phase-control small{display:block}
+
+#orientation-handover{width:min(440px,calc(100vw - 28px));border-radius:14px;background:#fff9ea;color:#18332f}
+#orientation-handover p{font-size:15px;line-height:1.5}
+#orientation-handover .dialog-actions{flex-wrap:wrap;gap:8px}
+
+.discovery-review.guest-photo-finished #flyover-slot{display:inline-flex!important}

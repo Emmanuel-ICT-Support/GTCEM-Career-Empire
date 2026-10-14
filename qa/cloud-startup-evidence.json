@@ -1,0 +1,45 @@
+{
+  "test": "video to complete exterior, walking and automatic parcel at 1280",
+  "status": "passed",
+  "handoverMs": 6846.5,
+  "entryPageMs": 10652,
+  "entryFPS": 0,
+  "renderRatio": 0.5,
+  "entryPosition": [
+    -7,
+    0.085,
+    23.3
+  ],
+  "parcelPosition": [
+    -7,
+    0.085,
+    16.522
+  ],
+  "entryFrame": 72,
+  "parcelFrame": 92,
+  "entryGeometry": [
+    {
+      "name": "English and Media \u2014 curved glazed frontage",
+      "visible": true,
+      "meshes": 73,
+      "inView": 73,
+      "position": [
+        -4,
+        0,
+        -37
+      ]
+    },
+    {
+      "name": "SPACE reference-led exterior",
+      "visible": true,
+      "meshes": 26,
+      "inView": 26,
+      "position": [
+        18,
+        0,
+        -53
+      ]
+    }
+  ],
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+}

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Year 10 Megatrends Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./year10-megatrends.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero-card">
+      <div>
+        <p class="eyebrow">No login required</p>
+        <h1>Year 10 Megatrends Explorer</h1>
+        <p class="hero-copy">Learn the four megatrends in simpler language, play quick arcade games, and finish with a PDF summary of what you learned.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="ghost-btn" href="../../index.html">Back to Main Page</a>
+        <button id="start-btn" class="primary-btn" type="button">Start the game</button>
+      </div>
+    </section>
+
+    <section class="stats-grid" aria-label="Game stats">
+      <article class="stat-card">
+        <p class="stat-label">Points</p>
+        <p id="points-stat" class="stat-value">0</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-label">Job Readiness</p>
+        <p id="readiness-stat" class="stat-value">50%</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-label">Work Balance</p>
+        <p id="balance-stat" class="stat-value">50%</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-label">Megatrend Mastery</p>
+        <p id="mastery-stat" class="stat-value">0%</p>
+      </article>
+    </section>
+
+    <section id="screen-intro" class="panel">
+      <div class="section-head">
+        <h2>How this version works</h2>
+        <p>Built for Year 10 students</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>Simpler language</h3>
+          <p>Each megatrend is explained with easy business and work examples.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Quick game rounds</h3>
+          <p>Read, choose, write one simple sentence, then earn points in a quick arcade challenge.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Automation checker</h3>
+          <p>Pick three random jobs and see how likely they are to be automated using job data from Will Robots Take My Job.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Downloadable PDF</h3>
+          <p>Your final PDF includes megatrend notes, your written responses, game stats, and your three jobs.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="screen-scenario" class="panel hidden">
+      <div class="section-head">
+        <h2 id="scenario-title">Megatrend</h2>
+        <p id="scenario-step">Round 1 of 4</p>
+      </div>
+      <div class="trend-banner">
+        <div>
+          <p id="scenario-tag" class="eyebrow">Megatrend</p>
+          <p id="scenario-simple" class="lead-copy"></p>
+        </div>
+        <div class="trend-pills">
+          <span id="scenario-business-pill" class="trend-pill">Business impact</span>
+          <span id="scenario-work-pill" class="trend-pill">Workforce impact</span>
+        </div>
+      </div>
+      <div class="two-col">
+        <article class="info-card">
+          <h3>What this means</h3>
+          <p id="scenario-summary"></p>
+          <div>
+            <h4>What businesses may notice</h4>
+            <ul id="scenario-implications" class="bullet-list"></ul>
+          </div>
+        </article>
+        <article class="info-card">
+          <h3>Scenario</h3>
+          <p id="scenario-prompt"></p>
+          <div id="scenario-choices" class="choice-list"></div>
+          <button id="scenario-submit" class="primary-btn" type="button" disabled>Lock in my choice</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="screen-writing" class="panel hidden">
+      <div class="section-head">
+        <h2>Write your sentence</h2>
+        <p>Copy one simple sentence and then explain it in your own words</p>
+      </div>
+      <div class="two-col">
+        <article class="info-card">
+          <h3>Copy this sentence exactly</h3>
+          <p id="target-sentence" class="target-sentence"></p>
+          <textarea id="typed-sentence" rows="4" placeholder="Type the sentence exactly as it appears above..."></textarea>
+          <p id="typed-feedback" class="helper-copy">Match the sentence exactly to unlock the arcade challenge.</p>
+        </article>
+        <article class="info-card">
+          <h3>Now explain it</h3>
+          <p id="writing-starter" class="helper-copy"></p>
+          <textarea id="own-words" rows="5" placeholder="Finish the idea in your own words..."></textarea>
+          <div class="hero-actions stacked">
+            <button id="arcade-btn" class="primary-btn" type="button" disabled>Play arcade challenge</button>
+            <button id="skip-from-writing-btn" class="ghost-btn" type="button">Skip arcade and continue</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="screen-arcade" class="panel hidden">
+      <div class="section-head">
+        <h2 id="arcade-title">Arcade Challenge</h2>
+        <p id="arcade-copy">Score points to boost your stats.</p>
+      </div>
+      <div class="arcade-shell">
+        <div class="arcade-instructions">
+          <p id="arcade-controls" class="controls-copy"></p>
+          <p id="arcade-goal"></p>
+        </div>
+        <canvas id="arcade-canvas" width="860" height="460"></canvas>
+        <div class="hero-actions">
+          <button id="skip-arcade-btn" class="ghost-btn" type="button">Skip challenge</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-automation" class="panel hidden">
+      <div class="section-head">
+        <h2>Will my job be automated?</h2>
+        <p>Pick three jobs to add to your PDF</p>
+      </div>
+      <div class="two-col">
+        <article class="info-card">
+          <h3>Choose a job</h3>
+          <p>Use a random job or search the data list. Then add three jobs to your report.</p>
+          <div class="automation-actions">
+            <button id="random-job-btn" class="primary-btn" type="button">Pick a random job</button>
+            <input id="job-search" list="job-options" type="text" placeholder="Search for a job...">
+            <datalist id="job-options"></datalist>
+            <button id="search-job-btn" class="ghost-btn" type="button">Use this job</button>
+          </div>
+          <div id="job-result" class="job-result empty-state">
+            <p>Pick a job to see the automation result.</p>
+          </div>
+        </article>
+        <article class="info-card">
+          <h3>Jobs saved for your PDF</h3>
+          <div id="selected-jobs" class="saved-jobs"></div>
+          <button id="finish-btn" class="primary-btn" type="button" disabled>Finish and open summary</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="screen-finish" class="panel hidden">
+      <div class="section-head">
+        <h2>Summary ready</h2>
+        <p>Download your PDF or replay the game</p>
+      </div>
+      <div class="two-col">
+        <article class="info-card">
+          <h3>Your progress</h3>
+          <div id="summary-cards" class="summary-grid"></div>
+        </article>
+        <article class="info-card">
+          <h3>Next step</h3>
+          <p>Your PDF includes megatrends, business implications, your written answers, your arcade and gameplay stats, and the three jobs you checked in the automation activity.</p>
+          <div class="hero-actions stacked">
+            <button id="download-pdf-btn" class="primary-btn" type="button">Download PDF</button>
+            <button id="restart-btn" class="ghost-btn" type="button">Play again</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="./year10-megatrends.js"></script>
+</body>
+</html>

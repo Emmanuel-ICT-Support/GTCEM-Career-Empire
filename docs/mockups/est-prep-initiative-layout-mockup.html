@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EST Prep Initiative Layout Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030b1c;
+      --panel: rgba(8, 18, 42, 0.9);
+      --panel-2: rgba(13, 27, 62, 0.9);
+      --line: rgba(104, 210, 255, 0.24);
+      --line-strong: rgba(104, 210, 255, 0.48);
+      --cyan: #5ee7ff;
+      --mint: #75f7bd;
+      --gold: #ffd45e;
+      --text: #f4f8ff;
+      --muted: #b9c9ee;
+      --bad: #ff7f98;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.36);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding-right: 430px;
+      font-family: Outfit, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(76, 202, 255, 0.2), transparent 36%),
+        linear-gradient(rgba(3, 11, 28, 0.62), rgba(3, 11, 28, 0.88)),
+        url("../../Assets/Images%20and%20Animations/EST%20backgrounds/Background%20Neutral.png") center/cover fixed,
+        var(--bg);
+    }
+
+    main {
+      width: min(1500px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 22px 0 180px;
+    }
+
+    .screen {
+      margin: 0 0 34px;
+      padding: clamp(18px, 2vw, 28px);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 78% 8%, rgba(94, 231, 255, 0.14), transparent 30%),
+        linear-gradient(135deg, rgba(5, 14, 33, 0.94), rgba(8, 20, 48, 0.88));
+      box-shadow: var(--shadow);
+    }
+
+    .screen-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 8px 14px;
+      border: 1px solid rgba(157, 190, 255, 0.26);
+      border-radius: 999px;
+      background: rgba(54, 84, 150, 0.62);
+      color: #dce9ff;
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 16px;
+      font-size: clamp(2.2rem, 4vw, 4.6rem);
+      line-height: 0.96;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 3vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      font-size: clamp(1.1rem, 1.5vw, 1.45rem);
+      line-height: 1.1;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .module-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(160px, 1fr));
+      gap: 14px;
+      margin: 24px 0 18px;
+    }
+
+    .module-tab {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      min-height: 88px;
+      padding: 14px 16px;
+      border: 1px solid rgba(157, 190, 255, 0.22);
+      border-radius: 20px;
+      background: rgba(9, 20, 46, 0.8);
+      color: var(--text);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+    }
+
+    .module-tab.is-active {
+      border-color: rgba(117, 247, 189, 0.68);
+      background: linear-gradient(135deg, rgba(15, 148, 92, 0.88), rgba(20, 109, 93, 0.78));
+      box-shadow: 0 18px 34px rgba(9, 120, 90, 0.18);
+    }
+
+    .tab-code {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: rgba(94, 231, 255, 0.14);
+      border: 1px solid rgba(94, 231, 255, 0.28);
+      color: var(--cyan);
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .module-tab.is-active .tab-code {
+      background: rgba(255, 255, 255, 0.16);
+      color: #06152a;
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .tab-copy strong {
+      display: block;
+      font-size: 1.25rem;
+      line-height: 1.1;
+    }
+
+    .tab-copy span {
+      display: block;
+      margin-top: 4px;
+      color: #cfe0ff;
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .you-are-here {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      width: 100%;
+      margin-top: 16px;
+      padding: 12px 14px;
+      border: 1px solid rgba(104, 210, 255, 0.22);
+      border-radius: 18px;
+      background: rgba(5, 14, 33, 0.76);
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .you-are-here b {
+      color: var(--gold);
+    }
+
+    .you-are-here .current {
+      padding: 5px 10px;
+      border: 1px solid rgba(117, 247, 189, 0.45);
+      border-radius: 999px;
+      background: rgba(117, 247, 189, 0.12);
+      color: var(--mint);
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .topic-card {
+      min-height: 118px;
+      padding: 14px;
+      border: 1px solid rgba(157, 190, 255, 0.18);
+      border-radius: 20px;
+      background: rgba(9, 20, 46, 0.64);
+    }
+
+    .topic-card.is-active {
+      border-color: rgba(94, 231, 255, 0.56);
+      background: linear-gradient(135deg, rgba(8, 42, 64, 0.84), rgba(13, 28, 68, 0.84));
+    }
+
+    .topic-card.is-active h3 {
+      color: var(--mint);
+    }
+
+    .topic-number {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(104, 210, 255, 0.32);
+      color: var(--cyan);
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .side-panel,
+    .question-panel,
+    .answer-card,
+    .feedback-strip,
+    .money-panel,
+    .replay-bar,
+    .step-rail {
+      border: 1px solid rgba(104, 210, 255, 0.22);
+      border-radius: 22px;
+      background: rgba(6, 16, 40, 0.84);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+    }
+
+    .side-panel {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+      position: sticky;
+      top: 18px;
+    }
+
+    .guide-toggle {
+      border: 1px solid rgba(104, 210, 255, 0.2);
+      border-radius: 18px;
+      background: rgba(9, 20, 46, 0.72);
+      overflow: hidden;
+    }
+
+    .guide-toggle summary {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .guide-toggle summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .guide-toggle summary strong {
+      color: var(--gold);
+      font-size: 0.86rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .guide-toggle-body {
+      display: grid;
+      gap: 12px;
+      padding: 0 14px 14px;
+    }
+
+    .summary-thumb {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #061225;
+    }
+
+    .guide-card {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 12px;
+      align-items: end;
+      padding: 14px;
+      border: 1px solid rgba(157, 190, 255, 0.22);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(25, 46, 92, 0.76), rgba(10, 26, 58, 0.9));
+    }
+
+    .guide-card img {
+      width: 92px;
+      max-height: 116px;
+      object-fit: contain;
+    }
+
+    .main-panel {
+      display: grid;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .question-panel {
+      padding: clamp(16px, 2vw, 26px);
+      background:
+        radial-gradient(circle at 18% 16%, rgba(94, 231, 255, 0.1), transparent 32%),
+        rgba(6, 16, 40, 0.9);
+    }
+
+    .question-layout {
+      display: grid;
+      grid-template-columns: minmax(360px, 0.95fr) minmax(360px, 1.05fr);
+      gap: 16px;
+      align-items: stretch;
+      margin-top: 16px;
+    }
+
+    .scenario-card {
+      display: grid;
+      gap: 0;
+      padding: 14px;
+      border: 1px solid rgba(157, 190, 255, 0.18);
+      border-radius: 20px;
+      background: rgba(6, 15, 36, 0.86);
+    }
+
+    .scenario-card video {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      max-height: 480px;
+      border-radius: 18px;
+      object-fit: cover;
+      border: 1px solid rgba(104, 210, 255, 0.28);
+    }
+
+    .qa-column {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 14px;
+    }
+
+    .question-copy {
+      display: grid;
+      gap: 8px;
+      padding: 16px;
+      border: 1px solid rgba(157, 190, 255, 0.2);
+      border-radius: 20px;
+      background: rgba(12, 26, 58, 0.84);
+    }
+
+    .question-copy strong {
+      font-size: clamp(1.35rem, 1.75vw, 2rem);
+      line-height: 1.08;
+    }
+
+    .answer-stack {
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .answer-card {
+      display: flex;
+      align-items: center;
+      min-height: 76px;
+      padding: 16px 22px;
+      color: var(--text);
+      font-size: clamp(1.12rem, 1.5vw, 1.48rem);
+      font-weight: 900;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .answer-card.is-correct {
+      border-color: rgba(117, 247, 189, 0.72);
+      background: linear-gradient(135deg, rgba(16, 92, 72, 0.9), rgba(13, 34, 70, 0.86));
+    }
+
+    .answer-card.is-wrong {
+      border-color: rgba(255, 127, 152, 0.62);
+      background: linear-gradient(135deg, rgba(90, 26, 50, 0.9), rgba(13, 34, 70, 0.86));
+    }
+
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .feedback-strip {
+      padding: 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .feedback-strip.good {
+      border-color: rgba(117, 247, 189, 0.46);
+    }
+
+    .feedback-strip.bad {
+      border-color: rgba(255, 127, 152, 0.42);
+    }
+
+    .money-panel {
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .money-options {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .money-option {
+      min-height: 78px;
+      padding: 12px;
+      border: 1px solid rgba(157, 190, 255, 0.2);
+      border-radius: 16px;
+      background: rgba(12, 26, 58, 0.78);
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .step-rail,
+    .replay-bar {
+      padding: 14px;
+    }
+
+    .step-buttons,
+    .replay-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .step-button,
+    .replay-button {
+      min-height: 76px;
+      padding: 12px 14px;
+      border: 1px solid rgba(157, 190, 255, 0.18);
+      border-radius: 18px;
+      background: rgba(8, 20, 46, 0.86);
+      color: #dbe7ff;
+      font: inherit;
+      font-weight: 900;
+      text-align: left;
+    }
+
+    .step-button.is-active {
+      border-color: rgba(94, 231, 255, 0.6);
+      background: linear-gradient(135deg, rgba(11, 51, 74, 0.94), rgba(13, 31, 68, 0.94));
+    }
+
+    .step-button span,
+    .replay-button span {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-right: 8px;
+      border-radius: 12px;
+      background: rgba(94, 231, 255, 0.14);
+      color: var(--cyan);
+    }
+
+    .pip-helper {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 20;
+      width: min(410px, calc(100vw - 44px));
+      border: 2px solid rgba(94, 231, 255, 0.46);
+      border-radius: 20px;
+      overflow: hidden;
+      background: #061125;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 28px rgba(94, 231, 255, 0.18);
+    }
+
+    .pip-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      background: rgba(7, 17, 40, 0.95);
+      border-bottom: 1px solid rgba(94, 231, 255, 0.22);
+    }
+
+    .pip-bar strong {
+      font-size: 0.92rem;
+    }
+
+    .pip-bar span {
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .pip-close {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .pip-helper video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      max-height: min(54vh, 600px);
+      object-fit: cover;
+    }
+
+    @media (max-width: 1120px) {
+      body {
+        padding-right: 0;
+      }
+
+      .module-tabs,
+      .topic-grid,
+      .money-options,
+      .step-buttons,
+      .replay-buttons {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .game-grid,
+      .question-layout,
+      .feedback-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .side-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 720px) {
+      main {
+        width: min(100% - 24px, 1500px);
+        padding-bottom: 120px;
+      }
+
+      .screen-header,
+      .module-tabs,
+      .topic-grid,
+      .money-options,
+      .step-buttons,
+      .replay-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .pip-helper {
+        width: min(250px, calc(100vw - 24px));
+        right: 12px;
+        bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="screen" aria-label="EST Prep hub mockup">
+      <div class="screen-header">
+        <div>
+          <span class="kicker">EST preparation module</span>
+          <h1>Choose your reactor.</h1>
+        </div>
+      </div>
+
+      <div class="module-tabs">
+        <div class="module-tab is-active">
+          <span class="tab-code">CORE</span>
+          <div class="tab-copy"><strong>EST Content Check</strong><span>Topic reactors and EST response practice</span></div>
+        </div>
+        <div class="module-tab">
+          <span class="tab-code">TERM</span>
+          <div class="tab-copy"><strong>Glossary Check</strong><span>Vocabulary, definitions, and recall</span></div>
+        </div>
+        <div class="module-tab">
+          <span class="tab-code">CODE</span>
+          <div class="tab-copy"><strong>VTCS Decoder</strong><span>Question command words and task decoding</span></div>
+        </div>
+        <div class="module-tab">
+          <span class="tab-code">BOSS</span>
+          <div class="tab-copy"><strong>Boss Round</strong><span>Final response and evidence check</span></div>
+        </div>
+      </div>
+
+      <div class="topic-grid">
+        <article class="topic-card is-active">
+          <span class="topic-number">01</span>
+          <h3>Initiative</h3>
+          <p>In progress</p>
+        </article>
+        <article class="topic-card">
+          <span class="topic-number">02</span>
+          <h3>Time</h3>
+          <p>Not started</p>
+        </article>
+        <article class="topic-card">
+          <span class="topic-number">03</span>
+          <h3>Finance</h3>
+          <p>Not started</p>
+        </article>
+        <article class="topic-card">
+          <span class="topic-number">04</span>
+          <h3>Cover Letters</h3>
+          <p>Not started</p>
+        </article>
+        <article class="topic-card">
+          <span class="topic-number">05</span>
+          <h3>Comms</h3>
+          <p>Not started</p>
+        </article>
+        <article class="topic-card">
+          <span class="topic-number">06</span>
+          <h3>Megatrends + LMI</h3>
+          <p>Not started</p>
+        </article>
+      </div>
+
+      <div class="you-are-here">
+        <span>You are here</span>
+        <span>CORE</span>
+        <span class="current">Initiative</span>
+        <span>Topic 1 of 6</span>
+      </div>
+    </section>
+
+    <section class="screen" aria-label="Initiative gameplay mockup">
+      <div class="screen-header">
+        <div>
+          <span class="kicker">Knowledge reactor</span>
+          <h2>Initiative Reactor</h2>
+        </div>
+        <div class="you-are-here"><span>CORE</span><b>Initiative</b><span>2/3 restored</span><span>Step 1/4</span></div>
+      </div>
+
+      <div class="game-grid">
+        <aside class="side-panel">
+          <details class="guide-toggle">
+            <summary>
+              <span class="kicker">Initiative one-page guide</span>
+              <strong>Open</strong>
+            </summary>
+            <div class="guide-toggle-body">
+              <p style="color:var(--gold);">One-page summary, collapsed by default.</p>
+              <img class="summary-thumb" src="../../Assets/EST%20Preparation/initiative-one-page-summary.png" alt="Initiative one-page summary">
+            </div>
+          </details>
+          <details class="guide-toggle">
+            <summary>
+              <span class="kicker">ECC guide</span>
+              <strong>Hint</strong>
+            </summary>
+            <div class="guide-toggle-body">
+              <div class="guide-card">
+                <img src="../../Assets/EST%20Preparation/guide-character/guide-pointing.png" alt="ECC guide character">
+                <p>Choose the strongest move. If it feels passive, it probably is not the best initiative call.</p>
+              </div>
+            </div>
+          </details>
+          <article class="feedback-strip">
+            <span class="kicker">Mission status</span>
+            <h3>Step 1: Spot the Initiative</h3>
+            <p>Flash card 3 of 3. 2/3 restored in this step.</p>
+          </article>
+        </aside>
+
+        <div class="main-panel">
+          <section class="question-panel">
+            <span class="kicker">Central task</span>
+            <h2 style="margin-top:16px;">Spot the Initiative</h2>
+            <p style="margin-top:8px;color:#dce9ff;">Click the strongest answer.</p>
+
+            <div class="question-layout">
+              <article class="scenario-card">
+                <video src="../../Assets/EST%20Preparation/initiative-q3.mp4" autoplay muted loop playsinline></video>
+              </article>
+
+              <div class="qa-column">
+                <div class="question-copy">
+                  <span class="kicker">Question</span>
+                  <strong>A worker sees an elderly person struggling with lifting an item and offers to help.</strong>
+                  <p>Use the written scenario as the task. Click the strongest answer.</p>
+                </div>
+
+                <div class="answer-stack">
+                  <button class="answer-card is-correct" type="button">Shows initiative</button>
+                  <button class="answer-card" type="button">Needs more initiative</button>
+                  <button class="answer-card" type="button">Just luck</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="feedback-grid">
+            <article class="feedback-strip good">
+              <span class="kicker">Yes - success state</span>
+              <h3>Signal restored</h3>
+              <p>This shows initiative because the worker notices someone needs support and offers practical help without waiting.</p>
+            </article>
+            <article class="feedback-strip bad">
+              <span class="kicker">No - try again state</span>
+              <h3>That choice does not unlock the chamber</h3>
+              <p>Show the feedback, keep the player on this card, and ask them to choose again.</p>
+            </article>
+          </div>
+
+          <section class="money-panel">
+            <div>
+              <span class="kicker">Back end allocation</span>
+              <h3 style="margin-top:10px;">Money and community fund appear after the topic review.</h3>
+            </div>
+            <div class="money-options">
+              <div class="money-option">Salary earned</div>
+              <div class="money-option">Community fund</div>
+              <div class="money-option">Marks banked</div>
+              <div class="money-option">Readiness gain</div>
+            </div>
+          </section>
+
+          <nav class="step-rail" aria-label="Initiative reactor steps">
+            <div class="step-buttons">
+              <button class="step-button is-active" type="button"><span>1</span>Flash card 3 of 3</button>
+              <button class="step-button" type="button"><span>2</span>Name the Initiative Type</button>
+              <button class="step-button" type="button"><span>3</span>Fix the Workplace</button>
+              <button class="step-button" type="button"><span>4</span>Upgrade the Answer</button>
+            </div>
+          </nav>
+
+          <nav class="replay-bar" aria-label="Replay controls">
+            <div class="replay-buttons">
+              <button class="replay-button" type="button"><span>R</span>Replay intro video</button>
+              <button class="replay-button" type="button"><span>1</span>Replay Step 1</button>
+              <button class="replay-button" type="button"><span>2</span>Replay Step 2</button>
+              <button class="replay-button" type="button"><span>M</span>Topic menu</button>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="pip-helper" aria-label="Docked video helper">
+    <div class="pip-bar">
+      <div>
+        <strong>Initiative video helper</strong>
+        <span>Docked bottom right</span>
+      </div>
+      <button class="pip-close" type="button" aria-label="Close video helper">x</button>
+    </div>
+    <video src="../../Assets/EST%20Preparation/initiative-portrait.mp4" autoplay muted loop playsinline></video>
+  </aside>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536">
+  <rect width="1024" height="1536" fill="#ffffff"/>
+  <g id="character-reference">
+    <image href="01-character-reference.png" x="0" y="0" width="1024" height="1536"/>
+  </g>
+  <g id="rig-guides">
+    <rect x="318.0" y="140.0" width="387.0" height="1230.0" fill="none" stroke="#00a7b5" stroke-width="3" stroke-dasharray="10 8"/>
+    
+    <g id="neck-width-height-guide">
+      <polygon points="467,398 557,398 572,515 452,515" fill="#ff4d6d" fill-opacity="0.15" stroke="#ff2d55" stroke-width="4"/>
+      <line x1="467" y1="398" x2="557" y2="398" stroke="#ff2d55" stroke-width="5"/>
+      <line x1="452" y1="515" x2="572" y2="515" stroke="#ff2d55" stroke-width="5"/>
+      <line x1="512" y1="398" x2="512" y2="515" stroke="#ff2d55" stroke-width="3" stroke-dasharray="8 8"/>
+      <circle cx="512" cy="456" r="7" fill="#ff2d55" stroke="#ffffff" stroke-width="3"/>
+      <text x="569" y="404" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#ff2d55">neck top 90px</text>
+      <text x="584" y="521" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#ff2d55">neck bottom 120px</text>
+      <text x="524" y="457" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#ff2d55">height 117px</text>
+    </g>
+    <line x1="481" y1="334" x2="542" y2="334" stroke="#00a7b5" stroke-width="2" stroke-dasharray="8 8"/>
+<line x1="421" y1="577" x2="602" y2="577" stroke="#00a7b5" stroke-width="2" stroke-dasharray="8 8"/>
+<line x1="465" y1="890" x2="558" y2="890" stroke="#00a7b5" stroke-width="2" stroke-dasharray="8 8"/>
+<line x1="469" y1="1321" x2="554" y2="1321" stroke="#00a7b5" stroke-width="2" stroke-dasharray="8 8"/>
+    <circle cx="512" cy="318" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="522" y="310" font-family="Arial, sans-serif" font-size="18" fill="#102033">head_centre</text>
+<circle cx="481" cy="334" r="7" fill="#36c5f0" stroke="#102033" stroke-width="3"/>
+<text x="491" y="326" font-family="Arial, sans-serif" font-size="18" fill="#102033">left_eye_centre</text>
+<circle cx="542" cy="334" r="7" fill="#36c5f0" stroke="#102033" stroke-width="3"/>
+<text x="552" y="326" font-family="Arial, sans-serif" font-size="18" fill="#102033">right_eye_centre</text>
+<circle cx="512" cy="364" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="522" y="356" font-family="Arial, sans-serif" font-size="18" fill="#102033">nose_bridge</text>
+<circle cx="512" cy="417" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="522" y="409" font-family="Arial, sans-serif" font-size="18" fill="#102033">mouth_centre</text>
+<circle cx="512" cy="515" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="522" y="507" font-family="Arial, sans-serif" font-size="18" fill="#102033">neck_centre</text>
+<circle cx="421" cy="577" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="431" y="569" font-family="Arial, sans-serif" font-size="18" fill="#102033">left_shoulder</text>
+<circle cx="602" cy="577" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="612" y="569" font-family="Arial, sans-serif" font-size="18" fill="#102033">right_shoulder</text>
+<circle cx="392" cy="872" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="402" y="864" font-family="Arial, sans-serif" font-size="18" fill="#102033">left_wrist</text>
+<circle cx="631" cy="872" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="641" y="864" font-family="Arial, sans-serif" font-size="18" fill="#102033">right_wrist</text>
+<circle cx="512" cy="798" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="522" y="790" font-family="Arial, sans-serif" font-size="18" fill="#102033">waist_centre</text>
+<circle cx="465" cy="890" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="475" y="882" font-family="Arial, sans-serif" font-size="18" fill="#102033">left_hip</text>
+<circle cx="558" cy="890" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="568" y="882" font-family="Arial, sans-serif" font-size="18" fill="#102033">right_hip</text>
+<circle cx="484" cy="1106" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="494" y="1098" font-family="Arial, sans-serif" font-size="18" fill="#102033">left_knee</text>
+<circle cx="539" cy="1106" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="549" y="1098" font-family="Arial, sans-serif" font-size="18" fill="#102033">right_knee</text>
+<circle cx="469" cy="1321" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="479" y="1313" font-family="Arial, sans-serif" font-size="18" fill="#102033">left_foot</text>
+<circle cx="554" cy="1321" r="5" fill="#f5c542" stroke="#102033" stroke-width="3"/>
+<text x="564" y="1313" font-family="Arial, sans-serif" font-size="18" fill="#102033">right_foot</text>
+  </g>
+  <g id="notes">
+    <text x="40" y="56" font-family="Arial, sans-serif" font-weight="700" font-size="28" fill="#102033">ECC girl contact-derived rig v1</text>
+    <text x="40" y="88" font-family="Arial, sans-serif" font-size="18" fill="#526174">Full canvas: 1024 x 1536. Open this SVG in Illustrator; keep exported layers on the same canvas.</text>
+    <text x="40" y="1416" font-family="Arial, sans-serif" font-size="18" fill="#102033">Uses the actual contact-sheet girl artwork as the visual source.</text>
+<text x="40" y="1440" font-family="Arial, sans-serif" font-size="18" fill="#102033">The supplied sheets do not include a clean neutral full-body girl base; this is a full uniform reference rig.</text>
+<text x="40" y="1464" font-family="Arial, sans-serif" font-size="18" fill="#102033">A neutral girl body/base layer is still required before true clothing swaps will be clean.</text>
+  </g>
+</svg>

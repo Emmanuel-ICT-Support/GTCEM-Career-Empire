@@ -1,0 +1,297 @@
+{
+  "date": "2026-10-12",
+  "browser": "Chromium 154, sandbox enabled, SwiftShader Auto",
+  "test": "companion-visible.spec.js",
+  "status": "passed",
+  "durationMs": 80159,
+  "scenes": {
+    "town": {
+      "state": {
+        "guestRun": true,
+        "runId": "visible-companion",
+        "introShellMs": 179,
+        "entryReady": true,
+        "surfaceDetailPending": 0,
+        "surfaceDetailFailed": false,
+        "preparingNextTask": false,
+        "renderRatio": 0.5,
+        "renderBackend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderFrameMs": 3,
+        "discovery": {
+          "step": 4,
+          "skipped": false,
+          "souvenir": true,
+          "developed": true,
+          "shots": {
+            "mural": {
+              "label": "Fixture mural",
+              "image": "captured fixture; omitted"
+            }
+          },
+          "chapelVisited": true,
+          "style": "mystery",
+          "destination": "mural",
+          "persistent": false,
+          "scene": null
+        },
+        "intro": {
+          "open": false,
+          "still": false,
+          "seen": true,
+          "playing": false
+        },
+        "echo": {
+          "helper": "sprout",
+          "helperStatus": "ready",
+          "position": [
+            -5.649997409688334,
+            0.08509911706991258,
+            23.749999237060546
+          ],
+          "visible": true,
+          "meshes": 1,
+          "status": "new",
+          "step": 0,
+          "open": false,
+          "height": 0.84,
+          "bob": 0.044067050220879
+        },
+        "avatarFallback": false,
+        "avatarBody": "antonio",
+        "campusReady": false,
+        "arrivalRestricted": false,
+        "teachers": [],
+        "scenery": {
+          "status": "pending",
+          "trees": 0,
+          "home": false,
+          "buildings": 0,
+          "errors": []
+        },
+        "mode": "town",
+        "phase": "flourishing",
+        "profileId": "avery",
+        "position": [
+          -7,
+          0.085,
+          23.3
+        ],
+        "fps": 1,
+        "drawCalls": 237,
+        "triangles": 315738,
+        "pixelColours": null,
+        "animations": [
+          "idle",
+          "walk"
+        ],
+        "visibleMeshes": 1
+      },
+      "frame": 130,
+      "parentMatches": true,
+      "visibleMeshes": 1,
+      "meshes": [
+        {
+          "name": "tripo_node_754439e3-1408-4e50-8eeb-5a6888defb31",
+          "visible": true,
+          "intersects": true,
+          "min": [
+            -5.96638512562385,
+            0.12261403183122102,
+            23.509456662825848
+          ],
+          "max": [
+            -5.314530079068915,
+            0.9808577116287709,
+            23.994870799500838
+          ],
+          "projected": [
+            0.22870851188814237,
+            -0.3069026028515425,
+            0.9758090034514305
+          ]
+        }
+      ],
+      "camera": [
+        -6.9999974096883335,
+        3.1850991170699126,
+        29.699999237060545
+      ]
+    },
+    "market": {
+      "state": {
+        "guestRun": true,
+        "runId": "visible-companion",
+        "introShellMs": 179,
+        "entryReady": true,
+        "surfaceDetailPending": 0,
+        "surfaceDetailFailed": false,
+        "preparingNextTask": false,
+        "renderRatio": 0.5,
+        "renderBackend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderFrameMs": 386,
+        "discovery": {
+          "step": 4,
+          "skipped": false,
+          "souvenir": true,
+          "developed": true,
+          "shots": {
+            "mural": {
+              "label": "Fixture mural",
+              "image": "captured fixture; omitted"
+            }
+          },
+          "chapelVisited": true,
+          "style": "mystery",
+          "destination": "mural",
+          "persistent": false,
+          "scene": null
+        },
+        "intro": {
+          "open": false,
+          "still": false,
+          "seen": true,
+          "playing": false
+        },
+        "echo": {
+          "helper": "sprout",
+          "helperStatus": "ready",
+          "position": [
+            1.35,
+            0,
+            15.45
+          ],
+          "visible": true,
+          "meshes": 1,
+          "status": "reading",
+          "step": 0,
+          "open": false,
+          "height": 0.84,
+          "bob": -0.024187010672258626
+        },
+        "market": {
+          "officeFlow": {
+            "visible": true,
+            "active": false,
+            "receptionSeen": false,
+            "week": 2,
+            "playerX": 0
+          },
+          "chapters": null,
+          "guidance": [
+            "Mara"
+          ],
+          "observation": {
+            "running": false,
+            "elapsed": 0,
+            "holding": false,
+            "testing": false
+          },
+          "visuals": {
+            "total": 14,
+            "ready": 0,
+            "assets": {
+              "mara": "loading",
+              "sam": "loading"
+            }
+          },
+          "practice": true,
+          "revision": 3,
+          "plan": {
+            "sign": "none",
+            "position": "counter",
+            "collection": "side",
+            "helper": "packing"
+          },
+          "trials": [],
+          "caseNote": {},
+          "shared": false,
+          "consolidated": false,
+          "observed": false,
+          "learned": false,
+          "proposal": null,
+          "placed": null,
+          "tested": false,
+          "reviewed": false,
+          "pass": false,
+          "encore": false,
+          "accepted": false,
+          "listened": false,
+          "attempted": false,
+          "solution": null,
+          "paid": false,
+          "researchReviewed": false,
+          "researchPaid": false,
+          "wallet": 0,
+          "savings": 0,
+          "tax": 0,
+          "donated": 0,
+          "keepsake": false,
+          "purchases": [],
+          "rested": false,
+          "badges": [],
+          "events": [],
+          "storageError": ""
+        },
+        "avatarFallback": false,
+        "avatarBody": "antonio",
+        "campusReady": false,
+        "arrivalRestricted": false,
+        "teachers": [],
+        "scenery": {
+          "status": "pending",
+          "trees": 0,
+          "home": false,
+          "buildings": 0,
+          "errors": []
+        },
+        "mode": "market",
+        "phase": "flourishing",
+        "profileId": "avery",
+        "position": [
+          0,
+          0,
+          15
+        ],
+        "fps": 1,
+        "drawCalls": 232,
+        "triangles": 317802,
+        "pixelColours": null,
+        "animations": [
+          "idle",
+          "walk"
+        ],
+        "visibleMeshes": 1
+      },
+      "frame": 148,
+      "parentMatches": true,
+      "visibleMeshes": 1,
+      "meshes": [
+        {
+          "name": "tripo_node_754439e3-1408-4e50-8eeb-5a6888defb31",
+          "visible": true,
+          "intersects": true,
+          "min": [
+            1.0358008328928943,
+            -0.04861561782478217,
+            15.211118113467323
+          ],
+          "max": [
+            1.6839098837964022,
+            0.8042130761792374,
+            15.693354065949574
+          ],
+          "projected": [
+            0.22795846575686432,
+            -0.33142697009164057,
+            0.9758964867290104
+          ]
+        }
+      ],
+      "camera": [
+        0,
+        3.1,
+        21.4
+      ]
+    }
+  }
+}

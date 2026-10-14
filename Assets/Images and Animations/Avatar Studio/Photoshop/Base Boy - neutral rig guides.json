@@ -1,0 +1,93 @@
+{
+  "canvas": [
+    364,
+    1232
+  ],
+  "centre_line_x": 182,
+  "face": {
+    "left_eye_centre": [
+      151,
+      158
+    ],
+    "right_eye_centre": [
+      229,
+      158
+    ],
+    "nose_bridge": [
+      182,
+      187
+    ],
+    "mouth_centre": [
+      182,
+      232
+    ]
+  },
+  "neck_guide": {
+    "top_left": [
+      137,
+      270
+    ],
+    "top_right": [
+      235,
+      270
+    ],
+    "bottom_left": [
+      125,
+      382
+    ],
+    "bottom_right": [
+      239,
+      382
+    ],
+    "centre": [
+      182,
+      326
+    ],
+    "top_width": 98,
+    "bottom_width": 114,
+    "height": 112,
+    "note": "Neutral base neck opening. Scale replacement heads so their neck width and lower neck height match this guide."
+  },
+  "body": {
+    "shoulder_line": [
+      [
+        84,
+        356
+      ],
+      [
+        280,
+        356
+      ]
+    ],
+    "waist_line": [
+      [
+        128,
+        585
+      ],
+      [
+        236,
+        585
+      ]
+    ],
+    "hip_line": [
+      [
+        130,
+        650
+      ],
+      [
+        234,
+        650
+      ]
+    ],
+    "foot_line": [
+      [
+        84,
+        1186
+      ],
+      [
+        280,
+        1186
+      ]
+    ]
+  }
+}

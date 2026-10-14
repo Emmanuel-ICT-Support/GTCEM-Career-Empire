@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 250" role="img" aria-labelledby="title desc">
+  <title id="title">Vault Bridge answer platform</title>
+  <desc id="desc">A glowing futuristic answer platform used as a glossary term option.</desc>
+  <defs>
+    <linearGradient id="pad-fill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#102a54"/>
+      <stop offset="0.52" stop-color="#0b1634"/>
+      <stop offset="1" stop-color="#081020"/>
+    </linearGradient>
+    <linearGradient id="pad-edge" x1="0" x2="1">
+      <stop offset="0" stop-color="#64f4ff"/>
+      <stop offset="0.48" stop-color="#84ffd1"/>
+      <stop offset="1" stop-color="#ffd86c"/>
+    </linearGradient>
+    <filter id="pad-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#pad-glow)">
+    <path d="M76 28 H344 L396 96 V168 L344 222 H76 L24 168 V96 Z" fill="url(#pad-fill)" stroke="url(#pad-edge)" stroke-width="6"/>
+    <path d="M100 58 H320 L360 108 V152 L320 192 H100 L60 152 V108 Z" fill="none" stroke="#64f4ff" stroke-width="3" opacity="0.36"/>
+    <path d="M116 122 H304" stroke="#84ffd1" stroke-width="7" stroke-linecap="round" opacity="0.48"/>
+    <path d="M154 84 H266" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.28"/>
+    <circle cx="76" cy="126" r="15" fill="#84ffd1" opacity="0.62"/>
+    <circle cx="344" cy="126" r="15" fill="#ffd86c" opacity="0.52"/>
+  </g>
+</svg>

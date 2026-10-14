@@ -19,7 +19,9 @@ jobs:
         with:
           fetch-depth: 2
       - name: Prove this QA commit changes only workflow infrastructure
-        run: git diff --exit-code "$REFERENCE_GAME_SHA" HEAD -- . ':!.github/workflows/phase0-journeys.yml'
+        run: |
+          git fetch --no-tags origin "$REFERENCE_GAME_SHA"
+          git diff --exit-code "$REFERENCE_GAME_SHA" HEAD -- . ':!.github/workflows/phase0-journeys.yml'
       - uses: actions/setup-node@v4
         with:
           node-version: 22

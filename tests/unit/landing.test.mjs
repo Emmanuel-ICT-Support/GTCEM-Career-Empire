@@ -1,0 +1,11 @@
+import {test,expect,vi} from 'vitest';
+import {findSafeLanding,nearCampusStart,MARKET_APPROACH} from '../../playable-3d/landing.mjs';
+test('landing ignores camera height and uses verified low ground',()=>{expect(findSafeLanding({x:4,y:90,z:5},()=>.18)).toEqual({x:4,y:.215,z:5});});
+test('roof and elevated surfaces cannot become landings',()=>{expect(findSafeLanding({x:4,z:5},()=>5)).toBeNull();});
+test('excluded building interiors move the landing to nearby outdoor ground',()=>{const point=findSafeLanding({x:0,z:0},()=>0,{excluded:(x,z)=>Math.abs(x)<2&&Math.abs(z)<2});expect(Math.abs(point.x)>=2||Math.abs(point.z)>=2).toBe(true);expect(Math.hypot(point.x,point.z)).toBeLessThan(4);});
+test('blocked capsule space cannot be adopted as a landing',()=>{const probe=vi.fn((x,z)=>x===4&&z===5?null:0),p=findSafeLanding({x:4,z:5},probe);expect(p).not.toMatchObject({x:4,z:5});expect(probe.mock.calls.length).toBeGreaterThan(1);});
+test('off-campus flights resolve within physical walking bounds',()=>{const p=findSafeLanding({x:500,z:-300},()=>0);expect(p.x).toBeLessThan(50);expect(p.z).toBeGreaterThan(-76);});
+test('no valid outdoor surface fails closed without moving the player',()=>{expect(findSafeLanding({x:0,z:0},()=>null)).toBeNull();});
+test('invalid coordinates do not run collision probes',()=>{const probe=vi.fn();expect(findSafeLanding({x:NaN,z:1},probe)).toBeNull();expect(probe).not.toHaveBeenCalled();});
+test('landing early never qualifies as a return to campus start',()=>{expect(nearCampusStart({x:10,z:0})).toBe(false);expect(nearCampusStart({x:-7,z:23.3})).toBe(true);expect(nearCampusStart({x:-7,z:26.3})).toBe(false);});
+test('ordinary market approach is on campus in front of the building, facing inward',()=>{expect(MARKET_APPROACH).toEqual({x:43,z:-17.8,yaw:0});});

@@ -1,0 +1,19 @@
+.DS_Store
+node_modules/
+exports/
+remotion-est-scenes/out/
+playwright-report/
+test-results/
+coverage/
+Assets/New Game 2/node_modules/
+Assets/New Game 2/~$tro Script.docx
+Assets/New Game 2/
+Assets/Lifelong Learning/~$*
+Assets/EST Preparation/~$*
+**/~$*
+Assets/employability-logos/raw/
+Assets/**/.DS_Store
+modules/.DS_Store
+data/.DS_Store
+Assets/ECC Branding/Amplified Intelligence.html
+Assets/ECC Branding/Amplified Intelligence_files/

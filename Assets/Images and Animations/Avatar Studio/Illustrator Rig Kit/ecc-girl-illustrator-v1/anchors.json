@@ -1,0 +1,85 @@
+{
+  "id": "ecc-girl-illustrator-v1",
+  "canvas": [
+    1024,
+    1536
+  ],
+  "anchors": {
+    "headCenter": [
+      512,
+      270
+    ],
+    "leftEye": [
+      456,
+      282
+    ],
+    "rightEye": [
+      568,
+      282
+    ],
+    "browLine": [
+      512,
+      236
+    ],
+    "noseBridge": [
+      512,
+      310
+    ],
+    "mouthCenter": [
+      512,
+      368
+    ],
+    "leftEar": [
+      400,
+      292
+    ],
+    "rightEar": [
+      624,
+      292
+    ],
+    "neckCenter": [
+      512,
+      438
+    ],
+    "neckOpening": [
+      512,
+      503
+    ],
+    "leftShoulder": [
+      354,
+      520
+    ],
+    "rightShoulder": [
+      670,
+      520
+    ],
+    "waistLine": [
+      512,
+      792
+    ],
+    "hips": [
+      512,
+      858
+    ],
+    "leftHandRest": [
+      344,
+      752
+    ],
+    "rightHandRest": [
+      680,
+      752
+    ],
+    "leftFoot": [
+      442,
+      1262
+    ],
+    "rightFoot": [
+      582,
+      1262
+    ],
+    "feetBaseline": [
+      512,
+      1302
+    ]
+  }
+}

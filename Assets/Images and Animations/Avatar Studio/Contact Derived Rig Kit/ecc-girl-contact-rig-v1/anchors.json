@@ -1,0 +1,116 @@
+{
+  "id": "ecc-girl-contact-rig-v1",
+  "canvas": [
+    1024,
+    1536
+  ],
+  "source": "Contact-derived from the supplied Avatar Studio contact sheets.",
+  "primary_layer": "01-character-reference.png",
+  "primary_placement": {
+    "x": 318,
+    "y": 140,
+    "width": 387,
+    "height": 1230
+  },
+  "anchors": {
+    "head_centre": [
+      512,
+      318
+    ],
+    "left_eye_centre": [
+      481,
+      334
+    ],
+    "right_eye_centre": [
+      542,
+      334
+    ],
+    "nose_bridge": [
+      512,
+      364
+    ],
+    "mouth_centre": [
+      512,
+      417
+    ],
+    "neck_centre": [
+      512,
+      515
+    ],
+    "left_shoulder": [
+      421,
+      577
+    ],
+    "right_shoulder": [
+      602,
+      577
+    ],
+    "left_wrist": [
+      392,
+      872
+    ],
+    "right_wrist": [
+      631,
+      872
+    ],
+    "waist_centre": [
+      512,
+      798
+    ],
+    "left_hip": [
+      465,
+      890
+    ],
+    "right_hip": [
+      558,
+      890
+    ],
+    "left_knee": [
+      484,
+      1106
+    ],
+    "right_knee": [
+      539,
+      1106
+    ],
+    "left_foot": [
+      469,
+      1321
+    ],
+    "right_foot": [
+      554,
+      1321
+    ]
+  },
+  "neck_guide": {
+    "top_left": [
+      467,
+      398
+    ],
+    "top_right": [
+      557,
+      398
+    ],
+    "bottom_left": [
+      452,
+      515
+    ],
+    "bottom_right": [
+      572,
+      515
+    ],
+    "centre": [
+      512,
+      456
+    ],
+    "note": "Estimated from the uniform girl reference; replace with a neutral girl body measurement once that base exists.",
+    "top_width": 90,
+    "bottom_width": 120,
+    "height": 117
+  },
+  "notes": [
+    "Uses the actual contact-sheet girl artwork as the visual source.",
+    "The supplied sheets do not include a clean neutral full-body girl base; this is a full uniform reference rig.",
+    "A neutral girl body/base layer is still required before true clothing swaps will be clean."
+  ]
+}

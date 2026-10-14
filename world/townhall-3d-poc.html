@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Empire | Town Hall 3D Approach POC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./townhall-3d-poc.css?v=20260903-textured-v1">
+</head>
+<body class="townhall-poc-page">
+  <main class="townhall-poc-shell">
+    <nav class="townhall-poc-nav" aria-label="Career Empire proof navigation">
+      <a href="./index.html">Current Phaser Map</a>
+      <a href="./rebuild-corrected.html">Town Hall v2 Prototype</a>
+      <a class="active" href="./townhall-3d-poc.html">3D Town Hall POC</a>
+    </nav>
+
+    <section class="townhall-poc-stage" aria-label="Standalone Town Hall 3D approach proof">
+      <div id="townhall-3d-canvas" class="townhall-3d-canvas">
+        <div id="townhall-3d-loading" class="townhall-3d-loading">Loading Town Hall GLB...</div>
+        <img
+          id="townhall-shoulder-character"
+          class="townhall-shoulder-character"
+          src="../Assets/Images and Animations/Career Empire World/avatars/CE-CHAR-B01/runtime/CE-CHAR-B01-idle-back-3q.png"
+          alt=""
+          aria-hidden="true"
+        >
+        <div class="townhall-3d-hud">
+          <span>Town Hall 3D Approach POC</span>
+          <strong id="townhall-3d-status">Preparing scene</strong>
+        </div>
+        <div class="townhall-3d-controls">
+          <button id="townhall-play" type="button">Replay Approach</button>
+          <button id="townhall-record" type="button">Record Approach</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="townhall-poc-report" aria-live="polite">
+      <article>
+        <h1>Standalone proof only</h1>
+        <p>
+          This tests a perspective-camera transition toward the Town Hall GLB and its named PortalAnchor.
+          It does not replace the Phaser map or the Town Hall v2 prototype.
+        </p>
+      </article>
+      <article>
+        <h2>Runtime report</h2>
+        <pre id="townhall-report">Waiting for model load...</pre>
+      </article>
+    </section>
+  </main>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="./townhall-3d-poc.js?v=20260903-textured-v1"></script>
+</body>
+</html>

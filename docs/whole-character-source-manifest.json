@@ -1,0 +1,179 @@
+[
+  {
+    "name": "Antonio",
+    "source": "Antonio.glb",
+    "library_file_id": "libfile_4d22c0b0a7b4819187a2b16b10e93ba9",
+    "asset": "playable-3d/assets/whole-characters/antonio.glb",
+    "bytes": 3453980,
+    "sha256": "a988469a4376c86cb051bdc104bf63c1934771ff42091043c07bf7cb3baa09a4",
+    "clips": [
+      "standing_relax",
+      "walk"
+    ],
+    "skinJoints": [
+      65
+    ],
+    "triangles": 19656,
+    "meshCount": 1,
+    "embeddedImages": 3,
+    "runtimeMapping": {
+      "idle": "standing_relax",
+      "locomotion": "walk"
+    }
+  },
+  {
+    "name": "Cerys",
+    "source": "Cerys+Triangular+20000.glb",
+    "library_file_id": "libfile_60ffc4bec32081918dafef63bccb855e",
+    "asset": "playable-3d/assets/whole-characters/cerys.glb",
+    "bytes": 3800048,
+    "sha256": "4c4126df6ba37b41a3196e5e89bc6967d1b12c31b39486e3f30e5db3f3cdd2a9",
+    "clips": [
+      "standing_relax",
+      "run",
+      "walk"
+    ],
+    "skinJoints": [
+      65
+    ],
+    "triangles": 18943,
+    "meshCount": 1,
+    "embeddedImages": 3,
+    "runtimeMapping": {
+      "idle": "standing_relax",
+      "locomotion": "walk"
+    }
+  },
+  {
+    "name": "Che",
+    "source": "Che.glb",
+    "library_file_id": "libfile_5843da9fd4788191bd504cced08629d6",
+    "asset": "playable-3d/assets/whole-characters/che.glb",
+    "bytes": 3442736,
+    "sha256": "7e2acd2445335d233ca971a742a86fa8561d64b58357903dc3aba1369a49405e",
+    "clips": [
+      "standing_relax",
+      "walk"
+    ],
+    "skinJoints": [
+      66
+    ],
+    "triangles": 19526,
+    "meshCount": 1,
+    "embeddedImages": 3,
+    "runtimeMapping": {
+      "idle": "standing_relax",
+      "locomotion": "walk"
+    }
+  },
+  {
+    "name": "Diego",
+    "source": "Diego.glb",
+    "library_file_id": "libfile_013587be9d4481918dbd2f03f6569835",
+    "asset": "playable-3d/assets/whole-characters/diego.glb",
+    "bytes": 3347636,
+    "sha256": "ea73fb10c8aee15e1243b439b62aaebe5fa2744e3004eac640383e2481099c0e",
+    "clips": [
+      "walk",
+      "standing_relax"
+    ],
+    "skinJoints": [
+      65
+    ],
+    "triangles": 19174,
+    "meshCount": 1,
+    "embeddedImages": 3,
+    "runtimeMapping": {
+      "idle": "standing_relax",
+      "locomotion": "walk"
+    }
+  },
+  {
+    "name": "Hannah",
+    "source": "Hannah.glb",
+    "library_file_id": "libfile_b5c81bac0d2c819195292bd536f8b979",
+    "asset": "playable-3d/assets/whole-characters/hannah.glb",
+    "bytes": 3711692,
+    "sha256": "89dce2f261671199bb86bd8ce5c207048389ae315141e2e84bc04389ea2423d1",
+    "clips": [
+      "walk",
+      "standing_relax"
+    ],
+    "skinJoints": [
+      65
+    ],
+    "triangles": 19594,
+    "meshCount": 1,
+    "embeddedImages": 3,
+    "runtimeMapping": {
+      "idle": "standing_relax",
+      "locomotion": "walk"
+    }
+  },
+  {
+    "name": "Lilly",
+    "source": "Lilly.glb",
+    "library_file_id": "libfile_aa69fbcac35c81918247659488e0efd3",
+    "asset": "playable-3d/assets/whole-characters/lilly.glb",
+    "bytes": 3620760,
+    "sha256": "ba4ee19df1314c5bac6c8b8af68f11ba1ad2bdb5ed8c0132153fcdfd17223b93",
+    "clips": [
+      "standing_relax",
+      "walk"
+    ],
+    "skinJoints": [
+      65
+    ],
+    "triangles": 19268,
+    "meshCount": 1,
+    "embeddedImages": 3,
+    "runtimeMapping": {
+      "idle": "standing_relax",
+      "locomotion": "walk"
+    }
+  },
+  {
+    "name": "Sienna",
+    "source": "Sienna.glb",
+    "library_file_id": "libfile_9720ce3dca78819194d36f6813d40b67",
+    "asset": "playable-3d/assets/whole-characters/sienna.glb",
+    "bytes": 3884480,
+    "sha256": "c2275fc00fad061270eb3e135a3838c30eaa6a5437d28b85e81fb4b24b368989",
+    "clips": [
+      "standing_relax",
+      "walk"
+    ],
+    "skinJoints": [
+      65
+    ],
+    "triangles": 19018,
+    "meshCount": 1,
+    "embeddedImages": 3,
+    "runtimeMapping": {
+      "idle": "standing_relax",
+      "locomotion": "walk"
+    }
+  },
+  {
+    "name": "Taj",
+    "source": "Taj.glb",
+    "library_file_id": "libfile_b4be128e7f648191b7bd66468493c305",
+    "asset": "playable-3d/assets/whole-characters/taj.glb",
+    "bytes": 3385744,
+    "sha256": "df7844769c8bf95130a2f52c2eecb5bb704ed17ce1bc9dd3c7468a565e15087a",
+    "clips": [
+      "walk",
+      "standing_relax"
+    ],
+    "skinJoints": [
+      65
+    ],
+    "triangles": 19126,
+    "meshCount": 1,
+    "embeddedImages": 3,
+    "runtimeMapping": {
+      "idle": "standing_relax",
+      "locomotion": "walk"
+    }
+  }
+]

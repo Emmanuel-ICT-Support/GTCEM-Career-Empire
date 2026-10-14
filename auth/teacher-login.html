@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./auth.css?v=20260513-auth-simplify">
+</head>
+<body data-teacher-nav-active="teacher-login">
+  <main class="auth-shell">
+    <div class="auth-topbar">
+      <div class="brand"><div class="brand-mark">CE</div><div>Teacher Login</div></div>
+      <div class="top-links">
+        <a class="ghost-link" href="./index.html">Auth Home</a>
+        <a class="ghost-link" href="./teacher-signup.html">Teacher Sign Up</a>
+      </div>
+    </div>
+
+    <section class="workflow-strip">
+      <div class="workflow-title">Teacher tools</div>
+      <div class="workflow-links">
+        <a class="workflow-link" href="./teacher-signup.html">Teacher Sign Up</a>
+        <a class="workflow-link active" href="./teacher-login.html">Teacher Login</a>
+        <a class="workflow-link" href="./create-class.html">Create Class</a>
+        <a class="workflow-link" href="./add-students.html">Add Students</a>
+        <a class="workflow-link" href="./manage-students.html">Manage Students</a>
+        <a class="workflow-link" href="../dashboards/teacher.html">Teacher Dashboard</a>
+      </div>
+    </section>
+
+    <section class="auth-layout">
+      <article class="form-card">
+        <span class="eyebrow">Teacher Access</span>
+        <h1>Return to your class, modules, and teaching controls.</h1>
+        <p class="lead">Teachers log in using their approved school email and password.</p>
+
+        <form id="teacher-login-form">
+          <div class="field">
+            <label for="teacher-login-email">School email</label>
+            <input id="teacher-login-email" type="email" placeholder="you@tkc.wa.edu.au" required>
+          </div>
+          <div class="field">
+            <label for="teacher-login-password">Password</label>
+            <input id="teacher-login-password" type="password" placeholder="Enter your password" required>
+            <div class="helper"><a href="./teacher-reset-password.html" style="color: var(--accent); font-weight: 700;">Forgot password?</a></div>
+          </div>
+          <div id="teacher-login-feedback" class="feedback"></div>
+          <div class="button-row">
+            <button class="button-primary" type="submit">Log In</button>
+            <a class="button button-secondary" href="./manage-students.html">Manage Students</a>
+            <a class="button button-secondary" href="../dashboards/teacher.html">Open Teacher Dashboard</a>
+          </div>
+        </form>
+        <div class="code-box" style="margin-top: 18px;">
+          <p><strong>Not on an approved email domain?</strong></p>
+          <p class="muted">Register with your school email first. New teacher accounts must confirm the verification email before they can log in.</p>
+        </div>
+      </article>
+
+      <div class="stack">
+        <article class="info-card">
+          <h2>Teacher permissions</h2>
+          <div class="pill-row">
+            <span class="pill">Create classes</span>
+            <span class="pill">Add students</span>
+            <span class="pill">Assign modules</span>
+            <span class="pill">View analytics</span>
+          </div>
+        </article>
+        <article class="info-card">
+          <h2>New teachers</h2>
+          <p class="muted">Register first, choose your school, then confirm the email Supabase sends to your school inbox.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="../config/supabase-config.js"></script>
+  <script src="../src/services/supabase-browser.js"></script>
+  <script src="./auth.js?v=20260513-auth-simplify"></script>
+  <script src="../src/services/session-banner.js?v=20260507-session-banner"></script>
+  <script src="../src/services/feedback-widget.js?v=20260513-free-text-privacy"></script>
+</body>
+</html>

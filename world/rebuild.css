@@ -1,0 +1,261 @@
+:root {
+  --rebuild-bg: #07111f;
+  --rebuild-panel: rgba(8, 18, 32, 0.9);
+  --rebuild-line: rgba(125, 180, 230, 0.24);
+  --rebuild-text: #eaf3ff;
+  --rebuild-muted: #a8bbd9;
+  --rebuild-accent: #67d8ff;
+  --rebuild-gold: #ffd166;
+}
+
+.world-rebuild-page {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    linear-gradient(135deg, rgba(7, 17, 31, 0.98), rgba(8, 28, 39, 0.95)),
+    #07111f;
+  color: var(--rebuild-text);
+  font-family: Outfit, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.world-rebuild-shell {
+  width: min(1360px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 14px 0 32px;
+}
+
+.world-rebuild-nav {
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.world-rebuild-nav .dashboard-nav-link {
+  border-radius: 8px;
+}
+
+.world-rebuild-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: end;
+  margin-bottom: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--rebuild-line);
+  border-radius: 10px;
+  background:
+    linear-gradient(90deg, rgba(8, 18, 32, 0.96), rgba(9, 31, 43, 0.68)),
+    #081220;
+}
+
+.world-rebuild-header h1 {
+  margin: 4px 0 0;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.eyebrow,
+.world-rebuild-kicker {
+  color: var(--rebuild-accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.world-rebuild-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  max-width: 620px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.world-rebuild-controls strong {
+  flex-basis: 100%;
+  color: var(--rebuild-muted);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.world-rebuild-controls span {
+  padding: 2px 0 2px 9px;
+  border-left: 1px solid rgba(103, 216, 255, 0.28);
+  color: #cfe3ff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.world-rebuild-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 14px;
+  align-items: start;
+}
+
+.world-rebuild-stage,
+.world-rebuild-panel {
+  border: 1px solid var(--rebuild-line);
+  border-radius: 10px;
+  background: var(--rebuild-panel);
+  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.32);
+}
+
+.world-rebuild-stage {
+  overflow: hidden;
+}
+
+.rebuild-game {
+  position: relative;
+  height: min(72vh, 720px);
+  min-height: 560px;
+  background: #071827;
+}
+
+.rebuild-game canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.rebuild-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--rebuild-muted);
+  font-weight: 800;
+}
+
+.rebuild-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 5;
+  max-width: min(560px, calc(100% - 36px));
+  padding: 10px 13px;
+  border: 1px solid rgba(103, 216, 255, 0.28);
+  border-radius: 8px;
+  background: rgba(4, 13, 24, 0.82);
+  color: var(--rebuild-text);
+  font-size: 13px;
+  font-weight: 800;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 10px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.rebuild-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.world-rebuild-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-top: 1px solid rgba(125, 180, 230, 0.2);
+  color: var(--rebuild-muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.world-rebuild-strip button,
+.world-rebuild-panel button {
+  min-height: 38px;
+  border: 1px solid rgba(103, 216, 255, 0.38);
+  border-radius: 8px;
+  background: rgba(103, 216, 255, 0.12);
+  color: var(--rebuild-text);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.world-rebuild-strip button {
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
+.world-rebuild-panel {
+  padding: 16px;
+}
+
+.world-rebuild-panel h2 {
+  margin: 8px 0;
+  font-size: 26px;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.world-rebuild-panel p {
+  margin: 0;
+  color: var(--rebuild-muted);
+  line-height: 1.45;
+}
+
+.world-rebuild-panel button {
+  width: 100%;
+  margin-top: 14px;
+}
+
+.world-rebuild-panel button:disabled {
+  border-color: rgba(168, 187, 217, 0.18);
+  background: rgba(168, 187, 217, 0.06);
+  color: rgba(168, 187, 217, 0.62);
+  cursor: default;
+}
+
+.world-rebuild-notes {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(125, 180, 230, 0.18);
+}
+
+.world-rebuild-notes strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--rebuild-gold);
+}
+
+@media (max-width: 960px) {
+  .world-rebuild-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .world-rebuild-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .world-rebuild-controls {
+    justify-content: flex-start;
+  }
+
+  .world-rebuild-controls strong {
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .world-rebuild-shell {
+    width: min(100% - 16px, 1360px);
+  }
+
+  .rebuild-game {
+    height: 66vh;
+    min-height: 420px;
+  }
+
+  .world-rebuild-strip {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

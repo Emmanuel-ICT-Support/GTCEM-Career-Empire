@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Glossary space runner scene</title>
+  <desc id="desc">A futuristic space vault tunnel with glowing lanes, stars and term gates.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#071227"/>
+      <stop offset="0.45" stop-color="#12245c"/>
+      <stop offset="1" stop-color="#070b1a"/>
+    </linearGradient>
+    <radialGradient id="core" cx="50%" cy="52%" r="55%">
+      <stop offset="0" stop-color="#61f0ff" stop-opacity="0.42"/>
+      <stop offset="0.38" stop-color="#6857ff" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#050a16" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lane" x1="0" x2="1">
+      <stop offset="0" stop-color="#61f0ff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#61f0ff" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#72f7b8" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1280" height="720" fill="url(#sky)"/>
+  <rect width="1280" height="720" fill="url(#core)"/>
+  <g opacity="0.78">
+    <circle cx="92" cy="76" r="2.5" fill="#dffcff"/>
+    <circle cx="214" cy="138" r="2" fill="#ffd86c"/>
+    <circle cx="326" cy="58" r="2.4" fill="#dffcff"/>
+    <circle cx="470" cy="122" r="1.8" fill="#72f7b8"/>
+    <circle cx="602" cy="74" r="2.2" fill="#dffcff"/>
+    <circle cx="782" cy="116" r="1.8" fill="#ffd86c"/>
+    <circle cx="938" cy="62" r="2.4" fill="#dffcff"/>
+    <circle cx="1120" cy="134" r="2.1" fill="#72f7b8"/>
+    <circle cx="1198" cy="84" r="1.7" fill="#dffcff"/>
+  </g>
+  <g opacity="0.55" stroke="#61f0ff" stroke-width="2">
+    <path d="M0 191 C190 142 350 146 520 184 C710 226 870 226 1280 156" fill="none"/>
+    <path d="M0 353 C260 304 470 306 640 353 C820 404 980 394 1280 318" fill="none"/>
+    <path d="M0 518 C260 574 430 554 642 503 C880 446 1030 452 1280 512" fill="none"/>
+  </g>
+  <g filter="url(#glow)">
+    <path d="M120 214 H1160" stroke="url(#lane)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M120 360 H1160" stroke="url(#lane)" stroke-width="6" stroke-linecap="round"/>
+    <path d="M120 506 H1160" stroke="url(#lane)" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(906 146)" opacity="0.96">
+    <rect x="0" y="0" width="248" height="124" rx="34" fill="#0b1736" stroke="#61f0ff" stroke-width="3"/>
+    <rect x="18" y="18" width="212" height="88" rx="26" fill="none" stroke="#72f7b8" stroke-width="2" stroke-dasharray="9 12"/>
+    <circle cx="124" cy="62" r="24" fill="#61f0ff" opacity="0.2"/>
+  </g>
+  <g transform="translate(952 330)" opacity="0.9">
+    <rect x="0" y="0" width="220" height="112" rx="32" fill="#101b3f" stroke="#ffd86c" stroke-width="3"/>
+    <path d="M34 56 H186" stroke="#ffd86c" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+    <circle cx="110" cy="56" r="22" fill="#ffd86c" opacity="0.18"/>
+  </g>
+  <g transform="translate(880 488)" opacity="0.94">
+    <rect x="0" y="0" width="262" height="118" rx="34" fill="#0b1736" stroke="#c48bff" stroke-width="3"/>
+    <path d="M46 32 L216 32 L186 86 L76 86 Z" fill="#c48bff" opacity="0.16"/>
+    <path d="M46 32 L216 32 L186 86 L76 86 Z" fill="none" stroke="#c48bff" stroke-width="2"/>
+  </g>
+  <g opacity="0.16">
+    <path d="M640 132 L716 360 L640 588 L564 360 Z" fill="#ffffff"/>
+    <path d="M442 86 L520 360 L442 634 L364 360 Z" fill="#61f0ff"/>
+    <path d="M838 86 L916 360 L838 634 L760 360 Z" fill="#72f7b8"/>
+  </g>
+</svg>

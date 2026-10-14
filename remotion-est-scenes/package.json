@@ -1,0 +1,43 @@
+{
+  "name": "remotion-est-scenes",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "remotion studio src/index.ts",
+    "render:career-empire": "remotion render src/index.ts CareerEmpireExplainer ../Assets/videos/Career\\ Empire\\ Explainer\\ 2026.mp4",
+    "render:student-intro": "remotion render src/index.ts StudentIntroPromo ../Assets/videos/Career\\ Empire\\ Student\\ Intro\\ 2026.mp4",
+    "render:ecc-character-pack": "remotion render src/index.ts ECCCharacterAnimationPack ../Assets/videos/ecc-character-animation-pack.mp4",
+    "render:avatar-animation-source": "remotion render src/index.ts AvatarAnimationSourceDemo ../Assets/videos/avatar-animation-source-demo.mp4",
+    "render:avatar-sprite-rig": "remotion render src/index.ts AvatarSpriteRigDemo ../Assets/videos/avatar-sprite-rig-demo.mp4",
+    "render:ecc-avatar-rig": "remotion render src/index.ts ECCAvatarRigPrototype ../Assets/videos/ecc-avatar-rig-prototype.mp4",
+    "render:communication": "remotion render src/index.ts CommunicationExplainer out/communication.mp4",
+    "render:digital-literacy": "remotion render src/index.ts DigitalLiteracyExplainer out/digital-literacy.mp4",
+    "render:teamwork": "remotion render src/index.ts TeamworkExplainer out/teamwork.mp4",
+    "render:time-management": "remotion render src/index.ts TimeManagementExplainer out/time-management.mp4",
+    "render:critical-thinking": "remotion render src/index.ts CriticalThinkingExplainer out/critical-thinking.mp4",
+    "render:problem-solving": "remotion render src/index.ts ProblemSolvingExplainer out/problem-solving.mp4",
+    "render:initiative": "remotion render src/index.ts InitiativeScenario out/initiative.mp4",
+    "render:initiative-trailer": "remotion render src/index.ts InitiativeCinematicTrailer ../Assets/videos/initiative-trailer.mp4 --browser-executable=../node_modules/.remotion/chrome-headless-shell/mac-arm64/chrome-headless-shell-mac-arm64/chrome-headless-shell --concurrency=1 --gl=swiftshader",
+    "render:initiative-portrait": "remotion render src/index.ts InitiativePortraitTeaser ../Assets/EST\\ Preparation/initiative-portrait.mp4",
+    "render:time-management-portrait": "remotion render src/index.ts TimeManagementPortraitTeaser ../Assets/EST\\ Preparation/time-management-portrait.mp4",
+    "render:personal-finance-portrait": "remotion render src/index.ts PersonalFinancePortraitTeaser ../Assets/EST\\ Preparation/personal-finance-portrait.mp4",
+    "render:job-application-portrait": "remotion render src/index.ts JobApplicationPortraitTeaser ../Assets/EST\\ Preparation/job-application-portrait.mp4",
+    "render:communication-portrait": "remotion render src/index.ts CommunicationPortraitTeaser ../Assets/EST\\ Preparation/communication-portrait.mp4",
+    "render:megatrends-lmi-portrait": "remotion render src/index.ts MegatrendsLmiPortraitTeaser ../Assets/EST\\ Preparation/megatrends-lmi-portrait.mp4",
+    "render:overseas-opportunity": "remotion render src/index.ts OverseasOpportunityScenario out/overseas-opportunity.mp4",
+    "render:est-lab-systems": "remotion render src/index.ts ESTLabSystemsExplainer ../Assets/EST\\ Preparation/est-lab-systems.mp4"
+  },
+  "dependencies": {
+    "@remotion/google-fonts": "^4.0.267",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.267"
+  },
+  "devDependencies": {
+    "@remotion/cli": "^4.0.267",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5.6.3"
+  }
+}

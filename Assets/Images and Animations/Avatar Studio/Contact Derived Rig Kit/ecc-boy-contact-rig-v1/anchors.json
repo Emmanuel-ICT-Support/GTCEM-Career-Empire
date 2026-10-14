@@ -1,0 +1,116 @@
+{
+  "id": "ecc-boy-contact-rig-v1",
+  "canvas": [
+    1024,
+    1536
+  ],
+  "source": "Contact-derived from the supplied Avatar Studio contact sheets.",
+  "primary_layer": "01-character-reference.png",
+  "primary_placement": {
+    "x": 324,
+    "y": 140,
+    "width": 376,
+    "height": 1230
+  },
+  "anchors": {
+    "head_centre": [
+      512,
+      318
+    ],
+    "left_eye_centre": [
+      484,
+      352
+    ],
+    "right_eye_centre": [
+      540,
+      352
+    ],
+    "nose_bridge": [
+      512,
+      380
+    ],
+    "mouth_centre": [
+      512,
+      429
+    ],
+    "neck_centre": [
+      512,
+      527
+    ],
+    "left_shoulder": [
+      426,
+      589
+    ],
+    "right_shoulder": [
+      598,
+      589
+    ],
+    "left_wrist": [
+      409,
+      847
+    ],
+    "right_wrist": [
+      615,
+      847
+    ],
+    "waist_centre": [
+      512,
+      835
+    ],
+    "left_hip": [
+      471,
+      890
+    ],
+    "right_hip": [
+      553,
+      890
+    ],
+    "left_knee": [
+      486,
+      1099
+    ],
+    "right_knee": [
+      538,
+      1099
+    ],
+    "left_foot": [
+      471,
+      1327
+    ],
+    "right_foot": [
+      553,
+      1327
+    ]
+  },
+  "neck_guide": {
+    "top_left": [
+      466,
+      410
+    ],
+    "top_right": [
+      566,
+      410
+    ],
+    "bottom_left": [
+      454,
+      522
+    ],
+    "bottom_right": [
+      570,
+      522
+    ],
+    "centre": [
+      512,
+      466
+    ],
+    "note": "Estimated from the neutral boy body guide; use this as the target opening when scaling replacement heads.",
+    "top_width": 100,
+    "bottom_width": 116,
+    "height": 112
+  },
+  "notes": [
+    "Uses the actual contact-sheet boy artwork as the visual source.",
+    "Includes both the full uniform reference and the supplied neutral body guide.",
+    "Use the uniform reference for clothing alignment; use the body guide only as a base-body placeholder."
+  ]
+}

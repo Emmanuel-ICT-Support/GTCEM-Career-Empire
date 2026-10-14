@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Vault Bridge map</title>
+  <desc id="desc">A futuristic vault bridge map with answer platforms over a glowing data chasm.</desc>
+  <defs>
+    <linearGradient id="vb-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#070b19"/>
+      <stop offset="0.4" stop-color="#0d224d"/>
+      <stop offset="1" stop-color="#060915"/>
+    </linearGradient>
+    <radialGradient id="vb-core" cx="46%" cy="48%" r="58%">
+      <stop offset="0" stop-color="#64f4ff" stop-opacity="0.34"/>
+      <stop offset="0.42" stop-color="#5d66ff" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#050715" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vb-water" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0dd1f6" stop-opacity="0.65"/>
+      <stop offset="0.5" stop-color="#3149c6" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#07162c" stop-opacity="0.84"/>
+    </linearGradient>
+    <linearGradient id="vb-bridge" x1="0" x2="1">
+      <stop offset="0" stop-color="#66f4ff" stop-opacity="0"/>
+      <stop offset="0.24" stop-color="#66f4ff" stop-opacity="0.78"/>
+      <stop offset="0.58" stop-color="#84ffd1" stop-opacity="0.78"/>
+      <stop offset="1" stop-color="#ffd86c" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="vb-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="vb-grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M80 0H0V80" fill="none" stroke="#9cdcff" stroke-width="2" opacity="0.16"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#vb-bg)"/>
+  <rect width="1600" height="900" fill="url(#vb-core)"/>
+  <path d="M0 190 C190 140 310 210 450 166 C628 110 760 190 900 154 C1070 112 1245 154 1600 90 V900 H0 Z" fill="#050813" opacity="0.55"/>
+  <path d="M0 238 C184 182 318 260 470 214 C648 160 770 232 922 188 C1090 140 1260 192 1600 126 V900 H0 Z" fill="url(#vb-water)"/>
+  <rect width="1600" height="900" fill="url(#vb-grid)"/>
+  <g opacity="0.55" stroke="#bffaff" stroke-width="5" fill="none">
+    <path d="M-60 312 C120 240 300 360 472 290 C650 218 796 336 970 266 C1164 186 1348 278 1660 190"/>
+    <path d="M-80 548 C130 468 294 604 500 520 C680 446 820 566 1020 488 C1198 418 1370 494 1680 416"/>
+    <path d="M-60 758 C166 690 350 800 544 716 C756 624 900 732 1086 652 C1282 568 1436 642 1660 590"/>
+  </g>
+  <g filter="url(#vb-glow)">
+    <path d="M170 660 C328 570 440 502 565 458 C708 407 832 384 970 338 C1106 292 1228 238 1432 172" stroke="url(#vb-bridge)" stroke-width="14" stroke-linecap="round" fill="none"/>
+    <path d="M170 660 C328 570 440 502 565 458 C708 407 832 384 970 338 C1106 292 1228 238 1432 172" stroke="#ffffff" stroke-width="2" stroke-dasharray="18 24" stroke-linecap="round" fill="none" opacity="0.48"/>
+  </g>
+  <g opacity="0.24" fill="#ffffff">
+    <path d="M525 110 L626 445 L526 780 L424 445 Z"/>
+    <path d="M935 126 L1034 450 L934 792 L832 450 Z"/>
+    <path d="M1180 58 L1264 320 L1184 590 L1100 320 Z"/>
+  </g>
+  <g filter="url(#vb-glow)">
+    <g transform="translate(85 596)">
+      <rect x="0" y="0" width="235" height="124" rx="42" fill="#091937" stroke="#66f4ff" stroke-width="4"/>
+      <path d="M54 62H181" stroke="#84ffd1" stroke-width="7" stroke-linecap="round"/>
+      <text x="118" y="102" text-anchor="middle" font-family="Outfit, Arial, sans-serif" font-size="24" font-weight="900" fill="#ffffff">START</text>
+    </g>
+    <g transform="translate(1308 92)">
+      <rect x="0" y="0" width="216" height="198" rx="56" fill="#091937" stroke="#ffd86c" stroke-width="7"/>
+      <rect x="36" y="36" width="144" height="126" rx="40" fill="none" stroke="#84ffd1" stroke-width="4" stroke-dasharray="13 15"/>
+      <circle cx="108" cy="100" r="38" fill="#ffd86c" opacity="0.2"/>
+      <text x="108" y="107" text-anchor="middle" font-family="Outfit, Arial, sans-serif" font-size="28" font-weight="900" fill="#ffffff">$</text>
+    </g>
+  </g>
+  <g font-family="Outfit, Arial, sans-serif" fill="#dffcff" font-weight="800" opacity="0.8">
+    <text x="64" y="66" font-size="26">VAULT BRIDGE</text>
+    <text x="64" y="104" font-size="16" letter-spacing="4">TERM PLATFORMS / RECALL CROSSING</text>
+  </g>
+</svg>

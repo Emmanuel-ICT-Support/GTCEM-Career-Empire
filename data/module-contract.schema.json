@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gtcem-career-empire.local/module-contract.schema.json",
+  "title": "Career Empire Module Contract",
+  "description": "Schema for a curriculum module that plugs into the shared Career Empire platform.",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "curriculumArea",
+    "theme",
+    "status",
+    "overview",
+    "learningObjectives",
+    "sharedStatEffects",
+    "employabilityFocus",
+    "activities",
+    "assessmentEvidence"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "title": { "type": "string" },
+    "curriculumArea": { "type": "string" },
+    "theme": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "prototype", "active", "archived"]
+    },
+    "overview": {
+      "type": "object",
+      "required": ["tagline", "playerFantasy", "teacherValue"],
+      "properties": {
+        "tagline": { "type": "string" },
+        "playerFantasy": { "type": "string" },
+        "teacherValue": { "type": "string" }
+      }
+    },
+    "learningObjectives": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "sharedStatEffects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stat", "description"],
+        "properties": {
+          "stat": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "employabilityFocus": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["categoryId", "subskillIds", "whyItFits"],
+        "properties": {
+          "categoryId": { "type": "string" },
+          "subskillIds": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "whyItFits": { "type": "string" }
+        }
+      }
+    },
+    "activities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "title", "purpose"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "intro",
+              "scenario",
+              "quiz",
+              "reflection",
+              "mini-game",
+              "classification",
+              "decision",
+              "assessment"
+            ]
+          },
+          "title": { "type": "string" },
+          "purpose": { "type": "string" },
+          "awards": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["kind", "target", "amount"],
+              "properties": {
+                "kind": { "type": "string" },
+                "target": { "type": "string" },
+                "amount": { "type": "number" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "assessmentEvidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "prompt", "teacherVisible"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["short-response", "quiz", "typed-sentence", "justification", "classification"]
+          },
+          "prompt": { "type": "string" },
+          "teacherVisible": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

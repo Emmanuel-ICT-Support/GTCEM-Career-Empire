@@ -1,0 +1,550 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Production first-pass avatar-builder layer rigs.",
+  "canvas": {
+    "width": 1024,
+    "height": 1536
+  },
+  "rigs": {
+    "ecc-boy-base-neutral": {
+      "id": "ecc-boy-base-neutral",
+      "label": "ECC boy base neutral",
+      "sourceSprite": "Assets/Images and Animations/Avatar Studio/animation-sprites/ecc-boy-v1/poses/pose-neutral.png",
+      "canvas": {
+        "width": 1024,
+        "height": 1536
+      },
+      "anchors": {
+        "root": {
+          "x": 512,
+          "y": 1444,
+          "nx": 0.5,
+          "ny": 0.9401
+        },
+        "feetBaseline": {
+          "x": 512,
+          "y": 1470,
+          "nx": 0.5,
+          "ny": 0.957
+        },
+        "hips": {
+          "x": 512,
+          "y": 928,
+          "nx": 0.5,
+          "ny": 0.6042
+        },
+        "torso": {
+          "x": 512,
+          "y": 708,
+          "nx": 0.5,
+          "ny": 0.4609
+        },
+        "neck": {
+          "x": 512,
+          "y": 520,
+          "nx": 0.5,
+          "ny": 0.3385
+        },
+        "headCenter": {
+          "x": 512,
+          "y": 326,
+          "nx": 0.5,
+          "ny": 0.2122
+        },
+        "leftShoulder": {
+          "x": 370,
+          "y": 596,
+          "nx": 0.3613,
+          "ny": 0.388
+        },
+        "rightShoulder": {
+          "x": 652,
+          "y": 596,
+          "nx": 0.6367,
+          "ny": 0.388
+        },
+        "leftElbow": {
+          "x": 348,
+          "y": 820,
+          "nx": 0.3398,
+          "ny": 0.5339
+        },
+        "rightElbow": {
+          "x": 686,
+          "y": 820,
+          "nx": 0.6699,
+          "ny": 0.5339
+        },
+        "leftHandRest": {
+          "x": 360,
+          "y": 1005,
+          "nx": 0.3516,
+          "ny": 0.6543
+        },
+        "rightHandRest": {
+          "x": 682,
+          "y": 1005,
+          "nx": 0.666,
+          "ny": 0.6543
+        }
+      },
+      "layers": [
+        {
+          "slot": "hair",
+          "file": "hair/back.png",
+          "label": "Hair back",
+          "anchor": "headCenter",
+          "filter": "hair"
+        },
+        {
+          "slot": "body",
+          "file": "body/skin-neck.png",
+          "label": "Skin and neck",
+          "anchor": "neck",
+          "filter": "skin"
+        },
+        {
+          "slot": "head",
+          "file": "head/base.png",
+          "label": "Head base",
+          "anchor": "headCenter",
+          "filter": "not-hair"
+        },
+        {
+          "slot": "uniform",
+          "file": "uniform/shirt.png",
+          "label": "White shirt",
+          "anchor": "torso",
+          "filter": null
+        },
+        {
+          "slot": "uniform",
+          "file": "uniform/tie.png",
+          "label": "School tie",
+          "anchor": "torso",
+          "filter": null
+        },
+        {
+          "slot": "uniform",
+          "file": "uniform/jumper.png",
+          "label": "Teal jumper",
+          "anchor": "torso",
+          "filter": null
+        },
+        {
+          "slot": "uniform",
+          "file": "uniform/blazer.png",
+          "label": "Winter blazer",
+          "anchor": "torso",
+          "filter": null
+        },
+        {
+          "slot": "uniform",
+          "file": "uniform/lower.png",
+          "label": "Trousers upper",
+          "anchor": "hips",
+          "filter": null
+        },
+        {
+          "slot": "arms",
+          "file": "arms/left-upper.png",
+          "label": "Left upper arm",
+          "anchor": "leftShoulder",
+          "filter": null
+        },
+        {
+          "slot": "arms",
+          "file": "arms/right-upper.png",
+          "label": "Right upper arm",
+          "anchor": "rightShoulder",
+          "filter": null
+        },
+        {
+          "slot": "arms",
+          "file": "arms/left-forearm-hand.png",
+          "label": "Left forearm and hand",
+          "anchor": "leftHandRest",
+          "filter": null
+        },
+        {
+          "slot": "arms",
+          "file": "arms/right-forearm-hand.png",
+          "label": "Right forearm and hand",
+          "anchor": "rightHandRest",
+          "filter": null
+        },
+        {
+          "slot": "legs",
+          "file": "legs/left-upper.png",
+          "label": "Left upper leg",
+          "anchor": "hips",
+          "filter": null
+        },
+        {
+          "slot": "legs",
+          "file": "legs/right-upper.png",
+          "label": "Right upper leg",
+          "anchor": "hips",
+          "filter": null
+        },
+        {
+          "slot": "legs",
+          "file": "legs/left-lower.png",
+          "label": "Left lower leg",
+          "anchor": "feetBaseline",
+          "filter": null
+        },
+        {
+          "slot": "legs",
+          "file": "legs/right-lower.png",
+          "label": "Right lower leg",
+          "anchor": "feetBaseline",
+          "filter": null
+        },
+        {
+          "slot": "shoes",
+          "file": "shoes/left.png",
+          "label": "Left shoe",
+          "anchor": "feetBaseline",
+          "filter": null
+        },
+        {
+          "slot": "shoes",
+          "file": "shoes/right.png",
+          "label": "Right shoe",
+          "anchor": "feetBaseline",
+          "filter": null
+        },
+        {
+          "slot": "accessories",
+          "file": "accessories/crest-badge.png",
+          "label": "Blazer crest",
+          "anchor": "torso",
+          "filter": null
+        },
+        {
+          "slot": "hair",
+          "file": "hair/front.png",
+          "label": "Hair front",
+          "anchor": "headCenter",
+          "filter": "hair"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-neutral.png",
+          "label": "Expression neutral",
+          "anchor": "headCenter",
+          "sourceExpression": "neutral"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-smile.png",
+          "label": "Expression smile",
+          "anchor": "headCenter",
+          "sourceExpression": "smile"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-thinking.png",
+          "label": "Expression thinking",
+          "anchor": "headCenter",
+          "sourceExpression": "thinking"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-surprised.png",
+          "label": "Expression surprised",
+          "anchor": "headCenter",
+          "sourceExpression": "surprised"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-excited.png",
+          "label": "Expression excited",
+          "anchor": "headCenter",
+          "sourceExpression": "talk"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-wink.png",
+          "label": "Expression wink",
+          "anchor": "headCenter",
+          "sourceExpression": "blink"
+        }
+      ],
+      "preview": "preview-contact-sheet.png",
+      "recomposedPreview": "recomposed-preview.png",
+      "notes": "Visible-surface extraction from flattened source art; hidden limb pixels should be redrawn in a later polish pass."
+    },
+    "ecc-girl-base-neutral": {
+      "id": "ecc-girl-base-neutral",
+      "label": "ECC girl base neutral",
+      "sourceSprite": "Assets/Images and Animations/Avatar Studio/animation-sprites/ecc-girl-v1/poses/pose-neutral.png",
+      "canvas": {
+        "width": 1024,
+        "height": 1536
+      },
+      "anchors": {
+        "root": {
+          "x": 512,
+          "y": 1444,
+          "nx": 0.5,
+          "ny": 0.9401
+        },
+        "feetBaseline": {
+          "x": 512,
+          "y": 1470,
+          "nx": 0.5,
+          "ny": 0.957
+        },
+        "hips": {
+          "x": 512,
+          "y": 895,
+          "nx": 0.5,
+          "ny": 0.5827
+        },
+        "torso": {
+          "x": 512,
+          "y": 672,
+          "nx": 0.5,
+          "ny": 0.4375
+        },
+        "neck": {
+          "x": 512,
+          "y": 492,
+          "nx": 0.5,
+          "ny": 0.3203
+        },
+        "headCenter": {
+          "x": 512,
+          "y": 295,
+          "nx": 0.5,
+          "ny": 0.1921
+        },
+        "leftShoulder": {
+          "x": 372,
+          "y": 560,
+          "nx": 0.3633,
+          "ny": 0.3646
+        },
+        "rightShoulder": {
+          "x": 652,
+          "y": 560,
+          "nx": 0.6367,
+          "ny": 0.3646
+        },
+        "leftElbow": {
+          "x": 330,
+          "y": 800,
+          "nx": 0.3223,
+          "ny": 0.5208
+        },
+        "rightElbow": {
+          "x": 694,
+          "y": 800,
+          "nx": 0.6777,
+          "ny": 0.5208
+        },
+        "leftHandRest": {
+          "x": 342,
+          "y": 936,
+          "nx": 0.334,
+          "ny": 0.6094
+        },
+        "rightHandRest": {
+          "x": 688,
+          "y": 936,
+          "nx": 0.6719,
+          "ny": 0.6094
+        }
+      },
+      "layers": [
+        {
+          "slot": "hair",
+          "file": "hair/back.png",
+          "label": "Hair back",
+          "anchor": "headCenter",
+          "filter": "hair"
+        },
+        {
+          "slot": "body",
+          "file": "body/skin-neck.png",
+          "label": "Skin and neck",
+          "anchor": "neck",
+          "filter": "skin"
+        },
+        {
+          "slot": "head",
+          "file": "head/base.png",
+          "label": "Head base",
+          "anchor": "headCenter",
+          "filter": "not-hair"
+        },
+        {
+          "slot": "uniform",
+          "file": "uniform/shirt.png",
+          "label": "White shirt",
+          "anchor": "torso",
+          "filter": null
+        },
+        {
+          "slot": "uniform",
+          "file": "uniform/tie.png",
+          "label": "School tie",
+          "anchor": "torso",
+          "filter": null
+        },
+        {
+          "slot": "uniform",
+          "file": "uniform/jumper.png",
+          "label": "Teal jumper",
+          "anchor": "torso",
+          "filter": null
+        },
+        {
+          "slot": "uniform",
+          "file": "uniform/blazer.png",
+          "label": "Winter blazer",
+          "anchor": "torso",
+          "filter": null
+        },
+        {
+          "slot": "uniform",
+          "file": "uniform/lower.png",
+          "label": "Plaid skirt",
+          "anchor": "hips",
+          "filter": null
+        },
+        {
+          "slot": "arms",
+          "file": "arms/left-upper.png",
+          "label": "Left upper arm",
+          "anchor": "leftShoulder",
+          "filter": null
+        },
+        {
+          "slot": "arms",
+          "file": "arms/right-upper.png",
+          "label": "Right upper arm",
+          "anchor": "rightShoulder",
+          "filter": null
+        },
+        {
+          "slot": "arms",
+          "file": "arms/left-forearm-hand.png",
+          "label": "Left forearm and hand",
+          "anchor": "leftHandRest",
+          "filter": null
+        },
+        {
+          "slot": "arms",
+          "file": "arms/right-forearm-hand.png",
+          "label": "Right forearm and hand",
+          "anchor": "rightHandRest",
+          "filter": null
+        },
+        {
+          "slot": "legs",
+          "file": "legs/left-upper.png",
+          "label": "Left upper leg",
+          "anchor": "hips",
+          "filter": null
+        },
+        {
+          "slot": "legs",
+          "file": "legs/right-upper.png",
+          "label": "Right upper leg",
+          "anchor": "hips",
+          "filter": null
+        },
+        {
+          "slot": "legs",
+          "file": "legs/left-lower.png",
+          "label": "Left lower leg",
+          "anchor": "feetBaseline",
+          "filter": null
+        },
+        {
+          "slot": "legs",
+          "file": "legs/right-lower.png",
+          "label": "Right lower leg",
+          "anchor": "feetBaseline",
+          "filter": null
+        },
+        {
+          "slot": "shoes",
+          "file": "shoes/left.png",
+          "label": "Left shoe",
+          "anchor": "feetBaseline",
+          "filter": null
+        },
+        {
+          "slot": "shoes",
+          "file": "shoes/right.png",
+          "label": "Right shoe",
+          "anchor": "feetBaseline",
+          "filter": null
+        },
+        {
+          "slot": "accessories",
+          "file": "accessories/crest-badge.png",
+          "label": "Blazer crest",
+          "anchor": "torso",
+          "filter": null
+        },
+        {
+          "slot": "hair",
+          "file": "hair/front.png",
+          "label": "Hair front",
+          "anchor": "headCenter",
+          "filter": "hair"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-neutral.png",
+          "label": "Expression neutral",
+          "anchor": "headCenter",
+          "sourceExpression": "neutral"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-smile.png",
+          "label": "Expression smile",
+          "anchor": "headCenter",
+          "sourceExpression": "smile"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-thinking.png",
+          "label": "Expression thinking",
+          "anchor": "headCenter",
+          "sourceExpression": "thinking"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-surprised.png",
+          "label": "Expression surprised",
+          "anchor": "headCenter",
+          "sourceExpression": "surprised"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-excited.png",
+          "label": "Expression excited",
+          "anchor": "headCenter",
+          "sourceExpression": "talk"
+        },
+        {
+          "slot": "face",
+          "file": "face/expression-wink.png",
+          "label": "Expression wink",
+          "anchor": "headCenter",
+          "sourceExpression": "blink"
+        }
+      ],
+      "preview": "preview-contact-sheet.png",
+      "recomposedPreview": "recomposed-preview.png",
+      "notes": "Visible-surface extraction from flattened source art; hidden limb pixels should be redrawn in a later polish pass."
+    }
+  }
+}

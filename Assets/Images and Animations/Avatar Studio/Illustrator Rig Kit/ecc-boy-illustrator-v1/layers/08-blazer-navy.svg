@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1024" height="1536" viewBox="0 0 1024 1536" role="img" aria-label="ECC Boy Illustrator Rig v1 08-blazer-navy.svg">
+  <title>ECC Boy Illustrator Rig v1 08-blazer-navy.svg</title>
+  <defs>
+    <linearGradient id="skinSoft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4cda6"/>
+      <stop offset="0.55" stop-color="#e7b98e"/>
+      <stop offset="1" stop-color="#cc966f"/>
+    </linearGradient>
+    <linearGradient id="navyCloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#213b63"/>
+      <stop offset="0.45" stop-color="#142947"/>
+      <stop offset="1" stop-color="#0d1a2f"/>
+    </linearGradient>
+    <linearGradient id="tealCloth" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d8da0"/>
+      <stop offset="1" stop-color="#004b5c"/>
+    </linearGradient>
+    <linearGradient id="blackShoe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#343b47"/>
+      <stop offset="1" stop-color="#10141d"/>
+    </linearGradient>
+    <style>
+      .outline { stroke: #2d3340; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { stroke: #2d3340; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .stitch { stroke: rgba(255,255,255,.42); stroke-width: 3; stroke-linecap: round; }
+      .guide-line { stroke: #23b8d4; stroke-width: 2; stroke-dasharray: 10 8; opacity: .65; }
+      .guide-dot { fill: #ffcc33; stroke: #152238; stroke-width: 3; }
+      .guide-label { fill: #102033; font-family: Arial, sans-serif; font-size: 19px; font-weight: 700; }
+    </style>
+    
+  </defs>
+<g id="08-blazer-navy">
+    <path class="outline" d="M360 515 C420 472, 604 472, 664 515 L638 890 C604 930, 548 922, 512 860 C476 922, 420 930, 386 890 Z" fill="url(#navyCloth)"/>
+    <path class="outline" d="M390 524 C350 608, 343 725, 370 835 L436 820 C414 706, 420 596, 454 516 Z" fill="url(#navyCloth)"/>
+    <path class="outline" d="M634 524 C674 608, 681 725, 654 835 L588 820 C610 706, 604 596, 570 516 Z" fill="url(#navyCloth)"/>
+    <path d="M418 502 L512 860 L606 502 L548 582 L512 548 L476 582 Z" fill="#0a1528" opacity=".38"/>
+    <path class="thin" d="M452 510 L512 860 L572 510" fill="none" opacity=".35"/>
+    <circle cx="450" cy="680" r="11" fill="#efb72f" stroke="#6f4a0b" stroke-width="3"/>
+    <circle cx="456" cy="770" r="11" fill="#efb72f" stroke="#6f4a0b" stroke-width="3"/>
+    <path class="thin" d="M402 810 L462 798" fill="none" opacity=".45"/>
+    <path class="thin" d="M562 798 L622 810" fill="none" opacity=".45"/>
+    <g transform="translate(588 588) scale(.72)">
+    <path d="M0 0 L54 0 L54 70 C40 82 28 90 27 90 C26 90 14 82 0 70 Z" fill="#142947" stroke="#efb72f" stroke-width="5"/>
+    <path d="M27 6 L27 78 M8 36 L46 36" stroke="#efb72f" stroke-width="5"/>
+  </g>
+  </g>
+</svg>
