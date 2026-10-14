@@ -37,8 +37,10 @@ cannot be manufactured by a label, expected failure or missing attachment.
 Hosted CPU jobs report GPU performance as **not verified**, not passed.
 
 No hardware runner was invented or provisioned. The GPU command runs on an
-available accelerated machine and checks the actual renderer. The hosted
-workflow changes are saved locally and have not been executed on GitHub.
+available accelerated machine and checks the actual renderer. The changed
+workflow has now passed focused hosted verification at `b7c899b`, as recorded
+in [the hosted receipt](focused-hosted-workflow-20261014.md). This adds two
+software cases and workflow guards, not a full browser-suite result.
 
 ## Focused results on the unchanged game runtime
 
@@ -99,8 +101,10 @@ scope. No full combined browser pass is claimed.
 Exceptions/limits for review: original hosted run 38543515871 remains failed
 (186 passed, 42 failed, one interrupted, four not started); only the named
 software compatibility checks are newly passed; hardware performance is proven
-on this Mac, with real school-device validation outstanding; the changed
-workflow has no hosted execution result yet. Any broader publication decision
+on this Mac, with real school-device validation outstanding. Changed workflow
+run 38591295644 passed focused verification, with full browser jobs skipped.
+Its software handover measured 23.309 seconds and remains unfixed; its first
+attempt 38589716790 failed collection and is preserved. Any broader publication decision
 must retain these limits rather than calling software fixed or full CI green.
 Market `d0912bb` remains separate, unintegrated and unpublished pending preview
 approval. Live PR57 is not changed by this task.

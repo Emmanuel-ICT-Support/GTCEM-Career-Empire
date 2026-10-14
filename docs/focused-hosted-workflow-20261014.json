@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "scope": "isolated ECC branch publication and focused changed-workflow verification",
+  "repository": "Emmanuel-ICT-Support/GTCEM-Career-Empire",
+  "branch": "repair/integration-followup-20261014",
+  "testedCommit": "b7c899bfdd325f69b023a12784ddb87c877be244",
+  "approvedTestingSplitCommit": "7088400333d3d8f53431c67182f6e52ca123aa9b",
+  "runtimeCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+  "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+  "workflowRun": {
+    "id": 38591295644,
+    "url": "https://github.com/Emmanuel-ICT-Support/GTCEM-Career-Empire/actions/runs/38591295644",
+    "status": "completed",
+    "conclusion": "success",
+    "completedAt": "2026-10-14T15:43:53Z"
+  },
+  "jobs": [
+    {
+      "id": 115946572758,
+      "name": "verify / checks",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115946968304,
+      "name": "verify / Software startup compatibility (waiting time measured separately)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115946970577,
+      "name": "verify / critical",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 115946971059,
+      "name": "verify / browser",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 115948331766,
+      "name": "verify / focused-proof",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 115948333953,
+      "name": "verify / test",
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  ],
+  "sourceCheck": "passed",
+  "exactReleaseHashes": 280,
+  "reachableModules": 87,
+  "focusedUnitsPassed": 15,
+  "proofTestsPassed": 10,
+  "focusedBrowser": {
+    "expected": 2,
+    "executed": 2,
+    "passed": 2,
+    "failed": 0,
+    "retries": 0,
+    "skipped": 0,
+    "interrupted": 0,
+    "proofComplete": true
+  },
+  "softwareCompatibility": {
+    "actualBackend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "coldHandoverMs": 23309.1,
+    "coldSkipNavigationToReadyMs": 27667.1,
+    "statsNavigationToReadyMs": 30655.5,
+    "acceptedWaitingDeadlineMs": null,
+    "startupFixed": false
+  },
+  "gpuPerformance": "not-verified-on-hosted-CPU",
+  "schoolDeviceValidation": "outstanding",
+  "firstFocusedAttempt": {
+    "runId": 38589716790,
+    "url": "https://github.com/Emmanuel-ICT-Support/GTCEM-Career-Empire/actions/runs/38589716790",
+    "commit": "9be6fc506e99e8d049667ef5469fffea41acc27c",
+    "conclusion": "failure",
+    "sourceCheck": "passed",
+    "focusedUnitsPassed": 15,
+    "proofTestsPassed": 9,
+    "browserExecutions": 0,
+    "cause": "collection imported ignored/untracked qa/ecc-admin-preview.playwright.config.mjs",
+    "repairedBy": "b7c899bfdd325f69b023a12784ddb87c877be244",
+    "preserved": true
+  },
+  "originalBroadRun": {
+    "id": 38543515871,
+    "conclusion": "failure",
+    "passed": 186,
+    "failed": 42,
+    "interrupted": 1,
+    "notRun": 4,
+    "preserved": true
+  },
+  "artifacts": [
+    {
+      "id": 11908027453,
+      "name": "coverage-report",
+      "sizeBytes": 2678,
+      "digest": "sha256:2a723f222509d188234ad6e8ba6bd8bcabc80f170b3ed4f77dcc9a510db32f7b"
+    },
+    {
+      "id": 11907768030,
+      "name": "runtime-software-compatibility",
+      "sizeBytes": 1411098,
+      "digest": "sha256:44ef0e42d3392e378128a3d15a10848cda6549d5c9e1884be8dadf6bede0e311"
+    },
+    {
+      "id": 11907673395,
+      "name": "focused-workflow-proof",
+      "sizeBytes": 436,
+      "digest": "sha256:af2c225273bd07c43289bc19f4dd014cdaf6247fd6f6eb18bcac8c71f5550a47"
+    }
+  ],
+  "localEvidenceDirectory": "coverage/hosted-focused-verification-38591295644",
+  "initialFailureEvidenceDirectory": "coverage/hosted-focused-verification-38589716790",
+  "savedCampusScreenshotVisuallyInspected": true,
+  "runtimeAndAssetsDiffFromC72": "none",
+  "mainUnchanged": "fec76572a26af62678ac6324216ac460e93deb36",
+  "fullBrowserSuiteRerun": false,
+  "marketIntegrated": false,
+  "mergePerformed": false,
+  "liveDeploymentPerformed": false,
+  "branchPublished": true,
+  "credentialsOrSecurityChanged": false,
+  "humanActionNeeded": false
+}

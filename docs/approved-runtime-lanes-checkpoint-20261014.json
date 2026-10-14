@@ -34,7 +34,8 @@
   "exactReleaseHashes": 280,
   "reachableModules": 87,
   "workflowYaml": "parsed with Ruby Psych",
-  "workflowHostedExecution": "not run",
+  "workflowHostedExecution": "focused run 38591295644 passed at b7c899bfdd325f69b023a12784ddb87c877be244; full browser jobs skipped",
+  "hostedVerificationReceipt": "docs/focused-hosted-workflow-20261014.json",
   "collectionOnly": {
     "currentUniqueCases": 234,
     "originalIDsPreserved": 233,
