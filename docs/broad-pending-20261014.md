@@ -49,3 +49,7 @@ EST screen control uses the actual screen projected through the active camera. T
 The two rear-building failures are physical occlusion, not absent assets. Do not remove trees, raise the walking camera or lower visibility thresholds. Coordinate a reviewable visual repair.
 
 Release owner owns photo-handover.spec.js and companion-visible.spec.js. No full suite, push, merge or deployment yet.
+
+## Prepared verification batch
+
+Phone budget/retry plus desktop-original selection first, using9de0962. Then game-entry-loading desktop/phone, delayed-courtyard first frame, Home Base, and teacher scenario against the isolated baseURL. Four readiness/isolation test files have syntax-checked local edits; these require real browser verification before committing or reducing the historical inventory.

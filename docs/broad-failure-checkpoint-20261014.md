@@ -63,3 +63,9 @@ Entry test failure cause is distinct: startup-campus-entry.spec.js holds require
 9de0962 commits the source repair with cascade import tags (campus/world/app/guest shell/index) and relevant manifest hashes. No startup logic in app.js changes.279 staged hashes/86 modules and source checks pass. Additional integration unit now executes actual loadCampusAssets with its private manager, proving both deferred and non-deferred geometry requests use device URLs.11 focused units pass. Browser verification is explicitly pending; historical accounting stays30/9/31.
 
 Exact31-case checklist and source triage:docs/broad-pending-20261014.md. Header/phone cache edits require merge-aware integration with the release owner's newer tags; preserve its companion and photo work. Browser priority remains release owner; no new browser has been started.
+
+## Browser-slot wait: prepared readiness observer edits
+
+No browser started while release owner retains priority. Four scoped e2e files have syntax-checked, uncommitted edits awaiting verification: game-entry-loading requests campus through real View/Aerial after its selected-only startup checks; startup-exterior awaits data-rendered before reading firstFrameMs (8s assertion retained); avatar-studio-entry awaits Home-owned campus readiness before exact unchanged ECC_HOME coordinate assertions (overall180s budget retained); teachers uses relative URLs under the selected isolated baseURL rather than hardcoded4273. No case is counted passed by these source edits.
+
+Phone source commit9de0962 and integration/unit/checklist commit666b8ee are available for coordinated review, both marked browser pending. Release checkout unchanged.
