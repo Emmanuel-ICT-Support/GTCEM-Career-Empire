@@ -5,8 +5,8 @@ Updated after the phone/readiness verification batch:52 repaired native passes,1
 | # | File | Exact historical case | Next check |
 |---|---|---|---|
 | 1 | companion-visible.spec.js | selected Sprout is visibly rendered in the active town and Market scenes | Release owner: hosted Sprout mesh visibility; do not edit here. |
-| 2 | entry-visibility-probe.spec.js | initial complete campus, unobstructed rear buildings and parcel walking 1280 | Known physical rear-building occlusion. Retain grounded camera, trees and thresholds; major visual repair needs user review. |
-| 3 | entry-visibility-probe.spec.js | initial complete campus, unobstructed rear buildings and parcel walking 390 | Known physical rear-building occlusion. Retain grounded camera, trees and thresholds; major visual repair needs user review. |
+| 2 | entry-visibility-probe.spec.js | initial complete campus, unobstructed rear buildings and parcel walking 1280 | Confirmed native recheck: Media6.06%/14.06%, SPACE0%, below original60%/80%. Original foreground/trees occlude; retain assets, camera and thresholds. Parent must coordinate visual-design resolution. |
+| 3 | entry-visibility-probe.spec.js | initial complete campus, unobstructed rear buildings and parcel walking 390 | Confirmed native recheck: Media6.06%/14.06%, SPACE0%, below original60%/80%. Original foreground/trees occlude; retain assets, camera and thresholds. Parent must coordinate visual-design resolution. |
 | 4 | photo-handover.spec.js | actual photo review precedes accurate orientation handover, Mara map target and Market entry | Release owner: photo/tour handover; do not edit here. |
 
 ## Verified world interaction and EST repairs
