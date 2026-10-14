@@ -199,7 +199,7 @@ const CAPABILITY_LANGUAGE_MARKERS = [
 ];
 
 async function loadEmployabilitySkills() {
-  const response = await fetch("../data/employability-skills.json");
+  const response = await fetch("../data/employability-skills.json?v=dimensional-v3-20261014");
   if (!response.ok) throw new Error("Could not load employability skills.");
   return response.json();
 }
@@ -1136,10 +1136,10 @@ function clampPercent(value) {
   return Math.max(0, Math.min(100, Math.round(Number(value) || 0)));
 }
 
-function getEmployabilityLogoPath(fileName) {
-  if (!fileName) return "";
-  const normalizedFileName = fileName.replace("LIteracy", "Literacy");
-  return `../Assets/employability-logos/futuristic-suite/png/${normalizedFileName}?v=20260507-ecc-future`;
+function getEmployabilityLogoPath(categoryId, subskillId = "") {
+  if (!categoryId) return "";
+  const id = subskillId ? `${categoryId}--${subskillId}` : categoryId;
+  return `../dashboards/skill-icons/v3/${id}@256.webp`;
 }
 
 const STAR_EVIDENCE_STORAGE_KEY = "career-empire-star-evidence";
@@ -1813,7 +1813,7 @@ function escapeHtml(value) {
 }
 
 function renderBadge(label, logoPath = "", logoLabel = "") {
-  return `<span class="badge ${logoPath ? "with-logo" : ""}">${logoPath ? `<img class="badge-logo" src="${logoPath}" alt="${escapeHtml(logoLabel || label)} logo">` : ""}${escapeHtml(label)}</span>`;
+  return `<span class="badge ${logoPath ? "with-logo" : ""}">${logoPath ? `<img loading="lazy" decoding="async" class="badge-logo" src="${logoPath}" alt="${escapeHtml(logoLabel || label)} logo">` : ""}${escapeHtml(label)}</span>`;
 }
 
 function getModuleImageStyle(imagePath = "") {
@@ -2134,7 +2134,7 @@ function renderSharedLeaderboard(players, skillsData) {
     return `
       <article class="module-card ${index === 0 ? "spotlight" : ""}">
         <div class="module-header">
-          ${strongestSkill?.logoPath ? `<img class="module-logo" src="${strongestSkill.logoPath}" alt="${escapeHtml(strongestSkill.title)} logo">` : ""}
+          ${strongestSkill?.logoPath ? `<img loading="lazy" decoding="async" class="module-logo" src="${strongestSkill.logoPath}" alt="${escapeHtml(strongestSkill.title)} logo">` : ""}
           <div>
             <div class="kicker">Rank #${index + 1}</div>
             <h3>${escapeHtml(player.player_name)}</h3>
@@ -2410,7 +2410,7 @@ function renderTeacherInterventions(items) {
   container.innerHTML = items.map(item => `
     <div class="timeline-item teacher-signal-item">
       <div class="timeline-header">
-        ${item.logoPath ? `<img class="timeline-logo" src="${item.logoPath}" alt="${escapeHtml(item.logoLabel || item.title)} logo">` : ""}
+        ${item.logoPath ? `<img loading="lazy" decoding="async" class="timeline-logo" src="${item.logoPath}" alt="${escapeHtml(item.logoLabel || item.title)} logo">` : ""}
         <strong>${escapeHtml(item.title)}</strong>
       </div>
       <p>${escapeHtml(item.detail)}</p>
@@ -3812,7 +3812,7 @@ function renderTeacherCapabilityPortfolio({ skillCategories = [], parsedEvidence
               <th scope="col" class="teacher-matrix-student-col">Student</th>
               ${skillCategories.map(category => `
                 <th scope="col">
-                  <span>${category.logoPath ? `<img class="capability-matrix-logo" src="${escapeHtml(category.logoPath)}" alt="">` : ""}${escapeHtml(category.title)}</span>
+                  <span>${category.logoPath ? `<img loading="lazy" decoding="async" class="capability-matrix-logo" src="${escapeHtml(category.logoPath)}" alt="">` : ""}${escapeHtml(category.title)}</span>
                   <small>scroll evidence entries</small>
                 </th>
               `).join("")}
@@ -4051,7 +4051,7 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
       : "active";
     const canBuildPortfolioEvidence = studentPortfolioStatus === "active";
     const subskills = category.subskills.slice(0, 4);
-    const parentLogoPath = getEmployabilityLogoPath(meta.logoFile) || category.logoPath || "";
+    const parentLogoPath = getEmployabilityLogoPath(category.id) || category.logoPath || "";
     const studentEvidenceEntries = isStudentGrid ? (skillEvidenceMap[category.id] || []) : [];
     const starExample = getStarPresetExample(category, meta);
     const bankedEvidenceMarkup = studentEvidenceEntries.map(entry => `
@@ -4107,17 +4107,17 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
     ` : "";
     const subskillItems = subskills.map((subskill, index) => ({
       ...subskill,
-      logoPath: getEmployabilityLogoPath(meta.subskillLogoFiles?.[index] || "")
+      logoPath: getEmployabilityLogoPath(category.id, subskill.id)
     }));
     return `
       <article class="skill-card skill-card-modern ${isStudentGrid ? "skill-card-has-star" : ""}" style="--skill-accent: ${meta.accent}; --skill-accent-soft: ${meta.accentSoft}; --skill-accent-strong: ${meta.accentStrong}; --skill-progress-angle: ${progress * 3.6}deg;">
         <div class="skill-card-top">
           <div class="skill-visual" aria-hidden="true">
-            <img class="skill-hero-logo" src="${escapeHtml(parentLogoPath)}" alt="">
+            <img loading="lazy" decoding="async" class="skill-hero-logo" src="${escapeHtml(parentLogoPath)}" alt="">
             <div class="skill-mini-logo-cloud">
               ${subskillItems.map((subskill, index) => `
                 <span class="skill-mini-logo skill-mini-logo-${index + 1}" style="--mini-delay: ${index * 0.14}s;">
-                  <img src="${escapeHtml(subskill.logoPath)}" alt="">
+                  <img loading="lazy" decoding="async" src="${escapeHtml(subskill.logoPath)}" alt="">
                 </span>
               `).join("")}
             </div>
@@ -4134,7 +4134,7 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
         <div class="skill-subskill-grid">
           ${subskillItems.map(subskill => `
             <span class="skill-subskill-card">
-              <img src="${escapeHtml(subskill.logoPath)}" alt="">
+              <img loading="lazy" decoding="async" src="${escapeHtml(subskill.logoPath)}" alt="">
               <span>${escapeHtml(subskill.title)}</span>
             </span>
           `).join("")}

@@ -3523,7 +3523,7 @@ textarea {
 
 .skill-subskill-card {
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-columns: 64px minmax(0, 1fr);
   align-items: center;
   gap: 8px;
   min-height: 48px;
@@ -3538,12 +3538,13 @@ textarea {
 }
 
 .skill-subskill-card img {
-  width: 34px;
-  height: 34px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
-  border-radius: 9px;
-  background: rgba(232, 240, 255, 0.95);
+  background: transparent;
 }
+
+.skill-subskill-card span { overflow-wrap: anywhere; }
 
 .skill-star-builder-modal[hidden] {
   display: none;
