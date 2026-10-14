@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     env:
-      REFERENCE_GAME_SHA: 9fbff0cd8c626df2cb72e95dc432a3d8f7069001
+      REFERENCE_GAME_SHA: f9f5e1e7460c994aed9184d44ca1059497889632
       PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/phase0-hosted/browser-report.json
     steps:
       - uses: actions/checkout@v4
@@ -93,7 +93,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     env:
-      REFERENCE_GAME_SHA: 9fbff0cd8c626df2cb72e95dc432a3d8f7069001
+      REFERENCE_GAME_SHA: f9f5e1e7460c994aed9184d44ca1059497889632
       ACCEPTED_GAME_SHA: 418dd5e38edc75ebdf28e7cbb836d72b9c76499e
       PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/landing-shortcuts/browser-report.json
     steps:
@@ -104,7 +104,31 @@ jobs:
         run: |
           git fetch --no-tags origin "$REFERENCE_GAME_SHA" "$ACCEPTED_GAME_SHA"
           git diff --exit-code "$REFERENCE_GAME_SHA" HEAD -- . ':!.github/workflows/phase0-journeys.yml'
-          git diff --exit-code "$ACCEPTED_GAME_SHA" "$REFERENCE_GAME_SHA" -- . ':!docs/phase0-companion-render-diagnosis-20261014.md' ':!tests/e2e/photo-handover.spec.js' ':!tests/e2e/tour-landing-shortcuts.spec.js'
+          git diff --exit-code "$ACCEPTED_GAME_SHA" "$REFERENCE_GAME_SHA" -- . ':!docs/phase0-companion-render-diagnosis-20261014.md' ':!tests/e2e/photo-handover.spec.js' ':!tests/e2e/tour-landing-shortcuts.spec.js' ':!tests/e2e/final-market-transition.spec.js' ':!playable-3d/app.js' ':!playable-3d/orientation-tour.mjs' ':!playable-3d/guest-shell.mjs' ':!playable-3d/index.html' ':!playable-3d/release-manifest.json'
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import {execFileSync} from 'node:child_process';
+          import {createHash} from 'node:crypto';
+          const accepted=process.env.ACCEPTED_GAME_SHA,candidate=process.env.REFERENCE_GAME_SHA;
+          const read=(ref,file)=>execFileSync('git',['show',ref+':'+file],{encoding:'utf8'});
+          const hash=text=>createHash('sha256').update(text).digest('hex');
+          const oldApp=read(accepted,'playable-3d/app.js'),newApp=read(candidate,'playable-3d/app.js');
+          const start=newApp.indexOf('goMarket:async current=>{'),end=newApp.indexOf('\n   pause:',start);
+          assert(start>=0&&end>start);const callback=newApp.slice(start,end);
+          assert.equal(hash(callback),'285dfed71181d1b622bf500247d0fe889463b3d68917e2d6120e870077fbb3f8');
+          assert.equal(newApp.replace(callback,'goMarket:goToMarketEntrance,').replace('orientation-tour.mjs?v=market-tour-ready-20261014','orientation-tour.mjs?v=guided-photo-20261014'),oldApp);
+          const oldTour=read(accepted,'playable-3d/orientation-tour.mjs'),newTour=read(candidate,'playable-3d/orientation-tour.mjs');
+          const terminal=newTour.split('\n').map(line=>line.trim()).find(line=>line.startsWith("else{notice='Preparing campus"));
+          assert.equal(hash(terminal),'4dc06a091d18e090853159e6e2f4863de95bff369dce0348252986dad61e042f');
+          assert.equal(newTour.replace(terminal,'else{await goMarket();if(request!==generation)return;save();finish();return;}'),oldTour);
+          for(const file of ['playable-3d/guest-shell.mjs','playable-3d/index.html'])assert.equal(read(candidate,file).replaceAll('market-tour-ready-20261014','tour-panel-close-20261014'),read(accepted,file));
+          const oldManifest=JSON.parse(read(accepted,'playable-3d/release-manifest.json')),newManifest=JSON.parse(read(candidate,'playable-3d/release-manifest.json'));
+          const changedHashes=new Set(['app.js','orientation-tour.mjs','guest-shell.mjs','index.html']);
+          assert.equal(oldManifest.files.length,newManifest.files.length);
+          for(let i=0;i<oldManifest.files.length;i++)assert.deepEqual(changedHashes.has(oldManifest.files[i].path)?{...newManifest.files[i],sha256:oldManifest.files[i].sha256}:newManifest.files[i],oldManifest.files[i]);
+          assert.deepEqual({...newManifest,release:oldManifest.release,files:oldManifest.files},oldManifest);
+          console.log('Accepted helper/flight scope preserved: only reviewed final-tour callback/action and cache URLs differ.');
+          JS
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -125,12 +149,12 @@ jobs:
           node --input-type=module <<'JS'
           import fs from 'node:fs';
           fs.writeFileSync('coverage/landing-shortcuts/accepted-baseline.json',JSON.stringify({
-            candidate:process.env.REFERENCE_GAME_SHA,unchangedAcceptedRuntime:process.env.ACCEPTED_GAME_SHA,
+            candidate:process.env.REFERENCE_GAME_SHA,acceptedHelperAndEarlyFlightSource:process.env.ACCEPTED_GAME_SHA,
             acceptedRun:'https://github.com/Emmanuel-ICT-Support/GTCEM-Career-Empire/actions/runs/38522355736',
             acceptedMatrixAndKeyboardFlightArtifact:11873964920},null,2));
           JS
-      - name: Check the preserved roof, map and menu targets independently
-        run: npx playwright test tour-landing-shortcuts.spec.js --config qa/landing-shortcuts-hosted.playwright.config.mjs --workers=1 --max-failures=0 --reporter=line,json
+      - name: Check final preparation, cancel/retry, real doorway entry and shortcuts
+        run: npx playwright test tour-landing-shortcuts.spec.js final-market-transition.spec.js --config qa/landing-shortcuts-hosted.playwright.config.mjs --workers=1 --max-failures=0 --reporter=line,json
       - name: Record the exact terminal case
         if: always()
         run: |
@@ -140,15 +164,15 @@ jobs:
           if(!fs.existsSync(path))throw Error('No execution report produced');
           const report=JSON.parse(fs.readFileSync(path,'utf8'));
           const walk=suites=>suites.flatMap(s=>[...(s.specs||[]).flatMap(spec=>(spec.tests||[]).map(test=>({file:spec.file,title:spec.title,results:(test.results||[]).map(r=>r.status)}))),...walk(s.suites||[])]);
-          const cases=walk(report.suites||[]),complete=cases.length===1&&cases.every(c=>c.results.length===1&&['passed','failed','timedOut'].includes(c.results[0]))&&!(report.errors||[]).length;
-          const proof={referenceGameSha:process.env.REFERENCE_GAME_SHA,qaCommit:process.env.GITHUB_SHA,expected:1,reported:cases.length,complete,cases};
+          const cases=walk(report.suites||[]),complete=cases.length===3&&cases.every(c=>c.results.length===1&&['passed','failed','timedOut'].includes(c.results[0]))&&!(report.errors||[]).length;
+          const proof={referenceGameSha:process.env.REFERENCE_GAME_SHA,qaCommit:process.env.GITHUB_SHA,expected:3,reported:cases.length,complete,cases};
           fs.writeFileSync('coverage/landing-shortcuts/count-proof.json',JSON.stringify(proof,null,2));console.log(JSON.stringify(proof));
           if(!complete)process.exitCode=1;
           JS
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: landing-shortcuts-${{ github.sha }}
+          name: final-transition-and-shortcuts-${{ github.sha }}
           path: coverage/landing-shortcuts/
           if-no-files-found: warn
           retention-days: 3
