@@ -44,3 +44,7 @@ All runtime filenames above are under playable-3d; test files are under tests/e2
 - 9046e27 docs: record 66 historical passes and strict rear-visibility blockers
 
 Docs-only commits can be omitted when integrating source. All game/test changes are discrete tested groups. See docs/broad-failure-checkpoint-20261014.md for per-group evidence and docs/broad-pending-20261014.md for exact remaining cases.
+
+## Follow-up14Oct: approved rear-building checks
+
+Parent confirmed the prior handoff was forwarded to release owner. Tania accepted rear-building occlusion at spawn and requires existing camera/trees/look retained. New independent test-only entry-visibility-probe.spec.js change replaces spawn60%/80% percentages with complete asset-root loading/render evidence, nineteen trees and collision count plus real collision-aware keyboard walking toMedia/SPACE and >48 unoccluded facade samples on approach. Original parcel/progression checks retained. Both widths pass2.1m; no game source/cache/manifest change. Historical68/70verified:54repaired/clarified,14unchanged; only owner photo/companion2 remain. See final checkpoint for exact metrics. Integrate this acceptance test in addition to the earlier chain; perform one complete coordinated verification after owner repairs. No push/deploy.

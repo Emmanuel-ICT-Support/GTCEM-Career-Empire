@@ -1,3 +1,9 @@
+## Decision recorded14October2026
+
+Tania replied to the current-view recommendation: “I don't care that the cant see the rear buildings.” Current camera, trees and appearance are retained. Parent instructed acceptance to require buildings loaded, reachable and visible on approach, replacing the60%/80% unobstructed-at-spawn requirement. The comparison below remains historical evidence, not a pending aesthetic choice. No scenery adjustment is authorized or implemented.
+
+Revised probes retain complete nonempty/effectively visible geometry, actual rendered root draws, all19trees, selected Antonio, collision count, parcel walking/progression, normal keyboard travel around the EST footprint, grounded approaches, and facade visibility after normal drag turning. The approach area must exceed48 unoccluded samples in48×32 grid (>3% of screen), avoiding a token single-pixel visibility pass. No teleport, physics mutation or progress fixture is used. Final verification passes both widths in2.1m. Desktop Media356/364 andSPACE490/525 unobstructed approach samples; phone Media668/681 andSPACE501/530.209 production colliders present. Approach screenshots were visually inspected. This is user-approved changed acceptance, not removal of trees or a concealed numeric relaxation.
+
 # Rear-building visibility comparison — 14 October 2026
 
 Recommendation: keep the approved current view. Small lateral camera changes retain the original canopy and grounded height, but do not meet both strict rear-building thresholds. No game source or test assertion changed. Checkpoint9046e27 remains the tested gameplay baseline (66/70 historical cases verified).
