@@ -1,0 +1,138 @@
+name: Full broader integration acceptance
+'on':
+  push:
+    branches: [qa/full-broad-integration-20261014]
+permissions:
+  contents: read
+
+env:
+  REFERENCE_GAME_SHA: 082805ba08e0f490062ff6be25f65619ad8eee50
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Prove exact candidate application and tests
+        run: |
+          git fetch --no-tags origin "$REFERENCE_GAME_SHA"
+          git diff --exit-code "$REFERENCE_GAME_SHA" HEAD -- . ':!.github/workflows/full-broad-integration.yml'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Source, units and exact browser inventory
+        run: |
+          npm run check
+          npm test
+          mkdir -p coverage/full-integration
+          npx playwright test --list --reporter=json > coverage/full-integration/inventory.json
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import {cases} from './scripts/ci-shard-proof.mjs';
+          const report=JSON.parse(fs.readFileSync('coverage/full-integration/inventory.json','utf8')),all=cases(report);
+          const proof={candidate:process.env.REFERENCE_GAME_SHA,qa:process.env.GITHUB_SHA,expected:all.length,unique:new Set(all.map(c=>c.id)).size,collectionErrors:report.errors||[]};
+          fs.writeFileSync('coverage/full-integration/source-inventory-proof.json',JSON.stringify(proof,null,2));console.log(JSON.stringify(proof));
+          if(proof.expected!==233||proof.unique!==233||proof.collectionErrors.length)throw Error('Unexpected full inventory');
+          JS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: full-integration-inventory
+          path: coverage/full-integration/
+          retention-days: 3
+
+  browser:
+    needs: inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [1, 2, 3, 4]
+    env:
+      PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Configure bounded case progress diagnostics
+        run: |
+          mkdir -p qa
+          cat > qa/full-progress.cjs <<'JS'
+          class Progress {
+            onBegin(config,suite){this.total=suite.allTests().length;this.started=0;this.completed=0;this.active=null;
+              this.timer=setInterval(()=>console.log('SUITE_HEARTBEAT',JSON.stringify({completed:this.completed,total:this.total,active:this.active?{...this.active,elapsedMs:Date.now()-this.active.since}:null})),30000);this.timer.unref();}
+            onTestBegin(test){this.started++;this.active={case:this.started,title:test.titlePath().join(' > '),file:test.location.file,line:test.location.line,since:Date.now()};console.log('CASE_START',JSON.stringify(this.active));}
+            onTestEnd(test,result){this.completed++;console.log('CASE_END',JSON.stringify({completed:this.completed,total:this.total,title:test.titlePath().join(' > '),status:result.status,durationMs:result.duration,error:result.error?.message?.slice(0,3000)}));this.active=null;}
+            onEnd(result){clearInterval(this.timer);console.log('SHARD_TERMINAL',JSON.stringify({status:result.status,completed:this.completed,total:this.total}));}
+          }
+          module.exports=Progress;
+          JS
+          cat > qa/full-hosted.playwright.config.mjs <<'JS'
+          import base from '../playwright.config.mjs';
+          export default {...base,testDir:'../tests/e2e',workers:1,retries:0,
+            outputDir:'../coverage/browser-evidence',
+            webServer:{...base.webServer,cwd:process.cwd()},
+            projects:base.projects.map(p=>({...p,use:{...p.use,
+              launchOptions:{...p.use.launchOptions,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}}}))};
+          JS
+      - name: Run every assigned case once
+        run: npx playwright test --config qa/full-hosted.playwright.config.mjs --shard=${{ matrix.shard }}/4 --workers=1 --retries=0 --max-failures=0 --reporter=./qa/full-progress.cjs,json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence-shard-${{ matrix.shard }}
+          path: coverage/
+          if-no-files-found: warn
+          retention-days: 3
+
+  accounting:
+    needs: [inventory, browser]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: full-integration-inventory
+          path: inventory-evidence
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: browser-evidence-shard-*
+          path: shard-evidence
+      - name: Account for every case and terminal outcome
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import {prove} from './scripts/ci-shard-proof.mjs';
+          const read=path=>{try{return JSON.parse(fs.readFileSync(path,'utf8'));}catch(error){return {errors:[{message:error.message}],suites:[]};}};
+          const inventory=read('inventory-evidence/inventory.json'),reports=[1,2,3,4].map(n=>read('shard-evidence/browser-evidence-shard-'+n+'/browser-report.json'));
+          const proof=prove(inventory,reports);proof.candidate=process.env.REFERENCE_GAME_SHA;proof.qa=process.env.GITHUB_SHA;
+          proof.onceOnly=reports.every(report=>{const visit=suites=>suites.every(s=>[...(s.specs||[]).flatMap(spec=>spec.tests||[])].every(test=>(test.results||[]).length===1)&&visit(s.suites||[]));return visit(report.suites||[]);});
+          if(!proof.onceOnly){proof.errors.push('Case retries or multiple executions detected');proof.complete=false;}
+          fs.mkdirSync('coverage',{recursive:true});fs.writeFileSync('coverage/full-browser-count-proof.json',JSON.stringify(proof,null,2));
+          console.log(JSON.stringify({candidate:proof.candidate,expected:proof.expected,reported:proof.reported,exactPartition:proof.exactPartition,onceOnly:proof.onceOnly,complete:proof.complete,counts:proof.counts,errors:proof.errors}));
+          if(!proof.complete)process.exitCode=1;
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-browser-count-proof
+          path: coverage/full-browser-count-proof.json
+          if-no-files-found: warn
+          retention-days: 3
