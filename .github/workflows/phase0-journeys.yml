@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     env:
-      REFERENCE_GAME_SHA: 634783de624944272761e6993c9d9e2947ae25f9
+      REFERENCE_GAME_SHA: 479555295d3055a04a6c0e43d614f393b21466d3
       PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/phase0-hosted/browser-report.json
     steps:
       - uses: actions/checkout@v4
