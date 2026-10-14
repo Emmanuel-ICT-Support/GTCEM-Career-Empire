@@ -20,7 +20,7 @@ import {afterFirstPaint} from './deferred-textures.js?v=ecc-ba60122';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds,sign} from './world.js?v=post-photo-tour-20261013';
+import {createWorlds,sign} from './world.js?v=phone-routing-20261014';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=test-characters-20261013';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES,TEST_CHARACTER_INFO,COLOUR_PRESETS} from './profiles.js?v=test-characters-20261013';

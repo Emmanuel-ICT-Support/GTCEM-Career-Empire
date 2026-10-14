@@ -1,3 +1,4 @@
+import {resolveCampusAssetURL} from './campus-asset-url.mjs?v=phone-routing-20261014';
 import {pavingNetwork} from './environment/paving-network.js?v=student-usability-20260924';
 import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=ecc-ba60122';
 import {thinGeometry,addAuthoredGarden} from './ecc-preview/authored-garden.js?v=ecc-ba60122';
@@ -17,7 +18,7 @@ export async function loadCampusAssets({textures,ids=['mature-eucalypt-a','matur
  // Original images hydrate the same GLTF textures, retaining UVs and samplers.
  const pixel='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4////fwAJ+wP9axC8gQAAAABJRU5ErkJggg==';
  const imageURI=uri=>typeof uri==='string'&&!uri.startsWith('data:')&&/\.(png|jpe?g|webp)(?:[?#]|$)/i.test(uri);
- if(textures)manager.setURLModifier(url=>imageURI(url)?pixel:url);
+ manager.setURLModifier(url=>resolveCampusAssetURL(url,value=>THREE.DefaultLoadingManager.resolveURL(value),textures?pixel:null));
  const loader=new GLTFLoader(manager).setMeshoptDecoder(MeshoptDecoder);
  return new Map(await Promise.all(ids.map(async id=>{
   const url=`./assets/${['careers','workplace'].includes(id)?'campus-buildings/'+id+'-shared-textures':'campus-landscape/'+id+(['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a'].includes(id)?'-packed':'')}.glb`;

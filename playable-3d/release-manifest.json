@@ -42,7 +42,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "d52a4932c2022d4abac772c152207b641db85bfeadec5f4b6d3d716f0a0bbf43"
+      "sha256": "d1d1e00be67361e69847df791fd4f2f9f1863e6041a20cf1f080f5cefdad02d6"
     },
     {
       "path": "arcade-carnival.js",
@@ -554,7 +554,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "e435eacae201a89a4c959e1f1f5ae8eaa890d8817f63d8c76301b5e53c2c970d"
+      "sha256": "53276c12ccbff59f5e3704c6d218911877f8df7ca2ad30dde8a7c019f9cc04b5"
     },
     {
       "path": "chapel.js",
@@ -814,7 +814,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "3a67c3726b0f6912eea25e7c799ee76089a1fe48e5d2f03efa55e59386a6d863"
+      "sha256": "5117fd66f76dee9cb57efd786b633d6a294fde08b7aec59141e1c8aa40a13c71"
     },
     {
       "path": "header-controls.css",
@@ -838,7 +838,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "2bfd7cef114ae38442d382e24d99f2726f50f853109b77faabcc49c0cfdd8cf8"
+      "sha256": "944b7f0d4efeeb6ea38bfaf340b035c7b1c874dd1941b446daebba8dc934dee9"
     },
     {
       "path": "intro-taster.css",
@@ -1082,7 +1082,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "1e850ae11ca852c0658a601de3f1983ba5b2ed83841315998ef61a81619e44c4"
+      "sha256": "be01aca7d58c014092ca62625c7926cf4701abae4ee9b4ee9f15d7426f03fb60"
     },
     {
       "path": "admin-preview.mjs",
@@ -1115,6 +1115,10 @@
     {
       "path": "../economy-lab/course-outline.pdf",
       "sha256": "d101e9fb8700158a3902c76ce45d20b21adc7fce567637a26b0c3717184eec58"
+    },
+    {
+      "path": "campus-asset-url.mjs",
+      "sha256": "23e49373e38c465658c002dcc45217762a6d0332416e68b8afde37d4671b97f4"
     }
   ],
   "estVideo": {
