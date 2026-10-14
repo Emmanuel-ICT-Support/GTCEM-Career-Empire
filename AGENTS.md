@@ -1,3 +1,7 @@
+## Further broad reliability repairs — 14 October 2026
+
+Isolated branch repair/broad-failures-20261014 now records30 repaired native passes,9 unchanged native passes and31 pending historical cases; not new hosted CI totals. Tested Market/legacy/research/trial, actual rig/shadow probes and serialized chooser fixture retain movement/reward/save assertions. Full-mode header runtime571151f keeps all direct controls visible in a compact under80px band at intermediate desktop widths; quiet Options/phone styles unchanged.1280/854/390 journeys plus278 hashes/85modules/source checks pass. CSS tag/index/manifest need parent-coordinated integration. No full suite/push/deployment; original rear-building visibility and hosted/startup remaining groups remain open. See docs/broad-failure-checkpoint-20261014.md.
+
 ## Broad failure repair checkpoint — 14 October 2026
 
 Isolated a0b7e34 candidate. Seven historical browser cases repaired with intact gameplay assertions: Market copy3, deliberately pending recovery2, actual-ready guest map/fresh reload2. All7 pass in sequential native Chrome;23 scoped units, source check and278 hashes/85 modules pass. Admin2/Stats4/movement3/Chapel1 pass unchanged. Exact Blueprint Phase1 route measured cold live walkable7.3–8.8s/full cast13.1s; local candidate outdoor entry2.1s with actual walking, not hosted performance equivalence. User25s stall not reproduced or waived. No runtime patch/full suite/push/deploy. See docs/broad-failure-checkpoint-20261014.md.
