@@ -8,8 +8,9 @@ test('selected Sprout is visibly rendered in the active town and Market scenes',
  const rendered=(mode,after)=>expect.poll(async()=>{const s=await sample();return {state:s?.state,parentMatches:s?.parentMatches,inView:s?.visibleMeshes>0,frameAdvanced:s?.frame>after};},{timeout:30000}).toMatchObject({state:{mode,echo:{helper:'sprout',helperStatus:'ready',visible:true,meshes:1}},parentMatches:true,inView:true,frameAdvanced:true});
  await page.goto('/playable-3d/?guestRun=visible-companion');
  // The diagnostics textarea is published periodically; the live entry flag and
- // visible loading gate own readiness. Keep the same deadline, then prove input.
- await expect.poll(async()=>(await sample())?.state,{timeout:30000}).toMatchObject({entryReady:true});await expect(page.locator('#loading')).toBeHidden();
+ // visible loading gate own readiness. Observe on animation frames without
+ // slow renderer/CDP polling gaps; keep the same deadline, then prove input.
+ await page.waitForFunction(()=>window.companionRenderProbe?.().state.entryReady,null,{timeout:30000});await expect(page.locator('#loading')).toBeHidden();
  const start=await sample();await page.locator('#scene').focus();await page.keyboard.down('KeyW');
  try{await expect.poll(async()=>(await sample())?.livePosition?.[2],{timeout:10000}).toBeLessThan(start.livePosition[2]-.15);}finally{await page.keyboard.up('KeyW');}
  const before=await sample();
