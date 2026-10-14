@@ -39,3 +39,29 @@ No local browser remains in use after this checkpoint. Publication remains
 conditional on BOTH exact focused hosted cases passing. Screenshot Library
 upload remains separately blocked pending direct user approval; no upload
 was attempted again.
+
+## Hosted guided-photo result and full-roster check
+
+Run 38519108558 finished at 05:58:18 UTC: exactly two terminal cases, Sprout
+PASS and expanded photo FAIL. Candidate equivalence and exact-count proof both
+passed. The browser step took 3.1m; job 4m27s. Artifact 11873515896 retains
+rendered frames and count proof. Sprout was actually drawn in Town and Market.
+
+The corrected photo fixture retained the real photo and tour through My Life,
+and the guided course return reached Initiative (step 6). The later synthetic
+roof-landing leg requested F immediately after that fresh return, before campus
+scenery was prepared. Ordinary exploration does not eagerly load the full campus
+at this point. The test now follows Initiative, Mara and the normal final tour
+action: this action prepares campus and routes outside the Market. The subsequent
+Flyover controls then have their existing intended gate. No readiness flag or
+timeout is changed. This targeted retry remains pending.
+
+The current selectable creatures are Echo, Sprout, Moss, Bloom, Spark, Pax and
+Atlas; No companion and Phone / journal remain selectable guidance modes. A new
+compact matrix uses the actual picker, real W movement, skin-aware frustum and
+onAfterRender evidence. Each selection carries unchanged from Town into Market
+and back via the visible Return to campus control. Expected receipt: 18 rows,
+14 creature renders/follows plus four intentionally mesh-free guidance rows.
+The test observes selected-only model requests and records each row independently.
+No local browser is used for this hosted matrix. No all-companion pass is claimed
+until its exact receipt is complete.
