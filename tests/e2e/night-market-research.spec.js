@@ -20,9 +20,9 @@ for(const width of [1280,390])test(`research mission and pass ${width}`,async({p
  await visit(1.5,-3.3);await click('Record the workflow clue');
  await visit(0,-3.6);await click('Propose: separate ordering and pickup with a visible sign');
  await visit(4.2,-1.8);await click('Place the sign on the counter');
- await visit(4.2,-1.8);await click('Try this with next customers');await tick();await expect(page.locator('#market-dialog')).toContainText('hidden behind');await close();
+ await visit(4.2,-1.8);await click('Try it with the next customers');await tick();await expect(page.locator('#market-dialog')).toContainText('hidden behind');await close();
  await visit(4.2,-1.8);await click('Place the sign beside the approach path');
- await visit(4.2,-1.8);await click('Try this with next customers');await tick();await close();
+ await visit(4.2,-1.8);await click('Try it with the next customers');await tick();await close();
  await visit(2.8,-2);await click('We made the food faster');await expect(page.locator('#market-dialog')).toContainText('same speed');await close();
  expect((await page.evaluate(()=>market.snapshot())).paid).toBe(false);
  await visit(2.8,-2);await click('People got the right information before choosing a queue');await close();
