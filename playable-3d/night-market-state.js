@@ -1,5 +1,5 @@
-import {validInitiativeAction,recognitionResult} from './market-initiative.mjs?v=initiative-20261014';
-import {DEFAULT_PLAN,NOTE_FIELDS,validPlan,evaluatePlan} from './night-market-agency.js?v=initiative-20261014';
+import {validInitiativeAction,recognitionResult} from './market-initiative.mjs?v=initiative-arcade-20261014';
+import {DEFAULT_PLAN,NOTE_FIELDS,validPlan,evaluatePlan} from './night-market-agency.js?v=initiative-arcade-20261014';
 // Local rehearsal only. This log never writes to profiles, the portfolio or accounts.
 export const MARKET_KEY='ce-night-market-practice-v1';
 export const VALUES=Object.freeze({gross:2000,tax:200,keepsake:600,save:500,donation:200,research:500});

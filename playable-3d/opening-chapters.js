@@ -1,5 +1,5 @@
 import {createSignalSpin} from './signal-spin.js?v=express-finish-20260929';
-import {RESOURCES,resourceElement} from './learning-resources.js?v=initiative-20261014';
+import {RESOURCES,resourceElement} from './learning-resources.js?v=initiative-arcade-20261014';
 import {SOURCES,PATHWAYS,SHIFTS,ADS,EVIDENCE,RESPONSE_PARTS,evaluateAllocation,reviewApplication,reviewSourceInterpretation} from './opening-chapters-state.js?v=opening-learning-20260927';
 
 // Reuses the existing market modal. State lives only in this module instance;

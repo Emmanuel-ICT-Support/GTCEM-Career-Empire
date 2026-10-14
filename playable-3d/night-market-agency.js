@@ -1,4 +1,4 @@
-import {initiativeFeedback} from './market-initiative.mjs?v=initiative-20261014';
+import {initiativeFeedback} from './market-initiative.mjs?v=initiative-arcade-20261014';
 // Bounded workplace simulation. Outcomes are reproducible, not an assessment score.
 export const DEFAULT_PLAN=Object.freeze({sign:'none',position:'counter',collection:'side',helper:'packing'});
 export const PLAN_OPTIONS=Object.freeze({

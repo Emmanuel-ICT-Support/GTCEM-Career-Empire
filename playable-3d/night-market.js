@@ -1,12 +1,12 @@
-import {initiativeProgress} from './initiative-progress.mjs?v=initiative-20261014';
-import {createInitiativeLearning} from './market-initiative.mjs?v=initiative-20261014';
+import {initiativeProgress} from './initiative-progress.mjs?v=initiative-arcade-20261014';
+import {createInitiativeLearning} from './market-initiative.mjs?v=initiative-arcade-20261014';
 import {administrationAvailable} from './admin-preview.mjs?v=admin-preview-20261013';
 import {arrangementChoices,canTryArrangement,applyArrangement,showSignPosition} from './market-arrangement.mjs?v=market-arrangement-20261012';
 import {inAdministration,nearestInteraction} from './administration-flow.js?v=market-admin-20261012';
 import * as THREE from 'three';
 import {JUNIPER,riceBowl,takeawayBag} from './market-food.js?v=market-student-playtest-20260924';
-import {marketComplete,createPracticeStore,VALUES,BADGES,MARKET_SHOP} from './night-market-state.js?v=initiative-20261014';
-import {PLAN_OPTIONS,NOTE_FIELDS,describePlan,evaluatePlan,caseNoteText} from './night-market-agency.js?v=initiative-20261014';
+import {marketComplete,createPracticeStore,VALUES,BADGES,MARKET_SHOP} from './night-market-state.js?v=initiative-arcade-20261014';
+import {PLAN_OPTIONS,NOTE_FIELDS,describePlan,evaluatePlan,caseNoteText} from './night-market-agency.js?v=initiative-arcade-20261014';
 import {marketCharacters} from './market-characters.js?v=market-admin-20261012';
 import {marketSurroundings} from './market-surroundings.js?v=ecc-ba60122';
 const money=n=>'$'+(n/100).toFixed(2);
@@ -118,13 +118,13 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
 
  for(const x of [5.5,8.5]){box(.09,2.5,.09,x,1.25,7,'#b39a77');lanterns.push(orb(.2,x,2.5,7,'#ffd578',scene,true));}
 
- const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=admin-guidance-20261013',import.meta.url).href;document.head.append(css);
+ const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./night-market.css?v=initiative-arcade-20261014',import.meta.url).href;document.head.append(css);
  const hud=document.createElement('section');hud.id='market-hud';hud.hidden=true;hud.setAttribute('aria-label','Live Music and Sunday Markets practice');
  hud.innerHTML='<details id="market-card"><summary>Your first gig <span aria-hidden="true">⌄</span></summary><div class="market-card-details"><div class="market-kicker">SUNDAY MARKET / LOCAL PRACTICE</div><h2>Your first gig</h2><div class="market-balance" id="market-balance"></div><div class="market-tools"><button id="market-journal">Journal & map</button><button id="market-exit">Return to campus</button></div><p class="market-status" id="market-status" role="status"></p></div></details><p id="market-objective" aria-live="polite"></p><button id="market-reception" hidden>Visit Reception</button><button id="market-test" hidden>Watch a test group</button><button id="market-replay" hidden>Start a fresh shift…</button>';
  if(publicAdminReview){const note=document.createElement('p');note.id='market-review-notice';note.textContent='Public Admin preview · not saved · no wages or crew pass';hud.append(note);}
  document.getElementById('experience').append(hud);
  const dialog=document.createElement('dialog');dialog.id='market-dialog';dialog.setAttribute('aria-labelledby','market-dialog-title');document.body.append(dialog);
- const learningCss=document.createElement('link');learningCss.rel='stylesheet';learningCss.href=new URL('./market-initiative.css?v=initiative-20261014',import.meta.url);document.head.append(learningCss);
+ const learningCss=document.createElement('link');learningCss.rel='stylesheet';learningCss.href=new URL('./market-initiative.css?v=initiative-arcade-20261014',import.meta.url);document.head.append(learningCss);
  const learning=createInitiativeLearning({show,dialog,state:()=>store.state,record:event=>commit(event,'Learning practice recorded; agreed pay is unchanged.'),back:close});
  let introTimer=null,introFrame=0,introPaused=false,exitArmed=false;
  let visible=false,customerProgress=0,previousSolution=store.state.solution,lastAnnounced='',music=null,watching=0,observationHold=false,testing=0,noteDraft=null;
@@ -135,7 +135,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  dialog.addEventListener('close',()=>document.getElementById('scene').focus());
  dialog.addEventListener('cancel',()=>{clearTimeout(introTimer);const restore=observationHold;observationHold=false;if(restore)sync();onClose();});
  function show(title,body,choices=[],extra=''){if(chapterPlayback)endPreview();
-  clearTimeout(introTimer);introTimer=null;onPause();dialog.classList.remove('market-intro');dialog.replaceChildren();const eyebrow=document.createElement('div');eyebrow.className='market-kicker';eyebrow.textContent=publicAdminReview?'PUBLIC ADMIN PREVIEW / NOT SAVED':'SUNDAY MARKETS / PRACTICE';dialog.append(eyebrow);
+  clearTimeout(introTimer);introTimer=null;onPause();dialog.classList.remove('market-intro','market-arcade');dialog.replaceChildren();const eyebrow=document.createElement('div');eyebrow.className='market-kicker';eyebrow.textContent=publicAdminReview?'PUBLIC ADMIN PREVIEW / NOT SAVED':'SUNDAY MARKETS / PRACTICE';dialog.append(eyebrow);
   const h=document.createElement('h2');h.id='market-dialog-title';h.textContent=title;dialog.append(h);
   const p=document.createElement('p');p.className='market-body';p.textContent=body;dialog.append(p);if(title==='Mara’s roster and order record'){const figure=document.createElement('figure');figure.className='market-record-author';const portrait=document.createElement('img');portrait.src=new URL('./assets/community-cast-20260927/mara-portrait.png',import.meta.url).href;portrait.alt='Mara, Juniper Kitchen owner and record author';portrait.width=portrait.height=112;const caption=document.createElement('figcaption');caption.textContent='Mara · Juniper Kitchen';figure.append(portrait,caption);p.before(figure);}
   if(extra){const note=document.createElement('p');note.className='market-note';note.textContent=extra;dialog.append(note);}

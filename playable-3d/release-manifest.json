@@ -10,7 +10,7 @@
     },
     {
       "path": "../economy-lab/app.mjs",
-      "sha256": "e24ef30a9955de5a3480b623a5fba9f3c4252ffd5d2ed6613bf5ca818b60c8d9"
+      "sha256": "72d390e56977d963c78ba035bd5eab3c1549e7c65eaae229c065f7aa8a3361ef"
     },
     {
       "path": "../economy-lab/course-outline-print.html",
@@ -38,7 +38,7 @@
     },
     {
       "path": "../economy-lab/index.html",
-      "sha256": "8ccbfc20fd523532b2583eb24294317216c35b198bb1d9f8664a624b9bb3c395"
+      "sha256": "9f552e5ce3e12dc539aca9d81ca7450cdf71e426253f826f63cc5618dd38a1b5"
     },
     {
       "path": "../economy-lab/style.css",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "135f2bf873dd3bdb701a93594d63959899867d245a2d6a05f1a6099e9301efee"
+      "sha256": "188aea74a297918b5e4d045bcf515d8267d2be507c2fe1a5bb46eb5dd21b2cc9"
     },
     {
       "path": "arcade-carnival.js",
@@ -806,11 +806,11 @@
     },
     {
       "path": "exploration-tools.css",
-      "sha256": "9b6f590234820b88d90b3b17b9fc60f0f4322de4cd9e6eb7bf82ea378f2c39e3"
+      "sha256": "51d776b146ed842b37acb5389953d5f052bad1be4c39c946f735cd50dc7bc7b6"
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "d2e55715964213a4de69f5323969a167fc398fd83ba4f8e86de480f8c5811bd2"
+      "sha256": "f542441de65c17dc6a8d042231836cb9f2275273ae0328669362e44cff1de0fb"
     },
     {
       "path": "field-guide.html",
@@ -834,7 +834,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "fb553ddb5936c167b5eff3a2c4a62065190eddd73424f9e27e2474271c7b5b3e"
+      "sha256": "8060ba54ed7232a312111dca35319cc4834698e41570fbcbc1c4bf29394b6db2"
     },
     {
       "path": "header-controls.css",
@@ -858,15 +858,15 @@
     },
     {
       "path": "index.html",
-      "sha256": "59d4a2ae20514bddf210dc1470f9245b82da10604b33791811aa6aba15f502e2"
+      "sha256": "63bb7c12517d540f17852fea8b53126be4678818ac33046c925d6ce8e594a991"
     },
     {
       "path": "initiative-field-guide.html",
-      "sha256": "046d909efe95ae27f4e638560f1ebff0fa65b018b8f9bf5599feb89441e87851"
+      "sha256": "063ebe50f63f1ccee2f63f25e24a70ad9be27b6885d2b9679ba99e3e57dc2971"
     },
     {
       "path": "initiative-progress.mjs",
-      "sha256": "46a61c5c62e2c43c2695d2fa4dc15a46c47149c50489665b43195491ea1db69a"
+      "sha256": "0f333a456b7edb886a9c3595cf254fa90e43df6958109a7d3b40680e8ac704ee"
     },
     {
       "path": "intro-taster.css",
@@ -898,7 +898,7 @@
     },
     {
       "path": "market-arrangement.mjs",
-      "sha256": "f355cf37780e62ff7488385bb5146aa2c968ac1ce000ad7a0afc977e8ac1acf2"
+      "sha256": "92d703c88ebaef976746d861bcdd4fc2544f497a8b818d3687a16bbbf7d3c1bb"
     },
     {
       "path": "market-characters.js",
@@ -906,7 +906,7 @@
     },
     {
       "path": "market-collection.mjs",
-      "sha256": "d96c2acd73269e3d8cbec1901c8eb5abdc6a211da5282e5cc4e1338e406b16e1"
+      "sha256": "ab8c83435e0c709d158edce8d181fd758e559cac6b1962ad415d69814878af73"
     },
     {
       "path": "market-food.js",
@@ -914,11 +914,11 @@
     },
     {
       "path": "market-initiative.css",
-      "sha256": "6b8ec196ce1a5765563a1bae2383044977286f6f81e36f465056d6936f6a7e84"
+      "sha256": "48a8d6d910a6886bf40a6efc1f801b54a82b6b2deee46ddaccbb02153c917b8e"
     },
     {
       "path": "market-initiative.mjs",
-      "sha256": "dde8edf4413a61df0dbeba9530dcbbe9cd59f26a30491782dd24dbf58aabcbf9"
+      "sha256": "b06e93908aaed0078173cf8dd47076a04efd7d65e040e81b96cbbb84168e3e99"
     },
     {
       "path": "market-surroundings.js",
@@ -934,11 +934,11 @@
     },
     {
       "path": "night-market-agency.js",
-      "sha256": "a3eeb30f5053ccfceb7649d1d8d136ef2ebf1e4c8c675c60af089968f60f3372"
+      "sha256": "7d2f3d78ea6d92883bd42696b6e57359a42e6f2d8e77e914744bb033bd7ce5ae"
     },
     {
       "path": "night-market-state.js",
-      "sha256": "88f5539576add701a442e467efaf9aa14487d4d0b7cc65d4c6b3011e79a7418d"
+      "sha256": "fad73d5a22accf1bf53853b7bf380e509639cf14604c6ac71ea023062a1739fd"
     },
     {
       "path": "night-market.css",
@@ -946,7 +946,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "94d5f1fa7e2baa26a6592f0e1d614121a20fde015e3f3d8a2f75d292e7609d35"
+      "sha256": "b787fea988a723bf8307379fde7c346b1cbe062dd92256da3dc6064754b25503"
     },
     {
       "path": "opening-chapters-state.js",
@@ -954,7 +954,7 @@
     },
     {
       "path": "opening-chapters.js",
-      "sha256": "8e3d13a143fc225e6e25df442160389d6c6c7dd4a0d80a254b2dc8682cf8a195"
+      "sha256": "238d55159eaeee154b10b2bb50100501aa2f17b46fa7cfbf8cfbe03043854ab6"
     },
     {
       "path": "opening-district.js",

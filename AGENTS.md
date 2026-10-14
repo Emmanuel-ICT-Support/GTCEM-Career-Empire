@@ -1,3 +1,7 @@
+## Markets story-sort refinement - 14 October 2026
+
+Isolated follow-up to d0912bb: illustrated market story ticket, tap/drag/keyboard sorting, reduced-motion feedback, compact approved-icon sticker album and game UI typography. Exact behaviour/source mappings, recognition versus independent recall and fair pay retained.267units pass; actual keyboard3D shift/pay/sort/Stats/exit walkthrough and desktop/phone UI checks pass. No publication; updated screenshot preview for user review. See docs/market-curriculum-first-batch-20261014.md.
+
 ## Isolated Markets curriculum candidate - 14 October 2026
 
 User explicitly authorises source edits, tests, takeaway resources, recall game and practice stickers. Separate first batch on integration082805ba: exact five behaviours, optional supported action vignettes, one-at-a-time teaching cards, after-job recall, My Work takeaway and three existing Stats collection stickers.267units/coverage and13scoped browser cases pass; original pay/legacy saves retained. Mastery remains unverified; guest reset/account rules unchanged. Sparse EST media prevent filesystem source-check completion; staged Git checks are separate. No publication; show revised flow first. See docs/market-curriculum-first-batch-20261014.md.
