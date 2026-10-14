@@ -1375,7 +1375,7 @@
       },
       "softwareFollowOn": null,
       "remainingRequirement": "Original software failure is not cleared by the native result",
-      "currentNotes": "Eight-second limits retained. Same-app cold-skip comparison measures a 23-second first-draw shader compilation stall on SwiftShader; native passes. No software exception accepted."
+      "currentNotes": "Eight-second limit retained. Fresh-browser software control is 24.370s versus native 1.865s. Exact lighting-cache experiment failed (25.391/26.355s software); native control/candidate pass. Expanded profiling shows driver/GPU blocking moving into getExtension, so earlier pure-compilation attribution is refined. No runtime optimisation or support/test exception adopted."
     },
     {
       "id": "8a94587f89b4ab1cab50-3ecdaef3f0cd3a854734:chromium:0",
@@ -1413,7 +1413,7 @@
       },
       "softwareFollowOn": null,
       "remainingRequirement": "Original software failure is not cleared by the native result",
-      "currentNotes": "Eight-second limits retained. Same-app cold-skip comparison measures a 23-second first-draw shader compilation stall on SwiftShader; native passes. No software exception accepted."
+      "currentNotes": "Eight-second limit retained. Fresh-browser software control is 24.370s versus native 1.865s. Exact lighting-cache experiment failed (25.391/26.355s software); native control/candidate pass. Expanded profiling shows driver/GPU blocking moving into getExtension, so earlier pure-compilation attribution is refined. No runtime optimisation or support/test exception adopted."
     },
     {
       "id": "8beb0a03f378ffff1fdf-3b33fcfd8145004f253a:chromium:0",
@@ -1450,20 +1450,76 @@
           "baseCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
           "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
           "report": "coverage/broader-targeted-20261014/software-cold-cost.json"
+        },
+        {
+          "label": "shader-baseline-software-cold",
+          "renderer": "software",
+          "outcome": "failed",
+          "baseCommit": "68c86bbfdce38c18d19162386d042fa9c0b88f41",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/shader-baseline-software-cold/report.json"
+        },
+        {
+          "label": "shader-native-baseline-cold",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "68c86bbfdce38c18d19162386d042fa9c0b88f41",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/shader-native-baseline-cold/report.json"
+        },
+        {
+          "label": "shader-cached-environment-software-cold",
+          "renderer": "software",
+          "outcome": "failed",
+          "baseCommit": "68c86bbfdce38c18d19162386d042fa9c0b88f41",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "report": "coverage/broader-targeted-20261014/shader-cached-environment-software-cold/report.json",
+          "runtimeVariant": "precomputed-room-environment",
+          "diagnosticOnly": true
+        },
+        {
+          "label": "shader-cached-environment-native-cold",
+          "renderer": "native",
+          "outcome": "passed",
+          "baseCommit": "68c86bbfdce38c18d19162386d042fa9c0b88f41",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "runtimeVariant": "precomputed-room-environment",
+          "diagnosticOnly": true,
+          "report": "coverage/broader-targeted-20261014/shader-cached-environment-native-cold/report.json"
+        },
+        {
+          "label": "shader-cached-software-final-attribution",
+          "renderer": "software",
+          "outcome": "failed",
+          "baseCommit": "68c86bbfdce38c18d19162386d042fa9c0b88f41",
+          "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+          "runtimeVariant": "precomputed-room-environment",
+          "diagnosticOnly": true,
+          "report": "coverage/broader-targeted-20261014/shader-cached-software-final-attribution/report.json"
         }
       ],
       "nativeVerification": {
         "outcome": "passed",
-        "label": "startup-native-c72",
-        "report": "coverage/broader-targeted-20261014/startup-native-c72/report.json"
+        "label": "shader-native-baseline-cold",
+        "report": "coverage/broader-targeted-20261014/shader-native-baseline-cold/report.json"
       },
       "softwareFollowOn": {
         "outcome": "failed",
-        "label": "software-cold-cost",
-        "report": "coverage/broader-targeted-20261014/software-cold-cost.json"
+        "label": "shader-baseline-software-cold",
+        "report": "coverage/broader-targeted-20261014/shader-baseline-software-cold/report.json"
       },
       "remainingRequirement": "Original software failure is not cleared by the native result",
-      "currentNotes": "Eight-second limits retained. Same-app cold-skip comparison measures a 23-second first-draw shader compilation stall on SwiftShader; native passes. No software exception accepted."
+      "currentNotes": "Eight-second limit retained. Fresh-browser software control is 24.370s versus native 1.865s. Exact lighting-cache experiment failed (25.391/26.355s software); native control/candidate pass. Expanded profiling shows driver/GPU blocking moving into getExtension, so earlier pure-compilation attribution is refined. No runtime optimisation or support/test exception adopted.",
+      "latestFailure": {
+        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m8000\u001b[39m\nReceived:   \u001b[31m26355.200000001118\u001b[39m",
+        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeLessThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: < \u001b[32m8000\u001b[39m\nReceived:   \u001b[31m26355.200000001118\u001b[39m\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/startup-costs.spec.js:31:262",
+        "location": {
+          "file": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/startup-costs.spec.js",
+          "column": 262,
+          "line": 31
+        },
+        "snippet": "  29 |  const timing=await page.evaluate(()=>{window.__startupCostsDone=true;return {at:performance.now(),costs:window.__startupCosts,longTasks:window.__startupLongTasks,glCosts:window.__startupGLCosts,glTotals:window.__startupGLTotals,resources:performance.getEntriesByType('resource').filter(r=>r.name.startsWith(location.origin)).map(r=>({path:new URL(r.name).pathname,startMs:r.startTime,responseStartMs:r.responseStart,responseEndMs:r.responseEnd,durationMs:r.duration,bytes:r.decodedBodySize,transferBytes:r.transferSize})),state:JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}')};});\n  30 |  const ready=timing.costs.find(c=>c.phase==='entry-ready'),handover=timing.costs.find(c=>c.phase===(experience==='cold-skip'?'user-start-exploring':'video-ended'));expect(ready).toBeTruthy();expect(handover).toBeTruthy();const handoverDelayMs=Math.max(0,ready.pageMs-handover.pageMs);console.log('STARTUP_COST_SUMMARY',JSON.stringify({experience,handoverDelayMs,totalToEntryReadyMs:ready.pageMs,markers:timing.costs.filter(c=>!['canvas-submit','gpu-complete'].includes(c.phase))}));await info.attach('startup-costs',{body:JSON.stringify({experience,handoverDelayMs,...timing},null,2),contentType:'application/json'});\n> 31 |  await page.screenshot({path:info.outputPath(experience+'-complete-campus.png')});await walkToMap(page,'KeyW','z',16.7);await expect(page.locator('#discovery-dialog')).toBeVisible();expect(errors).toEqual([]);if(experience==='cold-skip')expect(handoverDelayMs).toBeLessThan(8000);\n     |                                                                                                                                                                                                                                                                      ^\n  32 | });\n  33 |"
+      }
     },
     {
       "id": "d10a8235e6ed24c4cc22-725463996d999197e399:chromium:0",
@@ -1896,5 +1952,15 @@
     "coverage/broader-targeted-20261014/software-precompile-detail.json",
     "coverage/broader-targeted-20261014/software-shader-log-detail.json",
     "coverage/broader-targeted-20261014/stats-software-ui-draw-trace/actual-world-draws.json"
-  ]
+  ],
+  "softwareRuntimeReview": {
+    "report": "docs/software-startup-decision-20261014.md",
+    "measurements": "docs/software-startup-experiment-20261014.json",
+    "publishedBlueprintRevision": "V2.28 / 14 October 2026",
+    "publishedBlueprintBlob": "cb1d1b90635c6e4b47f70c225753e91a4c499192",
+    "status": "support-contract-decision-required; software startup not fixed",
+    "runtimeOptimisationRetained": false,
+    "eightSecondWaiver": false,
+    "proposedTestStrategyImplemented": false
+  }
 }

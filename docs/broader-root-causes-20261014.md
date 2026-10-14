@@ -37,6 +37,13 @@ a physical school-device acceptance claim.
 
 ## Measured software startup cause
 
+The [subsequent bounded support/optimisation review](software-startup-decision-20261014.md)
+refines the initial compilation attribution below. Expanded profiling shows
+blocking time moving from program queries to an extension query when the
+lighting prefilter is cached. These are GPU/driver query boundaries, not proof
+that all measured time is compiler work. The cache did not solve startup and
+no runtime optimisation or test-strategy exception was adopted.
+
 Sequential cold-skip measurements on the same machine, browser and unchanged
 application used actual reported WebGL renderers:
 

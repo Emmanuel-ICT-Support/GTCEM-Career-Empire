@@ -33,7 +33,9 @@ expected={e['id'] for e in selected};actual=[c[0] for c in cases(inventory)]
 assert len(actual)==len(set(actual)) and set(actual)==expected,(len(actual),len(expected),set(actual)^expected)
 test_sources=[root/'tests/e2e'/e['titlePath'][0] for e in selected]
 test_sources += [root/'tests/e2e/campus-fixtures.js',root/'tests/e2e/helper-fixtures.js',root/'tests/e2e/owned-account-fixtures.js',root/'qa/ecc-root-causes.playwright.config.mjs',root/'qa/ledger-progress.cjs']
-plan={'groups':args.groups,'requestedRenderer':args.renderer,'count':len(actual),'ids':actual,'baseCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'appSha256':hashlib.sha256((root/'playable-3d/app.js').read_bytes()).hexdigest(),'testSourceHashes':{str(path.relative_to(root)):hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(set(test_sources))}}
+test_sources += [p for p in [root/'qa/shader-program-profile.js',root/'qa/environment-cache-experiment.mjs'] if p.exists()]
+variant='precomputed-room-environment' if env.get('CE_ENV_CACHE_PATH') else 'baseline'
+plan={'groups':args.groups,'requestedRenderer':args.renderer,'count':len(actual),'ids':actual,'baseCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'appSha256':hashlib.sha256((root/'playable-3d/app.js').read_bytes()).hexdigest(),'runtimeVariant':variant,'diagnosticOnly':variant!='baseline','coldShaderDiskCacheDisabled':env.get('CE_COLD_SHADERS')=='1','testSourceHashes':{str(path.relative_to(root)):hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(set(test_sources))}}
 (folder/'plan.json').write_text(json.dumps(plan,indent=2)+'\n');print('Exact targeted inventory:',len(actual),flush=True)
 env['PLAYWRIGHT_JSON_OUTPUT_FILE']=str(folder/'report.json')
 link=root/'Assets';created=False
@@ -60,7 +62,7 @@ if (folder/'report.json').exists():
   results=test.get('results',[]);outcome='notRun' if not results else 'passed' if test.get('status')=='expected' else 'skipped' if results[-1]['status']=='skipped' else 'failed'
   summary[outcome]+=1
   entry=next(e for e in ledger['entries'] if e['id']==identifier)
-  entry.setdefault('proof',[]).append({'label':args.label,'renderer':args.renderer,'outcome':outcome,'baseCommit':plan['baseCommit'],'appSha256':plan['appSha256'],'report':str((folder/'report.json').relative_to(root))})
+  entry.setdefault('proof',[]).append({'label':args.label,'renderer':args.renderer,'outcome':outcome,'baseCommit':plan['baseCommit'],'appSha256':plan['appSha256'],'runtimeVariant':variant,'diagnosticOnly':plan['diagnosticOnly'],'report':str((folder/'report.json').relative_to(root))})
   if outcome=='failed':entry['latestFailure']=results[-1].get('error',{})
 ledger_path.write_text(json.dumps(ledger,indent=2)+'\n');(folder/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');print(json.dumps(summary,indent=2),flush=True)
 raise SystemExit(returncode)
