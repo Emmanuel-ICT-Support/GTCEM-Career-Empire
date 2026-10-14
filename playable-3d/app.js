@@ -837,12 +837,18 @@ async function showOrientationHandover({restore=false}={}){
  if(!discovery?.snapshot().souvenir)return;
  resetNavigationInput();actor.setWalking(false);closeExplorationOptions(false);explorationTools?.close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;
  orientationSummary=orientationHandoverCopy({earned:null,tax:null});try{orientationSummary=orientationHandoverCopy(await explorationTools.completeOrientation());}catch{}
- if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=guided-photo-20261014&retry='+orientationTourAttempt).then(({createOrientationTour})=>{
+ if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=market-tour-ready-20261014&retry='+orientationTourAttempt).then(({createOrientationTour})=>{
   orientationTour=createOrientationTour({storage:gameStorage,photo:()=>discovery.photo(),summary:()=>orientationSummary,helper:()=>helperPicker.selected(),
    chooseHelper:async preparing=>{await helperPicker.choose(true);const selected=helperPicker.selected();if(selected.model)preparing(selected.name+' is getting ready. You can skip the tour while your companion prepares.');await companionApply;if(selected.model&&echo?.snapshot().helperStatus==='failed')throw Error('Companion unavailable');},
    fly:()=>{closeExplorationOptions(false);explorationTools.showMap();return flyover.enter();},openOptions:()=>{$('exploration-options').open=true;},optionsOpen:()=>Boolean($('exploration-options')?.open),
    openStats:()=>explorationTools.showStats(),statsOpen:()=>explorationTools.open(),
-   openCourse:()=>navigateRunModule('../economy-lab/?section=course&tour-return=1'),goMarket:goToMarketEntrance,
+   openCourse:()=>navigateRunModule('../economy-lab/?section=course&tour-return=1'),goMarket:async current=>{
+    if(adminReviewRequested){if(!current())return false;await openMarket();return mode==='market';}
+    const request=modeRequest;try{await ensureCampus();}catch{return false;}
+    if(!current()||request!==modeRequest)return false;
+    await campusSpot(MARKET_APPROACH.x,MARKET_APPROACH.z,'Outside Sunday Markets',MARKET_APPROACH.yaw);
+    return mode==='town'&&Math.hypot(actor.model.position.x-MARKET_APPROACH.x,actor.model.position.z-MARKET_APPROACH.z)<.3;
+   },
    pause:()=>{resetNavigationInput();actor.setWalking(false);},resume:()=>{resetNavigationInput();canvas.focus({preventScroll:true});},
    stop:()=>{flyover?.exit();closeExplorationOptions(false);explorationTools?.close();if(helperPicker.open())$('helper-picker').querySelector('[data-cancel]').click();}
   });return orientationTour;

@@ -140,3 +140,35 @@ authentic-flight tests remain byte-identical. The next scoped run explicitly
 proves that equivalence and reuses the accepted 18-row/keyboard-flight result
 while checking the two original journeys plus the moved landing/shortcut
 case. No repeated broad suite, local browser or publication has occurred.
+
+## Final guided arrival ownership and stage timing
+
+Run 38523610644 completed with the original two-case job at one Sprout PASS /
+one photo FAIL, plus the moved landing case timed out. The photo failed when
+the already-hidden tour was treated as arrival complete; its cold campus was
+still preparing and the player was at Start. Generic menu routing stops the
+tour before its asynchronous preparation. The guide now uses its own awaited
+final callback: it retains the panel and preparation status, waits for campus,
+checks cancellation and unchanged mode ownership, and finishes only after
+actual outside arrival. A false result retains a usable retry/Skip action.
+Generic menu routing and every other app behavior remain unchanged.
+
+The landing case used `view=home-economics`, which deliberately excludes the
+discovery interface. Its Market map shortcut was correctly hidden. It now
+uses ordinary guest entry and the real Places → Market control to prepare
+campus, then performs the preserved roof, map and menu checks. No button,
+progression flag or gate is forced visible.
+
+The full photo test records photo, pre-Market landing, menu/Stats, course
+return, request, outside-arrival and actual-entry stage times. A separate 90s
+cold final-beat test observes real readiness, the retained preparing guide,
+outdoor arrival and actual W/door entry, with stage timings attached. A small
+DOM contract check verifies failed-arrival retry, canceled late completion and
+successful retry. Original photo/companion and walking deadlines remain intact.
+
+The accepted 18-row matrix and authentic keyboard flight remain valid evidence.
+Helper/flight files and tests are unchanged; the app differs only in the final
+tour callback and cache URL. The tour differs only in its final action. A
+normalized full-source comparison records this narrow scope so no broader app
+change can be silently included while those accepted checks are reused.
+Fresh source/unit checks passed; new browser acceptance remains pending.

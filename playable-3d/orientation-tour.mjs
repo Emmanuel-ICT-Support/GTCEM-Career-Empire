@@ -31,7 +31,7 @@ export function createOrientationTour({storage,photo,summary,helper,chooseHelper
    else if(step===4){openStats();awaitingClose=true;}
    else if(step===5){step=6;save();openCourse();finish();return;}
    else if(step===6)step=7;
-   else{await goMarket();if(request!==generation)return;save();finish();return;}
+   else{notice='Preparing campus and Market entrance…';render();const arrived=await goMarket(()=>request===generation&&active);if(request!==generation)return;if(arrived===false)throw Error('Market entrance unavailable');save();finish();return;}
    save();
   }catch{if(request===generation)notice='That action could not finish. Your progress is intact; try again or skip.';}
   finally{if(request===generation){busy=false;render();if(active&&step!==2)pause();}}

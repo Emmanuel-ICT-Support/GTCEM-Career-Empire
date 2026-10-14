@@ -1,5 +1,5 @@
 {
-  "release": "post-photo-tour-panel-close-20261014",
+  "release": "post-photo-tour-market-ready-20261014",
   "gameUrl": "/playable-3d/",
   "baseCommit": "e88724dcae46de7739625fbbd54ae77091378c3c",
   "scope": "Draft post-photo companion tour, safe ground landing, outside-campus-building Market shortcuts and student-only draft numbered Phase 0-11 course outline. Existing startup, assets, photo capture, paid Market gates and public Admin review are preserved. No publication or curriculum completion. Blueprint overview is available in the existing menu in a separate accessible tab; Admin review menu re-entry remains direct Reception. Photo review stays visible during tour preparation; selected-companion loading has explicit feedback and failed tour loads can retry.",
@@ -42,7 +42,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "3854019446c3035ea524e82ae10cdf70640920cfa06ce21d45307d009fb03f41"
+      "sha256": "00cc22a9074ac6165225aa916315ae23be90710f6bdd9855802b86d3b9412e5d"
     },
     {
       "path": "arcade-carnival.js",
@@ -814,7 +814,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "c848fc1bd9e6d32af66df062fc97b83cc1aa8f23ffe87318c360b79ba44ba2c4"
+      "sha256": "9d59a567e9063625e231793df68216152deb1b4bfe9f82cb400973ec3584e2f8"
     },
     {
       "path": "header-controls.css",
@@ -838,7 +838,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "0f693d6b1a458a0681df4ecb0249f5f89bd252b6f7e279fd1ff4beee916de204"
+      "sha256": "ba5f2bc305e7a1a1201fa3c0bded33b7a0166306e30c5de4a4926dfcf5b03119"
     },
     {
       "path": "intro-taster.css",
@@ -1094,7 +1094,7 @@
     },
     {
       "path": "orientation-tour.mjs",
-      "sha256": "af1b35cb18593eb5aa5a3fe6249fa7e88849f1915c08bc83e808950b34860e61"
+      "sha256": "9c86d677f6d6450c8747a956ce40e6be4d001fd32d7a0b41a07b533d05b55e1a"
     },
     {
       "path": "orientation-tour.css",
