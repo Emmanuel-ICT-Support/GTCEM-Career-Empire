@@ -21,7 +21,7 @@ test('moving suit uses current-pose shadows instead of stale silhouettes',async(
  const fs=await import('node:fs');fs.mkdirSync('evidence/movement',{recursive:true});for(const r of results){fs.writeFileSync(`evidence/movement/${r.body}-stale-shadow.png`,Buffer.from(r.before.split(',')[1],'base64'));fs.writeFileSync(`evidence/movement/${r.body}-fresh-shadow.png`,Buffer.from(r.after.split(',')[1],'base64'));expect(r.stale.changedPixels).toBeGreaterThan(100);expect(r.fresh.changedPixels).toBe(0);delete r.before;delete r.after;}console.log('SUIT_SHADOW',JSON.stringify(results));
 });
 
-for(const width of [1280,390])test(`playable suit shadows follow every walking frame at ${width}`,async({page})=>{
+for(const width of [1280,390])test(`playable suit shadows follow every walking frame at ${width}`,async({page},info)=>{
  await page.setViewportSize({width,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/playable-3d/app.js*',async r=>{const response=await r.fetch();const source=(await response.text()).replace('const renderStarted=performance.now();renderer.render(scene,camera);',`window.__suitFrames?.push({shadow:renderer.shadowMap.needsUpdate,weight:actor.clips.walk?.getEffectiveWeight()||0,time:performance.now(),position:actor.model.position.toArray(),yaw:actor.model.rotation.y,changed:playerShadowChanged,quality:document.querySelector('#quality').value});const renderStarted=performance.now();renderer.render(scene,camera);`);await r.fulfill({response,body:source+'\nwindow.__suitFrames=[];'});});
  await page.goto('/playable-3d/?review=1&mode=full',{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>{const d=JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}');return d.entryReady&&!d.avatarFallback;},null,{timeout:90000});
@@ -30,6 +30,6 @@ for(const width of [1280,390])test(`playable suit shadows follow every walking f
  await page.evaluate(()=>{window.dispatchEvent(new KeyboardEvent('keydown',{code:'KeyW'}));setTimeout(()=>window.dispatchEvent(new KeyboardEvent('keyup',{code:'KeyW'})),1300);});
  await page.waitForFunction(()=>window.__suitFrames.some(f=>f.weight>.01));
  await page.waitForFunction(()=>window.__suitFrames.slice(-10).some(f=>f.weight===0&&!f.shadow),null,{timeout:10000});
- await page.screenshot({path:`evidence/movement/suit-walking-${width}.png`});
+ await page.screenshot({path:info.outputPath(`suit-walking-${width}.png`)});
  const frames=await page.evaluate(()=>window.__suitFrames);const moving=frames.filter(f=>f.weight>.01);expect(moving.length).toBeGreaterThan(5);expect(moving.every(f=>f.shadow)).toBe(true);expect(frames.slice(-10).some(f=>!f.shadow)).toBe(true);expect(errors).toEqual([]);console.log('SUIT_PLAYABLE',JSON.stringify({width,movingFrames:moving.length,staleMovingFrames:moving.filter(f=>!f.shadow).length}));
 });
