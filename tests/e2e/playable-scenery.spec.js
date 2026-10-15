@@ -12,7 +12,7 @@ test('campus waits for both buildings and keeps destinations and movement',async
   await expect(page.locator('#campus-progress')).toBeVisible();await expect.poll(async()=>(await state(page)).entryReady).toBe(false);
   release();
   await expect(page.locator('#loading')).toBeHidden({timeout:90000});
-  await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');await expect.poll(async()=>(await state(page)).entryReady,{timeout:60000}).toBe(true);await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();
+  await expect.poll(async()=>(await state(page)).entryReady,{timeout:60000}).toBe(true);await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();
   await page.locator('#phase').selectOption('disrepair');
   await expect.poll(async()=>(await state(page)).scenery?.status,{timeout:90000}).toBe('ready');
   await expect.poll(async()=>(await state(page)).phase).toBe('disrepair');

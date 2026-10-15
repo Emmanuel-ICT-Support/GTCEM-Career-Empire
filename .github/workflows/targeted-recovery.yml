@@ -1,0 +1,64 @@
+name: Focused readiness and navigation repair
+run-name: Focused repair at ${{ github.sha }}
+'on':
+  push:
+    branches: [repair/targeted-recovery-20261015]
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs scripts/evidence-directory.test.mjs scripts/ui-readiness-report.test.mjs scripts/focused-workflow-proof.test.mjs scripts/combined-recheck-report.test.mjs scripts/focused-repair-report.test.mjs
+      - run: npx playwright test --list --reporter=json > coverage/browser-inventory.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: targeted-checks, path: coverage/, retention-days: 3}
+  browser:
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - group: readiness
+            expected: 9
+            files: tests/e2e/visible-flyover-controls.spec.js tests/e2e/avatar-recovery.spec.js tests/e2e/curriculum-loading.spec.js tests/e2e/game-entry-loading.spec.js tests/e2e/playable-scenery.spec.js tests/e2e/playable-startup.spec.js
+            grep: 'reminder, clue guard|failed startup avatar|failed avatar keeps fallback|unavailable saved clothing|game entry loads only|campus waits for both buildings|startup loads only the active avatar'
+          - group: movement
+            expected: 5
+            files: tests/e2e/movement.spec.js tests/e2e/night-market-agency.spec.js
+            grep: 'player travel, gait, turn|complete keyboard shift, learning'
+          - group: state
+            expected: 4
+            files: tests/e2e/admin-preview.spec.js tests/e2e/runtime-recovery.spec.js tests/e2e/options-companion.spec.js
+            grep: 'public shortcut opens isolated fresh Admin|Stats changes publish while|Options clearly pauses'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Collect the exact selected inventory
+        run: mkdir -p coverage && npx playwright test ${{ matrix.files }} --grep '${{ matrix.grep }}' --list --reporter=json > coverage/selected-inventory.json
+      - name: Run selected original assertions without retries
+        run: npx playwright test ${{ matrix.files }} --grep '${{ matrix.grep }}' --workers=1 --retries=0 --max-failures=0 --reporter=line,json
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
+          CE_RECOVERY_DRAWS: ${{ matrix.group == 'state' && '1' || '0' }}
+          CE_RECOVERY_TRACE_AFTER_FAILURE: ${{ matrix.group == 'state' && '1' || '0' }}
+      - name: Account for selected cases and summarize actual state
+        if: always()
+        run: node scripts/focused-repair-report.mjs coverage/selected-inventory.json coverage/browser-report.json coverage/focused-summary.json
+        env:
+          EXPECTED_CASES: ${{ matrix.expected }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: targeted-${{ matrix.group }}
+          path: coverage/
+          retention-days: 3

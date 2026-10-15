@@ -1,5 +1,6 @@
 import {writeFile} from 'node:fs/promises';
 import {test,expect} from './campus-fixtures.js';
+import {waitForEntry} from './entry-readiness.js';
 const state=page=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
 test('curriculum rooms remain accessible when campus decoration and Studio fail',async({page},info)=>{
  test.setTimeout(90000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -59,6 +60,7 @@ test('failed avatar keeps fallback playable, retry restores saved avatar without
  await page.addInitScript(saved=>localStorage.setItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo',saved),saved);
  await page.route('**/player-schoolboy*.glb',r=>fail?r.abort():r.continue());
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:15000});
+ await waitForEntry(page);
  await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);
  await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
  fail=false;await page.getByRole('button',{name:'Retry saved avatar',exact:true}).click();
@@ -75,6 +77,7 @@ test('unavailable saved clothing uses fallback and never fetches other outfits',
  await page.addInitScript(saved=>localStorage.setItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo',saved),saved);
  await page.route('**/occupational-top-chef.glb?*',r=>fail?r.abort():r.continue());
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:15000});
+ await waitForEntry(page);
  await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);
  await page.locator('#places-toggle').click();await page.locator('#careers-destination').click();await expect.poll(async()=>(await state(page)).mode).toBe('careers');
  expect(requests.some(u=>/hospital-scrub-top|occupational-top-(work|suit)|occupational-pants-(chef|tradie|scrubs)|hair-(sweep|curls|ponytail)\.glb|shoes-(trainers|dress|clogs)\.glb/.test(u))).toBe(false);

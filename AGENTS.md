@@ -1,3 +1,9 @@
+## Focused recovery restart — 15 October 2026
+
+Restart verified unchanged tracked head28a5f50; isolated repair/targeted-recovery-20261015 preserves unrelated evidence and QA images. Previous exact-head hosted38699074188 is terminal202pass/43fail of245, exact partition with zero missing/duplicate/skipped/interrupted/flaky/unrun. Separate software compatibility2pass,13.9295s handover; not accepted waiting or school-device qualification. Main423d2ab remains unchanged.
+
+First repair only corrects nine readiness-dependent scenarios: actual entry gate precedes existing UI/state assertions. No startup gate,5s UI assertion, case watchdog, movement threshold, geometry or asset change. Normal245logical cases retained; focused18IDs are disjoint9readiness/5movement/4state. Syntax/whitespace and4accounting-integrity tests pass. New non-deploying branch-push workflow runs source/units and those focused groups on hosted runners, with actual-versus-published Admin/Stats observations. Hosted result pending; no runtime performance fix claimed yet. Disk observed902–1094MiB: no local browsers/builds/coverage/large downloads; retain1GiB reserve and delete nothing. Independent cleanup audit is read-only and its private receipts stay outside this public repository. No opening/password/auth, merge or deployment changes.
+
 ## Visible Flyover UI review candidate — 15 October 2026
 
 Separate from completed33/33 native baseline4be9050. New Flyover F reminder above arrows/joystick after real entry readiness; Land L occupies that spot while flying, Return to player stays separate. Disabled reasons cover clue/modal/loading/companion/tour; explanation appears under the open dialog heading. Phone panel widened for readable controls. Entry gate, keyboard and safe-landing callbacks/controller unchanged; no model/asset/Market/auth/opening-password logic change. Relevant cache tags and284-hash manifest updated.

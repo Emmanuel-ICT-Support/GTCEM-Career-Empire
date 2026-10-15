@@ -1,5 +1,6 @@
 import {selectTestCharacter} from './avatar-choice.js';
 import {test,expect} from './campus-fixtures.js';
+import {waitForEntry} from './entry-readiness.js';
 
 // Exercise the production world; hosted software raster limits are documented in campus-fixtures.js.
 
@@ -10,6 +11,7 @@ test('startup loads only the active avatar and keeps the studio and hall usable'
   page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/playable-3d/');
   await expect(page.locator('#loading')).toBeHidden({timeout:60000});
+  await waitForEntry(page,{timeout:60000});
   await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');
   expect(requests.some(u=>u.includes('whole-characters/antonio.glb'))).toBeTruthy();
   await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state).campusReady),{timeout:90000}).toBe(true);

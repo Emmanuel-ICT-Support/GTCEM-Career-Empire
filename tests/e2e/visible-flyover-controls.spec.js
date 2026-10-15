@@ -1,4 +1,5 @@
 import {test,expect} from './campus-fixtures.js';
+import {waitForEntry} from './entry-readiness.js';
 
 for(const width of [1280,390])test.describe(`visible Flyover controls ${width}`,()=>{
  test.use({viewport:{width,height:844},hasTouch:width===390,isMobile:width===390});
@@ -9,6 +10,7 @@ for(const width of [1280,390])test.describe(`visible Flyover controls ${width}`,
   const activate=locator=>width===390?locator.tap():locator.click();
   const hold=async(key,ms)=>{await page.keyboard.down(key);await page.waitForTimeout(ms);await page.keyboard.up(key);};
   await page.goto('/playable-3d/?discovery=1');await page.locator('#taster-skip').click();
+  await waitForEntry(page);
   await expect(page.locator('#flyover-reminder')).toBeVisible();
   await page.locator('#exploration-options > summary').click();await page.locator('#world-tools > summary').click();await page.locator('#aerial').click();
   await expect.poll(async()=>(await snapshot()).campusReady,{timeout:90000}).toBe(true);await page.locator('#recenter').click();await page.locator('#resume-options').click();

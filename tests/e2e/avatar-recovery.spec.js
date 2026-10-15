@@ -1,4 +1,5 @@
 import {test,expect} from './campus-fixtures.js';
+import {waitForEntry} from './entry-readiness.js';
 test('failed startup avatar can retry without reloading or changing the saved profile',async({page})=>{
  test.setTimeout(90000);let requests=0,navigations=0;
  page.on('framenavigated',frame=>{if(frame===page.mainFrame())navigations++;});
@@ -7,6 +8,7 @@ test('failed startup avatar can retry without reloading or changing the saved pr
  await page.goto('/playable-3d/');const saved=await page.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo'));
  await expect(page.locator('#loading')).toBeHidden();
  await expect.poll(()=>requests).toBe(2);
+ await waitForEntry(page);
  await expect.poll(async()=>JSON.parse(await page.locator('#diagnostics').getAttribute('data-state')||'{}').avatarFallback).toBe(true);
  await page.getByRole('button',{name:'Retry saved avatar',exact:true}).click();
  await expect.poll(async()=>JSON.parse(await page.locator('#diagnostics').getAttribute('data-state')||'{}').avatarFallback).toBe(false);await expect(page.locator('#loading')).toBeHidden({timeout:60000});
