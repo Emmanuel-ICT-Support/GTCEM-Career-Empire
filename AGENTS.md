@@ -1,3 +1,7 @@
+## Markets-only live-based release candidate — 15 October 2026
+
+Explicit reviewed Markets publication approval received. Isolated release/markets-curriculum-20261015 starts from live fec76572 and cherry-picks only d0912bb,06f17bc,48a0fdb as3f181a0,760b2be,ab44ab9. Resolve cache tags against live; rebuilt282hash manifest/87modules; do not restore the source branch's broader runtime. Target258units and5proof tests pass; all21scoped Markets IDs have passing evidence across bounded runs (25executions,3earlier harness failures retained). Extra changes are test-only: existing async-photo harness and serialized companion fixture, real forward walking after corrected exit, current Market wallet wording with same amount. Broader1339939/c72runtime repairs and unfinished opening/passcode remain separate. Original trees/assets, gates, auth/session rules and20gross−2tax=18net+crewpass retained. No full browser pass claimed. See docs/markets-live-release-20261015.md; publication/live receipt follows.
+
 ## Market exterior camera repair - 15 October 2026
 
 User-flagged blue-grey occluder was the camera inside the market facade after exit reversed yaw. Exit now shares MARKET_APPROACH orientation and resets aerial; original trees/grounded camera retained. Map/guidance occupy separate responsive lanes.267 units, three actual desktop/phone exit/re-entry cases and paid-shift regression pass in focused runs. Earlier stale harness failures retained. Unpublished; teacher dashboard capture remains unverified. See docs/market-curriculum-first-batch-20261014.md.
