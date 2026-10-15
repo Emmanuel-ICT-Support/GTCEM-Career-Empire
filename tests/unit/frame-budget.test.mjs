@@ -51,3 +51,8 @@ test('completed software frames leave browser layout/input ticks before another 
 test('hardware input opportunities preserve ordinary draw scheduling',()=>{
  const gate=createGpuFrameGate({getContext:()=>({})},false);gate.submitted();expect(gate.readyForDraw(0)).toBe(true);gate.submitted();expect(gate.readyForDraw(1)).toBe(true);
 });
+
+test('software frame submission leaves flushing to the animation-frame boundary',()=>{
+ let fenced=0;const gl={SYNC_GPU_COMMANDS_COMPLETE:3,fenceSync:()=>++fenced,clientWaitSync:()=>1,flush(){throw Error('blocking explicit flush');}};
+ const gate=createGpuFrameGate({getContext:()=>gl},true);gate.submitted();expect(fenced).toBe(1);expect(gate.submittedFrame).toBe(1);expect(gate.completedFrame).toBe(0);
+});

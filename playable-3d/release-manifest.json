@@ -1,8 +1,8 @@
 {
-  "release": "responsive-navigation-20261015",
+  "release": "raf-submit-candidate-20261016",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "d065db273b5ebe5caf9fe0609b9a73add22595e6",
-  "scope": "Software-only CPU navigation and actual-state pulse, shared physics/gait clock and reuse of unchanged paused views. Original visual assets, geometry, gates, opening/password and Market/save rules retained. Unverified candidate; no deployment.",
+  "baseCommit": "58c009f041bc7f1ac5fcc93ce15e3c5ede4a87b1",
+  "scope": "Candidate: let animation-frame completion flush software scene commands; retain fences, one-frame limit, all visual assets and original movement limits. Hosted validation pending; no deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "d86f005c38c71d059a6eeaec9345fb50ae5c9ad9b6c673294ae4f739b208f888"
+      "sha256": "b1bf3af9f19187dd6fcb799eea317ccf41d5dfcdf37d68698810f97d60b5d995"
     },
     {
       "path": "arcade-carnival.js",
@@ -834,7 +834,7 @@
     },
     {
       "path": "frame-budget.mjs",
-      "sha256": "b3204b74a583e0f69c783c268f639fbcf704595865d41f578af5314d5d9420dd"
+      "sha256": "309ad543d8511149c06f903d8d30b96a8c1f6444f0621c3f1b3c1d8e420e7aea"
     },
     {
       "path": "game-session.mjs",

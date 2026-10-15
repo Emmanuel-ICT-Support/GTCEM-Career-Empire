@@ -20,7 +20,9 @@ export function createGpuFrameGate(renderer,enabled=false){
  function submitted(){
   if(supported&&fence)throw new Error('GPU frame submitted before the preceding frame completed');
   submittedFrame++;if(!supported){completedFrame=submittedFrame;return;}
-  fence=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);gl.flush();
+  // Animation-frame completion submits the command stream naturally. An
+  // explicit flush here can block the input thread on software rasterization.
+  fence=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);
  }
  return {ready,readyForDraw,submitted,get submittedFrame(){return submittedFrame;},get completedFrame(){return completedFrame;}};
 }
