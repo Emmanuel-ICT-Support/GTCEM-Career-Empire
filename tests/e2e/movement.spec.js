@@ -1,13 +1,26 @@
 import {test,expect} from './campus-fixtures.js';
 import fs from 'node:fs';
-const probe=`\nwindow.travelProbe={get actor(){return actor},get worlds(){return worlds},get yaw(){return yaw},set yaw(v){yaw=v},reset:resetNavigationInput};`;
-for(const [width,slow] of [[1280,false],[390,false],[1280,true]])test(`player travel, gait, turn and stop at ${width}${slow?' at 8 FPS':''}`,async({page})=>{
+const probe=`
+const travelFrames=[],travelInputs=[],travelNavigation=[],travelResets=[];let travelSteps=0;
+window.startTravelEvidence=()=>{
+ const originalRender=renderer.render.bind(renderer),originalStep=locomotion.step.bind(locomotion);
+ const originalEntry=updateEntryLoading,originalReset=resetNavigationInput;
+ updateEntryLoading=(...args)=>{const result=originalEntry(...args);travelNavigation.push({atMs:performance.now(),mode,entryReady,hidden:document.hidden,keys:[...keys],intro:intro?.open(),marketOpening,discovery:discovery?.open(),feedback:feedbackOpen(),marketDialog:marketDialogOpen(),menu:explorationMenuOpen(),helper:helperPicker.open(),echo:echo?.open(),est:watchingEST,module:!$('module-overlay').hidden,reflection:$('reflection-dialog').open});return result;};
+ resetNavigationInput=(...args)=>{travelResets.push({atMs:performance.now(),keys:[...keys],caller:new Error().stack.split('\\n').slice(1,4)});return originalReset(...args);};
+ renderer.render=(...args)=>{const start=performance.now();const result=originalRender(...args);travelFrames.push({startMs:start,durationMs:performance.now()-start});return result;};
+ locomotion.step=(...args)=>{travelSteps++;return originalStep(...args);};
+ window.addEventListener('keydown',event=>queueMicrotask(()=>travelInputs.push({code:event.code,atMs:performance.now(),accepted:keys.has(event.code),entryReady,options:explorationMenuOpen(),helper:helperPicker.open(),echo:echo?.open()})));
+};
+window.travelEvidence=()=>({steps:travelSteps,frames:travelFrames,inputs:travelInputs,navigation:travelNavigation,resets:travelResets,backend:renderBackend});
+window.travelProbe={get actor(){return actor},get worlds(){return worlds},get yaw(){return yaw},set yaw(v){yaw=v},reset:resetNavigationInput};`;
+for(const [width,slow] of [[1280,false],[390,false],[1280,true]])test(`player travel, gait, turn and stop at ${width}${slow?' at 8 FPS':''}`,async({page},info)=>{
  if(slow)await page.addInitScript(()=>{const native=requestAnimationFrame.bind(window);window.requestAnimationFrame=callback=>{let last=performance.now();const tick=now=>{if(now-last>=125)callback(now);else native(tick);};return native(tick);};});
  await page.setViewportSize({width,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.route('**/playable-3d/app.js*',async r=>{const res=await r.fetch();await r.fulfill({response:res,body:await res.text()+probe});});
  await page.goto('/playable-3d/?review=1',{waitUntil:'domcontentloaded'});
  await page.waitForFunction(()=>window.travelProbe?.actor&&!travelProbe.actor.model.userData.fallback);
  await page.waitForFunction(()=>JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}').entryReady,{timeout:90000});
+ await page.evaluate(()=>window.startTravelEvidence());
  const measure=async(run=false)=>page.evaluate(async run=>{
   const t=travelProbe;t.reset();t.worlds.teleport(false,-7,23.3);t.actor.model.position.copy(t.worlds.position(false));
   const before=t.actor.model.position.toArray(),start=performance.now();
@@ -20,9 +33,9 @@ for(const [width,slow] of [[1280,false],[390,false],[1280,true]])test(`player tr
   const stopped={position:t.actor.model.position.toArray(),weight:t.actor.clips.walk.getEffectiveWeight()};
   return {seconds,distance:Math.hypot(moving.position[0]-before[0],moving.position[2]-before[2])/seconds,moving,stopped};
  },run);
- const walk=await measure();const run=await measure(true);expect(walk.distance).toBeGreaterThan(2.2);expect(run.distance).toBeGreaterThan(walk.distance*1.25);expect(run.moving.rate).toBeGreaterThan(walk.moving.rate*1.3);expect(walk.moving.weight).toBeGreaterThan(.9);expect(run.stopped.weight).toBeLessThan(.05);
+ const walk=await measure();const run=await measure(true);await info.attach('movement-timing-observation',{body:JSON.stringify({walk,run,evidence:await page.evaluate(()=>window.travelEvidence())}),contentType:'application/json'});expect(walk.distance).toBeGreaterThan(2.2);expect(run.distance).toBeGreaterThan(walk.distance*1.25);expect(run.moving.rate).toBeGreaterThan(walk.moving.rate*1.3);expect(walk.moving.weight).toBeGreaterThan(.9);expect(run.stopped.weight).toBeLessThan(.05);
  await page.evaluate(()=>{travelProbe.yaw=Math.PI/2;});const sideways=await measure();expect(sideways.moving.position[0]).toBeLessThan(run.stopped.position[0]);
- await page.screenshot({path:`evidence/movement/travel-${width}${slow?'-8fps':''}.png`});console.log('TRAVEL',width,JSON.stringify({walk,run,sideways}));expect(errors).toEqual([]);
+ await page.screenshot({path:info.outputPath(`travel-${width}${slow?'-8fps':''}.png`)});console.log('TRAVEL',width,JSON.stringify({walk,run,sideways}));expect(errors).toEqual([]);
 });
 test('supplied animations keep walking on frames between physics ticks',async({page})=>{
  await page.route('**/animation-harness',r=>r.fulfill({contentType:'text/html',body:'<base href="/playable-3d/"><script type="importmap">{"imports":{"three":"/playable-3d/vendor/three/build/three.module.js","three/addons/":"/playable-3d/vendor/three/examples/jsm/"}}</script>'}));

@@ -1,4 +1,6 @@
 import { defineConfig } from "vitest/config";
+import {coverageDirectory,assertSafeCoverageOverrides} from './scripts/evidence-directory.mjs';
+assertSafeCoverageOverrides(process.argv.slice(2));
 
 export default defineConfig({
   test: {
@@ -12,7 +14,10 @@ export default defineConfig({
         "src/services/economy-ledger.js",
         "src/services/response-moderation.js"
       ],
-      reportsDirectory: "coverage"
+      // Direct Vitest calls are safe too; the npm runner also captures logs.
+      clean: false,
+      cleanOnRerun: false,
+      reportsDirectory: coverageDirectory()
     }
   }
 });

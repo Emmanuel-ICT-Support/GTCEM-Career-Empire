@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version: 22, cache: npm}
       - run: npm ci
-      - run: npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs scripts/focused-workflow-proof.test.mjs scripts/combined-recheck-report.test.mjs
+      - run: npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs scripts/evidence-directory.test.mjs scripts/ui-readiness-report.test.mjs scripts/focused-workflow-proof.test.mjs scripts/combined-recheck-report.test.mjs
       - run: npx playwright test --list --reporter=json > coverage/browser-inventory.json
       - uses: actions/upload-artifact@v4
         if: always()

@@ -18,7 +18,7 @@ for(const width of [1280,390])test(`public shortcut opens isolated fresh Admin a
  const created=context.waitForEvent('page');await page.getByRole('link',{name:'Open Market Admin for review',exact:true}).click();const preview=await created;
  await preview.setViewportSize({width,height:844});preview.on('pageerror',e=>errors.push(e.message));
  await expect(preview.locator('#market-dialog-title')).toHaveText('Reception / welcome',{timeout:45000});await expect(preview.locator('#scene')).toHaveAttribute('data-rendered','true',{timeout:30000});
- await expect.poll(()=>state(preview)).toMatchObject({adminReview:true,mode:'market',market:{...unpaid,adminReview:true,officeFlow:{active:true}}});
+ try{await expect.poll(()=>state(preview)).toMatchObject({adminReview:true,mode:'market',market:{...unpaid,adminReview:true,officeFlow:{active:true}}});}finally{await info.attach('admin-initial-state-observation',{body:JSON.stringify(await preview.evaluate(()=>window.observeAdminRoute())),contentType:'application/json'});}
  await expect(preview.locator('#market-review-notice')).toContainText('no wages or crew pass');
  expect(await preview.locator('#market-dialog').evaluate(n=>n.scrollWidth<=n.clientWidth)).toBe(true);await preview.screenshot({path:info.outputPath(`public-admin-${width}.png`)});
  await click(preview,'I’ll walk there');await preview.locator('#market-district-route').click();await click(preview,'Return to Sunday Market');

@@ -1,0 +1,248 @@
+{
+  "draft": false,
+  "scope": "Interim partition of33 prior uncleared cases; symptom groups are not a claim of unique proven causes or fixes",
+  "originalFullRun": 38674943796,
+  "fullCountsRemainAuthoritative": {
+    "passed": 202,
+    "failed": 41
+  },
+  "caseCount": 33,
+  "uniqueIDs": 33,
+  "groups": {
+    "movement-input-frame-progress": {
+      "countExpected": 16,
+      "finding": "Three strict native movement cases pass. Software accepted key events but a4.4067s animation-frame gap spanned a1.802s hold; no active UI/hidden blocker or navigation reset was recorded. Physics sampling between delayed frames is a measured failure mechanism for this case; not yet proven for all16.",
+      "cases": [
+        {
+          "id": "e224d913d340be3539a9-19289924de90ede37d1f:chromium:0",
+          "file": "arrival-gardens.spec.js",
+          "title": "arrival walk reaches Studio and retains avatar save after reload",
+          "originalDiagnosis": "Actual keyboard route did not reach Studio approach. Snapshot shows entryReady=true and actor[-7,0.085,21.863],0FPS. No walking exemption; save/reload later in case not reached."
+        },
+        {
+          "id": "ac11a9e741ca1b3b3886-c51c33614016be712f27:chromium:0",
+          "file": "chapel.spec.js",
+          "title": "Chapel reflection and campus return at 1440px",
+          "originalDiagnosis": "Desktop Chapel walk endsz5.68 versus<5.4 after800ms; entryReadytrue,1FPS. Reflection/return later assertions not reached."
+        },
+        {
+          "id": "b3adf1190a1c36202269-d95e86dd5fca77d2a865:chromium:0",
+          "file": "curriculum-loading.spec.js",
+          "title": "slow saved avatar, Studio and poster never gate EST at 1280px",
+          "originalDiagnosis": "Fallback and entry readiness verified, but650ms keyboard hold moves only0.020m desktop/0.006m phone against required>0.5m.0\u20131FPS. Subsequent EST access/retry assertions not reached; keep movement failure."
+        },
+        {
+          "id": "b3adf1190a1c36202269-12fee0d382740751cd3b:chromium:0",
+          "file": "curriculum-loading.spec.js",
+          "title": "slow saved avatar, Studio and poster never gate EST at 390px",
+          "originalDiagnosis": "Fallback and entry readiness verified, but650ms keyboard hold moves only0.020m desktop/0.006m phone against required>0.5m.0\u20131FPS. Subsequent EST access/retry assertions not reached; keep movement failure."
+        },
+        {
+          "id": "d8bfe92b011c8c8d6abc-f77f8dd1aace42f1e031:chromium:0",
+          "file": "entry-visibility-probe.spec.js",
+          "title": "complete campus, parcel walking and reachable rear-building visibility 1280",
+          "originalDiagnosis": "Complete original geometry/19trees and rendered roots were verified. Desktop route timed out reversing to z23.3 at live-map z21.833; phone route timed out moving east to x28 at15.778. Failure occurred before physical rear-facade visibility assertions. Spawn occlusion waiver does not waive this walking failure."
+        },
+        {
+          "id": "d8bfe92b011c8c8d6abc-d04eaf8d7c7b1ecfc004:chromium:0",
+          "file": "entry-visibility-probe.spec.js",
+          "title": "complete campus, parcel walking and reachable rear-building visibility 390",
+          "originalDiagnosis": "Complete original geometry/19trees and rendered roots were verified. Desktop route timed out reversing to z23.3 at live-map z21.833; phone route timed out moving east to x28 at15.778. Failure occurred before physical rear-facade visibility assertions. Spawn occlusion waiver does not waive this walking failure."
+        },
+        {
+          "id": "2cbe4eeaf4ec2b9078e5-b2ef1359041717b56577:chromium:0",
+          "file": "first-play.spec.js",
+          "title": "Arrival retains complete geometry and usable walking while optional surfaces wait",
+          "originalDiagnosis": "Renamed fixture preserves complete geometry/19trees but real650ms walk endsz23.294 against<22.8. User accepted only spawn rear visibility, not this movement requirement."
+        },
+        {
+          "id": "256d4c3724a264a5e24b-47f6fd00ea22e9383e2b:chromium:0",
+          "file": "movement.spec.js",
+          "title": "player travel, gait, turn and stop at 1280",
+          "originalDiagnosis": "SwiftShader with entryReady=true, no pending surfaces. Desktop speed0.010433m/s and phone0.593728m/s fail>2.2;8FPS run ratio1.48344 fails>3.28129. Test and locomotion code match published main. No movement waiver."
+        },
+        {
+          "id": "256d4c3724a264a5e24b-aabd7c95186a0e93c2b9:chromium:0",
+          "file": "movement.spec.js",
+          "title": "player travel, gait, turn and stop at 1280 at 8 FPS",
+          "originalDiagnosis": "SwiftShader with entryReady=true, no pending surfaces. Desktop speed0.010433m/s and phone0.593728m/s fail>2.2;8FPS run ratio1.48344 fails>3.28129. Test and locomotion code match published main. No movement waiver."
+        },
+        {
+          "id": "256d4c3724a264a5e24b-82ca25f92df459655c18:chromium:0",
+          "file": "movement.spec.js",
+          "title": "player travel, gait, turn and stop at 390",
+          "originalDiagnosis": "SwiftShader with entryReady=true, no pending surfaces. Desktop speed0.010433m/s and phone0.593728m/s fail>2.2;8FPS run ratio1.48344 fails>3.28129. Test and locomotion code match published main. No movement waiver."
+        },
+        {
+          "id": "2d2ad29bb3ae261369e6-186144f83b0833af1dbe:chromium:0",
+          "file": "navigation-map.spec.js",
+          "title": "live default map and Stats 1280",
+          "originalDiagnosis": "Live map y/coordinate remains190.7 over5s after movement; same baseline failures. Evidence does not distinguish actual input/ready movement delay from stale map observations. Keep both failures."
+        },
+        {
+          "id": "2d2ad29bb3ae261369e6-ff47dd182c944e6e4ccb:chromium:0",
+          "file": "navigation-map.spec.js",
+          "title": "live default map and Stats 390",
+          "originalDiagnosis": "Live map y/coordinate remains190.7 over5s after movement; same baseline failures. Evidence does not distinguish actual input/ready movement delay from stale map observations. Keep both failures."
+        },
+        {
+          "id": "5178a05e195b7b1ba15f-4bd8714117f57acde61a:chromium:0",
+          "file": "phone-startup.spec.js",
+          "title": "phone opening uses smaller phone assets once and releases startup cache",
+          "originalDiagnosis": "Smaller phone asset selection and cache release now pass, but final500ms forward walk endsz23.257 against<23.2. Whole case remains failed; movement/readiness not waived."
+        },
+        {
+          "id": "8a94587f89b4ab1cab50-a5193141f2fa2c365610:chromium:0",
+          "file": "startup-campus-entry.spec.js",
+          "title": "video to complete exterior, walking and automatic parcel at 1280",
+          "originalDiagnosis": "Desktop real forward walking did not trigger parcel within10s: step0, actorz18.762 versus start23.3,8frames/0FPS. Phone corresponding case passes. Preserve real walking/automatic trigger requirements."
+        },
+        {
+          "id": "d10a8235e6ed24c4cc22-725463996d999197e399:chromium:0",
+          "file": "startup-performance.spec.js",
+          "title": "normal play avoids GPU pixel probes and uses shared building textures",
+          "originalDiagnosis": "Input moves only0.02m versus required>0.5m after1s, with entryReadytrue/campusReadytrue and0FPS. Source test is byte-identical to main; pixel-probe assertions earlier passed. No performance waiver."
+        },
+        {
+          "id": "4fbb9f13b83f01ed98fd-3da2bf434fbab5d18147:chromium:0",
+          "file": "startup-surface-gate.spec.js",
+          "title": "mocked owned-account parcel, map and shared wallet persist without a duplicate reward",
+          "originalDiagnosis": "Owned-account real forward walk fails automatic parcel step1 within10s: actorz18.644,step0,8frames/0FPS. Persistence and duplicate-reward assertions later in case not reached; not evidence of corrupt saves."
+        }
+      ]
+    },
+    "readiness-state-publication": {
+      "countExpected": 13,
+      "finding": "Late/missing first-frame or state observations. Native Admin2pass. Software Admin initial/reentry actual office active; reentry published state lacked market; fullcase later timed out in normal Market state query.",
+      "cases": [
+        {
+          "id": "03a67d94c492fc696dc5-3f6e60e1c1a432d12ef2:chromium:0",
+          "file": "admin-preview.spec.js",
+          "title": "public shortcut opens isolated fresh Admin and preserves normal gates 1280",
+          "originalDiagnosis": "Reception title appears, but published diagnostics still report officeFlow.active=false. Failure is in the separate preview tab; saved error-context describes the original tab, so it does not prove the preview failed to enter. Actual preview runtime state was not attached at this early assertion. Preserve both failures."
+        },
+        {
+          "id": "03a67d94c492fc696dc5-f70b4a3b46644becf9a2:chromium:0",
+          "file": "admin-preview.spec.js",
+          "title": "public shortcut opens isolated fresh Admin and preserves normal gates 390",
+          "originalDiagnosis": "Reception title appears, but published diagnostics still report officeFlow.active=false. Failure is in the separate preview tab; saved error-context describes the original tab, so it does not prove the preview failed to enter. Actual preview runtime state was not attached at this early assertion. Preserve both failures."
+        },
+        {
+          "id": "6477fe14d47ee430670b-750a128a01a59eec6190:chromium:0",
+          "file": "avatar-recovery.spec.js",
+          "title": "failed startup avatar can retry without reloading or changing the saved profile",
+          "originalDiagnosis": "Expected avatarFallback=true was undefined during5s polling; later error snapshot shows fallbacktrue, Retry saved avatar visible, entryReadyfalse and one rendered frame. Readiness/publication race rather than proven missing fallback. Full retry/persistence journey not reached."
+        },
+        {
+          "id": "ac11a9e741ca1b3b3886-e2f93b6e4db9aa534e71:chromium:0",
+          "file": "chapel.spec.js",
+          "title": "Chapel reflection and campus return at 390px",
+          "originalDiagnosis": "Phone town return poll saw interiorz4.234 instead of exterior-8.8 within5s; later snapshot has modetown and exact[-3.15,0.125,-8.8]. Delayed publication/transition is supported, but full case remains failed."
+        },
+        {
+          "id": "b3adf1190a1c36202269-fdf3c807e8c30e8d8f64:chromium:0",
+          "file": "curriculum-loading.spec.js",
+          "title": "failed avatar keeps fallback playable, retry restores saved avatar without rewriting it",
+          "originalDiagnosis": "Expected avatarFallback=true was undefined within5s; later snapshot shows fallbacktrue and Retry saved avatar visible, entryReadyfalse with one frame. Full EST/retry/lazy-clothing assertions not reached. Readiness/observer cause suspected; keep failed."
+        },
+        {
+          "id": "b3adf1190a1c36202269-1a83e5cda9f3502a1110:chromium:0",
+          "file": "curriculum-loading.spec.js",
+          "title": "unavailable saved clothing uses fallback and never fetches other outfits",
+          "originalDiagnosis": "Expected avatarFallback=true was undefined within5s; later snapshot shows fallbacktrue and Retry saved avatar visible, entryReadyfalse with one frame. Full EST/retry/lazy-clothing assertions not reached. Readiness/observer cause suspected; keep failed."
+        },
+        {
+          "id": "0cf9aca50512008f9657-6ce387075fa1e7dc3b84:chromium:0",
+          "file": "est-wall-video.spec.js",
+          "title": "EST requires wall play, seeks and restarts at 1440px",
+          "originalDiagnosis": "EST wall playback/seek/restart/close steps completed, then final Chapel aria-label transition did not meet5s. Phone later error snapshot is Chapel with position[0,0,5.7]; desktop error context has no page snapshot. Delayed successful phone state does not clear either failed full journey."
+        },
+        {
+          "id": "0cf9aca50512008f9657-b5362bc9fe8516014263:chromium:0",
+          "file": "est-wall-video.spec.js",
+          "title": "EST requires wall play, seeks and restarts at 390px",
+          "originalDiagnosis": "EST wall playback/seek/restart/close steps completed, then final Chapel aria-label transition did not meet5s. Phone later error snapshot is Chapel with position[0,0,5.7]; desktop error context has no page snapshot. Delayed successful phone state does not clear either failed full journey."
+        },
+        {
+          "id": "2cbe4eeaf4ec2b9078e5-6909de142b88be6e2d64:chromium:0",
+          "file": "first-play.spec.js",
+          "title": "a failed optional surface retries without replacing complete entry landscape",
+          "originalDiagnosis": "Renamed failed optional-surface fixture fails5s entryReady/arrivalRestricted poll despite later snapshot entryReadytrue/arrivalRestrictedfalse,8surfaces pending, surfaceDetailFailedtrue/campusReadytrue. Full explicit retry/material/movement continuation not verified; keep failed."
+        },
+        {
+          "id": "85ab4d0bdf6e6aa79f84-8a536e58fb23fa8b86d4:chromium:0",
+          "file": "game-entry-loading.spec.js",
+          "title": "game entry loads only the active avatar and worn clothes",
+          "originalDiagnosis": "Initial selected-avatar/campus checks completed, but after warm reload canvas data-rendered was empty after5s. Snapshot has entryReadyfalse and one frame. Keep desktop/phone failures; selected-only observations do not establish complete reload success."
+        },
+        {
+          "id": "85ab4d0bdf6e6aa79f84-d61bfb38820a9e0b19a2:chromium:0",
+          "file": "game-entry-loading.spec.js",
+          "title": "game entry loads only the active avatar and worn clothes",
+          "originalDiagnosis": "Initial selected-avatar/campus checks completed, but after warm reload canvas data-rendered was empty after5s. Snapshot has entryReadyfalse and one frame. Keep desktop/phone failures; selected-only observations do not establish complete reload success."
+        },
+        {
+          "id": "cdb152c82c07550b9af3-fe5898244fd3e71d8348:chromium:0",
+          "file": "playable-scenery.spec.js",
+          "title": "campus waits for both buildings and keeps destinations and movement",
+          "originalDiagnosis": "Scene data-rendered remains empty after5s. Diagnostic entryReady=false/surfaces31 at~10.5s. No loading or first-frame budget relaxed."
+        },
+        {
+          "id": "78e3358702c963346e2e-8c0ca87f2f8cf2502e72:chromium:0",
+          "file": "playable-startup.spec.js",
+          "title": "startup loads only the active avatar and keeps the studio and hall usable",
+          "originalDiagnosis": "Scene data-rendered remains empty after5s. Diagnostic entryReady=false/surfaces31 at~10.1s. No loading or first-frame budget relaxed."
+        }
+      ]
+    },
+    "chapel-journey-deadline": {
+      "countExpected": 1,
+      "finding": "Original route reached actual Chapel door; mode observation90.902s overlaps original90s deadline. No deadline waiver.",
+      "cases": [
+        {
+          "id": "d6548ba8fd3a2bf2ccb0-2ec01c46efacc371fe82:chromium:0",
+          "file": "chapel-approach.spec.js",
+          "title": "live keyboard route reaches the actual Chapel door without changing position or progress directly",
+          "originalDiagnosis": "Real physical route reached Chapel door at [-2.355,0.159,-7.720] by 83.714s. Enter requested/interior ready at 89.701s; mode-ready observation at90.902s overlaps the unchanged90s test timeout. Route itself reached destination; journey did not finish inside budget."
+        }
+      ]
+    },
+    "animation-shadow-stop": {
+      "countExpected": 2,
+      "finding": "Original software cases lacked required idle/shadow-off recent frames within10s. Specific animation versus frame scheduling cause unproven.",
+      "cases": [
+        {
+          "id": "bac31e839d91e17ab470-85692b0ce0133a810d48:chromium:0",
+          "file": "suit-flicker.spec.js",
+          "title": "playable suit shadows follow every walking frame at 1280",
+          "originalDiagnosis": "Real input reached moving animation, but no recent frame with exact idle weight0 and shadowdisabled within10s. Only6desktop/10phone rendered frames in error snapshots. Could be software frame/animation scheduling; stale-shadow or idle transition cause not proven. Keep both failures."
+        },
+        {
+          "id": "bac31e839d91e17ab470-29efc6a6de61e8589ba0:chromium:0",
+          "file": "suit-flicker.spec.js",
+          "title": "playable suit shadows follow every walking frame at 390",
+          "originalDiagnosis": "Real input reached moving animation, but no recent frame with exact idle weight0 and shadowdisabled within10s. Only6desktop/10phone rendered frames in error snapshots. Could be software frame/animation scheduling; stale-shadow or idle transition cause not proven. Keep both failures."
+        }
+      ]
+    },
+    "intro-metadata-availability": {
+      "countExpected": 1,
+      "finding": "Static Git-matched intro is exactly66.000000s. No stale-duration repair justified; original metadata availability query timed out before later handover assertions.",
+      "cases": [
+        {
+          "id": "4fbb9f13b83f01ed98fd-11b890e75eefdcbd0f2e:chromium:0",
+          "file": "startup-surface-gate.spec.js",
+          "title": "complete intro reaches natural end and hands over to usable movement",
+          "originalDiagnosis": "Natural intro test fails exact duration66 metadata predicate within5s after playback began. Error snapshot still shows introopen/playing and no rendered world frames. Full natural-end/movement/parcel checks not reached. Actual duration/cause not established by attached report; no new startup waiver."
+        }
+      ]
+    }
+  },
+  "nativeFindings": "Two Admin and three movement cases from this33-case set pass natively; software Admin/movement fullcases remain failed",
+  "softwareStats": "Functional pass recorded31.4629s readiness and96.5ms content; startup qualified=false; cold performance remains unresolved",
+  "activeDiagnostic": "Completed strict software movement blocker trace failed speed: walk0.002244m/s,run0;37physicssteps,one submitted render,4.4067s gap between navigation samples; no UI/visibility blockers or reset calls recorded.",
+  "rawEvidenceRoot": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf",
+  "publication": "Safeguards/diagnostic checkpoint committed separately from the next runtime optimization; exact commit in task response",
+  "softwareMovementEvidence": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/software-movement-blockers-summary.json",
+  "status": "Verified diagnostic checkpoint; exact blocking workload remains under investigation"
+}

@@ -31,7 +31,7 @@ jobs:
 
       - name: Run source checks and unit coverage once
         if: ${{ !inputs.focused }}
-        run: npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs
+        run: npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs scripts/evidence-directory.test.mjs scripts/ui-readiness-report.test.mjs
 
       - name: Verify focused lane policy and saved runtime handlers
         if: ${{ inputs.focused }}
@@ -39,7 +39,7 @@ jobs:
           npm run check
           mkdir -p coverage
           npx vitest run tests/unit/runtime-test-policy.test.mjs tests/unit/render-quality.test.mjs tests/unit/control-completion.test.mjs --reporter=default --reporter=json --outputFile=coverage/focused-units.json
-          node --test scripts/ci-shard-proof.test.mjs scripts/focused-workflow-proof.test.mjs
+          node --test scripts/ci-shard-proof.test.mjs scripts/evidence-directory.test.mjs scripts/ui-readiness-report.test.mjs scripts/focused-workflow-proof.test.mjs
 
       - name: Collect full browser inventory
         if: ${{ !inputs.focused }}

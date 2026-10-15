@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import {createEvidenceDirectory} from './scripts/evidence-directory.mjs';
 
 export default defineConfig({
   testDir: "tests/e2e",
@@ -7,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   // Collect every failure so later game journeys are exercised in CI too.
   maxFailures: 0,
-  outputDir: "coverage/browser-evidence",
+  outputDir: createEvidenceDirectory('browser')+'/browser',
   expect: {
     timeout: 5_000
   },
