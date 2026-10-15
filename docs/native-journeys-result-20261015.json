@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-10-15T06:16:13.734146+00:00",
-  "sourceBase": "c5f43fc74acce977981200e467dafef257c21961",
+  "generatedAt": "2026-10-15T06:36:09.000815+00:00",
+  "sourceBase": "9c8e526b8016ebc762cdafd41aed7a9166f5a7f6",
   "nativeConfiguration": "Chrome, --use-angle=metal, 1 worker, zero retries",
   "qualification": "Local native validation only; not school hardware or a new full-suite result. Software performance remains failed.",
   "total": 33,
   "counts": {
-    "passed": 30,
-    "failed": 1,
+    "passed": 33,
+    "failed": 0,
     "timedOut": 0,
     "skipped": 0,
     "interrupted": 0,
-    "notRun": 2
+    "notRun": 0
   },
   "groups": {
     "movement-input-frame-progress": {
@@ -22,8 +22,8 @@
       "notRun": 0
     },
     "readiness-state-publication": {
-      "passed": 12,
-      "failed": 1,
+      "passed": 13,
+      "failed": 0,
       "timedOut": 0,
       "skipped": 0,
       "interrupted": 0,
@@ -38,12 +38,12 @@
       "notRun": 0
     },
     "animation-shadow-stop": {
-      "passed": 0,
+      "passed": 2,
       "failed": 0,
       "timedOut": 0,
       "skipped": 0,
       "interrupted": 0,
-      "notRun": 2
+      "notRun": 0
     },
     "intro-metadata-availability": {
       "passed": 1,
@@ -114,6 +114,32 @@
         "startTime": "2026-10-15T06:10:42.536Z",
         "duration": 220884.96300000002,
         "expected": 6,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "runnerErrors": []
+    },
+    {
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/native-journeys-2026-10-15T05-40-53-908Z-tvOQwX/browser-runs/scenery-unchanged-native-2026-10-15T06-33-57-992Z-C2kKEq/browser-report.json",
+      "sha256": "6742cf0d85e64dfdaaa5bb39cd928cf4fca9626e50cbd37285aa25bb2c712f44",
+      "stats": {
+        "startTime": "2026-10-15T06:33:57.995Z",
+        "duration": 11550.58,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "runnerErrors": []
+    },
+    {
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/native-journeys-2026-10-15T05-40-53-908Z-tvOQwX/browser-runs/suit-native-2026-10-15T06-34-44-140Z-Qeschq/browser-report.json",
+      "sha256": "076e8d0d5b801791217584d809aaa78eecaed95a7fbc1a832ba4b8c9bb46d3bb",
+      "stats": {
+        "startTime": "2026-10-15T06:34:44.142Z",
+        "duration": 7433.276,
+        "expected": 2,
         "skipped": 0,
         "unexpected": 0,
         "flaky": 0
@@ -684,9 +710,19 @@
               "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\nCall Log:\n- Timeout 60000ms exceeded while waiting on the predicate\n\n  13 |   release();\n  14 |   await expect(page.locator('#loading')).toBeHidden({timeout:90000});\n> 15 |   await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');await expect.poll(async()=>(await state(page)).entryReady,{timeout:60000}).toBe(true);await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();\n     |                                                                                                                                                           ^\n  16 |   await page.locator('#phase').selectOption('disrepair');\n  17 |   await expect.poll(async()=>(await state(page)).scenery?.status,{timeout:90000}).toBe('ready');\n  18 |   await expect.poll(async()=>(await state(page)).phase).toBe('disrepair');\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/playable-scenery.spec.js:15:155"
             }
           ]
+        },
+        {
+          "status": "passed",
+          "durationMs": 6194,
+          "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/native-journeys-2026-10-15T05-40-53-908Z-tvOQwX/browser-runs/scenery-unchanged-native-2026-10-15T06-33-57-992Z-C2kKEq/browser-report.json",
+          "reportStart": "2026-10-15T06:33:57.995Z",
+          "renderers": [
+            "ANGLE (Apple, ANGLE Metal Renderer: Apple M3, Unspecified Version)"
+          ],
+          "errors": []
         }
       ],
-      "currentNativeStatus": "failed"
+      "currentNativeStatus": "passed"
     },
     {
       "id": "78e3358702c963346e2e-8c0ca87f2f8cf2502e72:chromium:0",
@@ -738,8 +774,17 @@
       "group": "animation-shadow-stop",
       "nativeStatus": "not revalidated on current combined runtime",
       "nativeReports": [],
-      "attempts": [],
-      "currentNativeStatus": "notRun"
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3418,
+          "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/native-journeys-2026-10-15T05-40-53-908Z-tvOQwX/browser-runs/suit-native-2026-10-15T06-34-44-140Z-Qeschq/browser-report.json",
+          "reportStart": "2026-10-15T06:34:44.142Z",
+          "renderers": [],
+          "errors": []
+        }
+      ],
+      "currentNativeStatus": "passed"
     },
     {
       "id": "bac31e839d91e17ab470-29efc6a6de61e8589ba0:chromium:0",
@@ -749,8 +794,17 @@
       "group": "animation-shadow-stop",
       "nativeStatus": "not revalidated on current combined runtime",
       "nativeReports": [],
-      "attempts": [],
-      "currentNativeStatus": "notRun"
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 3160,
+          "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/native-journeys-2026-10-15T05-40-53-908Z-tvOQwX/browser-runs/suit-native-2026-10-15T06-34-44-140Z-Qeschq/browser-report.json",
+          "reportStart": "2026-10-15T06:34:44.142Z",
+          "renderers": [],
+          "errors": []
+        }
+      ],
+      "currentNativeStatus": "passed"
     },
     {
       "id": "4fbb9f13b83f01ed98fd-11b890e75eefdcbd0f2e:chromium:0",
@@ -773,23 +827,16 @@
       "currentNativeStatus": "passed"
     }
   ],
-  "status": "partial, browser work paused for low disk space",
-  "remaining": {
-    "unrun": [
-      "playable suit shadows follow every walking frame at 1280",
-      "playable suit shadows follow every walking frame at 390"
-    ],
-    "recheck": "campus waits for both buildings and keeps destinations and movement",
-    "diskFreeAtPauseMiB": 488
-  },
+  "status": "completed focused native revalidation",
   "runtimeChanged": false,
-  "artifactChanges": "Only map and playable-suit screenshots now use testInfo.outputPath; assertions and journeys unchanged.",
-  "hostOutageFailure": {
-    "testDurationMs": 173255,
-    "browserPageMsAtSnapshot": 8231,
-    "entryReadyAtSnapshot": true,
-    "interpretation": "Consistent with host interruption; not waived. An unchanged rerun is still required."
+  "scopedNewUniqueCases": 28,
+  "newExecutions": 29,
+  "newAttemptCounts": {
+    "passed": 28,
+    "failed": 1
   },
+  "earlierFivePassesRetained": 5,
+  "retainedFailure": "Original scenery attempt during host outage; same unmodified case subsequently passed in6194ms. No retry configuration, deadline or game fix changed.",
   "preservation": {
     "checked": 619,
     "missingOrChanged": []

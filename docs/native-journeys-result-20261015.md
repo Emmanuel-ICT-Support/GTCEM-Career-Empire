@@ -1,46 +1,40 @@
-# Native journey baseline — 15 October 2026
+# Completed focused native journey ledger — 15 October 2026
 
-Current verified status among the33 historical cases: **30 passed, 1 failed,
-2 unrun**. The original full run remains202passed/41failed; this is a focused
-native revalidation ledger, not a new full-suite result or school qualification.
-
-The exact28 previously pending IDs were collected into six bounded groups.
-No extra or missing IDs. Chrome/Metal, one worker and zero retries were used;
-all original journey assertions and individual deadlines remain unchanged.
+All33 scoped historical cases now have passing current-runtime native evidence.
+The28 previously pending unique IDs required29 executions:28passed and the one
+original scenery attempt failed during the host outage. Its unchanged rerun
+passes in6.194s; both original and rerun are retained. The earlier5 current-runtime
+passes remain referenced. Zero current failures, skips, interrupted or unrun cases.
 
 | Batch | Result |
 | --- | --- |
 | Initial held surfaces + saved-avatar retry | 2 passed |
-| Recovery/readiness | 6 passed, 1 failed |
+| Recovery/readiness | 6 passed, 1 failed during host outage |
 | Navigation, save/reload and phone assets | 6 passed |
-| Physical Chapel approach, reflection/return and EST playback | 5 passed |
-| Physical rear-building visibility, natural intro, parcel/wallet and normal graphics | 6 passed |
-| Playable suit shadows desktop/phone | 2 unrun |
+| Chapel approach, reflection/return and EST playback | 5 passed |
+| Rear-building visibility, intro, parcel/wallet and normal graphics | 6 passed |
+| Unchanged scenery rerun | 1 passed |
+| Playable suit shadows desktop/phone | 2 passed |
 
-Together with the earlier five current-runtime passes, these25 new passing IDs
-bring the total to30. All26 new executions are accounted for, including the one
-failure. No passing recovery case was rerun after the host reconnected.
+One worker, zero automatic retries, original assertions and original case limits.
+No runtime bug repair, deadline relaxation, visual/asset change, or save/gate
+change was required by this pass. Only map and playable-suit screenshot paths
+were redirected to fresh testInfo.outputPath leaves. The619 protected existing
+evidence files rehash identically. External cleanup restored disk headroom;
+launch guards retain at least1GiB free. Nothing was deleted by this task.
 
-The retained scenery-case failure occurred during the executor/host outage.
-The case lasted173.255s, but its final browser evidence reports only8.231s page
-time and actual entryReady=true on Apple M3 Metal. This is consistent with host
-interruption, not proof of a reproducible game bug. It remains failed pending an
-unchanged rerun. No deadline was raised and no result was waived.
+The scenery failure lasted173.255s while its final browser evidence had only
+8.231s page time and actual entryReady=true on Metal, consistent with the known
+host interruption. Its fresh unmodified rerun passed; the original failure is
+not erased or described as an automatic retry. Both suit cases passed in3.418s
+and3.160s. No broader full run or extra software experiment occurred.
 
-Resource blocker: `df -h` reports488MiB free. New browser launches, screenshots,
-traces and builds are paused to avoid exhausting the disk. No files were deleted.
-Next: rerun that one scenery journey unchanged and execute the two suit cases
-once disk headroom is available. Existing raw reports and the interruption are
-preserved. The previous transport blocker record is retained separately.
+These are focused local native results, not a new full243-case suite. The original
+run38674943796 remains202passed/41failed. Software startup/movement remain failed,
+acceptable software wait is unassessed and school-device validation outstanding.
+Opening/password work remains separate. No live merge or deployment.
 
-Only test screenshot destinations changed: the two live map screenshots and the
-two playable-suit screenshots use testInfo.outputPath rather than fixed paths.
-Application/runtime, visual assets, gameplay gates and opening/password work
-remain unchanged. All619 previously inventoried evidence files rehash identically.
-Software performance remains failed and school-device validation outstanding.
-No full suite, live merge or deployment occurred.
-
-Raw reports, normalized IDs, every attempt and hashes are in
-`native-journeys-result-20261015.json`; root:
-`../ecc-safe-runs/native-journeys-2026-10-15T05-40-53-908Z-tvOQwX/`.
-The new visible Flyover controls will be a separate UI commit after this baseline.
+Exact IDs, attempts, raw paths and digests: native-journeys-result-20261015.json.
+Raw root: ../ecc-safe-runs/native-journeys-2026-10-15T05-40-53-908Z-tvOQwX/ .
+The newly approved visible Flyover UI is a separate following change; all native
+results above were obtained before applying it.
