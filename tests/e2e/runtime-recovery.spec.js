@@ -8,7 +8,7 @@ test.afterEach(async({page},info)=>{
  try{
   // A failed entry deadline stays failed. Continue only to collect the separate
   // Stats/draw trace, without changing any canonical assertion or its budget.
-  if(process.env.CE_RECOVERY_TRACE_AFTER_FAILURE==='1'&&info.title.startsWith('Stats changes')){
+  if(info.status!==info.expectedStatus&&process.env.CE_RECOVERY_TRACE_AFTER_FAILURE==='1'&&info.title.startsWith('Stats changes')){
    await expect.poll(()=>state(page),{timeout:10000}).toMatchObject({entryReady:true});
    const options=page.locator('#exploration-options');if(!await options.evaluate(e=>e.open))await options.locator(':scope > summary').click();
    await expect.poll(()=>state(page),{timeout:10000}).toMatchObject({avatarFallback:false,surfaceDetailPending:0});
