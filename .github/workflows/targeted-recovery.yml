@@ -49,6 +49,7 @@ jobs:
         run: npx playwright test ${{ matrix.files }} --grep '${{ matrix.grep }}' --workers=1 --retries=0 --max-failures=0 --reporter=line,json
         env:
           PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
+          CE_MOVEMENT_PROFILE: ${{ matrix.group == 'movement' && '1' || '0' }}
           CE_RECOVERY_DRAWS: ${{ matrix.group == 'state' && '1' || '0' }}
           CE_RECOVERY_TRACE_AFTER_FAILURE: ${{ matrix.group == 'state' && '1' || '0' }}
       - name: Account for selected cases and summarize actual state
