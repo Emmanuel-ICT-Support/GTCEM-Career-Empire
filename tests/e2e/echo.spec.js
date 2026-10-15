@@ -5,7 +5,10 @@ async function boot(page,query=''){
  await page.goto(entry+query);await page.locator('#echo-cue').waitFor({state:'visible',timeout:90000});
 }
 test('staged tasks, skips, persistence and revisiting do not fabricate completion',async({page})=>{
- test.setTimeout(180000);await boot(page);await page.locator('#echo-cue').click();
+ test.setTimeout(180000);await boot(page);
+ // This full saved journey starts after the first usable world frame. Early
+ // guidance remains exercised with required geometry held in control-completion.
+ await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').entryReady),{timeout:30000}).toBe(true);await page.locator('#echo-cue').click();
  await expect(page.locator('#arrival-mission')).toBeHidden();
  await page.locator('[data-next]').click();await page.locator('[data-next]').click();
  await expect(page.locator('[data-next]')).toBeHidden();await expect(page.locator('#echo-dialogue h2')).toHaveText('First · Course Documents');

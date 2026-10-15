@@ -1,8 +1,8 @@
 {
-  "release": "markets-combined-repair-candidate-20261015",
+  "release": "markets-combined-controls-repair-20261015",
   "gameUrl": "/playable-3d/",
   "baseCommit": "423d2ab590285eeb87ab38f675ff4a9df1e2852e",
-  "scope": "Unpublished CI candidate: merge saved broader runtime and observer repairs1339939 into current published Markets main423d2ab. Market curriculum, recall, takeaway, stickers and corrected grounded exit remain intact; opening/passcode revision excluded. No merge/deployment authorized by this recheck.",
+  "scope": "Isolated follow-up to combined recheck25b378d: freeze navigation while paused; retain current published Market curriculum, yaw and original assets. Focused UI readiness/route harness repairs; opening/passcode excluded. No merge/deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "a14b05946b958a3e7ebe8766a1ac84abb0557754abdfd81521a2234a7b527af1"
+      "sha256": "740069e160a8ac85083130423fd12ad09508cd303fcf01082be1aa978bce25f6"
     },
     {
       "path": "arcade-carnival.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "5648bb8f617ff8cd3b6d950d1baa25ef77d02b9f9a99e7d9a0f576f23b7bea58"
+      "sha256": "00f2869aa21c8cc19b4abb7b3809a27f2b456c094b3981d968581cb85aaa1a39"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "ce81b7cc54b00f1a15c99ab7de1950e5eebc81bb66b6c2034a73e76d067ee99d"
+      "sha256": "59a8dafa65e6e59b39819b2f83c11211eab0c0762d2261c1ffc10da814742f2c"
     },
     {
       "path": "initiative-field-guide.html",

@@ -8,6 +8,7 @@ test('a real avatar save clears Echo revisit while initial campus geometry is st
  await page.route('**/app.js?*',async route=>{const response=await route.fetch();await route.fulfill({response,body:await response.text()+'\nwindow.controlCompletionState=()=>({entryReady,mode});'});});
  try{
   await page.goto('/playable-3d/');await expect(page.locator('#echo-cue')).toBeVisible({timeout:60000});await page.locator('#echo-cue').click();
+  await expect(page.locator('#arrival-mission')).toBeHidden();
   await expect(page.locator('[data-revisit] button')).toHaveText('Revisit: Visit Avatar Studio');
   expect((await page.evaluate(()=>window.controlCompletionState())).entryReady).toBe(false);
   await page.locator('[data-revisit] button').click();await expect(page.locator('#studio-panel')).toBeVisible();await expect(page.locator('#save-avatar')).toBeEnabled({timeout:30000});await page.locator('#save-avatar').click();

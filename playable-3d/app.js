@@ -743,8 +743,12 @@ function animate(){
   orientationTour?.update();flyover?.refresh();
   if(flyover?.active){if(!document.hidden&&!feedbackOpen()){flyover.update(dt);worlds.update(now,camera);}}
   else if((mode!=='town'||entryReady)&&!marketOpening&&!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open){
+    // Freeze the displayed pose while a panel is open. A zero-input physics
+    // step can still snap interpolation to a pending body pose. Keep staged
+    // preparation and scene updates below running independently of movement.
+    if(explorationMenuOpen()||helperPicker.open()||echo?.open()){resetNavigationInput();actor.setWalking(false);}
+    else {
     if(tapMovement){if(performance.now()<tapMovement.until)keys.add(tapMovement.key);else{keys.delete(tapMovement.key);tapMovement=null;}}
-    if(explorationMenuOpen()||discovery?.open()||helperPicker.open()||echo?.open())resetNavigationInput();
     let x=(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0),z=(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-(keys.has('KeyW')||keys.has('ArrowUp')?1:0);
     x+=joystick.x;z+=joystick.z;
     const length=Math.hypot(x,z);if(length>1){x/=length;z/=length;}
@@ -771,6 +775,7 @@ function animate(){
     if(mode==='town'&&campusReady&&travelled>.001&&performance.now()>marketTravelCooldownUntil&&Math.hypot(actor.model.position.x-43,actor.model.position.z+22)<1.2)openMarket();
     // A render frame with no physics tick is not a stop. Never restart its walk.
     if(steps)actor.setWalking(travelled/(steps*STEP)>.03,travelled/(steps*STEP));
+    }
     if(mode==='town'){if(entryReady&&!campusReady&&actor.model.position.z<-14&&worlds.scenery.status==='pending')openCampusInBackground();for(const npc of teachers)npc.update(Math.max(0,elapsed),actor.model.position);}actor.update(discovery?.reduced()?0:dt);prepareNextTask(now);worlds.update(now,camera);updateInteraction();updateMission();
   }else {renderMotion=null;locomotion.reset();accumulator=0;actor.setWalking(false);if(mode==='studio')preview?.update(dt);}
   updateTeacherLoading();
