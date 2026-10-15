@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "188aea74a297918b5e4d045bcf515d8267d2be507c2fe1a5bb46eb5dd21b2cc9"
+      "sha256": "16f213c31977914eb96155aca02b65e91526b088f032912513dfa0f66e081fa5"
     },
     {
       "path": "arcade-carnival.js",
@@ -806,7 +806,7 @@
     },
     {
       "path": "exploration-tools.css",
-      "sha256": "51d776b146ed842b37acb5389953d5f052bad1be4c39c946f735cd50dc7bc7b6"
+      "sha256": "332828ea08cfe11060721ce7eeddfb1c9aae92a0bc362ef3e027ab1bddc9e539"
     },
     {
       "path": "exploration-tools.mjs",
@@ -834,7 +834,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "8060ba54ed7232a312111dca35319cc4834698e41570fbcbc1c4bf29394b6db2"
+      "sha256": "db31c654405c42175f0772e3ae49d9203c8db00cf18b1cf7d7ea7d2db61f81fb"
     },
     {
       "path": "header-controls.css",
@@ -858,7 +858,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "63bb7c12517d540f17852fea8b53126be4678818ac33046c925d6ce8e594a991"
+      "sha256": "ae9d1aae55b98f1bfdeb30a4d5aea3624b86d7ced1c29e6241ee0101b8649f31"
     },
     {
       "path": "initiative-field-guide.html",

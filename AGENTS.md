@@ -1,3 +1,7 @@
+## Market exterior camera repair - 15 October 2026
+
+User-flagged blue-grey occluder was the camera inside the market facade after exit reversed yaw. Exit now shares MARKET_APPROACH orientation and resets aerial; original trees/grounded camera retained. Map/guidance occupy separate responsive lanes.267 units, three actual desktop/phone exit/re-entry cases and paid-shift regression pass in focused runs. Earlier stale harness failures retained. Unpublished; teacher dashboard capture remains unverified. See docs/market-curriculum-first-batch-20261014.md.
+
 ## Markets story-sort refinement - 14 October 2026
 
 Isolated follow-up to d0912bb: illustrated market story ticket, tap/drag/keyboard sorting, reduced-motion feedback, compact approved-icon sticker album and game UI typography. Exact behaviour/source mappings, recognition versus independent recall and fair pay retained.267units pass; actual keyboard3D shift/pay/sort/Stats/exit walkthrough and desktop/phone UI checks pass. No publication; updated screenshot preview for user review. See docs/market-curriculum-first-batch-20261014.md.

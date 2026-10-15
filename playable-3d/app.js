@@ -502,7 +502,7 @@ async function openMarket(){
 }
 async function leaveMarketByGate(){
  if(marketLeaving||mode!=='market')return;const request=modeRequest;marketLeaving=true;resetNavigationInput();actor.setWalking(false);
- try{await ensureCampus();if(mode!=='market'||request!==modeRequest)return;await setMode('town');worlds.teleport(false,43,-17.8);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=0;yaw=Math.PI;marketTravelCooldownUntil=performance.now()+1200;updateCamera(1,true);setLocation('Outside Sunday Markets');canvas.focus();}
+ try{await ensureCampus();if(mode!=='market'||request!==modeRequest)return;await setMode('town');worlds.teleport(false,MARKET_APPROACH.x,MARKET_APPROACH.z);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=MARKET_APPROACH.yaw+Math.PI;yaw=MARKET_APPROACH.yaw;aerial=false;$('aerial').setAttribute('aria-pressed','false');marketTravelCooldownUntil=performance.now()+1200;updateCamera(1,true);setLocation('Outside Sunday Markets');canvas.focus();}
  catch{toast('Campus scenery is still preparing. Walk back through the gate to retry, or use Return to campus.');}
  finally{marketLeaving=false;}
 }
