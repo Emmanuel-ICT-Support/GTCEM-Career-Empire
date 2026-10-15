@@ -73,9 +73,9 @@ it as a quantified compiler comparison.
 The refinement prepares only the visible entry materials before allowing its
 first scene draw. It selected 355 objects and returned from `compileAsync` in
 93.7ms. The actual backend reports `KHR_parallel_shader_compile` unsupported;
-the first draw still blocks on the same GL log queries. Its 28.426s entry is
-within the observed variable software timings, and its walking still fails.
-There is no established repeatable improvement. Both changes exist only in
+the first draw still blocks on the same GL log queries. Its single 28.426s entry is lower than these unchanged samples, but no
+paired repetition establishes a repeatable gain, and its walking still fails.
+There is no established improvement in readiness and usable movement together. Both changes exist only in
 intercepted diagnostic responses; the game files were never changed.
 
 The remaining work is to isolate the expensive programs/scene draws further
