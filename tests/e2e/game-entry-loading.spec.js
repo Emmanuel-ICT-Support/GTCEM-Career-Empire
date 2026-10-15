@@ -15,12 +15,15 @@ for(const scenario of [
   try{
    await page.goto(gameURL,{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:120000});
    await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true',{timeout:15000});
+   await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').mode),{timeout:15000}).toBe('town');
    const data=await page.evaluate(()=>({firstFrameMs:Number(document.querySelector('#scene').dataset.firstFrameMs),state:JSON.parse(document.querySelector('#diagnostics').dataset.state),resources:performance.getEntriesByType('resource').map(e=>({url:e.name,bytes:e.encodedBodySize,transferred:e.transferSize,start:e.startTime,duration:e.duration}))}));
    await writeFile(info.outputPath('cold-game.json'),JSON.stringify({readyMs:Date.now()-start,...data,requests,failures,errors},null,2));
    const avatars=requests.filter(u=>/\/(player-[^/]+|avatar-[ab]|studio-walking-base)\.glb(?:\?|$)/.test(u));
    expect(avatars).toHaveLength(1);expect(avatars[0]).toContain(scenario.body==='pantstest'?'studio-walking-base':'player-schoolboy');
    expect(requests.some(u=>/occupational-(top|pants)-(chef|suit|tradie|work)|mr-middleton|mr-psandodakis|\/studio\.js|OrbitControls/.test(u))).toBe(false);
    expect(data.state.mode).toBe('town');expect(errors).toEqual([]);
+   // Fresh guidance does not prefetch the full campus until a real route requests it.
+   await page.locator('#world-tools > summary').click();await page.locator('#aerial').click();await page.locator('#world-tools > summary').click();
    await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state).campusReady),{timeout:120000}).toBe(true);
    await writeFile(info.outputPath('complete-campus.json'),JSON.stringify({readyMs:Date.now()-start,state:await page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state))},null,2));
    const warmStart=Date.now();await page.reload({waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:90000});await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');

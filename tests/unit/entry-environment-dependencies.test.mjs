@@ -38,7 +38,7 @@ test('entry starts module and paths together but opens only after integration an
   showMarketExteriorSigns(){},clock:{getElapsedTime:()=>1},$:()=>({hidden:false}),startSurfaceDetail(){},updateCamera(){},waitForVisibleEntryFrame:async()=>{},updateEntryLoading(){},setTimeout(){}};
  const app=read('playable-3d/app.js');
  const body=app.slice(app.indexOf('async function prepareEntry(){'),app.indexOf('function prepareNextTask('))
-  .replace("import('./environment.js?v=ecc-ba60122')",'loadEnvironment()');
+  .replace(/import\(['"]\.\/environment\.js\?v=[^'"]+['"]\)/g,'loadEnvironment()');
  vm.createContext(context);vm.runInContext(body,context);
  const ready=context.prepareEntry();expect(calls).toEqual(['module','paths']);
  releasePaths();await Promise.resolve();expect(context.entryReady).toBe(false);
@@ -46,7 +46,7 @@ test('entry starts module and paths together but opens only after integration an
  expect(calls).toEqual(['module','paths','integrate','phase','open']);expect(context.entryReady).toBe(true);
 });
 test('original exterior geometry must complete before entry, without waiting for optional interiors',async()=>{
- const app=read('playable-3d/app.js');const body=app.slice(app.indexOf('async function prepareEntry(){'),app.indexOf('function prepareNextTask(')).replace("import('./environment.js?v=ecc-ba60122')",'loadEnvironment()');
+ const app=read('playable-3d/app.js');const body=app.slice(app.indexOf('async function prepareEntry(){'),app.indexOf('function prepareNextTask(')).replace(/import\(['"]\.\/environment\.js\?v=[^'"]+['"]\)/g,'loadEnvironment()');
  let exteriors=0,releaseExterior;const exterior=new Promise(resolve=>releaseExterior=resolve);const context={entryReady:false,entryAvatarPriority:null,entryPreparing:false,entryGeometryReady:false,entryDrawSubmitted:false,entryFailure:false,canvas:{dataset:{}},performance:{now:()=>2},mode:'town',entryLoad:null,environmentReady:false,entryEnvironmentModule:null,phase:'flourishing',campusNotice(){},loadEnvironment:()=>Promise.resolve({integrateEnvironment:async()=>{}}),worlds:{loadEntry:()=>Promise.resolve(),phase(){},openCampus(){},loadMuralTexture:()=>Promise.resolve(),loadBuildingExteriors(){exteriors++;return exterior;}},showMarketExteriorSigns(){},clock:{getElapsedTime:()=>1},$:()=>({hidden:false}),startSurfaceDetail(){},updateCamera(){},waitForVisibleEntryFrame:async()=>{},updateEntryLoading(){},setTimeout:fn=>fn()};
  vm.createContext(context);vm.runInContext(body,context);const ready=context.prepareEntry();await Promise.resolve();expect(exteriors).toBe(1);expect(context.entryReady).toBe(false);releaseExterior();await ready;expect(context.entryReady).toBe(true);
 });
@@ -63,6 +63,6 @@ test('entry frame barrier waits for a completed Town draw and keeps its first su
 test('required geometry starts while avatar priority is pending; readiness waits for both',async()=>{
  let releaseAvatar;const avatar=new Promise(resolve=>releaseAvatar=resolve),calls=[];
  const context={entryReady:false,entryAvatarPriority:avatar,entryPreparing:false,entryGeometryReady:false,entryDrawSubmitted:false,entryFailure:false,canvas:{dataset:{}},performance:{now:()=>2},mode:'town',entryLoad:null,environmentReady:false,entryEnvironmentModule:null,phase:'flourishing',campusNotice(){},loadEnvironment:()=>Promise.resolve({integrateEnvironment:async()=>calls.push('integrate')}),waitForPriorityAsset:p=>p,worlds:{loadMuralTexture:()=>Promise.resolve(),loadBuildingExteriors:async()=>calls.push('exteriors'),loadEntry:async()=>calls.push('paths'),phase(){},openCampus(){}},showMarketExteriorSigns(){},clock:{getElapsedTime:()=>1},$:()=>({hidden:false}),startSurfaceDetail(){},updateCamera(){},waitForVisibleEntryFrame:async()=>{},updateEntryLoading(){}};
- const app=read('playable-3d/app.js'),body=app.slice(app.indexOf('async function prepareEntry(){'),app.indexOf('function prepareNextTask(')).replace("import('./environment.js?v=ecc-ba60122')",'loadEnvironment()');
+ const app=read('playable-3d/app.js'),body=app.slice(app.indexOf('async function prepareEntry(){'),app.indexOf('function prepareNextTask(')).replace(/import\(['"]\.\/environment\.js\?v=[^'"]+['"]\)/g,'loadEnvironment()');
  vm.createContext(context);vm.runInContext(body,context);const ready=context.prepareEntry();await Promise.resolve();expect(calls).toEqual(['exteriors','paths']);expect(context.entryPreparing).toBe(true);expect(context.entryReady).toBe(false);releaseAvatar();await ready;expect(calls).toContain('integrate');expect(context.entryGeometryReady).toBe(true);expect(context.entryReady).toBe(true);expect(context.entryPreparing).toBe(false);
 });

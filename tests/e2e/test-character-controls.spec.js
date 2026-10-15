@@ -7,7 +7,7 @@ const snapshot=page=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.datas
 const glbs=urls=>urls.filter(u=>/\/assets\/(?:whole-characters\/[^/]+|avatar-[^/]+|player-[^/]+|studio-walking-base|studio-separate-pants|occupational-[^/]+|hospital-scrub-top|hair-[^/]+|shoes-[^/]+|neckline-skin)\.glb(?:[?]|$)/.test(u));
 async function ready(page,width){
  await page.setViewportSize({width,height:844});await page.goto('/playable-3d/?outfit=wardrobe',{waitUntil:'domcontentloaded'});
- await expect(page.locator('#loading')).toBeHidden({timeout:45000});await expect(page.locator('#save-avatar')).toBeEnabled({timeout:20000});
+ await expect(page.locator('#loading')).toBeHidden({timeout:45000});await expect(page.locator('#scene')).toHaveAttribute('data-preview-body','pantstest',{timeout:20000});await expect(page.locator('#edit-state')).toHaveText('Unsaved',{timeout:20000});await expect(page.locator('#save-avatar')).toBeEnabled({timeout:20000});
 }
 async function choose(page,name){await page.getByRole('button',{name,exact:true}).click();await expect(page.locator('#save-avatar')).toBeEnabled({timeout:15000});}
 for(const width of [1280,390]){

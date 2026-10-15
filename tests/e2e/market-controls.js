@@ -1,9 +1,13 @@
 // Use the visible student navigation and explicitly resume after choosing.
-export async function enterMarket(page){
- if(!await page.locator('#exploration-options').evaluate(e=>e.open))await page.locator('#exploration-options > summary').click();
+export async function openPlaces(page){
+ if(await page.locator('#exploration-options').count()&&!await page.locator('#exploration-options').evaluate(e=>e.open))await page.locator('#exploration-options > summary').click();
  if(!await page.locator('#destination-menu').evaluate(e=>e.open))await page.locator('#destination-menu > summary').click();
+}
+
+export async function enterMarket(page,options){
+ await openPlaces(page);
  await page.locator('#market-destination').click();
- await walkThroughMarketEntrance(page);
+ await walkThroughMarketEntrance(page,options);
 }
 
 // Ordinary shortcuts stop outdoors. Enter using real walking and the door button.

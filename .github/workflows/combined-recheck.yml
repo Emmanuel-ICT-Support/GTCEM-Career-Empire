@@ -1,0 +1,96 @@
+name: Combined Markets and saved repairs recheck
+run-name: Full combined recheck at ${{ github.sha }}
+'on':
+  push:
+    branches: [repair/markets-combined-20261015]
+    paths: ['.github/workflows/**','playable-3d/**','Assets/**','economy-lab/**','tests/**','qa/**','scripts/**','package.json','package-lock.json','playwright.config.mjs','vitest.config.mjs']
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs scripts/focused-workflow-proof.test.mjs scripts/combined-recheck-report.test.mjs
+      - run: npx playwright test --list --reporter=json > coverage/browser-inventory.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: combined-checks, path: coverage/, retention-days: 3}
+  browser:
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: {shard: [1, 2, 3, 4]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Execute every primary case once, including essential journeys
+        run: npx playwright test --shard=${{ matrix.shard }}/4 --workers=1 --retries=0 --max-failures=0 --reporter=line,json
+        env: {PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: combined-browser-shard-${{ matrix.shard }}
+          path: coverage/
+          retention-days: 3
+  software-compatibility:
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --config qa/ecc-software-compatibility.playwright.config.mjs --workers=1 --retries=0 --reporter=line,json
+        env:
+          CE_BROWSER_CHANNEL: chromium
+          CE_COLD_SHADERS: '1'
+          CE_RECOVERY_DRAWS: '0'
+          CE_TEST_OUTPUT: coverage/runtime-software-compatibility/browser
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/runtime-software-compatibility/browser-report.json
+      - if: always()
+        run: node scripts/runtime-lane-report.mjs coverage/runtime-software-compatibility/runtime-lanes.json coverage/runtime-software-compatibility/browser-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: combined-software-compatibility, path: coverage/runtime-software-compatibility/, retention-days: 3}
+  proof:
+    if: always()
+    needs: [checks, browser, software-compatibility]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with: {name: combined-checks, path: combined-checks}
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with: {pattern: combined-browser-shard-*, path: combined-evidence}
+      - name: Compare complete candidate accounting with the actual242-case live run
+        env:
+          CHECKS_RESULT: ${{ needs.checks.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
+          COMPATIBILITY_RESULT: ${{ needs['software-compatibility'].result }}
+        run: node scripts/combined-recheck-report.mjs combined-checks/browser-inventory.json combined-evidence qa/combined-baseline-20261015.json coverage/combined-recheck-proof.json
+      - if: always()
+        run: node scripts/runtime-lane-report.mjs coverage/combined-runtime-lanes.json combined-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: combined-recheck-proof
+          path: |
+            coverage/combined-recheck-proof.json
+            coverage/combined-runtime-lanes.json
+          retention-days: 3

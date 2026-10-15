@@ -1,0 +1,22 @@
+name: Focused runtime-lane verification
+run-name: Verify approved runtime lanes at ${{ github.sha }}
+
+'on':
+  push:
+    branches: [repair/integration-followup-20261014]
+    paths:
+      - '.github/workflows/**'
+      - 'qa/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'playable-3d/**'
+      - 'Assets/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vitest.config.mjs'
+
+jobs:
+  verify:
+    uses: ./.github/workflows/ci.yml
+    with:
+      focused: true

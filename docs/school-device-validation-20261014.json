@@ -1,0 +1,19 @@
+{
+  "status": "outstanding",
+  "representativeDevices": [],
+  "acceleratedStartupTargetMs": 8000,
+  "softwareWaitingTimeAcceptanceMs": null,
+  "requiredEvidence": [
+    "Representative school laptop/desktop and mobile browser/GPU tiers",
+    "Cold entry on actual school delivery and network conditions, with cache conditions recorded",
+    "Actual WebGL renderer and completed campus frame with original trees and both buildings",
+    "Real walking and automatic parcel interaction",
+    "Software fallback functionality and measured waiting reviewed separately"
+  ],
+  "limitations": [
+    "Mac automation does not establish school-device performance",
+    "Phone-sized browser layouts do not establish physical-phone performance",
+    "The approximately 24-second software startup limitation is documented, not fixed",
+    "No numerical acceptable software waiting time has been approved"
+  ]
+}

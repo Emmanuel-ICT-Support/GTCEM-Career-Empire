@@ -1,0 +1,62 @@
+{
+  "runtimeCommit": "c72b4390f0821712f3ef834be09ff48fe50933c0",
+  "workingBase": "b5d2dd861c6b60dd57f359dcf5e598deb4a1ebde",
+  "appSha256": "f9d5ee35aeec6d24d4436b2ebbc735a05fd8043a6dab57f85342d971140d85d6",
+  "approvedStrategyImplemented": true,
+  "gpuPerformance": {
+    "actualBackend": "Apple M3 / ANGLE Metal",
+    "passed": 3,
+    "failed": 0,
+    "targetMs": 8000,
+    "handoverMs": [
+      1638.2,
+      1282.1,
+      1595
+    ]
+  },
+  "softwareCompatibility": {
+    "actualBackend": "SwiftShader LLVM / Vulkan",
+    "passed": 2,
+    "failed": 0,
+    "coldHandoverMs": 22678.3,
+    "navigationToReadyMs": [
+      30179.3,
+      30891.5
+    ],
+    "acceptedWaitingDeadlineMs": null,
+    "startupFixed": false
+  },
+  "newBrowserExecutions": 5,
+  "distinctBrowserCasesInNewRuns": 4,
+  "focusedPolicyAndRenderQualityUnitsPassed": 13,
+  "existingCountProofUnitsPassed": 5,
+  "sourceCheck": "passed",
+  "exactReleaseHashes": 280,
+  "reachableModules": 87,
+  "workflowYaml": "parsed with Ruby Psych",
+  "workflowHostedExecution": "focused run 38591295644 passed at b7c899bfdd325f69b023a12784ddb87c877be244; full browser jobs skipped",
+  "hostedVerificationReceipt": "docs/focused-hosted-workflow-20261014.json",
+  "collectionOnly": {
+    "currentUniqueCases": 234,
+    "originalIDsPreserved": 233,
+    "existingC72Regression": 1,
+    "collectionErrors": 0
+  },
+  "fullBrowserSuiteRerun": false,
+  "schoolDeviceValidation": "outstanding",
+  "originalHostedRun": 38543515871,
+  "originalHostedOutcomeUnchanged": {
+    "passed": 186,
+    "failed": 42,
+    "interrupted": 1,
+    "notRun": 4
+  },
+  "originalAssetsChanged": false,
+  "marketIntegrated": false,
+  "publicationPerformed": false,
+  "reports": [
+    "coverage/broader-targeted-20261014/approved-gpu-performance/runtime-lanes-final.json",
+    "coverage/broader-targeted-20261014/approved-software-compatibility/runtime-lanes-final.json",
+    "coverage/broader-targeted-20261014/approved-split-inventory/comparison.json"
+  ]
+}

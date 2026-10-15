@@ -1,13 +1,13 @@
 import {test,expect} from './helper-fixtures.js';
 
-test('sharp entry prepares the next task without loading distant campus or recording completion',async({page})=>{
+test('sharp entry includes required exterior buildings without recording task completion',async({page})=>{
  test.setTimeout(120000);const requests=[];page.on('request',r=>requests.push(r.url()));
  const state=()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
  await page.goto('/playable-3d/');
  await expect.poll(async()=>(await state()).entryReady,{timeout:90000}).toBe(true);
  expect((await state()).campusReady).toBe(false);
- expect((await state()).renderRatio).toBe(await page.evaluate(()=>Math.min(devicePixelRatio,1.5)));
- expect(requests.some(u=>u.includes('careers-shared-textures.glb'))).toBe(false);
+ expect((await state()).renderRatio).toBe(await page.evaluate(()=>/swiftshader|llvmpipe|softpipe|software rasterizer/i.test(JSON.parse(document.querySelector('#diagnostics').dataset.state).renderBackend)?Math.min(devicePixelRatio,.5):Math.min(devicePixelRatio,1.5)));
+ expect(requests.some(u=>u.includes('careers-shared-textures.glb'))).toBe(true);
  expect(requests.some(u=>u.includes('night-market.js?'))).toBe(false);
  await page.locator('#echo-cue').click();await page.locator('[data-next]').click();await page.locator('[data-next]').click();
  await page.locator('[data-action]').click();
@@ -21,7 +21,7 @@ test('sharp entry prepares the next task without loading distant campus or recor
  await page.locator('#world-tools summary').click();await page.locator('#aerial').click();
  await expect.poll(async()=>(await state()).campusReady,{timeout:90000}).toBe(true);
  expect(requests.some(u=>u.includes('careers-shared-textures.glb'))).toBe(true);
- expect((await state()).renderRatio).toBe(await page.evaluate(()=>Math.min(devicePixelRatio,1.5)));
+ expect((await state()).renderRatio).toBe(await page.evaluate(()=>/swiftshader|llvmpipe|softpipe|software rasterizer/i.test(JSON.parse(document.querySelector('#diagnostics').dataset.state).renderBackend)?Math.min(devicePixelRatio,.5):Math.min(devicePixelRatio,1.5)));
 });
 
 test('failed entry detail leaves documents usable and can retry',async({page})=>{
@@ -43,7 +43,7 @@ test('skipping avatar prepares market kits without a market visit',async({page})
  await expect.poll(()=>requests.some(u=>u.includes('/market-npcs/mara.glb')),{timeout:60000}).toBe(true);
  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+Object.keys(localStorage).filter(k=>k.startsWith('ce-player:e2e-owned:')).map(k=>k.slice(20)).find(k=>k.startsWith('ce-echo-v2:')))));
  expect(saved.skippedTasks).toEqual([2,5]);expect(saved.avatarSaved).toBe(false);expect(saved.marketVisited).toBe(false);
- expect(requests.some(u=>u.includes('careers-shared-textures.glb'))).toBe(false);
+ expect(requests.some(u=>u.includes('careers-shared-textures.glb'))).toBe(true);
 });
 
 test('a returning character past Market prepares the wider campus after entry',async({page})=>{
