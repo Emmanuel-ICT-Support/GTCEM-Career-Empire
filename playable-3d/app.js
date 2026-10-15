@@ -42,6 +42,7 @@ const gameStorage=adminReviewRequested?createPreviewStorage():(gameSession?.stor
 const state=loadProfiles(isolatedDiscovery?reviewProfiles:gameStorage);
 let discovery=null,intro=null,explorationTools=null,revealCameraStart=null;
 let frameGate,surfaceUploads,portraitCapturePending=false;
+let softwareNavigationAt=null;
 let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flourishing',draft,editorTab='identity';
 let wardrobeSection='pants';
 let nightMarket=null,orientationTour=null,orientationTourLoad=null,orientationTourAttempt=0,companionApply=null;
@@ -70,7 +71,7 @@ const marketRequested=new URLSearchParams(location.search).get('experience') && 
 const marketDialogOpen=()=>Boolean(nightMarket?.isOpen());
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
 let chapelTilt=0,flyover;
-function resetNavigationInput(){renderMotion=null;locomotion.reset();keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
+function resetNavigationInput(){renderMotion=null;locomotion.reset();keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;if(softwareNavigationAt!==null)softwareNavigationAt=clock.getElapsedTime();document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
 function explorationMenuOpen(){return Boolean(orientationTour?.blocksWalking()||document.querySelector('#exploration-options')?.open||document.querySelector('#whole-character-choice')?.open||document.querySelector('#orientation-handover')?.open||explorationTools?.open());}
 function canFlyover(){return !intro?.open()&&!discovery?.open()&&!echo?.open()&&mode==='town'&&campusReady&&!enteringHall&&!enteringCareers&&!studioLoadPending&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!$('leave-dialog').open;}
 function flyoverBlockedReason(){
@@ -742,9 +743,67 @@ function publishDiagnostics(now,rendered=false){
     $('diagnostics').value=JSON.stringify(data);$('diagnostics').dataset.state=JSON.stringify(data);frames=0;metricsTime=now;
 }
 
+function takeNavigationElapsed(now,elapsed=0){
+  if(softwareNavigationAt===null)return elapsed;
+  const delta=Math.max(0,now-softwareNavigationAt);softwareNavigationAt=now;return delta;
+}
+function canStepNavigation(){
+  return !flyover?.active&&(mode!=='town'||entryReady)&&!marketOpening&&!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open();
+}
+function stepNavigation(elapsed){
+  if(tapMovement){if(performance.now()<tapMovement.until)keys.add(tapMovement.key);else{keys.delete(tapMovement.key);tapMovement=null;}}
+  let x=(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0),z=(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-(keys.has('KeyW')||keys.has('ArrowUp')?1:0);
+  x+=joystick.x;z+=joystick.z;
+  const length=Math.hypot(x,z);if(length>1){x/=length;z/=length;}
+  const running=keys.has('ShiftLeft')||keys.has('ShiftRight');
+  // Interpolate rendering between physics poses, without feeding the visual
+  // position back into collision or Market movement. External teleports reset it.
+  if(!renderMotion||renderMotion.shown.distanceToSquared(actor.model.position)>1e-10){
+    renderMotion={previous:actor.model.position.clone(),current:actor.model.position.clone(),shown:actor.model.position.clone()};
+  }
+  accumulator=accumulateTravelTime(accumulator,elapsed);let travelled=0,steps=0;
+  while(accumulator>=STEP){
+    const previous=renderMotion.current.clone();
+    const delta=locomotion.step(x,z,yaw,running);
+    if(mode==='town')for(const npc of teachers)npc.fixedUpdate(STEP,previous);
+    const next=mode==='market'?nightMarket.move(previous,delta):worlds.move(space(),delta);
+    renderMotion.previous.copy(previous);renderMotion.current.set(next.x,next.y,next.z);
+    const movedX=next.x-previous.x,movedZ=next.z-previous.z;
+    travelled+=Math.hypot(movedX,movedZ);
+    actor.model.rotation.y=turnTowards(actor.model.rotation.y,movedX,movedZ,STEP);
+    accumulator-=STEP;steps++;
+  }
+  actor.model.position.lerpVectors(renderMotion.previous,renderMotion.current,accumulator/STEP);
+  renderMotion.shown.copy(actor.model.position);
+  if(mode==='town'&&campusReady&&travelled>.001&&performance.now()>marketTravelCooldownUntil&&Math.hypot(actor.model.position.x-43,actor.model.position.z+22)<1.2)openMarket();
+  // A render frame with no physics tick is not a stop. Never restart its walk.
+  if(steps)actor.setWalking(travelled/(steps*STEP)>.03,travelled/(steps*STEP));
+}
+function advanceSoftwareNavigation(){
+  // Browser animation callbacks can wait on a slow submitted canvas frame even
+  // while input and timers remain available. Share one elapsed-time clock with
+  // the draw loop; never advance the same physics or gait interval twice.
+  const now=clock.getElapsedTime(),elapsed=takeNavigationElapsed(now);
+  if(canStepNavigation()){
+    stepNavigation(elapsed);actor.update(discovery?.reduced()?0:Math.min(elapsed,.25));
+    // Proximity actions must observe each walking step; their scene timers are
+    // still advanced by the existing animation loop, so this tick adds no time.
+    discovery?.update(mode,actor.model.position,0);
+    if(mode==='market')nightMarket.update(0,now,camera,actor.model.position);
+    updateInteraction();updateMission();
+  }
+  // Publish real controller/model state without inventing a rendered frame.
+  publishDiagnostics(now);updateEntryLoading();flyover?.refresh();
+}
+
+function sceneViewStamp(scene){
+  const d=discovery?.snapshot(),h=echo?.snapshot();
+  return [scene.uuid,mode,phase,$('quality').value,viewport.width,viewport.height,entryReady,campusReady,worlds.scenery.status,actor.model.uuid,actor.model.rotation.y.toFixed(3),...actor.model.position.toArray().map(v=>v.toFixed(3)),...camera.position.toArray().map(v=>v.toFixed(3)),...camera.quaternion.toArray().map(v=>v.toFixed(4)),teachers.length,scene.children.length,d?.step,d?.souvenir,d?.chapelVisited,h?.helper,h?.helperStatus,h?.visible].join('|');
+}
+
 function animate(){
   if(detailFailed&&worlds?.pendingSurfaceDetails===0){detailFailed=false;if(canClearDetailWarning({entryReady,campusReady,campusLoading:campusLoad,pending:worlds.pendingSurfaceDetails,campusFailed:worlds.scenery.status==='fallback'}))$('campus-progress').hidden=true;}
-  requestAnimationFrame(animate);const now=clock.getElapsedTime(),elapsed=now-lastTime,dt=Math.min(elapsed,.25);lastTime=now;publishDiagnostics(now);updateEntryLoading();
+  requestAnimationFrame(animate);const now=clock.getElapsedTime(),elapsed=now-lastTime,dt=Math.min(elapsed,.25);lastTime=now;const movementElapsed=takeNavigationElapsed(now,elapsed);publishDiagnostics(now);updateEntryLoading();
   // Upload arriving selected-avatar/surface assets before natural video handover.
   // Keep gameplay paused and bound the hidden-world GPU cadence to 2 fps.
   if(intro?.open()){if(now-introWarmTime<.5)return;introWarmTime=now;}
@@ -758,35 +817,9 @@ function animate(){
     // preparation and scene updates below running independently of movement.
     if(explorationMenuOpen()||helperPicker.open()||echo?.open()){resetNavigationInput();actor.setWalking(false);}
     else {
-    if(tapMovement){if(performance.now()<tapMovement.until)keys.add(tapMovement.key);else{keys.delete(tapMovement.key);tapMovement=null;}}
-    let x=(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0),z=(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-(keys.has('KeyW')||keys.has('ArrowUp')?1:0);
-    x+=joystick.x;z+=joystick.z;
-    const length=Math.hypot(x,z);if(length>1){x/=length;z/=length;}
-    const running=keys.has('ShiftLeft')||keys.has('ShiftRight');
-    // Interpolate rendering between physics poses, without feeding the visual
-    // position back into collision or Market movement. External teleports reset it.
-    if(!renderMotion||renderMotion.shown.distanceToSquared(actor.model.position)>1e-10){
-      renderMotion={previous:actor.model.position.clone(),current:actor.model.position.clone(),shown:actor.model.position.clone()};
+    stepNavigation(movementElapsed);
     }
-    accumulator=accumulateTravelTime(accumulator,elapsed);let travelled=0,steps=0;
-    while(accumulator>=STEP){
-      const previous=renderMotion.current.clone();
-      const delta=locomotion.step(x,z,yaw,running);
-      if(mode==='town')for(const npc of teachers)npc.fixedUpdate(STEP,previous);
-      const next=mode==='market'?nightMarket.move(previous,delta):worlds.move(space(),delta);
-      renderMotion.previous.copy(previous);renderMotion.current.set(next.x,next.y,next.z);
-      const movedX=next.x-previous.x,movedZ=next.z-previous.z;
-      travelled+=Math.hypot(movedX,movedZ);
-      actor.model.rotation.y=turnTowards(actor.model.rotation.y,movedX,movedZ,STEP);
-      accumulator-=STEP;steps++;
-    }
-    actor.model.position.lerpVectors(renderMotion.previous,renderMotion.current,accumulator/STEP);
-    renderMotion.shown.copy(actor.model.position);
-    if(mode==='town'&&campusReady&&travelled>.001&&performance.now()>marketTravelCooldownUntil&&Math.hypot(actor.model.position.x-43,actor.model.position.z+22)<1.2)openMarket();
-    // A render frame with no physics tick is not a stop. Never restart its walk.
-    if(steps)actor.setWalking(travelled/(steps*STEP)>.03,travelled/(steps*STEP));
-    }
-    if(mode==='town'){if(entryReady&&!campusReady&&actor.model.position.z<-14&&worlds.scenery.status==='pending')openCampusInBackground();for(const npc of teachers)npc.update(Math.max(0,elapsed),actor.model.position);}actor.update(discovery?.reduced()?0:dt);prepareNextTask(now);worlds.update(now,camera);updateInteraction();updateMission();
+    if(mode==='town'){if(entryReady&&!campusReady&&actor.model.position.z<-14&&worlds.scenery.status==='pending')openCampusInBackground();for(const npc of teachers)npc.update(Math.max(0,elapsed),actor.model.position);}actor.update(discovery?.reduced()?0:Math.min(movementElapsed,.25));prepareNextTask(now);worlds.update(now,camera);updateInteraction();updateMission();
   }else {renderMotion=null;locomotion.reset();accumulator=0;actor.setWalking(false);if(mode==='studio')preview?.update(dt);}
   updateTeacherLoading();
   // The ungraded queue observation follows visible elapsed time. Clamping it
@@ -807,7 +840,9 @@ function animate(){
   let scene=mode==='studio'?studio:activeScene();
   // On a software GPU, a paused panel should not repeatedly rasterize an
   // unchanged world. Assets, UI and teacher preparation keep advancing.
-  if(paused){const d=discovery?.snapshot(),h=echo?.snapshot();const stamp=[scene.uuid,mode,phase,$('quality').value,viewport.width,viewport.height,entryReady,campusReady,worlds.scenery.status,actor.model.uuid,actor.model.rotation.y.toFixed(3),...actor.model.position.toArray().map(v=>v.toFixed(3)),...camera.position.toArray().map(v=>v.toFixed(3)),...camera.quaternion.toArray().map(v=>v.toFixed(4)),teachers.length,scene.children.length,d?.step,d?.souvenir,d?.chapelVisited,h?.helper,h?.helperStatus,h?.visible].join('|');if(lastPausedSceneStamp===stamp)return;lastPausedSceneStamp=stamp;}else lastPausedSceneStamp=null;
+  let frameStamp=null;
+  if(paused||softwareNavigationAt!==null){frameStamp=sceneViewStamp(scene);if(paused&&lastPausedSceneStamp===frameStamp)return;}
+
   renderer.setViewport(0,0,viewport.width,viewport.height);renderer.setScissorTest(false);renderer.clear();
   if(mode==='studio'){const mobile=isMobile();renderer.setViewport(0,mobile?viewport.height*.43:0,mobile?viewport.width:viewport.width-(viewport.width>900?364:316),Math.max(1,viewport.height*(mobile?.57:1)-headerHeight));}
   renderer.toneMappingExposure=mode==='town'?1:1.03;
@@ -821,7 +856,7 @@ function animate(){
   renderer.shadowMap.needsUpdate=qualityChanged||playerShadowChanged||$('quality').value!=='auto'||shadowScene!==scene||now-shadowTime>=((mode!=='town'||keys.size||joystick.x||joystick.z||flyover?.active||teachers.length)?.1:.5);
   if(renderer.shadowMap.needsUpdate){shadowScene=scene;shadowTime=now;shadowActor=actor;shadowActorPosition.copy(actor.model.position);shadowActorYaw=actor.model.rotation.y;}
   // A bounded warm frame prevents first-use texture/shader work at video EOF.
-  const renderStarted=performance.now();renderer.render(scene,camera);lastRenderMs=performance.now()-renderStarted;frameGate.submitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
+  const renderStarted=performance.now();renderer.render(scene,camera);lastPausedSceneStamp=frameStamp;lastRenderMs=performance.now()-renderStarted;frameGate.submitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
   if(!canvas.dataset.firstFrameMs)canvas.dataset.firstFrameMs=String(Math.round(performance.now()));
   publishDiagnostics(now,true);
 }
@@ -916,6 +951,7 @@ async function boot(){
     const view=marketRequested&&!adminReviewRequested?'home-economics':marketRequested?null:new URLSearchParams(location.search).get('view');
     const viewpoint=viewpoints[view];
     const completeView=Boolean(viewpoint||view==='chapel-interior');entryHandover=!completeView&&!studioFirst&&!marketRequested;
+    if(renderQuality(renderBackend,'auto',1).software){softwareNavigationAt=clock.getElapsedTime();setInterval(advanceSoftwareNavigation,16);}
     if(!completeView){
       $('loading').hidden=true;icons();if(mode!=='market'&&!studioFirst)prepareEntry().catch(()=>{});animate();
       if(mode==='market')$('campus-progress').hidden=true;

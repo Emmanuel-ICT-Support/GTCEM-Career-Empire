@@ -1,8 +1,8 @@
 {
-  "release": "visible-flyover-controls-20261015",
+  "release": "responsive-navigation-20261015",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "4be9050c7afb3b6b73151c530e730b52c257ecd5",
-  "scope": "Separate UI candidate: visible Flyover F above movement, Land L while flying and contextual blocked-state help. Native repair baseline retained; no 3D artwork, movement, landing, opening/password or Market behavior changes. No deployment.",
+  "baseCommit": "d065db273b5ebe5caf9fe0609b9a73add22595e6",
+  "scope": "Software-only CPU navigation and actual-state pulse, shared physics/gait clock and reuse of unchanged paused views. Original visual assets, geometry, gates, opening/password and Market/save rules retained. Unverified candidate; no deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "6f2fd061cfbecdfd65e15e9abc265badcd009cbcdce3fb0864ea1aebe334ffc1"
+      "sha256": "d86f005c38c71d059a6eeaec9345fb50ae5c9ad9b6c673294ae4f739b208f888"
     },
     {
       "path": "arcade-carnival.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "dc3ca9999c5d1bf195e6bfd51c9cd52bda0c0feb24abec9616f80b91a02e02a1"
+      "sha256": "00ca38d067af3fd3c8b442c395439b93f4a5ed791170b946c9e0f675d54d7b86"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "ac11cff052fe25b555479653e8758589c7f63960e6c1b6f31b1cab643813e5a5"
+      "sha256": "8c7fc0028a36f5c58dd317ea8894db0f84447d9535a58d536b8aa9f33ee8840f"
     },
     {
       "path": "initiative-field-guide.html",

@@ -36,3 +36,48 @@ inventory and accounting checks produce small fresh receipts outside existing
 evidence. The 1 GiB reserve remains required for any browser launch. Nothing was
 deleted. Current opening/password, save/authentication, Market gates, assets and
 all eight primary avatars remain unchanged. No merge or deployment.
+
+## Readiness baseline and bounded runtime candidate
+
+Readiness commit `d065db273b5ebe5caf9fe0609b9a73add22595e6` was pushed to its
+isolated branch. Hosted run
+[38821106928](https://github.com/Emmanuel-ICT-Support/GTCEM-Career-Empire/actions/runs/38821106928)
+finished with exact accounting for all18 selected cases: five passed and13failed.
+The nine readiness scenarios now progress beyond their original early failures;
+four fail later. Both Flyover cases reach real walking after successful landing,
+then measure about0.0766m against the unchanged>0.3m requirement. Native/phone
+strict walking measures0.50/1.13m/s in software; the three gait cases and both
+Market crew-pass routes remain failed.
+
+Admin observations show actual Reception atx=-16.5 with active=true while its
+published poll had reported false. No Admin eligibility change is justified.
+Stats saves the correct Wallet13/Savings5 amounts, but actual draws increase2to3.
+Its first paused frame is submitted after the test's two idle samples: previous
+unpaused draws had no cache stamp, so entering pause forced a redundant draw.
+
+The runtime candidate extracts the original fixed-step movement body without
+changing speed, collision, turning, catch-up or interpolation rules. On software
+backends only, a16ms CPU tick advances accepted navigation and publishes actual
+controller/model state while browser animation callbacks wait on the canvas.
+RAF and the timer consume one shared elapsed-time clock; gait and physics never
+consume the same interval twice. All original movement blockers remain. Proximity
+checks use zero additional story elapsed, preserving cinematic/observation timing.
+The pulse neither renders nor increments renderedFrames. The native path retains
+the original frame elapsed values.
+
+The software cache now records the view of every submitted world frame. Paused
+UI can reuse an unchanged existing view; viewport/model/camera/scenery changes
+still require a real draw. Cache records update only after a successful render.
+It does not hide real frame-count changes or alter original geometry/artwork.
+
+Twenty-eight focused unit checks pass, executing the production navigation body:
+stalled-canvas walking, one-time consumption of time, native equivalence, release,
+proximity stop, fifteen blockers, original pending-pose pause regression, cached
+view reuse/invalidation and existing save/quality controls. The first Vitest
+attempt encountered EPERM writing bundled config into the shared dependency
+target. Running with configLoader=runner and no cache passed without changing
+permissions or shared dependencies. No local browser or coverage run occurred.
+
+These unit results do not qualify software frame rate, waiting time or school
+hardware. Focused hosted browser validation of this candidate is required next;
+the failed baseline and its raw reports remain retained.
