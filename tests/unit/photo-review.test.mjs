@@ -9,24 +9,24 @@ function harness(){
  const el={focus(){},disabled:false};let callbacks=0,renders=0,saves=0;
  class Image{set src(value){this.value=value;queueMicrotask(()=>this.onload());}}
  const x={fillRect(){},drawImage(){},fillText(){}};
- const context={Image,Promise,Symbol,Object,captureBusy:false,photoReviewPending:false,state:normalise({step:4,shots:{mural:{label:'Orange detail',image:'data:image/jpeg;base64,eA=='}}}),reward,$:()=>el,document:{createElement:()=>({getContext:()=>x,toDataURL:()=> 'data:image/png;base64,cGhvdG8='})},beforeCapture:()=>{},capture:()=> 'data:image/png;base64,Y2FzdA==',drawStyledPortrait(){},save(){saves++;},dialog:{open:true,close(){this.open=false;}},renderDialog(){renders++;},explore(){},onPhotoFinish(){callbacks++;},scoutPlace:null};
+ const context={Image,Promise,Symbol,Object,captureBusy:false,photoReviewPending:false,photoHandoverBusy:false,state:normalise({step:4,shots:{mural:{label:'Orange detail',image:'data:image/jpeg;base64,eA=='}}}),reward,$:()=>el,document:{createElement:()=>({getContext:()=>x,toDataURL:()=> 'data:image/png;base64,cGhvdG8='})},beforeCapture:()=>{},capture:()=> 'data:image/png;base64,Y2FzdA==',drawStyledPortrait(){},save(){saves++;},dialog:{open:true,close(){this.open=false;}},renderDialog(){renders++;},explore(){},onPhotoFinish(){callbacks++;},scoutPlace:null};
  vm.createContext(context);vm.runInContext(source.slice(source.indexOf(' function makePoster('),source.indexOf(' function chapelCheckpoint(')),context);
- vm.runInContext(source.match(/ function continuePhotoReview\(\)\{[^\n]+/)[0],context);
+ vm.runInContext(source.slice(source.indexOf(' async function continuePhotoReview(){'),source.indexOf(" $('discovery-continue').onclick=continuePhotoReview;")),context);
  context.show=()=>{context.dialog.open=true;context.renderDialog();};
  return {context,counts:()=>({callbacks,renders,saves})};
 }
 const finish=()=>new Promise(resolve=>setImmediate(resolve));
 test('a photo requested from the trail opens review before capture and holds it before companion choice',async()=>{
- const {context:c,counts}=harness();c.dialog.open=false;c.makePoster();assert.equal(c.dialog.open,true);assert.equal(c.captureBusy,true);assert.equal(counts().callbacks,0);await finish();assert.equal(c.dialog.open,true);assert.equal(c.state.souvenir,'data:image/png;base64,cGhvdG8=');assert.equal(counts().callbacks,0);c.continuePhotoReview();assert.equal(counts().callbacks,1);
+ const {context:c,counts}=harness();c.dialog.open=false;c.makePoster();assert.equal(c.dialog.open,true);assert.equal(c.captureBusy,true);assert.equal(counts().callbacks,0);await finish();assert.equal(c.dialog.open,true);assert.equal(c.state.souvenir,'data:image/png;base64,cGhvdG8=');assert.equal(counts().callbacks,0);await c.continuePhotoReview();assert.equal(counts().callbacks,1);
 });
 test('actual capture retains review, never offers companion until explicit Continue, and offers once',async()=>{
- const {context:c,counts}=harness();c.makePoster();c.continuePhotoReview();assert.equal(counts().callbacks,0);
+ const {context:c,counts}=harness();c.makePoster();await c.continuePhotoReview();assert.equal(counts().callbacks,0);
  await finish();assert.equal(c.state.souvenir,'data:image/png;base64,cGhvdG8=');assert.equal(c.dialog.open,true);assert.deepEqual(counts(),{callbacks:0,renders:1,saves:1});
- c.continuePhotoReview();c.continuePhotoReview();assert.equal(counts().callbacks,1);assert.equal(c.dialog.open,false);
+ await Promise.all([c.continuePhotoReview(),c.continuePhotoReview()]);assert.equal(counts().callbacks,1);assert.equal(c.dialog.open,false);
 });
 test('dismissed review is not forcibly reopened by capture; retake/review does not create another offer',async()=>{
  const {context:c,counts}=harness();c.makePoster();c.dialog.close();await finish();assert.equal(counts().renders,0);assert.equal(counts().callbacks,0);
- c.continuePhotoReview();c.makePoster(true);await finish();c.continuePhotoReview();assert.equal(counts().callbacks,1);
+ await c.continuePhotoReview();c.makePoster(true);await finish();await c.continuePhotoReview();assert.equal(counts().callbacks,1);
 });
 test('actual image drawing applies distinct full-portrait filters and framing, restores context',()=>{
  function record(style){const calls=[];const ctx=new Proxy({createRadialGradient(){calls.push(['gradient']);return {addColorStop:(...args)=>calls.push(['stop',...args])};}},{set(obj,k,v){calls.push([k,v]);obj[k]=v;return true;},get(obj,k){return obj[k]||((...args)=>calls.push([k,...args]));}});drawStyledPortrait(ctx,{id:'cast'},style);return calls;}

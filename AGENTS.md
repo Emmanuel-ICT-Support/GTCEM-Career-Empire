@@ -1,3 +1,19 @@
+## Markets-only live-based release candidate — 15 October 2026
+
+Explicit reviewed Markets publication approval received. Isolated release/markets-curriculum-20261015 starts from live fec76572 and cherry-picks only d0912bb,06f17bc,48a0fdb as3f181a0,760b2be,ab44ab9. Resolve cache tags against live; rebuilt282hash manifest/87modules; do not restore the source branch's broader runtime. Target258units and5proof tests pass; all21scoped Markets IDs have passing evidence across bounded runs (25executions,3earlier harness failures retained). Extra changes are test-only: existing async-photo harness and serialized companion fixture, real forward walking after corrected exit, current Market wallet wording with same amount. Broader1339939/c72runtime repairs and unfinished opening/passcode remain separate. Original trees/assets, gates, auth/session rules and20gross−2tax=18net+crewpass retained. No full browser pass claimed. See docs/markets-live-release-20261015.md; publication/live receipt follows.
+
+## Market exterior camera repair - 15 October 2026
+
+User-flagged blue-grey occluder was the camera inside the market facade after exit reversed yaw. Exit now shares MARKET_APPROACH orientation and resets aerial; original trees/grounded camera retained. Map/guidance occupy separate responsive lanes.267 units, three actual desktop/phone exit/re-entry cases and paid-shift regression pass in focused runs. Earlier stale harness failures retained. Unpublished; teacher dashboard capture remains unverified. See docs/market-curriculum-first-batch-20261014.md.
+
+## Markets story-sort refinement - 14 October 2026
+
+Isolated follow-up to d0912bb: illustrated market story ticket, tap/drag/keyboard sorting, reduced-motion feedback, compact approved-icon sticker album and game UI typography. Exact behaviour/source mappings, recognition versus independent recall and fair pay retained.267units pass; actual keyboard3D shift/pay/sort/Stats/exit walkthrough and desktop/phone UI checks pass. No publication; updated screenshot preview for user review. See docs/market-curriculum-first-batch-20261014.md.
+
+## Isolated Markets curriculum candidate - 14 October 2026
+
+User explicitly authorises source edits, tests, takeaway resources, recall game and practice stickers. Separate first batch on integration082805ba: exact five behaviours, optional supported action vignettes, one-at-a-time teaching cards, after-job recall, My Work takeaway and three existing Stats collection stickers.267units/coverage and13scoped browser cases pass; original pay/legacy saves retained. Mastery remains unverified; guest reset/account rules unchanged. Sparse EST media prevent filesystem source-check completion; staged Git checks are separate. No publication; show revised flow first. See docs/market-curriculum-first-batch-20261014.md.
+
 ## Draft PR57 requested follow-up - 14 October 2026
 
 Blueprint is inside the existing menu with a labelled, keyboard-accessible new tab and noopener. Student outline uses Phase 0 orientation, Phase 1 Mara paid Initiative gig, Phase 2 changing world; stable J0-J10 remain and new INTRO row precedes them. Phase 6 later Mara visit remains distinct. Two-page PDF rendered/visually checked and replaced the same Library identity. Explicit Admin review menu re-entry is direct Reception; ordinary routes stay outdoors. Original CI38487929320 finished failure: source/unit/startup pass, two Admin walks pass, four critical failures including stale/changed harness expectations and an unresolved Chapel waypoint. No full-CI or publication claim. See docs/post-photo-followup-20261014.md; merge/deployment still await approval.

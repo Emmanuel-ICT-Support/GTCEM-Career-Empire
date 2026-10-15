@@ -1,17 +1,18 @@
-import {DEFAULT_PLAN,NOTE_FIELDS,validPlan,evaluatePlan} from './night-market-agency.js?v=market-payoff-20260924';
+import {validInitiativeAction,recognitionResult} from './market-initiative.mjs?v=initiative-arcade-20261014';
+import {DEFAULT_PLAN,NOTE_FIELDS,validPlan,evaluatePlan} from './night-market-agency.js?v=initiative-arcade-20261014';
 // Local rehearsal only. This log never writes to profiles, the portfolio or accounts.
 export const MARKET_KEY='ce-night-market-practice-v1';
 export const VALUES=Object.freeze({gross:2000,tax:200,keepsake:600,save:500,donation:200,research:500});
 export const MARKET_SHOP=Object.freeze({lantern:{name:'Amber lantern',price:600,description:'A warm reminder of your first market visit.',icon:'lantern'},plant:{name:'Little green plant',price:400,description:'A tiny green friend. No watering timer.',icon:'plant'},plane:{name:'Paper plane',price:100,description:'Flight clearance: imaginary.',icon:'plane'},compass:{name:'Pocket compass',price:200,description:'A keepsake for a curious explorer, not a navigation upgrade.',icon:'compass'},duck:{name:'Novelty duck',price:300,description:'Head of the quack department. No qualifications required.',icon:'duck'}});
 export const BADGES=Object.freeze({
- initiative:['Initiative','You proposed and tested a change to a workplace arrangement.'],
+ initiative:['Initiative','You tried a workplace change. Specific initiative behaviours need action evidence and explanation.'],
  problem:['Problem solving','You tested an idea and examined its consequences.'],
  listening:['Communication','You asked a customer what was unclear.'],
  clarity:['Problem solving','You made the collection point clear at the path.'],
  teamwork:['Teamwork','You agreed a useful role with a helper.'],
  adapting:['Adaptability','You changed your approach after customer feedback.']
 });
-export const freshState=()=>({revision:3,plan:{...DEFAULT_PLAN},trials:[],caseNote:{},shared:false,consolidated:false,observed:false,learned:false,proposal:null,placed:null,tested:false,reviewed:false,pass:false,encore:false,accepted:false,listened:false,attempted:false,solution:null,paid:false,researchReviewed:false,researchPaid:false,wallet:0,savings:0,tax:0,donated:0,keepsake:false,purchases:[],rested:false,badges:[],events:[]});
+export const freshState=()=>({revision:3,initiativeEvidence:[],initiativeRecognition:[],initiativeRetrieval:[],plan:{...DEFAULT_PLAN},trials:[],caseNote:{},shared:false,consolidated:false,observed:false,learned:false,proposal:null,placed:null,tested:false,reviewed:false,pass:false,encore:false,accepted:false,listened:false,attempted:false,solution:null,paid:false,researchReviewed:false,researchPaid:false,wallet:0,savings:0,tax:0,donated:0,keepsake:false,purchases:[],rested:false,badges:[],events:[]});
 export function applyEvent(previous,type){
  const s=structuredClone(previous),badge=id=>{if(!s.badges.includes(id))s.badges.push(id);};
  if(type?.type==='purchase'){
@@ -20,6 +21,13 @@ export function applyEvent(previous,type){
  }
  if(s.revision===3){
   const kind=typeof type==='string'?type:type?.type;
+  if(['initiative-action','initiative-recognition','initiative-retrieval'].includes(kind)){
+   if(!s.accepted||s.events.length>=256)return previous;
+   if(kind==='initiative-action'){if(!validInitiativeAction(s,type))return previous;s.initiativeEvidence.push({action:type.action,support:type.support});}
+   if(kind==='initiative-recognition'){const result=recognitionResult(type.question,type.answer);if(!result||s.initiativeRecognition.length>=30)return previous;s.initiativeRecognition.push({question:type.question,answer:type.answer,correct:result.correct});}
+   if(kind==='initiative-retrieval'){if(!['list','describe','explain'].includes(type.kind)||s.initiativeRetrieval.length>=30)return previous;s.initiativeRetrieval.push({kind:type.kind,status:'self-reported attempt; model revealed; not assessed'});}
+   s.events.push(structuredClone(type));return s;
+  }
   if(['plan','share-plan','run-trial','inspect-trial','consolidate','case-note'].includes(kind)){
    if(!s.accepted&&kind!=='case-note')return previous;
    if(kind==='plan'){

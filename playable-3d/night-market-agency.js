@@ -1,3 +1,4 @@
+import {initiativeFeedback} from './market-initiative.mjs?v=initiative-arcade-20261014';
 // Bounded workplace simulation. Outcomes are reproducible, not an assessment score.
 export const DEFAULT_PLAN=Object.freeze({sign:'none',position:'counter',collection:'side',helper:'packing'});
 export const PLAN_OPTIONS=Object.freeze({
@@ -25,6 +26,7 @@ export function evaluatePlan(p){
 export function caseNoteText(s){
  const lines=['MY FIRST GIG — SUNDAY MARKETS','Simulated game practice. Not verified workplace or portfolio evidence.','', 'GAME RECORD (automatically recorded)',`Customer conversation: ${s.listened?'visited':'not used'}; queue observation: ${s.observed?'used':'not used'}; Sam’s guide: ${s.learned?'used':'not used'}.`];
  s.trials.forEach((t,i)=>lines.push(`\nTrial ${i+1}: ${describePlan(t.plan)}`,t.outcome.facts.join(' '),`Result reviewed: ${t.inspected?'yes':'not yet'}.`));
+ lines.push('', 'OPTIONAL SIMULATED ACTIONS (not verified workplace competence)');for(const e of s.initiativeEvidence||[])lines.push(initiativeFeedback(e));lines.push(`Recognition: ${(s.initiativeRecognition||[]).length} guided attempts; not independent recall.`,`Retrieval: ${(s.initiativeRetrieval||[]).length} self-reported attempts with model reveal; independent answers not collected or assessed.`);
  lines.push('', 'MY EXPLANATION (guided choices or earlier saved writing; not assessed)');
  for(const [key,label]of Object.entries(NOTE_FIELDS))lines.push(label,s.caseNote[key]||'[Not selected yet]','');
  lines.push('LEARNING CONNECTION','Initiative: noticing opportunities, suggesting improvements and communicating respectfully. Problem solving: trying an idea, examining evidence and deciding what to do next.','Wages recognise the agreed work; explanations are not automatically graded.');

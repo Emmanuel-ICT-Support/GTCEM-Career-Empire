@@ -2,7 +2,7 @@ import {mountCourseOutline} from './course-outline.mjs?v=phases-20261014';
 import {browserRun} from '../playable-3d/game-session.mjs?v=guest-first-20261012';
 const gameRun=await browserRun({newEntry:false});const gameStorage=gameRun.storage;
 import {MILESTONES} from './exploration.mjs?v=navigation-20261012';
-import {mountWork} from './work-ui.mjs?v=guest-first-20261012';
+import {mountWork} from './work-ui.mjs?v=initiative-arcade-20261014-guest-first-20261012';
 import {KEY,CATALOG,LESSONS,empty,project,transact} from './economy.mjs?v=navigation-20261012';
 const $=id=>document.getElementById(id),money=n=>new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD',maximumFractionDigits:0}).format(n/100);
 const reviewMode=new URLSearchParams(location.search).get('review')==='1';
