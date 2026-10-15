@@ -8,5 +8,19 @@ body.flyover-clean #experience>:not(canvas){visibility:hidden!important;pointer-
 
 .in-flyover .ce-feedback-launcher,.flyover-clean .session-stamp,.flyover-clean .session-banner-actions{visibility:hidden!important;pointer-events:none!important}
 #flyover-land{position:absolute;right:22px;top:68px;z-index:60;min-height:46px;padding:12px 22px;border:2px solid #b58b32;border-radius:10px;background:#fff9da;color:#183d31;font:700 16px system-ui;cursor:pointer}#flyover-land[hidden],#flyover-landing-status[hidden]{display:none}#flyover-land:focus-visible{outline:3px solid #167853;outline-offset:3px}#flyover-landing-status{position:absolute;right:22px;top:116px;z-index:60;max-width:280px;padding:10px;background:#fffaf0;color:#183d31;font:13px/1.4 system-ui}.flyover-clean #flyover-land,.flyover-clean #flyover-landing-status,.flyover-clean #campus-minimap,.flyover-clean #orientation-tour{visibility:visible!important;pointer-events:auto!important;opacity:1}
-@media(max-width:620px){#flyover-land{right:8px;top:54px;padding:10px 14px;font-size:14px}#flyover-panel{top:116px;width:110px;padding:9px;font-size:11px;max-height:calc(100% - 275px)}.flyover-pad{grid-template-columns:1fr 1fr}#flyover-panel input{width:90px}#flyover-panel button{padding:7px;font-size:11px}#flyover-landing-status{right:8px;top:100px;max-width:120px}.flyover-clean #campus-minimap{pointer-events:none!important}}
+@media(max-width:620px){#flyover-land{right:8px;top:54px;padding:10px 14px;font-size:14px}#flyover-panel{top:116px;width:140px;padding:9px;font-size:11px;max-height:calc(100% - 275px)}.flyover-pad{grid-template-columns:1fr 1fr}#flyover-panel input{width:90px}#flyover-panel button{padding:7px;font-size:11px}#flyover-landing-status{right:8px;top:100px;max-width:120px}.flyover-clean #campus-minimap{pointer-events:none!important}}
 body.flyover-clean #experience #flyover-land,body.flyover-clean #experience #flyover-landing-status{visibility:visible!important;pointer-events:auto!important;opacity:1}
+
+/* A visible reminder above the existing arrows/joystick; flying keeps Land here. */
+#flyover-quick-controls{position:absolute;left:29px;bottom:137px;z-index:26;display:flex;flex-direction:column;align-items:flex-start;gap:6px;max-width:min(220px,calc(100vw - 24px))}
+#flyover-reminder{min-height:44px;padding:10px 15px;border:1px solid #9bad96;border-radius:10px;background:#f6faf7;color:#183d31;font-size:14px;font-weight:700;box-shadow:0 2px 8px #183d3114}
+#flyover-reminder:disabled{opacity:.8;background:#edf0e6;color:#405647}
+#flyover-hint{margin:0;padding:6px 9px;border-radius:7px;background:#f6faf7ed;color:#314b3e;font-size:12px;line-height:1.35;max-width:220px}
+#flyover-quick-controls #flyover-land{position:static;min-height:44px;font-size:15px;padding:10px 18px}
+#flyover-quick-controls #flyover-landing-status{position:static;max-width:220px;margin:0;border-radius:7px}
+.flyover-modal-hint{margin:12px 0 0!important;padding:8px 10px;border-radius:7px;background:#e9eee3;color:#355446;font-size:12px!important;line-height:1.4}
+#flyover-reminder:focus-visible{outline:3px solid #167853;outline-offset:3px}
+body.flyover-clean #experience #flyover-quick-controls{visibility:visible!important;pointer-events:auto!important;opacity:1}
+@media(max-width:900px){#flyover-quick-controls{left:22px}}
+@media(max-width:620px){#flyover-quick-controls{left:12px;bottom:calc(164px + env(safe-area-inset-bottom));max-width:180px}#flyover-reminder{font-size:13px}#flyover-hint{font-size:11px;max-width:180px}}
+@media(max-height:500px) and (max-width:950px){#flyover-quick-controls{left:12px;bottom:calc(142px + env(safe-area-inset-bottom));max-width:180px}}

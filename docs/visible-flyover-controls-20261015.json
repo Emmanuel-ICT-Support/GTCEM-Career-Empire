@@ -1,0 +1,463 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-15T06:51:04.818700+00:00",
+  "baseline": "4be9050c7afb3b6b73151c530e730b52c257ecd5",
+  "currentCases": [
+    {
+      "id": "a740e232a5a14862a3f0-d0db42d1aee077f2b2b8:chromium:0",
+      "file": "flyover.spec.js",
+      "titlePath": [
+        "focus-safe shortcuts, repeated entry and normal destinations remain available"
+      ],
+      "status": "passed",
+      "durationMs": 2411,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-corrected-2026-10-15T06-42-43-500Z-yPhVXH/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "a740e232a5a14862a3f0-3c0aa68e3ee7aed6decf:chromium:0",
+      "file": "flyover.spec.js",
+      "titlePath": [
+        "touch flyover",
+        "visible controls fit phone and altitude touch releases safely"
+      ],
+      "status": "passed",
+      "durationMs": 2643,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-282Z-SVKIho/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "bcbac3a57c44f8dc71fd-ceb1c470aecaddf3966a:chromium:0",
+      "file": "tour-landing-shortcuts.spec.js",
+      "titlePath": [
+        "safe roof landing and ordinary map/menu shortcuts keep arrivals outdoors"
+      ],
+      "status": "passed",
+      "durationMs": 2680,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-corrected-2026-10-15T06-42-43-500Z-yPhVXH/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "e11970386b675673473d-0984966b9cdbc7d372e1:chromium:0",
+      "file": "visible-flyover-controls.spec.js",
+      "titlePath": [
+        "visible Flyover controls 1280",
+        "reminder, clue guard, pointer return, keyboard landing and safe rejection"
+      ],
+      "status": "passed",
+      "durationMs": 4790,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-282Z-SVKIho/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "e11970386b675673473d-0424471bc27e3d93be93:chromium:0",
+      "file": "visible-flyover-controls.spec.js",
+      "titlePath": [
+        "visible Flyover controls 390",
+        "reminder, clue guard, pointer return, keyboard landing and safe rejection"
+      ],
+      "status": "passed",
+      "durationMs": 4315,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-282Z-SVKIho/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "a740e232a5a14862a3f0-515871acdecd050eae3b:chromium:0",
+      "file": "flyover.spec.js",
+      "titlePath": [
+        "flyover detaches, eases, records cleanly and restores exact prior camera and player state"
+      ],
+      "status": "passed",
+      "durationMs": 9365,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-corrected-2026-10-15T06-42-43-500Z-yPhVXH/browser-report.json",
+      "errors": []
+    }
+  ],
+  "currentCaseCounts": {
+    "passed": 6,
+    "failed": 0,
+    "unrun": 0
+  },
+  "allDevelopmentAttemptCounts": {
+    "executions": 16,
+    "passed": 11,
+    "failedOrTimedOut": 5
+  },
+  "attempts": [
+    {
+      "id": "a740e232a5a14862a3f0-d0db42d1aee077f2b2b8:chromium:0",
+      "file": "flyover.spec.js",
+      "titlePath": [
+        "focus-safe shortcuts, repeated entry and normal destinations remain available"
+      ],
+      "status": "passed",
+      "durationMs": 3585,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-first-2026-10-15T06-37-54-054Z-Wv56M5/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "a740e232a5a14862a3f0-3c0aa68e3ee7aed6decf:chromium:0",
+      "file": "flyover.spec.js",
+      "titlePath": [
+        "touch flyover",
+        "visible controls fit phone and altitude touch releases safely"
+      ],
+      "status": "timedOut",
+      "durationMs": 120142,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-first-2026-10-15T06-37-54-054Z-Wv56M5/browser-report.json",
+      "errors": [
+        {
+          "message": "\u001b[31mTest timeout of 120000ms exceeded.\u001b[39m"
+        },
+        {
+          "location": {
+            "file": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/flyover.spec.js",
+            "column": 354,
+            "line": 43
+          },
+          "message": "Error: locator.tap: Test timeout of 120000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#scene')\u001b[22m\n\u001b[2m    - locator resolved to <canvas id=\"scene\" width=\"390\" tabindex=\"0\" height=\"844\" data-rendered=\"true\" data-first-frame-ms=\"1045\" data-engine=\"three.js r180\" data-campus-ready-ms=\"1161\" data-entry-visible-ms=\"1055\" aria-label=\"Interactive 3D town\"></canvas>\u001b[22m\n\u001b[2m  - attempting tap action\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button id=\"flyover-land\" aria-keyshortcuts=\"L\" title=\"Land on nearby safe ground (L)\">Land \u00b7 L</button> from <div role=\"group\" id=\"flyover-quick-controls\" aria-label=\"Flyover shortcuts\">\u2026</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying tap action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <button id=\"flyover-land\" aria-keyshortcuts=\"L\" title=\"Land on nearby safe ground (L)\">Land \u00b7 L</button> from <div role=\"group\" id=\"flyover-quick-controls\" aria-label=\"Flyover shortcuts\">\u2026</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying tap action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    221 \u00d7 waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m        - element is visible, enabled and stable\u001b[22m\n\u001b[2m        - scrolling into view if needed\u001b[22m\n\u001b[2m        - done scrolling\u001b[22m\n\u001b[2m        - <button id=\"flyover-land\" aria-keyshortcuts=\"L\" title=\"Land on nearby safe ground (L)\">Land \u00b7 L</button> from <div role=\"group\" id=\"flyover-quick-controls\" aria-label=\"Flyover shortcuts\">\u2026</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m      - retrying tap action\u001b[22m\n\u001b[2m        - waiting 500ms\u001b[22m\n\n\n  41 |  test.setTimeout(120000);await setup(page);await page.locator('#flyover-toggle').tap();const before=await snap(page);\n  42 |  const rise=page.getByRole('button',{name:'Raise camera'});await rise.dispatchEvent('pointerdown',{pointerId:1,clientX:10,clientY:10});await page.waitForTimeout(450);await rise.dispatchEvent('pointerup',{pointerId:1});expect((await snap(page)).camera[1]).toBeGreaterThan(before.camera[1]);\n> 43 |  const box=await page.locator('#flyover-panel').boundingBox();expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(390);await page.screenshot({path:info.outputPath('flyover-phone.png')});await page.locator('#flyover-hide').tap();await expect(page.locator('body')).toHaveClass(/flyover-clean/);await page.locator('#scene').tap({position:{x:40,y:650}});await expect(page.locator('body')).not.toHaveClass(/flyover-clean/);await page.getByRole('button',{name:'Return to player',exact:true}).last().tap();expect((await snap(page)).active).toBe(false);\n     |                                                                                                                                                                                                                                                                                                                                                                  ^\n  44 |  });\n  45 | });\n  46 |\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/flyover.spec.js:43:354"
+        }
+      ]
+    },
+    {
+      "id": "bcbac3a57c44f8dc71fd-ceb1c470aecaddf3966a:chromium:0",
+      "file": "tour-landing-shortcuts.spec.js",
+      "titlePath": [
+        "safe roof landing and ordinary map/menu shortcuts keep arrivals outdoors"
+      ],
+      "status": "passed",
+      "durationMs": 2436,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-first-2026-10-15T06-37-54-054Z-Wv56M5/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "e11970386b675673473d-0984966b9cdbc7d372e1:chromium:0",
+      "file": "visible-flyover-controls.spec.js",
+      "titlePath": [
+        "visible Flyover controls 1280",
+        "reminder, clue guard, pointer return, keyboard landing and safe rejection"
+      ],
+      "status": "failed",
+      "durationMs": 3784,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-first-2026-10-15T06-37-54-054Z-Wv56M5/browser-report.json",
+      "errors": [
+        {
+          "location": {
+            "file": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/visible-flyover-controls.spec.js",
+            "column": 182,
+            "line": 21
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[32m-   -6.999999997899513,\u001b[39m\n\u001b[32m-   0.08486100635021712,\u001b[39m\n\u001b[32m-   23.29999926314281,\u001b[39m\n\u001b[31m+   -7.000000095609006,\u001b[39m\n\u001b[31m+   0.08509895803880126,\u001b[39m\n\u001b[31m+   23.29999918779817,\u001b[39m\n\u001b[2m  ]\u001b[22m\n\n  19 |   await page.keyboard.press('KeyF');expect((await snapshot()).active).toBe(false);await page.screenshot({path:info.outputPath(`flyover-clue-blocked-${width}.png`)});await page.locator('#discovery-close').click();await expect(reminder).toBeEnabled();\n  20 |   const before=await snapshot();await activate(reminder);await expect(page.locator('#flyover-land')).toBeVisible();await expect(page.locator('#flyover-toggle')).toHaveText('Return to player');await expect(reminder).toBeHidden();\n> 21 |   await hold('KeyE',350);await hold('KeyW',500);const flying=await snapshot();expect(flying.active).toBe(true);expect(flying.camera).not.toEqual(before.camera);expect(flying.actor).toEqual(before.actor);expect(flying.physical).toEqual(before.physical);\n     |                                                                                                                                                                                      ^\n  22 |   await page.screenshot({path:info.outputPath(`flyover-flying-${width}.png`)});await activate(page.locator('#flyover-toggle'));await expect(reminder).toBeVisible();expect((await snapshot()).active).toBe(false);expect((await snapshot()).actor).toEqual(before.actor);\n  23 |   await page.locator('#scene').focus();await page.keyboard.press('KeyF');await expect(page.locator('#flyover-land')).toBeVisible();await hold('KeyW',650);await page.keyboard.press('KeyL');await expect(reminder).toBeVisible();const landed=await snapshot();expect(landed.active).toBe(false);expect(landed.actor[1]).toBeLessThan(.6);expect(Math.abs(landed.actor[0]-landed.physical[0])).toBeLessThan(.03);expect(Math.abs(landed.actor[2]-landed.physical[2])).toBeLessThan(.03);\n  24 |   await hold('KeyW',350);const walking=await snapshot();expect(Math.hypot(walking.actor[0]-landed.actor[0],walking.actor[2]-landed.actor[2])).toBeGreaterThan(.3);await page.screenshot({path:info.outputPath(`flyover-landed-${width}.png`)});\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/visible-flyover-controls.spec.js:21:182"
+        }
+      ]
+    },
+    {
+      "id": "e11970386b675673473d-0424471bc27e3d93be93:chromium:0",
+      "file": "visible-flyover-controls.spec.js",
+      "titlePath": [
+        "visible Flyover controls 390",
+        "reminder, clue guard, pointer return, keyboard landing and safe rejection"
+      ],
+      "status": "failed",
+      "durationMs": 2956,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-first-2026-10-15T06-37-54-054Z-Wv56M5/browser-report.json",
+      "errors": [
+        {
+          "location": {
+            "file": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/visible-flyover-controls.spec.js",
+            "column": 182,
+            "line": 21
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[32m-   -7.000000000070744,\u001b[39m\n\u001b[32m-   0.08485603448601206,\u001b[39m\n\u001b[32m-   23.299999274128005,\u001b[39m\n\u001b[31m+   -7.000000095609006,\u001b[39m\n\u001b[31m+   0.08509895803879233,\u001b[39m\n\u001b[31m+   23.29999918779817,\u001b[39m\n\u001b[2m  ]\u001b[22m\n\n  19 |   await page.keyboard.press('KeyF');expect((await snapshot()).active).toBe(false);await page.screenshot({path:info.outputPath(`flyover-clue-blocked-${width}.png`)});await page.locator('#discovery-close').click();await expect(reminder).toBeEnabled();\n  20 |   const before=await snapshot();await activate(reminder);await expect(page.locator('#flyover-land')).toBeVisible();await expect(page.locator('#flyover-toggle')).toHaveText('Return to player');await expect(reminder).toBeHidden();\n> 21 |   await hold('KeyE',350);await hold('KeyW',500);const flying=await snapshot();expect(flying.active).toBe(true);expect(flying.camera).not.toEqual(before.camera);expect(flying.actor).toEqual(before.actor);expect(flying.physical).toEqual(before.physical);\n     |                                                                                                                                                                                      ^\n  22 |   await page.screenshot({path:info.outputPath(`flyover-flying-${width}.png`)});await activate(page.locator('#flyover-toggle'));await expect(reminder).toBeVisible();expect((await snapshot()).active).toBe(false);expect((await snapshot()).actor).toEqual(before.actor);\n  23 |   await page.locator('#scene').focus();await page.keyboard.press('KeyF');await expect(page.locator('#flyover-land')).toBeVisible();await hold('KeyW',650);await page.keyboard.press('KeyL');await expect(reminder).toBeVisible();const landed=await snapshot();expect(landed.active).toBe(false);expect(landed.actor[1]).toBeLessThan(.6);expect(Math.abs(landed.actor[0]-landed.physical[0])).toBeLessThan(.03);expect(Math.abs(landed.actor[2]-landed.physical[2])).toBeLessThan(.03);\n  24 |   await hold('KeyW',350);const walking=await snapshot();expect(Math.hypot(walking.actor[0]-landed.actor[0],walking.actor[2]-landed.actor[2])).toBeGreaterThan(.3);await page.screenshot({path:info.outputPath(`flyover-landed-${width}.png`)});\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/visible-flyover-controls.spec.js:21:182"
+        }
+      ]
+    },
+    {
+      "id": "a740e232a5a14862a3f0-515871acdecd050eae3b:chromium:0",
+      "file": "flyover.spec.js",
+      "titlePath": [
+        "flyover detaches, eases, records cleanly and restores exact prior camera and player state"
+      ],
+      "status": "passed",
+      "durationMs": 9365,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-corrected-2026-10-15T06-42-43-500Z-yPhVXH/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "a740e232a5a14862a3f0-d0db42d1aee077f2b2b8:chromium:0",
+      "file": "flyover.spec.js",
+      "titlePath": [
+        "focus-safe shortcuts, repeated entry and normal destinations remain available"
+      ],
+      "status": "passed",
+      "durationMs": 2411,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-corrected-2026-10-15T06-42-43-500Z-yPhVXH/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "a740e232a5a14862a3f0-3c0aa68e3ee7aed6decf:chromium:0",
+      "file": "flyover.spec.js",
+      "titlePath": [
+        "touch flyover",
+        "visible controls fit phone and altitude touch releases safely"
+      ],
+      "status": "passed",
+      "durationMs": 2338,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-corrected-2026-10-15T06-42-43-500Z-yPhVXH/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "bcbac3a57c44f8dc71fd-ceb1c470aecaddf3966a:chromium:0",
+      "file": "tour-landing-shortcuts.spec.js",
+      "titlePath": [
+        "safe roof landing and ordinary map/menu shortcuts keep arrivals outdoors"
+      ],
+      "status": "passed",
+      "durationMs": 2680,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-corrected-2026-10-15T06-42-43-500Z-yPhVXH/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "e11970386b675673473d-0984966b9cdbc7d372e1:chromium:0",
+      "file": "visible-flyover-controls.spec.js",
+      "titlePath": [
+        "visible Flyover controls 1280",
+        "reminder, clue guard, pointer return, keyboard landing and safe rejection"
+      ],
+      "status": "failed",
+      "durationMs": 3506,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-corrected-2026-10-15T06-42-43-500Z-yPhVXH/browser-report.json",
+      "errors": [
+        {
+          "location": {
+            "file": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/visible-flyover-controls.spec.js",
+            "column": 259,
+            "line": 22
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n  20 |   const before=await snapshot();await activate(reminder);await expect(page.locator('#flyover-land')).toBeVisible();await expect(page.locator('#flyover-toggle')).toHaveText('Return to player');await expect(reminder).toBeHidden();const entered=await page.evaluate(()=>window.__flyoverClickSnapshot);\n  21 |   await hold('KeyE',350);await hold('KeyW',500);const flying=await snapshot();expect(flying.active).toBe(true);expect(flying.camera).not.toEqual(entered.camera);expect(flying.actor).toEqual(entered.actor);expect(flying.physical).toEqual(entered.physical);\n> 22 |   await page.screenshot({path:info.outputPath(`flyover-flying-${width}.png`)});await activate(page.locator('#flyover-toggle'));await expect(reminder).toBeVisible();const returned=await page.evaluate(()=>window.__flyoverClickSnapshot);expect(returned.active).toBe(false);expect(returned.actor).toEqual(entered.actor);expect(returned.physical).toEqual(entered.physical);expect(returned.camera).toEqual(entered.camera);\n     |                                                                                                                                                                                                                                                                   ^\n  23 |   await page.locator('#scene').focus();await page.keyboard.press('KeyF');await expect(page.locator('#flyover-land')).toBeVisible();await hold('KeyW',650);await page.keyboard.press('KeyL');await expect(reminder).toBeVisible();const landed=await snapshot();expect(landed.active).toBe(false);expect(landed.actor[1]).toBeLessThan(.6);expect(Math.abs(landed.actor[0]-landed.physical[0])).toBeLessThan(.03);expect(Math.abs(landed.actor[2]-landed.physical[2])).toBeLessThan(.03);\n  24 |   await hold('KeyW',350);const walking=await snapshot();expect(Math.hypot(walking.actor[0]-landed.actor[0],walking.actor[2]-landed.actor[2])).toBeGreaterThan(.3);await page.screenshot({path:info.outputPath(`flyover-landed-${width}.png`)});\n  25 |   // Withhold the landing dependency only for this rejection branch; successful landings use real physics.\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/visible-flyover-controls.spec.js:22:259"
+        }
+      ]
+    },
+    {
+      "id": "e11970386b675673473d-0424471bc27e3d93be93:chromium:0",
+      "file": "visible-flyover-controls.spec.js",
+      "titlePath": [
+        "visible Flyover controls 390",
+        "reminder, clue guard, pointer return, keyboard landing and safe rejection"
+      ],
+      "status": "failed",
+      "durationMs": 2919,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-corrected-2026-10-15T06-42-43-500Z-yPhVXH/browser-report.json",
+      "errors": [
+        {
+          "location": {
+            "file": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/visible-flyover-controls.spec.js",
+            "column": 259,
+            "line": 22
+          },
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n  20 |   const before=await snapshot();await activate(reminder);await expect(page.locator('#flyover-land')).toBeVisible();await expect(page.locator('#flyover-toggle')).toHaveText('Return to player');await expect(reminder).toBeHidden();const entered=await page.evaluate(()=>window.__flyoverClickSnapshot);\n  21 |   await hold('KeyE',350);await hold('KeyW',500);const flying=await snapshot();expect(flying.active).toBe(true);expect(flying.camera).not.toEqual(entered.camera);expect(flying.actor).toEqual(entered.actor);expect(flying.physical).toEqual(entered.physical);\n> 22 |   await page.screenshot({path:info.outputPath(`flyover-flying-${width}.png`)});await activate(page.locator('#flyover-toggle'));await expect(reminder).toBeVisible();const returned=await page.evaluate(()=>window.__flyoverClickSnapshot);expect(returned.active).toBe(false);expect(returned.actor).toEqual(entered.actor);expect(returned.physical).toEqual(entered.physical);expect(returned.camera).toEqual(entered.camera);\n     |                                                                                                                                                                                                                                                                   ^\n  23 |   await page.locator('#scene').focus();await page.keyboard.press('KeyF');await expect(page.locator('#flyover-land')).toBeVisible();await hold('KeyW',650);await page.keyboard.press('KeyL');await expect(reminder).toBeVisible();const landed=await snapshot();expect(landed.active).toBe(false);expect(landed.actor[1]).toBeLessThan(.6);expect(Math.abs(landed.actor[0]-landed.physical[0])).toBeLessThan(.03);expect(Math.abs(landed.actor[2]-landed.physical[2])).toBeLessThan(.03);\n  24 |   await hold('KeyW',350);const walking=await snapshot();expect(Math.hypot(walking.actor[0]-landed.actor[0],walking.actor[2]-landed.actor[2])).toBeGreaterThan(.3);await page.screenshot({path:info.outputPath(`flyover-landed-${width}.png`)});\n  25 |   // Withhold the landing dependency only for this rejection branch; successful landings use real physics.\n    at /Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-admin-avatar/tests/e2e/visible-flyover-controls.spec.js:22:259"
+        }
+      ]
+    },
+    {
+      "id": "e11970386b675673473d-0984966b9cdbc7d372e1:chromium:0",
+      "file": "visible-flyover-controls.spec.js",
+      "titlePath": [
+        "visible Flyover controls 1280",
+        "reminder, clue guard, pointer return, keyboard landing and safe rejection"
+      ],
+      "status": "passed",
+      "durationMs": 4915,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-final-controls-2026-10-15T06-44-19-833Z-GZCjf1/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "e11970386b675673473d-0424471bc27e3d93be93:chromium:0",
+      "file": "visible-flyover-controls.spec.js",
+      "titlePath": [
+        "visible Flyover controls 390",
+        "reminder, clue guard, pointer return, keyboard landing and safe rejection"
+      ],
+      "status": "passed",
+      "durationMs": 4215,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-final-controls-2026-10-15T06-44-19-833Z-GZCjf1/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "a740e232a5a14862a3f0-3c0aa68e3ee7aed6decf:chromium:0",
+      "file": "flyover.spec.js",
+      "titlePath": [
+        "touch flyover",
+        "visible controls fit phone and altitude touch releases safely"
+      ],
+      "status": "passed",
+      "durationMs": 2643,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-282Z-SVKIho/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "e11970386b675673473d-0984966b9cdbc7d372e1:chromium:0",
+      "file": "visible-flyover-controls.spec.js",
+      "titlePath": [
+        "visible Flyover controls 1280",
+        "reminder, clue guard, pointer return, keyboard landing and safe rejection"
+      ],
+      "status": "passed",
+      "durationMs": 4790,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-282Z-SVKIho/browser-report.json",
+      "errors": []
+    },
+    {
+      "id": "e11970386b675673473d-0424471bc27e3d93be93:chromium:0",
+      "file": "visible-flyover-controls.spec.js",
+      "titlePath": [
+        "visible Flyover controls 390",
+        "reminder, clue guard, pointer return, keyboard landing and safe rejection"
+      ],
+      "status": "passed",
+      "durationMs": 4315,
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-282Z-SVKIho/browser-report.json",
+      "errors": []
+    }
+  ],
+  "reports": [
+    {
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-first-2026-10-15T06-37-54-054Z-Wv56M5/browser-report.json",
+      "sha256": "9318e54c89c7f3411951b5477cbb9b49582a3edc64a05c5b4a127b24a7d83bdf",
+      "stats": {
+        "startTime": "2026-10-15T06:37:54.057Z",
+        "duration": 136542.941,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 3,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-corrected-2026-10-15T06-42-43-500Z-yPhVXH/browser-report.json",
+      "sha256": "f5613eec626a2603a00845145e827072192ba9467a522f85660bfa6d8b51de22",
+      "stats": {
+        "startTime": "2026-10-15T06:42:43.503Z",
+        "duration": 26225.982,
+        "expected": 4,
+        "skipped": 0,
+        "unexpected": 2,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-final-controls-2026-10-15T06-44-19-833Z-GZCjf1/browser-report.json",
+      "sha256": "0fd4a3bbe8b1256dc24f37ef952141865b486a6bb9042e90c061e370e85d96d3",
+      "stats": {
+        "startTime": "2026-10-15T06:44:19.836Z",
+        "duration": 10001.38,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-282Z-SVKIho/browser-report.json",
+      "sha256": "b076febac46e797437c2f6d4ca7191efc5e2f6a19f1fe2b267d127edde45127e",
+      "stats": {
+        "startTime": "2026-10-15T06:47:32.285Z",
+        "duration": 12620.277,
+        "expected": 3,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    }
+  ],
+  "screenshots": [
+    {
+      "label": "desktop ready",
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/previews/desktop-ready.png",
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-646Z-1FJFRc/browser/visible-flyover-controls-v-b02dc--landing-and-safe-rejection-chromium/flyover-ready-1280.png",
+      "sha256": "70202c789f4eb42d2383842787d4cae60a0e7aaf5b33a27e59e6e49fc5de291b"
+    },
+    {
+      "label": "desktop flying",
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/previews/desktop-flying.png",
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-646Z-1FJFRc/browser/visible-flyover-controls-v-b02dc--landing-and-safe-rejection-chromium/flyover-flying-1280.png",
+      "sha256": "15f0e6bda475bf9aa7579ee697ba87860d715d315902876071a7a0774747219e"
+    },
+    {
+      "label": "desktop landed",
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/previews/desktop-landed.png",
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-646Z-1FJFRc/browser/visible-flyover-controls-v-b02dc--landing-and-safe-rejection-chromium/flyover-landed-1280.png",
+      "sha256": "0bec2c925f9a9d0c5bec9f8ab17c6ee082b37d53857b589f40c66c964e90793c"
+    },
+    {
+      "label": "desktop blocked",
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/previews/desktop-blocked.png",
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-646Z-1FJFRc/browser/visible-flyover-controls-v-b02dc--landing-and-safe-rejection-chromium/flyover-clue-blocked-1280.png",
+      "sha256": "35780e866329f3ae8aed6dc7d50098b0bb797b71f0de1b5193019a1183c9d94c"
+    },
+    {
+      "label": "mobile ready",
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/previews/mobile-ready.png",
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-646Z-1FJFRc/browser/visible-flyover-controls-v-dc28e--landing-and-safe-rejection-chromium/flyover-ready-390.png",
+      "sha256": "bd1cad43cbbf8a2cfb5d0a63603cf7b0e3349d8416c7af8bc77f8e0e62700a7c"
+    },
+    {
+      "label": "mobile flying",
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/previews/mobile-flying.png",
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-646Z-1FJFRc/browser/visible-flyover-controls-v-dc28e--landing-and-safe-rejection-chromium/flyover-flying-390.png",
+      "sha256": "2c22251fb15d16fd9dc595cb7ebf730860e6da8154eedae2b838c245e34419cf"
+    },
+    {
+      "label": "mobile landed",
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/previews/mobile-landed.png",
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-646Z-1FJFRc/browser/visible-flyover-controls-v-dc28e--landing-and-safe-rejection-chromium/flyover-landed-390.png",
+      "sha256": "7e44ed74bc9a32c0c9739c19186662f6a6bc72ce97b0fb3063a8f862f77520a1"
+    },
+    {
+      "label": "mobile blocked",
+      "path": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/previews/mobile-blocked.png",
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/browser-runs/ui-polished-2026-10-15T06-47-32-646Z-1FJFRc/browser/visible-flyover-controls-v-dc28e--landing-and-safe-rejection-chromium/flyover-clue-blocked-390.png",
+      "sha256": "a14c0fcf70814949c8a1362ccda4a3d25423055f122256cfdcb0e3d8c0db497a"
+    }
+  ],
+  "checks": {
+    "unitsPassed": 12,
+    "unitsFailed": 0,
+    "normalInventory": 245,
+    "old243IDsRetained": true,
+    "newUICases": 2,
+    "preservedExistingEvidence": 619,
+    "missingOrChanged": [],
+    "unchangedEntryGateAndLandCallbacks": true,
+    "unchangedFlyoverShortcutsAndLandController": true,
+    "unchangedAssetsMarketsAuthLandingWorldCharacters": true,
+    "sourceCheck": "Passed in prior isolated verified-Assets tree after verifying every dev-check input directory/script unchanged; changed playable modules separately node --check passed. Sparse working checkout unchanged.",
+    "normalInventoryRaw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/final-polished-inventory.json",
+    "stagedRelease": "Release verified: 284 exact asset hashes and 89 reachable local modules (index).",
+    "sourceCheckLog": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj/source-check-unchanged-inputs.log"
+  },
+  "limits": {
+    "fullBrowserSuiteRun": false,
+    "schoolHardwareQualified": false,
+    "softwareStartupOrMovementFixed": false,
+    "deployment": false,
+    "liveMerge": false,
+    "landingRejectionFixture": "Only the no-ground UI error branch injects an unavailable finder; keyboard and roof landing checks use actual world collision."
+  },
+  "freeGiB": 2.246,
+  "rawRoot": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/flyover-ui-2026-10-15T06-14-07-784Z-WOhYhj",
+  "sourceHashes": {
+    "playable-3d/app.js": "6f2fd061cfbecdfd65e15e9abc265badcd009cbcdce3fb0864ea1aebe334ffc1",
+    "playable-3d/flyover.js": "a1f4bc097167e36a127dda1dad1b53a73ce851891aea7133dc79d6b04fc6da51",
+    "playable-3d/flyover.css": "93ef1b25a08b10109f4ac9ad617836ad5920320aafa321b5bd749d938405a345",
+    "playable-3d/guest-shell.mjs": "dc3ca9999c5d1bf195e6bfd51c9cd52bda0c0feb24abec9616f80b91a02e02a1",
+    "playable-3d/index.html": "ac11cff052fe25b555479653e8758589c7f63960e6c1b6f31b1cab643813e5a5",
+    "playable-3d/release-manifest.json": "b37f4861058078c57421207cc0fef533ed181e7964336002f02833dc39fd018a",
+    "tests/e2e/flyover.spec.js": "216ae39a0dc914cd254a30cbd453397c41c6f9fc5a0e58ff5abcb7a6d3dd2f16",
+    "tests/e2e/visible-flyover-controls.spec.js": "a8e459804bb0f124fc23592befb54a07bc5b189ad0500e4e63bac24d80b1495b"
+  }
+}

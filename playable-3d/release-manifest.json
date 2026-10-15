@@ -1,8 +1,8 @@
 {
-  "release": "markets-combined-controls-repair-20261015",
+  "release": "visible-flyover-controls-20261015",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "423d2ab590285eeb87ab38f675ff4a9df1e2852e",
-  "scope": "Isolated follow-up to combined recheck25b378d: freeze navigation while paused; retain current published Market curriculum, yaw and original assets. Focused UI readiness/route harness repairs; opening/passcode excluded. No merge/deployment.",
+  "baseCommit": "4be9050c7afb3b6b73151c530e730b52c257ecd5",
+  "scope": "Separate UI candidate: visible Flyover F above movement, Land L while flying and contextual blocked-state help. Native repair baseline retained; no 3D artwork, movement, landing, opening/password or Market behavior changes. No deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "740069e160a8ac85083130423fd12ad09508cd303fcf01082be1aa978bce25f6"
+      "sha256": "6f2fd061cfbecdfd65e15e9abc265badcd009cbcdce3fb0864ea1aebe334ffc1"
     },
     {
       "path": "arcade-carnival.js",
@@ -826,11 +826,11 @@
     },
     {
       "path": "flyover.css",
-      "sha256": "4caf8a41b1ccafd9b11520c3c840c279b15ac0f9927736a1632c3cbac444d7d3"
+      "sha256": "93ef1b25a08b10109f4ac9ad617836ad5920320aafa321b5bd749d938405a345"
     },
     {
       "path": "flyover.js",
-      "sha256": "82faae128e8dbd94de8c4ac1487b200bb770d1d9a3b63a1443320714a779ecdb"
+      "sha256": "a1f4bc097167e36a127dda1dad1b53a73ce851891aea7133dc79d6b04fc6da51"
     },
     {
       "path": "frame-budget.mjs",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "00f2869aa21c8cc19b4abb7b3809a27f2b456c094b3981d968581cb85aaa1a39"
+      "sha256": "dc3ca9999c5d1bf195e6bfd51c9cd52bda0c0feb24abec9616f80b91a02e02a1"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "59a8dafa65e6e59b39819b2f83c11211eab0c0762d2261c1ffc10da814742f2c"
+      "sha256": "ac11cff052fe25b555479653e8758589c7f63960e6c1b6f31b1cab643813e5a5"
     },
     {
       "path": "initiative-field-guide.html",
