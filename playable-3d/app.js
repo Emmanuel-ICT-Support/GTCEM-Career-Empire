@@ -1,8 +1,8 @@
 import {estEyeHeight,estPlayTop} from './est-camera.mjs?v=broad-integrated-20261014';
 import {MARKET_APPROACH} from './landing.mjs?v=post-photo-tour-20261013';
 import {isAdminPreview,adminPreviewURL,createPreviewStorage} from './admin-preview.mjs?v=admin-preview-20261013';
-import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=changed-view-upload-priority-20261016';
-import {needsSoftwarePresentation,createSoftwarePresentation} from './software-presentation.mjs?v=changed-view-upload-priority-20261016';
+import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=player-pose-upload-priority-20261016';
+import {needsSoftwarePresentation,createSoftwarePresentation} from './software-presentation.mjs?v=player-pose-upload-priority-20261016';
 import {renderQuality,rendererName} from './render-quality.mjs?v=ecc-ba60122';
 import {waitForPriorityAsset,withAssetDeadline,canClearDetailWarning} from './startup-assets.mjs?v=ecc-ba60122';
 import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=initiative-arcade-20261014';
@@ -42,7 +42,7 @@ const gameSession=window.CareerEmpireGameRun;
 const gameStorage=adminReviewRequested?createPreviewStorage():(gameSession?.storage||localStorage);
 const state=loadProfiles(isolatedDiscovery?reviewProfiles:gameStorage);
 let discovery=null,intro=null,explorationTools=null,revealCameraStart=null;
-let frameGate,surfaceUploads,softwarePresentation,portraitCapturePending=false;
+let frameGate,surfaceUploads,softwarePresentation,portraitCapturePending=false,lastUploadWorldPose=null;
 let softwareNavigationAt=null;
 let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flourishing',draft,editorTab='identity';
 let wardrobeSection='pants';
@@ -752,7 +752,8 @@ function canStepNavigation(){
   return !flyover?.active&&(mode!=='town'||entryReady)&&!marketOpening&&!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open();
 }
 function softwareMovementActive(){return canStepNavigation()&&(keys.size>0||joystick.x!==0||joystick.z!==0);}
-function softwareWorldActive(){return !document.hidden&&!intro?.open()&&!explorationTools?.preparing()&&(mode==='studio'||flyover?.active||(canStepNavigation()&&(softwareMovementActive()||lastPausedSceneStamp!==sceneViewStamp(activeScene()))));}
+function uploadWorldPose(){return [mode,actor.model.uuid,...actor.model.position.toArray().map(v=>+v.toFixed(3)),+actor.model.rotation.y.toFixed(3)].join('|');}
+function softwareWorldActive(){return !document.hidden&&!intro?.open()&&!explorationTools?.preparing()&&(mode==='studio'||flyover?.active||(entryReady&&(softwareMovementActive()||lastUploadWorldPose!==uploadWorldPose())));}
 function stepNavigation(elapsed){
   if(tapMovement){if(performance.now()<tapMovement.until)keys.add(tapMovement.key);else{keys.delete(tapMovement.key);tapMovement=null;}}
   let x=(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0),z=(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-(keys.has('KeyW')||keys.has('ArrowUp')?1:0);
@@ -861,7 +862,7 @@ function animate(){
   renderer.shadowMap.needsUpdate=qualityChanged||playerShadowChanged||$('quality').value!=='auto'||shadowScene!==scene||(renderer.shadowMap.enabled&&now-shadowTime>=((mode!=='town'||keys.size||joystick.x||joystick.z||flyover?.active||teachers.length)?.1:.5));
   if(renderer.shadowMap.needsUpdate){shadowScene=scene;shadowTime=now;shadowActor=actor;shadowActorPosition.copy(actor.model.position);shadowActorYaw=actor.model.rotation.y;}
   // A bounded warm frame prevents first-use texture/shader work at video EOF.
-  const renderStarted=performance.now();renderer.render(scene,camera);lastPausedSceneStamp=frameStamp;lastRenderMs=performance.now()-renderStarted;frameGate.submitted();surfaceUploads.worldSubmitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
+  const renderStarted=performance.now();renderer.render(scene,camera);lastPausedSceneStamp=frameStamp;lastRenderMs=performance.now()-renderStarted;frameGate.submitted();lastUploadWorldPose=uploadWorldPose();surfaceUploads.worldSubmitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
   if(!canvas.dataset.firstFrameMs)canvas.dataset.firstFrameMs=String(Math.round(performance.now()));
   publishDiagnostics(now,true);
 }
