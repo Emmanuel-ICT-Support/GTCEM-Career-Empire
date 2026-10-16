@@ -63,3 +63,26 @@ jobs:
           name: targeted-${{ matrix.group }}
           path: coverage/
           retention-days: 3
+
+  software-compatibility:
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --config qa/ecc-software-compatibility.playwright.config.mjs --workers=1 --retries=0 --reporter=line,json
+        env:
+          CE_BROWSER_CHANNEL: chromium
+          CE_COLD_SHADERS: '1'
+          CE_RECOVERY_DRAWS: '0'
+          CE_TEST_OUTPUT: coverage/runtime-software-compatibility/browser
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/runtime-software-compatibility/browser-report.json
+      - if: always()
+        run: node scripts/runtime-lane-report.mjs coverage/runtime-software-compatibility/runtime-lanes.json coverage/runtime-software-compatibility/browser-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: targeted-software-compatibility, path: coverage/runtime-software-compatibility/, retention-days: 3}
