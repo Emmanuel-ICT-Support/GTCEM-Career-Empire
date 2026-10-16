@@ -61,6 +61,7 @@ test('a failed optional surface retries without replacing complete entry landsca
  fail=false;await page.locator('#campus-retry').click();await expect.poll(async()=>(await state(page)).entryReady,{timeout:60000}).toBe(true);
  await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();await expect.poll(async()=>(await state(page)).campusReady,{timeout:60000}).toBe(true);
  const final=await page.evaluate(()=>window.finishedMaterials());expect(final.groups).toBe(1);expect(final.materials.length).toBeGreaterThan(0);
+ console.log('FINAL_MATERIALS',JSON.stringify({final,state:await state(page)}));
  // Geometry readiness intentionally precedes optional texture hydration.
  await expect.poll(async()=>(await page.evaluate(()=>window.finishedMaterials())).materials.every(row=>row.every(size=>size>1))).toBe(true);
 });
