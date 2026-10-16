@@ -1,8 +1,8 @@
 {
-  "release": "software-depth-prepass-20261016",
+  "release": "software-instance-bake-20261016",
   "gameUrl": "/playable-3d/",
   "baseCommit": "1442d29d33db4ae4a092a1afd42207ef639c82e0",
-  "scope": "Candidate: software-only opaque depth prepass using original vertex hooks and alpha cutouts before unchanged colour rendering. Original geometry path restored; every object/material/triangle, resolution, camera and frame requirement retained. Pixel equivalence and strict timing verification pending; no deployment.",
+  "scope": "Candidate: software-only CPU baking of original static instance transforms; every triangle, instance, material, attribute and LOD retained. Dynamic/character/native paths and original camera, resolution and strict frame thresholds unchanged. Pixel and timing verification pending; no deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "0380a07f5424aca4066dd4995dffb6abb3dbaae754122a4ca3cbce0aacc653f2"
+      "sha256": "c19d5b6e9dd908ac69878086866629330dbdd33c90ec8d5dce01709cd80e5551"
     },
     {
       "path": "arcade-carnival.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "645281f6cf310f2fcf1283d8d4384a80036cd67708ece871bf6e3e4b1e9e010d"
+      "sha256": "45299d8e503852b6f9e9e3013b77a63a0625bf103edd3c4ba7966c208b8e1b40"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "f533b261a45d3bbcd437d1a79ca3457ff890a288e82ac20d0c1833f54a8bc0a7"
+      "sha256": "44d7e3f6e4a76179eeb2771aa1b51116cc83c730862bf9aab98c2b5876f4bfd5"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1145,8 +1145,12 @@
       "sha256": "ad8afaca4bf51044cec04b20a4cad0e3562f6901f1c5ba408c061f7d31b1451d"
     },
     {
-      "path": "software-depth-pass.mjs",
-      "sha256": "e111b254f766a5bc4c2f38100ed50e1a41a4e0198b11935d39efc43e7b27b294"
+      "path": "environment/exact-index.mjs",
+      "sha256": "4ffd8c07c1d4bb5cc14da1f3e4a9889414208ad0798420197b9fe83582b5894e"
+    },
+    {
+      "path": "software-static-instances.mjs",
+      "sha256": "47c1d4498c453d683ad0cee0df234814ebded626d925e024db89c4422e094ee0"
     }
   ],
   "estVideo": {

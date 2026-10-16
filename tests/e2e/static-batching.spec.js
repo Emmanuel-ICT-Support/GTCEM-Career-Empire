@@ -20,6 +20,7 @@ test('static batches retain world geometry, material identity and transparent su
   return {vertices:[before.length,after.length],error,meshes:batched.children.length,materials:batched.children.every(m=>m.material===opaque||m.material===glass),transparent:batched.children.filter(m=>m.material===glass).length,expected,actual,bounds:group.children.every(o=>o.boundingSphere?.radius>0),states:group.children.every(o=>o.name===plant.name&&o.castShadow&&o.receiveShadow)};
  });
  expect(r.vertices[0]).toBe(r.vertices[1]);expect(r.error).toBeLessThan(.00001);expect(r.meshes).toBe(2);expect(r.materials).toBe(true);expect(r.transparent).toBe(1);expect(r.actual).toEqual(r.expected);expect(r.bounds).toBe(true);expect(r.states).toBe(true);
+ if(process.env.CE_DEPTH_PIXEL_PROOF==='1'){
  const shaderErrors=[];page.on('console',message=>{if(message.type()==='error')shaderErrors.push(message.text());});
  const parity=await page.evaluate(async()=>{
   const T=await import('three'),{createSoftwareDepthPass}=await import('/playable-3d/software-depth-pass.mjs');const renderer=new T.WebGLRenderer({antialias:true});renderer.setSize(128,96);renderer.autoClear=false;renderer.setClearColor(0xb4d4df,1);const target=new T.WebGLRenderTarget(128,96,{samples:4});renderer.setRenderTarget(target);
@@ -31,5 +32,15 @@ test('static batches retain world geometry, material identity and transparent su
   const originals=[];scene.traverse(o=>{if(o.isMesh)originals.push([o,o.material]);});const before=new Uint8Array(128*96*4),after=new Uint8Array(before.length);renderer.clear();renderer.render(scene,camera);renderer.readRenderTargetPixels(target,0,0,128,96,before);renderer.clear();createSoftwareDepthPass(renderer,T,true).render(scene,camera);renderer.render(scene,camera);renderer.readRenderTargetPixels(target,0,0,128,96,after);let changed=0,colourful=0;for(let i=0;i<before.length;i+=4){if(before.slice(i,i+4).some((v,j)=>v!==after[i+j]))changed++;if(before[i]!==before[0]||before[i+1]!==before[1]||before[i+2]!==before[2])colourful++;}return {changed,colourful,restored:originals.every(([o,m])=>o.material===m)};
  });
  expect(parity.changed).toBe(0);expect(parity.colourful).toBeGreaterThan(2000);expect(parity.restored).toBe(true);expect(shaderErrors).toEqual([]);console.log('DEPTH_PIXEL_EQUIVALENCE',JSON.stringify(parity));
+
+ }
+
+ const baked=await page.evaluate(async()=>{
+  const T=await import('three'),{bakeStaticInstances}=await import('/playable-3d/software-static-instances.mjs');const renderer=new T.WebGLRenderer({antialias:true});renderer.setSize(128,96);renderer.autoClear=false;renderer.setClearColor(0xb4d4df,1);const target=new T.WebGLRenderTarget(128,96,{samples:4});renderer.setRenderTarget(target);const scene=new T.Scene(),camera=new T.PerspectiveCamera(45,128/96,.1,30);camera.position.set(0,2,7);camera.lookAt(0,0,0);scene.add(new T.HemisphereLight(0xffffff,0x334433,2));const light=new T.DirectionalLight(0xffffff,3);light.position.set(2,4,3);scene.add(light);
+  const boxes=new T.InstancedMesh(new T.BoxGeometry(1,2,1),new T.MeshStandardMaterial({color:0xb99c69,roughness:.6}),3);for(let i=0;i<3;i++)boxes.setMatrixAt(i,new T.Matrix4().makeTranslation((i-1)*2,0,0));scene.add(boxes);
+  const data=new Uint8Array(4*4*4);for(let i=0;i<16;i++)data.set([200,55,25,i%2?255:0],i*4);const texture=new T.DataTexture(data,4,4);texture.needsUpdate=true;const cutouts=new T.InstancedMesh(new T.PlaneGeometry(1.5,2),new T.MeshStandardMaterial({map:texture,alphaTest:.5,side:T.DoubleSide}),2);for(let i=0;i<2;i++)cutouts.setMatrixAt(i,new T.Matrix4().makeTranslation(i*2-1,0,1));scene.add(cutouts);const glass=new T.Mesh(new T.SphereGeometry(.6,12,8),new T.MeshStandardMaterial({color:0x77bbff,transparent:true,opacity:.4,side:T.DoubleSide}));glass.position.set(-1,.2,1.5);scene.add(glass);
+  const before=new Uint8Array(128*96*4),after=new Uint8Array(before.length);renderer.clear();renderer.render(scene,camera);renderer.readRenderTargetPixels(target,0,0,128,96,before);const stats=await bakeStaticInstances(scene,{yieldFrame:async()=>{}});renderer.clear();renderer.render(scene,camera);renderer.readRenderTargetPixels(target,0,0,128,96,after);let changed=0,colourful=0;for(let i=0;i<before.length;i+=4){if(before.slice(i,i+4).some((v,j)=>v!==after[i+j]))changed++;if(before[i]!==before[0]||before[i+1]!==before[1]||before[i+2]!==before[2])colourful++;}return {stats,changed,colourful,glassRetained:glass.parent===scene};
+ });
+ console.log('STATIC_BAKE_PIXEL_EQUIVALENCE',JSON.stringify(baked));expect(baked.changed).toBe(0);expect(baked.colourful).toBeGreaterThan(1000);expect(baked.stats.instances).toBe(5);expect(baked.stats.triangles).toBe(40);expect(baked.glassRetained).toBe(true);
 
 });

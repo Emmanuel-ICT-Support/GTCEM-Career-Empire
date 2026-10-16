@@ -1,5 +1,5 @@
 name: Two-case suit rendering diagnostic
-run-name: Software depth equivalence probe 7 at ${{ github.sha }}
+run-name: Software static instance baking probe 8 at ${{ github.sha }}
 'on':
   push:
     branches: [repair/targeted-recovery-20261015]
