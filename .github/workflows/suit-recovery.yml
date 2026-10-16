@@ -1,5 +1,5 @@
 name: Two-case suit rendering diagnostic
-run-name: Opaque depth ordering probe 5 at ${{ github.sha }}
+run-name: Complete static world vertex reuse probe 6 at ${{ github.sha }}
 'on':
   push:
     branches: [repair/targeted-recovery-20261015]

@@ -1,8 +1,8 @@
 {
-  "release": "opaque-depth-order-20261016",
+  "release": "world-exact-vertex-reuse-20261016",
   "gameUrl": "/playable-3d/",
   "baseCommit": "1442d29d33db4ae4a092a1afd42207ef639c82e0",
-  "scope": "Candidate: software-only front-to-back opaque ordering plus exact vertex reuse/conservative spatial bounds. All original content, materials, triangle data, resolution, camera and thresholds retained; native and transparent sorting unchanged.",
+  "scope": "Candidate: software handover indexes byte-identical original static vertices, with all triangle/attribute data retained. Skinned/morph meshes, original ordering, resolution, trees, materials, camera and strict timings preserved. Rejected opaque-sort helper retained inactive; no deletion or deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "077f81e3d86a924a36737fb2f95900d2d263d94c3d6ae362709c0b76f4f30fb0"
+      "sha256": "0d5315716a1de6edde8692d8a733021d039991ff9eeb794d38e4d671d2c87ca9"
     },
     {
       "path": "arcade-carnival.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "610d33a1adff1d99ad5bcd9fded0301691eb37c9ff1dd7b1b14b70372b5aaef8"
+      "sha256": "1afb19b413c6a70868d654ff6a65a9a976fe2cd3122ac8674fc3e8fa0eebe97c"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "2bd9aacecd85771e07bef052e12b1bf300a352210afdeb77ed4f32b7a8a22b53"
+      "sha256": "330c9fc2e99a567367beba840b1c2b16f4a81a2c108e2cf2b2d5927369cea081"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1146,7 +1146,7 @@
     },
     {
       "path": "environment/exact-index.mjs",
-      "sha256": "ddffe2702ce7b1012d4e37e096ec1135e2386f7b6f2a7c73e859d68cebdbfd97"
+      "sha256": "4ffd8c07c1d4bb5cc14da1f3e4a9889414208ad0798420197b9fe83582b5894e"
     },
     {
       "path": "opaque-depth-sort.mjs",

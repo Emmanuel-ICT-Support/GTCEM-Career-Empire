@@ -18,3 +18,9 @@ export function indexExactVertices(geometry){
  }
  geometry.setIndex(indices);return geometry;
 }
+
+export function indexStaticWorld(root){
+ const seen=new Set(),stats={geometries:0,verticesBefore:0,verticesAfter:0};
+ root.traverse(mesh=>{const geometry=mesh.geometry;if(!mesh.isMesh||mesh.isSkinnedMesh||!geometry||seen.has(geometry))return;seen.add(geometry);if(geometry.index)return;const before=geometry.attributes.position?.count||0;indexExactVertices(geometry);stats.geometries++;stats.verticesBefore+=before;stats.verticesAfter+=geometry.attributes.position?.count||0;});
+ return stats;
+}
