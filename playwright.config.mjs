@@ -28,6 +28,7 @@ export default defineConfig({
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
+        channel: process.env.CE_BROWSER_CHANNEL,
         // Keep real game graphics on the Mac's native renderer, including older tests.
         launchOptions: {args:process.platform==='darwin'?['--use-angle=metal']:[]}
       }

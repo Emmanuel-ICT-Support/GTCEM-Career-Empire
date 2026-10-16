@@ -28,6 +28,7 @@ for(const [width,slow] of [[1280,false],[390,false],[1280,true]])test(`player tr
  await page.goto('/playable-3d/?review=1',{waitUntil:'domcontentloaded'});
  await page.waitForFunction(()=>window.travelProbe?.actor&&!travelProbe.actor.model.userData.fallback);
  await page.waitForFunction(()=>JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}').entryReady,{timeout:90000});
+ if(detailed){const browserSession=await page.context().browser().newBrowserCDPSession();const system=await browserSession.send('SystemInfo.getInfo');await info.attach('movement-browser-system',{body:JSON.stringify(system),contentType:'application/json'});await browserSession.detach();}
  const cdp=detailed?await page.context().newCDPSession(page):null;if(cdp){await cdp.send('Profiler.enable');await cdp.send('Profiler.start');if(width===1280&&!slow)await cdp.send('Tracing.start',{categories:'toplevel,devtools.timeline,blink,cc,gpu,viz,disabled-by-default-gpu.service',transferMode:'ReturnAsStream'});}
  await page.evaluate(()=>window.startTravelEvidence());
  const measure=async(run=false)=>page.evaluate(async run=>{
