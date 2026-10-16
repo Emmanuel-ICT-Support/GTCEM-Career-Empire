@@ -19,8 +19,8 @@ export function createSoftwarePresentation(canvas,enabled,document=globalThis.do
  frame.id='software-world-frame';frame.setAttribute('aria-hidden','true');
  Object.assign(frame.style,{position:'absolute',inset:'0',width:'100%',height:'100%',pointerEvents:'none'});
  canvas.before(frame);canvas.style.opacity='0';canvas.dataset.presentation='completed-frame';
- return {present(){
+ return {present(frameNumber){
   if(frame.width!==canvas.width||frame.height!==canvas.height){frame.width=canvas.width;frame.height=canvas.height;}
-  context.drawImage(canvas,0,0);frame.dataset.presented='true';
+  context.drawImage(canvas,0,0);frame.dataset.presented='true';canvas.dataset.presentedFrame=String(frameNumber);
  }};
 }

@@ -7,7 +7,7 @@ export function createGpuFrameGate(renderer,enabled=false,onComplete=()=>{}){
   if(!fence)return true;
   const status=gl.clientWaitSync(fence,0,0);
   if(status===gl.TIMEOUT_EXPIRED)return false;
-  gl.deleteSync(fence);fence=null;completedFrame=submittedFrame;if(presentFrame)onComplete();return true;
+  gl.deleteSync(fence);fence=null;completedFrame=submittedFrame;if(presentFrame)onComplete(completedFrame);return true;
  }
  // Leave consecutive browser animation ticks free for layout/input after a
  // slow GPU finishes. Asset uploads and requested captures can still use ready().

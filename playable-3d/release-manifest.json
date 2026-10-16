@@ -1,8 +1,8 @@
 {
-  "release": "entry-travel-frame-20261016",
+  "release": "input-and-mode-recovery-20261016",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "5e8459363064cacb3924775d32d91202c113911e",
-  "scope": "Candidate: present complete software WebGL frames through a 2D display after the existing GPU fence; preserve original rendered pixels, native rendering, gameplay and limits. Hosted validation pending; no deployment.",
+  "baseCommit": "5d7cc82be9ce34b77a1b39669418f988dd652cd6",
+  "scope": "Candidate: completed software-frame presentation, correct loading-overlay ownership, key-intent settlement within the original catch-up cap, and disabled-map idle reuse. Original visuals, native rendering, geometry, gates, saves and meaningful thresholds retained. Wider hosted validation pending; no deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "7c7da66185e25ba2e8bcdd7c846168d5c375d662be2ee563302006c0f746bb22"
+      "sha256": "ce4765184e6022c755ec40d35b99e78f9d55ffd42cf6cfd190c4769144a95163"
     },
     {
       "path": "arcade-carnival.js",
@@ -834,7 +834,7 @@
     },
     {
       "path": "frame-budget.mjs",
-      "sha256": "ed402421a988260331be2d3f24c1b37c46307250bf3ddab6a63de5fe63d2f60e"
+      "sha256": "b3cc310fb1237f91ea95423e2b5883ecc9b4b033e49d3c1c7328ad6c22d6035e"
     },
     {
       "path": "game-session.mjs",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "4f0fbb02e631f79a6478d922e4702e1a2ba0dda38af4bccfef1e1ab973dbb0bf"
+      "sha256": "e3959c483874ba7210b4ca1639131638323f9bc44c73e913d044fbc0bd189d5f"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "976e745374e6136f2aba576deef78fe2d9a3618cd3a841f0b4f2c897410db294"
+      "sha256": "bfdb6681b56e7327e6b966a5817b029613f98f44411d56383dfa54565f2371fc"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1018,7 +1018,7 @@
     },
     {
       "path": "software-presentation.mjs",
-      "sha256": "b435ca529ef7f0febea7b0b52be5c72088b46ef78e1b7f573431e7427a8848d6"
+      "sha256": "781ab7d99ccf7a07ab19f379982fba7ec51b302ab6b44f4acf3c92da48069f8c"
     },
     {
       "path": "startup-assets.mjs",

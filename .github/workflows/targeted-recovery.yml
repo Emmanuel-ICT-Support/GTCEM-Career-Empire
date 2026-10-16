@@ -41,6 +41,10 @@ jobs:
             expected: 3
             files: tests/e2e/guest-first.spec.js tests/e2e/guidance.spec.js tests/e2e/navigation-map.spec.js
             grep: 'full natural intro hands over|none at 1280: no models|active Chapel doorway checkpoint'
+          - group: wider
+            expected: 12
+            files: tests/e2e/curriculum-loading.spec.js tests/e2e/first-play.spec.js tests/e2e/startup-campus-entry.spec.js tests/e2e/startup-costs.spec.js tests/e2e/suit-flicker.spec.js tests/e2e/whole-characters.spec.js
+            grep: 'curriculum rooms remain accessible|a failed optional surface retries|video to complete exterior|measure complete campus handover costs|playable suit shadows|named characters:|simulated phone: optional Studio|saved test character remains|failed saved main model leaves'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

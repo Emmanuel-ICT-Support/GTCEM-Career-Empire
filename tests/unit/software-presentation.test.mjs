@@ -13,14 +13,14 @@ test('native rendering keeps the original visible canvas and creates no display 
 test('only a completed software fence presents the original full-size pixels once',()=>{
  const d=display(),presentation=createSoftwarePresentation(d.canvas,true,d.document);let complete=false;
  const gl={TIMEOUT_EXPIRED:1,SYNC_GPU_COMMANDS_COMPLETE:3,fenceSync:()=>({}),flush(){},clientWaitSync:()=>complete?2:1,deleteSync(){}};
- const gate=createGpuFrameGate({getContext:()=>gl},true,()=>presentation.present());
+ const gate=createGpuFrameGate({getContext:()=>gl},true,frame=>presentation.present(frame));
  gate.submitted();expect(gate.ready()).toBe(false);expect(d.copies).toHaveLength(0);complete=true;expect(gate.ready()).toBe(true);expect(d.copies).toEqual([[d.canvas,0,0]]);expect([d.frame.width,d.frame.height]).toEqual([640,422]);
- gate.ready();expect(d.copies).toHaveLength(1);expect(d.canvas.style.opacity).toBe('0');expect(d.frame.style.pointerEvents).toBe('none');expect(d.frame.dataset.presented).toBe('true');
+ gate.ready();expect(d.copies).toHaveLength(1);expect(d.canvas.style.opacity).toBe('0');expect(d.frame.style.pointerEvents).toBe('none');expect(d.frame.dataset.presented).toBe('true');expect(d.canvas.dataset.presentedFrame).toBe('1');
 });
 test('portrait submissions do not replace the displayed world and resize waits for a complete world frame',()=>{
  const d=display(),presentation=createSoftwarePresentation(d.canvas,true,d.document);
  const gl={TIMEOUT_EXPIRED:1,SYNC_GPU_COMMANDS_COMPLETE:3,fenceSync:()=>({}),flush(){},clientWaitSync:()=>2,deleteSync(){}};
- const gate=createGpuFrameGate({getContext:()=>gl},true,()=>presentation.present());gate.submitted(false);gate.ready();expect(d.copies).toHaveLength(0);
+ const gate=createGpuFrameGate({getContext:()=>gl},true,frame=>presentation.present(frame));gate.submitted(false);gate.ready();expect(d.copies).toHaveLength(0);
  d.canvas.width=195;d.canvas.height=390;gate.submitted();gate.ready();expect([d.frame.width,d.frame.height]).toEqual([195,390]);expect(d.copies).toHaveLength(1);
 });
 test('unavailable 2D presentation leaves the working WebGL canvas visible',()=>{

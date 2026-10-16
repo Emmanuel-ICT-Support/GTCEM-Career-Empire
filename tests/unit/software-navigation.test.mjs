@@ -21,7 +21,7 @@ function harness(){
  const c=vm.createContext({softwareNavigationAt:0,clock:{getElapsedTime:()=>now},performance:{now:()=>now*1000},camera:{},detailFailed:false,requestAnimationFrame:()=>{},lastTime:0,publishDiagnostics:()=>observations++,updateEntryLoading:()=>{},document:{get hidden(){return Boolean(flags.hidden);},querySelectorAll:()=>[]},frames:0,renderedFrames:7,metricsTime:0,orientationTour:null,flyover:{get active(){return Boolean(flags.flyover);},refresh(){}},feedbackOpen:()=>Boolean(flags.feedback),mode:'town',entryReady:true,marketOpening:false,intro:{open:()=>Boolean(flags.intro)},discovery:{open:()=>clue||Boolean(flags.clue),reduced:()=>false,update:(mode,p,dt)=>{if(flags.parcel&&p.z<=22)clue=true;expect(dt).toBe(0);}},marketDialogOpen:()=>Boolean(flags.marketDialog),watchingEST:false,$:id=>({hidden:id==='module-overlay'?!flags.module:true,open:id==='reflection-dialog'&&Boolean(flags.reflection)}),explorationMenuOpen:()=>Boolean(flags.options),helperPicker:{open:()=>Boolean(flags.picker)},echo:{open:()=>Boolean(flags.echo)},tapMovement:null,keys,joystick:{x:0,z:0,reset(){}},drag:null,locomotion:createLocomotion(),accumulator:0,STEP,accumulateTravelTime,turnTowards,yaw:0,teachers:[],renderMotion:null,actor:{model:{position,rotation:{y:0}},setWalking(){},update:dt=>gaitSeconds+=dt},worlds:{move:(space,delta)=>{steps++;physical.x+=delta.x;physical.z+=delta.z;return physical;},update(){},scenery:{status:'ready'}},space:()=>false,campusReady:true,marketTravelCooldownUntil:0,prepareNextTask(){},updateInteraction(){},updateMission(){}});
  vm.runInContext(reset+'\n'+helpers+'\n'+frame,c);
  const tick=(t,draw=false)=>{now=t;if(draw)c.animate();else c.advanceSoftwareNavigation();};
- return {c,flags,tick,position,keys,get steps(){return steps;},get gaitSeconds(){return gaitSeconds;},get observations(){return observations;},get clue(){return clue;}};
+ return {c,flags,tick,setTime:t=>now=t,position,keys,get steps(){return steps;},get gaitSeconds(){return gaitSeconds;},get observations(){return observations;},get clue(){return clue;}};
 }
 test('accepted walking advances through a stalled canvas without inventing rendered frames',()=>{
  const h=harness();for(let ms=16;ms<1800;ms+=16)h.tick(ms/1000);h.tick(1.8);
@@ -56,3 +56,13 @@ for(const guard of ['entry','opening','studio','intro','clue','hidden','feedback
  for(let ms=16;ms<=1000;ms+=16)h.tick(ms/1000);
  expect(h.steps).toBe(0);expect(h.position.z).toBe(23.3);expect(h.c.renderedFrames).toBe(7);
 });
+
+function releaseHandler(h){let handler;h.c.window={addEventListener:(name,fn)=>{handler=fn;}};const start=app.indexOf("window.addEventListener('keyup'");const end=app.indexOf("window.addEventListener('blur'",start);vm.runInContext(app.slice(start,end),h.c);return handler;}
+test('software key release settles the real held interval before removing intent, without extra frames',()=>{
+ const h=harness(),release=releaseHandler(h);h.tick(.016);h.setTime(.6);release({code:'KeyW'});expect(23.3-h.position.z).toBeGreaterThan(.2);expect(h.steps).toBeLessThanOrEqual(30);expect(h.keys.has('KeyW')).toBe(false);expect(h.c.renderedFrames).toBe(7);
+});
+test('release settlement preserves paused guards and the unchanged half-second catch-up cap',()=>{
+ const paused=harness(),releasePaused=releaseHandler(paused);paused.flags.options=true;paused.setTime(5);releasePaused({code:'KeyW'});expect(paused.steps).toBe(0);
+ const h=harness(),release=releaseHandler(h);h.setTime(5);release({code:'KeyW'});expect(h.steps).toBeLessThanOrEqual(30);expect(23.3-h.position.z).toBeLessThan(1.5);
+});
+test('native key release retains the existing frame-only timing path',()=>{const h=harness();h.c.softwareNavigationAt=null;const release=releaseHandler(h);h.setTime(.6);release({code:'KeyW'});expect(h.steps).toBe(0);expect(h.keys.has('KeyW')).toBe(false);});

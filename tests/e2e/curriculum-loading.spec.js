@@ -1,5 +1,6 @@
 import {writeFile} from 'node:fs/promises';
 import {test,expect} from './campus-fixtures.js';
+import {walkMarket} from './market-controls.js';
 import {waitForEntry} from './entry-readiness.js';
 const state=page=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
 test('curriculum rooms remain accessible when campus decoration and Studio fail',async({page},info)=>{
@@ -12,8 +13,7 @@ test('curriculum rooms remain accessible when campus decoration and Studio fail'
  await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');
  await page.locator('#places-toggle').click();await page.locator('#est-destination').click();
  await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
- await page.locator('#scene').focus();await page.keyboard.down('w');
- try{await expect(page.locator('#interact')).toContainText('Open EST Prep',{timeout:10000});}finally{await page.keyboard.up('w');}
+ await walkMarket(page,'KeyW',{selector:'#interact',text:'Open EST Prep'},10000);
  await expect(page.locator('#interact')).toContainText('Open EST Prep');
  await page.locator('#interact').click();await expect(page.locator('#module-overlay')).toBeVisible();
  await expect(page.frameLocator('#module-frame').locator('body')).toContainText('EST');
