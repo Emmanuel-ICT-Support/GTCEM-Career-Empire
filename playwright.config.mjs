@@ -1,6 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 import {createEvidenceDirectory} from './scripts/evidence-directory.mjs';
 
+const mesaComparison=process.platform==='linux'&&process.env.CE_MESA_COMPARE==='1';
+
 export default defineConfig({
   testDir: "tests/e2e",
   timeout: 30_000,
@@ -28,9 +30,10 @@ export default defineConfig({
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        channel: process.env.CE_BROWSER_CHANNEL,
+        channel: process.env.CE_BROWSER_CHANNEL||(mesaComparison?'chromium':undefined),
+        headless: mesaComparison?false:undefined,
         // Keep real game graphics on the Mac's native renderer, including older tests.
-        launchOptions: {args:process.platform==='darwin'?['--use-angle=metal']:process.env.CE_GPU_COMPOSITING==='1'?['--enable-gpu','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']:[]}
+        launchOptions: {args:process.platform==='darwin'?['--use-angle=metal']:mesaComparison?['--use-gl=angle','--use-angle=gl','--ignore-gpu-blocklist','--disable-gpu-compositing']:process.env.CE_GPU_COMPOSITING==='1'?['--enable-gpu','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']:[]}
       }
     }
   ]
