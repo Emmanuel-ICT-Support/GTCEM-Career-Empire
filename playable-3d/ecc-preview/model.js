@@ -1,3 +1,4 @@
+import {splitStaticGeometry} from '../environment/static-batching.js?v=spatial-static-bounds-20261016';
 import {indexExactVertices} from '../environment/exact-index.mjs?v=exact-vertex-reuse-20261016';
 import {buildAuthoredCourtyard} from './authored-courtyard.js?v=ecc-ba60122';
 import * as T from 'three';
@@ -24,7 +25,7 @@ function texture(kind){
 }
 function material(kind,color=0xffffff){const map=texture(kind);return new T.MeshStandardMaterial({map,bumpMap:map,bumpScale:.035,color,roughness:.88});}
 function uvWorld(g,scale=2){const p=g.attributes.position,n=g.attributes.normal,u=[];for(let i=0;i<p.count;i++){const nx=Math.abs(n.getX(i)),ny=Math.abs(n.getY(i)),nz=Math.abs(n.getZ(i));u.push((nx>nz?p.getZ(i):p.getX(i))/scale,(ny>.7?p.getZ(i):p.getY(i))/scale);}g.setAttribute('uv',new T.Float32BufferAttribute(u,2));return g;}
-export function consolidate(root){root.updateMatrixWorld(true);const buckets=new Map();root.traverse(o=>{if(!o.isMesh||o.isInstancedMesh)return;const m=o.material;if(Array.isArray(m))return;const g=o.geometry.clone().applyMatrix4(o.matrixWorld);if(!g.attributes.uv)g.setAttribute('uv',new T.Float32BufferAttribute(new Float32Array(g.attributes.position.count*2),2));const key=m.uuid;if(!buckets.has(key))buckets.set(key,{m,gs:[]});buckets.get(key).gs.push(g.index?g.toNonIndexed():g);});const result=new T.Group();for(const {m,gs}of buckets.values()){const g=mergeGeometries(gs,false);if(!g)throw Error('Unable to merge exterior material');indexExactVertices(g);const mesh=new T.Mesh(g,m);mesh.castShadow=!m.transparent;mesh.receiveShadow=true;result.add(mesh);}return result;}
+export function consolidate(root){root.updateMatrixWorld(true);const buckets=new Map();root.traverse(o=>{if(!o.isMesh||o.isInstancedMesh)return;const m=o.material;if(Array.isArray(m))return;const g=o.geometry.clone().applyMatrix4(o.matrixWorld);if(!g.attributes.uv)g.setAttribute('uv',new T.Float32BufferAttribute(new Float32Array(g.attributes.position.count*2),2));const key=m.uuid;if(!buckets.has(key))buckets.set(key,{m,gs:[]});buckets.get(key).gs.push(g.index?g.toNonIndexed():g);});const result=new T.Group();for(const {m,gs}of buckets.values()){const g=mergeGeometries(gs,false);if(!g)throw Error('Unable to merge exterior material');indexExactVertices(g);for(const part of m.transparent?[g]:splitStaticGeometry(g)){const mesh=new T.Mesh(part,m);mesh.castShadow=!m.transparent;mesh.receiveShadow=true;result.add(mesh);}}return result;}
 
 export async function buildExterior({inGame=false,textures}={}){
  if(inGame)return buildAuthoredCourtyard(DOORS,{textures,deferDetail:true});

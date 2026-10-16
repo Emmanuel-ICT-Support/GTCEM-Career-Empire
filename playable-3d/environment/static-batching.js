@@ -23,7 +23,7 @@ export function batchStatic(root){
  for(const {material,castShadow,receiveShadow,renderOrder,geometries}of groups.values()){
   const geometry=mergeGeometries(geometries,false);if(!geometry)throw new Error('Incompatible static mesh attributes');
   indexExactVertices(geometry);geometry.computeBoundingBox();geometry.computeBoundingSphere();
-  const mesh=new T.Mesh(geometry,material);mesh.castShadow=castShadow;mesh.receiveShadow=receiveShadow;mesh.renderOrder=renderOrder;result.add(mesh);
+  for(const part of splitStaticGeometry(geometry)){const mesh=new T.Mesh(part,material);mesh.castShadow=castShadow;mesh.receiveShadow=receiveShadow;mesh.renderOrder=renderOrder;result.add(mesh);}
   geometries.forEach(g=>g.dispose());
  }
  return result;
@@ -74,4 +74,16 @@ export function partitionLodInstances(root,{cellSize=12}={}){
   original.removeFromParent();for(const level of original.levels)level.object.dispose();
  }
  return {before,after};
+}
+
+// Partition opaque triangles for conservative frustum culling, never simplify
+// them. Attribute buffers are shared; each original triangle appears once.
+export function splitStaticGeometry(geometry,{cellSize=12,minTriangles=4096}={}){
+ const count=geometry.index?.count??geometry.attributes.position?.count??0;
+ if(count<minTriangles*3||geometry.groups.length||Object.values(geometry.morphAttributes||{}).some(a=>a.length))return [geometry];
+ geometry.computeBoundingBox();const size=geometry.boundingBox.getSize(new T.Vector3());if(Math.max(size.x,size.z)<cellSize)return [geometry];
+ const position=geometry.attributes.position,cells=new Map(),indexAt=i=>geometry.index?geometry.index.getX(i):i;
+ for(let i=0;i<count;i+=3){const ids=[indexAt(i),indexAt(i+1),indexAt(i+2)];const x=ids.reduce((n,v)=>n+position.getX(v),0)/3,z=ids.reduce((n,v)=>n+position.getZ(v),0)/3,key=`${Math.floor(x/cellSize)},${Math.floor(z/cellSize)}`;if(!cells.has(key))cells.set(key,[]);cells.get(key).push(...ids);}
+ if(cells.size<2)return [geometry];
+ return [...cells.values()].map(indices=>{const part=new T.BufferGeometry();part.name=geometry.name;part.userData={...geometry.userData,spatialBatch:true};for(const [name,attribute]of Object.entries(geometry.attributes))part.setAttribute(name,attribute);part.setIndex(indices);const box=new T.Box3(),v=new T.Vector3();for(const i of indices)box.expandByPoint(v.fromBufferAttribute(position,i));const center=box.getCenter(new T.Vector3());let radiusSq=0;for(const i of indices)radiusSq=Math.max(radiusSq,v.fromBufferAttribute(position,i).distanceToSquared(center));part.boundingBox=box;part.boundingSphere=new T.Sphere(center,Math.sqrt(radiusSq)+1e-7);return part;});
 }

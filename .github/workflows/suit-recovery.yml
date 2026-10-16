@@ -1,5 +1,5 @@
 name: Two-case suit rendering diagnostic
-run-name: Original tree spatial bounds probe 3 at ${{ github.sha }}
+run-name: Original opaque spatial bounds probe 4 at ${{ github.sha }}
 'on':
   push:
     branches: [repair/targeted-recovery-20261015]

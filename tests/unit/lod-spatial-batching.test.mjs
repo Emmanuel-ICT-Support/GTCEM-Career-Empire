@@ -10,3 +10,9 @@ test('spatial LOD groups retain every level, original geometry/material, transfo
  for(let k=0;k<2;k++){expect(actual[k]).toEqual(original[k].matrices);expect(colours[k]).toEqual(original[k].colours);}
 });
 test('single-cell and mixed non-instance LODs remain unchanged',()=>{const root=new T.Group(),lod=new T.LOD(),mesh=new T.Mesh(new T.BoxGeometry(),new T.MeshStandardMaterial());lod.addLevel(mesh,0);root.add(lod);expect(partition(root)).toEqual({before:0,after:0});expect(root.children[0]).toBe(lod);});
+const split=vm.runInNewContext(source+';splitStaticGeometry;',{T});
+test('opaque spatial parts retain every original triangle/attribute and conservatively bound crossing triangles',()=>{
+ const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(new Float32Array([0,0,0,1,0,0,0,1,0,20,0,20,21,0,20,20,1,20,-30,0,-1,30,0,-1,0,2,1]),3));g.setAttribute('color',new T.BufferAttribute(new Uint8Array(27).map((_,i)=>i),3,true));g.setIndex([0,1,2,3,4,5,6,7,8]);const parts=split(g,{cellSize:10,minTriangles:0});expect(parts.length).toBeGreaterThan(1);const triangles=[];
+ for(const part of parts){expect(part.attributes.position).toBe(g.attributes.position);expect(part.attributes.color).toBe(g.attributes.color);for(let i=0;i<part.index.count;i+=3)triangles.push(Array.from(part.index.array.slice(i,i+3)));for(const i of part.index.array){const v=new T.Vector3().fromBufferAttribute(g.attributes.position,i);expect(part.boundingBox.containsPoint(v)).toBe(true);expect(part.boundingSphere.containsPoint(v)).toBe(true);}}
+ expect(triangles.sort((a,b)=>a[0]-b[0])).toEqual([[0,1,2],[3,4,5],[6,7,8]]);expect(split(g)).toEqual([g]);
+});

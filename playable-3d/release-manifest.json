@@ -1,8 +1,8 @@
 {
-  "release": "tree-lod-spatial-bounds-20261016",
+  "release": "spatial-static-bounds-20261016",
   "gameUrl": "/playable-3d/",
   "baseCommit": "1442d29d33db4ae4a092a1afd42207ef639c82e0",
-  "scope": "Candidate: byte-exact vertex reuse and local bounds for paired original tree LODs. Every triangle, instance transform, material and detail threshold retained. No resolution, camera, timing or visual-content reduction; no deployment.",
+  "scope": "Candidate: byte-exact vertex reuse and conservative spatial bounds for original opaque triangles and paired tree LODs. Every triangle, attribute, instance, material, shadow state and detail threshold retained; unchanged camera, resolution and timing requirements.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "0c9ddf945e07fdb4cd25bc51d9de7111c7f06cb8f9d5e9034d49119abb087dbc"
+      "sha256": "0f34974e8d6bdda2ff48cde2fb443c6ef2a74d122a1271f83b1c43618341c84f"
     },
     {
       "path": "arcade-carnival.js",
@@ -722,7 +722,7 @@
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "174b660ce9b7935b57b2b01b8df4b7ed03bd327c9a99b722d4f42a38171aa267"
+      "sha256": "1f948104f6f87300f35e6d65241025d453eae354caa839a309f98f38325a3706"
     },
     {
       "path": "echo-guide.css",
@@ -790,7 +790,7 @@
     },
     {
       "path": "environment/static-batching.js",
-      "sha256": "d3f23cff5469aa8b7dc7e9cecb7f76b46fb2eae6d24aedde7f7c786c111a9ce4"
+      "sha256": "a7b0c5ee1b111caf04aca939c6da08bc82b1b2fddb798e8352113c77a7913b98"
     },
     {
       "path": "environment/surroundings.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "eee35d05d0977a33302786378676b2edc196902d18349da87393b965277e4eda"
+      "sha256": "b00184d83eaa757a6168b1ca83c1a7faa930c2f1f6e7f89287341996f5799b19"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "dc78cc74c69a2ec5b433bb865ad531aa180e280b5fe89515822e3fe645bcb69a"
+      "sha256": "5afabc49981408d871ddfb0bfaf1e909639eaa74a9ff7265c41cb31cf59f47b1"
     },
     {
       "path": "initiative-field-guide.html",
