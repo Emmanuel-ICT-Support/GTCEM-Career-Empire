@@ -833,7 +833,8 @@ function animate(){
   if(!paused&&!discovery?.cinematic())updateCamera(dt,discovery?.reduced());if(!intro?.open()){discovery?.update(mode,actor.model.position,discovery?.cinematic()?Math.max(0,elapsed):dt);explorationTools?.update(dt,!discovery?.open()&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open());}echo?.update(dt,actor.model.position,camera,mode!=='studio'&&!helperPicker.open()&&!aerial&&!flyover?.active&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open,activeScene());positionESTPlayButton();
   // Preserve the visible world while the requested Market or Stats module
   // loads. Repeated scene draws can starve the requested UI on a constrained GPU.
-  if((mode==='town'&&entryPreparing&&(!entryGeometryReady||entryDrawSubmitted))||(marketOpening&&mode!=='market')||explorationTools?.preparing()||discovery?.preparingTravel())return;
+  const entryFrameRequired=mode==='town'&&entryPreparing&&entryGeometryReady&&!entryDrawSubmitted;
+  if((mode==='town'&&entryPreparing&&(!entryGeometryReady||entryDrawSubmitted))||(marketOpening&&mode!=='market')||explorationTools?.preparing()||(discovery?.preparingTravel()&&!entryFrameRequired))return;
   // Preserve the completed initial view long enough for the released controls
   // and input to paint before another slow software scene draw.
   if(mode==='town'&&entryReady&&now-entryReadyAt<.12&&renderQuality(renderBackend,'auto',1).software)return;
