@@ -63,3 +63,8 @@ test('each completed decorative upload yields a world opportunity without losing
  queue.worldSubmitted();expect(queue.worldFrameDue).toBe(false);waiting.shift()();await grass;expect(uploads).toEqual(['wall','grass']);expect(queue.worldFrameDue).toBe(true);
 });
 test('hardware uploads keep their original scheduling and never create software fences',()=>{const gate=createGpuFrameGate({getContext:()=>({fenceSync(){throw Error('native upload fence');}})},false);expect(gate.constrained).toBe(false);gate.uploadSubmitted();expect(gate.submittedFrame).toBe(0);expect(gate.ready()).toBe(true);});
+
+test('only live software movement takes priority over decorative uploads',async()=>{
+ const fs=await import('node:fs'),vm=await import('node:vm');const app=fs.readFileSync(new URL('../../playable-3d/app.js',import.meta.url),'utf8');const source=app.match(/function softwareMovementActive\(\)\{[^\n]+/)[0];
+ const context=vm.createContext({canStepNavigation:()=>true,keys:new Set(),joystick:{x:0,z:0}});vm.runInContext(source,context);expect(vm.runInContext('softwareMovementActive()',context)).toBe(false);context.keys.add('KeyW');expect(vm.runInContext('softwareMovementActive()',context)).toBe(true);context.canStepNavigation=()=>false;expect(vm.runInContext('softwareMovementActive()',context)).toBe(false);context.keys.clear();context.canStepNavigation=()=>true;context.joystick.x=.5;expect(vm.runInContext('softwareMovementActive()',context)).toBe(true);
+});

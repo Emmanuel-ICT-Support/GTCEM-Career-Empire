@@ -31,5 +31,5 @@ for(const width of [1280,390])test(`playable suit shadows follow every walking f
  await page.waitForFunction(()=>window.__suitFrames.some(f=>f.weight>.01));
  await page.waitForFunction(()=>window.__suitFrames.slice(-10).some(f=>f.weight===0&&!f.shadow),null,{timeout:10000});
  await page.screenshot({path:info.outputPath(`suit-walking-${width}.png`)});
- const frames=await page.evaluate(()=>window.__suitFrames);const moving=frames.filter(f=>f.weight>.01);expect(moving.length).toBeGreaterThan(5);expect(moving.every(f=>f.shadow)).toBe(true);expect(frames.slice(-10).some(f=>!f.shadow)).toBe(true);expect(errors).toEqual([]);console.log('SUIT_PLAYABLE',JSON.stringify({width,movingFrames:moving.length,staleMovingFrames:moving.filter(f=>!f.shadow).length}));
+ const frames=await page.evaluate(()=>window.__suitFrames);const moving=frames.filter(f=>f.weight>.01);console.log('SUIT_FRAME_TIMING',JSON.stringify({width,frames,movingFrames:moving.length,state:await page.locator('#diagnostics').getAttribute('data-state')}));expect(moving.length).toBeGreaterThan(5);expect(moving.every(f=>f.shadow)).toBe(true);expect(frames.slice(-10).some(f=>!f.shadow)).toBe(true);expect(errors).toEqual([]);console.log('SUIT_PLAYABLE',JSON.stringify({width,movingFrames:moving.length,staleMovingFrames:moving.filter(f=>!f.shadow).length}));
 });

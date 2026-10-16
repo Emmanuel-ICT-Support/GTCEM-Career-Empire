@@ -19,7 +19,9 @@ test('startup loads only the active avatar and keeps the studio and hall usable'
   expect(requests.some(u=>u.endsWith('campus-buildings/workplace-shared-textures.glb'))).toBeTruthy();
   expect(requests.some(u=>/player-uniform-shirt|avatar-[ab]\.glb/.test(u))).toBeFalsy();
   expect(requests.some(u=>u.endsWith('est-interior.glb'))).toBeFalsy();
-  for(const name of ['grass-ecc-campus-v1-lossless.webp','limestone-ecc-campus-v1.png','asphalt_day-lossless.webp','asphalt_dash_overlay.png','crosswalk_overlay.png','curb_cyan_trim.png'])expect(requests.some(u=>u.endsWith(name))).toBeTruthy();
+  // Optional detail workers continue after campus geometry is ready. Keep every
+  // original asset requirement and the standard five-second assertion budget.
+  for(const name of ['grass-ecc-campus-v1-lossless.webp','limestone-ecc-campus-v1.png','asphalt_day-lossless.webp','asphalt_dash_overlay.png','crosswalk_overlay.png','curb_cyan_trim.png'])await expect.poll(()=>requests.some(u=>u.endsWith(name)),{message:`optional campus artwork requested: ${name}`}).toBeTruthy();
   await page.locator('#places-toggle').click();await page.locator('#studio-view').click();
   await selectTestCharacter(page,'shirt');
   await expect.poll(()=>requests.some(u=>u.endsWith('player-uniform-shirt-20260908.glb'))).toBeTruthy();
