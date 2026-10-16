@@ -1,7 +1,7 @@
 {
-  "release": "player-pose-upload-priority-20261016",
+  "release": "interaction-upload-priority-20261016",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "608f3cde594b5ccc591e6bb11e62e44607f87960",
+  "baseCommit": "3376291da35058f4be079ba57244bb90a5a436d0",
   "scope": "Candidate: fair, separately fenced software uploads and genuine completed world presentation; retain real frame counts, original assets, graphics, native scheduling, input caps and all meaningful thresholds. Focused wider verification pending; no deployment.",
   "files": [
     {
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "4314104cc892c101db133d5605c59c8f11f969fd4053ae4d503a1c8cfc27766f"
+      "sha256": "5b8161097188481275d6077531c977d4d55a6c072335e15dcbf01fb032e1c96e"
     },
     {
       "path": "arcade-carnival.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "1b53df804134a8193dc3b16e6aae67b92cdad910529ec60cf291acdcdf2c94a1"
+      "sha256": "af02346d895bd5ffd830191d5694154a56914a1d009990beb76572107776acd5"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "0fd03775fdf3717ead16e60020eab562762c449cff1f01a70716bd0527526b29"
+      "sha256": "737cde811d4a020094fb60682186189f414e04839d0613cf20abedcf9dcef39b"
     },
     {
       "path": "initiative-field-guide.html",

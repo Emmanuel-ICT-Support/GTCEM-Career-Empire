@@ -58,7 +58,7 @@ jobs:
         env:
           PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
           CE_MOVEMENT_PROFILE: '0'
-          CE_SUIT_PROFILE: ${{ matrix.group == 'wider' && '1' || '0' }}
+          CE_SUIT_PROFILE: '0'
           CE_RECOVERY_DRAWS: ${{ matrix.group == 'state' && '1' || '0' }}
           CE_RECOVERY_TRACE_AFTER_FAILURE: ${{ matrix.group == 'state' && '1' || '0' }}
       - name: Account for selected cases and summarize actual state
