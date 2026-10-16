@@ -1,0 +1,25 @@
+name: Two-case suit rendering diagnostic
+run-name: Suit timing probe 1 at ${{ github.sha }}
+'on':
+  push:
+    branches: [repair/targeted-recovery-20261015]
+    paths: ['.github/workflows/suit-recovery.yml']
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci && npm run check
+      - run: npx playwright install --with-deps chromium
+      - run: mkdir -p coverage && npx playwright test tests/e2e/suit-flicker.spec.js --grep 'playable suit shadows' --list --reporter=json > coverage/selected-inventory.json
+      - run: npx playwright test tests/e2e/suit-flicker.spec.js --grep 'playable suit shadows' --workers=1 --retries=0 --reporter=line,json
+        env: {PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json, CE_SUIT_PROFILE: '0'}
+      - if: always()
+        run: node scripts/focused-repair-report.mjs coverage/selected-inventory.json coverage/browser-report.json coverage/focused-summary.json
+        env: {EXPECTED_CASES: 2}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: suit-probe, path: coverage/, retention-days: 3}

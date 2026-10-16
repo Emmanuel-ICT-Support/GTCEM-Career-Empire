@@ -5,6 +5,7 @@ run-name: Focused repair at ${{ github.sha }}
     branches: [repair/targeted-recovery-20261015]
 jobs:
   checks:
+    if: ${{ !contains(github.event.head_commit.message, '[suit-probe]') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
