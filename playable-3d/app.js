@@ -1,9 +1,8 @@
-import {bakeStaticInstances} from './software-static-instances.mjs?v=software-instance-bake-20261016';
 import {estEyeHeight,estPlayTop} from './est-camera.mjs?v=broad-integrated-20261014';
 import {MARKET_APPROACH} from './landing.mjs?v=post-photo-tour-20261013';
 import {isAdminPreview,adminPreviewURL,createPreviewStorage} from './admin-preview.mjs?v=admin-preview-20261013';
-import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=software-instance-bake-20261016';
-import {needsSoftwarePresentation,createSoftwarePresentation} from './software-presentation.mjs?v=software-instance-bake-20261016';
+import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=interaction-upload-priority-20261016';
+import {needsSoftwarePresentation,createSoftwarePresentation} from './software-presentation.mjs?v=interaction-upload-priority-20261016';
 import {renderQuality,rendererName} from './render-quality.mjs?v=ecc-ba60122';
 import {waitForPriorityAsset,withAssetDeadline,canClearDetailWarning} from './startup-assets.mjs?v=ecc-ba60122';
 import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=initiative-arcade-20261014';
@@ -407,7 +406,7 @@ async function prepareEntry(){
  const environmentModule=environmentReady?null:(entryEnvironmentModule||=import('./environment.js?v=broad-integrated-20261014'));environmentModule?.catch(()=>{});
  // Complete exterior geometry and original opening planting during the intro; interiors and decorative maps remain deferred.
  const originalExteriors=worlds.loadBuildingExteriors();
- entryLoad=Promise.all([worlds.loadEntry(),originalExteriors,entryAvatarPriority?waitForPriorityAsset(entryAvatarPriority):Promise.resolve()]).then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}showMarketExteriorSigns();if(renderQuality(renderBackend,'auto',devicePixelRatio).software)canvas.dataset.staticInstanceBake=JSON.stringify(await bakeStaticInstances(worlds.town));worlds.loadMuralTexture().catch(()=>{detailFailed=true;detailNotice();});entryGeometryReady=true;updateCamera(1,true);if(mode==='town')await waitForVisibleEntryFrame();entryReady=true;entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;updateEntryLoading();canvas.dataset.entryVisibleMs=String(performance.now());startSurfaceDetail();}).catch(error=>{entryFailure=true;campusNotice('Campus buildings could not load. Retry to open campus.',true);updateEntryLoading();throw error;}).finally(()=>{entryPreparing=false;entryLoad=null;});
+ entryLoad=Promise.all([worlds.loadEntry(),originalExteriors,entryAvatarPriority?waitForPriorityAsset(entryAvatarPriority):Promise.resolve()]).then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}showMarketExteriorSigns();worlds.loadMuralTexture().catch(()=>{detailFailed=true;detailNotice();});entryGeometryReady=true;updateCamera(1,true);if(mode==='town')await waitForVisibleEntryFrame();entryReady=true;entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;updateEntryLoading();canvas.dataset.entryVisibleMs=String(performance.now());startSurfaceDetail();}).catch(error=>{entryFailure=true;campusNotice('Campus buildings could not load. Retry to open campus.',true);updateEntryLoading();throw error;}).finally(()=>{entryPreparing=false;entryLoad=null;});
  return entryLoad;
 }
 function prepareNextTask(now){
