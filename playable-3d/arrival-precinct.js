@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {partitionInstances} from './environment/static-batching.js?v=ecc-ba60122';
+import {partitionInstances} from './environment/static-batching.js?v=exact-vertex-reuse-20261016';
 import {approvedPalette,makeAvatarStudio,dressedBox,batchStatic} from './environment/approved-campus-kit.js?v=ecc-ba60122';
 // One bounded, walkable precinct. Existing Studio interaction remains at (-12.4, 5).
 export function arrivalPrecinct(town,stoneTexture,sign,palette){

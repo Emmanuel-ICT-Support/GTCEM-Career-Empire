@@ -1,8 +1,8 @@
 {
-  "release": "interaction-upload-priority-20261016",
+  "release": "exact-vertex-reuse-20261016",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "3376291da35058f4be079ba57244bb90a5a436d0",
-  "scope": "Candidate: fair, separately fenced software uploads and genuine completed world presentation; retain real frame counts, original assets, graphics, native scheduling, input caps and all meaningful thresholds. Focused wider verification pending; no deployment.",
+  "baseCommit": "1442d29d33db4ae4a092a1afd42207ef639c82e0",
+  "scope": "Candidate: byte-exact static vertex indexing; preserve every triangle, attribute bit, visual content, original resolution, trees, materials, camera, input and frame-count requirements. No deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "5b8161097188481275d6077531c977d4d55a6c072335e15dcbf01fb032e1c96e"
+      "sha256": "aca5d1ddb7544ca8da5855257962078c0065d5174008c7cdbbc79fb091c8a952"
     },
     {
       "path": "arcade-carnival.js",
@@ -70,7 +70,7 @@
     },
     {
       "path": "arrival-precinct.js",
-      "sha256": "43e7d90ae80ddc4d51676c1f770f03c7f7ab13bdeddf8eb367a473688fd66f54"
+      "sha256": "add4b5e13dfeb718fb6a4d28c5391aa5f89ea94c38e3bd2de1ac8ca28a7ba08b"
     },
     {
       "path": "assets/campus-buildings/careers-shared-textures.glb",
@@ -578,7 +578,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "5a5a4f87d52c9bde95c76e6ce042cc6060a11d8f6097740d04c8522cc9484cd9"
+      "sha256": "c27093891070959aa4656bb2a39e4de922944250df16f56d1b268e62f9775b3d"
     },
     {
       "path": "chapel.js",
@@ -722,7 +722,7 @@
     },
     {
       "path": "ecc-preview/model.js",
-      "sha256": "9a926d1768598b18a448c5f95463eb7d42f4d9f908b20425a5f977b7d1cf083d"
+      "sha256": "174b660ce9b7935b57b2b01b8df4b7ed03bd327c9a99b722d4f42a38171aa267"
     },
     {
       "path": "echo-guide.css",
@@ -738,11 +738,11 @@
     },
     {
       "path": "environment.js",
-      "sha256": "c40317552c0d60144f51e5b06217c9487b7711333ae5c12178f66f57f54d3453"
+      "sha256": "66c4e66099abd38748f48eb0988115eb9c5e46d00ecc02049259e454715ddb83"
     },
     {
       "path": "environment/approved-campus-kit.js",
-      "sha256": "8f25f6184dfcfbf6122d70f751de7b063d01fa222ff39a269976bd93986ed11e"
+      "sha256": "6f64ac3861543ecc27407b6c2aa3fe38fbb4102dd961888efd32d5061f640825"
     },
     {
       "path": "environment/assets/SPACE-reference.jpg",
@@ -790,7 +790,7 @@
     },
     {
       "path": "environment/static-batching.js",
-      "sha256": "a46fa6847cff0a4dd69c92da56b686c54704306f9efa042efaef1ed2cb8664eb"
+      "sha256": "c7c3a959bde10a8f0d984e012d54176df9151b1aaedb65e63674d756addf0543"
     },
     {
       "path": "environment/surroundings.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "af02346d895bd5ffd830191d5694154a56914a1d009990beb76572107776acd5"
+      "sha256": "df650664a4b6a25e04662dec7d65e12629c253422f62da934afd61ee6ef473fd"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "737cde811d4a020094fb60682186189f414e04839d0613cf20abedcf9dcef39b"
+      "sha256": "c383f68d32ac4475440f1988ea3bd0dacce4e11fb58010f29dab67c42bca06f7"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1142,7 +1142,11 @@
     },
     {
       "path": "world.js",
-      "sha256": "ad8afaca4bf51044cec04b20a4cad0e3562f6901f1c5ba408c061f7d31b1451d"
+      "sha256": "562a0addbeb2178be7c9c3778d85f3c0368c5e57c99a1ac46de74a65c3ea2890"
+    },
+    {
+      "path": "environment/exact-index.mjs",
+      "sha256": "ddffe2702ce7b1012d4e37e096ec1135e2386f7b6f2a7c73e859d68cebdbfd97"
     }
   ],
   "estVideo": {

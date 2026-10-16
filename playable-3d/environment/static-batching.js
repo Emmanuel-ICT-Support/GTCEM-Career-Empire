@@ -1,3 +1,4 @@
+import {indexExactVertices} from './exact-index.mjs?v=exact-vertex-reuse-20261016';
 import * as T from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 
@@ -21,7 +22,7 @@ export function batchStatic(root){
  });
  for(const {material,castShadow,receiveShadow,renderOrder,geometries}of groups.values()){
   const geometry=mergeGeometries(geometries,false);if(!geometry)throw new Error('Incompatible static mesh attributes');
-  geometry.computeBoundingBox();geometry.computeBoundingSphere();
+  indexExactVertices(geometry);geometry.computeBoundingBox();geometry.computeBoundingSphere();
   const mesh=new T.Mesh(geometry,material);mesh.castShadow=castShadow;mesh.receiveShadow=receiveShadow;mesh.renderOrder=renderOrder;result.add(mesh);
   geometries.forEach(g=>g.dispose());
  }

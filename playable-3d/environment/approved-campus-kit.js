@@ -1,5 +1,5 @@
 import * as T from 'three';
-import {batchStatic} from './static-batching.js?v=ecc-ba60122';
+import {batchStatic} from './static-batching.js?v=exact-vertex-reuse-20261016';
 
 // Reuse the exact accepted courtyard maps and HDR; no second texture download.
 export function approvedPalette(courtyard){

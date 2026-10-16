@@ -2,7 +2,7 @@ import {addExteriorLandmarks} from './environment/exterior-landmarks.js?v=ecc-ba
 import {addTeachingExteriors} from './environment/teaching-exteriors.js?v=ecc-ba60122';
 import {shadowAnchor} from './shadow-anchor.js';
 import {approvedPalette} from './environment/approved-campus-kit.js?v=ecc-ba60122';
-import {partitionInstances} from './environment/static-batching.js?v=ecc-ba60122';
+import {partitionInstances} from './environment/static-batching.js?v=exact-vertex-reuse-20261016';
 import {polishGround} from './environment/ground-polish.js?v=deferred-ground-20261012';
 import * as T from 'three';
 import RAPIER from '@dimforge/rapier3d-compat';

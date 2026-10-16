@@ -1,15 +1,16 @@
+import {indexExactVertices} from './environment/exact-index.mjs?v=exact-vertex-reuse-20261016';
 import {resolveCampusAssetURL} from './campus-asset-url.mjs?v=broad-integrated-20261014';
 import {pavingNetwork} from './environment/paving-network.js?v=student-usability-20260924';
 import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=ecc-ba60122';
 import {thinGeometry,addAuthoredGarden} from './ecc-preview/authored-garden.js?v=ecc-ba60122';
-import {batchStatic,partitionInstances} from './environment/static-batching.js?v=ecc-ba60122';
+import {batchStatic,partitionInstances} from './environment/static-batching.js?v=exact-vertex-reuse-20261016';
 import * as THREE from 'three';
 import {EST} from './destinations.js?v=ecc1';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 function mergeStatic(root){
- root.updateMatrixWorld(true);const groups=new Map();root.traverse(o=>{if(!o.isMesh)return;const materials=Array.isArray(o.material)?o.material:[o.material];if(materials.length!==1)throw new Error('Unexpected multi-material campus mesh');const m=materials[0],g=o.geometry.clone().applyMatrix4(o.matrixWorld);if(!g.attributes.uv)g.setAttribute('uv',new THREE.BufferAttribute(new Float32Array(g.attributes.position.count*2),2));const key=m.uuid;if(!groups.has(key))groups.set(key,{material:m,geometries:[]});groups.get(key).geometries.push(g);});const result=new THREE.Group();for(const {material,geometries}of groups.values()){const geometry=mergeGeometries(geometries.map(g=>g.index?g.toNonIndexed():g),false);if(!geometry)throw new Error('Campus geometry merge failed');const mesh=new THREE.Mesh(geometry,material);mesh.castShadow=mesh.receiveShadow=true;result.add(mesh);}return result;
+ root.updateMatrixWorld(true);const groups=new Map();root.traverse(o=>{if(!o.isMesh)return;const materials=Array.isArray(o.material)?o.material:[o.material];if(materials.length!==1)throw new Error('Unexpected multi-material campus mesh');const m=materials[0],g=o.geometry.clone().applyMatrix4(o.matrixWorld);if(!g.attributes.uv)g.setAttribute('uv',new THREE.BufferAttribute(new Float32Array(g.attributes.position.count*2),2));const key=m.uuid;if(!groups.has(key))groups.set(key,{material:m,geometries:[]});groups.get(key).geometries.push(g);});const result=new THREE.Group();for(const {material,geometries}of groups.values()){const geometry=mergeGeometries(geometries.map(g=>g.index?g.toNonIndexed():g),false);if(!geometry)throw new Error('Campus geometry merge failed');indexExactVertices(geometry);const mesh=new THREE.Mesh(geometry,material);mesh.castShadow=mesh.receiveShadow=true;result.add(mesh);}return result;
 }
 // The normal game can fetch the required landscape while its courtyard is loading.
 export async function loadCampusAssets({textures,ids=['mature-eucalypt-a','mature-eucalypt-b','small-multistem-a','boulder-a','careers','workplace']}={}){
