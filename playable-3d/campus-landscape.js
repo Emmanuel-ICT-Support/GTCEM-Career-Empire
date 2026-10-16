@@ -3,7 +3,7 @@ import {resolveCampusAssetURL} from './campus-asset-url.mjs?v=broad-integrated-2
 import {pavingNetwork} from './environment/paving-network.js?v=student-usability-20260924';
 import {applyBuildingPalette,planter} from './environment/approved-campus-kit.js?v=ecc-ba60122';
 import {thinGeometry,addAuthoredGarden} from './ecc-preview/authored-garden.js?v=ecc-ba60122';
-import {batchStatic,partitionInstances} from './environment/static-batching.js?v=exact-vertex-reuse-20261016';
+import {batchStatic,partitionInstances,partitionLodInstances} from './environment/static-batching.js?v=exact-vertex-reuse-20261016';
 import * as THREE from 'three';
 import {EST} from './destinations.js?v=ecc1';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -83,7 +83,7 @@ for(const id of [...new Set(placements.map(p=>p.id))]){const asset=loaded.get(id
 if(id!=='boulder-a'&&/^leaf/i.test(o.material.name)){const low=new THREE.InstancedMesh(thinGeometry(o.geometry,6,4),o.material,ps.length);low.instanceMatrix.copy(inst.instanceMatrix);low.castShadow=low.receiveShadow=true;low.computeBoundingSphere();const lod=new THREE.LOD();lod.name='Campus original tree detail';lod.userData.softwareDetail=true;lod.addLevel(inst,0);lod.addLevel(low,Infinity);group.add(lod);}else group.add(inst);});}
 // Cull off-screen plants as soon as they appear, without waiting for the rest
 // of campus assets and textures. Existing full-detail matrices/materials stay intact.
-partitionInstances(group,{filter:o=>!o.userData.distanceDetail});
+partitionInstances(group,{filter:o=>!o.userData.distanceDetail});partitionLodInstances(group);
 // The front-of-Administration pergola and benches were visually unreliable in
 // review. Leave this constrained forecourt open until a replacement layout is
 // commissioned, rather than retaining furniture that obstructs planting.

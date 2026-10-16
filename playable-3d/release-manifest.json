@@ -1,8 +1,8 @@
 {
-  "release": "exact-vertex-reuse-20261016",
+  "release": "tree-lod-spatial-bounds-20261016",
   "gameUrl": "/playable-3d/",
   "baseCommit": "1442d29d33db4ae4a092a1afd42207ef639c82e0",
-  "scope": "Candidate: byte-exact static vertex indexing; preserve every triangle, attribute bit, visual content, original resolution, trees, materials, camera, input and frame-count requirements. No deployment.",
+  "scope": "Candidate: byte-exact vertex reuse and local bounds for paired original tree LODs. Every triangle, instance transform, material and detail threshold retained. No resolution, camera, timing or visual-content reduction; no deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "aca5d1ddb7544ca8da5855257962078c0065d5174008c7cdbbc79fb091c8a952"
+      "sha256": "0c9ddf945e07fdb4cd25bc51d9de7111c7f06cb8f9d5e9034d49119abb087dbc"
     },
     {
       "path": "arcade-carnival.js",
@@ -578,7 +578,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "c27093891070959aa4656bb2a39e4de922944250df16f56d1b268e62f9775b3d"
+      "sha256": "8659a3c8bfb8cea499ccc44ee048ba5cb3daf53f9f0cf06026536ee10789b754"
     },
     {
       "path": "chapel.js",
@@ -790,7 +790,7 @@
     },
     {
       "path": "environment/static-batching.js",
-      "sha256": "c7c3a959bde10a8f0d984e012d54176df9151b1aaedb65e63674d756addf0543"
+      "sha256": "d3f23cff5469aa8b7dc7e9cecb7f76b46fb2eae6d24aedde7f7c786c111a9ce4"
     },
     {
       "path": "environment/surroundings.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "df650664a4b6a25e04662dec7d65e12629c253422f62da934afd61ee6ef473fd"
+      "sha256": "eee35d05d0977a33302786378676b2edc196902d18349da87393b965277e4eda"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "c383f68d32ac4475440f1988ea3bd0dacce4e11fb58010f29dab67c42bca06f7"
+      "sha256": "dc78cc74c69a2ec5b433bb865ad531aa180e280b5fe89515822e3fe645bcb69a"
     },
     {
       "path": "initiative-field-guide.html",

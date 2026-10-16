@@ -53,3 +53,25 @@ export function partitionInstances(root,{cellSize=12,filter=()=>true}={}){
  }
  return {before,after};
 }
+
+// Keep paired LOD levels intact while giving distant tree groups local bounds.
+// Every original instance and every detail-level geometry/material is retained.
+export function partitionLodInstances(root,{cellSize=12}={}){
+ const lods=[];root.traverse(o=>{if(o.isLOD&&o.levels.length&&o.levels.every(l=>l.object.isInstancedMesh&&l.object.count===o.levels[0].object.count))lods.push(o);});
+ let before=0,after=0;
+ for(const original of lods){
+  before++;const first=original.levels[0].object,cells=new Map(),matrix=new T.Matrix4();
+  for(let i=0;i<first.count;i++){first.getMatrixAt(i,matrix);const key=`${Math.floor(matrix.elements[12]/cellSize)},${Math.floor(matrix.elements[14]/cellSize)}`;if(!cells.has(key))cells.set(key,[]);cells.get(key).push(i);}
+  if(cells.size<2){after++;continue;}
+  for(const indices of cells.values()){
+   const lod=new T.LOD();lod.name=original.name;lod.userData={...original.userData,spatialBatch:true};lod.position.copy(original.position);lod.quaternion.copy(original.quaternion);lod.scale.copy(original.scale);lod.autoUpdate=original.autoUpdate;lod.visible=original.visible;
+   for(const level of original.levels){const source=level.object,mesh=new T.InstancedMesh(source.geometry,source.material,indices.length);mesh.name=source.name;mesh.position.copy(source.position);mesh.quaternion.copy(source.quaternion);mesh.scale.copy(source.scale);mesh.castShadow=source.castShadow;mesh.receiveShadow=source.receiveShadow;mesh.renderOrder=source.renderOrder;mesh.userData={...source.userData,spatialBatch:true};
+    indices.forEach((index,i)=>{source.getMatrixAt(index,matrix);mesh.setMatrixAt(i,matrix);if(source.instanceColor){const colour=new T.Color();source.getColorAt(index,colour);mesh.setColorAt(i,colour);}});
+    mesh.computeBoundingBox();mesh.computeBoundingSphere();lod.addLevel(mesh,level.distance,level.hysteresis);
+   }
+   original.parent.add(lod);after++;
+  }
+  original.removeFromParent();for(const level of original.levels)level.object.dispose();
+ }
+ return {before,after};
+}
