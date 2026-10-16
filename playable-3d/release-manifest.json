@@ -1,7 +1,7 @@
 {
-  "release": "completed-presentation-candidate-20261016",
+  "release": "paused-cache-zero-20261016",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "77b309e1bbf0516d46de89e5d72698e26c1c2ffc",
+  "baseCommit": "2a118c8ea992cf2de0df1e55d3121d4b48b877b0",
   "scope": "Candidate: present complete software WebGL frames through a 2D display after the existing GPU fence; preserve original rendered pixels, native rendering, gameplay and limits. Hosted validation pending; no deployment.",
   "files": [
     {
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "8a8321ee8ee5203f12b6536867d4f06494b0d0a4f2bfc3fdf082006b23cd96dc"
+      "sha256": "b5edd0274ee502cdaac22348e7bf4b446c70508414c04418ff4468db8cba53e2"
     },
     {
       "path": "arcade-carnival.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "34cb46f0420d3203e161da1b4f4c205c1c1db0d1845b94d6e8e4229cef3c080e"
+      "sha256": "3ba0036d1a6bdb1a75ae9999530ec9e995ad9e441bd264cae8c69ccde4dca812"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "b171e61c2708db2ba25232cb1c1145515165f53e40cc94ec12159a0db776582e"
+      "sha256": "8a6aa2d6a3ee75334e37e0c35893a0ad28aaf04563fbddc5d44119ed0d6e5c45"
     },
     {
       "path": "initiative-field-guide.html",

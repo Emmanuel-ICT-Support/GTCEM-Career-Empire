@@ -799,7 +799,7 @@ function advanceSoftwareNavigation(){
 
 function sceneViewStamp(scene){
   const d=discovery?.snapshot(),h=echo?.snapshot();
-  return [scene.uuid,mode,phase,$('quality').value,viewport.width,viewport.height,entryReady,campusReady,worlds.scenery.status,actor.model.uuid,actor.model.rotation.y.toFixed(3),...actor.model.position.toArray().map(v=>v.toFixed(3)),...camera.position.toArray().map(v=>v.toFixed(3)),...camera.quaternion.toArray().map(v=>v.toFixed(4)),teachers.length,scene.children.length,d?.step,d?.souvenir,d?.chapelVisited,h?.helper,h?.helperStatus,h?.visible].join('|');
+  return [scene.uuid,mode,phase,$('quality').value,viewport.width,viewport.height,entryReady,campusReady,worlds.scenery.status,actor.model.uuid,+actor.model.rotation.y.toFixed(3),...actor.model.position.toArray().map(v=>+v.toFixed(3)),...camera.position.toArray().map(v=>+v.toFixed(3)),...camera.quaternion.toArray().map(v=>+v.toFixed(4)),teachers.length,scene.children.length,d?.step,d?.souvenir,d?.chapelVisited,h?.helper,h?.helperStatus,h?.visible].join('|');
 }
 
 function animate(){

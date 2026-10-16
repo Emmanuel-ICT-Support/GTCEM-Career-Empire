@@ -21,3 +21,10 @@ test('real viewport, model, scenery and camera changes require an honest new dra
 test('native active views keep drawing rather than using the software cache',()=>{
  const c=harness();c.softwareNavigationAt=null;c.draw();c.draw();expect(c.draws).toBe(2);expect(c.lastPausedSceneStamp).toBe(null);
 });
+
+test('rounded signed zero cannot invalidate the same paused camera view',()=>{
+ const c=harness();c.draw();c.paused=true;
+ c.camera.quaternion.toArray=()=>[0,-Number.EPSILON,-Number.EPSILON,1];c.actor.model.rotation.y=-Number.EPSILON;c.actor.model.position.toArray=()=>[-Number.EPSILON,0,0];
+ expect(c.draw()).toBeUndefined();expect(c.draws).toBe(1);
+ c.camera.quaternion.toArray=()=>[0,.01,0,1];expect(c.draw()).toBe(true);expect(c.draws).toBe(2);
+});
