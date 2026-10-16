@@ -1,8 +1,8 @@
 {
-  "release": "spatial-static-bounds-20261016",
+  "release": "opaque-depth-order-20261016",
   "gameUrl": "/playable-3d/",
   "baseCommit": "1442d29d33db4ae4a092a1afd42207ef639c82e0",
-  "scope": "Candidate: byte-exact vertex reuse and conservative spatial bounds for original opaque triangles and paired tree LODs. Every triangle, attribute, instance, material, shadow state and detail threshold retained; unchanged camera, resolution and timing requirements.",
+  "scope": "Candidate: software-only front-to-back opaque ordering plus exact vertex reuse/conservative spatial bounds. All original content, materials, triangle data, resolution, camera and thresholds retained; native and transparent sorting unchanged.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "0f34974e8d6bdda2ff48cde2fb443c6ef2a74d122a1271f83b1c43618341c84f"
+      "sha256": "077f81e3d86a924a36737fb2f95900d2d263d94c3d6ae362709c0b76f4f30fb0"
     },
     {
       "path": "arcade-carnival.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "b00184d83eaa757a6168b1ca83c1a7faa930c2f1f6e7f89287341996f5799b19"
+      "sha256": "610d33a1adff1d99ad5bcd9fded0301691eb37c9ff1dd7b1b14b70372b5aaef8"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "5afabc49981408d871ddfb0bfaf1e909639eaa74a9ff7265c41cb31cf59f47b1"
+      "sha256": "2bd9aacecd85771e07bef052e12b1bf300a352210afdeb77ed4f32b7a8a22b53"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1147,6 +1147,10 @@
     {
       "path": "environment/exact-index.mjs",
       "sha256": "ddffe2702ce7b1012d4e37e096ec1135e2386f7b6f2a7c73e859d68cebdbfd97"
+    },
+    {
+      "path": "opaque-depth-sort.mjs",
+      "sha256": "e161f3a5e209173d3bb9f79de7a23ceebd4851470d999682a256b0e4839d2fd2"
     }
   ],
   "estVideo": {

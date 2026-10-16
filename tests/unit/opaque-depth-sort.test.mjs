@@ -1,0 +1,4 @@
+import {test,expect} from 'vitest';import {opaqueDepthSort} from '../../playable-3d/opaque-depth-sort.mjs';
+const item=(id,z,material=1,groupOrder=0,renderOrder=0)=>({id,z,material:{id:material},groupOrder,renderOrder});
+test('opaque near surfaces precede expensive hidden surfaces regardless of material allocation order',()=>{const near=item(2,-.8,99),far=item(1,.8,1);expect([far,near].sort(opaqueDepthSort)).toEqual([near,far]);});
+test('explicit group/render order and stable ties retain their original priority',()=>{expect(opaqueDepthSort(item(1,-1,1,2),item(2,1,1,1))).toBeGreaterThan(0);expect(opaqueDepthSort(item(1,-1,1,0,2),item(2,1,1,0,1))).toBeGreaterThan(0);expect(opaqueDepthSort(item(1,0,2),item(2,0,1))).toBeGreaterThan(0);expect(opaqueDepthSort(item(1,0),item(2,0))).toBeLessThan(0);});
