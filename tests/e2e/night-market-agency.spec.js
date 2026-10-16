@@ -13,7 +13,7 @@ const visit=(page,x,z)=>page.evaluate(([x,z])=>{const spot=market.interaction({x
 const click=(page,name)=>page.getByRole('button',{name,exact:true}).click();
 const close=page=>page.locator('.market-close').click();
 async function wave(page){await visit(page,4.2,-1.8);await click(page,'Try this with next customers');await page.evaluate(()=>market.update(10,10,camera));await click(page,'Record that I checked this result');}
-async function pay(page){await click(page,'Go and talk it through with Mara');if(await page.evaluate(()=>typeof market!=='undefined'))await visit(page,0,-3.6);else{await page.locator('#scene').focus();await page.keyboard.down('a');try{await page.waitForFunction(()=>!document.getElementById('interact').hidden&&document.getElementById('interact').textContent.trim()==='Talk to Mara',null,{timeout:15000});}finally{await page.keyboard.up('a');}await page.locator('#interact').click();}await click(page,'Keep this learning connection');await click(page,'Finish the shift · receive $18 and crew pass');}
+async function pay(page){await click(page,'Go and talk it through with Mara');if(await page.evaluate(()=>typeof market!=='undefined'))await visit(page,0,-3.6);else{await walkMarket(page,'KeyA',{selector:'#interact',text:'Talk to Mara'},15000);await page.locator('#interact').click();}await click(page,'Keep this learning connection');await click(page,'Finish the shift · receive $18 and crew pass');}
 for(const width of [1280,390])test(`agency, trial comparison and editable artifact ${width}`,async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await start(page,width);
  await visit(page,0,-3.6);await click(page,'Take the shift');
