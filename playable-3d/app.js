@@ -1,9 +1,9 @@
-import {indexStaticWorld} from './environment/exact-index.mjs?v=world-exact-vertex-reuse-20261016';
+import {createSoftwareDepthPass} from './software-depth-pass.mjs?v=software-depth-prepass-20261016';
 import {estEyeHeight,estPlayTop} from './est-camera.mjs?v=broad-integrated-20261014';
 import {MARKET_APPROACH} from './landing.mjs?v=post-photo-tour-20261013';
 import {isAdminPreview,adminPreviewURL,createPreviewStorage} from './admin-preview.mjs?v=admin-preview-20261013';
-import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=world-exact-vertex-reuse-20261016';
-import {needsSoftwarePresentation,createSoftwarePresentation} from './software-presentation.mjs?v=world-exact-vertex-reuse-20261016';
+import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=software-depth-prepass-20261016';
+import {needsSoftwarePresentation,createSoftwarePresentation} from './software-presentation.mjs?v=software-depth-prepass-20261016';
 import {renderQuality,rendererName} from './render-quality.mjs?v=ecc-ba60122';
 import {waitForPriorityAsset,withAssetDeadline,canClearDetailWarning} from './startup-assets.mjs?v=ecc-ba60122';
 import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=initiative-arcade-20261014';
@@ -43,7 +43,7 @@ const gameSession=window.CareerEmpireGameRun;
 const gameStorage=adminReviewRequested?createPreviewStorage():(gameSession?.storage||localStorage);
 const state=loadProfiles(isolatedDiscovery?reviewProfiles:gameStorage);
 let discovery=null,intro=null,explorationTools=null,revealCameraStart=null;
-let frameGate,surfaceUploads,softwarePresentation,portraitCapturePending=false,lastUploadWorldPose=null;
+let frameGate,surfaceUploads,softwarePresentation,softwareDepthPass,portraitCapturePending=false,lastUploadWorldPose=null;
 let softwareNavigationAt=null;
 let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flourishing',draft,editorTab='identity';
 let wardrobeSection='pants';
@@ -407,7 +407,7 @@ async function prepareEntry(){
  const environmentModule=environmentReady?null:(entryEnvironmentModule||=import('./environment.js?v=broad-integrated-20261014'));environmentModule?.catch(()=>{});
  // Complete exterior geometry and original opening planting during the intro; interiors and decorative maps remain deferred.
  const originalExteriors=worlds.loadBuildingExteriors();
- entryLoad=Promise.all([worlds.loadEntry(),originalExteriors,entryAvatarPriority?waitForPriorityAsset(entryAvatarPriority):Promise.resolve()]).then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}showMarketExteriorSigns();if(renderQuality(renderBackend,'auto',devicePixelRatio).software)canvas.dataset.staticVertexReuse=JSON.stringify(indexStaticWorld(worlds.town));worlds.loadMuralTexture().catch(()=>{detailFailed=true;detailNotice();});entryGeometryReady=true;updateCamera(1,true);if(mode==='town')await waitForVisibleEntryFrame();entryReady=true;entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;updateEntryLoading();canvas.dataset.entryVisibleMs=String(performance.now());startSurfaceDetail();}).catch(error=>{entryFailure=true;campusNotice('Campus buildings could not load. Retry to open campus.',true);updateEntryLoading();throw error;}).finally(()=>{entryPreparing=false;entryLoad=null;});
+ entryLoad=Promise.all([worlds.loadEntry(),originalExteriors,entryAvatarPriority?waitForPriorityAsset(entryAvatarPriority):Promise.resolve()]).then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}showMarketExteriorSigns();worlds.loadMuralTexture().catch(()=>{detailFailed=true;detailNotice();});entryGeometryReady=true;updateCamera(1,true);if(mode==='town')await waitForVisibleEntryFrame();entryReady=true;entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;updateEntryLoading();canvas.dataset.entryVisibleMs=String(performance.now());startSurfaceDetail();}).catch(error=>{entryFailure=true;campusNotice('Campus buildings could not load. Retry to open campus.',true);updateEntryLoading();throw error;}).finally(()=>{entryPreparing=false;entryLoad=null;});
  return entryLoad;
 }
 function prepareNextTask(now){
@@ -863,7 +863,8 @@ function animate(){
   renderer.shadowMap.needsUpdate=qualityChanged||playerShadowChanged||$('quality').value!=='auto'||shadowScene!==scene||(renderer.shadowMap.enabled&&now-shadowTime>=((mode!=='town'||keys.size||joystick.x||joystick.z||flyover?.active||teachers.length)?.1:.5));
   if(renderer.shadowMap.needsUpdate){shadowScene=scene;shadowTime=now;shadowActor=actor;shadowActorPosition.copy(actor.model.position);shadowActorYaw=actor.model.rotation.y;}
   // A bounded warm frame prevents first-use texture/shader work at video EOF.
-  const renderStarted=performance.now();renderer.render(scene,camera);lastPausedSceneStamp=frameStamp;lastRenderMs=performance.now()-renderStarted;frameGate.submitted();lastUploadWorldPose=uploadWorldPose();surfaceUploads.worldSubmitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
+  const worldRenderStarted=performance.now();softwareDepthPass?.render(scene,camera);
+  const renderStarted=performance.now();renderer.render(scene,camera);lastPausedSceneStamp=frameStamp;lastRenderMs=performance.now()-worldRenderStarted;frameGate.submitted();lastUploadWorldPose=uploadWorldPose();surfaceUploads.worldSubmitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
   if(!canvas.dataset.firstFrameMs)canvas.dataset.firstFrameMs=String(Math.round(performance.now()));
   publishDiagnostics(now,true);
 }
@@ -938,6 +939,7 @@ async function boot(){
   THREE.Cache.enabled=true;
   try{
     icons();const softwareBuffer=needsSoftwarePresentation(document);renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance',preserveDrawingBuffer:softwareBuffer});renderer.setPixelRatio(sharpRatio);renderBackend=rendererName(renderer);renderer.setPixelRatio(renderQuality(renderBackend,$('quality').value,devicePixelRatio).pixelRatio);renderer.localClippingEnabled=true;renderer.shadowMap.enabled=renderQuality(renderBackend,$('quality').value,devicePixelRatio).shadows;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.03;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.autoClear=false;
+    softwareDepthPass=createSoftwareDepthPass(renderer,THREE,renderQuality(renderBackend,'auto',devicePixelRatio).software);
     softwarePresentation=createSoftwarePresentation(canvas,softwareBuffer&&renderQuality(renderBackend,'auto',devicePixelRatio).software);
     frameGate=createGpuFrameGate(renderer,renderQuality(renderBackend,'auto',devicePixelRatio).software,()=>softwarePresentation?.present(renderedFrames));
     surfaceUploads=createTextureUploadQueue({waitForFrame:()=>new Promise(resolve=>{const next=()=>requestAnimationFrame(()=>{if(document.hidden||!frameGate.ready()||(frameGate.constrained&&(softwareMovementActive()||(surfaceUploads?.worldFrameDue&&softwareWorldActive()))))next();else resolve();});next();}),upload:texture=>{renderer.initTexture(texture);frameGate.uploadSubmitted();}});
