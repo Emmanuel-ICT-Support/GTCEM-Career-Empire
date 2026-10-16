@@ -50,6 +50,7 @@ jobs:
         env:
           PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
           CE_BROWSER_CHANNEL: chromium
+          CE_GPU_COMPOSITING: '1'
           CE_MOVEMENT_PROFILE: ${{ matrix.group == 'movement' && '1' || '0' }}
           CE_RECOVERY_DRAWS: ${{ matrix.group == 'state' && '1' || '0' }}
           CE_RECOVERY_TRACE_AFTER_FAILURE: ${{ matrix.group == 'state' && '1' || '0' }}

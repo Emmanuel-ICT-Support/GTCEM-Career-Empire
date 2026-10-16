@@ -30,7 +30,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         channel: process.env.CE_BROWSER_CHANNEL,
         // Keep real game graphics on the Mac's native renderer, including older tests.
-        launchOptions: {args:process.platform==='darwin'?['--use-angle=metal']:[]}
+        launchOptions: {args:process.platform==='darwin'?['--use-angle=metal']:process.env.CE_GPU_COMPOSITING==='1'?['--enable-gpu','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']:[]}
       }
     }
   ]
