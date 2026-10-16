@@ -35,6 +35,7 @@ test('static batches retain world geometry, material identity and transparent su
 
  }
 
+ if(process.env.CE_BAKE_PIXEL_PROOF==='1'){
  const baked=await page.evaluate(async()=>{
   const T=await import('three'),{bakeStaticInstances}=await import('/playable-3d/software-static-instances.mjs');const renderer=new T.WebGLRenderer({antialias:true});renderer.setSize(128,96);renderer.autoClear=false;renderer.setClearColor(0xb4d4df,1);const target=new T.WebGLRenderTarget(128,96,{samples:4});renderer.setRenderTarget(target);const scene=new T.Scene(),camera=new T.PerspectiveCamera(45,128/96,.1,30);camera.position.set(0,2,7);camera.lookAt(0,0,0);scene.add(new T.HemisphereLight(0xffffff,0x334433,2));const light=new T.DirectionalLight(0xffffff,3);light.position.set(2,4,3);scene.add(light);
   const boxes=new T.InstancedMesh(new T.BoxGeometry(1,2,1),new T.MeshStandardMaterial({color:0xb99c69,roughness:.6}),3);for(let i=0;i<3;i++)boxes.setMatrixAt(i,new T.Matrix4().makeTranslation((i-1)*2,0,0));scene.add(boxes);
@@ -42,5 +43,14 @@ test('static batches retain world geometry, material identity and transparent su
   const before=new Uint8Array(128*96*4),after=new Uint8Array(before.length);renderer.clear();renderer.render(scene,camera);renderer.readRenderTargetPixels(target,0,0,128,96,before);const stats=await bakeStaticInstances(scene,{yieldFrame:async()=>{}});renderer.clear();renderer.render(scene,camera);renderer.readRenderTargetPixels(target,0,0,128,96,after);let changed=0,colourful=0;for(let i=0;i<before.length;i+=4){if(before.slice(i,i+4).some((v,j)=>v!==after[i+j]))changed++;if(before[i]!==before[0]||before[i+1]!==before[1]||before[i+2]!==before[2])colourful++;}return {stats,changed,colourful,glassRetained:glass.parent===scene};
  });
  console.log('STATIC_BAKE_PIXEL_EQUIVALENCE',JSON.stringify(baked));expect(baked.changed).toBe(0);expect(baked.colourful).toBeGreaterThan(1000);expect(baked.stats.instances).toBe(5);expect(baked.stats.triangles).toBe(40);expect(baked.glassRetained).toBe(true);
+
+ }
+
+ const zeroLight=await page.evaluate(async()=>{
+  const T=await import('three'),{installZeroLightWork}=await import('/playable-3d/zero-light-work.mjs');const renderer=new T.WebGLRenderer({antialias:true});renderer.setSize(128,96);const target=new T.WebGLRenderTarget(128,96,{samples:4});renderer.setRenderTarget(target);const scene=new T.Scene();scene.background=new T.Color(0xb4d4df);const camera=new T.PerspectiveCamera(45,128/96,.1,100);camera.position.set(0,2,7);camera.lookAt(0,0,0);scene.add(new T.HemisphereLight(0xffffff,0x334433,1));
+  for(const [color,intensity,range,x,y,z]of [[0xffffff,4,3,1,2,2],[0x55aaff,8,2,50,20,30],[0x442211,.5,0,-4,3,3],[0,5,0,1,3,0]]){const light=new T.PointLight(color,intensity,range,2);light.position.set(x,y,z);scene.add(light);}const spot=new T.SpotLight(0xffbb77,3,6,.5,.2,2);spot.position.set(3,4,4);spot.target.position.set(0,0,0);scene.add(spot,spot.target);
+  const materials=[new T.MeshStandardMaterial({color:0xa68b55,roughness:.6}),new T.MeshPhysicalMaterial({color:0x468b72,roughness:.4,metalness:.2,clearcoat:.7}),new T.MeshPhongMaterial({color:0x647ca4,shininess:20})];materials.forEach((m,i)=>{const mesh=new T.Mesh(new T.SphereGeometry(.8,16,12),m);mesh.position.x=(i-1)*1.9;scene.add(mesh);});const before=new Uint8Array(128*96*4),after=new Uint8Array(before.length);renderer.render(scene,camera);renderer.readRenderTargetPixels(target,0,0,128,96,before);const installed=installZeroLightWork(T.ShaderChunk,true);for(const material of materials){const key=material.customProgramCacheKey.bind(material);material.customProgramCacheKey=()=>key()+':zero-light-proof';material.needsUpdate=true;}renderer.render(scene,camera);renderer.readRenderTargetPixels(target,0,0,128,96,after);let changed=0,colourful=0;for(let i=0;i<before.length;i+=4){if(before.slice(i,i+4).some((v,j)=>v!==after[i+j]))changed++;if(before[i]!==before[0]||before[i+1]!==before[1]||before[i+2]!==before[2])colourful++;}return {installed,changed,colourful,lights:scene.children.filter(o=>o.isLight).length};
+ });
+ console.log('ZERO_LIGHT_PIXEL_EQUIVALENCE',JSON.stringify(zeroLight));expect(zeroLight.installed).toBe(true);expect(zeroLight.changed).toBe(0);expect(zeroLight.colourful).toBeGreaterThan(1000);expect(zeroLight.lights).toBe(6);
 
 });

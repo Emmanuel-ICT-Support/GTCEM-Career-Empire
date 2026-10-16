@@ -1,8 +1,8 @@
 {
-  "release": "interaction-upload-priority-20261016",
+  "release": "zero-light-work-20261016",
   "gameUrl": "/playable-3d/",
   "baseCommit": "3376291da35058f4be079ba57244bb90a5a436d0",
-  "scope": "Candidate: fair, separately fenced software uploads and genuine completed world presentation; retain real frame counts, original assets, graphics, native scheduling, input caps and all meaningful thresholds. Focused wider verification pending; no deployment.",
+  "scope": "Candidate: skip mathematically zero direct-light work on software backends; preserve shared animation/physics time. Every original light, triangle, material, texture/filter, camera and timing threshold retained. Pixel and fixed-window frame verification pending; no deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "5b8161097188481275d6077531c977d4d55a6c072335e15dcbf01fb032e1c96e"
+      "sha256": "e5226259f2288401403e0d8c50ba94423bbe2048c2a861882f3d1b1421f5353a"
     },
     {
       "path": "arcade-carnival.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "af02346d895bd5ffd830191d5694154a56914a1d009990beb76572107776acd5"
+      "sha256": "5366e281d0f882d51f398c1742ca2abe1a590876f86ae6649e8395b2429c2a97"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "737cde811d4a020094fb60682186189f414e04839d0613cf20abedcf9dcef39b"
+      "sha256": "e9d7c35d28704c53da4839b06ab7d1bdd85894c23fde05999b8af3bdc643ccdd"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1143,6 +1143,10 @@
     {
       "path": "world.js",
       "sha256": "ad8afaca4bf51044cec04b20a4cad0e3562f6901f1c5ba408c061f7d31b1451d"
+    },
+    {
+      "path": "zero-light-work.mjs",
+      "sha256": "9ab519b2a3f15c4d3f1098f3e8df40f3826a5c3b1d09bbf2dcc702b4994c1ab5"
     }
   ],
   "estVideo": {
