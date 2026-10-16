@@ -51,3 +51,15 @@ test('completed software frames leave browser layout/input ticks before another 
 test('hardware input opportunities preserve ordinary draw scheduling',()=>{
  const gate=createGpuFrameGate({getContext:()=>({})},false);gate.submitted();expect(gate.readyForDraw(0)).toBe(true);gate.submitted();expect(gate.readyForDraw(1)).toBe(true);
 });
+
+test('software upload fences consume GPU capacity without inventing a world frame or presentation',()=>{
+ let complete=false,presented=0;const gl={TIMEOUT_EXPIRED:1,SYNC_GPU_COMMANDS_COMPLETE:3,fenceSync:()=>({}),clientWaitSync:()=>complete?2:1,deleteSync(){},flush(){}};
+ const gate=createGpuFrameGate({getContext:()=>gl},true,()=>presented++);gate.uploadSubmitted();expect(gate.submittedFrame).toBe(0);expect(gate.ready()).toBe(false);expect(()=>gate.submitted()).toThrow('preceding frame');complete=true;expect(gate.ready()).toBe(true);expect(gate.completedFrame).toBe(0);expect(presented).toBe(0);
+ gate.submitted();gate.ready();expect(gate.submittedFrame).toBe(1);expect(gate.completedFrame).toBe(1);expect(presented).toBe(1);
+});
+test('each completed decorative upload yields a world opportunity without losing original texture priority',async()=>{
+ const waiting=[],uploads=[];const queue=createTextureUploadQueue({waitForFrame:()=>new Promise(resolve=>waiting.push(resolve)),upload:value=>uploads.push(value)});
+ const wall=queue.schedule(()=> 'wall'),grass=queue.schedule(()=> 'grass',{priority:1});expect(queue.worldFrameDue).toBe(false);waiting.shift()();await wall;expect(queue.worldFrameDue).toBe(true);expect(queue.waitingForFrame).toBe(true);
+ queue.worldSubmitted();expect(queue.worldFrameDue).toBe(false);waiting.shift()();await grass;expect(uploads).toEqual(['wall','grass']);expect(queue.worldFrameDue).toBe(true);
+});
+test('hardware uploads keep their original scheduling and never create software fences',()=>{const gate=createGpuFrameGate({getContext:()=>({fenceSync(){throw Error('native upload fence');}})},false);expect(gate.constrained).toBe(false);gate.uploadSubmitted();expect(gate.submittedFrame).toBe(0);expect(gate.ready()).toBe(true);});

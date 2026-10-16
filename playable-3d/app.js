@@ -1,8 +1,8 @@
 import {estEyeHeight,estPlayTop} from './est-camera.mjs?v=broad-integrated-20261014';
 import {MARKET_APPROACH} from './landing.mjs?v=post-photo-tour-20261013';
 import {isAdminPreview,adminPreviewURL,createPreviewStorage} from './admin-preview.mjs?v=admin-preview-20261013';
-import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=input-and-mode-recovery-20261016';
-import {needsSoftwarePresentation,createSoftwarePresentation} from './software-presentation.mjs?v=input-and-mode-recovery-20261016';
+import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=upload-frame-fairness-20261016';
+import {needsSoftwarePresentation,createSoftwarePresentation} from './software-presentation.mjs?v=upload-frame-fairness-20261016';
 import {renderQuality,rendererName} from './render-quality.mjs?v=ecc-ba60122';
 import {waitForPriorityAsset,withAssetDeadline,canClearDetailWarning} from './startup-assets.mjs?v=ecc-ba60122';
 import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=initiative-arcade-20261014';
@@ -751,6 +751,7 @@ function takeNavigationElapsed(now,elapsed=0){
 function canStepNavigation(){
   return !flyover?.active&&(mode!=='town'||entryReady)&&!marketOpening&&!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open();
 }
+function softwareWorldActive(){return !document.hidden&&!intro?.open()&&!explorationTools?.preparing()&&(mode==='studio'||flyover?.active||canStepNavigation());}
 function stepNavigation(elapsed){
   if(tapMovement){if(performance.now()<tapMovement.until)keys.add(tapMovement.key);else{keys.delete(tapMovement.key);tapMovement=null;}}
   let x=(keys.has('KeyD')||keys.has('ArrowRight')?1:0)-(keys.has('KeyA')||keys.has('ArrowLeft')?1:0),z=(keys.has('KeyS')||keys.has('ArrowDown')?1:0)-(keys.has('KeyW')||keys.has('ArrowUp')?1:0);
@@ -838,7 +839,8 @@ function animate(){
   // Preserve the completed initial view long enough for the released controls
   // and input to paint before another slow software scene draw.
   if(mode==='town'&&entryReady&&now-entryReadyAt<.12&&renderQuality(renderBackend,'auto',1).software)return;
-  if(surfaceUploads.waitingForFrame||portraitCapturePending||!frameGate.readyForDraw())return;
+  const uploadHasPriority=surfaceUploads.waitingForFrame&&(!frameGate.constrained||!surfaceUploads.worldFrameDue||!softwareWorldActive());
+  if(uploadHasPriority||portraitCapturePending||!frameGate.readyForDraw())return;
   let scene=mode==='studio'?studio:activeScene();
   // On a software GPU, a paused panel should not repeatedly rasterize an
   // unchanged world. Assets, UI and teacher preparation keep advancing.
@@ -858,7 +860,7 @@ function animate(){
   renderer.shadowMap.needsUpdate=qualityChanged||playerShadowChanged||$('quality').value!=='auto'||shadowScene!==scene||(renderer.shadowMap.enabled&&now-shadowTime>=((mode!=='town'||keys.size||joystick.x||joystick.z||flyover?.active||teachers.length)?.1:.5));
   if(renderer.shadowMap.needsUpdate){shadowScene=scene;shadowTime=now;shadowActor=actor;shadowActorPosition.copy(actor.model.position);shadowActorYaw=actor.model.rotation.y;}
   // A bounded warm frame prevents first-use texture/shader work at video EOF.
-  const renderStarted=performance.now();renderer.render(scene,camera);lastPausedSceneStamp=frameStamp;lastRenderMs=performance.now()-renderStarted;frameGate.submitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
+  const renderStarted=performance.now();renderer.render(scene,camera);lastPausedSceneStamp=frameStamp;lastRenderMs=performance.now()-renderStarted;frameGate.submitted();surfaceUploads.worldSubmitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
   if(!canvas.dataset.firstFrameMs)canvas.dataset.firstFrameMs=String(Math.round(performance.now()));
   publishDiagnostics(now,true);
 }
@@ -934,8 +936,8 @@ async function boot(){
   try{
     icons();const softwareBuffer=needsSoftwarePresentation(document);renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance',preserveDrawingBuffer:softwareBuffer});renderer.setPixelRatio(sharpRatio);renderBackend=rendererName(renderer);renderer.setPixelRatio(renderQuality(renderBackend,$('quality').value,devicePixelRatio).pixelRatio);renderer.localClippingEnabled=true;renderer.shadowMap.enabled=renderQuality(renderBackend,$('quality').value,devicePixelRatio).shadows;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.03;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.autoClear=false;
     softwarePresentation=createSoftwarePresentation(canvas,softwareBuffer&&renderQuality(renderBackend,'auto',devicePixelRatio).software);
-    frameGate=createGpuFrameGate(renderer,renderQuality(renderBackend,'auto',devicePixelRatio).software,frame=>softwarePresentation?.present(frame));
-    surfaceUploads=createTextureUploadQueue({waitForFrame:()=>new Promise(resolve=>{const next=()=>requestAnimationFrame(()=>{if(document.hidden||!frameGate.ready())next();else resolve();});next();}),upload:texture=>renderer.initTexture(texture)});
+    frameGate=createGpuFrameGate(renderer,renderQuality(renderBackend,'auto',devicePixelRatio).software,()=>softwarePresentation?.present(renderedFrames));
+    surfaceUploads=createTextureUploadQueue({waitForFrame:()=>new Promise(resolve=>{const next=()=>requestAnimationFrame(()=>{if(document.hidden||!frameGate.ready()||(frameGate.constrained&&surfaceUploads?.worldFrameDue&&softwareWorldActive()))next();else resolve();});next();}),upload:texture=>{renderer.initTexture(texture);frameGate.uploadSubmitted();}});
     camera=new THREE.PerspectiveCamera(55,1,.08,220);
     const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();const environment=pmrem.fromScene(room,.04);room.dispose();pmrem.dispose();
     $('loading-message').textContent=studioFirst?'Opening your wardrobe…':'Loading your character and learning district...';
