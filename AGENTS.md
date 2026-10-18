@@ -1,3 +1,7 @@
+## Phone Options regression repair - 18 October 2026
+
+Final-source attempt83e3f1f stopped after Options intercepted the phone joystick:120passed/1failed/1interrupted/130unrun of252, no skipped. Preserve its raw receipts. Mobile menu now scrolls above the entire touch-control lane; original touch test adds geometric clearance. All4Options cases pass. CSS/cache/manifest only runtime repair; no graphics or movement changes. Restart all252cases on this corrected commit; do not claim full clearance from interrupted evidence. Continue no publication/auth grants/student records/Blueprint changes.
+
 ## Final-source cadence audit - 18 October 2026
 
 Same isolated repair/resume-20261018; preserve e41ea3f. User requests unchanged>5 moving-frame requirement and a complete final252-case run. Timed fresh/settled/repeated1300ms holds and an independent8ms real-fence polling diagnostic remain1-2moving draws. JS render submission and frame copy take a few ms; measured software fence completion takes~2.1s desktop/~1.0s phone. SwiftShader only; /dev/dri and /sys/class/drm absent. No proven cadence optimization or graphics reduction shipped; probe is QA-only. Automatic threshold entry now uses requestMarket rather than bypassing pacing; hysteresis permits cancel/walk-away/retry.335units and4gate cases pass. Full final-source run pending. No push/merge/publication/auth grants/real student records/Blueprint changes. Deliver screenshot artifacts through Library, not raw workspace URLs. See qa/cadence-boundary-20261018.json.

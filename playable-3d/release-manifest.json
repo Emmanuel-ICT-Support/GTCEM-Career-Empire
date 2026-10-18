@@ -1,8 +1,8 @@
 {
-  "release": "cadence-audit-20261018",
+  "release": "touch-options-20261018",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "e41ea3fb974076264dc7fe45da6c29f21d7c5587",
-  "scope": "Unpublished follow-up: automatic walking entry uses the classroom pacing gate; cancel can walk away and retry. Original graphics/camera/frame budgets retained. Cadence diagnosis is QA-only; full final-source verification pending.",
+  "baseCommit": "83e3f1f9adbf25c36a043ef3da22000cd1a7303c",
+  "scope": "Unpublished follow-up: mobile Options scrolls above the touch joystick. Original graphics, frame assertion and classroom pacing behavior preserved. Final-source full regression pending.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -610,7 +610,7 @@
     },
     {
       "path": "discovery-opening.css",
-      "sha256": "0be4c8b0034c894d0eff48e0d3a83179262f0c45b758741cee2b1276db5b03ac"
+      "sha256": "532fedb8b0ecc5f7a25dba12f61cee9c46be595083b854518a57d91feebfecf8"
     },
     {
       "path": "discovery-opening.js",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "887c610dd677b08297d36d52072e20aca721e5c4ea7fdf1c6e5cf0e532c091c4"
+      "sha256": "27af8a62fc586a2191a8f5c22a0f03245706c8d5759df3f67bb8c082f6d5e3f1"
     },
     {
       "path": "initiative-field-guide.html",

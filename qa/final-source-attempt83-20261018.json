@@ -1,0 +1,15 @@
+{
+  "testedCommit": "83e3f1f9adbf25c36a043ef3da22000cd1a7303c",
+  "scope": "Full-suite attempt intentionally interrupted after a real mobile Options overlap was found; not full clearance",
+  "expected": 252,
+  "counts": {
+    "passed": 120,
+    "failed": 1,
+    "interrupted": 1,
+    "notRun": 130,
+    "skipped": 0
+  },
+  "failure": "options-companion.spec.js: simulated phone touch dismissal; Options intercepted tap on joystick",
+  "action": "Preserve original report/log/inventory; repair mobile panel height and restart all 252 cases on a new committed source",
+  "durationSeconds": 1604.186314
+}

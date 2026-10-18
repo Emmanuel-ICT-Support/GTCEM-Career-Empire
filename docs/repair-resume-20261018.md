@@ -204,3 +204,15 @@ Teacher captures are synthetic and external data access was blocked.
 Nothing was pushed, merged or deployed. Blueprint and auth grants are unchanged.
 
 Final photo rerun:1passed/0failed/0unrun in30.68s. Final pixel-checked desktop/390continuations:2passed/0failed, from a structurally valid synthetic completed-photo checkpoint. Original full run, failed intermediate runs and successful focused receipts are all retained separately.
+
+## Phone Options overlap found during final-source regression
+
+The full-source attempt at83e3f1f was intentionally interrupted after a real
+phone layout failure: the long Options panel intercepted the joystick tap.
+Exact execution:120passed,1failed,1interrupted,130unrun of252; zero skipped.
+This attempt is preserved separately and is not a full clearance.
+Mobile Options now scrolls above the touch-control lane. The original simulated
+phone touch case additionally asserts that the panel clears the whole joystick.
+All4Options companion cases pass, including actual touch dismissal and movement.
+No movement logic, graphics, input hold or cadence requirement changed.
+A new complete252-case regression is required on the corrected commit.
