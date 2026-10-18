@@ -1,3 +1,7 @@
+## Full final-source result - 18 October 2026
+
+Commit c44a956: all 252 cases executed exactly once, 250 passed / 2 failed, zero skipped/interrupted/flaky/unrun, 60.15 minutes. Only suit-flicker cadence at 1280/390 fails: 2 moving frames each, unchanged >5/1300ms. Source checks and 335 units pass. All 242 published cases mapped, 65 former failures now pass, no previously passing case regressed. Preserve earlier failed/interrupted attempts; do not call CI green. SwiftShader-only hardware boundary is evidenced in qa/cadence-boundary-20261018.json; no physical/accelerated device tested. No push/merge/deployment/auth grants/real records/Blueprint changes. Further changes below this result are evidence only; tested runtime stays c44a956.
+
 ## Phone Options regression repair - 18 October 2026
 
 Final-source attempt83e3f1f stopped after Options intercepted the phone joystick:120passed/1failed/1interrupted/130unrun of252, no skipped. Preserve its raw receipts. Mobile menu now scrolls above the entire touch-control lane; original touch test adds geometric clearance. All4Options cases pass. CSS/cache/manifest only runtime repair; no graphics or movement changes. Restart all252cases on this corrected commit; do not claim full clearance from interrupted evidence. Continue no publication/auth grants/student records/Blueprint changes.

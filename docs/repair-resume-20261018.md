@@ -1,11 +1,15 @@
 # Unpublished repair resumed 18 October 2026
 
-Current outcome: unpublished review candidate, with two unresolved software
-animation cadence failures. Local broad regression: **245 passed / 7 failed
-of 252**, no skipped/unrun; later targeted checks pass for the other five
-failed cases. Final source: **335 units**, **26 accounting checks**,
-**286 asset hashes / 91 modules**, and **2 desktop/phone visual continuations**
-pass. There has been no full 252-case rerun of the final bounded repairs.
+Current outcome: unpublished review candidate. Complete final-source regression
+on **c44a9561214adfdd7d9ef626eb816d73ec03c43a**: **252/252 executed,
+250 passed / 2 failed**, zero skipped, interrupted, flaky or unrun; exact
+inventory partition, 60.15 minutes. The only failures are strict software
+suit/shadow cadence at 1280 and 390: **2 moving frames each, required >5**.
+This is not a passing CI result. Source checks and **335 units** pass.
+All 242 published cases are mapped: 65 former failures now pass, no previously
+passing case regressed. The earlier 245/7 run and interrupted attempt remain
+separate historical receipts. No physical or accelerated school device tested.
+See qa/final-source-full-20261018.json and docs/final-source-comparison-20261018.md.
 
 Preview and screenshots: `/workspace/career-preview-20261018/README.md`.
 
@@ -216,3 +220,24 @@ phone touch case additionally asserts that the panel clears the whole joystick.
 All4Options companion cases pass, including actual touch dismissal and movement.
 No movement logic, graphics, input hold or cadence requirement changed.
 A new complete252-case regression is required on the corrected commit.
+
+## Final-source cadence boundary
+
+Fresh, settled and repeated 1300 ms input holds remain at 1–2 moving draws.
+Release timing is 1300–1314 ms; pending surface assets are zero in settled trials.
+JavaScript render submission and completed-canvas copying take a few milliseconds.
+Small paired samples measure real software GPU completion at roughly 2.1 s desktop
+and 1.0 s phone. Independent 8 ms real-fence polling does not recover cadence.
+Only SwiftShader is reported; /dev/dri and /sys/class/drm are absent.
+This is a real cadence failure in this renderer, not merely screenshot timing.
+No pixel-equivalent performance fix was validated. It does not establish that
+source is optimally efficient or that animation is correct on school hardware.
+The original >5 assertion, 1300 ms hold, graphics, trees and camera remain intact.
+Representative accelerated/physical-device qualification remains blocked by
+unavailable hardware, not an approval denial.
+
+Final refreshed desktop/390px actual-UI continuation passes2/2 on c44a956.
+Use revised-flow-final-clean for captures after transient toasts clear.
+All26accounting checks and286hashes/91modules pass. These are browser
+viewport captures with a synthetic completed-photo checkpoint; the full suite
+separately covers the natural intro and actual photo journey.
