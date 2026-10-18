@@ -514,6 +514,7 @@ async function openESTDocument(key){const request=++documentRequest,doc=estDocum
 function positionESTPlayButton(){const button=$('est-watch');if(mode!=='interior'||watchingEST){button.hidden=true;return;}const point=worlds.estVideo.screen.getWorldPosition(new THREE.Vector3()).project(camera);button.hidden=point.z<0||point.z>1||Math.abs(point.x)>.9||Math.abs(point.y)>.85;if(!button.hidden){button.style.left=((point.x+1)*.5*viewport.width)+'px';button.style.top=estPlayTop(point.y,viewport.height,document.querySelector('.topbar').getBoundingClientRect().bottom,button.offsetHeight)+'px';}}
 
 function reflect(){keys.clear();joystick.reset();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
+let marketGateApproachArmed=true;
 let marketOpening=false,marketLeaving=false,marketTravelCooldownUntil=0,marketTravelRequest=0,marketTravelController=null,marketModuleAttempt=0;
 function cancelMarketOpening(next){if(next!=='market'&&marketOpening){marketTravelRequest++;marketOpening=false;const controller=marketTravelController;marketTravelController=null;controller?.abort();}}
 // Capture only the already-loaded market scene; no campus or video assets.
@@ -800,7 +801,11 @@ function stepNavigation(elapsed){
   }
   actor.model.position.lerpVectors(renderMotion.previous,renderMotion.current,accumulator/STEP);
   renderMotion.shown.copy(actor.model.position);
-  if(mode==='town'&&campusReady&&travelled>.001&&performance.now()>marketTravelCooldownUntil&&Math.hypot(actor.model.position.x-43,actor.model.position.z+22)<1.2)openMarket();
+  if(mode==='town'&&campusReady){
+    const marketDistance=Math.hypot(actor.model.position.x-43,actor.model.position.z+22);
+    if(marketDistance>2)marketGateApproachArmed=true;
+    if(marketGateApproachArmed&&travelled>.001&&performance.now()>marketTravelCooldownUntil&&marketDistance<1.2){marketGateApproachArmed=false;requestMarket();}
+  }
   // A render frame with no physics tick is not a stop. Never restart its walk.
   if(steps)actor.setWalking(travelled/(steps*STEP)>.03,travelled/(steps*STEP));
 }
@@ -917,7 +922,7 @@ async function showOrientationHandover({restore=false}={}){
  if(!discovery?.snapshot().souvenir)return;
  resetNavigationInput();actor.setWalking(false);closeExplorationOptions(false);explorationTools?.close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;
  orientationSummary=orientationHandoverCopy({earned:null,tax:null});try{orientationSummary=orientationHandoverCopy(await explorationTools.completeOrientation());}catch{}
- if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=studio-preview-20261018&retry='+orientationTourAttempt).then(({createOrientationTour})=>{
+ if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=cadence-audit-20261018&retry='+orientationTourAttempt).then(({createOrientationTour})=>{
   orientationTour=createOrientationTour({storage:gameStorage,photo:()=>discovery.photo(),summary:()=>orientationSummary,helper:()=>helperPicker.selected(),
    chooseHelper:async preparing=>{await helperPicker.choose(true);const selected=helperPicker.selected();if(selected.model)preparing(selected.name+' is getting ready. You can skip the tour while your companion prepares.');await companionApply;if(selected.model&&echo?.snapshot().helperStatus==='failed')throw Error('Companion unavailable');},
    fly:()=>{closeExplorationOptions(false);explorationTools.showMap();return flyover.enter();},openOptions:()=>{$('exploration-options').open=true;},optionsOpen:()=>Boolean($('exploration-options')?.open),

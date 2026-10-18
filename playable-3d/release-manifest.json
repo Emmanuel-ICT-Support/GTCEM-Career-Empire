@@ -1,8 +1,8 @@
 {
-  "release": "studio-preview-repair-20261018",
+  "release": "cadence-audit-20261018",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "1442d29d33db4ae4a092a1afd42207ef639c82e0",
-  "scope": "Unpublished repair: saved-tour migration, character and optional exploration/resume, truthful completed Studio preview before saving, classroom pacing word and teacher empty-data recovery. Preserve original graphics, camera, economy and identity contracts.",
+  "baseCommit": "e41ea3fb974076264dc7fe45da6c29f21d7c5587",
+  "scope": "Unpublished follow-up: automatic walking entry uses the classroom pacing gate; cancel can walk away and retry. Original graphics/camera/frame budgets retained. Cadence diagnosis is QA-only; full final-source verification pending.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "737fa96c0e40e67376849bffebff42e50bd344029632ad3c8dd8f00824ac2e17"
+      "sha256": "dc113878ace864e0e350c005a0c12d2166b93cda1c62aa69f6b194be9cc165ff"
     },
     {
       "path": "arcade-carnival.js",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "ca88118b0e18ae940fa363162de99686345864b27e43bd7195074e70a3368e59"
+      "sha256": "aa290735494981cbc18d479b4ff947ee05b61ed6e177946ffd31a3ff63cc695c"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "4fe25cda48e5738ff110f738d00c3a0596d7fda9203d211af8a0ce22cbd91717"
+      "sha256": "887c610dd677b08297d36d52072e20aca721e5c4ea7fdf1c6e5cf0e532c091c4"
     },
     {
       "path": "initiative-field-guide.html",
