@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
 for(const width of [1280,768,390])test(`My Life stays separate from phase and account at ${width}`,async({page},info)=>{
@@ -27,3 +28,5 @@ test('Juniper food and staff clear the shallow counter in packing and collection
  const staff=await page.evaluate(()=>{const {market,THREE:T}=window.stallReview();market.scene.updateMatrixWorld(true);const actor=market.scene.getObjectByName('Market actor / sam');const box=new T.Box3().setFromObject(actor.children.at(-1),true);return {min:box.min.z,max:box.max.z};});
  expect(staff.min).toBeGreaterThan(-4.59);expect(staff.max).toBeLessThan(-3.625);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

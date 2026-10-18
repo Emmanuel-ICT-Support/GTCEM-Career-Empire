@@ -12,7 +12,7 @@ renderer.render=function(...args){
 window.companionRenderProbe=()=>{
  const state={...JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}'),entryReady,echo:echo?.snapshot()},root=echo?.root;
  const livePosition=actor?.model.position.toArray(),entryVisibleMs=Number(canvas.dataset.entryVisibleMs)||null;
- if(!root)return {...currentCompanionChoice(),state,livePosition,entryVisibleMs,frame:renderer?.info.render.frame};
+ if(!root)return {...currentCompanionChoice(),state,livePosition,entryVisibleMs,submittedFrames:renderedFrames,presentationEnabled:canvas.dataset.presentation==='completed-frame',presentedFrames:Number(canvas.dataset.presentedFrame)||0,frame:renderer?.info.render.frame};
  // SkinnedMesh.updateMatrixWorld refreshes bindMatrixInverse. The inherited
  // updateWorldMatrix does not; computing a sphere then can poison renderer culling.
  root.updateMatrixWorld(true);camera.updateMatrixWorld(true);
@@ -23,6 +23,6 @@ window.companionRenderProbe=()=>{
   if(visible&&intersects)visibleMeshes++;if(visible&&drawn)drawnMeshes++;
   const box=new THREE.Box3().setFromObject(o),center=box.getCenter(new THREE.Vector3());
   meshes.push({name:o.name,visible,intersects,drawn,min:box.min.toArray(),max:box.max.toArray(),projected:center.project(camera).toArray()});
- });return {...currentCompanionChoice(),state,livePosition,entryVisibleMs,frame:renderer.info.render.frame,parentMatches:root.parent===activeScene(),visibleMeshes,drawnMeshes,meshes,camera:camera.position.toArray()};
+ });return {...currentCompanionChoice(),state,livePosition,entryVisibleMs,submittedFrames:renderedFrames,presentationEnabled:canvas.dataset.presentation==='completed-frame',presentedFrames:Number(canvas.dataset.presentedFrame)||0,frame:renderer.info.render.frame,parentMatches:root.parent===activeScene(),visibleMeshes,drawnMeshes,meshes,camera:camera.position.toArray()};
 };`});});
 }

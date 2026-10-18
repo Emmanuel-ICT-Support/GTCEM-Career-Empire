@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance,walkMarket,observeMarketWalking} from './market-controls.js';
 async function start(page,width){
@@ -64,3 +65,5 @@ for(const width of [1280,390])test(`purchases, preserved reflection and celebrat
 for(const width of [1280,390])test(`arrangement primary applies choices and hidden position is retained ${width}`,async({page},info)=>{
  await start(page,width);await visit(page,0,-3.6);await click(page,'Take the shift');await visit(page,4.2,-1.8);await expect(page.getByLabel('Sign position',{exact:true})).toBeHidden();await page.getByLabel('Sign wording',{exact:true}).selectOption('orders');await page.getByLabel('Sign position',{exact:true}).selectOption('approach');await page.getByLabel('Sign wording',{exact:true}).selectOption('none');await expect(page.getByLabel('Sign position',{exact:true})).toBeHidden();await page.getByLabel('Sign wording',{exact:true}).selectOption('orders');await expect(page.getByLabel('Sign position',{exact:true})).toHaveValue('approach');await page.screenshot({path:info.outputPath(`market-arrangement-${width}.png`)});await click(page,'Try this with next customers');await page.evaluate(()=>market.update(10,10,camera));expect(await page.evaluate(()=>market.snapshot().trials[0].plan)).toMatchObject({sign:'orders',position:'approach'});
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

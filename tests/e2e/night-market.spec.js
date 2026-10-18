@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance,openPlaces,enterMarket} from './market-controls.js';
 const path='/playable-3d/?experience=night-market';
@@ -26,3 +27,5 @@ test('ordinary entry never requests the market modules',async({page})=>{
 test('market failure leaves campus and curriculum reachable',async({page})=>{
  test.setTimeout(60000);await page.route('**/night-market.js?*',r=>r.abort());await page.goto(path);await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page,{waitForEntry:false});await expect(page.locator('#toast')).toContainText('The market could not open. Campus activities remain available.');await openPlaces(page);await page.locator('#est-destination').click();await expect.poll(async()=>(await data(page)).mode,{timeout:20000}).toBe('interior');
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

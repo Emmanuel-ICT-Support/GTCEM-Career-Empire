@@ -1,3 +1,4 @@
+import {createClassroomGate} from './classroom-gate.mjs?v=classroom-20261018';
 import {estEyeHeight,estPlayTop} from './est-camera.mjs?v=broad-integrated-20261014';
 import {MARKET_APPROACH} from './landing.mjs?v=post-photo-tour-20261013';
 import {isAdminPreview,adminPreviewURL,createPreviewStorage} from './admin-preview.mjs?v=admin-preview-20261013';
@@ -43,6 +44,7 @@ const gameStorage=adminReviewRequested?createPreviewStorage():(gameSession?.stor
 const state=loadProfiles(isolatedDiscovery?reviewProfiles:gameStorage);
 let discovery=null,intro=null,explorationTools=null,revealCameraStart=null;
 let frameGate,surfaceUploads,softwarePresentation,portraitCapturePending=false,lastUploadWorldPose=null;
+let previewAssetsReady=false,presentedPreviewRequest=-1,submittedView=null;
 let softwareNavigationAt=null;
 let worlds,renderer,camera,studio,orbit,actor,preview,mode='town',phase='flourishing',draft,editorTab='identity';
 let wardrobeSection='pants';
@@ -69,12 +71,13 @@ async function applySelectedCompanion(helper=helperPicker.selected()){
  catch(error){if(status){status.hidden=false;status.textContent='Companion could not load. Your game is ready. Open Optional companion to retry.';}console.warn('Companion unavailable; game remains playable.',error);}
 }
 const marketRequested=new URLSearchParams(location.search).get('experience') && ['night-market','sunday-markets'].includes(new URLSearchParams(location.search).get('experience'));
-const marketDialogOpen=()=>Boolean(nightMarket?.isOpen());
+let classroomGate;
+const marketDialogOpen=()=>Boolean(classroomGate?.open()||nightMarket?.isOpen());
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
 let chapelTilt=0,flyover;
 function resetNavigationInput(){renderMotion=null;locomotion.reset();keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;if(softwareNavigationAt!==null)softwareNavigationAt=clock.getElapsedTime();document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
 function explorationMenuOpen(){return Boolean(orientationTour?.blocksWalking()||document.querySelector('#exploration-options')?.open||document.querySelector('#whole-character-choice')?.open||document.querySelector('#orientation-handover')?.open||explorationTools?.open());}
-function canFlyover(){return !intro?.open()&&!discovery?.open()&&!echo?.open()&&mode==='town'&&campusReady&&!enteringHall&&!enteringCareers&&!studioLoadPending&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!$('leave-dialog').open;}
+function canFlyover(){return !marketDialogOpen()&&!intro?.open()&&!discovery?.open()&&!echo?.open()&&mode==='town'&&campusReady&&!enteringHall&&!enteringCareers&&!studioLoadPending&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!$('leave-dialog').open;}
 function flyoverBlockedReason(){
  if(discovery?.open())return 'Close the picture clue to use Flyover · F.';
  if(helperPicker.open())return 'Finish or close companion choices to use Flyover · F.';
@@ -167,6 +170,19 @@ async function updateActor(ready){
     toast('Your saved avatar could not load. You can keep exploring. Use Retry saved avatar beside your profile to try again.');
   }
 }
+function refreshPreviewSave(){
+ const ready=previewAssetsReady&&(!softwarePresentation||presentedPreviewRequest===previewRequest);
+ $('save-avatar').disabled=!ready;
+ let status=$('studio-preview-status');
+ if(!status){status=document.createElement('p');status.id='studio-preview-status';status.setAttribute('role','status');status.textContent='Preparing your character preview…';status.style.cssText='font-size:13px;margin:8px 0';$('studio-panel').querySelector('.panel-heading').after(status);}
+ status.hidden=mode!=='studio'||!previewAssetsReady||ready;
+}
+function completeWorldPresentation(){
+ softwarePresentation?.present(renderedFrames);
+ canvas.dataset.presentedMode=submittedView?.mode||'';
+ canvas.dataset.presentedPreviewBody=submittedView?.previewRequest!==null?submittedView?.body||'':'';
+ if(submittedView?.previewRequest!=null){presentedPreviewRequest=submittedView.previewRequest;if(mode==='studio')refreshPreviewSave();}
+}
 async function updatePreview(){
   const request=++previewRequest,profile=copy(draft);
   const current=()=>request===previewRequest&&mode==='studio';
@@ -181,7 +197,7 @@ async function updatePreview(){
   };
   if(!preview){preview=createFallbackCharacter();studio.add(preview.model);preview.setWalking(previewWalking);}
   $('undo').disabled=!undo.length;$('redo').disabled=!redo.length;
-  $('save-avatar').disabled=true;$('retry-outfit').hidden=true;
+  previewAssetsReady=false;$('save-avatar').disabled=true;$('studio-preview-status')?.setAttribute('hidden','');$('retry-outfit').hidden=true;
   $('edit-state').textContent='Loading avatar…';
   try{
     await loadProfileKit(profile,()=>{
@@ -190,7 +206,7 @@ async function updatePreview(){
     });
     if(!current())return;
     show();$('edit-state').textContent=dirty()?'Unsaved':'Saved';
-    $('save-avatar').disabled=false;
+    previewAssetsReady=true;refreshPreviewSave();
   }catch{
     if(current()){
       $('edit-state').textContent='Outfit could not load completely. Retry or choose another option.';
@@ -508,6 +524,11 @@ function marketBriefingImage(beat){
  try{actor.model.visible=false;renderer.setPixelRatio(1);renderer.setSize(768,432,false);renderer.render(nightMarket.scene,shot);return canvas.toDataURL('image/jpeg',.82);}
  finally{actor.model.visible=shown;renderer.setPixelRatio(ratio);renderer.setSize(size.x,size.y,false);renderer.render(activeScene(),camera);}
 }
+async function requestMarket(){
+ classroomGate??=createClassroomGate({onPause:()=>{resetNavigationInput();actor?.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus({preventScroll:true});}});
+ const gateMode=modeRequest;if(!adminReviewRequested&&(!await classroomGate.request()||gateMode!==modeRequest))return;
+ return openMarket();
+}
 async function openMarket(){
  if(marketOpening)return;const request=++marketTravelRequest,controller=new AbortController();marketTravelController=controller;marketOpening=true;resetNavigationInput();actor?.setWalking(false);toast('Opening Sunday Market…');
  try{if(!nightMarket){const moduleReady=marketModuleAttempt?import('./night-market.js?v=initiative-arcade-20261014&retry='+marketModuleAttempt):import('./night-market.js?v=initiative-arcade-20261014');const {createNightMarket}=await withAssetDeadline(moduleReady,15000,'The Market is taking too long to open. Try again.',controller.signal);if(request!==marketTravelRequest)return;nightMarket=createNightMarket({onTravel:point=>{resetNavigationInput();actor.model.position.set(point.x,point.y,point.z);actor.model.rotation.y=Math.PI;actor.setWalking(false);setLocation(point.x<-12?'Markets Administration':'Sunday Market');yaw=point.yaw??0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);},captureBriefing:marketBriefingImage,campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:gameStorage,adminReview:adminReviewRequested,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}if(request!==marketTravelRequest)return;await setMode('market');if(adminReviewRequested&&request===marketTravelRequest&&mode==='market')nightMarket.visitDistrict(2);}
@@ -631,7 +652,7 @@ function updateInteraction(){
     if(!limited&&Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<1.1&&(keys.size||Math.hypot(joystick.x,joystick.z)>.1)&&!enteringCareers){enterCareers();return;}
     if(!limited&&Math.hypot(p.x-EST.x,p.z-EST.doorZ)<2.2)interaction={label:'Enter EST Prep',action:enterHall};
     else if(!limited&&Math.hypot(p.x-CAREERS.x,p.z-CAREERS.doorZ)<2.2)interaction={label:'Enter Careers Advice Centre',action:enterCareers};
-    else if(campusReady&&Math.hypot(p.x-43,p.z+22)<3.2)interaction={label:'Enter Live Music & Sunday Markets',action:openMarket};
+    else if(campusReady&&Math.hypot(p.x-43,p.z+22)<3.2)interaction={label:'Enter Live Music & Sunday Markets',action:requestMarket};
     else if(echo?.resourcesNear(p)&&(!echo.near(p)||echo.resources.position.distanceToSquared(p)<echo.root.position.distanceToSquared(p)))interaction={label:'Inspect Course Documents',action:()=>echo.showResources()};
     else if(teachers.some(n=>n.root.visible&&n.near(p,5))){const npc=teachers.filter(n=>n.root.visible&&n.near(p,5)).sort((a,b)=>a.root.position.distanceToSquared(p)-b.root.position.distanceToSquared(p))[0];interaction={label:'Say hello to '+npc.name,action:()=>greetTeacher(npc)};}
     else if(p.x>-13.6 && p.x<-10.8 && Math.abs(p.z-5)<1.45)interaction={label:'Open Avatar Studio',action:openStudio};
@@ -862,7 +883,7 @@ function animate(){
   renderer.shadowMap.needsUpdate=qualityChanged||playerShadowChanged||$('quality').value!=='auto'||shadowScene!==scene||(renderer.shadowMap.enabled&&now-shadowTime>=((mode!=='town'||keys.size||joystick.x||joystick.z||flyover?.active||teachers.length)?.1:.5));
   if(renderer.shadowMap.needsUpdate){shadowScene=scene;shadowTime=now;shadowActor=actor;shadowActorPosition.copy(actor.model.position);shadowActorYaw=actor.model.rotation.y;}
   // A bounded warm frame prevents first-use texture/shader work at video EOF.
-  const renderStarted=performance.now();renderer.render(scene,camera);lastPausedSceneStamp=frameStamp;lastRenderMs=performance.now()-renderStarted;frameGate.submitted();lastUploadWorldPose=uploadWorldPose();surfaceUploads.worldSubmitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
+  const renderStarted=performance.now();renderer.render(scene,camera);lastPausedSceneStamp=frameStamp;lastRenderMs=performance.now()-renderStarted;submittedView={mode,previewRequest:mode==='studio'&&previewAssetsReady?previewRequest:null,body:mode==='studio'?draft?.body:null};frameGate.submitted();if(!frameGate.constrained){canvas.dataset.presentedMode=mode;canvas.dataset.presentedPreviewBody=submittedView.previewRequest!==null?submittedView.body:'';}lastUploadWorldPose=uploadWorldPose();surfaceUploads.worldSubmitted();if(scene===worlds.town){entrySceneFrame=frameGate.submittedFrame;if(entryPreparing&&entryGeometryReady)entryDrawSubmitted=true;}if(intro?.open())canvas.dataset.introWarmFrameMs=String(Math.round(performance.now()));frames++;renderedFrames++;canvas.dataset.rendered='true';
   if(!canvas.dataset.firstFrameMs)canvas.dataset.firstFrameMs=String(Math.round(performance.now()));
   publishDiagnostics(now,true);
 }
@@ -878,6 +899,7 @@ function setupExplorationMenus(){
  const all=document.createElement('a');all.href='?mode=full';all.textContent='All campus activities';list.append(all);
  const previewTools=document.createElement('details');previewTools.id='preview-tools';const previewTitle=document.createElement('summary');previewTitle.textContent='Preview tools';const previewNote=document.createElement('p');previewNote.textContent='Public preview tools. Opens a temporary tab without changing your playthrough.';const adminLink=document.createElement('a');adminLink.id='admin-review-entry';adminLink.textContent='Open Market Admin for review';adminLink.href=adminPreviewURL(location.href);adminLink.target='_blank';adminLink.rel='noopener noreferrer';adminLink.onclick=()=>closeExplorationOptions(false);previewTools.append(previewTitle,previewNote,adminLink);list.append(previewTools);
  const trail=$('discovery');const more=document.createElement('details');more.id='exploration-trail-options';more.innerHTML='<summary>Picture trail</summary>';more.append(trail);trail.hidden=false;list.append(more);list.append($('discovery-still').closest('label'));
+ const resumeTour=document.createElement('button');resumeTour.id='resume-campus-tour';resumeTour.textContent='Resume companion tour';resumeTour.hidden=true;resumeTour.onclick=()=>{closeExplorationOptions(false);showOrientationHandover({restore:true}).catch(()=>{});};options.addEventListener('toggle',()=>{resumeTour.hidden=!discovery?.snapshot().souvenir;});list.append(resumeTour);
  const replay=document.createElement('button');replay.id='replay-campus-tour';replay.textContent='Replay companion tour';replay.onclick=()=>{closeExplorationOptions(false);showOrientationHandover().catch(()=>{});};list.append(replay);
  const help=document.createElement('button');help.id='exploration-help';help.textContent='Help';help.onclick=()=>{options.open=false;explorationTools?.close();$('discovery-help').click();};$('header-controls').prepend(help);
  $('resume-options').onclick=()=>closeExplorationOptions();
@@ -895,13 +917,14 @@ async function showOrientationHandover({restore=false}={}){
  if(!discovery?.snapshot().souvenir)return;
  resetNavigationInput();actor.setWalking(false);closeExplorationOptions(false);explorationTools?.close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;
  orientationSummary=orientationHandoverCopy({earned:null,tax:null});try{orientationSummary=orientationHandoverCopy(await explorationTools.completeOrientation());}catch{}
- if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=market-tour-ready-20261014&retry='+orientationTourAttempt).then(({createOrientationTour})=>{
+ if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=studio-preview-20261018&retry='+orientationTourAttempt).then(({createOrientationTour})=>{
   orientationTour=createOrientationTour({storage:gameStorage,photo:()=>discovery.photo(),summary:()=>orientationSummary,helper:()=>helperPicker.selected(),
    chooseHelper:async preparing=>{await helperPicker.choose(true);const selected=helperPicker.selected();if(selected.model)preparing(selected.name+' is getting ready. You can skip the tour while your companion prepares.');await companionApply;if(selected.model&&echo?.snapshot().helperStatus==='failed')throw Error('Companion unavailable');},
    fly:()=>{closeExplorationOptions(false);explorationTools.showMap();return flyover.enter();},openOptions:()=>{$('exploration-options').open=true;},optionsOpen:()=>Boolean($('exploration-options')?.open),
    openStats:()=>explorationTools.showStats(),statsOpen:()=>explorationTools.open(),
+   openCharacter:async()=>{await setMode('studio');if(mode!=='studio')throw Error('Studio unavailable');},characterOpen:()=>mode==='studio'||studioLoadPending,
    openCourse:()=>navigateRunModule('../economy-lab/?section=course&tour-return=1'),goMarket:async current=>{
-    if(adminReviewRequested){if(!current())return false;await openMarket();return mode==='market';}
+    if(adminReviewRequested){if(!current())return false;await requestMarket();return mode==='market';}
     const request=modeRequest;try{await ensureCampus();}catch{return false;}
     if(!current()||request!==modeRequest)return false;
     await campusSpot(MARKET_APPROACH.x,MARKET_APPROACH.z,'Outside Sunday Markets',MARKET_APPROACH.yaw);
@@ -920,7 +943,7 @@ function landFromFlyover(point,heading){
  resetNavigationInput();worlds.teleport(false,landed.x,landed.z,landed.y);actor.model.position.copy(worlds.position(false));actor.model.rotation.y=(atMarket?0:heading)+Math.PI;actor.setWalking(false);yaw=atMarket?0:heading;aerial=false;$('aerial').setAttribute('aria-pressed','false');
  setLocation(atMarket?'Outside Sunday Markets':'Campus · safely landed');orientationTour?.landed(landed);requestAnimationFrame(()=>updateCamera(1,true));return true;
 }
-async function goToMarketEntrance(){orientationTour?.stop();if(adminReviewRequested)return openMarket();return campusSpot(MARKET_APPROACH.x,MARKET_APPROACH.z,'Outside Sunday Markets',MARKET_APPROACH.yaw);}
+async function goToMarketEntrance(){orientationTour?.stop();if(adminReviewRequested)return requestMarket();return campusSpot(MARKET_APPROACH.x,MARKET_APPROACH.z,'Outside Sunday Markets',MARKET_APPROACH.yaw);}
 
 function openWholeCharacterChoice(){
  const options=$('exploration-options');if(options)options.open=false;
@@ -938,7 +961,7 @@ async function boot(){
   try{
     icons();const softwareBuffer=needsSoftwarePresentation(document);renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance',preserveDrawingBuffer:softwareBuffer});renderer.setPixelRatio(sharpRatio);renderBackend=rendererName(renderer);renderer.setPixelRatio(renderQuality(renderBackend,$('quality').value,devicePixelRatio).pixelRatio);renderer.localClippingEnabled=true;renderer.shadowMap.enabled=renderQuality(renderBackend,$('quality').value,devicePixelRatio).shadows;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.03;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.autoClear=false;
     softwarePresentation=createSoftwarePresentation(canvas,softwareBuffer&&renderQuality(renderBackend,'auto',devicePixelRatio).software);
-    frameGate=createGpuFrameGate(renderer,renderQuality(renderBackend,'auto',devicePixelRatio).software,()=>softwarePresentation?.present(renderedFrames));
+    frameGate=createGpuFrameGate(renderer,renderQuality(renderBackend,'auto',devicePixelRatio).software,completeWorldPresentation);
     surfaceUploads=createTextureUploadQueue({waitForFrame:()=>new Promise(resolve=>{const next=()=>requestAnimationFrame(()=>{if(document.hidden||!frameGate.ready()||(frameGate.constrained&&(softwareMovementActive()||(surfaceUploads?.worldFrameDue&&softwareWorldActive()))))next();else resolve();});next();}),upload:texture=>{renderer.initTexture(texture);frameGate.uploadSubmitted();}});
     camera=new THREE.PerspectiveCamera(55,1,.08,220);
     const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();const environment=pmrem.fromScene(room,.04);room.dispose();pmrem.dispose();
@@ -952,7 +975,7 @@ async function boot(){
     THREE.Cache.clear();THREE.Cache.enabled=false;
     worlds.teleport(false,-7,23.3);phase='flourishing';$('phase').value='flourishing';worlds.phase('flourishing');actor=createFallbackCharacter();actor.model.position.copy(worlds.position(false));worlds.town.add(actor.model);populateProfiles();updateActor(avatarReady);flyover=createFlyover({camera,keys,canvas,root:$('experience'),canEnter:canFlyover,canShow:()=>mode==='town'&&campusReady,showReminder:()=>mode==='town'&&entryReady&&!intro?.open(),blockedReason:flyoverBlockedReason,beforeEnter:()=>closeExplorationOptions(false),resetInput:resetNavigationInput,fog:()=>worlds.town.fog,onLand:landFromFlyover});bindEvents();resize();
     await setMode('town');yaw=0;updateCamera(1,true);
-    if(marketRequested&&adminReviewRequested)await openMarket();
+    if(marketRequested&&adminReviewRequested)await requestMarket();
     // A shareable, playable quality-review viewpoint; normal entry remains Arrival Gardens.
     const viewpoints={'discovery-mural':{p:[10.6,-38.4,Math.PI/2],name:'Mural detail'},'discovery-oval':{p:[-4,-57,Math.PI],name:'Oval · filming spot'},'teachers':{p:[-4,-49.8,0],name:'Meet your teachers · Oval'},'mr-middleton':{p:[-7,-50,0],name:'Mr Middleton · Oval'},'mr-psandodakis':{p:[-1,-50,0],name:'Mr Psandodakis · Oval'},'garden-pond':{p:[32,-10,Math.PI/2],name:'Garden pond'},'fountain-walk':{p:[-2.6,5.5,0],name:'Fountain walk'},'garden-benches':{p:[-5.8,-8,Math.PI/2],name:'Garden seating'},'chapel-exterior':{p:[-1.5,-4.5,.58],name:'Chapel exterior'},'ecc-courtyard':{p:[0,-2.8,0],name:'ECC Courtyard'},'avatar-studio':{p:[-8,5,Math.PI/2],name:'Avatar Studio'},'careers':{p:[-14,12,2.45],name:'Careers Advice Centre'},'est':{p:[16,9,Math.PI],name:'EST Prep'},'media':{p:[-4,-45,Math.PI],name:'English and Media'},'space':{p:[7,-53,-Math.PI/2],name:'SPACE'},'home-economics':{p:[43,-18,0],name:'Outside Sunday Markets'}};
     const view=marketRequested&&!adminReviewRequested?'home-economics':marketRequested?null:new URLSearchParams(location.search).get('view');

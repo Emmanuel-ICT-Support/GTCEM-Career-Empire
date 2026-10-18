@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 
 test('actual photo and companion permit keyboard Flyover back to the start before Market',async({page},info)=>{
@@ -50,3 +51,5 @@ window.preMarketFlightProbe=()=>({mode,campusReady,position:actor.model.position
  await expect(page.locator('#market-hud')).toHaveCount(0);expect(marketLoads).toEqual([]);expect(errors).toEqual([]);
  await page.screenshot({path:info.outputPath('landed-before-menu-and-market.png')});await info.attach('authentic-pre-market-flight',{body:JSON.stringify({before,legs,airborne,landed,marketLoads,errors},null,2),contentType:'application/json'});
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

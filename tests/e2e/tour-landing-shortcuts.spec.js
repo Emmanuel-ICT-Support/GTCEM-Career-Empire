@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 
 // Collision targets use a camera fixture. Authentic keyboard travel is covered
@@ -25,3 +26,5 @@ test('safe roof landing and ordinary map/menu shortcuts keep arrivals outdoors',
  await returnToStart();await page.locator('#exploration-options > summary').click();await expect(page.locator('#flyover-slot #flyover-toggle')).toBeVisible();await page.locator('#destination-menu > summary').click();await page.locator('#market-destination').click();await outside();if(await page.locator('#exploration-options').evaluate(element=>element.open))await page.locator('#resume-options').click();
  const menu=await probe();expect(errors).toEqual([]);await page.screenshot({path:info.outputPath('outside-market-shortcuts.png')});await info.attach('landing-and-shortcuts',{body:JSON.stringify({roof,map,menu,errors},null,2),contentType:'application/json'});
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

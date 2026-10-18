@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {walkToMap} from './walk-to-map.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
@@ -35,3 +36,5 @@ test('initial guest destination actions cannot load EST or Careers interiors bef
  for(const target of ['est-destination','careers-destination']){if(!await page.locator('#exploration-options').evaluate(e=>e.open))await page.locator('#exploration-options > summary').click();if(!await page.locator('#destination-menu').evaluate(e=>e.open))await page.locator('#places-toggle').click();await page.locator('#'+target).click();await expect(page.locator('#toast')).toContainText('Start with the envelope and Chapel');await expect.poll(()=>d(page)).toMatchObject({mode:'town',discovery:{chapelVisited:false}});}
  expect(requests.some(u=>/est-interior\.glb|careers-interior/.test(u))).toBe(false);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

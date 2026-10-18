@@ -6171,6 +6171,7 @@ async function renderStudentLiveData(players, skillsData) {
 }
 
 function renderTeacherLiveData(players, skillsData, teacherData = null) {
+  const dashboardFilter = getTeacherDashboardFilter();
   const teacherContext = getActiveTeacherContext();
   const fallbackTeacherData = buildFallbackTeacherDashboardData(players, teacherContext);
   const hasTeacherScope = Boolean(
@@ -6197,7 +6198,6 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
   });
   const dashboardContext = safeTeacherData.context || teacherContext;
   const skillCategories = Array.isArray(skillsData?.categories) ? skillsData.categories : [];
-  const dashboardFilter = getTeacherDashboardFilter();
 
   const allStudents = safeTeacherData?.students || [];
   renderTeacherClassSelector(safeTeacherData, allStudents);

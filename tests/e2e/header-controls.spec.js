@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
 const state=p=>p.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
@@ -38,3 +39,5 @@ for(const width of [1280,854,390])test(`banner controls are clear and destinatio
  await page.locator('.ce-feedback-launcher').click();await expect(page.locator('.ce-feedback-backdrop')).toBeVisible();
  expect(errors).toEqual([]);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

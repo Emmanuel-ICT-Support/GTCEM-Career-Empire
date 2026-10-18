@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './helper-fixtures.js';
 
 test('a real avatar save clears Echo revisit while initial campus geometry is still pending',async({page})=>{
@@ -18,3 +19,5 @@ test('a real avatar save clears Echo revisit while initial campus geometry is st
   expect(saved.avatarSaved).toBe(true);expect(saved.resourcesVisited).toBe(false);expect(saved.marketVisited).toBe(false);
  }finally{release();}
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

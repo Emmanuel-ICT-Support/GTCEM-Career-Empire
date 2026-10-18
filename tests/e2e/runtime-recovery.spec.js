@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {enterMarket} from './market-controls.js';
 import {reportRuntimeObservation,assertRuntimeObservation} from './runtime-lanes.js';
@@ -46,3 +47,5 @@ softwareTest('Stats changes publish while the cached world keeps its honest fram
  await expect.poll(()=>state(page)).toMatchObject({exploration:{statsOpen:true,market:{wallet:1800}}});let frame=-1,stable=0;await expect.poll(async()=>{const n=await page.evaluate(()=>window.recoveryProbe().renderedFrames);stable=n===frame?stable+1:0;frame=n;return stable;},{timeout:15000,intervals:[1000]}).toBeGreaterThanOrEqual(2);
  await panel.getByRole('button',{name:'Save $5',exact:true}).click();await expect(panel).toContainText('Wallet $13.00 · Savings $5.00');await expect.poll(()=>state(page)).toMatchObject({exploration:{market:{wallet:1300,savings:500}},renderedFrames:frame});
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

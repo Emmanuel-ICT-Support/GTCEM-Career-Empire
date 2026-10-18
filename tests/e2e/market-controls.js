@@ -42,3 +42,19 @@ export async function walkMarket(page,key,stop,timeout=90000){
  }),{key,stop,timeout});
  try{await page.keyboard.down(key);return await stopped;}finally{await page.keyboard.up(key);}
 }
+
+// Tests whose subject is the Market workplace explicitly enter the classroom
+// word through the visible form. Dedicated classroom-gate cases test rejection
+// and cancellation; this helper does not grant identity or write gate state.
+export function enterClassroomWhenAsked(page){
+ let navigation=0;
+ page.on('domcontentloaded',async()=>{const request=++navigation;
+  try{
+   const dialog=page.locator('#classroom-gate');
+   await dialog.waitFor({state:'visible',timeout:120000});
+   if(request!==navigation)return;
+   await dialog.getByRole('textbox',{name:'Classroom word'}).fill('Emmanuel');
+   await dialog.getByRole('button',{name:'Begin Initiative',exact:true}).click();
+  }catch(error){if(!page.isClosed()&&!/closed|destroyed|Timeout/.test(error.message))throw error;}
+ });
+}

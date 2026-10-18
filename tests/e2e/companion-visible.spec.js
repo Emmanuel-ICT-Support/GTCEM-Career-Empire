@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {enterMarket} from './market-controls.js';
 import {observeCompanionRendering} from './companion-render-controls.js';
@@ -20,3 +21,5 @@ test('selected Sprout is visibly rendered in the active town and Market scenes',
  await enterMarket(page);
  await rendered('market',town.frame);const market=await sample();expect(market.parentMatches).toBe(true);expect(market.visibleMeshes).toBeGreaterThan(0);expect(market.drawnMeshes).toBeGreaterThan(0);expect(market.frame).toBeGreaterThan(town.frame);await page.screenshot({path:info.outputPath('sprout-market.png')});expect(errors).toEqual([]);await info.attach('companion-scenes',{body:JSON.stringify({town,market},null,2),contentType:'application/json'});
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

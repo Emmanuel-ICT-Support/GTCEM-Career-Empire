@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import fs from 'node:fs';
 const probe=`
@@ -56,3 +57,5 @@ test('supplied animations keep walking on frames between physics ticks',async({p
    const values=[];for(const hz of [30,60,144]){a.setWalking(false);a.update(1);let acc=0;for(let i=0;i<hz*2;i++){acc+=1/hz;let steps=0;while(acc>=1/60){acc-=1/60;steps++}if(steps)a.setWalking(true,2.8);a.update(1/hz);}values.push({hz,weight:a.clips.walk.getEffectiveWeight(),time:a.clips.walk.time,rate:a.clips.walk.getEffectiveTimeScale()});}await baseline.loadCharacterKit(body);const old=baseline.createCharacter(normaliseProfile({id:'baseline',body,outer:'none',workTop:'none',hairStyle:'none',shoeStyle:'none'}));let acc=0;for(let i=0;i<288;i++){acc+=1/144;let steps=0;while(acc>=1/60){acc-=1/60;steps++;}old.setWalking(Boolean(steps));old.update(1/144);}out.push({body,values,baselineWeight144:old.clips.walk.getEffectiveWeight(),baselineTime144:old.clips.walk.time});old.dispose();a.dispose();}return out;
  });for(const a of result){expect(a.baselineTime144).toBeLessThan(.04);for(const v of a.values)expect(v.weight).toBeCloseTo(1);}console.log('GAIT',JSON.stringify(result));
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

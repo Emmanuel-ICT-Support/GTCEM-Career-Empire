@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './helper-fixtures.js';
 
 test('sharp entry includes required exterior buildings without recording task completion',async({page})=>{
@@ -55,3 +56,5 @@ test('a returning character past Market prepares the wider campus after entry',a
  expect((await state()).campusReady).toBe(false);
  await expect.poll(async()=>(await state()).campusReady,{timeout:60000}).toBe(true);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './helper-fixtures.js';
 const entry='/playable-3d/';
 async function boot(page,query=''){
@@ -29,3 +30,5 @@ test('phone and reduced motion leave Echo and player visible',async({page},info)
 test('optional Echo failure does not block arrival or preload teachers and Studio',async({page})=>{
  test.setTimeout(120000);const urls=[];page.on('request',r=>urls.push(r.url()));await page.route('**/echo-guide.js?*',r=>r.abort());await page.goto(entry);await page.waitForFunction(()=>document.querySelector('#loading').hidden,null,{timeout:90000});await expect(page.locator('#scene')).toBeVisible();await page.waitForTimeout(700);expect(urls.some(u=>/teacher-npc|mr-middleton.*glb|\/studio.js/.test(u))).toBe(false);await page.keyboard.press('KeyW');
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

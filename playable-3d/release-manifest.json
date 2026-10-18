@@ -1,8 +1,8 @@
 {
-  "release": "interaction-upload-priority-20261016",
+  "release": "studio-preview-repair-20261018",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "3376291da35058f4be079ba57244bb90a5a436d0",
-  "scope": "Candidate: fair, separately fenced software uploads and genuine completed world presentation; retain real frame counts, original assets, graphics, native scheduling, input caps and all meaningful thresholds. Focused wider verification pending; no deployment.",
+  "baseCommit": "1442d29d33db4ae4a092a1afd42207ef639c82e0",
+  "scope": "Unpublished repair: saved-tour migration, character and optional exploration/resume, truthful completed Studio preview before saving, classroom pacing word and teacher empty-data recovery. Preserve original graphics, camera, economy and identity contracts.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "5b8161097188481275d6077531c977d4d55a6c072335e15dcbf01fb032e1c96e"
+      "sha256": "737fa96c0e40e67376849bffebff42e50bd344029632ad3c8dd8f00824ac2e17"
     },
     {
       "path": "arcade-carnival.js",
@@ -814,7 +814,7 @@
     },
     {
       "path": "exploration-tools.css",
-      "sha256": "332828ea08cfe11060721ce7eeddfb1c9aae92a0bc362ef3e027ab1bddc9e539"
+      "sha256": "95a8ccd1a3270d80e9fdb4c548af9e9ad0ed2975086b258279b02c492f4e587d"
     },
     {
       "path": "exploration-tools.mjs",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "af02346d895bd5ffd830191d5694154a56914a1d009990beb76572107776acd5"
+      "sha256": "ca88118b0e18ae940fa363162de99686345864b27e43bd7195074e70a3368e59"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "737cde811d4a020094fb60682186189f414e04839d0613cf20abedcf9dcef39b"
+      "sha256": "4fe25cda48e5738ff110f738d00c3a0596d7fda9203d211af8a0ce22cbd91717"
     },
     {
       "path": "initiative-field-guide.html",
@@ -974,7 +974,7 @@
     },
     {
       "path": "orientation-tour.mjs",
-      "sha256": "9c86d677f6d6450c8747a956ce40e6be4d001fd32d7a0b41a07b533d05b55e1a"
+      "sha256": "4faa9567e8683cd455e629d1f253a75b881fc29777678d3ace1924d5fabf3938"
     },
     {
       "path": "phone-assets.js",
@@ -1143,6 +1143,10 @@
     {
       "path": "world.js",
       "sha256": "ad8afaca4bf51044cec04b20a4cad0e3562f6901f1c5ba408c061f7d31b1451d"
+    },
+    {
+      "path": "classroom-gate.mjs",
+      "sha256": "b770c1e5e87cf0b30d27f4a55aa4d9877f629724434989a1a92698bbcb821d3b"
     }
   ],
   "estVideo": {

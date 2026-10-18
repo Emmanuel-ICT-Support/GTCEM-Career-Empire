@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {enterMarket} from './market-controls.js';
 const state=page=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}'));
@@ -29,3 +30,5 @@ test('reduced-motion briefing stays manual; returning market state and optional 
  await page.evaluate(()=>qaMarket.journal());await page.getByRole('button',{name:'Initiative / reference sheet',exact:true}).click();await page.getByText('Teacher curriculum context',{exact:true}).click();await expect(page.getByRole('link',{name:'Official 2027 Year 12 syllabus'})).toHaveAttribute('href',/Syllabus-for-teaching-from-2027.PDF/);
 
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

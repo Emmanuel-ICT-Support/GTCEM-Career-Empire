@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {reportRuntimeObservation} from './runtime-lanes.js';
 for(const width of [1280,390])for(const entry of ['', '&mode=full'])test(`Market money and collection stay available ${width} ${entry||'default'}`,async({page},info)=>{
@@ -34,3 +35,5 @@ for(const width of [1280,390])for(const entry of ['', '&mode=full'])test(`Market
  }catch(error){Object.assign(stages[stage],{status:'failed',elapsedMs:Date.now()-stageStarted,error:String(error.message).slice(0,500)});throw error;}
  finally{await info.attach('ui-readiness-observation',{body:JSON.stringify({stages,runtime,totalElapsedMs:Date.now()-started,startupPerformanceQualified:false,softwareStartupFixed:false,softwareWaitingAcceptanceMs:null}),contentType:'application/json'});}
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

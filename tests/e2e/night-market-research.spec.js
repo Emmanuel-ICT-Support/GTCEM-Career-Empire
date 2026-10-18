@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
 // Isolated real module/DOM/scene integration. Separate from full avatar navigation.
@@ -44,3 +45,5 @@ test('fresh review uses the actual game and leaves existing saves untouched',asy
  expect(await page.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:'+'ce-night-market-practice-v1'))).toBe(old);
  await page.reload();await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page);await expect(page.locator('#market-objective')).toHaveText('Start: meet Mara at Juniper Kitchen.',{timeout:30000});
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

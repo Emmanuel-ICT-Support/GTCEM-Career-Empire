@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
 for(const width of [1280,390])test(`plan to visible trial has a clear next step at ${width}`,async({page},info)=>{
@@ -23,3 +24,5 @@ for(const width of [1280,390])test(`plan to visible trial has a clear next step 
  await visit(0,-3.6);await expect(page.locator('#market-dialog')).toContainText('Name what you practised');
  await page.getByRole('button',{name:'Back to the market',exact:true}).click();await expect(page.locator('#market-test')).toBeHidden();
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

@@ -1,0 +1,114 @@
+{
+  "repository": "Emmanuel-ICT-Support/GTCEM-Career-Empire",
+  "branch": "repair/resume-20261018",
+  "published": false,
+  "physicalDevicesTested": false,
+  "fullFinalSourceRerun": false,
+  "units": {
+    "passed": 335,
+    "files": 73
+  },
+  "accountingChecks": {
+    "passed": 26
+  },
+  "release": {
+    "hashes": 286,
+    "modules": 91
+  },
+  "runs": {
+    "broad": {
+      "expected": 252,
+      "counts": {
+        "passed": 245,
+        "failed": 7,
+        "skipped": 0,
+        "interrupted": 0,
+        "unrun": 0
+      },
+      "durationSeconds": 3484.8,
+      "report": "candidate-full-report.json"
+    },
+    "followup": {
+      "expected": 17,
+      "counts": {
+        "passed": 16,
+        "failed": 1,
+        "skipped": 0,
+        "interrupted": 0,
+        "unrun": 0
+      },
+      "durationSeconds": 236.58,
+      "report": "candidate-post-focused-report.json"
+    },
+    "teacherDiagnostic": {
+      "expected": 1,
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "interrupted": 0,
+        "unrun": 0
+      },
+      "durationSeconds": 76.63,
+      "report": "candidate-teacher-recovery-report.json"
+    },
+    "finalControls": {
+      "expected": 4,
+      "counts": {
+        "passed": 3,
+        "failed": 1,
+        "skipped": 0,
+        "interrupted": 0,
+        "unrun": 0
+      },
+      "durationSeconds": 100.06,
+      "report": "candidate-final-controls-report.json"
+    },
+    "finalPhoto": {
+      "expected": 1,
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "interrupted": 0,
+        "unrun": 0
+      },
+      "durationSeconds": 30.68,
+      "report": "candidate-final-photo-report.json"
+    }
+  },
+  "supplementalVisualContinuations": {
+    "passed": 2,
+    "viewports": [
+      1280,
+      390
+    ],
+    "source": "qa/revised-opening-continuation.mjs",
+    "photoCheckpoint": "synthetic; actual course/Studio/explore/resume/outside arrival UI",
+    "pixelAssertions": "lit original Studio, dark character pixels, completed Cerys receipt, hidden map",
+    "evidenceDirectory": "revised-flow-verified",
+    "fixtureValidation": "completed-photo checkpoint step4 with accepted JPEG mural and PNG souvenir"
+  },
+  "unresolved": [
+    {
+      "file": "suit-flicker.spec.js",
+      "viewports": [
+        1280,
+        390
+      ],
+      "lastMeasuredMovingFrames": [
+        2,
+        2
+      ],
+      "required": ">5 during1300ms",
+      "result": "failed in broad run; thresholds and original graphics preserved"
+    }
+  ],
+  "runtimeSha256": {
+    "playable-3d/app.js": "737fa96c0e40e67376849bffebff42e50bd344029632ad3c8dd8f00824ac2e17",
+    "playable-3d/orientation-tour.mjs": "4faa9567e8683cd455e629d1f253a75b881fc29777678d3ace1924d5fabf3938",
+    "playable-3d/classroom-gate.mjs": "b770c1e5e87cf0b30d27f4a55aa4d9877f629724434989a1a92698bbcb821d3b",
+    "playable-3d/exploration-tools.css": "95a8ccd1a3270d80e9fdb4c548af9e9ad0ed2975086b258279b02c492f4e587d"
+  },
+  "finalPhotoRerun": "passed1/1 after current-navigation classroom helper fix"
+}

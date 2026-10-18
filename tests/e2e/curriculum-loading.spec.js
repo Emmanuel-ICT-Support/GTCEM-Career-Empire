@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {writeFile} from 'node:fs/promises';
 import {test,expect} from './campus-fixtures.js';
 import {walkMarket} from './market-controls.js';
@@ -84,3 +85,5 @@ test('unavailable saved clothing uses fallback and never fetches other outfits',
  fail=false;await page.getByRole('button',{name:'Retry saved avatar',exact:true}).click();await expect.poll(async()=>(await state(page)).avatarFallback,{timeout:15000}).toBe(false);
  expect((await state(page)).mode).toBe('careers');expect(await page.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo'))).toBe(saved);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

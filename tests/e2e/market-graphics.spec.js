@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 async function fixture(page,visible=true){
  await page.route('**/graphics-test',r=>r.fulfill({contentType:'text/html',body:'<html><head><script type="importmap">{"imports":{"three":"/playable-3d/vendor/three/build/three.module.js","three/addons/":"/playable-3d/vendor/three/examples/jsm/"}}</script></head><body style="margin:0"><main id="experience"><canvas id="scene"></canvas></main></body></html>'}));
@@ -17,3 +18,5 @@ test('a missing Sam keeps the shift accessible and retries on re-entry',async({p
  await expect.poll(()=>page.evaluate(()=>Object.values(market.snapshot().visuals.assets).filter(v=>v==='ready').length),{timeout:30000}).toBe(6);
  await page.unroute('**/market-npcs/sam.glb');await page.evaluate(()=>{market.setVisible(false);market.setVisible(true);});await expect.poll(()=>page.evaluate(()=>market.snapshot().visuals.ready),{timeout:20000}).toBe(14);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

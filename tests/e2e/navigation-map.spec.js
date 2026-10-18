@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {test as ownedTest} from './owned-account-fixtures.js';
 import {enterMarket} from './market-controls.js';
@@ -12,3 +13,5 @@ for(const width of [1280,390])ownedTest(`returning photo handover and once-only 
 ownedTest('active Chapel doorway checkpoint switches live target to mural',async({page})=>{
  test.setTimeout(150000);await page.setViewportSize({width:390,height:844});await page.addInitScript(()=>localStorage.setItem('ce-player:e2e-owned:'+'ce-missing-frame-local-review-v1',JSON.stringify({step:1,developed:true,shots:{}})));await page.goto('/playable-3d/');await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','chapel');await page.locator('#exploration-help').click();await page.locator('#discovery-assist').click();await page.getByRole('button',{name:'Continue from doorway',exact:true}).click({timeout:60000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','mural');await expect(page.locator('#discovery-title')).toHaveText('The colourful picture');await page.locator('#discovery-close').click();await page.locator('#exploration-stats-toggle').click();await expect(page.locator('.stats-collection [data-next="true"]')).toContainText('Mural picture');await expect(page.locator('.stats-collection [data-collected="true"]')).toHaveCount(1);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

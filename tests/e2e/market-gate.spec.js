@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {enterMarket,observeMarketWalking,walkMarket} from './market-controls.js';
 const d=p=>p.evaluate(()=>JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}'));
@@ -8,3 +9,5 @@ for(const width of [1280,390])test(`physical market gate exits and re-enters wit
  await walkMarket(page,'KeyW',{mode:'market'},45000);await expect.poll(()=>d(page)).toMatchObject({mode:'market',runId:run});console.log('GATE_PHASE first-reentry');await walkMarket(page,'KeyW',{selector:'#interact',text:'Talk to Mara'},45000);await page.locator('#interact').click();await page.getByRole('button',{name:'Take the shift',exact:true}).click();await expect.poll(async()=> (await d(page)).market.accepted).toBe(true);
  const before=(await d(page)).market;await walkMarket(page,'KeyS',{mode:'town'},60000);await page.waitForTimeout(1500);await walkMarket(page,'KeyW',{mode:'market'},45000);await expect.poll(async()=> (await d(page)).market?.events).toEqual(before.events);expect((await d(page)).runId).toBe(run);expect(errors).toEqual([]);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

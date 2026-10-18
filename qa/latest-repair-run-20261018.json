@@ -1,0 +1,15 @@
+{
+  "run": 38849466928,
+  "sha": "bf715060492b3be12e2e051ba6ba9d630d559016",
+  "source": "Fresh connected GitHub job reader",
+  "expected": 3,
+  "reported": 3,
+  "counts": {
+    "passed": 1,
+    "failed": 2,
+    "skipped": 0,
+    "notRun": 0
+  },
+  "conclusion": "Failed; later source probes do not clear suit frame cadence",
+  "job": 116807234372
+}

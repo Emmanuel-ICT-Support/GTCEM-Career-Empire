@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {enterMarket} from './market-controls.js';
 const previewURL='/playable-3d/?experience=night-market&market-review=1&admin-review=1';
@@ -56,3 +57,5 @@ test('verified Auth still runs while public preview leaves owner storage untouch
  await expect.poll(()=>state(page)).toMatchObject({guestRun:false,adminReview:true,market:unpaid});
  expect(await page.evaluate(()=>window.syntheticVerificationCalls)).toBe(1);expect(await page.evaluate(key=>localStorage.getItem(key),key)).toBe('synthetic-owned-save');
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});
