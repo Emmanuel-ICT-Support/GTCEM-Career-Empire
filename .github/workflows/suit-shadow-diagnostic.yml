@@ -39,6 +39,7 @@ jobs:
         shell: bash
         env:
           CE_SUIT_PROFILE: '1'
+          CE_SUIT_STAGES: '1'
           PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/suit-diagnostic/browser-report.json
         run: |
           set -o pipefail

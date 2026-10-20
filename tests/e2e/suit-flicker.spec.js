@@ -1,4 +1,12 @@
+import {installSuitStageProfile,transformSuitSource} from './suit-stage-profile.mjs';
 import {test,expect} from '@playwright/test';
+test.afterEach(async({page},info)=>{
+ if(process.env.CE_SUIT_STAGES!=='1')return;
+ let stages;try{stages=await page.evaluate(()=>window.__suitStageProfile?.snapshot()||null);}catch(error){stages={captureError:String(error)};}
+ if(!stages)return;
+ const width=page.viewportSize()?.width;console.log('SUIT_STAGE_PROFILE',JSON.stringify({width,...stages}));
+ await info.attach(`suit-stages-${width}`,{body:JSON.stringify(stages),contentType:'application/json'});
+});
 test('moving suit uses current-pose shadows instead of stale silhouettes',async({page})=>{
  await page.route('**/suit-harness',r=>r.fulfill({contentType:'text/html',body:'<base href="/playable-3d/"><script type="importmap">{"imports":{"three":"/playable-3d/vendor/three/build/three.module.js","three/addons/":"/playable-3d/vendor/three/examples/jsm/"}}</script>'}));
  await page.goto('/suit-harness');
@@ -22,8 +30,9 @@ test('moving suit uses current-pose shadows instead of stale silhouettes',async(
 });
 
 for(const width of [1280,390])test(`playable suit shadows follow every walking frame at ${width}`,async({page},info)=>{
+ const stageProfile=process.env.CE_SUIT_STAGES==='1';if(stageProfile)await installSuitStageProfile(page);
  await page.setViewportSize({width,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.route('**/playable-3d/app.js*',async r=>{const response=await r.fetch();const source=(await response.text()).replace('const renderStarted=performance.now();renderer.render(scene,camera);',`window.__suitFrames?.push({shadow:renderer.shadowMap.needsUpdate,weight:actor.clips.walk?.getEffectiveWeight()||0,time:performance.now(),position:actor.model.position.toArray(),yaw:actor.model.rotation.y,changed:playerShadowChanged,quality:document.querySelector('#quality').value});const renderStarted=performance.now();renderer.render(scene,camera);`);await r.fulfill({response,body:source+'\nwindow.__suitFrames=[];'});});
+ await page.route('**/playable-3d/app.js*',async r=>{const response=await r.fetch();const original=await response.text();const source=(stageProfile?transformSuitSource('app',original):original).replace('const renderStarted=performance.now();renderer.render(scene,camera);',`window.__suitFrames?.push({shadow:renderer.shadowMap.needsUpdate,weight:actor.clips.walk?.getEffectiveWeight()||0,time:performance.now(),position:actor.model.position.toArray(),yaw:actor.model.rotation.y,changed:playerShadowChanged,quality:document.querySelector('#quality').value});const renderStarted=performance.now();renderer.render(scene,camera);`);await r.fulfill({response,body:source+'\nwindow.__suitFrames=[];'});});
  const traceSession=process.env.CE_SUIT_PROFILE==='1'&&width===1280?await page.context().newCDPSession(page):null;if(traceSession)await traceSession.send('Tracing.start',{categories:'toplevel,devtools.timeline,blink,cc,gpu,viz,disabled-by-default-gpu.service',transferMode:'ReturnAsStream'});
  await page.goto('/playable-3d/?review=1&mode=full',{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>{const d=JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}');return d.entryReady&&!d.avatarFallback;},null,{timeout:90000});
  // End input inside the page: tracing/screenshot latency must not extend a walk
