@@ -20,6 +20,19 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Set up Python for the local test server
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Verify and warm the exact server interpreter
+        shell: bash
+        run: |
+          mkdir -p coverage/suit-diagnostic
+          {
+            command -v python3
+            python3 --version
+            python3 -c "import sys, http.server, pathlib, re, socket; assert sys.version_info[:2] == (3, 12); print(sys.executable); print('Server standard-library dependencies ready')"
+          } 2>&1 | tee coverage/suit-diagnostic/python-environment.txt
       - name: Install dependencies
         run: npm ci
       - name: Install the same Playwright browser as CI
@@ -44,12 +57,14 @@ jobs:
       - name: Profile the two unchanged walking-shadow tests
         shell: bash
         env:
+          DEBUG: pw:webserver
+          PYTHONUNBUFFERED: '1'
           CE_SUIT_PROFILE: '1'
           CE_SUIT_STAGES: '1'
           PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/suit-diagnostic/browser-report.json
         run: |
           set -o pipefail
-          npx playwright test tests/e2e/suit-flicker.spec.js \
+          npx playwright test --config playwright.suit-diagnostic.config.mjs tests/e2e/suit-flicker.spec.js \
             --grep "playable suit shadows follow every walking frame" \
             --project=chromium --workers=1 --retries=0 --max-failures=0 \
             --reporter=line,json \
