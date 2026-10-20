@@ -1,0 +1,1056 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-15T05:23:27.658892+00:00",
+  "sourceCommit": "7adf4f92e264ba1eaf158d071bcec74a778d7ea0",
+  "scope": "Opt-in controlled keyboard movement and first-use GL workload; no full suite, live merge or deployment",
+  "runtimeChanged": false,
+  "thresholds": {
+    "entryVisibleMs": 8000,
+    "firstKeyboardSpeedMetresPerSecond": 2.2
+  },
+  "method": {
+    "viewport": [
+      1280,
+      844
+    ],
+    "url": "/playable-3d/?review=1&mode=full",
+    "account": "mocked verified-owned account contract, not live sign-in",
+    "cold": "fresh Chrome context and --disable-gpu-shader-disk-cache; no OS/driver-cache deletion",
+    "software": "actual SwiftShader LLVM 10.0.0 (local Vulkan), not identical to hosted Linux Subzero",
+    "native": "actual Apple M3 Metal",
+    "input": "four controlled 1.8-second W holds with original benchmark teleport between windows and 0.7-second releases",
+    "gate": "existing real completed entry frame; no invented ready/movement flag",
+    "measurement": "GL wrappers add no queries/fences/draws; aggregate CPU wall times include driver waits, not direct compiler or GPU timer measurements",
+    "server": "read-only original Assets fallback at local 4277; sparse checkout unchanged"
+  },
+  "runs": [
+    {
+      "label": "software-workload-baseline-v2",
+      "kind": "unchanged baseline",
+      "status": "failed",
+      "durationMs": 51598.715,
+      "entryVisibleMs": 35613,
+      "movementWindows": [
+        {
+          "attempt": 0,
+          "atMs": 36566.70000000112,
+          "endMs": 38369.10000000149,
+          "metresPerSecond": 0.7487983068794043,
+          "observedRenderCalls": 22
+        },
+        {
+          "attempt": 1,
+          "atMs": 39074.800000000745,
+          "endMs": 40876.5,
+          "metresPerSecond": 0,
+          "observedRenderCalls": 0
+        },
+        {
+          "attempt": 2,
+          "atMs": 41581.300000000745,
+          "endMs": 43383.20000000112,
+          "metresPerSecond": 0.8218200357548945,
+          "observedRenderCalls": 1
+        },
+        {
+          "attempt": 3,
+          "atMs": 44089.800000000745,
+          "endMs": 45890.800000000745,
+          "metresPerSecond": 0.8161737261958962,
+          "observedRenderCalls": 1
+        }
+      ],
+      "firstCampusDraw": {
+        "atMs": 8013.5,
+        "ms": 26417.700000001118,
+        "calls": 348,
+        "triangles": 888290,
+        "entryReady": false
+      },
+      "readyFrameGaps": [
+        {
+          "from": {
+            "atMs": 36611.60000000149,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 1,
+            "completed": 1
+          },
+          "to": {
+            "atMs": 37285.5,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 2,
+            "completed": 1
+          },
+          "gapMs": 673.8999999985099,
+          "timerTicks": 0,
+          "maxTimerGapMs": null
+        },
+        {
+          "from": {
+            "atMs": 37312.800000000745,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 2,
+            "completed": 1
+          },
+          "to": {
+            "atMs": 42871.5,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 2,
+            "completed": 1
+          },
+          "gapMs": 5558.699999999255,
+          "timerTicks": 111,
+          "maxTimerGapMs": 51.20000000111759
+        },
+        {
+          "from": {
+            "atMs": 42979,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 3,
+            "completed": 2
+          },
+          "to": {
+            "atMs": 45441.90000000037,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 3,
+            "completed": 2
+          },
+          "gapMs": 2462.9000000003725,
+          "timerTicks": 50,
+          "maxTimerGapMs": 51.100000001490116
+        }
+      ],
+      "longestGLCalls": [
+        {
+          "name": "getExtension",
+          "phase": "pmrem",
+          "atMs": 4484,
+          "ms": 627.6000000014901
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 35848.300000000745,
+          "ms": 126.90000000037253
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 36004.70000000112,
+          "ms": 70.79999999888241
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 36163.60000000149,
+          "ms": 57.09999999962747
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 35563.300000000745,
+          "ms": 40
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 36250.20000000112,
+          "ms": 38.59999999962747
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 36114.20000000112,
+          "ms": 38.29999999888241
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 35672.10000000149,
+          "ms": 36
+        }
+      ],
+      "parallelCompileExtension": [],
+      "events": [
+        {
+          "name": "renderer-ready",
+          "atMs": 4479.800000000745
+        },
+        {
+          "name": "pmrem-complete",
+          "atMs": 5367.800000000745
+        },
+        {
+          "name": "entry-visible",
+          "atMs": 35613.10000000149
+        }
+      ],
+      "observationUnavailable": null,
+      "rawObservation": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/software-workload-baseline-v2.json",
+      "rawObservationSha256": "ebad61e54bc8857fe8d7504beb88c9a255c9de9e16f19a4a0210d39868170667",
+      "rawReport": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/browser-runs/software-workload-baseline-v2-2026-10-15T05-13-03-123Z-XheN27/browser-report.json",
+      "rawReportSha256": "bf4a47a8f18ccc6aa70d9a1444daf598cfec7352d9e57ea7e831d1dda3e2e49e",
+      "actualBackend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)"
+    },
+    {
+      "label": "software-workload-baseline-v3",
+      "kind": "refined unchanged baseline",
+      "status": "failed",
+      "durationMs": 46259.039,
+      "entryVisibleMs": 30761.5,
+      "movementWindows": [
+        {
+          "attempt": 0,
+          "atMs": 32100.599999999627,
+          "endMs": 33902.800000000745,
+          "metresPerSecond": 0.0030209990990328955,
+          "observedRenderCalls": 0
+        },
+        {
+          "attempt": 1,
+          "atMs": 34607.09999999963,
+          "endMs": 36408.90000000037,
+          "metresPerSecond": 0,
+          "observedRenderCalls": 0
+        },
+        {
+          "attempt": 2,
+          "atMs": 37113,
+          "endMs": 38913.70000000112,
+          "metresPerSecond": 0.7956349710558145,
+          "observedRenderCalls": 1
+        },
+        {
+          "attempt": 3,
+          "atMs": 39619.09999999963,
+          "endMs": 41419.70000000112,
+          "metresPerSecond": 0.8070307097295161,
+          "observedRenderCalls": 1
+        }
+      ],
+      "firstCampusDraw": {
+        "atMs": 8112.200000001118,
+        "ms": 21530.199999999255,
+        "calls": 348,
+        "triangles": 888290,
+        "scene": "",
+        "type": "Scene",
+        "entryReady": false
+      },
+      "readyFrameGaps": [
+        {
+          "from": {
+            "atMs": 32127.800000000745,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 2,
+            "completed": 1
+          },
+          "to": {
+            "atMs": 36712.300000000745,
+            "entryReady": true,
+            "keys": [],
+            "surfaceWaiting": false,
+            "submitted": 2,
+            "completed": 1
+          },
+          "gapMs": 4584.5,
+          "timerTicks": 91,
+          "maxTimerGapMs": 51.0
+        },
+        {
+          "from": {
+            "atMs": 36827.5,
+            "entryReady": true,
+            "keys": [],
+            "surfaceWaiting": false,
+            "submitted": 3,
+            "completed": 2
+          },
+          "to": {
+            "atMs": 38820.59999999963,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 3,
+            "completed": 2
+          },
+          "gapMs": 1993.0999999996275,
+          "timerTicks": 40,
+          "maxTimerGapMs": 51.80000000074506
+        },
+        {
+          "from": {
+            "atMs": 38927.59999999963,
+            "entryReady": true,
+            "keys": [],
+            "surfaceWaiting": false,
+            "submitted": 4,
+            "completed": 3
+          },
+          "to": {
+            "atMs": 40146.40000000037,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 4,
+            "completed": 3
+          },
+          "gapMs": 1218.800000000745,
+          "timerTicks": 24,
+          "maxTimerGapMs": 51.0
+        },
+        {
+          "from": {
+            "atMs": 40244,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 5,
+            "completed": 4
+          },
+          "to": {
+            "atMs": 41511,
+            "entryReady": true,
+            "keys": [],
+            "surfaceWaiting": false,
+            "submitted": 5,
+            "completed": 4
+          },
+          "gapMs": 1267,
+          "timerTicks": 25,
+          "maxTimerGapMs": 51.19999999925494
+        }
+      ],
+      "longestGLCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 8131.5999999996275,
+          "ms": 7576.200000001118
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 23452.800000000745,
+          "ms": 4149.199999999255
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 20370.5,
+          "ms": 2045.5999999996275
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 27842.800000000745,
+          "ms": 1689.699999999255
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 18134,
+          "ms": 813.9000000003725
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 19372.700000001118,
+          "ms": 728.2999999988824
+        },
+        {
+          "name": "getExtension",
+          "phase": "module-boot",
+          "atMs": 3609.2000000011176,
+          "ms": 690.5,
+          "arg": "EXT_color_buffer_float"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 22417.700000001118,
+          "ms": 618.5
+        }
+      ],
+      "parallelCompileExtension": [],
+      "events": [
+        {
+          "name": "renderer-ready",
+          "atMs": 5135.9000000003725
+        },
+        {
+          "name": "pmrem-complete",
+          "atMs": 5395.200000001118
+        },
+        {
+          "name": "entry-visible",
+          "atMs": 30761.5
+        }
+      ],
+      "observationUnavailable": null,
+      "rawObservation": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/software-workload-baseline-v3.json",
+      "rawObservationSha256": "b8d89084a6f2aad80a0bc1a801f98a3d9feb2b25ca96e631dcaf9ab65cc9b3a1",
+      "rawReport": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/browser-runs/software-workload-baseline-v3-2026-10-15T05-14-37-880Z-dwTATF/browser-report.json",
+      "rawReportSha256": "3c6c3d67fc0b30d2190257852242937cc0533e58585093010fb8609143f79c3c",
+      "actualBackend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)"
+    },
+    {
+      "label": "software-parallel-compile",
+      "kind": "whole-scene compile experiment, rejected",
+      "status": "failed",
+      "durationMs": 121536.705,
+      "entryVisibleMs": null,
+      "movementWindows": [],
+      "firstCampusDraw": null,
+      "readyFrameGaps": [],
+      "longestGLCalls": [],
+      "parallelCompileExtension": [],
+      "events": [],
+      "observationUnavailable": "page.evaluate: Target page, context or browser has been closed",
+      "rawObservation": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/software-parallel-compile.json",
+      "rawObservationSha256": "e8cc7c0a1dab815e031a79fba9f8e9279da41db286d460f3c0027079f44a282d",
+      "rawReport": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/browser-runs/software-parallel-compile-2026-10-15T05-16-00-468Z-JZ9AVr/browser-report.json",
+      "rawReportSha256": "2baa1afebfc1e9d716d6d27ea0f57e38d58a6fd79383a41eaa381eaad7557cf4",
+      "actualBackend": null
+    },
+    {
+      "label": "software-visible-compile",
+      "kind": "visible-material compile experiment, rejected",
+      "status": "failed",
+      "durationMs": 43529.043,
+      "entryVisibleMs": 28425.60000000149,
+      "movementWindows": [
+        {
+          "attempt": 0,
+          "atMs": 29759.700000001118,
+          "endMs": 31561.200000001118,
+          "metresPerSecond": 6.167699767755762e-06,
+          "observedRenderCalls": 0
+        },
+        {
+          "attempt": 1,
+          "atMs": 32264,
+          "endMs": 34065.5,
+          "metresPerSecond": 0,
+          "observedRenderCalls": 0
+        },
+        {
+          "attempt": 2,
+          "atMs": 34769,
+          "endMs": 36569.70000000112,
+          "metresPerSecond": 0.8032540824534141,
+          "observedRenderCalls": 1
+        },
+        {
+          "attempt": 3,
+          "atMs": 37276.800000000745,
+          "endMs": 39077.90000000037,
+          "metresPerSecond": 0.9550526625894559,
+          "observedRenderCalls": 2
+        }
+      ],
+      "firstCampusDraw": {
+        "atMs": 7859.700000001118,
+        "ms": 19459.5,
+        "calls": 354,
+        "triangles": 894218,
+        "scene": "",
+        "type": "Scene",
+        "entryReady": false
+      },
+      "readyFrameGaps": [
+        {
+          "from": {
+            "atMs": 29774.800000000745,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 2,
+            "completed": 1
+          },
+          "to": {
+            "atMs": 34235.5,
+            "entryReady": true,
+            "keys": [],
+            "surfaceWaiting": false,
+            "submitted": 2,
+            "completed": 1
+          },
+          "gapMs": 4460.699999999255,
+          "timerTicks": 90,
+          "maxTimerGapMs": 50.59999999962747
+        },
+        {
+          "from": {
+            "atMs": 34324.5,
+            "entryReady": true,
+            "keys": [],
+            "surfaceWaiting": false,
+            "submitted": 3,
+            "completed": 2
+          },
+          "to": {
+            "atMs": 36012.60000000149,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 3,
+            "completed": 2
+          },
+          "gapMs": 1688.1000000014901,
+          "timerTicks": 34,
+          "maxTimerGapMs": 50.899999998509884
+        },
+        {
+          "from": {
+            "atMs": 36107.800000000745,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 4,
+            "completed": 3
+          },
+          "to": {
+            "atMs": 37268.20000000112,
+            "entryReady": true,
+            "keys": [],
+            "surfaceWaiting": false,
+            "submitted": 4,
+            "completed": 3
+          },
+          "gapMs": 1160.4000000003725,
+          "timerTicks": 23,
+          "maxTimerGapMs": 50.90000000037253
+        },
+        {
+          "from": {
+            "atMs": 37374.5,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 5,
+            "completed": 4
+          },
+          "to": {
+            "atMs": 38663.90000000037,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 5,
+            "completed": 4
+          },
+          "gapMs": 1289.4000000003725,
+          "timerTicks": 26,
+          "maxTimerGapMs": 54.5
+        }
+      ],
+      "longestGLCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 7868.700000001118,
+          "ms": 7650.9000000003725
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 22018.900000000373,
+          "ms": 3685.7000000011176
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 19361.400000000373,
+          "ms": 1952.0999999996275
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 25719.5,
+          "ms": 1594.6000000014901
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 17438.5,
+          "ms": 761
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 18615,
+          "ms": 712
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 21314.800000000745,
+          "ms": 593.1999999992549
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 15633,
+          "ms": 568.4000000003725
+        }
+      ],
+      "parallelCompileExtension": [
+        {
+          "name": "KHR_parallel_shader_compile",
+          "supported": false,
+          "atMs": 5093.4000000003725
+        }
+      ],
+      "events": [
+        {
+          "name": "renderer-ready",
+          "atMs": 4968.800000000745
+        },
+        {
+          "name": "pmrem-complete",
+          "atMs": 5235.200000001118
+        },
+        {
+          "name": "compile-start",
+          "atMs": 7763.5
+        },
+        {
+          "name": "compile-selection",
+          "atMs": 7770.9000000003725,
+          "objects": 355
+        },
+        {
+          "name": "compile-complete",
+          "atMs": 7857.200000001118
+        },
+        {
+          "name": "entry-visible",
+          "atMs": 28425.60000000149
+        }
+      ],
+      "observationUnavailable": null,
+      "rawObservation": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/software-visible-compile.json",
+      "rawObservationSha256": "b4f6c5052240b9ce4a678ae021ba1123c917ed63b2db458ea215208d59774cee",
+      "rawReport": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/browser-runs/software-visible-compile-2026-10-15T05-18-58-738Z-dLym9P/browser-report.json",
+      "rawReportSha256": "1aeff1f37a5f292ab1cbc3186f130a92e0db01fc1b801881eebcb9670a59c9b1",
+      "actualBackend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)"
+    },
+    {
+      "label": "native-workload-control",
+      "kind": "unchanged native control",
+      "status": "passed",
+      "durationMs": 20476.647,
+      "entryVisibleMs": 2385.7000000011176,
+      "movementWindows": [
+        {
+          "attempt": 0,
+          "atMs": 3395.7000000011176,
+          "endMs": 5206.800000000745,
+          "metresPerSecond": 2.6642529318033676,
+          "observedRenderCalls": 73
+        },
+        {
+          "attempt": 1,
+          "atMs": 5968,
+          "endMs": 7778.300000000745,
+          "metresPerSecond": 2.6734733340142616,
+          "observedRenderCalls": 67
+        },
+        {
+          "attempt": 2,
+          "atMs": 8650.599999999627,
+          "endMs": 10451.099999999627,
+          "metresPerSecond": 2.6875583225396498,
+          "observedRenderCalls": 69
+        },
+        {
+          "attempt": 3,
+          "atMs": 11215.200000001118,
+          "endMs": 13020.099999999627,
+          "metresPerSecond": 2.684729843428414,
+          "observedRenderCalls": 69
+        }
+      ],
+      "firstCampusDraw": {
+        "atMs": 1594.4000000003725,
+        "ms": 781,
+        "calls": 348,
+        "triangles": 1964022,
+        "scene": "",
+        "type": "Scene",
+        "entryReady": false
+      },
+      "readyFrameGaps": [],
+      "longestGLCalls": [
+        {
+          "name": "texSubImage2D",
+          "phase": "render",
+          "atMs": 1645.800000000745,
+          "ms": 81.29999999888241
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 2863.300000000745,
+          "ms": 56.79999999888241
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 2386.800000000745,
+          "ms": 52.40000000037253
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 2630.9000000003725,
+          "ms": 48.19999999925494
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 2811.300000000745,
+          "ms": 48.19999999925494
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 2546.5,
+          "ms": 48.09999999962747
+        },
+        {
+          "name": "texSubImage2D",
+          "phase": "initTexture",
+          "atMs": 2949.5,
+          "ms": 44
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 2188.4000000003725,
+          "ms": 29.90000000037253
+        }
+      ],
+      "parallelCompileExtension": [
+        {
+          "name": "KHR_parallel_shader_compile",
+          "supported": true,
+          "atMs": 599
+        }
+      ],
+      "events": [
+        {
+          "name": "renderer-ready",
+          "atMs": 590.5
+        },
+        {
+          "name": "pmrem-complete",
+          "atMs": 649.2000000011176
+        },
+        {
+          "name": "entry-visible",
+          "atMs": 2385.7000000011176
+        }
+      ],
+      "observationUnavailable": null,
+      "rawObservation": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/native-workload-control.json",
+      "rawObservationSha256": "663accca27236c4aa34b6aa3a5d143f7064ccced0e3729f2933067b6381ab16a",
+      "rawReport": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/browser-runs/native-workload-control-2026-10-15T05-20-59-474Z-MZBnOQ/browser-report.json",
+      "rawReportSha256": "c9ee852f3a45120a7c0f851e9e26b1f8c8bb925869c63c884591c3c4981e0104",
+      "actualBackend": "ANGLE (Apple, ANGLE Metal Renderer: Apple M3, Unspecified Version)"
+    },
+    {
+      "label": "software-workload-final-baseline",
+      "kind": "unchanged final diagnostic baseline",
+      "status": "failed",
+      "durationMs": 47411.463,
+      "entryVisibleMs": 32915.20000000112,
+      "movementWindows": [
+        {
+          "attempt": 0,
+          "atMs": 33869,
+          "endMs": 35670.20000000112,
+          "metresPerSecond": 0.6547316844785009,
+          "observedRenderCalls": 22
+        },
+        {
+          "attempt": 1,
+          "atMs": 36375.90000000037,
+          "endMs": 38177.20000000112,
+          "metresPerSecond": 0,
+          "observedRenderCalls": 0
+        },
+        {
+          "attempt": 2,
+          "atMs": 38879.90000000037,
+          "endMs": 40685.70000000112,
+          "metresPerSecond": 0.7973159198887524,
+          "observedRenderCalls": 2
+        },
+        {
+          "attempt": 3,
+          "atMs": 41389.5,
+          "endMs": 43191.20000000112,
+          "metresPerSecond": 1.7537439321763222,
+          "observedRenderCalls": 2
+        }
+      ],
+      "firstCampusDraw": {
+        "atMs": 8532.400000000373,
+        "ms": 23244.300000000745,
+        "calls": 348,
+        "triangles": 888290,
+        "scene": "",
+        "type": "Scene",
+        "entryReady": false
+      },
+      "readyFrameGaps": [
+        {
+          "from": {
+            "atMs": 34364,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 2,
+            "completed": 1
+          },
+          "to": {
+            "atMs": 38815.5,
+            "entryReady": true,
+            "keys": [],
+            "surfaceWaiting": false,
+            "submitted": 2,
+            "completed": 1
+          },
+          "gapMs": 4451.5,
+          "timerTicks": 89,
+          "maxTimerGapMs": 50.90000000037253
+        },
+        {
+          "from": {
+            "atMs": 38913.800000000745,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 3,
+            "completed": 2
+          },
+          "to": {
+            "atMs": 40621,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 3,
+            "completed": 2
+          },
+          "gapMs": 1707.199999999255,
+          "timerTicks": 35,
+          "maxTimerGapMs": 50.90000000037253
+        },
+        {
+          "from": {
+            "atMs": 40713.70000000112,
+            "entryReady": true,
+            "keys": [],
+            "surfaceWaiting": false,
+            "submitted": 4,
+            "completed": 3
+          },
+          "to": {
+            "atMs": 41728,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 4,
+            "completed": 3
+          },
+          "gapMs": 1014.2999999988824,
+          "timerTicks": 21,
+          "maxTimerGapMs": 50.90000000037253
+        },
+        {
+          "from": {
+            "atMs": 41830.300000000745,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 5,
+            "completed": 4
+          },
+          "to": {
+            "atMs": 43056.5,
+            "entryReady": true,
+            "keys": [
+              "KeyW"
+            ],
+            "surfaceWaiting": false,
+            "submitted": 5,
+            "completed": 4
+          },
+          "gapMs": 1226.199999999255,
+          "timerTicks": 24,
+          "maxTimerGapMs": 50.80000000074506
+        }
+      ],
+      "longestGLCalls": [
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 8550.800000000745,
+          "ms": 9577.900000000373
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 26148.5,
+          "ms": 3612.800000000745
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 23173,
+          "ms": 1954.6000000014901
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 29994.900000000373,
+          "ms": 1666.800000000745
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 20954.800000000745,
+          "ms": 824.5
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 22195.200000001118,
+          "ms": 715.5999999996275
+        },
+        {
+          "name": "getProgramInfoLog",
+          "phase": "render",
+          "atMs": 18967.900000000373,
+          "ms": 668.5
+        },
+        {
+          "name": "getExtension",
+          "phase": "module-boot",
+          "atMs": 3821.800000000745,
+          "ms": 666.9000000003725,
+          "arg": "EXT_color_buffer_float"
+        }
+      ],
+      "parallelCompileExtension": [
+        {
+          "name": "KHR_parallel_shader_compile",
+          "supported": false,
+          "atMs": 5315.9000000003725
+        }
+      ],
+      "events": [
+        {
+          "name": "renderer-ready",
+          "atMs": 4647.800000000745
+        },
+        {
+          "name": "pmrem-complete",
+          "atMs": 5579.300000000745
+        },
+        {
+          "name": "entry-visible",
+          "atMs": 32915.300000000745
+        }
+      ],
+      "observationUnavailable": null,
+      "rawObservation": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/software-workload-final-baseline.json",
+      "rawObservationSha256": "43868cbbd538e774d46fea68df0f2910adddaeab5a11655cb3806525a4439795",
+      "rawReport": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/browser-runs/software-workload-final-baseline-2026-10-15T05-21-35-965Z-O3IRhf/browser-report.json",
+      "rawReportSha256": "59547bd96707de2ebf587cba4914bc8a05019ac42119e84c329aa62f5274c4a1",
+      "actualBackend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)"
+    }
+  ],
+  "qualification": {
+    "startupFixed": false,
+    "usableSoftwareMovementFixed": false,
+    "optimizationRetained": false,
+    "repeatableSpeedImprovementEstablished": false,
+    "softwareWaitAccepted": null,
+    "schoolHardwareValidated": false,
+    "perMeshGPUCostIsolated": false
+  },
+  "checks": {
+    "nativeProbe": "1 passed, four speed windows >2.2m/s and entry 2385.7ms <8000ms",
+    "softwareFinalProbe": "1 failed, two strict assertions (speed and readiness); zero uncaught page errors",
+    "normalInventory": "243 exact prior normalized unique IDs, no additions/removals",
+    "release": "284 exact asset hashes and 89 reachable modules verified",
+    "syntax": "both new QA files pass node --check; diff whitespace check passes",
+    "preservation": "477 inventoried older evidence files byte-identical; all new raw runs retained"
+  },
+  "collectionAttempt": "Initial .mjs diagnostic import failed before test collection. Retained software-workload-baseline.log; not a game execution.",
+  "wholeSceneAttempt": "120-second test deadline while awaiting actual entry; observation unavailable after browser context closed. Retained original report/screenshot; not a quantified successful compile comparison.",
+  "evidenceRoot": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf",
+  "evidenceInventory": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/workload-evidence-inventory.json",
+  "historicalFullRun": "38674943796 remains 202 passed/41 failed, 243 exact cases; no totals extrapolated from these diagnostics.",
+  "remoteRefsBeforePublication": {
+    "main": "423d2ab590285eeb87ab38f675ff4a9df1e2852e",
+    "review": "7adf4f92e264ba1eaf158d071bcec74a778d7ea0",
+    "fullCITriggerBranch": "5f317cdbe35f87e4a065c2db74f323c436d98258"
+  }
+}

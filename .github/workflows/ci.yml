@@ -5,6 +5,15 @@ name: CI
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_call:
+    inputs:
+      focused:
+        type: boolean
+        required: false
+        default: false
+
+env:
+  SOFTWARE_CASE: 'Stats changes publish while the cached world keeps its honest frame count$'
 
 jobs:
   checks:
@@ -24,10 +33,24 @@ jobs:
         run: npm ci
 
       - name: Run source checks and unit coverage once
-        run: npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs
+        if: ${{ !inputs.focused }}
+        run: python3 -B scripts/serve-test-site.test.py && npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs scripts/evidence-directory.test.mjs scripts/ui-readiness-report.test.mjs scripts/accelerated-browser.test.mjs
+
+      - name: Verify focused lane policy and saved runtime handlers
+        if: ${{ inputs.focused }}
+        run: |
+          npm run check
+          mkdir -p coverage
+          npx vitest run tests/unit/runtime-test-policy.test.mjs tests/unit/render-quality.test.mjs tests/unit/control-completion.test.mjs --reporter=default --reporter=json --outputFile=coverage/focused-units.json
+          node --test scripts/ci-shard-proof.test.mjs scripts/evidence-directory.test.mjs scripts/ui-readiness-report.test.mjs scripts/focused-workflow-proof.test.mjs
 
       - name: Collect full browser inventory
+        if: ${{ !inputs.focused }}
         run: npx playwright test --list --reporter=json > coverage/browser-inventory.json
+
+      - name: Collect only the two software compatibility cases
+        if: ${{ inputs.focused }}
+        run: npx playwright test --config qa/ecc-software-compatibility.playwright.config.mjs --list --reporter=json > coverage/software-compatibility-inventory.json
 
       - name: Upload coverage report
         if: always()
@@ -39,16 +62,23 @@ jobs:
           retention-days: 3
 
   critical:
+    if: ${{ !inputs.focused }}
     needs: checks
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install chromium
+      - name: Require actual Metal renderer with the configured browser
+        run: node scripts/verify-accelerated-browser.mjs
+
       - name: Validate startup before student journeys
         run: npx playwright test --grep "real grass failure" --workers=1 --max-failures=0 --reporter=line,json
         env:
@@ -80,8 +110,8 @@ jobs:
 
   browser:
     needs: [checks, critical]
-    if: needs.checks.result == 'success' && needs.critical.result == 'success'
-    runs-on: ubuntu-latest
+    if: ${{ !inputs.focused && needs.checks.result == 'success' && needs.critical.result == 'success' }}
+    runs-on: macos-15
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -97,14 +127,20 @@ jobs:
           node-version: 22
           cache: npm
 
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
       - name: Install dependencies
         run: npm ci
 
       - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
+
+      - name: Require actual Metal renderer with the configured browser
+        run: node scripts/verify-accelerated-browser.mjs
 
       - name: Run browser shard with one worker
-        run: npx playwright test --grep-invert "$CRITICAL_CASES" --shard=${{ matrix.shard }}/4 --workers=1 --max-failures=0 --reporter=line,json
+        run: npx playwright test --grep-invert "$CRITICAL_CASES|$SOFTWARE_CASE" --shard=${{ matrix.shard }}/4 --workers=1 --max-failures=0 --reporter=line,json
         env:
           CRITICAL_CASES: 'full natural intro|actual photo completion|same-run photo teachers|selected Sprout appears|actual keyboard walk through west Administration|real grass failure'
           PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
@@ -118,10 +154,98 @@ jobs:
           if-no-files-found: warn
           retention-days: 3
 
+  software-fixture:
+    name: Primary software-only Stats case
+    needs: checks
+    if: ${{ !inputs.focused }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Execute the original explicit SwiftShader case once
+        run: npx playwright test --config playwright.config.mjs tests/e2e/runtime-recovery.spec.js --grep "$SOFTWARE_CASE" --project=chromium --workers=1 --retries=0 --max-failures=0 --reporter=line,json
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
+      - name: Preserve separate primary software evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-evidence-software-fixture
+          path: coverage/
+          if-no-files-found: warn
+          retention-days: 3
+
+  software-compatibility:
+    name: Software startup compatibility (waiting time measured separately)
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Check real software startup, walking and cached Stats
+        run: npx playwright test --config qa/ecc-software-compatibility.playwright.config.mjs --workers=1 --retries=0 --reporter=line,json
+        env:
+          CE_BROWSER_CHANNEL: chromium
+          CE_COLD_SHADERS: '1'
+          CE_RECOVERY_DRAWS: ${{ inputs.focused && '1' || '0' }}
+          CE_TEST_OUTPUT: coverage/runtime-software-compatibility/browser
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/runtime-software-compatibility/browser-report.json
+      - name: Report functionality and measured waiting without a software SLA
+        if: always()
+        run: node scripts/runtime-lane-report.mjs coverage/runtime-software-compatibility/runtime-lanes.json coverage/runtime-software-compatibility/browser-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: runtime-software-compatibility
+          path: coverage/runtime-software-compatibility/
+          if-no-files-found: warn
+          retention-days: 3
+
+  focused-proof:
+    if: ${{ always() && inputs.focused }}
+    needs: [checks, software-compatibility]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: focused-checks
+      - uses: actions/download-artifact@v4
+        with:
+          name: runtime-software-compatibility
+          path: focused-software
+      - name: Prove exact focused execution and preserve qualification limits
+        env:
+          CHECKS_RESULT: ${{ needs.checks.result }}
+          COMPATIBILITY_RESULT: ${{ needs['software-compatibility'].result }}
+        run: node scripts/focused-workflow-proof.mjs focused-checks/software-compatibility-inventory.json focused-software/browser-report.json focused-software/runtime-lanes.json focused-checks/focused-units.json coverage/focused-workflow-proof.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: focused-workflow-proof
+          path: coverage/focused-workflow-proof.json
+          if-no-files-found: warn
+          retention-days: 3
+
   test:
     name: test
-    needs: [checks, critical, browser]
-    if: always()
+    needs: [checks, critical, browser, software-fixture, software-compatibility]
+    if: ${{ always() && !inputs.focused }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -152,13 +276,26 @@ jobs:
           CHECKS_RESULT: ${{ needs.checks.result }}
           CRITICAL_RESULT: ${{ needs.critical.result }}
           BROWSER_RESULT: ${{ needs.browser.result }}
+          SOFTWARE_FIXTURE_RESULT: ${{ needs['software-fixture'].result }}
         run: node scripts/ci-shard-proof.mjs coverage-checks/browser-inventory.json ci-evidence coverage/browser-rollup.json
+
+      - name: Report actual runtime lanes separately from unique inventory accounting
+        if: always()
+        run: node scripts/runtime-lane-report.mjs coverage/runtime-lanes.json ci-evidence
+
+      - name: Require the separate compatibility check
+        if: always()
+        env:
+          COMPATIBILITY_RESULT: ${{ needs['software-compatibility'].result }}
+        run: test "$COMPATIBILITY_RESULT" = success
 
       - name: Upload consolidated count proof
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: browser-count-proof
-          path: coverage/browser-rollup.json
+          path: |
+            coverage/browser-rollup.json
+            coverage/runtime-lanes.json
           if-no-files-found: warn
           retention-days: 3

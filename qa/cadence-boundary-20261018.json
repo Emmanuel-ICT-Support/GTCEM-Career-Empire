@@ -1,0 +1,217 @@
+{
+  "scope": "Observed original-scene cadence, unchanged1300ms scheduled input and original>5 requirement",
+  "sourceBeforeFollowup": "e41ea3fb974076264dc7fe45da6c29f21d7c5587 plus unrelated automatic Market-gate route repair",
+  "browser": "Chromium154.0.8037.57 Linux",
+  "backend": [
+    {
+      "vendorId": 65535,
+      "deviceId": 65535,
+      "vendorString": "Google Inc. (Google)",
+      "deviceString": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver-5.0.0)",
+      "driverVendor": "SwANGLE",
+      "driverVersion": "5.0.0"
+    }
+  ],
+  "featureStatus": {
+    "2d_canvas": "unavailable_software",
+    "direct_rendering_display_compositor": "disabled_off_ok",
+    "gpu_compositing": "disabled_software",
+    "multiple_raster_threads": "enabled_on",
+    "opengl": "disabled_off",
+    "rasterization": "disabled_software",
+    "raw_draw": "disabled_off_ok",
+    "skia_graphite": "disabled_off",
+    "trees_in_viz": "disabled_off",
+    "video_decode": "disabled_software",
+    "video_encode": "disabled_software",
+    "vulkan": "disabled_off",
+    "webgl": "unavailable_software",
+    "webgpu": "unavailable_software",
+    "webgpu_on_vk_via_gl_interop": "disabled_off",
+    "webnn": "unavailable_software"
+  },
+  "deviceBoundary": {
+    "/dev/dri": "absent",
+    "/sys/class/drm": "absent",
+    "physicalDevices": "unavailable"
+  },
+  "baseline": [
+    {
+      "width": 1280,
+      "phase": "entry",
+      "pending": 30,
+      "actualHoldMs": 1302.8999999994412,
+      "movingDrawsDuringHold": 1,
+      "allMovingDraws": 1,
+      "completedDuringHold": 0,
+      "ratio": 0.5
+    },
+    {
+      "width": 1280,
+      "phase": "settled",
+      "pending": 0,
+      "actualHoldMs": 1300.3999999994412,
+      "movingDrawsDuringHold": 1,
+      "allMovingDraws": 1,
+      "completedDuringHold": 0,
+      "ratio": 0.5
+    },
+    {
+      "width": 1280,
+      "phase": "settled-repeat",
+      "pending": 0,
+      "actualHoldMs": 1305,
+      "movingDrawsDuringHold": 1,
+      "allMovingDraws": 1,
+      "completedDuringHold": 0,
+      "ratio": 0.5
+    },
+    {
+      "width": 390,
+      "phase": "entry",
+      "pending": 30,
+      "actualHoldMs": 1306.9000000003725,
+      "movingDrawsDuringHold": 2,
+      "allMovingDraws": 2,
+      "completedDuringHold": 1,
+      "ratio": 0.5
+    },
+    {
+      "width": 390,
+      "phase": "settled",
+      "pending": 0,
+      "actualHoldMs": 1300.5,
+      "movingDrawsDuringHold": 1,
+      "allMovingDraws": 1,
+      "completedDuringHold": 0,
+      "ratio": 0.5
+    },
+    {
+      "width": 390,
+      "phase": "settled-repeat",
+      "pending": 0,
+      "actualHoldMs": 1304.7000000001863,
+      "movingDrawsDuringHold": 2,
+      "allMovingDraws": 2,
+      "completedDuringHold": 1,
+      "ratio": 0.5
+    }
+  ],
+  "independent8msFencePolling": [
+    {
+      "width": 1280,
+      "phase": "entry",
+      "pending": 30,
+      "actualHoldMs": 1313.7999999998137,
+      "movingDrawsDuringHold": 1,
+      "allMovingDraws": 1,
+      "completedDuringHold": 0
+    },
+    {
+      "width": 1280,
+      "phase": "settled",
+      "pending": 0,
+      "actualHoldMs": 1304.7999999998137,
+      "movingDrawsDuringHold": 1,
+      "allMovingDraws": 1,
+      "completedDuringHold": 0
+    },
+    {
+      "width": 1280,
+      "phase": "settled-repeat",
+      "pending": 0,
+      "actualHoldMs": 1302.5999999996275,
+      "movingDrawsDuringHold": 1,
+      "allMovingDraws": 1,
+      "completedDuringHold": 1
+    },
+    {
+      "width": 390,
+      "phase": "entry",
+      "pending": 30,
+      "actualHoldMs": 1306,
+      "movingDrawsDuringHold": 1,
+      "allMovingDraws": 1,
+      "completedDuringHold": 1
+    },
+    {
+      "width": 390,
+      "phase": "settled",
+      "pending": 0,
+      "actualHoldMs": 1307.4000000003725,
+      "movingDrawsDuringHold": 2,
+      "allMovingDraws": 2,
+      "completedDuringHold": 1
+    },
+    {
+      "width": 390,
+      "phase": "settled-repeat",
+      "pending": 0,
+      "actualHoldMs": 1304.1000000005588,
+      "movingDrawsDuringHold": 2,
+      "allMovingDraws": 2,
+      "completedDuringHold": 2
+    }
+  ],
+  "pairedSteadyFrameTimings": [
+    {
+      "width": 1280,
+      "pairedSteadyFrames": 2,
+      "renderCallCPU": {
+        "minMs": 4.4,
+        "medianMs": 4.85,
+        "maxMs": 5.3
+      },
+      "renderReturnToFenceCompletion": {
+        "minMs": 2101.9,
+        "medianMs": 2147.3,
+        "maxMs": 2192.7
+      },
+      "completedCanvasCopyCPU": {
+        "minMs": 1.9,
+        "medianMs": 2.0,
+        "maxMs": 2.1
+      },
+      "drawCalls": [
+        325,
+        331
+      ],
+      "triangles": [
+        855294,
+        861222
+      ]
+    },
+    {
+      "width": 390,
+      "pairedSteadyFrames": 4,
+      "renderCallCPU": {
+        "minMs": 2.7,
+        "medianMs": 3.45,
+        "maxMs": 3.7
+      },
+      "renderReturnToFenceCompletion": {
+        "minMs": 986.8,
+        "medianMs": 1013.6,
+        "maxMs": 1041.5
+      },
+      "completedCanvasCopyCPU": {
+        "minMs": 0.9,
+        "medianMs": 1.05,
+        "maxMs": 1.3
+      },
+      "drawCalls": [
+        227,
+        231,
+        242,
+        253
+      ],
+      "triangles": [
+        712790,
+        718510,
+        721326,
+        725330
+      ]
+    }
+  ],
+  "conclusion": "Cadence remains low after deferred work completes, with timely key release. Independent actual fence polling does not recover it. Measured software-renderer frame completion dominates JS submission and copy time. No improved source cadence fix established; no graphics or assertion reduction. Polling experiment is diagnostic only and not installed in production."
+}

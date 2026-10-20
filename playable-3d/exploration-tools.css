@@ -12,3 +12,6 @@
 /* Keep the visible corner map and first-day guidance in separate lanes. */
 body:has(#campus-minimap:not([hidden])) #arrival-mission{right:150px}
 @media(max-width:620px){body:has(#campus-minimap:not([hidden])) #arrival-mission{right:12px;bottom:180px;max-height:calc(100dvh - var(--game-header-height,136px) - 205px)}}
+
+/* The campus map must not cover Studio character controls or Save & return. */
+body:has(#experience.in-studio) #campus-minimap{visibility:hidden}

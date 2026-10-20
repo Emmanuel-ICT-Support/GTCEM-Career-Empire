@@ -3,8 +3,10 @@
     "dev": "python3 -m http.server 8000",
     "check": "node scripts/dev-check.mjs && node scripts/check-playable-release.mjs",
     "test": "vitest run",
-    "coverage": "vitest run --coverage",
+    "coverage": "node scripts/run-coverage.mjs",
     "test:e2e": "playwright test",
+    "test:gpu-performance": "playwright test --config qa/ecc-gpu-performance.playwright.config.mjs --workers=1 --retries=0",
+    "test:software-compatibility": "playwright test --config qa/ecc-software-compatibility.playwright.config.mjs --workers=1 --retries=0",
     "ci": "npm run check && npm run coverage && npm run test:e2e"
   },
   "devDependencies": {

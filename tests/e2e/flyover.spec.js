@@ -10,9 +10,9 @@ async function setup(page){
 const snap=page=>page.evaluate(()=>window.__flyTest.snapshot());
 async function hold(page,key,ms=400){await page.keyboard.down(key);await page.waitForTimeout(ms);await page.keyboard.up(key);}
 
-test('flyover detaches, eases, records cleanly and restores exact prior camera and player state',async({page})=>{
+test('flyover detaches, eases, records cleanly and restores exact prior camera and player state',async({page},info)=>{
  test.setTimeout(120000);await page.setViewportSize({width:1440,height:900});const {requests,errors}=await setup(page);
- const entry=await page.locator('#flyover-toggle').boundingBox(),tools=await page.locator('#world-tools').boundingBox();expect(entry.y).toBeLessThan((await page.locator('.topbar').boundingBox()).height);await page.screenshot({path:'coverage/browser-evidence/flyover-entry.png'});await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.waitForTimeout(1400);
+ const entry=await page.locator('#flyover-toggle').boundingBox(),tools=await page.locator('#world-tools').boundingBox();expect(entry.y).toBeLessThan((await page.locator('.topbar').boundingBox()).height);await page.screenshot({path:info.outputPath('flyover-entry.png')});await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.waitForTimeout(1400);
  // Read state and click synchronously, avoiding a follow-camera frame between them.
  const before=await page.evaluate(()=>{const s=window.__flyTest.snapshot();document.querySelector('#flyover-toggle').click();return s;});
  await expect(page.locator('#flyover-panel')).toBeVisible();await hold(page,'e');const raised=await snap(page);expect(raised.camera[1]).toBeGreaterThan(before.camera[1]);
@@ -20,8 +20,8 @@ test('flyover detaches, eases, records cleanly and restores exact prior camera a
  await page.mouse.move(600,350);await page.mouse.down();await page.mouse.move(720,420,{steps:8});await page.mouse.up();
  const moved=await snap(page);expect(moved.camera).not.toEqual(before.camera);expect(moved.quaternion).not.toEqual(before.quaternion);expect(moved.actor).toEqual(before.actor);expect(moved.rotation).toEqual(before.rotation);expect(moved.physics).toEqual(before.physics);
  await page.locator('#flyover-bird').click();await page.waitForTimeout(800);await page.locator('#flyover-speed').fill('25');await expect(page.locator('#flyover-speed-value')).toHaveText('25 m/s');
- await page.locator('#scene').focus();await page.keyboard.press('h');await expect(page.locator('body')).toHaveClass(/flyover-clean/);await page.screenshot({path:'coverage/browser-evidence/flyover-clean.png'});await page.keyboard.press('h');
- await page.screenshot({path:'coverage/browser-evidence/flyover-controls.png'});
+ await page.locator('#scene').focus();await page.keyboard.press('h');await expect(page.locator('body')).toHaveClass(/flyover-clean/);await page.screenshot({path:info.outputPath('flyover-clean.png')});await page.keyboard.press('h');
+ await page.screenshot({path:info.outputPath('flyover-controls.png')});
  await hold(page,'w');await page.evaluate(()=>window.dispatchEvent(new Event('blur')));const stopped=await snap(page);await page.waitForTimeout(250);expect((await snap(page)).camera).toEqual(stopped.camera);
  const restored=await page.evaluate(()=>{window.__flyTest.exit();return window.__flyTest.snapshot();});expect(restored).toEqual(before);
  await hold(page,'w');expect((await snap(page)).actor).not.toEqual(before.actor);
@@ -37,10 +37,10 @@ test('focus-safe shortcuts, repeated entry and normal destinations remain availa
 
 test.describe('touch flyover',()=>{
  test.use({hasTouch:true,isMobile:true,viewport:{width:390,height:844}});
- test('visible controls fit phone and altitude touch releases safely',async({page})=>{
+ test('visible controls fit phone and altitude touch releases safely',async({page},info)=>{
  test.setTimeout(120000);await setup(page);await page.locator('#flyover-toggle').tap();const before=await snap(page);
  const rise=page.getByRole('button',{name:'Raise camera'});await rise.dispatchEvent('pointerdown',{pointerId:1,clientX:10,clientY:10});await page.waitForTimeout(450);await rise.dispatchEvent('pointerup',{pointerId:1});expect((await snap(page)).camera[1]).toBeGreaterThan(before.camera[1]);
- const box=await page.locator('#flyover-panel').boundingBox();expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(390);await page.screenshot({path:'coverage/browser-evidence/flyover-phone.png'});await page.locator('#flyover-hide').tap();await expect(page.locator('body')).toHaveClass(/flyover-clean/);await page.locator('#scene').tap({position:{x:40,y:650}});await expect(page.locator('body')).not.toHaveClass(/flyover-clean/);await page.getByRole('button',{name:'Return to player',exact:true}).last().tap();expect((await snap(page)).active).toBe(false);
+ const box=await page.locator('#flyover-panel').boundingBox();expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(390);for(const control of await page.locator('#flyover-panel button').all()){await expect(control).toBeInViewport();const b=await control.boundingBox();expect(b.x+b.width).toBeLessThanOrEqual(box.x+box.width);}await page.screenshot({path:info.outputPath('flyover-phone.png')});await page.locator('#flyover-hide').tap();await expect(page.locator('body')).toHaveClass(/flyover-clean/);await page.locator('#scene').tap({position:{x:195,y:420}});await expect(page.locator('body')).not.toHaveClass(/flyover-clean/);await page.getByRole('button',{name:'Return to player',exact:true}).last().tap();expect((await snap(page)).active).toBe(false);
  });
 });
 

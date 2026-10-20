@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
 for(const width of [1280,768,390])test(`My Life stays separate from phase and account at ${width}`,async({page},info)=>{
@@ -23,7 +24,9 @@ test('Juniper food and staff clear the shallow counter in packing and collection
  await page.evaluate(()=>{const {market,camera,renderer}=window.stallReview();renderer.render(market.scene,camera);});
  await page.screenshot({path:info.outputPath('juniper-approach.png')});
  await page.evaluate(()=>window.stallReview().market.interaction({x:0,z:-3.6}).action());await page.getByRole('button',{name:'Take the shift',exact:true}).click();
- await page.evaluate(()=>window.stallReview().market.interaction({x:4.2,z:-1.8}).action());await page.getByLabel('Collection location',{exact:true}).selectOption('front');await page.getByLabel('Sam’s role',{exact:true}).selectOption('collect');await page.getByRole('button',{name:'Set this arrangement',exact:true}).click();
+ await page.evaluate(()=>window.stallReview().market.interaction({x:4.2,z:-1.8}).action());await page.getByLabel('Where will customers collect?',{exact:true}).selectOption('front');await page.getByLabel('What will Sam do?',{exact:true}).selectOption('collect');await page.getByRole('button',{name:'Apply setup · investigate first',exact:true}).click();
  const staff=await page.evaluate(()=>{const {market,THREE:T}=window.stallReview();market.scene.updateMatrixWorld(true);const actor=market.scene.getObjectByName('Market actor / sam');const box=new T.Box3().setFromObject(actor.children.at(-1),true);return {min:box.min.z,max:box.max.z};});
  expect(staff.min).toBeGreaterThan(-4.59);expect(staff.max).toBeLessThan(-3.625);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

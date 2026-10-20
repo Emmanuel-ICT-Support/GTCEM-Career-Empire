@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import {createEvidenceDirectory} from './scripts/evidence-directory.mjs';
 
 export default defineConfig({
   testDir: "tests/e2e",
@@ -7,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   // Collect every failure so later game journeys are exercised in CI too.
   maxFailures: 0,
-  outputDir: "coverage/browser-evidence",
+  outputDir: createEvidenceDirectory('browser')+'/browser',
   expect: {
     timeout: 5_000
   },
@@ -27,8 +28,9 @@ export default defineConfig({
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
+        channel: process.env.CE_BROWSER_CHANNEL,
         // Keep real game graphics on the Mac's native renderer, including older tests.
-        launchOptions: {args:process.platform==='darwin'?['--use-angle=metal']:[]}
+        launchOptions: {executablePath:process.env.CE_CHROMIUM_EXECUTABLE,args:process.platform==='darwin'?['--use-angle=metal']:process.env.CE_GPU_COMPOSITING==='1'?['--enable-gpu','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']:[]}
       }
     }
   ]

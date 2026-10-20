@@ -13,7 +13,7 @@ test('normal play avoids GPU pixel probes and uses shared building textures',asy
  for(const name of ['careers','workplace'])expect(requests.some(u=>u.includes('/'+name+'-shared-textures.glb'))).toBe(true);
  expect(requests.some(u=>u.includes('/garden-shared-textures.glb'))).toBe(false);
  expect(requests.some(u=>/\/(garden|careers|workplace)\.glb(?:\?|$)/.test(u))).toBe(false);
- expect(new Set(requests.filter(u=>u.includes('/shared-textures/'))).size).toBe(6);
+ await expect.poll(()=>new Set(requests.filter(u=>u.includes('/shared-textures/'))).size).toBe(6);
  expect(errors).toEqual([]);
 });
 

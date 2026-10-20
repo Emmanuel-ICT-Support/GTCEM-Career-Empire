@@ -1,0 +1,141 @@
+{
+  "repository": "Emmanuel-ICT-Support/GTCEM-Career-Empire",
+  "branch": "repair/resume-20261018",
+  "published": false,
+  "physicalDevicesTested": false,
+  "fullFinalSourceRerun": true,
+  "units": {
+    "passed": 335,
+    "files": 73
+  },
+  "accountingChecks": {
+    "passed": 26
+  },
+  "release": {
+    "hashes": 286,
+    "modules": 91
+  },
+  "runs": {
+    "broad": {
+      "expected": 252,
+      "counts": {
+        "passed": 245,
+        "failed": 7,
+        "skipped": 0,
+        "interrupted": 0,
+        "unrun": 0
+      },
+      "durationSeconds": 3484.8,
+      "report": "candidate-full-report.json"
+    },
+    "followup": {
+      "expected": 17,
+      "counts": {
+        "passed": 16,
+        "failed": 1,
+        "skipped": 0,
+        "interrupted": 0,
+        "unrun": 0
+      },
+      "durationSeconds": 236.58,
+      "report": "candidate-post-focused-report.json"
+    },
+    "teacherDiagnostic": {
+      "expected": 1,
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "interrupted": 0,
+        "unrun": 0
+      },
+      "durationSeconds": 76.63,
+      "report": "candidate-teacher-recovery-report.json"
+    },
+    "finalControls": {
+      "expected": 4,
+      "counts": {
+        "passed": 3,
+        "failed": 1,
+        "skipped": 0,
+        "interrupted": 0,
+        "unrun": 0
+      },
+      "durationSeconds": 100.06,
+      "report": "candidate-final-controls-report.json"
+    },
+    "finalPhoto": {
+      "expected": 1,
+      "counts": {
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "interrupted": 0,
+        "unrun": 0
+      },
+      "durationSeconds": 30.68,
+      "report": "candidate-final-photo-report.json"
+    },
+    "finalSource": {
+      "expected": 252,
+      "reported": 252,
+      "exactPartition": true,
+      "executedAllCases": true,
+      "counts": {
+        "passed": 250,
+        "failed": 2,
+        "skipped": 0,
+        "interrupted": 0,
+        "flaky": 0,
+        "notRun": 0
+      },
+      "durationSeconds": 3609.141094,
+      "report": "final-source-full-report.json"
+    }
+  },
+  "supplementalVisualContinuations": {
+    "passed": 2,
+    "viewports": [
+      1280,
+      390
+    ],
+    "source": "qa/revised-opening-continuation.mjs",
+    "photoCheckpoint": "synthetic; actual course/Studio/explore/resume/outside arrival UI",
+    "pixelAssertions": "lit original Studio, dark character pixels, completed Cerys receipt, hidden map",
+    "evidenceDirectory": "revised-flow-final-clean",
+    "fixtureValidation": "completed-photo checkpoint step4 with accepted JPEG mural and PNG souvenir",
+    "testedCommit": "c44a9561214adfdd7d9ef626eb816d73ec03c43a",
+    "captureWait": "Observed transient toast hidden before screenshots; runtime unchanged"
+  },
+  "unresolved": [
+    {
+      "file": "suit-flicker.spec.js",
+      "title": "playable suit shadows follow every walking frame at 1280",
+      "status": "failed",
+      "errors": [
+        "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m5\u001b[39m\nReceived:   \u001b[31m2\u001b[39m\n\n  34 |  await page.screenshot({path:info.outputPath(`suit-walking-${width}.png`)});\n  35 |  if(traceSession){const completed=new Promise(resolve=>traceSession.once('Tracing.tracingComplete',resolve));await traceSession.send('Tracing.end');const {stream}=await completed;let trace='';for(;;){const chunk=await traceSession.send('IO.read',{handle:stream});trace+=chunk.base64Encoded?Buffer.from(chunk.data,'base64').toString():chunk.data;if(chunk.eof)break;}await traceSession.send('IO.close',{handle:stream});const events=JSON.parse(trace).traceEvents;const long=events.filter(e=>e.dur>=100000).sort((a,b)=>b.dur-a.dur).slice(0,45).map(e=>({name:e.name,category:e.cat,durationMs:e.dur/1000,atMs:e.ts/1000,pid:e.pid,tid:e.tid,args:e.args}));const reads=events.filter(e=>/ReadPixels|WaitForCmd|CommandBufferHelper::Finish/.test(e.name));const summary={long,readCount:reads.length,readEvents:reads.map(e=>({name:e.name,durationMs:(e.dur||0)/1000,atMs:e.ts/1000,pid:e.pid,tid:e.tid})).slice(0,120)};console.log('SUIT_NATIVE_TRACE',JSON.stringify(summary));await info.attach('suit-native-summary',{body:JSON.stringify(summary),contentType:'application/json'});await traceSession.detach();}\n> 36 |  const frames=await page.evaluate(()=>window.__suitFrames);const moving=frames.filter(f=>f.weight>.01);console.log('SUIT_FRAME_TIMING',JSON.stringify({width,frames,movingFrames:moving.length,state:await page.locator('#diagnostics').getAttribute('data-state')}));expect(moving.length).toBeGreaterThan(5);expect(moving.every(f=>f.shadow)).toBe(true);expect(frames.slice(-10).some(f=>!f.shadow)).toBe(true);expect(errors).toEqual([]);console.log('SUIT_PLAYABLE',JSON.stringify({width,movingFrames:moving.length,staleMovingFrames:moving.filter(f=>!f.shadow).length}));\n     |                                                                                                                                                                                                                                                                                             ^\n  37 | });\n  38 |\n    at /workspace/career-candidate/tests/e2e/suit-flicker.spec.js:36:285"
+      ]
+    },
+    {
+      "file": "suit-flicker.spec.js",
+      "title": "playable suit shadows follow every walking frame at 390",
+      "status": "failed",
+      "errors": [
+        "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m5\u001b[39m\nReceived:   \u001b[31m2\u001b[39m\n\n  34 |  await page.screenshot({path:info.outputPath(`suit-walking-${width}.png`)});\n  35 |  if(traceSession){const completed=new Promise(resolve=>traceSession.once('Tracing.tracingComplete',resolve));await traceSession.send('Tracing.end');const {stream}=await completed;let trace='';for(;;){const chunk=await traceSession.send('IO.read',{handle:stream});trace+=chunk.base64Encoded?Buffer.from(chunk.data,'base64').toString():chunk.data;if(chunk.eof)break;}await traceSession.send('IO.close',{handle:stream});const events=JSON.parse(trace).traceEvents;const long=events.filter(e=>e.dur>=100000).sort((a,b)=>b.dur-a.dur).slice(0,45).map(e=>({name:e.name,category:e.cat,durationMs:e.dur/1000,atMs:e.ts/1000,pid:e.pid,tid:e.tid,args:e.args}));const reads=events.filter(e=>/ReadPixels|WaitForCmd|CommandBufferHelper::Finish/.test(e.name));const summary={long,readCount:reads.length,readEvents:reads.map(e=>({name:e.name,durationMs:(e.dur||0)/1000,atMs:e.ts/1000,pid:e.pid,tid:e.tid})).slice(0,120)};console.log('SUIT_NATIVE_TRACE',JSON.stringify(summary));await info.attach('suit-native-summary',{body:JSON.stringify(summary),contentType:'application/json'});await traceSession.detach();}\n> 36 |  const frames=await page.evaluate(()=>window.__suitFrames);const moving=frames.filter(f=>f.weight>.01);console.log('SUIT_FRAME_TIMING',JSON.stringify({width,frames,movingFrames:moving.length,state:await page.locator('#diagnostics').getAttribute('data-state')}));expect(moving.length).toBeGreaterThan(5);expect(moving.every(f=>f.shadow)).toBe(true);expect(frames.slice(-10).some(f=>!f.shadow)).toBe(true);expect(errors).toEqual([]);console.log('SUIT_PLAYABLE',JSON.stringify({width,movingFrames:moving.length,staleMovingFrames:moving.filter(f=>!f.shadow).length}));\n     |                                                                                                                                                                                                                                                                                             ^\n  37 | });\n  38 |\n    at /workspace/career-candidate/tests/e2e/suit-flicker.spec.js:36:285"
+      ]
+    }
+  ],
+  "runtimeSha256": {
+    "playable-3d/app.js": "dc113878ace864e0e350c005a0c12d2166b93cda1c62aa69f6b194be9cc165ff",
+    "playable-3d/orientation-tour.mjs": "4faa9567e8683cd455e629d1f253a75b881fc29777678d3ace1924d5fabf3938",
+    "playable-3d/classroom-gate.mjs": "b770c1e5e87cf0b30d27f4a55aa4d9877f629724434989a1a92698bbcb821d3b",
+    "playable-3d/exploration-tools.css": "95a8ccd1a3270d80e9fdb4c548af9e9ad0ed2975086b258279b02c492f4e587d",
+    "playable-3d/discovery-opening.css": "532fedb8b0ecc5f7a25dba12f61cee9c46be595083b854518a57d91feebfecf8",
+    "playable-3d/index.html": "27af8a62fc586a2191a8f5c22a0f03245706c8d5759df3f67bb8c082f6d5e3f1",
+    "playable-3d/guest-shell.mjs": "aa290735494981cbc18d479b4ff947ee05b61ed6e177946ffd31a3ff63cc695c",
+    "playable-3d/release-manifest.json": "8e74a744ce7cff8751e6a53cf3123315a8fe10c3e9e80a2f5980f545267d312f"
+  },
+  "finalPhotoRerun": "passed1/1 after current-navigation classroom helper fix",
+  "testedCommit": "c44a9561214adfdd7d9ef626eb816d73ec03c43a",
+  "cadenceDiagnosis": "qa/cadence-boundary-20261018.json"
+}

@@ -1,0 +1,70 @@
+{
+  "baseCommit": "7c52eccce8bca1657b92718107ae36b852aa4003",
+  "runtimeAssetsUnchanged": true,
+  "unitsPassed": 282,
+  "proofTestsPassed": 22,
+  "browserInventory": 243,
+  "sameInventoryIDs": true,
+  "releaseExactHashes": 284,
+  "reachableModules": 89,
+  "runnerPreservedFiles": 477,
+  "sourceVerification": {
+    "scope": "Isolated current-source verification tree, not the sparse checkout",
+    "result": "passed",
+    "method": "git ls-tree plus git show HEAD:path into a new isolated verification tree; blob identities verified; no symlinks or LFS pointers",
+    "trackedAssetFiles": 90,
+    "trackedAssetBytes": 149083692,
+    "additionalEntryFiles": [
+      {
+        "path": "world/index.html",
+        "gitBlob": "91e94cf5e0bb909f4a4597e4cc8e671564ccc2da",
+        "sha256": "2f912b94bded8e7b33ab42d1178091027b4c0f5c8fef360bb65629f184c83e76"
+      },
+      {
+        "path": "config/supabase-config.js",
+        "gitBlob": "fb73dbdf9d8a72753453dccc76aa1d66bb728314",
+        "sha256": "3cf6452cd2233e9ea901414ae619f50421361f93009fd4927702b51caf96d1a6"
+      }
+    ],
+    "sparseCheckoutChanged": false
+  },
+  "targetedNative": {
+    "distinctPassing": 7,
+    "scope": [
+      "Admin1280",
+      "Admin390",
+      "movement1280",
+      "movement390",
+      "movement1280at8FPS",
+      "Stats1280default",
+      "Stats390default"
+    ],
+    "earlyInstrumentationFailureRetained": true,
+    "movementProbesDifferByReadOnlyTraceDetail": true
+  },
+  "software": {
+    "threeCaseRun": {
+      "passed": 1,
+      "failed": 2,
+      "statsNavigationToReadyMs": 31462.9,
+      "statsRequestToDOMContentMs": 96.5,
+      "startupPerformanceQualified": false,
+      "admin": "Public initial/reentry actualactive passed; fullcase failed later normal Market state query",
+      "movement": "Strict speed failed with accepted keys"
+    },
+    "additionalMovementTrace": {
+      "passed": 0,
+      "failed": 1,
+      "walkMps": 0.002244046242372425,
+      "runMps": 0,
+      "physicsSteps": 37,
+      "frameSampleGapMs": 4406.7,
+      "activeBlockersRecorded": 0,
+      "navigationResetsRecorded": 0,
+      "exactBlockingWorkIdentified": false
+    }
+  },
+  "noFullBrowserSuite": true,
+  "mergeOrDeployment": false,
+  "rawEvidenceRoot": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf"
+}

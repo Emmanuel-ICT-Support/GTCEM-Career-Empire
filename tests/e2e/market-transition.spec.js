@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {walkThroughMarketEntrance} from './market-controls.js';
 
@@ -15,3 +16,5 @@ test('completed photo hands over from full campus to visible Market and real wal
  const moved=await state();expect(moved.position[2]).toBeLessThan(0);await page.locator('#interact').click();await expect(page.locator('#market-dialog-title')).toHaveText('Meet the Juniper crew');expect(errors).toEqual([]);
  const evidence=await state();await info.attach('market-transition',{body:JSON.stringify(evidence,null,2),contentType:'application/json'});
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

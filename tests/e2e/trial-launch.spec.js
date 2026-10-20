@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
 for(const width of [1280,390])test(`plan to visible trial has a clear next step at ${width}`,async({page},info)=>{
@@ -6,11 +7,11 @@ for(const width of [1280,390])test(`plan to visible trial has a clear next step 
  await page.goto('/playable-3d/?experience=sunday-markets&market-review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page);
  const visit=(x,z)=>page.evaluate(([x,z])=>trialReview().market.interaction({x,z}).action(),[x,z]);
  await visit(0,-3.6);await page.getByRole('button',{name:'Take the shift',exact:true}).click();
- await visit(4.2,-1.8);await page.getByLabel('Sign wording',{exact:true}).selectOption('pickup');await page.getByLabel('Sign position',{exact:true}).selectOption('approach');await page.getByRole('button',{name:'Set this arrangement',exact:true}).click();
- await expect(page.locator('#market-dialog')).toContainText('Then talk it through with Mara');await page.getByRole('button',{name:'Back to the market',exact:true}).click();
+ await visit(4.2,-1.8);await page.getByLabel('Sign wording',{exact:true}).selectOption('pickup');await page.getByLabel('Sign position',{exact:true}).selectOption('approach');await page.getByRole('button',{name:'Apply setup · investigate first',exact:true}).click();
+ await expect(page.locator('#market-dialog')).toContainText('Setup applied · customers have not started');await page.getByRole('button',{name:'Back to the market',exact:true}).click();
  const sign=await page.evaluate(()=>{const root=trialReview().market.scene.getObjectByName('Juniper / movable collection sign');return root.children.filter(c=>c.geometry?.type==='PlaneGeometry').map(c=>({z:c.position.z,rotation:c.rotation.y,sprite:c.isSprite||false}));});
  expect(sign).toHaveLength(2);expect(sign.every(s=>Math.abs(s.z)>.05&&!s.sprite)).toBe(true);expect(sign[1].rotation).toBeCloseTo(Math.PI);
- await expect(page.locator('#market-objective')).toContainText('go and watch the queue');
+ await expect(page.locator('#market-objective')).toContainText('Try an idea at the work bench, watch the queue, then share what you found with Mara.');
  await visit(-3,4);await expect(page.locator('#market-dialog')).toContainText('Test this arrangement');await page.getByRole('button',{name:'Start the test',exact:true}).click();
  const positions=()=>page.evaluate(()=>trialReview().market.scene.children.filter(o=>o.name.startsWith('Market actor / customer')).slice(0,6).map(o=>o.position.toArray()));const start=await positions();
  await expect.poll(async()=>Math.max(...(await positions()).map((p,i)=>Math.hypot(p[0]-start[i][0],p[2]-start[i][2]))),{timeout:6000}).toBeGreaterThan(1);
@@ -23,3 +24,5 @@ for(const width of [1280,390])test(`plan to visible trial has a clear next step 
  await visit(0,-3.6);await expect(page.locator('#market-dialog')).toContainText('Name what you practised');
  await page.getByRole('button',{name:'Back to the market',exact:true}).click();await expect(page.locator('#market-test')).toBeHidden();
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

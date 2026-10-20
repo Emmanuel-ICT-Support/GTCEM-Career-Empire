@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {enterMarket,observeMarketWalking,walkMarket} from './market-controls.js';
 const click=(p,name)=>p.getByRole('button',{name,exact:true}).click();
@@ -16,3 +17,5 @@ for(const width of [1280,390])test(`actual keyboard walk through west Administra
  await page.locator('#market-district-help').click();await expect(page.locator('#market-dialog-title')).toHaveText('Nora / help me check a claim');await click(page,'Play Signal or Spin? with Nora');await expect(page.locator('#market-dialog-title')).toHaveText('Signal or Spin?');await page.screenshot({path:`/tmp/market-admin-nora-${width}.png`});await click(page,'Start six claims');await expect(page.locator('.signal-trays button')).toHaveCount(3);await page.screenshot({path:`/tmp/market-admin-signal-${width}.png`});await page.keyboard.press('Escape');await page.locator('#market-district-route').click();await click(page,'Opportunities office');await expect(page.locator('#market-dialog-title')).toHaveText('An opportunity for Alex');await page.keyboard.press('Escape');await page.screenshot({path:`/tmp/market-admin-opportunities-${width}.png`});
  await page.locator('#market-district-route').click();await click(page,'Return to Sunday Market');await expect.poll(async()=> (await d(page)).market.officeFlow.active).toBe(false);expect((await d(page)).market.wallet).toBe(1800);expect((await d(page)).runId).toBe('admin-fixture');expect(errors).toEqual([]);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

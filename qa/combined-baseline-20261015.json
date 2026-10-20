@@ -1,0 +1,1523 @@
+{
+  "runId": 38667011027,
+  "commit": "423d2ab590285eeb87ab38f675ff4a9df1e2852e",
+  "counts": {
+    "passed": 175,
+    "failed": 67,
+    "skipped": 0,
+    "interrupted": 0,
+    "flaky": 0,
+    "notRun": 0
+  },
+  "exactPartition": true,
+  "tests": [
+    {
+      "id": "bfeb4aa2eb25acc7bcd0-8dbee9c68ad21be26e3a:chromium:0",
+      "file": "deferred-surface-recovery.spec.js",
+      "title": "real grass failure stays retryable and successful retry restores the completed entry",
+      "outcome": "passed"
+    },
+    {
+      "id": "23ec9d76fe6716af45f2-e3f4dc72242033fd4260:chromium:0",
+      "file": "guest-first.spec.js",
+      "title": "full natural intro hands over to envelope and actual Chapel without loading EST or market",
+      "outcome": "passed"
+    },
+    {
+      "id": "23ec9d76fe6716af45f2-95e2b6e97dead06dd0b9:chromium:0",
+      "file": "guest-first.spec.js",
+      "title": "actual photo completion shows the handover before an explicitly chosen optional companion; skip is allowed",
+      "outcome": "passed"
+    },
+    {
+      "id": "40da003095ee83d27f1a-a3e0cf09b11563ed8a12:chromium:0",
+      "file": "market-admin-restore.spec.js",
+      "title": "actual keyboard walk through west Administration door 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "40da003095ee83d27f1a-e5e18d8fe8d0d3d6d049:chromium:0",
+      "file": "market-admin-restore.spec.js",
+      "title": "actual keyboard walk through west Administration door 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "74080a16223bd5b4dce5-f3a5df9f29f4ae685c6b:chromium:0",
+      "file": "options-companion.spec.js",
+      "title": "selected Sprout appears in market, switches/removes, follows same-run module return and resets fresh",
+      "outcome": "passed"
+    },
+    {
+      "id": "85ffa85fbf5de817fe2e-7230e18d4ca2474202f2:chromium:0",
+      "file": "teacher-revisit.spec.js",
+      "title": "same-run photo teachers stay visible after cancellation, market/module returns and repeat greetings",
+      "outcome": "passed"
+    },
+    {
+      "id": "03a67d94c492fc696dc5-3f6e60e1c1a432d12ef2:chromium:0",
+      "file": "admin-preview.spec.js",
+      "title": "public shortcut opens isolated fresh Admin and preserves normal gates 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "03a67d94c492fc696dc5-f70b4a3b46644becf9a2:chromium:0",
+      "file": "admin-preview.spec.js",
+      "title": "public shortcut opens isolated fresh Admin and preserves normal gates 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "03a67d94c492fc696dc5-485e5d6a4c8c1aca4756:chromium:0",
+      "file": "admin-preview.spec.js",
+      "title": "public Admin loading can be cancelled without late travel and then retried",
+      "outcome": "passed"
+    },
+    {
+      "id": "03a67d94c492fc696dc5-ce419cf9357b3f8a94f5:chromium:0",
+      "file": "admin-preview.spec.js",
+      "title": "public Admin module failure has a successful explicit retry without rewards",
+      "outcome": "passed"
+    },
+    {
+      "id": "03a67d94c492fc696dc5-0ba428126ff94f9750c9:chromium:0",
+      "file": "admin-preview.spec.js",
+      "title": "verified Auth still runs while public preview leaves owner storage untouched",
+      "outcome": "passed"
+    },
+    {
+      "id": "869f22acd2b4ae26e6ba-cdf2f531cdcc3b1dbdf1:chromium:0",
+      "file": "app-smoke.spec.js",
+      "title": "/ loads its primary screen",
+      "outcome": "passed"
+    },
+    {
+      "id": "869f22acd2b4ae26e6ba-99863ae5e700793424f7:chromium:0",
+      "file": "app-smoke.spec.js",
+      "title": "/student/ loads its primary screen",
+      "outcome": "passed"
+    },
+    {
+      "id": "869f22acd2b4ae26e6ba-8e6e1dab23d12235a1c9:chromium:0",
+      "file": "app-smoke.spec.js",
+      "title": "/teacher/ loads its primary screen",
+      "outcome": "passed"
+    },
+    {
+      "id": "869f22acd2b4ae26e6ba-ab770ab1dbb560210fe1:chromium:0",
+      "file": "app-smoke.spec.js",
+      "title": "/modules/est-prep/ loads its primary screen",
+      "outcome": "passed"
+    },
+    {
+      "id": "869f22acd2b4ae26e6ba-d84f425f3919dabf9e6b:chromium:0",
+      "file": "app-smoke.spec.js",
+      "title": "/modules/avatar/ loads its primary screen",
+      "outcome": "passed"
+    },
+    {
+      "id": "869f22acd2b4ae26e6ba-fdb5eaffeadedf4efc0b:chromium:0",
+      "file": "app-smoke.spec.js",
+      "title": "Avatar Studio saves a future-self profile locally",
+      "outcome": "passed"
+    },
+    {
+      "id": "869f22acd2b4ae26e6ba-31a3b003306145da94c6:chromium:0",
+      "file": "app-smoke.spec.js",
+      "title": "Avatar Studio defaults to the Take 2 ECC rig base",
+      "outcome": "passed"
+    },
+    {
+      "id": "869f22acd2b4ae26e6ba-b8fa4f6c5e6a15bfc25e:chromium:0",
+      "file": "app-smoke.spec.js",
+      "title": "Avatar Studio ECC rig uses the approved Take 2 layer stack",
+      "outcome": "passed"
+    },
+    {
+      "id": "869f22acd2b4ae26e6ba-5b6612381ded11be3263:chromium:0",
+      "file": "app-smoke.spec.js",
+      "title": "Avatar Studio cleans up previously saved unapproved avatar choices",
+      "outcome": "passed"
+    },
+    {
+      "id": "869f22acd2b4ae26e6ba-d08359c442fb01c0ec2c:chromium:0",
+      "file": "app-smoke.spec.js",
+      "title": "Initiative rewards salary only when learning progress is proven",
+      "outcome": "passed"
+    },
+    {
+      "id": "8179d7b252740b370b16-cf56adaf9f0e4ba5a4dd:chromium:0",
+      "file": "avatar-occupations.spec.js",
+      "title": "Occupation pieces load as registered transparent layers and survive saving",
+      "outcome": "passed"
+    },
+    {
+      "id": "8179d7b252740b370b16-11aea0e1f55df7aa5192:chromium:0",
+      "file": "avatar-occupations.spec.js",
+      "title": "Occupation wardrobe fits at 1440px",
+      "outcome": "passed"
+    },
+    {
+      "id": "8179d7b252740b370b16-ec585c9e8dcca5a8c8a5:chromium:0",
+      "file": "avatar-occupations.spec.js",
+      "title": "Occupation wardrobe fits at 390px",
+      "outcome": "passed"
+    },
+    {
+      "id": "8427d47b02330ca5dc9d-a13e58cc05da37889e97:chromium:0",
+      "file": "avatar-upgrade.spec.js",
+      "title": "Complete shirt, jumper and blazer can each be removed independently",
+      "outcome": "passed"
+    },
+    {
+      "id": "8427d47b02330ca5dc9d-d0438fb84eecd90bf68a:chromium:0",
+      "file": "avatar-upgrade.spec.js",
+      "title": "Girl uses her own neutral, fitted wardrobe and saved layer recipe",
+      "outcome": "passed"
+    },
+    {
+      "id": "8427d47b02330ca5dc9d-cf4b62c277990a9c362e:chromium:0",
+      "file": "avatar-upgrade.spec.js",
+      "title": "Every active girl part decodes on the registered canvas",
+      "outcome": "passed"
+    },
+    {
+      "id": "8427d47b02330ca5dc9d-a22d72cf60b8c0086ac5:chromium:0",
+      "file": "avatar-upgrade.spec.js",
+      "title": "Old saved none outfit migrates without an unwanted jumper",
+      "outcome": "passed"
+    },
+    {
+      "id": "8427d47b02330ca5dc9d-0177ba20c7eba407ead2:chromium:0",
+      "file": "avatar-upgrade.spec.js",
+      "title": "Old saved ecc-navy-blazer outfit migrates without an unwanted jumper",
+      "outcome": "passed"
+    },
+    {
+      "id": "8427d47b02330ca5dc9d-1bfd239a21a5af368dca:chromium:0",
+      "file": "avatar-upgrade.spec.js",
+      "title": "Old saved chef-apron-black outfit migrates without an unwanted jumper",
+      "outcome": "passed"
+    },
+    {
+      "id": "8427d47b02330ca5dc9d-0ab4f1c15a0ac2e230ed:chromium:0",
+      "file": "avatar-upgrade.spec.js",
+      "title": "Random outfits only select parts available for their rig",
+      "outcome": "passed"
+    },
+    {
+      "id": "8427d47b02330ca5dc9d-80144311b380119ee7ac:chromium:0",
+      "file": "avatar-upgrade.spec.js",
+      "title": "Girl wardrobe remains visible at 1440px",
+      "outcome": "passed"
+    },
+    {
+      "id": "8427d47b02330ca5dc9d-8731e7c5be7120e641c1:chromium:0",
+      "file": "avatar-upgrade.spec.js",
+      "title": "Girl wardrobe remains visible at 749px",
+      "outcome": "passed"
+    },
+    {
+      "id": "8427d47b02330ca5dc9d-2f5593221d5fb7fa4281:chromium:0",
+      "file": "avatar-upgrade.spec.js",
+      "title": "Girl wardrobe remains visible at 390px",
+      "outcome": "passed"
+    },
+    {
+      "id": "7a741b9b2d0cabbf5360-236208f91be735600c38:chromium:0",
+      "file": "blueprint-menu.spec.js",
+      "title": "Blueprint menu opens a separate accessible tab 1280 quiet",
+      "outcome": "passed"
+    },
+    {
+      "id": "7a741b9b2d0cabbf5360-c6ddb44df75f324fb118:chromium:0",
+      "file": "blueprint-menu.spec.js",
+      "title": "Blueprint menu opens a separate accessible tab 390 quiet",
+      "outcome": "passed"
+    },
+    {
+      "id": "7a741b9b2d0cabbf5360-85353bef0f1e82c1327d:chromium:0",
+      "file": "blueprint-menu.spec.js",
+      "title": "Blueprint menu opens a separate accessible tab 1280 full",
+      "outcome": "passed"
+    },
+    {
+      "id": "6b3588018c5b079b960f-901b8156a76c5fb6f03b:chromium:0",
+      "file": "campus-visual-restoration.spec.js",
+      "title": "normal arrival view, original planting, world phases and real parcel 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "6b3588018c5b079b960f-d4516ed2449657483004:chromium:0",
+      "file": "campus-visual-restoration.spec.js",
+      "title": "normal arrival view, original planting, world phases and real parcel 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "6b3588018c5b079b960f-7b6ea8dc4f7e48f44c9a:chromium:0",
+      "file": "campus-visual-restoration.spec.js",
+      "title": "original mural is drawn before its photo opens at the post-Chapel checkpoint",
+      "outcome": "passed"
+    },
+    {
+      "id": "d6548ba8fd3a2bf2ccb0-2ec01c46efacc371fe82:chromium:0",
+      "file": "chapel-approach.spec.js",
+      "title": "live keyboard route reaches the actual Chapel door without changing position or progress directly",
+      "outcome": "failed"
+    },
+    {
+      "id": "eb91c86484e31f25eae1-781c4b0d0a6a0ec358f6:chromium:0",
+      "file": "companion-matrix.spec.js",
+      "title": "every selectable companion renders, follows and retains its choice from campus to Market",
+      "outcome": "passed"
+    },
+    {
+      "id": "ea35b5f36084220ee45a-67c66197484499b55818:chromium:0",
+      "file": "companion-visible.spec.js",
+      "title": "selected Sprout is visibly rendered in the active town and Market scenes",
+      "outcome": "passed"
+    },
+    {
+      "id": "7662e05027db40bcd39e-9705f3e12a55ab4f5eee:chromium:0",
+      "file": "discovery-intro.spec.js",
+      "title": "native intro component playback, skip, reload and replay preserve unrelated saves",
+      "outcome": "passed"
+    },
+    {
+      "id": "7662e05027db40bcd39e-5f04a281edc130057459:chromium:0",
+      "file": "discovery-intro.spec.js",
+      "title": "phone reduced-motion component has full transcript and immediate exit",
+      "outcome": "passed"
+    },
+    {
+      "id": "7662e05027db40bcd39e-de2b2cf710c71619a2ff:chromium:0",
+      "file": "discovery-intro.spec.js",
+      "title": "canonical no-query entry skips intro into the real scene without writing trail progress",
+      "outcome": "passed"
+    },
+    {
+      "id": "7662e05027db40bcd39e-c7031a4c8593b7f26010:chromium:0",
+      "file": "discovery-intro.spec.js",
+      "title": "guest canonical entry restarts intro and runtime while preserving old stored trail and avatar",
+      "outcome": "passed"
+    },
+    {
+      "id": "07add69f706d7a94ee08-d90a0995f07b101723bd:chromium:0",
+      "file": "echo.spec.js",
+      "title": "staged tasks, skips, persistence and revisiting do not fabricate completion",
+      "outcome": "passed"
+    },
+    {
+      "id": "07add69f706d7a94ee08-190dff305b0e3f73ac7a:chromium:0",
+      "file": "echo.spec.js",
+      "title": "phone and reduced motion leave Echo and player visible",
+      "outcome": "passed"
+    },
+    {
+      "id": "07add69f706d7a94ee08-64fa763daaa2b762d140:chromium:0",
+      "file": "echo.spec.js",
+      "title": "optional Echo failure does not block arrival or preload teachers and Studio",
+      "outcome": "passed"
+    },
+    {
+      "id": "c7c3a356285a40f1f3f0-a801eb13f4f130f1da92:chromium:0",
+      "file": "entry-geometry.spec.js",
+      "title": "entry geometry, walking collision and later detail reuse the same teaching roots",
+      "outcome": "passed"
+    },
+    {
+      "id": "d8bfe92b011c8c8d6abc-9ffcc10167e70f6428a4:chromium:0",
+      "file": "entry-visibility-probe.spec.js",
+      "title": "initial complete campus, unobstructed rear buildings and parcel walking 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "d8bfe92b011c8c8d6abc-a97410fbdc8138de6bfa:chromium:0",
+      "file": "entry-visibility-probe.spec.js",
+      "title": "initial complete campus, unobstructed rear buildings and parcel walking 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "4ea9b71dec04a3bfa62d-af4f70d2041fd2d3ae85:chromium:0",
+      "file": "final-market-transition.spec.js",
+      "title": "cold final tour action remains visible until real outside arrival and doorway entry",
+      "outcome": "passed"
+    },
+    {
+      "id": "4ea9b71dec04a3bfa62d-0a2c3a9442712f39203e:chromium:0",
+      "file": "final-market-transition.spec.js",
+      "title": "final tour action retains retry and cancellation while arrival is pending",
+      "outcome": "passed"
+    },
+    {
+      "id": "5f9751d98ac40ecc4e25-aebe5f554f44326c45ee:chromium:0",
+      "file": "full-campus-transition.spec.js",
+      "title": "real entry upgrades to a visibly rendered full campus without duplicate roots or errors",
+      "outcome": "passed"
+    },
+    {
+      "id": "23ec9d76fe6716af45f2-845e1f4d1f2634eca301:chromium:0",
+      "file": "guest-first.spec.js",
+      "title": "guest entry ignores old progress, preserves browser saves and reload begins anew",
+      "outcome": "passed"
+    },
+    {
+      "id": "23ec9d76fe6716af45f2-256761f3f43c5658cada:chromium:0",
+      "file": "guest-first.spec.js",
+      "title": "same-run My Life navigation shares the guest wallet, while a later root reload resets it",
+      "outcome": "passed"
+    },
+    {
+      "id": "23ec9d76fe6716af45f2-668664e6949cbdd90f1a:chromium:0",
+      "file": "guest-first.spec.js",
+      "title": "verified account response retains owned progress while demo selections cannot authorize persistence",
+      "outcome": "passed"
+    },
+    {
+      "id": "23ec9d76fe6716af45f2-b1bec1744d24611d4efb:chromium:0",
+      "file": "guest-first.spec.js",
+      "title": "initial guest destination actions cannot load EST or Careers interiors before the Chapel checkpoint",
+      "outcome": "passed"
+    },
+    {
+      "id": "5029d2359d4b289505bd-ec60bfc6b397504a2e59:chromium:0",
+      "file": "guidance.spec.js",
+      "title": "none at 1280: no models, guidance, persistence",
+      "outcome": "passed"
+    },
+    {
+      "id": "5029d2359d4b289505bd-6ec6ce51afaadadaff02:chromium:0",
+      "file": "guidance.spec.js",
+      "title": "journal at 1280: no models, guidance, persistence",
+      "outcome": "passed"
+    },
+    {
+      "id": "5029d2359d4b289505bd-39d87d7dcd5ceea9884f:chromium:0",
+      "file": "guidance.spec.js",
+      "title": "none at 390: no models, guidance, persistence",
+      "outcome": "passed"
+    },
+    {
+      "id": "5029d2359d4b289505bd-6b4b10f72a70e167fd51:chromium:0",
+      "file": "guidance.spec.js",
+      "title": "journal at 390: no models, guidance, persistence",
+      "outcome": "passed"
+    },
+    {
+      "id": "5029d2359d4b289505bd-83be8f0d65db9909e099:chromium:0",
+      "file": "guidance.spec.js",
+      "title": "switching preserves progress, chooses old creature only on request, without extra downloads",
+      "outcome": "passed"
+    },
+    {
+      "id": "5029d2359d4b289505bd-74235c958088c9767132:chromium:0",
+      "file": "guidance.spec.js",
+      "title": "switching away from a pending creature keeps it disabled after the response",
+      "outcome": "passed"
+    },
+    {
+      "id": "a91126bb02e7c236bdbc-3ce7ad852b7b06050e76:chromium:0",
+      "file": "hair-shoes.spec.js",
+      "title": "lazy choices, stable body scale, colours, removal and saved reload",
+      "outcome": "passed"
+    },
+    {
+      "id": "a91126bb02e7c236bdbc-c68534623a9c8e1faaa9:chromium:0",
+      "file": "hair-shoes.spec.js",
+      "title": "failed accessory retries; rapid choices and phone controls remain usable",
+      "outcome": "passed"
+    },
+    {
+      "id": "813f74c91110e1d767e7-be59203dd26ef94ef6e9:chromium:0",
+      "file": "helpers.spec.js",
+      "title": "portrait selection, persistence and world at 1280px",
+      "outcome": "passed"
+    },
+    {
+      "id": "813f74c91110e1d767e7-f4991e912a0689647293:chromium:0",
+      "file": "helpers.spec.js",
+      "title": "portrait selection, persistence and world at 390px",
+      "outcome": "passed"
+    },
+    {
+      "id": "813f74c91110e1d767e7-ce69f33a85b1586f51f7:chromium:0",
+      "file": "helpers.spec.js",
+      "title": "switching loads only committed choice; cancel and all seven models work",
+      "outcome": "passed"
+    },
+    {
+      "id": "813f74c91110e1d767e7-766db59d2f791bf40b37:chromium:0",
+      "file": "helpers.spec.js",
+      "title": "missing helper falls back without blocking world; retry succeeds",
+      "outcome": "passed"
+    },
+    {
+      "id": "813f74c91110e1d767e7-12216d137a20086c050c:chromium:0",
+      "file": "helpers.spec.js",
+      "title": "reduced motion and character choices stay isolated",
+      "outcome": "passed"
+    },
+    {
+      "id": "813f74c91110e1d767e7-cc2c16ca1c0ca28e2e17:chromium:0",
+      "file": "helpers.spec.js",
+      "title": "phone scrolling, keyboard choice and rapid replacement keep latest guide",
+      "outcome": "passed"
+    },
+    {
+      "id": "813f74c91110e1d767e7-43c2ad31c18ff3caed9c:chromium:0",
+      "file": "helpers.spec.js",
+      "title": "denied choice storage remains playable and reports tab-only choice",
+      "outcome": "passed"
+    },
+    {
+      "id": "40da003095ee83d27f1a-bcfbb2aec8c626612d3c:chromium:0",
+      "file": "market-admin-restore.spec.js",
+      "title": "restored Administration reception, sources, trials and applications 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "40da003095ee83d27f1a-51fcf0a22358c3c8d621:chromium:0",
+      "file": "market-admin-restore.spec.js",
+      "title": "restored Administration reception, sources, trials and applications 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "bef2165208dc3026db56-fb320e3a8ae8ff9d874c:chromium:0",
+      "file": "market-gate.spec.js",
+      "title": "physical market gate exits and re-enters without clicks 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "bef2165208dc3026db56-c398be91eae21cadefd1:chromium:0",
+      "file": "market-gate.spec.js",
+      "title": "physical market gate exits and re-enters without clicks 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "3593ef2d84c615f747fa-21836c09cebbeff47f44:chromium:0",
+      "file": "market-guidance.spec.js",
+      "title": "market outside arrival, walking, visual briefing and progressive signs 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "3593ef2d84c615f747fa-f847f68e4a5e7d8b37b7:chromium:0",
+      "file": "market-guidance.spec.js",
+      "title": "market outside arrival, walking, visual briefing and progressive signs 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "3593ef2d84c615f747fa-feb2ee6015dd2371d25c:chromium:0",
+      "file": "market-guidance.spec.js",
+      "title": "reduced-motion briefing stays manual; returning market state and optional activities remain available",
+      "outcome": "passed"
+    },
+    {
+      "id": "4a2a6a6c17ba1ee6c42e-353f8d185b586ddaed22:chromium:0",
+      "file": "market-initiative-journey.spec.js",
+      "title": "guest walks the initiative shift, compares the result and receives net wages once",
+      "outcome": "passed"
+    },
+    {
+      "id": "d165f657f1c90a80d780-0e32e631aaa58e44c743:chromium:0",
+      "file": "market-initiative-learning.spec.js",
+      "title": "visual brief, actions, recall and fair pay 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "d165f657f1c90a80d780-3d4e3249978291070a31:chromium:0",
+      "file": "market-initiative-learning.spec.js",
+      "title": "visual brief, actions, recall and fair pay 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "d165f657f1c90a80d780-59d85e96f35bfac389ed:chromium:0",
+      "file": "market-initiative-learning.spec.js",
+      "title": "after-job arcade, grey-colour collection and takeaway 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "d165f657f1c90a80d780-94745456c2363a7ca007:chromium:0",
+      "file": "market-initiative-learning.spec.js",
+      "title": "after-job arcade, grey-colour collection and takeaway 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "d165f657f1c90a80d780-b2c1140356944cc2c62f:chromium:0",
+      "file": "market-initiative-learning.spec.js",
+      "title": "story sorting supports keyboard, drag and reduced motion",
+      "outcome": "passed"
+    },
+    {
+      "id": "d165f657f1c90a80d780-f7350f600d9a16a986ff:chromium:0",
+      "file": "market-initiative-learning.spec.js",
+      "title": "full-world walking shift, story-sort and exit",
+      "outcome": "passed"
+    },
+    {
+      "id": "d165f657f1c90a80d780-4db55e20eb444d17832f:chromium:0",
+      "file": "market-initiative-learning.spec.js",
+      "title": "exterior exit remains clear and permits walking re-entry 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "d165f657f1c90a80d780-9363112d458766cf2135:chromium:0",
+      "file": "market-initiative-learning.spec.js",
+      "title": "exterior exit remains clear and permits walking re-entry 854",
+      "outcome": "passed"
+    },
+    {
+      "id": "d165f657f1c90a80d780-73fbc8e0c8d6993e3504:chromium:0",
+      "file": "market-initiative-learning.spec.js",
+      "title": "exterior exit remains clear and permits walking re-entry 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "aefaa165eaee2cc0296d-680df3fe0197f3f3d240:chromium:0",
+      "file": "market-reception-guidance.spec.js",
+      "title": "paid completion reveals Reception and preserves gates and wages 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "aefaa165eaee2cc0296d-cd04b512ed7e15c184b3:chromium:0",
+      "file": "market-reception-guidance.spec.js",
+      "title": "returning paid player sees Reception outside collapsed Journal 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "aefaa165eaee2cc0296d-9ab041668fa052adcb54:chromium:0",
+      "file": "market-reception-guidance.spec.js",
+      "title": "paid completion reveals Reception and preserves gates and wages 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "aefaa165eaee2cc0296d-28a77cdd0aeb00bbf937:chromium:0",
+      "file": "market-reception-guidance.spec.js",
+      "title": "returning paid player sees Reception outside collapsed Journal 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "b25e0474f6aecaf77a79-bf15a45b8b545bd5c6ee:chromium:0",
+      "file": "market-stats.spec.js",
+      "title": "Market money and collection stay available 1280 default",
+      "outcome": "passed"
+    },
+    {
+      "id": "b25e0474f6aecaf77a79-d1ab69a80d13fcfac808:chromium:0",
+      "file": "market-stats.spec.js",
+      "title": "Market money and collection stay available 1280 &mode=full",
+      "outcome": "failed"
+    },
+    {
+      "id": "b25e0474f6aecaf77a79-164035a47be157c969f1:chromium:0",
+      "file": "market-stats.spec.js",
+      "title": "Market money and collection stay available 390 default",
+      "outcome": "passed"
+    },
+    {
+      "id": "b25e0474f6aecaf77a79-a3c65a9f115982347de9:chromium:0",
+      "file": "market-stats.spec.js",
+      "title": "Market money and collection stay available 390 &mode=full",
+      "outcome": "passed"
+    },
+    {
+      "id": "2888452356d212611486-13fee00b8a9be3ea9911:chromium:0",
+      "file": "market-transition.spec.js",
+      "title": "completed photo hands over from full campus to visible Market and real walking interaction",
+      "outcome": "passed"
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-186144f83b0833af1dbe:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "live default map and Stats 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-ff47dd182c944e6e4ccb:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "live default map and Stats 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-b1abb8fbfdc213beb393:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "returning photo handover and once-only rewards 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-03d3ffa69ca8c1f803fb:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "returning photo handover and once-only rewards 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-230ce32a834e575d683a:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "active Chapel doorway checkpoint switches live target to mural",
+      "outcome": "passed"
+    },
+    {
+      "id": "74080a16223bd5b4dce5-f087c8344c3dc81f87ee:chromium:0",
+      "file": "options-companion.spec.js",
+      "title": "Options clearly pauses, resumes via button/outside/Escape and consumes dismissal taps",
+      "outcome": "passed"
+    },
+    {
+      "id": "74080a16223bd5b4dce5-5753b65e51dec838b0c8:chromium:0",
+      "file": "options-companion.spec.js",
+      "title": "lazy companion pending/failure feedback and retry do not block movement",
+      "outcome": "passed"
+    },
+    {
+      "id": "74080a16223bd5b4dce5-c8e70a3bd331695722ef:chromium:0",
+      "file": "options-companion.spec.js",
+      "title": "simulated phone touch dismissal, selection and movement remain usable",
+      "outcome": "passed"
+    },
+    {
+      "id": "3761e9902a6854a5fbdc-f5fa5743f23e92d4818d:chromium:0",
+      "file": "photo-handover.spec.js",
+      "title": "actual photo review precedes accurate orientation handover, Mara map target and Market entry",
+      "outcome": "passed"
+    },
+    {
+      "id": "a0498f0741e8ee00134d-378f53d3ecc1507bcec6:chromium:0",
+      "file": "post-photo-tour.spec.js",
+      "title": "tour uses one action, preserves money, requires real return position and reuses course return",
+      "outcome": "passed"
+    },
+    {
+      "id": "a0498f0741e8ee00134d-1c432c1293ec0bad347b:chromium:0",
+      "file": "post-photo-tour.spec.js",
+      "title": "tour skip, close, replay and reduced motion restore controls 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "a0498f0741e8ee00134d-62db484b49703269005a:chromium:0",
+      "file": "post-photo-tour.spec.js",
+      "title": "tour skip, close, replay and reduced motion restore controls 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "a0498f0741e8ee00134d-2fc65110b000d5ff465a:chromium:0",
+      "file": "post-photo-tour.spec.js",
+      "title": "late companion choice cannot reopen a closed tour",
+      "outcome": "passed"
+    },
+    {
+      "id": "a0498f0741e8ee00134d-de4cb5dc8c6786d2159b:chromium:0",
+      "file": "post-photo-tour.spec.js",
+      "title": "My Life course section is usable, undated, printable and retains existing My work",
+      "outcome": "passed"
+    },
+    {
+      "id": "fd2ec3d13002b3546e58-444c57ce5fc5e4b98806:chromium:0",
+      "file": "pre-market-flight.spec.js",
+      "title": "actual photo and companion permit keyboard Flyover back to the start before Market",
+      "outcome": "passed"
+    },
+    {
+      "id": "76a895559bda3373ce86-cc73f28688c58aeb411b:chromium:0",
+      "file": "render-budget.spec.js",
+      "title": "Auto keeps controls available, manual quality works, and hidden views stop rendering",
+      "outcome": "failed"
+    },
+    {
+      "id": "37f089f5bf3f16188c65-bbd9235fef716acaba87:chromium:0",
+      "file": "returning-parcel.spec.js",
+      "title": "saved Cerys current clue automatically reopens, rearms and survives reload (first picture)",
+      "outcome": "passed"
+    },
+    {
+      "id": "37f089f5bf3f16188c65-42b4892920e9a8fbdd49:chromium:0",
+      "file": "returning-parcel.spec.js",
+      "title": "saved Cerys current clue automatically reopens, rearms and survives reload (developed)",
+      "outcome": "passed"
+    },
+    {
+      "id": "e85aabbb1dbb45cc0cdb-a746930329a88ec848cd:chromium:0",
+      "file": "runtime-recovery.spec.js",
+      "title": "pending Market travel yields to visible Character Studio and late completion stays cancelled",
+      "outcome": "failed"
+    },
+    {
+      "id": "e85aabbb1dbb45cc0cdb-2b287dd10f17dc6ee010:chromium:0",
+      "file": "runtime-recovery.spec.js",
+      "title": "stalled Market travel releases the campus and normal retry remains visible and walkable",
+      "outcome": "failed"
+    },
+    {
+      "id": "e85aabbb1dbb45cc0cdb-96fc42825f66c6278328:chromium:0",
+      "file": "runtime-recovery.spec.js",
+      "title": "Stats changes publish while the cached world keeps its honest frame count",
+      "outcome": "passed"
+    },
+    {
+      "id": "dfb3c877ebba30c37548-a3abef07c3b2648c988a:chromium:0",
+      "file": "staged-entry.spec.js",
+      "title": "sharp entry prepares the next task without loading distant campus or recording completion",
+      "outcome": "failed"
+    },
+    {
+      "id": "dfb3c877ebba30c37548-95e0b1245fdcc4dd841b:chromium:0",
+      "file": "staged-entry.spec.js",
+      "title": "failed entry detail leaves documents usable and can retry",
+      "outcome": "passed"
+    },
+    {
+      "id": "dfb3c877ebba30c37548-fcbecd29fdb2e3e1e1c5:chromium:0",
+      "file": "staged-entry.spec.js",
+      "title": "skipping avatar prepares market kits without a market visit",
+      "outcome": "failed"
+    },
+    {
+      "id": "dfb3c877ebba30c37548-baeae884c45afc998bc4:chromium:0",
+      "file": "staged-entry.spec.js",
+      "title": "a returning character past Market prepares the wider campus after entry",
+      "outcome": "passed"
+    },
+    {
+      "id": "e224d913d340be3539a9-19289924de90ede37d1f:chromium:0",
+      "file": "arrival-gardens.spec.js",
+      "title": "arrival walk reaches Studio and retains avatar save after reload",
+      "outcome": "failed"
+    },
+    {
+      "id": "69808ba0bfa5cba9618e-754c8328b20469bb92c2:chromium:0",
+      "file": "avatar-jacket-test.spec.js",
+      "title": "jacket test supports outfit visibility, walking and saved profiles",
+      "outcome": "passed"
+    },
+    {
+      "id": "4ad32298eba9acb7dde1-a063d84901e82ae79d88:chromium:0",
+      "file": "avatar-lazy-startup.spec.js",
+      "title": "saved schoolboy: boot, Studio edit, save and reload",
+      "outcome": "passed"
+    },
+    {
+      "id": "4ad32298eba9acb7dde1-9d327310b712909c8aa6:chromium:0",
+      "file": "avatar-lazy-startup.spec.js",
+      "title": "saved pantstest: boot, Studio edit, save and reload",
+      "outcome": "passed"
+    },
+    {
+      "id": "4ad32298eba9acb7dde1-23cc38baf606b2848d46:chromium:0",
+      "file": "avatar-lazy-startup.spec.js",
+      "title": "saved a: boot, Studio edit, save and reload",
+      "outcome": "passed"
+    },
+    {
+      "id": "4ad32298eba9acb7dde1-8d3362120c6db742c127:chromium:0",
+      "file": "avatar-lazy-startup.spec.js",
+      "title": "leaving while Studio imports prevents a late unwanted entry",
+      "outcome": "passed"
+    },
+    {
+      "id": "4ad32298eba9acb7dde1-d94319e35b5821bd2b73:chromium:0",
+      "file": "avatar-lazy-startup.spec.js",
+      "title": "pants preview remains an unsaved Studio draft",
+      "outcome": "passed"
+    },
+    {
+      "id": "6477fe14d47ee430670b-750a128a01a59eec6190:chromium:0",
+      "file": "avatar-recovery.spec.js",
+      "title": "failed startup avatar can retry without reloading or changing the saved profile",
+      "outcome": "failed"
+    },
+    {
+      "id": "b72654684b2b105e17f2-49072058c8278566ee65:chromium:0",
+      "file": "avatar-studio-entry.spec.js",
+      "title": "Home Base returns to ECC welcome; Studio remains separate",
+      "outcome": "failed"
+    },
+    {
+      "id": "1e47b76f650a64522a7e-9b2e89b56dc5e28ecf25:chromium:0",
+      "file": "campus-layout.spec.js",
+      "title": "campus entrances and destination paths are walkable while walls and pond stay solid",
+      "outcome": "passed"
+    },
+    {
+      "id": "ac11a9e741ca1b3b3886-c51c33614016be712f27:chromium:0",
+      "file": "chapel.spec.js",
+      "title": "Chapel reflection and campus return at 1440px",
+      "outcome": "failed"
+    },
+    {
+      "id": "ac11a9e741ca1b3b3886-e2f93b6e4db9aa534e71:chromium:0",
+      "file": "chapel.spec.js",
+      "title": "Chapel reflection and campus return at 390px",
+      "outcome": "failed"
+    },
+    {
+      "id": "b3adf1190a1c36202269-05c380a9ab1f313811c2:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "curriculum rooms remain accessible when campus decoration and Studio fail",
+      "outcome": "failed"
+    },
+    {
+      "id": "b3adf1190a1c36202269-d95e86dd5fca77d2a865:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "slow saved avatar, Studio and poster never gate EST at 1280px",
+      "outcome": "failed"
+    },
+    {
+      "id": "b3adf1190a1c36202269-12fee0d382740751cd3b:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "slow saved avatar, Studio and poster never gate EST at 390px",
+      "outcome": "failed"
+    },
+    {
+      "id": "b3adf1190a1c36202269-fdf3c807e8c30e8d8f64:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "failed avatar keeps fallback playable, retry restores saved avatar without rewriting it",
+      "outcome": "failed"
+    },
+    {
+      "id": "b3adf1190a1c36202269-1a83e5cda9f3502a1110:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "unavailable saved clothing uses fallback and never fetches other outfits",
+      "outcome": "failed"
+    },
+    {
+      "id": "eacac5189667a41d12e0-fa4bc82d86822c21c14c:chromium:0",
+      "file": "deferred-hdr.spec.js",
+      "title": "entry reflection placeholder compiles before its original HDR arrives",
+      "outcome": "passed"
+    },
+    {
+      "id": "7c5ef01cf86c3d359fe4-5f8e2171ff09f8df0dff:chromium:0",
+      "file": "ecc-courtyard.spec.js",
+      "title": "courtyard review opens the playable world and survives quality, resize and destination changes",
+      "outcome": "passed"
+    },
+    {
+      "id": "0cf9aca50512008f9657-6ce387075fa1e7dc3b84:chromium:0",
+      "file": "est-wall-video.spec.js",
+      "title": "EST requires wall play, seeks and restarts at 1440px",
+      "outcome": "failed"
+    },
+    {
+      "id": "0cf9aca50512008f9657-b5362bc9fe8516014263:chromium:0",
+      "file": "est-wall-video.spec.js",
+      "title": "EST requires wall play, seeks and restarts at 390px",
+      "outcome": "failed"
+    },
+    {
+      "id": "2cbe4eeaf4ec2b9078e5-1c6824e864c933909c9e:chromium:0",
+      "file": "first-play.spec.js",
+      "title": "Arrival is playable while distant models and textures wait, then opens the whole campus",
+      "outcome": "failed"
+    },
+    {
+      "id": "2cbe4eeaf4ec2b9078e5-01499637f87b347edf94:chromium:0",
+      "file": "first-play.spec.js",
+      "title": "background failure keeps Arrival and Studio usable; retry does not duplicate scenery or replace the avatar",
+      "outcome": "failed"
+    },
+    {
+      "id": "2cbe4eeaf4ec2b9078e5-1903c20851ff71a26f3b:chromium:0",
+      "file": "first-play.spec.js",
+      "title": "a failed entry texture retries before optional landscape loads",
+      "outcome": "failed"
+    },
+    {
+      "id": "a740e232a5a14862a3f0-515871acdecd050eae3b:chromium:0",
+      "file": "flyover.spec.js",
+      "title": "flyover detaches, eases, records cleanly and restores exact prior camera and player state",
+      "outcome": "passed"
+    },
+    {
+      "id": "a740e232a5a14862a3f0-d0db42d1aee077f2b2b8:chromium:0",
+      "file": "flyover.spec.js",
+      "title": "focus-safe shortcuts, repeated entry and normal destinations remain available",
+      "outcome": "passed"
+    },
+    {
+      "id": "a740e232a5a14862a3f0-80f78bc8f92c2aa22030:chromium:0",
+      "file": "flyover.spec.js",
+      "title": "campus recording view from ordinary arrival camera",
+      "outcome": "passed"
+    },
+    {
+      "id": "a740e232a5a14862a3f0-3c0aa68e3ee7aed6decf:chromium:0",
+      "file": "flyover.spec.js",
+      "title": "visible controls fit phone and altitude touch releases safely",
+      "outcome": "passed"
+    },
+    {
+      "id": "85ab4d0bdf6e6aa79f84-8a536e58fb23fa8b86d4:chromium:0",
+      "file": "game-entry-loading.spec.js",
+      "title": "game entry loads only the active avatar and worn clothes",
+      "outcome": "failed"
+    },
+    {
+      "id": "85ab4d0bdf6e6aa79f84-d61bfb38820a9e0b19a2:chromium:0",
+      "file": "game-entry-loading.spec.js",
+      "title": "game entry loads only the active avatar and worn clothes",
+      "outcome": "failed"
+    },
+    {
+      "id": "8a94587f89b4ab1cab50-a5193141f2fa2c365610:chromium:0",
+      "file": "startup-campus-entry.spec.js",
+      "title": "video to complete exterior, walking and automatic parcel at 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "8a94587f89b4ab1cab50-3ecdaef3f0cd3a854734:chromium:0",
+      "file": "startup-campus-entry.spec.js",
+      "title": "video to complete exterior, walking and automatic parcel at 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "8beb0a03f378ffff1fdf-3b33fcfd8145004f253a:chromium:0",
+      "file": "startup-costs.spec.js",
+      "title": "measure complete campus handover costs cold-skip",
+      "outcome": "failed"
+    },
+    {
+      "id": "8beb0a03f378ffff1fdf-494f1763de14f109efce:chromium:0",
+      "file": "startup-costs.spec.js",
+      "title": "measure complete campus handover costs natural-video",
+      "outcome": "passed"
+    },
+    {
+      "id": "d10a8235e6ed24c4cc22-725463996d999197e399:chromium:0",
+      "file": "startup-performance.spec.js",
+      "title": "normal play avoids GPU pixel probes and uses shared building textures",
+      "outcome": "failed"
+    },
+    {
+      "id": "d10a8235e6ed24c4cc22-7d9f11067425c7a4b41e:chromium:0",
+      "file": "startup-performance.spec.js",
+      "title": "pixel diagnostics remain available explicitly for visual checks",
+      "outcome": "passed"
+    },
+    {
+      "id": "4fbb9f13b83f01ed98fd-e285d5d8c12953bd8beb:chromium:0",
+      "file": "startup-surface-gate.spec.js",
+      "title": "a stalled decorative surface cannot trap the player behind Arrival readiness",
+      "outcome": "passed"
+    },
+    {
+      "id": "4fbb9f13b83f01ed98fd-11b890e75eefdcbd0f2e:chromium:0",
+      "file": "startup-surface-gate.spec.js",
+      "title": "complete intro reaches natural end and hands over to usable movement",
+      "outcome": "failed"
+    },
+    {
+      "id": "4fbb9f13b83f01ed98fd-2b96c3e02c144e0b258e:chromium:0",
+      "file": "startup-surface-gate.spec.js",
+      "title": "deferred GLTF surfaces keep their target, UV sampler, colour space and flip orientation",
+      "outcome": "passed"
+    },
+    {
+      "id": "4fbb9f13b83f01ed98fd-3da2bf434fbab5d18147:chromium:0",
+      "file": "startup-surface-gate.spec.js",
+      "title": "mocked owned-account parcel, map and shared wallet persist without a duplicate reward",
+      "outcome": "failed"
+    },
+    {
+      "id": "bc05f5cc631d9e6a0f5c-03388f130c855fb781ad:chromium:0",
+      "file": "static-batching.spec.js",
+      "title": "static batches retain world geometry, material identity and transparent surfaces",
+      "outcome": "passed"
+    },
+    {
+      "id": "bac31e839d91e17ab470-6516e0030ca5e749c7fb:chromium:0",
+      "file": "suit-flicker.spec.js",
+      "title": "moving suit uses current-pose shadows instead of stale silhouettes",
+      "outcome": "passed"
+    },
+    {
+      "id": "bac31e839d91e17ab470-85692b0ce0133a810d48:chromium:0",
+      "file": "suit-flicker.spec.js",
+      "title": "playable suit shadows follow every walking frame at 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "bac31e839d91e17ab470-29efc6a6de61e8589ba0:chromium:0",
+      "file": "suit-flicker.spec.js",
+      "title": "playable suit shadows follow every walking frame at 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "725db8b408242bcd469d-10b409d478f6c8757d91:chromium:0",
+      "file": "teacher-assets.spec.js",
+      "title": "both released teacher assets decode with their required animations and real collision",
+      "outcome": "passed"
+    },
+    {
+      "id": "f9091a7c8410da1557b4-c916671d0412d8dbf522:chromium:0",
+      "file": "teacher-flow-probe.spec.js",
+      "title": "observe integrated returning photo teacher loading without altering game state",
+      "outcome": "passed"
+    },
+    {
+      "id": "a3d13aef195ccb00377a-9b8b81ff9f548cbf099b:chromium:0",
+      "file": "teacher-natural-arrival.spec.js",
+      "title": "actual mural photo starts teacher preload before the keyboard walk reaches the oval",
+      "outcome": "passed"
+    },
+    {
+      "id": "bcbac3a57c44f8dc71fd-ceb1c470aecaddf3966a:chromium:0",
+      "file": "tour-landing-shortcuts.spec.js",
+      "title": "safe roof landing and ordinary map/menu shortcuts keep arrivals outdoors",
+      "outcome": "passed"
+    },
+    {
+      "id": "e31713a2e5022984cae0-9235625ab8498105073f:chromium:0",
+      "file": "tour-navigation.spec.js",
+      "title": "ordinary night-market shortcut arrives outside the campus building and permits touch landing 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "e31713a2e5022984cae0-090d308656f4ce0d6a99:chromium:0",
+      "file": "tour-navigation.spec.js",
+      "title": "ordinary sunday-markets shortcut arrives outside the campus building and permits touch landing 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "e31713a2e5022984cae0-bf0b89e1a537a38a5f27:chromium:0",
+      "file": "tour-navigation.spec.js",
+      "title": "explicit public Admin review keeps its direct Reception purpose",
+      "outcome": "passed"
+    },
+    {
+      "id": "e31713a2e5022984cae0-38d873ed2369e4343ebc:chromium:0",
+      "file": "tour-navigation.spec.js",
+      "title": "same-run My Life course return retains tour, photo and money; ordinary guest entry resets",
+      "outcome": "passed"
+    },
+    {
+      "id": "f523f6e6b14fb0f55f49-3117d03f39ba1649922d:chromium:0",
+      "file": "whole-characters.spec.js",
+      "title": "named characters: selected-only startup, lazy tests, rig measurements, switching and persistence",
+      "outcome": "failed"
+    },
+    {
+      "id": "f523f6e6b14fb0f55f49-6a30d62c6383792b1e26:chromium:0",
+      "file": "whole-characters.spec.js",
+      "title": "simulated phone: optional Studio layout and failed selected model keeps the player",
+      "outcome": "passed"
+    },
+    {
+      "id": "f523f6e6b14fb0f55f49-2397768dfe0a366aedc9:chromium:0",
+      "file": "whole-characters.spec.js",
+      "title": "saved test character remains active and available without opening test catalog",
+      "outcome": "passed"
+    },
+    {
+      "id": "f523f6e6b14fb0f55f49-c0ab61d490abd6325a22:chromium:0",
+      "file": "whole-characters.spec.js",
+      "title": "failed saved main model leaves a playable fallback and preserves the saved choice",
+      "outcome": "passed"
+    },
+    {
+      "id": "f523f6e6b14fb0f55f49-d60e45a91087699e159c:chromium:0",
+      "file": "whole-characters.spec.js",
+      "title": "named choices avoid the previous release empty-catalog URL",
+      "outcome": "passed"
+    },
+    {
+      "id": "cc10922a14e9be6d77be-c5f256528376d9c0d769:chromium:0",
+      "file": "header-controls.spec.js",
+      "title": "banner controls are clear and destinations work at 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "cc10922a14e9be6d77be-fc35f2c79d9f6c05630d:chromium:0",
+      "file": "header-controls.spec.js",
+      "title": "banner controls are clear and destinations work at 854",
+      "outcome": "failed"
+    },
+    {
+      "id": "cc10922a14e9be6d77be-d9ec03174075810061c3:chromium:0",
+      "file": "header-controls.spec.js",
+      "title": "banner controls are clear and destinations work at 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "5d2690c7f38072f90767-0a156a1640323f0bc4b8:chromium:0",
+      "file": "market-graphics.spec.js",
+      "title": "all character copies load, animate independently and render in the market",
+      "outcome": "passed"
+    },
+    {
+      "id": "5d2690c7f38072f90767-b513aad6a26547d7a16a:chromium:0",
+      "file": "market-graphics.spec.js",
+      "title": "a missing Sam keeps the shift accessible and retries on re-entry",
+      "outcome": "passed"
+    },
+    {
+      "id": "256d4c3724a264a5e24b-47f6fd00ea22e9383e2b:chromium:0",
+      "file": "movement.spec.js",
+      "title": "player travel, gait, turn and stop at 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "256d4c3724a264a5e24b-82ca25f92df459655c18:chromium:0",
+      "file": "movement.spec.js",
+      "title": "player travel, gait, turn and stop at 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "256d4c3724a264a5e24b-aabd7c95186a0e93c2b9:chromium:0",
+      "file": "movement.spec.js",
+      "title": "player travel, gait, turn and stop at 1280 at 8 FPS",
+      "outcome": "failed"
+    },
+    {
+      "id": "256d4c3724a264a5e24b-fd75e84b3d112acbfe80:chromium:0",
+      "file": "movement.spec.js",
+      "title": "supplied animations keep walking on frames between physics ticks",
+      "outcome": "passed"
+    },
+    {
+      "id": "68ff3ad57aefb578cc30-3ce9b9640b94b04583ca:chromium:0",
+      "file": "my-life-navigation.spec.js",
+      "title": "My Life navigation survives delayed and failed tracker modules at 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "68ff3ad57aefb578cc30-99328edd9a689594231a:chromium:0",
+      "file": "my-life-navigation.spec.js",
+      "title": "My Life navigation survives delayed and failed tracker modules at 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-9d1707c974ea3aac1a0f:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "agency, trial comparison and editable artifact 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-0b2387798e4b11a1d0dd:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "agency, trial comparison and editable artifact 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-c1de80d2aea5423fa701:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "unresolved baseline is paid without writing or guessing a reflection answer",
+      "outcome": "passed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-c2925c06d82f051ab937:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "optional guide and My work bridge 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-c496434d8dd7b81ac25a:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "optional guide and My work bridge 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-258fb5066b5e58128f34:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "Home Economics entrance and return use real navigation",
+      "outcome": "failed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-d9623bcd92fd121f1adb:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "complete keyboard shift, learning, review transfer and return 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-63f87e29c56810e65470:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "complete keyboard shift, learning, review transfer and return 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-ec5bb118a4ae4ae7ed42:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "purchases, preserved reflection and celebration 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-0d9ac5f75f98d735dca2:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "purchases, preserved reflection and celebration 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-ab23020e2d2f16ee6c31:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "arrangement primary applies choices and hidden position is retained 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-0b98cf1bf912fcc25b60:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "arrangement primary applies choices and hidden position is retained 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "4371beb84ab7f983f1e3-954187f8e8c14f07e7fe:chromium:0",
+      "file": "night-market-research.spec.js",
+      "title": "research mission and pass 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "4371beb84ab7f983f1e3-67b3a9df8af6c996a7b4:chromium:0",
+      "file": "night-market-research.spec.js",
+      "title": "research mission and pass 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "4371beb84ab7f983f1e3-ed0794f06f59b08921d6:chromium:0",
+      "file": "night-market-research.spec.js",
+      "title": "fresh review uses the actual game and leaves existing saves untouched",
+      "outcome": "failed"
+    },
+    {
+      "id": "73a463ed7338ee852e1f-ed653a591d9209710b1f:chromium:0",
+      "file": "night-market.spec.js",
+      "title": "legacy night market complete loop and saved rewards at 1280px",
+      "outcome": "failed"
+    },
+    {
+      "id": "73a463ed7338ee852e1f-4d1c42276bfc3e1c85f6:chromium:0",
+      "file": "night-market.spec.js",
+      "title": "legacy night market complete loop and saved rewards at 390px",
+      "outcome": "failed"
+    },
+    {
+      "id": "73a463ed7338ee852e1f-5006c3ca5e359239a49e:chromium:0",
+      "file": "night-market.spec.js",
+      "title": "ordinary entry never requests the market modules",
+      "outcome": "passed"
+    },
+    {
+      "id": "73a463ed7338ee852e1f-b507f68ff9a40afab143:chromium:0",
+      "file": "night-market.spec.js",
+      "title": "market failure leaves campus and curriculum reachable",
+      "outcome": "failed"
+    },
+    {
+      "id": "5178a05e195b7b1ba15f-4bd8714117f57acde61a:chromium:0",
+      "file": "phone-startup.spec.js",
+      "title": "phone opening uses smaller phone assets once and releases startup cache",
+      "outcome": "failed"
+    },
+    {
+      "id": "5178a05e195b7b1ba15f-585b272f29a9f48293cb:chromium:0",
+      "file": "phone-startup.spec.js",
+      "title": "failed phone tree load clears temporary cache and supports retry without reloading the character",
+      "outcome": "failed"
+    },
+    {
+      "id": "5178a05e195b7b1ba15f-f652f5e800123b0ba0f3:chromium:0",
+      "file": "phone-startup.spec.js",
+      "title": "desktop retains original textures and full-detail packed geometry",
+      "outcome": "passed"
+    },
+    {
+      "id": "cdb152c82c07550b9af3-fe5898244fd3e71d8348:chromium:0",
+      "file": "playable-scenery.spec.js",
+      "title": "campus waits for both buildings and keeps destinations and movement",
+      "outcome": "failed"
+    },
+    {
+      "id": "cdb152c82c07550b9af3-078c819820540507a91b:chromium:0",
+      "file": "playable-scenery.spec.js",
+      "title": "failed campus loading explains retry instead of revealing missing buildings",
+      "outcome": "failed"
+    },
+    {
+      "id": "78e3358702c963346e2e-8c0ca87f2f8cf2502e72:chromium:0",
+      "file": "playable-startup.spec.js",
+      "title": "startup loads only the active avatar and keeps the studio and hall usable",
+      "outcome": "failed"
+    },
+    {
+      "id": "78e3358702c963346e2e-26cb99c447ac272c4959:chromium:0",
+      "file": "playable-startup.spec.js",
+      "title": "a saved active avatar can still be changed in the studio",
+      "outcome": "passed"
+    },
+    {
+      "id": "f22431278311b6622466-b0453cdf5b9b81f882e7:chromium:0",
+      "file": "queue-observation.spec.js",
+      "title": "opening queue visibly moves before summary and replays without rewards at 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "f22431278311b6622466-e261b1d4058d8767b120:chromium:0",
+      "file": "queue-observation.spec.js",
+      "title": "opening queue visibly moves before summary and replays without rewards at 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "228c128fa52a790e4641-156051ce3257473bf85e:chromium:0",
+      "file": "stall-refine.spec.js",
+      "title": "My Life stays separate from phase and account at 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "228c128fa52a790e4641-daa905596dffdf8eba4d:chromium:0",
+      "file": "stall-refine.spec.js",
+      "title": "My Life stays separate from phase and account at 768",
+      "outcome": "passed"
+    },
+    {
+      "id": "228c128fa52a790e4641-f5b9890a53acbc67718b:chromium:0",
+      "file": "stall-refine.spec.js",
+      "title": "My Life stays separate from phase and account at 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "228c128fa52a790e4641-d47dc5e141f9ae0d2ed4:chromium:0",
+      "file": "stall-refine.spec.js",
+      "title": "Juniper food and staff clear the shallow counter in packing and collection roles",
+      "outcome": "failed"
+    },
+    {
+      "id": "b51f14742deb626ab7dd-22098dbdba2903bb1ebc:chromium:0",
+      "file": "startup-exterior.spec.js",
+      "title": "delayed courtyard must not hold game entry",
+      "outcome": "failed"
+    },
+    {
+      "id": "b51f14742deb626ab7dd-336c5e4a1b16943587f8:chromium:0",
+      "file": "startup-exterior.spec.js",
+      "title": "failed courtyard keeps curriculum usable and retry opens campus once",
+      "outcome": "failed"
+    },
+    {
+      "id": "4d95ed0f8d1ce77c2531-76ffb3df52f077265db7:chromium:0",
+      "file": "student-review.spec.js",
+      "title": "Dress ups base appears before delayed clothing, retry and latest choice work",
+      "outcome": "passed"
+    },
+    {
+      "id": "4d95ed0f8d1ce77c2531-2f1cd70ec7fe2d156e8d:chromium:0",
+      "file": "student-review.spec.js",
+      "title": "real paving supports feet and camera stays inside room walls",
+      "outcome": "passed"
+    },
+    {
+      "id": "4d95ed0f8d1ce77c2531-6fafde7a0bd4bf5b9f21:chromium:0",
+      "file": "student-review.spec.js",
+      "title": "saved Dress ups enters Studio despite failed clothing; body dropdown choices replace preview",
+      "outcome": "passed"
+    },
+    {
+      "id": "2cdc1b98941d0cdda3d2-536426ef124490f60e2c:chromium:0",
+      "file": "teachers.spec.js",
+      "title": "teachers: reactions, bounded collision, lazy loading, mobile and recovery",
+      "outcome": "failed"
+    },
+    {
+      "id": "43930e120d4b492fe23a-7ebc3b13fab2a0d57bfa:chromium:0",
+      "file": "test-character-controls.spec.js",
+      "title": "Dress ups named colours, lazy archive and saved per-style choices 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "43930e120d4b492fe23a-aa4d1a8aaeb501f889cb:chromium:0",
+      "file": "test-character-controls.spec.js",
+      "title": "legacy A and B capability descriptions and colour controls 1280",
+      "outcome": "passed"
+    },
+    {
+      "id": "43930e120d4b492fe23a-a86ba5599e72b82e9ab2:chromium:0",
+      "file": "test-character-controls.spec.js",
+      "title": "Dress ups named colours, lazy archive and saved per-style choices 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "43930e120d4b492fe23a-91716c64508f5e9dd3b5:chromium:0",
+      "file": "test-character-controls.spec.js",
+      "title": "legacy A and B capability descriptions and colour controls 390",
+      "outcome": "passed"
+    },
+    {
+      "id": "db5def41f02aac5ee0b5-dcecb2681a8c822c9e28:chromium:0",
+      "file": "trial-launch.spec.js",
+      "title": "plan to visible trial has a clear next step at 1280",
+      "outcome": "failed"
+    },
+    {
+      "id": "db5def41f02aac5ee0b5-65cf0c9a95fedc901715:chromium:0",
+      "file": "trial-launch.spec.js",
+      "title": "plan to visible trial has a clear next step at 390",
+      "outcome": "failed"
+    },
+    {
+      "id": "e3045e341cca6b232932-834d0a747ab763ed8147:chromium:0",
+      "file": "wardrobe-release.spec.js",
+      "title": "wardrobe opens without campus or unselected clothes, saves colours and returns to Town",
+      "outcome": "passed"
+    },
+    {
+      "id": "e3045e341cca6b232932-51972b97f891675bd92b:chromium:0",
+      "file": "wardrobe-release.spec.js",
+      "title": "failed garment remains retryable and rapid choices cannot display the wrong top",
+      "outcome": "passed"
+    },
+    {
+      "id": "e3045e341cca6b232932-9f046382cfcaa204fb60:chromium:0",
+      "file": "wardrobe-release.spec.js",
+      "title": "portrait and landscape controls stay usable with native walking and saved hex colours",
+      "outcome": "passed"
+    }
+  ],
+  "candidateCaseMappings": [
+    {
+      "baselineId": "2cbe4eeaf4ec2b9078e5-1903c20851ff71a26f3b:chromium:0",
+      "candidateId": "2cbe4eeaf4ec2b9078e5-6909de142b88be6e2d64:chromium:0",
+      "baselineTitle": "a failed entry texture retries before optional landscape loads",
+      "candidateTitle": "a failed optional surface retries without replacing complete entry landscape",
+      "file": "first-play.spec.js",
+      "classification": "stale fixture updated to published required-geometry contract",
+      "reason": "Published main already waits for required exterior geometry. Hold optional surfaces and retain real readiness, movement, retry and curriculum assertions; no additional loading waiver."
+    },
+    {
+      "baselineId": "2cbe4eeaf4ec2b9078e5-1c6824e864c933909c9e:chromium:0",
+      "candidateId": "2cbe4eeaf4ec2b9078e5-b2ef1359041717b56577:chromium:0",
+      "baselineTitle": "Arrival is playable while distant models and textures wait, then opens the whole campus",
+      "candidateTitle": "Arrival retains complete geometry and usable walking while optional surfaces wait",
+      "file": "first-play.spec.js",
+      "classification": "stale fixture updated to published required-geometry contract",
+      "reason": "Published main already waits for required exterior geometry. Hold optional surfaces and retain real readiness, movement, retry and curriculum assertions; no additional loading waiver."
+    },
+    {
+      "baselineId": "b51f14742deb626ab7dd-22098dbdba2903bb1ebc:chromium:0",
+      "candidateId": "b51f14742deb626ab7dd-4746a5f3fc34a7168e15:chromium:0",
+      "baselineTitle": "delayed courtyard must not hold game entry",
+      "candidateTitle": "delayed courtyard surface must not hold initial rendering and curriculum access",
+      "file": "startup-exterior.spec.js",
+      "classification": "stale fixture updated to published required-geometry contract",
+      "reason": "Published main already waits for required exterior geometry. Hold optional surfaces and retain real readiness, movement, retry and curriculum assertions; no additional loading waiver."
+    },
+    {
+      "baselineId": "d8bfe92b011c8c8d6abc-9ffcc10167e70f6428a4:chromium:0",
+      "candidateId": "d8bfe92b011c8c8d6abc-f77f8dd1aace42f1e031:chromium:0",
+      "baselineTitle": "initial complete campus, unobstructed rear buildings and parcel walking 1280",
+      "candidateTitle": "complete campus, parcel walking and reachable rear-building visibility 1280",
+      "file": "entry-visibility-probe.spec.js",
+      "classification": "user-waived spawn rear-facade obscuration only",
+      "reason": "Keep all geometry, original trees, real walking and visibility on physical approach; only spawn occlusion percentages waived."
+    },
+    {
+      "baselineId": "d8bfe92b011c8c8d6abc-a97410fbdc8138de6bfa:chromium:0",
+      "candidateId": "d8bfe92b011c8c8d6abc-d04eaf8d7c7b1ecfc004:chromium:0",
+      "baselineTitle": "initial complete campus, unobstructed rear buildings and parcel walking 390",
+      "candidateTitle": "complete campus, parcel walking and reachable rear-building visibility 390",
+      "file": "entry-visibility-probe.spec.js",
+      "classification": "user-waived spawn rear-facade obscuration only",
+      "reason": "Keep all geometry, original trees, real walking and visibility on physical approach; only spawn occlusion percentages waived."
+    },
+    {
+      "baselineId": "dfb3c877ebba30c37548-a3abef07c3b2648c988a:chromium:0",
+      "candidateId": "dfb3c877ebba30c37548-c2729b318e5e5d243344:chromium:0",
+      "baselineTitle": "sharp entry prepares the next task without loading distant campus or recording completion",
+      "candidateTitle": "sharp entry includes required exterior buildings without recording task completion",
+      "file": "staged-entry.spec.js",
+      "classification": "stale fixture updated to published required-geometry contract",
+      "reason": "Published main already waits for required exterior geometry. Hold optional surfaces and retain real readiness, movement, retry and curriculum assertions; no additional loading waiver."
+    }
+  ]
+}

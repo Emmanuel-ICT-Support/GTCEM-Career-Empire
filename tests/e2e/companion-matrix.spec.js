@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {writeFileSync} from 'node:fs';
 import {HELPERS,GUIDANCE_MODES} from '../../playable-3d/helper-state.js';
@@ -58,6 +59,7 @@ test('every selectable companion renders, follows and retains its choice from ca
      drawn:s.drawnMeshes>0,activeScene:s.parentMatches};
    },{timeout:10000}).toEqual({helperMoved:true,closeToPlayer:true,drawn:true,activeScene:true});
    const after=await sample();expect(after.selected).toBe(helper.id);expect(after.saved).toBe(helper.id);
+   if(after.presentationEnabled)await expect.poll(()=>page.locator('#scene').evaluate(canvas=>Number(canvas.dataset.presentedFrame)),{timeout:10000}).toBeGreaterThanOrEqual(after.submittedFrames);
    row.status='passed';row.playerMoved=Math.hypot(after.livePosition[0]-before.livePosition[0],after.livePosition[2]-before.livePosition[2]);
    row.follows=helper.model?true:'not applicable';row.evidence=after;
    if(helper.model)await page.screenshot({path:info.outputPath(helper.id+'-'+mode+'.png')});
@@ -82,3 +84,5 @@ test('every selectable companion renders, follows and retains its choice from ca
  expect(requests.filter(request=>request.requested!==request.intended)).toEqual([]);
  expect(errors).toEqual([]);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

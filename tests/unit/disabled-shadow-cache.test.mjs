@@ -1,0 +1,4 @@
+import {test,expect} from 'vitest';import fs from 'node:fs';import vm from 'node:vm';
+const app=fs.readFileSync(new URL('../../playable-3d/app.js',import.meta.url),'utf8');const start=app.indexOf('  renderer.shadowMap.needsUpdate=');const source=app.slice(start,app.indexOf(String.fromCharCode(10),start));
+function value(enabled,moving=false){const scene={},c=vm.createContext({renderer:{shadowMap:{enabled}},qualityChanged:false,playerShadowChanged:moving,$:()=>({value:'auto'}),shadowScene:scene,scene,now:1,shadowTime:0,mode:'town',keys:new Set(),joystick:{x:0,z:0},flyover:null,teachers:[]});vm.runInContext(source,c);return c.renderer.shadowMap.needsUpdate;}
+test('idle disabled maps are not periodically dirtied; real shadows and moving poses retain invalidation',()=>{expect(value(false)).toBe(false);expect(value(true)).toBe(true);expect(value(false,true)).toBe(true);});

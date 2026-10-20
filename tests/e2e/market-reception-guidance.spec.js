@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 const prior=['accept','share-plan','run-trial','inspect-trial','consolidate'];
 async function start(page,width,paid=false){
@@ -45,3 +46,5 @@ for(const width of [1280,390]){
   await expect(page.locator('#market-reception')).toBeHidden();
  });
 }
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

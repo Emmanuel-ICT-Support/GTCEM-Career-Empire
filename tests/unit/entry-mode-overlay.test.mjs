@@ -1,0 +1,5 @@
+import {test,expect} from 'vitest';
+import fs from 'node:fs';import vm from 'node:vm';
+const app=fs.readFileSync(new URL('../../playable-3d/app.js',import.meta.url),'utf8');const source=app.slice(app.indexOf('function updateEntryLoading(){'),app.indexOf('async function waitForVisibleEntryFrame(){'));
+function harness(){const loading={hidden:false},message={};const c=vm.createContext({discoveryReview:true,entryHandover:true,mode:'town',entryReady:false,entryFailure:false,intro:{open:()=>false},$:id=>id==='loading'?loading:message});vm.runInContext(source,c);return {c,loading};}
+test('pending outdoor entry remains covered; Studio and entered rooms release that overlay',()=>{const {c,loading}=harness();c.updateEntryLoading();expect(loading.hidden).toBe(false);for(const mode of ['studio','interior','careers','chapel','market']){c.mode=mode;c.updateEntryLoading();expect(loading.hidden).toBe(true);}c.mode='town';c.updateEntryLoading();expect(loading.hidden).toBe(false);c.entryReady=true;c.updateEntryLoading();expect(loading.hidden).toBe(true);});

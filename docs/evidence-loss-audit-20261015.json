@@ -1,0 +1,193 @@
+{
+  "scope": "Known individual paths plus explicit unknown extent, not a complete deletion inventory",
+  "completePreCleanupManifestExisted": false,
+  "completeLossInventoryPossible": false,
+  "cause": "Vitest clean=true with reportsDirectory=coverage",
+  "knownOriginalLocalLossRows": [
+    {
+      "path": "coverage/combined-recheck-20261015/native-focused-report.json",
+      "kind": "original local raw result unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Same14 logical cases/code are available at25b378d. Committed summaries retain counts and506.3/484.4ms observations.",
+      "unrecoverable": "Original result bytes, timestamps, measurements and associated original screenshots are not restored; a new run cannot recover original timings or pixels.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/native-followup-report.json",
+      "kind": "original local raw result unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Same14 logical cases/code are available at25b378d. Committed summaries retain counts and506.3/484.4ms observations.",
+      "unrecoverable": "Original result bytes, timestamps, measurements and associated original screenshots are not restored; a new run cannot recover original timings or pixels.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/native-focused-proof.json",
+      "kind": "original local raw result unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Same14 logical cases/code are available at25b378d. Committed summaries retain counts and506.3/484.4ms observations.",
+      "unrecoverable": "Original result bytes, timestamps, measurements and associated original screenshots are not restored; a new run cannot recover original timings or pixels.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/partial-shard-4-summary.json",
+      "kind": "original intermediate projection unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Underlying hosted reports/contexts/logs and committed final243-case ledger remain; intermediate counts and analysis can be recomputed.",
+      "unrecoverable": "Original JSON bytes/schema are not recovered; a recomputation is not original-file recovery.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/partial-three-shard-ledger.json",
+      "kind": "original intermediate projection unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Underlying hosted reports/contexts/logs and committed final243-case ledger remain; intermediate counts and analysis can be recomputed.",
+      "unrecoverable": "Original JSON bytes/schema are not recovered; a recomputation is not original-file recovery.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/partial-three-shard-diagnosis.json",
+      "kind": "original intermediate projection unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Underlying hosted reports/contexts/logs and committed final243-case ledger remain; intermediate counts and analysis can be recomputed.",
+      "unrecoverable": "Original JSON bytes/schema are not recovered; a recomputation is not original-file recovery.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/baseline-movement-diagnostics.json",
+      "kind": "original intermediate projection unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Underlying hosted reports/contexts/logs and committed final243-case ledger remain; intermediate counts and analysis can be recomputed.",
+      "unrecoverable": "Original JSON bytes/schema are not recovered; a recomputation is not original-file recovery.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/phone-shift-route-diagnosis.json",
+      "kind": "original intermediate projection unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Underlying hosted reports/contexts/logs and committed final243-case ledger remain; intermediate counts and analysis can be recomputed.",
+      "unrecoverable": "Original JSON bytes/schema are not recovered; a recomputation is not original-file recovery.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/contract-preservation-audit.json",
+      "kind": "original local source-comparison report unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Git comparisons at423d2ab and25b378d can reproduce source equality.",
+      "unrecoverable": "Original local JSON bytes/metadata unavailable.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/units.json",
+      "kind": "original local JSON unavailable; payload not independently recorded",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Hosted checks retain279passed; immutable25b378d unit code is available; later282-test raw reports remain.",
+      "unrecoverable": "Original payload/timings cannot be inferred from the filename.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/read-hosted-artifact.py",
+      "kind": "original helper source unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Replacement restore-hosted.py and receipts exist outside coverage.",
+      "unrecoverable": "Replacement code is not recovery of original source bytes.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-recheck-20261015/baseline-failure-evidence.json",
+      "kind": "reconstructed projection; original JSON bytes lost",
+      "presentNow": true,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "67 failure blocks reconstructed from restored hosted baseline log38667011027.",
+      "unrecoverable": "Original JSON bytes/schema unavailable; current file is a reconstruction.",
+      "currentSha256": "b093ca64ee144dfcaaeddcc213c26cd9e31c3e09b482be07943def154c947dce"
+    },
+    {
+      "path": "coverage/combined-followup-20261015/diagnosis.spec.js",
+      "kind": "original diagnostic source unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "confirmed by prior listing/read/create or completed file-writing call",
+      "reproducible": "Tool history contains the creation instructions and partial observations; behavior can be freshly tested.",
+      "unrecoverable": "No archived original-file checksum or restored local source exists.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-followup-20261015/diagnosis-report.json",
+      "kind": "original diagnostic raw report unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "inferred from successful2-case run with this configured reporter; no pre-cleanup file hash",
+      "reproducible": "Completed tool result records2passed and partial Echo/Stats observations.",
+      "unrecoverable": "Complete original report, stdout payload and timings are not locally available.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-followup-20261015/unit-coverage.log",
+      "kind": "original command log unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "redirection created the file before cleanup; later checks found it missing",
+      "reproducible": "Later non-cleaning unit logs/results are retained.",
+      "unrecoverable": "Original log bytes unavailable.",
+      "currentSha256": null
+    },
+    {
+      "path": "coverage/combined-followup-20261015/native/echo-phone-and-reduced-motion-leave-Echo-and-player-visible-chromium/echo-phone.png",
+      "kind": "original screenshot unavailable",
+      "presentNow": false,
+      "priorExistenceEvidence": "successful first-run phone case called screenshot before cleanup; path follows its recorded output naming",
+      "reproducible": "A separate final native run retains its own image and raw report.",
+      "unrecoverable": "Later screenshot is a new capture, not recovery of original pixels; no original checksum.",
+      "currentSha256": null
+    }
+  ],
+  "unknownExtent": [
+    "There is no complete pre-cleanup manifest of coverage/, so the full names/count/bytes of lost local-only files cannot be stated.",
+    "Historical documentation references are not proof that every referenced directory/file still existed at cleanup. They are not counted as confirmed losses.",
+    "The original screenshot inventory for the earlier14-case native runs is unknown; original pixels are not restored."
+  ],
+  "hostedRecovery": {
+    "artifacts": 7,
+    "originalArtifactFilesVerified": 320,
+    "verification": "Current file hashes match recovery receipts; archive digests match the previously committed receipt. Hosted artifact recovery does not recover old local-only experiments."
+  },
+  "baselineLog": {
+    "sourceRun": 38667011027,
+    "retrieval": "gh run view --log",
+    "bytes": 9550412,
+    "oldLocalChecksumAvailable": false,
+    "qualification": "Original hosted log provenance; no byte-equality claim against deleted local copy."
+  },
+  "preservedCurrentEvidence": [
+    "committed243-case ledger",
+    "first and final13-case native raw reports",
+    "first and final software follow-up reports",
+    "unrelated evidence/ and QA images"
+  ],
+  "newRunnerPreservationProof": {
+    "existingFilesVerifiedUnchanged": 477,
+    "missingOrChanged": [],
+    "coverageRuns": [
+      {
+        "directory": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/coverage-runs/unit-coverage-2026-10-15T04-29-57-345Z-jrLDvD",
+        "passed": 4,
+        "reports": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/coverage-runs/unit-coverage-2026-10-15T04-29-57-345Z-jrLDvD/coverage"
+      },
+      {
+        "directory": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/coverage-runs/unit-coverage-2026-10-15T04-30-20-106Z-GlS43T",
+        "passed": 4,
+        "reports": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/diagnosis-2026-10-15T04-29-27-581Z-WIGIHf/coverage-runs/unit-coverage-2026-10-15T04-30-20-106Z-GlS43T/coverage"
+      }
+    ],
+    "coverageCleanupEnabled": false,
+    "runnerGuardTestsPassed": 4
+  }
+}

@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {walkMarket} from './market-controls.js';
 const state=p=>p.evaluate(()=>JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}'));
@@ -13,3 +14,5 @@ test('actual mural photo starts teacher preload before the keyboard walk reaches
  const timeline=await page.evaluate(()=>window.naturalTeacherTimeline);await info.attach('natural-teacher-arrival',{body:JSON.stringify(timeline,null,2),contentType:'application/json'});const arrival=timeline.find(r=>r.phase==='oval-arrival'),requested=timeline.find(r=>r.phase==='module-requested'),shot=timeline.find(r=>r.phase==='mural-shutter');expect(requested.pageMs).toBeGreaterThanOrEqual(shot.pageMs);expect(arrival.count).toBe(2);
  await expect.poll(()=>state(page),{timeout:20000}).toMatchObject({discovery:{scene:'invite'},teachers:[{visible:true},{visible:true}]});await page.screenshot({path:info.outputPath('natural-oval-teachers.png')});expect(errors).toEqual([]);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {walkThroughMarketEntrance} from './market-controls.js';
 
@@ -19,7 +20,7 @@ test('cold final tour action remains visible until real outside arrival and door
   const probe=()=>page.evaluate(()=>window.finalMarketProbe?.());
   const stage=async name=>{const row={name,elapsedMs:Date.now()-started,...await probe()};timings.push(row);console.log('FINAL_MARKET_STAGE',JSON.stringify(row));};
   await page.goto('/playable-3d/?guestRun=final-market-stage&tour=resume');
-  await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','7',{timeout:30000});
+  await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','9',{timeout:30000});
   await page.waitForFunction(()=>window.finalMarketProbe?.().entryReady,null,{timeout:30000});
   await expect.poll(probe,{timeout:30000}).toMatchObject({mode:'town',campusReady:false,avatarFallback:false,echo:{helper:'sprout',helperStatus:'ready'}});
   await stage('ready-at-start-before-request');
@@ -51,3 +52,5 @@ test('final tour action retains retry and cancellation while arrival is pending'
  await action.click();await panel.locator('[data-skip]').click();await page.evaluate(()=>finishFinalRoute(true));await expect(panel).toBeHidden();expect(await page.evaluate(()=>finishedArrivals)).toBe(0);
  await page.evaluate(()=>contractTour.start({restore:true}));await action.click();await page.evaluate(()=>finishFinalRoute(true));await expect(panel).toBeHidden();expect(await page.evaluate(()=>finishedArrivals)).toBe(1);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

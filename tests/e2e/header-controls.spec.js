@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
 const state=p=>p.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
@@ -6,9 +7,9 @@ for(const width of [1280,854,390])test(`banner controls are clear and destinatio
  await page.goto('/playable-3d/?review=1&market-review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});
  await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();
  await expect.poll(async()=>(await state(page)).campusReady,{timeout:60000}).toBe(true);
- for(const selector of ['#phase','#flyover-toggle','#places-toggle','.ce-feedback-launcher','.legacy-link']){
+ for(const selector of ['#phase','#flyover-toggle','#places-toggle','.ce-feedback-launcher','.legacy-link','#choose-helper','#guidance-help','#exploration-map-toggle','#exploration-stats-toggle','#profile','#new-profile']){
   await expect(page.locator(selector)).toBeInViewport();
-  expect(await page.locator(selector).evaluate(e=>{const a=e.getBoundingClientRect(),b=document.querySelector('.topbar').getBoundingClientRect();return a.top>=b.top&&a.bottom<=b.bottom&&a.left>=0&&a.right<=innerWidth;})).toBe(true);
+  expect(await page.locator(selector).evaluate(e=>{const a=e.getBoundingClientRect(),b=document.querySelector('.topbar').getBoundingClientRect();return a.top>=b.top&&a.bottom<=b.bottom&&a.left>=0&&a.right<=innerWidth;}),selector).toBe(true);
  }
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  if(width>=854){expect(await page.locator('.topbar').evaluate(e=>e.offsetHeight)).toBeLessThan(80);}
@@ -38,3 +39,5 @@ for(const width of [1280,854,390])test(`banner controls are clear and destinatio
  await page.locator('.ce-feedback-launcher').click();await expect(page.locator('.ce-feedback-backdrop')).toBeVisible();
  expect(errors).toEqual([]);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

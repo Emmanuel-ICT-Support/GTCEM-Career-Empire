@@ -1,9 +1,13 @@
 // Use the visible student navigation and explicitly resume after choosing.
-export async function enterMarket(page){
- if(!await page.locator('#exploration-options').evaluate(e=>e.open))await page.locator('#exploration-options > summary').click();
+export async function openPlaces(page){
+ if(await page.locator('#exploration-options').count()&&!await page.locator('#exploration-options').evaluate(e=>e.open))await page.locator('#exploration-options > summary').click();
  if(!await page.locator('#destination-menu').evaluate(e=>e.open))await page.locator('#destination-menu > summary').click();
+}
+
+export async function enterMarket(page,options){
+ await openPlaces(page);
  await page.locator('#market-destination').click();
- await walkThroughMarketEntrance(page);
+ await walkThroughMarketEntrance(page,options);
 }
 
 // Ordinary shortcuts stop outdoors. Enter using real walking and the door button.
@@ -37,4 +41,20 @@ export async function walkMarket(page,key,stop,timeout=90000){
   }requestAnimationFrame(check);
  }),{key,stop,timeout});
  try{await page.keyboard.down(key);return await stopped;}finally{await page.keyboard.up(key);}
+}
+
+// Tests whose subject is the Market workplace explicitly enter the classroom
+// word through the visible form. Dedicated classroom-gate cases test rejection
+// and cancellation; this helper does not grant identity or write gate state.
+export function enterClassroomWhenAsked(page){
+ let navigation=0;
+ page.on('domcontentloaded',async()=>{const request=++navigation;
+  try{
+   const dialog=page.locator('#classroom-gate');
+   await dialog.waitFor({state:'visible',timeout:120000});
+   if(request!==navigation)return;
+   await dialog.getByRole('textbox',{name:'Classroom word'}).fill('Emmanuel');
+   await dialog.getByRole('button',{name:'Begin Initiative',exact:true}).click();
+  }catch(error){if(!page.isClosed()&&!/closed|destroyed|Timeout/.test(error.message))throw error;}
+ });
 }

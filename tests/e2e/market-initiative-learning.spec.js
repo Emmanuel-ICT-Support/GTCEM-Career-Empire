@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {walkThroughMarketEntrance,walkMarket} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 async function start(page,width){
@@ -47,3 +48,5 @@ for(const width of [1280,854,390])test(`exterior exit remains clear and permits 
  await expect(page.locator('#toast')).toBeHidden({timeout:10000});await page.screenshot({path:info.outputPath(`corrected-exterior-${width}.png`)});
  await walkMarket(page,'KeyW',{selector:'#interact',text:'Enter Live Music & Sunday Markets'},20000);await page.locator('#interact').click();await expect(page.locator('#market-hud')).toBeVisible();await page.screenshot({path:info.outputPath(`reentered-market-${width}.png`)});
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

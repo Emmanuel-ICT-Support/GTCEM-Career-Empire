@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 for(const width of [1280,390])test(`My Life navigation survives delayed and failed tracker modules at ${width}`,async({page},info)=>{
  await page.setViewportSize({width,height:844});let release;const gate=new Promise(r=>release=r);
@@ -10,3 +11,5 @@ for(const width of [1280,390])test(`My Life navigation survives delayed and fail
  await page.unroute('**/economy-lab/app.mjs?*');await page.route('**/economy-lab/app.mjs?*',r=>r.abort());await page.reload({waitUntil:'domcontentloaded'});await expect(page.locator('#tracker-loading')).toContainText('could not load');await page.locator('[data-panel="work"]').click();await expect(page.locator('#panel-work')).toBeVisible();
  await back.click();await expect(page).toHaveURL(/playable-3d\/\?review=1&market-review=1/);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

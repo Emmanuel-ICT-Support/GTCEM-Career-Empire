@@ -1,0 +1,1210 @@
+{
+  "schemaVersion": 1,
+  "scope": "Bounded combined repair follow-up; no new full suite or live publication",
+  "baseCommit": "5f317cdbe35f87e4a065c2db74f323c436d98258",
+  "originalFullRun": 38674943796,
+  "originalFullCounts": {
+    "passed": 202,
+    "failed": 41,
+    "skipped": 0,
+    "interrupted": 0,
+    "flaky": 0,
+    "notRun": 0
+  },
+  "originalFullCountRemainsAuthoritative": true,
+  "candidateInventory": {
+    "count": 243,
+    "unchangedIds": true,
+    "missing": 0,
+    "added": 0
+  },
+  "units": {
+    "passed": 282,
+    "failed": 0,
+    "files": 63
+  },
+  "accountingChecks": {
+    "passed": 14,
+    "failed": 0
+  },
+  "release": {
+    "exactHashes": 284,
+    "reachableModules": 89,
+    "result": "passed index verification"
+  },
+  "filesystemSourceCheck": {
+    "result": "failed",
+    "reason": "215 missing references under Assets omitted by the sparse checkout",
+    "otherFailures": 0
+  },
+  "nativeFinal": {
+    "count": 13,
+    "passed": 13,
+    "failed": 0,
+    "cases": [
+      {
+        "id": "0873f14a0139b0610104-406c8eb532ea663a2d71:chromium:0",
+        "file": "control-completion.spec.js",
+        "title": "a real avatar save clears Echo revisit while initial campus geometry is still pending",
+        "outcome": "passed",
+        "durationMs": 1701
+      },
+      {
+        "id": "07add69f706d7a94ee08-d90a0995f07b101723bd:chromium:0",
+        "file": "echo.spec.js",
+        "title": "staged tasks, skips, persistence and revisiting do not fabricate completion",
+        "outcome": "passed",
+        "durationMs": 27467
+      },
+      {
+        "id": "07add69f706d7a94ee08-190dff305b0e3f73ac7a:chromium:0",
+        "file": "echo.spec.js",
+        "title": "phone and reduced motion leave Echo and player visible",
+        "outcome": "passed",
+        "durationMs": 2969
+      },
+      {
+        "id": "bef2165208dc3026db56-fb320e3a8ae8ff9d874c:chromium:0",
+        "file": "market-gate.spec.js",
+        "title": "physical market gate exits and re-enters without clicks 1280",
+        "outcome": "passed",
+        "durationMs": 28413
+      },
+      {
+        "id": "bef2165208dc3026db56-c398be91eae21cadefd1:chromium:0",
+        "file": "market-gate.spec.js",
+        "title": "physical market gate exits and re-enters without clicks 390",
+        "outcome": "passed",
+        "durationMs": 28475
+      },
+      {
+        "id": "b25e0474f6aecaf77a79-bf15a45b8b545bd5c6ee:chromium:0",
+        "file": "market-stats.spec.js",
+        "title": "Market money and collection stay available 1280 default",
+        "outcome": "passed",
+        "durationMs": 5429
+      },
+      {
+        "id": "b25e0474f6aecaf77a79-d1ab69a80d13fcfac808:chromium:0",
+        "file": "market-stats.spec.js",
+        "title": "Market money and collection stay available 1280 &mode=full",
+        "outcome": "passed",
+        "durationMs": 5540
+      },
+      {
+        "id": "b25e0474f6aecaf77a79-164035a47be157c969f1:chromium:0",
+        "file": "market-stats.spec.js",
+        "title": "Market money and collection stay available 390 default",
+        "outcome": "passed",
+        "durationMs": 4176
+      },
+      {
+        "id": "b25e0474f6aecaf77a79-a3c65a9f115982347de9:chromium:0",
+        "file": "market-stats.spec.js",
+        "title": "Market money and collection stay available 390 &mode=full",
+        "outcome": "passed",
+        "durationMs": 3322
+      },
+      {
+        "id": "1972a059ef99edbb4885-d9623bcd92fd121f1adb:chromium:0",
+        "file": "night-market-agency.spec.js",
+        "title": "complete keyboard shift, learning, review transfer and return 1280",
+        "outcome": "passed",
+        "durationMs": 27865
+      },
+      {
+        "id": "1972a059ef99edbb4885-63f87e29c56810e65470:chromium:0",
+        "file": "night-market-agency.spec.js",
+        "title": "complete keyboard shift, learning, review transfer and return 390",
+        "outcome": "passed",
+        "durationMs": 27142
+      },
+      {
+        "id": "74080a16223bd5b4dce5-f087c8344c3dc81f87ee:chromium:0",
+        "file": "options-companion.spec.js",
+        "title": "Options clearly pauses, resumes via button/outside/Escape and consumes dismissal taps",
+        "outcome": "passed",
+        "durationMs": 16688
+      },
+      {
+        "id": "74080a16223bd5b4dce5-c8e70a3bd331695722ef:chromium:0",
+        "file": "options-companion.spec.js",
+        "title": "simulated phone touch dismissal, selection and movement remain usable",
+        "outcome": "passed",
+        "durationMs": 7149
+      }
+    ]
+  },
+  "softwareFinal": {
+    "count": 4,
+    "passed": 3,
+    "failed": 1,
+    "cases": [
+      {
+        "id": "07add69f706d7a94ee08-d90a0995f07b101723bd:chromium:0",
+        "file": "echo.spec.js",
+        "title": "staged tasks, skips, persistence and revisiting do not fabricate completion",
+        "outcome": "passed",
+        "durationMs": 74721
+      },
+      {
+        "id": "b25e0474f6aecaf77a79-bf15a45b8b545bd5c6ee:chromium:0",
+        "file": "market-stats.spec.js",
+        "title": "Market money and collection stay available 1280 default",
+        "outcome": "passed",
+        "durationMs": 35091
+      },
+      {
+        "id": "b25e0474f6aecaf77a79-164035a47be157c969f1:chromium:0",
+        "file": "market-stats.spec.js",
+        "title": "Market money and collection stay available 390 default",
+        "outcome": "passed",
+        "durationMs": 32829
+      },
+      {
+        "id": "74080a16223bd5b4dce5-f087c8344c3dc81f87ee:chromium:0",
+        "file": "options-companion.spec.js",
+        "title": "Options clearly pauses, resumes via button/outside/Escape and consumes dismissal taps",
+        "outcome": "failed",
+        "durationMs": 32899
+      }
+    ],
+    "failureReason": "Options failed its unchanged30s entryReady precondition before pause assertions; later error snapshot shows ready state with2frames and5.234s last render",
+    "pauseJourneyQualified": false,
+    "rendererObserved": "ANGLE (Google, Vulkan1.3.0 SwiftShader LLVM10.0.0)",
+    "hardwareSchoolPerformanceQualified": false
+  },
+  "earlierAttempts": {
+    "nativeFirst": {
+      "passed": 13,
+      "failed": 0,
+      "differentPauseGuardLayout": true
+    },
+    "softwareFirst": {
+      "passed": 1,
+      "failed": 3,
+      "cases": [
+        {
+          "id": "07add69f706d7a94ee08-d90a0995f07b101723bd:chromium:0",
+          "file": "echo.spec.js",
+          "title": "staged tasks, skips, persistence and revisiting do not fabricate completion",
+          "outcome": "passed",
+          "durationMs": 71411
+        },
+        {
+          "id": "b25e0474f6aecaf77a79-bf15a45b8b545bd5c6ee:chromium:0",
+          "file": "market-stats.spec.js",
+          "title": "Market money and collection stay available 1280 default",
+          "outcome": "failed",
+          "durationMs": 33093
+        },
+        {
+          "id": "b25e0474f6aecaf77a79-164035a47be157c969f1:chromium:0",
+          "file": "market-stats.spec.js",
+          "title": "Market money and collection stay available 390 default",
+          "outcome": "failed",
+          "durationMs": 33771
+        },
+        {
+          "id": "74080a16223bd5b4dce5-f087c8344c3dc81f87ee:chromium:0",
+          "file": "options-companion.spec.js",
+          "title": "Options clearly pauses, resumes via button/outside/Escape and consumes dismissal taps",
+          "outcome": "failed",
+          "durationMs": 33717
+        }
+      ],
+      "reasons": [
+        "Stats1280/390 hit30s whole-functional-case budget after correct state updates",
+        "Options missed unchanged30s entryReady precondition"
+      ]
+    }
+  },
+  "rootCauses": {
+    "pause": "Production navigation stepped physics with cleared input while a panel was open, allowing a pending physical pose to replace the interpolated shown pose. Also sampled pre-movement diagnostics. Skip only paused movement physics and use live displayed position; exact historical contribution of each cause is not uniquely traced.",
+    "echoStats": "Evidence supports readiness and test-budget faults during blocking software rendering; bounded unmodified probes observed correct existing CSS and money data. No Echo CSS or Market collection runtime change. Full journeys now start at actual entryReady; early Echo hide remains tested with geometry held. Stats functional total60s includes entry30s, per-assertion and startup budgets unchanged.",
+    "routeDrivers": "Market gate re-entry uses forward W after current published yaw. Paid shift walks south around original workbench, then east to crew pass, preserving physical movement and collision."
+  },
+  "originalFailuresRevalidatedNatively": [
+    {
+      "id": "07add69f706d7a94ee08-d90a0995f07b101723bd:chromium:0",
+      "file": "echo.spec.js",
+      "title": "staged tasks, skips, persistence and revisiting do not fabricate completion",
+      "outcome": "passed",
+      "durationMs": 27467,
+      "originalOutcome": "failed"
+    },
+    {
+      "id": "bef2165208dc3026db56-fb320e3a8ae8ff9d874c:chromium:0",
+      "file": "market-gate.spec.js",
+      "title": "physical market gate exits and re-enters without clicks 1280",
+      "outcome": "passed",
+      "durationMs": 28413,
+      "originalOutcome": "failed"
+    },
+    {
+      "id": "bef2165208dc3026db56-c398be91eae21cadefd1:chromium:0",
+      "file": "market-gate.spec.js",
+      "title": "physical market gate exits and re-enters without clicks 390",
+      "outcome": "passed",
+      "durationMs": 28475,
+      "originalOutcome": "failed"
+    },
+    {
+      "id": "b25e0474f6aecaf77a79-bf15a45b8b545bd5c6ee:chromium:0",
+      "file": "market-stats.spec.js",
+      "title": "Market money and collection stay available 1280 default",
+      "outcome": "passed",
+      "durationMs": 5429,
+      "originalOutcome": "failed"
+    },
+    {
+      "id": "b25e0474f6aecaf77a79-d1ab69a80d13fcfac808:chromium:0",
+      "file": "market-stats.spec.js",
+      "title": "Market money and collection stay available 1280 &mode=full",
+      "outcome": "passed",
+      "durationMs": 5540,
+      "originalOutcome": "failed"
+    },
+    {
+      "id": "b25e0474f6aecaf77a79-164035a47be157c969f1:chromium:0",
+      "file": "market-stats.spec.js",
+      "title": "Market money and collection stay available 390 default",
+      "outcome": "passed",
+      "durationMs": 4176,
+      "originalOutcome": "failed"
+    },
+    {
+      "id": "1972a059ef99edbb4885-63f87e29c56810e65470:chromium:0",
+      "file": "night-market-agency.spec.js",
+      "title": "complete keyboard shift, learning, review transfer and return 390",
+      "outcome": "passed",
+      "durationMs": 27142,
+      "originalOutcome": "failed"
+    },
+    {
+      "id": "74080a16223bd5b4dce5-f087c8344c3dc81f87ee:chromium:0",
+      "file": "options-companion.spec.js",
+      "title": "Options clearly pauses, resumes via button/outside/Escape and consumes dismissal taps",
+      "outcome": "passed",
+      "durationMs": 16688,
+      "originalOutcome": "failed"
+    }
+  ],
+  "originalFailuresNotRechecked": [
+    {
+      "id": "03a67d94c492fc696dc5-3f6e60e1c1a432d12ef2:chromium:0",
+      "file": "admin-preview.spec.js",
+      "title": "public shortcut opens isolated fresh Admin and preserves normal gates 1280",
+      "outcome": "failed",
+      "baselineId": "03a67d94c492fc696dc5-3f6e60e1c1a432d12ef2:chromium:0",
+      "baselineTitle": "public shortcut opens isolated fresh Admin and preserves normal gates 1280",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 1,
+      "durationMs": 73940,
+      "errors": [
+        {
+          "message": "Error: expect(received).toMatchObject(expected)\n\n- Expected  - 1\n+ Received  + 1\n\n@@ -4,11 +4,11 @@\n      \"accepted\": false,\n      \"adminReview\": true,\n      \"badges\": Array [],\n      \"events\": Array [],\n      \"officeFlow\": Object {\n-       \"active\": true,\n+       \"active\": false,\n      },\n      \"paid\": false,\n      \"pass\": false,\n      \"researchPaid\": false,\n      \"tax\": 0,\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  19 |  await preview.setViewportSize({width,height:844});preview.on('pageerror',e=>errors.push(e.message));\n  20 |  await expect(preview.locator('#market-dialog-title')).toHaveText('Reception / welcome',{timeout:45000});await expect(preview.locator('#scene')).toHaveAttribute('data-rendered','true',{timeout:30000});\n> 21 |  await expect.poll(()=>state(preview)).toMatchObject({adminReview:true,mode:'market',market:{...unpaid,adminReview:true,officeFlow:{active:true}}});\n     |                                        ^\n  22 |  await expect(preview.locator('#market-review-notice')).toContainText('no wages or crew pass');\n  23 |  expect(await preview.locator('#market-dialog').evaluate(n=>n.scrollWidth<=n.clientWidth)).toBe(true);await preview.screenshot({path:info.outputPath(`public-admin-${width}.png`)});\n  24 |  await click(preview,'I’ll walk there');await preview.locator('#market-district-route').click();await click(preview,'Return to Sunday Market');\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/admin-preview.spec.js:21:40",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/admin-preview.spec.js",
+            "column": 40,
+            "line": 21
+          }
+        }
+      ],
+      "diagnosisClass": "admin-preview-observation-unresolved",
+      "diagnosis": "Reception title appears, but published diagnostics still report officeFlow.active=false. Failure is in the separate preview tab; saved error-context describes the original tab, so it does not prove the preview failed to enter. Actual preview runtime state was not attached at this early assertion. Preserve both failures."
+    },
+    {
+      "id": "03a67d94c492fc696dc5-f70b4a3b46644becf9a2:chromium:0",
+      "file": "admin-preview.spec.js",
+      "title": "public shortcut opens isolated fresh Admin and preserves normal gates 390",
+      "outcome": "failed",
+      "baselineId": "03a67d94c492fc696dc5-f70b4a3b46644becf9a2:chromium:0",
+      "baselineTitle": "public shortcut opens isolated fresh Admin and preserves normal gates 390",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 1,
+      "durationMs": 46273,
+      "errors": [
+        {
+          "message": "Error: expect(received).toMatchObject(expected)\n\n- Expected  - 1\n+ Received  + 1\n\n@@ -4,11 +4,11 @@\n      \"accepted\": false,\n      \"adminReview\": true,\n      \"badges\": Array [],\n      \"events\": Array [],\n      \"officeFlow\": Object {\n-       \"active\": true,\n+       \"active\": false,\n      },\n      \"paid\": false,\n      \"pass\": false,\n      \"researchPaid\": false,\n      \"tax\": 0,\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  19 |  await preview.setViewportSize({width,height:844});preview.on('pageerror',e=>errors.push(e.message));\n  20 |  await expect(preview.locator('#market-dialog-title')).toHaveText('Reception / welcome',{timeout:45000});await expect(preview.locator('#scene')).toHaveAttribute('data-rendered','true',{timeout:30000});\n> 21 |  await expect.poll(()=>state(preview)).toMatchObject({adminReview:true,mode:'market',market:{...unpaid,adminReview:true,officeFlow:{active:true}}});\n     |                                        ^\n  22 |  await expect(preview.locator('#market-review-notice')).toContainText('no wages or crew pass');\n  23 |  expect(await preview.locator('#market-dialog').evaluate(n=>n.scrollWidth<=n.clientWidth)).toBe(true);await preview.screenshot({path:info.outputPath(`public-admin-${width}.png`)});\n  24 |  await click(preview,'I’ll walk there');await preview.locator('#market-district-route').click();await click(preview,'Return to Sunday Market');\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/admin-preview.spec.js:21:40",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/admin-preview.spec.js",
+            "column": 40,
+            "line": 21
+          }
+        }
+      ],
+      "diagnosisClass": "admin-preview-observation-unresolved",
+      "diagnosis": "Reception title appears, but published diagnostics still report officeFlow.active=false. Failure is in the separate preview tab; saved error-context describes the original tab, so it does not prove the preview failed to enter. Actual preview runtime state was not attached at this early assertion. Preserve both failures."
+    },
+    {
+      "id": "e224d913d340be3539a9-19289924de90ede37d1f:chromium:0",
+      "file": "arrival-gardens.spec.js",
+      "title": "arrival walk reaches Studio and retains avatar save after reload",
+      "outcome": "failed",
+      "baselineId": "e224d913d340be3539a9-19289924de90ede37d1f:chromium:0",
+      "baselineTitle": "arrival walk reaches Studio and retains avatar save after reload",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 173014,
+      "errors": [
+        {
+          "message": "Error: Walking did not reach the Studio approach\n\n  14 |    await page.waitForTimeout(1100);\n  15 |   }\n> 16 |   throw new Error('Walking did not reach the Studio approach');\n     |         ^\n  17 |  };\n  18 |  await walkTo(2,5);await walkTo(0,-12.2);\n  19 |  await page.getByRole('button',{name:'Open Avatar Studio',exact:true}).click();\n    at walkTo (/home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/arrival-gardens.spec.js:16:9)\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/arrival-gardens.spec.js:18:2",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/arrival-gardens.spec.js",
+            "column": 9,
+            "line": 16
+          }
+        }
+      ],
+      "diagnosisClass": "movement-journey-unresolved",
+      "diagnosis": "Actual keyboard route did not reach Studio approach. Snapshot shows entryReady=true and actor[-7,0.085,21.863],0FPS. No walking exemption; save/reload later in case not reached."
+    },
+    {
+      "id": "6477fe14d47ee430670b-750a128a01a59eec6190:chromium:0",
+      "file": "avatar-recovery.spec.js",
+      "title": "failed startup avatar can retry without reloading or changing the saved profile",
+      "outcome": "failed",
+      "baselineId": "6477fe14d47ee430670b-750a128a01a59eec6190:chromium:0",
+      "baselineTitle": "failed startup avatar can retry without reloading or changing the saved profile",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 12292,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: undefined\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   8 |  await expect(page.locator('#loading')).toBeHidden();\n   9 |  await expect.poll(()=>requests).toBe(2);\n> 10 |  await expect.poll(async()=>JSON.parse(await page.locator('#diagnostics').getAttribute('data-state')||'{}').avatarFallback).toBe(true);\n     |                                                                                                                             ^\n  11 |  await page.getByRole('button',{name:'Retry saved avatar',exact:true}).click();\n  12 |  await expect.poll(async()=>JSON.parse(await page.locator('#diagnostics').getAttribute('data-state')||'{}').avatarFallback).toBe(false);await expect(page.locator('#loading')).toBeHidden({timeout:60000});\n  13 |  expect(requests).toBe(3);expect(navigations).toBe(1);expect(await page.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo'))).toBe(saved);\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/avatar-recovery.spec.js:10:125",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/avatar-recovery.spec.js",
+            "column": 125,
+            "line": 10
+          }
+        }
+      ],
+      "diagnosisClass": "diagnostic-readiness-unresolved",
+      "diagnosis": "Expected avatarFallback=true was undefined during5s polling; later error snapshot shows fallbacktrue, Retry saved avatar visible, entryReadyfalse and one rendered frame. Readiness/publication race rather than proven missing fallback. Full retry/persistence journey not reached."
+    },
+    {
+      "id": "d6548ba8fd3a2bf2ccb0-2ec01c46efacc371fe82:chromium:0",
+      "file": "chapel-approach.spec.js",
+      "title": "live keyboard route reaches the actual Chapel door without changing position or progress directly",
+      "outcome": "failed",
+      "baselineId": "d6548ba8fd3a2bf2ccb0-2ec01c46efacc371fe82:chromium:0",
+      "baselineTitle": "live keyboard route reaches the actual Chapel door without changing position or progress directly",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 1,
+      "durationMs": 95123,
+      "errors": [
+        {
+          "message": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m"
+        },
+        {
+          "message": "Error: page.evaluate: Target page, context or browser has been closed\n\n  11 |  await walkToMap(page,'KeyD','x',-2.9);const turn=await record('chapel-alignment');expect(turn.physical[0]).toBeGreaterThan(-3.35);expect(turn.physical[0]).toBeLessThan(-1.9);\n  12 |  await page.keyboard.down('ShiftLeft');try{await walkToMap(page,'KeyW','z',-7.6);}finally{await page.keyboard.up('ShiftLeft');}const door=await record('chapel-door');expect(Math.hypot(door.physical[0]+3.15,door.physical[2]+8.8)).toBeLessThan(3);\n> 13 |  if(!await page.getByRole('button',{name:'Step inside',exact:true}).isVisible())await page.locator('#interact').click();await page.getByRole('button',{name:'Step inside',exact:true}).click();await expect.poll(()=>page.evaluate(()=>window.observeChapelApproach().state),{timeout:30000}).toMatchObject({mode:'chapel',discovery:{step:1,developed:true}});\n     |                                                                                                                                                                                                                           ^\n  14 |  await page.locator('#interact').click();await expect(page.locator('#discovery-title')).toHaveText('The colourful picture');await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','mural');expect(errors).toEqual([]);\n  15 |  await info.attach('keyboard-route',{body:JSON.stringify(checkpoints,null,2),contentType:'application/json'});\n  16 | });\n    at _test.expect.poll.timeout (/home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/chapel-approach.spec.js:13:219)\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/chapel-approach.spec.js:13:192",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/chapel-approach.spec.js",
+            "column": 219,
+            "line": 13
+          }
+        }
+      ],
+      "diagnosisClass": "software-latency-budget-unresolved",
+      "diagnosis": "Real physical route reached Chapel door at [-2.355,0.159,-7.720] by 83.714s. Enter requested/interior ready at 89.701s; mode-ready observation at90.902s overlaps the unchanged90s test timeout. Route itself reached destination; journey did not finish inside budget."
+    },
+    {
+      "id": "ac11a9e741ca1b3b3886-c51c33614016be712f27:chromium:0",
+      "file": "chapel.spec.js",
+      "title": "Chapel reflection and campus return at 1440px",
+      "outcome": "failed",
+      "baselineId": "ac11a9e741ca1b3b3886-c51c33614016be712f27:chromium:0",
+      "baselineTitle": "Chapel reflection and campus return at 1440px",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 28072,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBeLessThan(expected)\n\nExpected: < 5.4\nReceived:   5.68\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  4 | for(const width of [1440,390])test(`Chapel reflection and campus return at ${width}px`,async({page},testInfo)=>{\n  5 |  test.setTimeout(180000);await page.setViewportSize({width,height:900});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:120000});await page.locator('#places-toggle').click();await page.locator('#chapel-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive ECC Chapel',{timeout:30000});await expect.poll(async()=>(await state(page)).mode).toBe('chapel');\n> 6 |  await page.waitForTimeout(4400);await page.screenshot({path:testInfo.outputPath(`ce-chapel-${width}.png`)});const before=(await state(page)).position;await page.keyboard.down('KeyW');await page.waitForTimeout(800);await page.keyboard.up('KeyW');await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(before[2]-.3);\n    |                                                                                                                                                                                                                                                                                                                   ^\n  7 |  await page.locator('#interact').click();await expect(page.locator('#reflection-dialog')).toBeVisible();await page.waitForTimeout(1100);const paused=(await state(page)).position;await page.keyboard.down('KeyW');await page.waitForTimeout(1100);await page.keyboard.up('KeyW');expect((await state(page)).position).toEqual(paused);await page.locator('#close-reflection').click();await expect(page.locator('#reflection-dialog')).toBeHidden();\n  8 |  await page.locator('#places-toggle').click();await page.locator('#town-view').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive 3D town');await expect.poll(async()=>(await state(page)).position[2]).toBeCloseTo(-8.8,0);await expect(page.locator('#interact')).toContainText('En",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/chapel.spec.js",
+            "column": 307,
+            "line": 6
+          }
+        }
+      ],
+      "diagnosisClass": "chapel-movement-unresolved",
+      "diagnosis": "Desktop Chapel walk endsz5.68 versus<5.4 after800ms; entryReadytrue,1FPS. Reflection/return later assertions not reached."
+    },
+    {
+      "id": "ac11a9e741ca1b3b3886-e2f93b6e4db9aa534e71:chromium:0",
+      "file": "chapel.spec.js",
+      "title": "Chapel reflection and campus return at 390px",
+      "outcome": "failed",
+      "baselineId": "ac11a9e741ca1b3b3886-e2f93b6e4db9aa534e71:chromium:0",
+      "baselineTitle": "Chapel reflection and campus return at 390px",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 32658,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBeCloseTo(expected, precision)\n\nExpected: -8.8\nReceived: 4.234\n\nExpected precision:    0\nExpected difference: < 0.5\nReceived difference:   13.034\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   6 |  await page.waitForTimeout(4400);await page.screenshot({path:testInfo.outputPath(`ce-chapel-${width}.png`)});const before=(await state(page)).position;await page.keyboard.down('KeyW');await page.waitForTimeout(800);await page.keyboard.up('KeyW');await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(before[2]-.3);\n   7 |  await page.locator('#interact').click();await expect(page.locator('#reflection-dialog')).toBeVisible();await page.waitForTimeout(1100);const paused=(await state(page)).position;await page.keyboard.down('KeyW');await page.waitForTimeout(1100);await page.keyboard.up('KeyW');expect((await state(page)).position).toEqual(paused);await page.locator('#close-reflection').click();await expect(page.locator('#reflection-dialog')).toBeHidden();\n>  8 |  await page.locator('#places-toggle').click();await page.locator('#town-view').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive 3D town');await expect.poll(async()=>(await state(page)).position[2]).toBeCloseTo(-8.8,0);await expect(page.locator('#interact')).toContainText('Enter Chapel');\n     |                                                                                                                                                                                                                                             ^\n   9 |  await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive EST Prep hall',{timeout:30000});await page.locator('#places-toggle').click();await page.locator('#chapel-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive ECC Chapel');expect(errors).toEqual([]);\n  10 |  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);\n  11 | });\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Care",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/chapel.spec.js",
+            "column": 237,
+            "line": 8
+          }
+        }
+      ],
+      "diagnosisClass": "chapel-return-diagnostic-unresolved",
+      "diagnosis": "Phone town return poll saw interiorz4.234 instead of exterior-8.8 within5s; later snapshot has modetown and exact[-3.15,0.125,-8.8]. Delayed publication/transition is supported, but full case remains failed."
+    },
+    {
+      "id": "b3adf1190a1c36202269-fdf3c807e8c30e8d8f64:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "failed avatar keeps fallback playable, retry restores saved avatar without rewriting it",
+      "outcome": "failed",
+      "baselineId": "b3adf1190a1c36202269-fdf3c807e8c30e8d8f64:chromium:0",
+      "baselineTitle": "failed avatar keeps fallback playable, retry restores saved avatar without rewriting it",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 16289,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: undefined\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  60 |  await page.route('**/player-schoolboy*.glb',r=>fail?r.abort():r.continue());\n  61 |  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:15000});\n> 62 |  await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);\n     |                                                                 ^\n  63 |  await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');\n  64 |  fail=false;await page.getByRole('button',{name:'Retry saved avatar',exact:true}).click();\n  65 |  await expect.poll(async()=>(await state(page)).avatarFallback,{timeout:15000}).toBe(false);\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/curriculum-loading.spec.js:62:65",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/curriculum-loading.spec.js",
+            "column": 65,
+            "line": 62
+          }
+        }
+      ],
+      "diagnosisClass": "diagnostic-readiness-unresolved",
+      "diagnosis": "Expected avatarFallback=true was undefined within5s; later snapshot shows fallbacktrue and Retry saved avatar visible, entryReadyfalse with one frame. Full EST/retry/lazy-clothing assertions not reached. Readiness/observer cause suspected; keep failed."
+    },
+    {
+      "id": "b3adf1190a1c36202269-d95e86dd5fca77d2a865:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "slow saved avatar, Studio and poster never gate EST at 1280px",
+      "outcome": "failed",
+      "baselineId": "b3adf1190a1c36202269-d95e86dd5fca77d2a865:chromium:0",
+      "baselineTitle": "slow saved avatar, Studio and poster never gate EST at 1280px",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 42633,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBeLessThan(expected)\n\nExpected: < 22.8\nReceived:   23.28\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  37 |   await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);\n  38 |   await expect.poll(async()=>(await state(page)).entryReady,{timeout:30000}).toBe(true);const start=(await state(page)).position[2];await page.locator('#scene').focus();await page.keyboard.down('w');await page.waitForTimeout(650);await page.keyboard.up('w');\n> 39 |   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);\n     |                                                               ^\n  40 |   await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');\n  41 |   await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');\n  42 |   const timing=await page.evaluate(()=>({firstFrameMs:Number(document.querySelector('#scene').dataset.firstFrameMs),curriculumMs:performance.now()}));\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/curriculum-loading.spec.js:39:63",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/curriculum-loading.spec.js",
+            "column": 63,
+            "line": 39
+          }
+        }
+      ],
+      "diagnosisClass": "fallback-movement-unresolved",
+      "diagnosis": "Fallback and entry readiness verified, but650ms keyboard hold moves only0.020m desktop/0.006m phone against required>0.5m.0–1FPS. Subsequent EST access/retry assertions not reached; keep movement failure."
+    },
+    {
+      "id": "b3adf1190a1c36202269-12fee0d382740751cd3b:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "slow saved avatar, Studio and poster never gate EST at 390px",
+      "outcome": "failed",
+      "baselineId": "b3adf1190a1c36202269-12fee0d382740751cd3b:chromium:0",
+      "baselineTitle": "slow saved avatar, Studio and poster never gate EST at 390px",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 29612,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBeLessThan(expected)\n\nExpected: < 22.8\nReceived:   23.294\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  37 |   await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);\n  38 |   await expect.poll(async()=>(await state(page)).entryReady,{timeout:30000}).toBe(true);const start=(await state(page)).position[2];await page.locator('#scene').focus();await page.keyboard.down('w');await page.waitForTimeout(650);await page.keyboard.up('w');\n> 39 |   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);\n     |                                                               ^\n  40 |   await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');\n  41 |   await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');\n  42 |   const timing=await page.evaluate(()=>({firstFrameMs:Number(document.querySelector('#scene').dataset.firstFrameMs),curriculumMs:performance.now()}));\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/curriculum-loading.spec.js:39:63",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/curriculum-loading.spec.js",
+            "column": 63,
+            "line": 39
+          }
+        }
+      ],
+      "diagnosisClass": "fallback-movement-unresolved",
+      "diagnosis": "Fallback and entry readiness verified, but650ms keyboard hold moves only0.020m desktop/0.006m phone against required>0.5m.0–1FPS. Subsequent EST access/retry assertions not reached; keep movement failure."
+    },
+    {
+      "id": "b3adf1190a1c36202269-1a83e5cda9f3502a1110:chromium:0",
+      "file": "curriculum-loading.spec.js",
+      "title": "unavailable saved clothing uses fallback and never fetches other outfits",
+      "outcome": "failed",
+      "baselineId": "b3adf1190a1c36202269-1a83e5cda9f3502a1110:chromium:0",
+      "baselineTitle": "unavailable saved clothing uses fallback and never fetches other outfits",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 12824,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: undefined\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  76 |  await page.route('**/occupational-top-chef.glb?*',r=>fail?r.abort():r.continue());\n  77 |  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:15000});\n> 78 |  await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);\n     |                                                                 ^\n  79 |  await page.locator('#places-toggle').click();await page.locator('#careers-destination').click();await expect.poll(async()=>(await state(page)).mode).toBe('careers');\n  80 |  expect(requests.some(u=>/hospital-scrub-top|occupational-top-(work|suit)|occupational-pants-(chef|tradie|scrubs)|hair-(sweep|curls|ponytail)\\.glb|shoes-(trainers|dress|clogs)\\.glb/.test(u))).toBe(false);\n  81 |  fail=false;await page.getByRole('button',{name:'Retry saved avatar',exact:true}).click();await expect.poll(async()=>(await state(page)).avatarFallback,{timeout:15000}).toBe(false);\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/curriculum-loading.spec.js:78:65",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/curriculum-loading.spec.js",
+            "column": 65,
+            "line": 78
+          }
+        }
+      ],
+      "diagnosisClass": "diagnostic-readiness-unresolved",
+      "diagnosis": "Expected avatarFallback=true was undefined within5s; later snapshot shows fallbacktrue and Retry saved avatar visible, entryReadyfalse with one frame. Full EST/retry/lazy-clothing assertions not reached. Readiness/observer cause suspected; keep failed."
+    },
+    {
+      "id": "d8bfe92b011c8c8d6abc-f77f8dd1aace42f1e031:chromium:0",
+      "file": "entry-visibility-probe.spec.js",
+      "title": "complete campus, parcel walking and reachable rear-building visibility 1280",
+      "outcome": "failed",
+      "baselineId": "d8bfe92b011c8c8d6abc-9ffcc10167e70f6428a4:chromium:0",
+      "baselineTitle": "initial complete campus, unobstructed rear buildings and parcel walking 1280",
+      "before": "failed",
+      "after": "failed",
+      "mappingReason": "Keep all geometry, original trees, real walking and visibility on physical approach; only spawn occlusion percentages waived.",
+      "classification": "user-waived spawn rear-facade obscuration only",
+      "transition": "unchangedFailed",
+      "shard": 1,
+      "durationMs": 78548,
+      "errors": [
+        {
+          "message": "Error: page.evaluate: Error: Live map waypoint timeout {\"axis\":\"z\",\"value\":21.83333333333333,\"limit\":23.3}\n    at check (eval at evaluate (:302:30), <anonymous>:30:16)\n    at check (eval at evaluate (:302:30), <anonymous>:30:16)\n    at walkToMap (/home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/walk-to-map.js:9:21)\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/entry-visibility-probe.spec.js:24:40",
+          "location": {
+            "file": "eval at evaluate (:302:30), <anonymous>",
+            "column": 16,
+            "line": 30
+          }
+        }
+      ],
+      "diagnosisClass": "actual-walking-timeout-not-waived",
+      "diagnosis": "Complete original geometry/19trees and rendered roots were verified. Desktop route timed out reversing to z23.3 at live-map z21.833; phone route timed out moving east to x28 at15.778. Failure occurred before physical rear-facade visibility assertions. Spawn occlusion waiver does not waive this walking failure."
+    },
+    {
+      "id": "d8bfe92b011c8c8d6abc-d04eaf8d7c7b1ecfc004:chromium:0",
+      "file": "entry-visibility-probe.spec.js",
+      "title": "complete campus, parcel walking and reachable rear-building visibility 390",
+      "outcome": "failed",
+      "baselineId": "d8bfe92b011c8c8d6abc-a97410fbdc8138de6bfa:chromium:0",
+      "baselineTitle": "initial complete campus, unobstructed rear buildings and parcel walking 390",
+      "before": "failed",
+      "after": "failed",
+      "mappingReason": "Keep all geometry, original trees, real walking and visibility on physical approach; only spawn occlusion percentages waived.",
+      "classification": "user-waived spawn rear-facade obscuration only",
+      "transition": "unchangedFailed",
+      "shard": 1,
+      "durationMs": 77315,
+      "errors": [
+        {
+          "message": "Error: page.evaluate: Error: Live map waypoint timeout {\"axis\":\"x\",\"value\":15.777777777777771,\"limit\":28}\n    at check (eval at evaluate (:302:30), <anonymous>:30:16)\n    at check (eval at evaluate (:302:30), <anonymous>:30:16)\n    at walkToMap (/home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/walk-to-map.js:9:21)\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/entry-visibility-probe.spec.js:24:84",
+          "location": {
+            "file": "eval at evaluate (:302:30), <anonymous>",
+            "column": 16,
+            "line": 30
+          }
+        }
+      ],
+      "diagnosisClass": "actual-walking-timeout-not-waived",
+      "diagnosis": "Complete original geometry/19trees and rendered roots were verified. Desktop route timed out reversing to z23.3 at live-map z21.833; phone route timed out moving east to x28 at15.778. Failure occurred before physical rear-facade visibility assertions. Spawn occlusion waiver does not waive this walking failure."
+    },
+    {
+      "id": "0cf9aca50512008f9657-6ce387075fa1e7dc3b84:chromium:0",
+      "file": "est-wall-video.spec.js",
+      "title": "EST requires wall play, seeks and restarts at 1440px",
+      "outcome": "failed",
+      "baselineId": "0cf9aca50512008f9657-6ce387075fa1e7dc3b84:chromium:0",
+      "baselineTitle": "EST requires wall play, seeks and restarts at 1440px",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 35485,
+      "errors": [
+        {
+          "message": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('#scene')\nExpected: \"Interactive ECC Chapel\"\nReceived: \"\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" with timeout 5000ms\n  - waiting for locator('#scene')\n\n\n  2 |\n  3 | for(const width of [1440,390])test(`EST requires wall play, seeks and restarts at ${width}px`,async({page},testInfo)=>{\n> 4 |  test.setTimeout(150000);await page.setViewportSize({width,height:900});await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:90000});await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive EST Prep hall',{timeout:30000});await expect(page.locator('#est-video-dialog')).not.toBeVisible();await expect(page.locator('#est-watch')).toBeVisible();await expect(page.locator('#est-watch')).toBeInViewport();expect(await page.locator('#est-watch').evaluate(n=>n.getBoundingClientRect().top>document.querySelector('.topbar').getBoundingClientRect().bottom)).toBe(true);await page.screenshot({path:testInfo.outputPath(`est-initial-${width}.png`)});await page.locator('#est-watch').click();const v=page.locator('#est-wall-media');await expect.poll(()=>v.evaluate(v=>v.currentTime),{timeout:60000}).toBeGreaterThan(.3);expect(await v.evaluate(v=>({native:!v.currentSrc.startsWith('blob:'),inline:v.playsInline,muted:v.muted}))).toEqual({native:true,inline:true,muted:false});await page.locator('#est-video-play').click();await v.evaluate(v=>v.currentTime=35);await expect.poll(()=>v.evaluate(v=>v.currentTime)).toBe(35);await v.evaluate(v=>v.currentTime=12);await expect.poll(()=>v.evaluate(v=>v.currentTime)).toBe(12);await page.locator('#est-video-restart').click();await expect.poll(()=>v.evaluate(v=>!v.paused&&v.currentTime<2)).toBe(true);await page.locator('#est-source-open').click();for(const doc of ['core','term','vtcs']){await page.locator(`[data-est-document=${doc}]`).click();await expect(page.locator('#est-document-frame')).toBeVisible();await expect(page.locator('#est-document-frame img')).toHaveCount(doc==='core'?5:3);await expect.poll(()=>page.locator('#",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/est-wall-video.spec.js",
+            "column": 2302,
+            "line": 4
+          }
+        }
+      ],
+      "diagnosisClass": "chapel-transition-readiness-unresolved",
+      "diagnosis": "EST wall playback/seek/restart/close steps completed, then final Chapel aria-label transition did not meet5s. Phone later error snapshot is Chapel with position[0,0,5.7]; desktop error context has no page snapshot. Delayed successful phone state does not clear either failed full journey."
+    },
+    {
+      "id": "0cf9aca50512008f9657-b5362bc9fe8516014263:chromium:0",
+      "file": "est-wall-video.spec.js",
+      "title": "EST requires wall play, seeks and restarts at 390px",
+      "outcome": "failed",
+      "baselineId": "0cf9aca50512008f9657-b5362bc9fe8516014263:chromium:0",
+      "baselineTitle": "EST requires wall play, seeks and restarts at 390px",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 27007,
+      "errors": [
+        {
+          "message": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('#scene')\nExpected: \"Interactive ECC Chapel\"\nReceived: \"Interactive 3D town\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" with timeout 5000ms\n  - waiting for locator('#scene')\n    2 × locator resolved to <canvas id=\"scene\" width=\"195\" tabindex=\"0\" height=\"450\" data-rendered=\"true\" data-first-frame-ms=\"7674\" data-engine=\"three.js r180\" aria-label=\"Interactive 3D town\" data-entry-visible-ms=\"11353.29999999993\"></canvas>\n      - unexpected value \"Interactive 3D town\"\n\n\n  2 |\n  3 | for(const width of [1440,390])test(`EST requires wall play, seeks and restarts at ${width}px`,async({page},testInfo)=>{\n> 4 |  test.setTimeout(150000);await page.setViewportSize({width,height:900});await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:90000});await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive EST Prep hall',{timeout:30000});await expect(page.locator('#est-video-dialog')).not.toBeVisible();await expect(page.locator('#est-watch')).toBeVisible();await expect(page.locator('#est-watch')).toBeInViewport();expect(await page.locator('#est-watch').evaluate(n=>n.getBoundingClientRect().top>document.querySelector('.topbar').getBoundingClientRect().bottom)).toBe(true);await page.screenshot({path:testInfo.outputPath(`est-initial-${width}.png`)});await page.locator('#est-watch').click();const v=page.locator('#est-wall-media');await expect.poll(()=>v.evaluate(v=>v.currentTime),{timeout:60000}).toBeGreaterThan(.3);expect(await v.evaluate(v=>({native:!v.currentSrc.startsWith('blob:'),inline:v.playsInline,muted:v.muted}))).toEqual({native:true,inline:true,muted:false});await page.locator('#est-video-play').click();await v.evaluate(v=>v.currentTime=35);await expect.poll(()=>v.evaluate(v=>v.currentTime)).toBe(35);await v.evaluate(v=>v.currentTime=12);await expect.poll(()=>v.evaluate(v=>v.currentTime)).toBe(12);await page.locator('#est-video-restart').click();await expect.poll(()=>v.evaluate(v=>!v.paused&&v.currentTime<2)).toBe(true);await page.locator",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/est-wall-video.spec.js",
+            "column": 2302,
+            "line": 4
+          }
+        }
+      ],
+      "diagnosisClass": "chapel-transition-readiness-unresolved",
+      "diagnosis": "EST wall playback/seek/restart/close steps completed, then final Chapel aria-label transition did not meet5s. Phone later error snapshot is Chapel with position[0,0,5.7]; desktop error context has no page snapshot. Delayed successful phone state does not clear either failed full journey."
+    },
+    {
+      "id": "2cbe4eeaf4ec2b9078e5-b2ef1359041717b56577:chromium:0",
+      "file": "first-play.spec.js",
+      "title": "Arrival retains complete geometry and usable walking while optional surfaces wait",
+      "outcome": "failed",
+      "baselineId": "2cbe4eeaf4ec2b9078e5-1c6824e864c933909c9e:chromium:0",
+      "baselineTitle": "Arrival is playable while distant models and textures wait, then opens the whole campus",
+      "before": "failed",
+      "after": "failed",
+      "mappingReason": "Published main already waits for required exterior geometry. Hold optional surfaces and retain real readiness, movement, retry and curriculum assertions; no additional loading waiver.",
+      "classification": "stale fixture updated to published required-geometry contract",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 37425,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBeLessThan(expected)\n\nExpected: < 22.8\nReceived:   23.294\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  13 |   const start=(await state(page)).position[2];await page.locator('#scene').focus();\n  14 |   await page.keyboard.down('w');await page.waitForTimeout(700);await page.keyboard.up('w');\n> 15 |   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);\n     |                                                               ^\n  16 |   await page.keyboard.down('Shift');await page.keyboard.down('w');await page.waitForTimeout(1200);await page.keyboard.up('w');await page.keyboard.up('Shift');\n  17 |   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-3);\n  18 |   await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#save-avatar')).toBeEnabled();\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/first-play.spec.js:15:63",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/first-play.spec.js",
+            "column": 63,
+            "line": 15
+          }
+        }
+      ],
+      "diagnosisClass": "optional-surface-movement-unresolved",
+      "diagnosis": "Renamed fixture preserves complete geometry/19trees but real650ms walk endsz23.294 against<22.8. User accepted only spawn rear visibility, not this movement requirement."
+    },
+    {
+      "id": "2cbe4eeaf4ec2b9078e5-6909de142b88be6e2d64:chromium:0",
+      "file": "first-play.spec.js",
+      "title": "a failed optional surface retries without replacing complete entry landscape",
+      "outcome": "failed",
+      "baselineId": "2cbe4eeaf4ec2b9078e5-1903c20851ff71a26f3b:chromium:0",
+      "baselineTitle": "a failed entry texture retries before optional landscape loads",
+      "before": "failed",
+      "after": "failed",
+      "mappingReason": "Published main already waits for required exterior geometry. Hold optional surfaces and retain real readiness, movement, retry and curriculum assertions; no additional loading waiver.",
+      "classification": "stale fixture updated to published required-geometry contract",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 23012,
+      "errors": [
+        {
+          "message": "Error: Timeout 5000ms exceeded while waiting on the predicate\n\n  57 |  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:45000});\n  58 |  await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();\n> 59 |  await expect(page.locator('#campus-retry')).toBeVisible({timeout:60000});await expect.poll(async()=>(await state(page)).entryReady).toBe(true);await expect.poll(async()=>(await state(page)).arrivalRestricted).toBe(false);\n     |                                                                                                                                      ^\n  60 |  expect((await page.evaluate(()=>window.finishedMaterials())).groups).toBe(1);const position=(await state(page)).position;await page.locator('#scene').focus();await page.keyboard.down('KeyD');await page.waitForTimeout(600);await page.keyboard.up('KeyD');await expect.poll(async()=>(await state(page)).position[0]).toBeGreaterThan(position[0]+.2);\n  61 |  fail=false;await page.locator('#campus-retry').click();await expect.poll(async()=>(await state(page)).entryReady,{timeout:60000}).toBe(true);\n  62 |  await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();await expect.poll(async()=>(await state(page)).campusReady,{timeout:60000}).toBe(true);\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/first-play.spec.js:59:134",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/first-play.spec.js",
+            "column": 134,
+            "line": 59
+          }
+        }
+      ],
+      "diagnosisClass": "optional-surface-recovery-readiness-unresolved",
+      "diagnosis": "Renamed failed optional-surface fixture fails5s entryReady/arrivalRestricted poll despite later snapshot entryReadytrue/arrivalRestrictedfalse,8surfaces pending, surfaceDetailFailedtrue/campusReadytrue. Full explicit retry/material/movement continuation not verified; keep failed."
+    },
+    {
+      "id": "85ab4d0bdf6e6aa79f84-8a536e58fb23fa8b86d4:chromium:0",
+      "file": "game-entry-loading.spec.js",
+      "title": "game entry loads only the active avatar and worn clothes",
+      "outcome": "failed",
+      "baselineId": "85ab4d0bdf6e6aa79f84-8a536e58fb23fa8b86d4:chromium:0",
+      "baselineTitle": "game entry loads only the active avatar and worn clothes",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 33752,
+      "errors": [
+        {
+          "message": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('#scene')\nExpected: \"true\"\nReceived: \"\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" with timeout 5000ms\n  - waiting for locator('#scene')\n    4 × locator resolved to <canvas id=\"scene\" width=\"683\" tabindex=\"0\" height=\"384\" data-engine=\"three.js r180\" aria-label=\"Interactive 3D town\"></canvas>\n      - unexpected value \"null\"\n\n\n  27 |    await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state).campusReady),{timeout:120000}).toBe(true);\n  28 |    await writeFile(info.outputPath('complete-campus.json'),JSON.stringify({readyMs:Date.now()-start,state:await page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state))},null,2));\n> 29 |    const warmStart=Date.now();await page.reload({waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:90000});await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');\n     |                                                                                                                                                                                         ^\n  30 |    await writeFile(info.outputPath('warm-game.json'),JSON.stringify({readyMs:Date.now()-warmStart,firstFrameMs:await page.locator('#scene').getAttribute('data-first-frame-ms')},null,2));\n  31 |   }finally{await writeFile(info.outputPath('requests.json'),JSON.stringify({elapsedMs:Date.now()-start,requests,failures,errors},null,2));}\n  32 |  });\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/game-entry-loading.spec.js:29:185",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/game-entry-loading.spec.js",
+            "column": 185,
+            "line": 29
+          }
+        }
+      ],
+      "diagnosisClass": "warm-first-frame-unresolved",
+      "diagnosis": "Initial selected-avatar/campus checks completed, but after warm reload canvas data-rendered was empty after5s. Snapshot has entryReadyfalse and one frame. Keep desktop/phone failures; selected-only observations do not establish complete reload success."
+    },
+    {
+      "id": "85ab4d0bdf6e6aa79f84-d61bfb38820a9e0b19a2:chromium:0",
+      "file": "game-entry-loading.spec.js",
+      "title": "game entry loads only the active avatar and worn clothes",
+      "outcome": "failed",
+      "baselineId": "85ab4d0bdf6e6aa79f84-d61bfb38820a9e0b19a2:chromium:0",
+      "baselineTitle": "game entry loads only the active avatar and worn clothes",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 22344,
+      "errors": [
+        {
+          "message": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('#scene')\nExpected: \"true\"\nReceived: \"\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" with timeout 5000ms\n  - waiting for locator('#scene')\n    3 × locator resolved to <canvas id=\"scene\" width=\"195\" tabindex=\"0\" height=\"422\" data-engine=\"three.js r180\" aria-label=\"Interactive 3D town\"></canvas>\n      - unexpected value \"null\"\n\n\n  27 |    await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state).campusReady),{timeout:120000}).toBe(true);\n  28 |    await writeFile(info.outputPath('complete-campus.json'),JSON.stringify({readyMs:Date.now()-start,state:await page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state))},null,2));\n> 29 |    const warmStart=Date.now();await page.reload({waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:90000});await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');\n     |                                                                                                                                                                                         ^\n  30 |    await writeFile(info.outputPath('warm-game.json'),JSON.stringify({readyMs:Date.now()-warmStart,firstFrameMs:await page.locator('#scene').getAttribute('data-first-frame-ms')},null,2));\n  31 |   }finally{await writeFile(info.outputPath('requests.json'),JSON.stringify({elapsedMs:Date.now()-start,requests,failures,errors},null,2));}\n  32 |  });\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/game-entry-loading.spec.js:29:185",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/game-entry-loading.spec.js",
+            "column": 185,
+            "line": 29
+          }
+        }
+      ],
+      "diagnosisClass": "warm-first-frame-unresolved",
+      "diagnosis": "Initial selected-avatar/campus checks completed, but after warm reload canvas data-rendered was empty after5s. Snapshot has entryReadyfalse and one frame. Keep desktop/phone failures; selected-only observations do not establish complete reload success."
+    },
+    {
+      "id": "256d4c3724a264a5e24b-47f6fd00ea22e9383e2b:chromium:0",
+      "file": "movement.spec.js",
+      "title": "player travel, gait, turn and stop at 1280",
+      "outcome": "failed",
+      "baselineId": "256d4c3724a264a5e24b-47f6fd00ea22e9383e2b:chromium:0",
+      "baselineTitle": "player travel, gait, turn and stop at 1280",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 4,
+      "durationMs": 26583,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBeGreaterThan(expected)\n\nExpected: > 2.2\nReceived:   0.010433370342003442\n\n  21 |   return {seconds,distance:Math.hypot(moving.position[0]-before[0],moving.position[2]-before[2])/seconds,moving,stopped};\n  22 |  },run);\n> 23 |  const walk=await measure();const run=await measure(true);expect(walk.distance).toBeGreaterThan(2.2);expect(run.distance).toBeGreaterThan(walk.distance*1.25);expect(run.moving.rate).toBeGreaterThan(walk.moving.rate*1.3);expect(walk.moving.weight).toBeGreaterThan(.9);expect(run.stopped.weight).toBeLessThan(.05);\n     |                                                                                 ^\n  24 |  await page.evaluate(()=>{travelProbe.yaw=Math.PI/2;});const sideways=await measure();expect(sideways.moving.position[0]).toBeLessThan(run.stopped.position[0]);\n  25 |  await page.screenshot({path:`evidence/movement/travel-${width}${slow?'-8fps':''}.png`});console.log('TRAVEL',width,JSON.stringify({walk,run,sideways}));expect(errors).toEqual([]);\n  26 | });\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/movement.spec.js:23:81",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/movement.spec.js",
+            "column": 81,
+            "line": 23
+          }
+        }
+      ],
+      "diagnosisClass": "software-movement-performance-unresolved",
+      "diagnosis": "SwiftShader with entryReady=true, no pending surfaces. Desktop speed0.010433m/s and phone0.593728m/s fail>2.2;8FPS run ratio1.48344 fails>3.28129. Test and locomotion code match published main. No movement waiver."
+    },
+    {
+      "id": "256d4c3724a264a5e24b-aabd7c95186a0e93c2b9:chromium:0",
+      "file": "movement.spec.js",
+      "title": "player travel, gait, turn and stop at 1280 at 8 FPS",
+      "outcome": "failed",
+      "baselineId": "256d4c3724a264a5e24b-aabd7c95186a0e93c2b9:chromium:0",
+      "baselineTitle": "player travel, gait, turn and stop at 1280 at 8 FPS",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 4,
+      "durationMs": 24141,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBeGreaterThan(expected)\n\nExpected: > 3.281290262701861\nReceived:   1.4834433145831005\n\n  21 |   return {seconds,distance:Math.hypot(moving.position[0]-before[0],moving.position[2]-before[2])/seconds,moving,stopped};\n  22 |  },run);\n> 23 |  const walk=await measure();const run=await measure(true);expect(walk.distance).toBeGreaterThan(2.2);expect(run.distance).toBeGreaterThan(walk.distance*1.25);expect(run.moving.rate).toBeGreaterThan(walk.moving.rate*1.3);expect(walk.moving.weight).toBeGreaterThan(.9);expect(run.stopped.weight).toBeLessThan(.05);\n     |                                                                                                                           ^\n  24 |  await page.evaluate(()=>{travelProbe.yaw=Math.PI/2;});const sideways=await measure();expect(sideways.moving.position[0]).toBeLessThan(run.stopped.position[0]);\n  25 |  await page.screenshot({path:`evidence/movement/travel-${width}${slow?'-8fps':''}.png`});console.log('TRAVEL',width,JSON.stringify({walk,run,sideways}));expect(errors).toEqual([]);\n  26 | });\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/movement.spec.js:23:123",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/movement.spec.js",
+            "column": 123,
+            "line": 23
+          }
+        }
+      ],
+      "diagnosisClass": "software-movement-performance-unresolved",
+      "diagnosis": "SwiftShader with entryReady=true, no pending surfaces. Desktop speed0.010433m/s and phone0.593728m/s fail>2.2;8FPS run ratio1.48344 fails>3.28129. Test and locomotion code match published main. No movement waiver."
+    },
+    {
+      "id": "256d4c3724a264a5e24b-82ca25f92df459655c18:chromium:0",
+      "file": "movement.spec.js",
+      "title": "player travel, gait, turn and stop at 390",
+      "outcome": "failed",
+      "baselineId": "256d4c3724a264a5e24b-82ca25f92df459655c18:chromium:0",
+      "baselineTitle": "player travel, gait, turn and stop at 390",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 4,
+      "durationMs": 20991,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBeGreaterThan(expected)\n\nExpected: > 2.2\nReceived:   0.5937283305235533\n\n  21 |   return {seconds,distance:Math.hypot(moving.position[0]-before[0],moving.position[2]-before[2])/seconds,moving,stopped};\n  22 |  },run);\n> 23 |  const walk=await measure();const run=await measure(true);expect(walk.distance).toBeGreaterThan(2.2);expect(run.distance).toBeGreaterThan(walk.distance*1.25);expect(run.moving.rate).toBeGreaterThan(walk.moving.rate*1.3);expect(walk.moving.weight).toBeGreaterThan(.9);expect(run.stopped.weight).toBeLessThan(.05);\n     |                                                                                 ^\n  24 |  await page.evaluate(()=>{travelProbe.yaw=Math.PI/2;});const sideways=await measure();expect(sideways.moving.position[0]).toBeLessThan(run.stopped.position[0]);\n  25 |  await page.screenshot({path:`evidence/movement/travel-${width}${slow?'-8fps':''}.png`});console.log('TRAVEL',width,JSON.stringify({walk,run,sideways}));expect(errors).toEqual([]);\n  26 | });\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/movement.spec.js:23:81",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/movement.spec.js",
+            "column": 81,
+            "line": 23
+          }
+        }
+      ],
+      "diagnosisClass": "software-movement-performance-unresolved",
+      "diagnosis": "SwiftShader with entryReady=true, no pending surfaces. Desktop speed0.010433m/s and phone0.593728m/s fail>2.2;8FPS run ratio1.48344 fails>3.28129. Test and locomotion code match published main. No movement waiver."
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-186144f83b0833af1dbe:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "live default map and Stats 1280",
+      "outcome": "failed",
+      "baselineId": "2d2ad29bb3ae261369e6-186144f83b0833af1dbe:chromium:0",
+      "baselineTitle": "live default map and Stats 1280",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 2,
+      "durationMs": 24257,
+      "errors": [
+        {
+          "message": "Error: expect(received).not.toBe(expected) // Object.is equality\n\nExpected: not \"190.7\"\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   5 | test.afterEach(async({page},info)=>{if(process.env.CE_RUN_ID_TRACE!=='1')return;try{await info.attach('run-id-observations',{body:JSON.stringify(await page.evaluate(()=>window.__runIdObservations||[]),null,2),contentType:'application/json'});}catch{}});\n   6 | for(const width of [1280,390])test(`live default map and Stats ${width}`,async({page})=>{\n>  7 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});const requests=[];page.on('request',r=>requests.push(r.url()));await page.goto('/playable-3d/');await expect(page.locator('#taster-intro')).toBeVisible({timeout:90000});await page.locator('#taster-skip').click();await expect(page.locator('#campus-minimap')).toBeVisible();expect(await page.locator('#campus-minimap').getAttribute('data-target')).toBe('parcel');await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').entryReady),{timeout:30000}).toBe(true);const marker=page.locator('#campus-minimap [data-position]');const before=await marker.getAttribute('cy');await page.locator('#scene').focus();await page.keyboard.down('KeyW');await page.waitForTimeout(1200);await page.keyboard.up('KeyW');await expect.poll(()=>marker.getAttribute('cy')).not.toBe(before);await page.locator('#exploration-stats-toggle').click();await expect(page.locator('.tools-content')).toContainText('Available');await page.locator('.tools-close').click();await page.screenshot({path:`coverage/map-${width}.png`});await page.getByRole('button',{name:'Hide map',exact:true}).click();await expect(page.locator('#campus-minimap')).toBeHidden();const runId=await reportedRunId(page);await page.reload();await expect(page.locator('#taster-intro')).toBeVisible({timeout:30000});await page.locator('#taster-skip').click();await expect(page.getByRole('button',{name:'Hide map',exact:true})).toBeVisible({timeout:30000});await expect(page.locator('#campus-minimap')).toBeVisible();await expect.poll(()=>reportedRunId(page)).not.toBe(runId);expect(requests.filter(u=>/test.*\\.glb/.test(u))).toEqual",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/navigation-map.spec.js",
+            "column": 863,
+            "line": 7
+          }
+        }
+      ],
+      "diagnosisClass": "live-map-movement-unresolved",
+      "diagnosis": "Live map y/coordinate remains190.7 over5s after movement; same baseline failures. Evidence does not distinguish actual input/ready movement delay from stale map observations. Keep both failures."
+    },
+    {
+      "id": "2d2ad29bb3ae261369e6-ff47dd182c944e6e4ccb:chromium:0",
+      "file": "navigation-map.spec.js",
+      "title": "live default map and Stats 390",
+      "outcome": "failed",
+      "baselineId": "2d2ad29bb3ae261369e6-ff47dd182c944e6e4ccb:chromium:0",
+      "baselineTitle": "live default map and Stats 390",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 2,
+      "durationMs": 19599,
+      "errors": [
+        {
+          "message": "Error: expect(received).not.toBe(expected) // Object.is equality\n\nExpected: not \"190.7\"\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   5 | test.afterEach(async({page},info)=>{if(process.env.CE_RUN_ID_TRACE!=='1')return;try{await info.attach('run-id-observations',{body:JSON.stringify(await page.evaluate(()=>window.__runIdObservations||[]),null,2),contentType:'application/json'});}catch{}});\n   6 | for(const width of [1280,390])test(`live default map and Stats ${width}`,async({page})=>{\n>  7 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});const requests=[];page.on('request',r=>requests.push(r.url()));await page.goto('/playable-3d/');await expect(page.locator('#taster-intro')).toBeVisible({timeout:90000});await page.locator('#taster-skip').click();await expect(page.locator('#campus-minimap')).toBeVisible();expect(await page.locator('#campus-minimap').getAttribute('data-target')).toBe('parcel');await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').entryReady),{timeout:30000}).toBe(true);const marker=page.locator('#campus-minimap [data-position]');const before=await marker.getAttribute('cy');await page.locator('#scene').focus();await page.keyboard.down('KeyW');await page.waitForTimeout(1200);await page.keyboard.up('KeyW');await expect.poll(()=>marker.getAttribute('cy')).not.toBe(before);await page.locator('#exploration-stats-toggle').click();await expect(page.locator('.tools-content')).toContainText('Available');await page.locator('.tools-close').click();await page.screenshot({path:`coverage/map-${width}.png`});await page.getByRole('button',{name:'Hide map',exact:true}).click();await expect(page.locator('#campus-minimap')).toBeHidden();const runId=await reportedRunId(page);await page.reload();await expect(page.locator('#taster-intro')).toBeVisible({timeout:30000});await page.locator('#taster-skip').click();await expect(page.getByRole('button',{name:'Hide map',exact:true})).toBeVisible({timeout:30000});await expect(page.locator('#campus-minimap')).toBeVisible();await expect.poll(()=>reportedRunId(page)).not.toBe(runId);expect(requests.filter(u=>/test.*\\.glb/.test(u))).toEqual",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/navigation-map.spec.js",
+            "column": 863,
+            "line": 7
+          }
+        }
+      ],
+      "diagnosisClass": "live-map-movement-unresolved",
+      "diagnosis": "Live map y/coordinate remains190.7 over5s after movement; same baseline failures. Evidence does not distinguish actual input/ready movement delay from stale map observations. Keep both failures."
+    },
+    {
+      "id": "5178a05e195b7b1ba15f-4bd8714117f57acde61a:chromium:0",
+      "file": "phone-startup.spec.js",
+      "title": "phone opening uses smaller phone assets once and releases startup cache",
+      "outcome": "failed",
+      "baselineId": "5178a05e195b7b1ba15f-4bd8714117f57acde61a:chromium:0",
+      "baselineTitle": "phone opening uses smaller phone assets once and releases startup cache",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 4,
+      "durationMs": 23219,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBeLessThan(expected)\n\nExpected: < 23.2\nReceived:   23.257\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  19 |  expect(requests.some(u=>u.includes('/assets/phone/grass-ecc-campus-v1-mobile.webp'))).toBe(true);\n  20 |  await page.setViewportSize({width:844,height:390});\n> 21 |  const before=(await state()).position[2];await page.keyboard.down('w');await page.waitForTimeout(500);await page.keyboard.up('w');await expect.poll(async()=>(await state()).position[2]).toBeLessThan(before-.1);\n     |                                                                                                                                                                                            ^\n  22 |  expect(errors).toEqual([]);\n  23 | });\n  24 |\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/phone-startup.spec.js:21:188",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/phone-startup.spec.js",
+            "column": 188,
+            "line": 21
+          }
+        }
+      ],
+      "diagnosisClass": "phone-movement-timing-unresolved",
+      "diagnosis": "Smaller phone asset selection and cache release now pass, but final500ms forward walk endsz23.257 against<23.2. Whole case remains failed; movement/readiness not waived."
+    },
+    {
+      "id": "cdb152c82c07550b9af3-fe5898244fd3e71d8348:chromium:0",
+      "file": "playable-scenery.spec.js",
+      "title": "campus waits for both buildings and keeps destinations and movement",
+      "outcome": "failed",
+      "baselineId": "cdb152c82c07550b9af3-fe5898244fd3e71d8348:chromium:0",
+      "baselineTitle": "campus waits for both buildings and keeps destinations and movement",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 4,
+      "durationMs": 10613,
+      "errors": [
+        {
+          "message": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('#scene')\nExpected: \"true\"\nReceived: \"\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" with timeout 5000ms\n  - waiting for locator('#scene')\n    3 × locator resolved to <canvas id=\"scene\" width=\"640\" tabindex=\"0\" height=\"360\" data-engine=\"three.js r180\" aria-label=\"Interactive 3D town\"></canvas>\n      - unexpected value \"null\"\n\n\n  13 |   release();\n  14 |   await expect(page.locator('#loading')).toBeHidden({timeout:90000});\n> 15 |   await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');await expect.poll(async()=>(await state(page)).entryReady,{timeout:60000}).toBe(true);await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();\n     |                                        ^\n  16 |   await page.locator('#phase').selectOption('disrepair');\n  17 |   await expect.poll(async()=>(await state(page)).scenery?.status,{timeout:90000}).toBe('ready');\n  18 |   await expect.poll(async()=>(await state(page)).phase).toBe('disrepair');\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/playable-scenery.spec.js:15:40",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/playable-scenery.spec.js",
+            "column": 40,
+            "line": 15
+          }
+        }
+      ],
+      "diagnosisClass": "first-frame-readiness-unresolved",
+      "diagnosis": "Scene data-rendered remains empty after5s. Diagnostic entryReady=false/surfaces31 at~10.5s. No loading or first-frame budget relaxed."
+    },
+    {
+      "id": "78e3358702c963346e2e-8c0ca87f2f8cf2502e72:chromium:0",
+      "file": "playable-startup.spec.js",
+      "title": "startup loads only the active avatar and keeps the studio and hall usable",
+      "outcome": "failed",
+      "baselineId": "78e3358702c963346e2e-8c0ca87f2f8cf2502e72:chromium:0",
+      "baselineTitle": "startup loads only the active avatar and keeps the studio and hall usable",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 4,
+      "durationMs": 10225,
+      "errors": [
+        {
+          "message": "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('#scene')\nExpected: \"true\"\nReceived: \"\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" with timeout 5000ms\n  - waiting for locator('#scene')\n    3 × locator resolved to <canvas id=\"scene\" width=\"640\" tabindex=\"0\" height=\"360\" data-engine=\"three.js r180\" aria-label=\"Interactive 3D town\"></canvas>\n      - unexpected value \"null\"\n\n\n  11 |   await page.goto('/playable-3d/');\n  12 |   await expect(page.locator('#loading')).toBeHidden({timeout:60000});\n> 13 |   await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');\n     |                                        ^\n  14 |   expect(requests.some(u=>u.includes('whole-characters/antonio.glb'))).toBeTruthy();\n  15 |   await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();await expect.poll(()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state).campusReady),{timeout:90000}).toBe(true);\n  16 |   expect(requests.some(u=>u.endsWith('campus-buildings/careers-shared-textures.glb'))).toBeTruthy();\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/playable-startup.spec.js:13:40",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/playable-startup.spec.js",
+            "column": 40,
+            "line": 13
+          }
+        }
+      ],
+      "diagnosisClass": "first-frame-readiness-unresolved",
+      "diagnosis": "Scene data-rendered remains empty after5s. Diagnostic entryReady=false/surfaces31 at~10.1s. No loading or first-frame budget relaxed."
+    },
+    {
+      "id": "8a94587f89b4ab1cab50-a5193141f2fa2c365610:chromium:0",
+      "file": "startup-campus-entry.spec.js",
+      "title": "video to complete exterior, walking and automatic parcel at 1280",
+      "outcome": "failed",
+      "baselineId": "8a94587f89b4ab1cab50-a5193141f2fa2c365610:chromium:0",
+      "baselineTitle": "video to complete exterior, walking and automatic parcel at 1280",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 40203,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 1\nReceived: 0\n\nCall Log:\n- Timeout 10000ms exceeded while waiting on the predicate\n\n  19 |   await page.screenshot({path:info.outputPath('entry.png')});const before=entry.state.position;\n  20 |   await page.locator('#scene').focus();await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await page.keyboard.down('KeyW');\n> 21 |   try{await expect.poll(async()=>(await sample())?.state.discovery?.step,{timeout:10000}).toBe(1);}finally{await page.keyboard.up('KeyW');}\n     |                                                                                           ^\n  22 |   const parcel=await sample();expect(parcel.state.position[2]).toBeLessThan(before[2]-3);expect(parcel.frame).toBeGreaterThan(entry.frame);await expect(page.locator('#discovery-dialog')).toBeVisible();await expect(page.locator('#discovery-copy')).toHaveText('Slide to discover a place to pause.');await page.locator('#develop').focus();await page.keyboard.press('End');await expect(page.locator('#develop-response')).toHaveText('Your picture is ready. Follow it to the Chapel.');expect(errors).toEqual([]);\n  23 |   await page.screenshot({path:info.outputPath('automatic-parcel.png')});await info.attach('entry-and-parcel',{body:JSON.stringify({exploringAt,handoverMs:Math.max(0,entry.entryVisibleMs-exploringAt),observationMs:entry.pageMs-exploringAt,entry,parcel},null,2),contentType:'application/json'});\n  24 |  }finally{release();}\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/startup-campus-entry.spec.js:21:91",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/startup-campus-entry.spec.js",
+            "column": 91,
+            "line": 21
+          }
+        }
+      ],
+      "diagnosisClass": "parcel-walking-timeout-unresolved",
+      "diagnosis": "Desktop real forward walking did not trigger parcel within10s: step0, actorz18.762 versus start23.3,8frames/0FPS. Phone corresponding case passes. Preserve real walking/automatic trigger requirements."
+    },
+    {
+      "id": "d10a8235e6ed24c4cc22-725463996d999197e399:chromium:0",
+      "file": "startup-performance.spec.js",
+      "title": "normal play avoids GPU pixel probes and uses shared building textures",
+      "outcome": "failed",
+      "baselineId": "d10a8235e6ed24c4cc22-725463996d999197e399:chromium:0",
+      "baselineTitle": "normal play avoids GPU pixel probes and uses shared building textures",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 42003,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBeGreaterThan(expected)\n\nExpected: > 0.5\nReceived:   0.019999999999999574\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n   9 |  await page.locator('#world-tools summary').click();await page.locator('#aerial').click();\n  10 |  const state=()=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state));await expect.poll(async()=>(await state()).campusReady,{timeout:60000}).toBe(true);const start=await state();expect(start.pixelColours).toBeNull();\n> 11 |  await page.keyboard.down('w');await page.waitForTimeout(1000);await page.keyboard.up('w');await expect.poll(async()=>start.position[2]-(await state()).position[2]).toBeGreaterThan(.5);\n     |                                                                                                                                                                      ^\n  12 |  // The obsolete standalone garden model was removed with the courtyard cleanup.\n  13 |  for(const name of ['careers','workplace'])expect(requests.some(u=>u.includes('/'+name+'-shared-textures.glb'))).toBe(true);\n  14 |  expect(requests.some(u=>u.includes('/garden-shared-textures.glb'))).toBe(false);\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/startup-performance.spec.js:11:166",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/startup-performance.spec.js",
+            "column": 166,
+            "line": 11
+          }
+        }
+      ],
+      "diagnosisClass": "movement-performance-unresolved",
+      "diagnosis": "Input moves only0.02m versus required>0.5m after1s, with entryReadytrue/campusReadytrue and0FPS. Source test is byte-identical to main; pixel-probe assertions earlier passed. No performance waiver."
+    },
+    {
+      "id": "4fbb9f13b83f01ed98fd-11b890e75eefdcbd0f2e:chromium:0",
+      "file": "startup-surface-gate.spec.js",
+      "title": "complete intro reaches natural end and hands over to usable movement",
+      "outcome": "failed",
+      "baselineId": "4fbb9f13b83f01ed98fd-11b890e75eefdcbd0f2e:chromium:0",
+      "baselineTitle": "complete intro reaches natural end and hands over to usable movement",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 14618,
+      "errors": [
+        {
+          "message": "Error: Timeout 5000ms exceeded while waiting on the predicate\n\n  16 |  test.setTimeout(180000);const urls=[],errors=[];page.on('request',r=>urls.push(r.url()));page.on('pageerror',e=>errors.push(e.message));\n  17 |  await page.goto('/playable-3d/');await expect(page.locator('#taster-play')).toBeVisible({timeout:30000});expect(urls.some(u=>u.includes('career-empire-intro.mp4'))).toBe(false);\n> 18 |  await page.locator('#taster-play').click();await expect.poll(()=>page.locator('#taster-video').evaluate(v=>v.currentTime),{timeout:30000}).toBeGreaterThan(1);await expect.poll(()=>page.locator('#taster-video').evaluate(v=>v.duration)).toBe(66);\n     |                                                                                                                                                                                                                                             ^\n  19 |  await expect(page.locator('#taster-intro')).not.toBeVisible({timeout:120000});expect(await page.locator('#taster-video').evaluate(v=>v.ended)).toBe(true);\n  20 |  await expect.poll(()=>page.evaluate(()=>JSON.parse(document.querySelector('#diagnostics')?.dataset.state||'{}')),{timeout:30000}).toMatchObject({entryReady:true,campusReady:false});const before=await page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').position);await page.locator('#scene').focus();await page.keyboard.down('KeyW');await page.waitForTimeout(1200);await page.keyboard.up('KeyW');await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').position)).not.toEqual(before);\n  21 |  await page.keyboard.down('KeyW');try{await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').discovery?.step),{timeout:10000}).toBe(1);}finally{await page.keyboard.up('KeyW');}\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/startup-surface-gate.spec.js:18:237",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/startup-surface-gate.spec.js",
+            "column": 237,
+            "line": 18
+          }
+        }
+      ],
+      "diagnosisClass": "intro-metadata-readiness-unresolved",
+      "diagnosis": "Natural intro test fails exact duration66 metadata predicate within5s after playback began. Error snapshot still shows introopen/playing and no rendered world frames. Full natural-end/movement/parcel checks not reached. Actual duration/cause not established by attached report; no new startup waiver."
+    },
+    {
+      "id": "4fbb9f13b83f01ed98fd-3da2bf434fbab5d18147:chromium:0",
+      "file": "startup-surface-gate.spec.js",
+      "title": "mocked owned-account parcel, map and shared wallet persist without a duplicate reward",
+      "outcome": "failed",
+      "baselineId": "4fbb9f13b83f01ed98fd-3da2bf434fbab5d18147:chromium:0",
+      "baselineTitle": "mocked owned-account parcel, map and shared wallet persist without a duplicate reward",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 38582,
+      "errors": [
+        {
+          "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 1\nReceived: 0\n\nCall Log:\n- Timeout 10000ms exceeded while waiting on the predicate\n\n  34 | ownedTest('mocked owned-account parcel, map and shared wallet persist without a duplicate reward',async({page})=>{\n  35 |  test.setTimeout(90000);await page.goto('/playable-3d/');await expect(page.locator('#taster-skip')).toBeVisible({timeout:30000});await page.locator('#taster-skip').click();await expect.poll(()=>page.evaluate(()=>JSON.parse(document.querySelector('#diagnostics')?.dataset.state||'{}')),{timeout:30000}).toMatchObject({entryReady:true,campusReady:false});\n> 36 |  await page.locator('#scene').focus();await page.keyboard.down('KeyW');try{await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').discovery.step),{timeout:10000}).toBe(1);}finally{await page.keyboard.up('KeyW');}\n     |                                                                                                                                                                                                              ^\n  37 |  await page.keyboard.press('Escape');await expect(page.locator('#campus-minimap')).toBeVisible();await page.getByRole('button',{name:'Hide map',exact:true}).click();await expect(page.locator('#campus-minimap')).toBeHidden();await page.getByRole('button',{name:'Show map',exact:true}).click();await expect(page.locator('#campus-minimap')).toBeVisible();\n  38 |  const wallet=await page.evaluate(async()=>{const {project}=await import('../economy-lab/economy.mjs?v=initiative-20261011');return project(JSON.parse(localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1')));});expect(wallet.cash).toBe(102500);expect(wallet.initiativeRewards).toBe(2500);expect(wallet.initiatives).toEqual(['parcel-taster']);const raw=await page.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1'));await page.reload();await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true',{timeout:30000});expect(await page.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:'+'career-empire-economy-lab-v1'))).toBe(raw);\n  39 | });\n",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/startup-surface-gate.spec.js",
+            "column": 206,
+            "line": 36
+          }
+        }
+      ],
+      "diagnosisClass": "parcel-walking-timeout-unresolved",
+      "diagnosis": "Owned-account real forward walk fails automatic parcel step1 within10s: actorz18.644,step0,8frames/0FPS. Persistence and duplicate-reward assertions later in case not reached; not evidence of corrupt saves."
+    },
+    {
+      "id": "bac31e839d91e17ab470-85692b0ce0133a810d48:chromium:0",
+      "file": "suit-flicker.spec.js",
+      "title": "playable suit shadows follow every walking frame at 1280",
+      "outcome": "failed",
+      "baselineId": "bac31e839d91e17ab470-85692b0ce0133a810d48:chromium:0",
+      "baselineTitle": "playable suit shadows follow every walking frame at 1280",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 33453,
+      "errors": [
+        {
+          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+        },
+        {
+          "message": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded.\n\n  30 |  await page.evaluate(()=>{window.dispatchEvent(new KeyboardEvent('keydown',{code:'KeyW'}));setTimeout(()=>window.dispatchEvent(new KeyboardEvent('keyup',{code:'KeyW'})),1300);});\n  31 |  await page.waitForFunction(()=>window.__suitFrames.some(f=>f.weight>.01));\n> 32 |  await page.waitForFunction(()=>window.__suitFrames.slice(-10).some(f=>f.weight===0&&!f.shadow),null,{timeout:10000});\n     |             ^\n  33 |  await page.screenshot({path:`evidence/movement/suit-walking-${width}.png`});\n  34 |  const frames=await page.evaluate(()=>window.__suitFrames);const moving=frames.filter(f=>f.weight>.01);expect(moving.length).toBeGreaterThan(5);expect(moving.every(f=>f.shadow)).toBe(true);expect(frames.slice(-10).some(f=>!f.shadow)).toBe(true);expect(errors).toEqual([]);console.log('SUIT_PLAYABLE',JSON.stringify({width,movingFrames:moving.length,staleMovingFrames:moving.filter(f=>!f.shadow).length}));\n  35 | });\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/suit-flicker.spec.js:32:13",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/suit-flicker.spec.js",
+            "column": 13,
+            "line": 32
+          }
+        }
+      ],
+      "diagnosisClass": "animation-stop-shadow-unresolved",
+      "diagnosis": "Real input reached moving animation, but no recent frame with exact idle weight0 and shadowdisabled within10s. Only6desktop/10phone rendered frames in error snapshots. Could be software frame/animation scheduling; stale-shadow or idle transition cause not proven. Keep both failures."
+    },
+    {
+      "id": "bac31e839d91e17ab470-29efc6a6de61e8589ba0:chromium:0",
+      "file": "suit-flicker.spec.js",
+      "title": "playable suit shadows follow every walking frame at 390",
+      "outcome": "failed",
+      "baselineId": "bac31e839d91e17ab470-29efc6a6de61e8589ba0:chromium:0",
+      "baselineTitle": "playable suit shadows follow every walking frame at 390",
+      "before": "failed",
+      "after": "failed",
+      "transition": "unchangedFailed",
+      "shard": 3,
+      "durationMs": 32018,
+      "errors": [
+        {
+          "message": "TimeoutError: page.waitForFunction: Timeout 10000ms exceeded.\n\n  30 |  await page.evaluate(()=>{window.dispatchEvent(new KeyboardEvent('keydown',{code:'KeyW'}));setTimeout(()=>window.dispatchEvent(new KeyboardEvent('keyup',{code:'KeyW'})),1300);});\n  31 |  await page.waitForFunction(()=>window.__suitFrames.some(f=>f.weight>.01));\n> 32 |  await page.waitForFunction(()=>window.__suitFrames.slice(-10).some(f=>f.weight===0&&!f.shadow),null,{timeout:10000});\n     |             ^\n  33 |  await page.screenshot({path:`evidence/movement/suit-walking-${width}.png`});\n  34 |  const frames=await page.evaluate(()=>window.__suitFrames);const moving=frames.filter(f=>f.weight>.01);expect(moving.length).toBeGreaterThan(5);expect(moving.every(f=>f.shadow)).toBe(true);expect(frames.slice(-10).some(f=>!f.shadow)).toBe(true);expect(errors).toEqual([]);console.log('SUIT_PLAYABLE',JSON.stringify({width,movingFrames:moving.length,staleMovingFrames:moving.filter(f=>!f.shadow).length}));\n  35 | });\n    at /home/runner/work/GTCEM-Career-Empire/GTCEM-Career-Empire/tests/e2e/suit-flicker.spec.js:32:13",
+          "location": {
+            "file": "GTCEM-Career-Empire/tests/e2e/suit-flicker.spec.js",
+            "column": 13,
+            "line": 32
+          }
+        }
+      ],
+      "diagnosisClass": "animation-stop-shadow-unresolved",
+      "diagnosis": "Real input reached moving animation, but no recent frame with exact idle weight0 and shadowdisabled within10s. Only6desktop/10phone rendered frames in error snapshots. Could be software frame/animation scheduling; stale-shadow or idle transition cause not proven. Keep both failures."
+    }
+  ],
+  "qualification": {
+    "fullSuitePass": false,
+    "softwarePausePass": false,
+    "softwareStartupFixed": false,
+    "softwareWaitingAcceptanceMs": null,
+    "previousSoftwareColdHandoverMs": 22942.2,
+    "gpuStartupBudgetMs": 8000,
+    "movementThresholdsWeakened": false,
+    "schoolDevices": "outstanding",
+    "openingPasswordIncluded": false,
+    "mergeOrDeploy": false,
+    "newHostedFullRunStarted": false,
+    "credentialsOrSecurityChanged": false
+  },
+  "evidenceIncident": {
+    "coverageOutputRootClearedByCoverageRunner": true,
+    "trackedSourceOrCommittedLedgersLost": false,
+    "allHistoricalLocalEvidenceRecovered": false,
+    "recoveredHostedArtifacts": 7,
+    "recoveredOriginalArtifactFiles": 320,
+    "archiveDigestsVerified": [
+      {
+        "name": "combined-browser-shard-1",
+        "sha256": "50bc48539666dbd59bdccbedd101605fbb97cdb3e31e09b1bb1cb62d3ebe29cf"
+      },
+      {
+        "name": "combined-browser-shard-2",
+        "sha256": "726d07b20a3f08f202133cb9a6ea9b586d5f7f854388335af6d28cbeb94a3210"
+      },
+      {
+        "name": "combined-browser-shard-3",
+        "sha256": "8de9591e255c11256e69627f7ad073405e3650d5deace7462f075433a1190816"
+      },
+      {
+        "name": "combined-browser-shard-4",
+        "sha256": "c8799aefdeff178cd9f45f079bf12a9a4a53bf1eb7c2766e2a3c236b8b9f4231"
+      },
+      {
+        "name": "combined-recheck-proof",
+        "sha256": "3282b26540c4797d7eac567c33609defb54f1e13bb7ac9aa6fd3e7fac7b3c40c"
+      },
+      {
+        "name": "combined-checks",
+        "sha256": "4ad28155eae36642b5c04df0ce9724cab9bb788b91762d04c2608506098c3e2a"
+      },
+      {
+        "name": "combined-software-compatibility",
+        "sha256": "a5b9df58f12a85cd012c1b01e031eda0ef5f84a90e59de9fea9c6e98a82fe278"
+      }
+    ],
+    "baselineCountProofRestored": true,
+    "baselineLogRestoredBytes": 9550412,
+    "baselineFailureBlocksReconstructed": 67,
+    "remainingLoss": "Older local-only experiment files and some screenshots from first native follow-up are not fully recoverable",
+    "newEvidenceLocation": "../ecc-evidence-recovery-20261015/"
+  },
+  "sourceHashes": {
+    "playable-3d/app.js": "740069e160a8ac85083130423fd12ad09508cd303fcf01082be1aa978bce25f6",
+    "playable-3d/guest-shell.mjs": "00f2869aa21c8cc19b4abb7b3809a27f2b456c094b3981d968581cb85aaa1a39",
+    "playable-3d/index.html": "59a8dafa65e6e59b39819b2f83c11211eab0c0762d2261c1ffc10da814742f2c",
+    "playable-3d/release-manifest.json": "2cb4e970ed5d3dd265d777ebedb1569205fe29633f4b405d85d7d9e81f344961",
+    "tests/e2e/control-completion.spec.js": "c755cc6de6ebc8e6b24b4541164f9f8a4bd357d89e8853e10a2cd7fdd9fa53b6",
+    "tests/e2e/echo.spec.js": "15997211375b2dcd040ebc224487d57c281a42c5209e629606fa70cae18a8904",
+    "tests/e2e/market-gate.spec.js": "61d8045e111af6a65e65454eeef622b704fc0fe031364a960476cce61166f12e",
+    "tests/e2e/market-stats.spec.js": "fce9405bea2cf9ae07b258e39c4fb73725b8ed04bc305a3999963858370509a1",
+    "tests/e2e/night-market-agency.spec.js": "fee89874b1a1ac26a88fee2e9a51549aa4b6bba8ddb3348afc7dfcd4edd9455a",
+    "tests/e2e/options-companion.spec.js": "f0970561064dbf8dd2134cdad0115fc1d1f6ae34456c4b5d92ee3a810d72a582",
+    "tests/unit/navigation-pause.test.mjs": "9562c3dbb5f18e8340d744f643da3d32ae6c1a58a37e1c86d7795f92f811c4e4"
+  },
+  "reportHashes": {
+    "followup-native-final-report.json": "bcbb8e541dfe119f5aa6439fc10a196f55bc30b52479a9f151ee308ef5a8bbb4",
+    "followup-software-final-report.json": "b5f776bf09e0680762ec0d14a2b968e4b3c556ba97ce133936b5dceb5f6aa098",
+    "followup-software-report.json": "7b591a34000c0b4a6221b23b211fcd0871ca82b1447183d03089884651caab3b",
+    "final-units.json": "a364b94ff0f90c85d6d70837293132fd8111a26254a24e43814266ae580949b5",
+    "followup-inventory.json": "b65d7a4ddd515f44a3a61d7f8afdb0aece3be4d9224d597421d8140da29c32f9"
+  }
+}

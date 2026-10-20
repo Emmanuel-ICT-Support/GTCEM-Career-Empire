@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
 for(const width of [1280,390])test(`opening queue visibly moves before summary and replays without rewards at ${width}`,async({page},info)=>{
@@ -21,3 +22,5 @@ for(const width of [1280,390])test(`opening queue visibly moves before summary a
  const after=await page.evaluate(()=>queueReview().market.snapshot());expect(after.events).toEqual(before.events);expect(after.wallet).toBe(before.wallet);expect(after.badges).toEqual(before.badges);
  await page.getByRole('button',{name:'Back to the market',exact:true}).click();expect(await page.evaluate(()=>queueReview().market.observing)).toBe(false);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

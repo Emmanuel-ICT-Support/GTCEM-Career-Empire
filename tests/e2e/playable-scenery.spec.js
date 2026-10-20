@@ -5,14 +5,14 @@ const state=page=>page.locator('#diagnostics').getAttribute('data-state').then(s
 test('campus waits for both buildings and keeps destinations and movement',async({page})=>{
   test.setTimeout(180000);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  // A slow building must keep the loading screen up, rather than reveal an incomplete map.
+  // Required slow buildings must keep entry unready until complete geometry is available.
   let release;const hold=new Promise(resolve=>release=resolve);
   await page.route('**/assets/campus-*/**/*.glb',async route=>{await hold;await route.continue();});
   await page.goto('/playable-3d/');
-  await expect(page.locator('#loading')).toBeVisible();
+  await expect(page.locator('#campus-progress')).toBeVisible();await expect.poll(async()=>(await state(page)).entryReady).toBe(false);
   release();
   await expect(page.locator('#loading')).toBeHidden({timeout:90000});
-  await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');
+  await expect.poll(async()=>(await state(page)).entryReady,{timeout:60000}).toBe(true);await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');await page.locator('#world-tools summary').click();await page.locator('#aerial').click();await page.locator('#aerial').click();await page.locator('#world-tools summary').click();
   await page.locator('#phase').selectOption('disrepair');
   await expect.poll(async()=>(await state(page)).scenery?.status,{timeout:90000}).toBe('ready');
   await expect.poll(async()=>(await state(page)).phase).toBe('disrepair');
@@ -21,7 +21,7 @@ test('campus waits for both buildings and keeps destinations and movement',async
 
   expect(loaded.phase).toBe('disrepair');
   const before=loaded.position;
-  await page.keyboard.down('KeyD');await page.waitForTimeout(600);await page.keyboard.up('KeyD');
+  await page.locator('#scene').focus();await page.keyboard.down('KeyD');await page.waitForTimeout(600);await page.keyboard.up('KeyD');
   await expect.poll(async()=>(await state(page)).position[0]).toBeGreaterThan(before[0]+.2);
   await page.locator('#places-toggle').click();await page.locator('#studio-view').click();
   await expect(page.locator('#studio-panel')).toBeVisible();
@@ -38,6 +38,5 @@ test('failed campus loading explains retry instead of revealing missing building
   test.setTimeout(120000);
   await page.route('**/assets/campus-*/**/*.glb',route=>route.abort());
   await page.goto('/playable-3d/');
-  await expect(page.locator('#loading')).toBeVisible();
-  await expect(page.locator('#loading-message')).toContainText('Reload to retry',{timeout:60000});
+  await expect(page.locator('#campus-progress')).toBeVisible();await expect(page.locator('#campus-retry')).toBeVisible({timeout:60000});await expect(page.locator('#campus-progress-message')).toContainText('Campus buildings could not load. Retry to open campus.');await expect.poll(async()=>(await state(page)).entryReady).toBe(false);
 });

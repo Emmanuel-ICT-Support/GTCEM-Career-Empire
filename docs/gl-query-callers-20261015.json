@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-15T05:37:38.676437+00:00",
+  "runtimeSource": "7c52eccce8bca1657b92718107ae36b852aa4003, unchanged through e871624",
+  "runtimeChangeRetained": false,
+  "compileExperimentsThisPass": 0,
+  "runs": [
+    {
+      "stage": "software-query-callers",
+      "status": "failed",
+      "candidate": null,
+      "actualBackend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+      "glObservers": true,
+      "entryVisibleMs": 30168.699999999255,
+      "walkingSpeedsMetresPerSecond": [
+        0.9000794656760741,
+        0,
+        0.8261134044240458,
+        0.8366584245760911
+      ],
+      "firstCampusDraw": {
+        "atMs": 8019.9000000003725,
+        "ms": 20999.699999999255,
+        "calls": 348,
+        "triangles": 888290,
+        "scene": "",
+        "type": "Scene",
+        "entryReady": false
+      },
+      "slowQueryCallers": [
+        {
+          "name": "getProgramInfoLog",
+          "atMs": 8033.5999999996275,
+          "ms": 7420,
+          "parameter": null,
+          "parameterName": null,
+          "argument": null,
+          "program": {
+            "id": 5,
+            "name": "CubemapFromEquirect",
+            "type": "ShaderMaterial"
+          },
+          "stack": "Error\n    at proto.<computed> [as getProgramInfoLog] (<anonymous>:65:20)\n    at onFirstUse (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6496:30)\n    at WebGLProgram.getUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6595:4)\n    at setProgram (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:17199:31)\n    at WebGLRenderer.renderBufferDirect (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15941:20)\n    at renderObject (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16866:11)\n    at renderObjects (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16835:6)\n    at renderScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16675:36)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16493:5)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "atMs": 23162.400000000373,
+          "ms": 3804.5999999996275,
+          "parameter": null,
+          "parameterName": null,
+          "argument": null,
+          "program": {
+            "id": 34,
+            "name": "",
+            "type": "MeshBasicMaterial"
+          },
+          "stack": "Error\n    at proto.<computed> [as getProgramInfoLog] (<anonymous>:65:20)\n    at onFirstUse (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6496:30)\n    at WebGLProgram.getUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6595:4)\n    at setProgram (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:17199:31)\n    at WebGLRenderer.renderBufferDirect (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15941:20)\n    at renderObject (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16866:11)\n    at renderObjects (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16835:6)\n    at renderScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16675:36)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16493:5)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "atMs": 20123.800000000745,
+          "ms": 2005.8999999985099,
+          "parameter": null,
+          "parameterName": null,
+          "argument": null,
+          "program": {
+            "id": 24,
+            "name": "",
+            "type": "MeshBasicMaterial"
+          },
+          "stack": "Error\n    at proto.<computed> [as getProgramInfoLog] (<anonymous>:65:20)\n    at onFirstUse (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6496:30)\n    at WebGLProgram.getUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6595:4)\n    at setProgram (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:17199:31)\n    at WebGLRenderer.renderBufferDirect (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15941:20)\n    at renderObject (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16866:11)\n    at renderObjects (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16835:6)\n    at renderScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16675:36)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16493:5)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)"
+        },
+        {
+          "name": "getProgramInfoLog",
+          "atMs": 27203,
+          "ms": 1702.4000000003725,
+          "parameter": null,
+          "parameterName": null,
+          "argument": null,
+          "program": {
+            "id": 40,
+            "name": "",
+            "type": "MeshStandardMaterial"
+          },
+          "stack": "Error\n    at proto.<computed> [as getProgramInfoLog] (<anonymous>:65:20)\n    at onFirstUse (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6496:30)\n    at WebGLProgram.getUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6595:4)\n    at setProgram (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:17199:31)\n    at WebGLRenderer.renderBufferDirect (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15941:20)\n    at renderObject (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16866:11)\n    at renderObjects (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16835:6)\n    at renderScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16677:41)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16493:5)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)"
+        }
+      ],
+      "pageErrors": [],
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/gl-callers-2026-10-15T05-28-20-614Z-lL28pt/software-query-callers.json",
+      "rawSha256": "900da68c94296889a5f62ea89da1329a2a7c879bfc4b22398fee7a401344731b",
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/gl-callers-2026-10-15T05-28-20-614Z-lL28pt/browser-runs/software-query-callers-2026-10-15T05-29-50-912Z-HvUkAj/browser-report.json",
+      "reportSha256": "44752de9171f397ec0fb4237bcf129368a7c5b402b204a2cf0962d7b866610eb"
+    },
+    {
+      "stage": "software-shader-errors-off",
+      "status": "failed",
+      "candidate": "shader-errors-off",
+      "actualBackend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+      "glObservers": true,
+      "entryVisibleMs": 42773.300000000745,
+      "walkingSpeedsMetresPerSecond": [
+        1.4739794805708577,
+        0,
+        0,
+        0.8250340767681175
+      ],
+      "firstCampusDraw": {
+        "atMs": 8225.699999999255,
+        "ms": 33160.5,
+        "calls": 348,
+        "triangles": 888290,
+        "scene": "",
+        "type": "Scene",
+        "entryReady": false
+      },
+      "slowQueryCallers": [
+        {
+          "name": "getProgramParameter",
+          "atMs": 8246.699999999255,
+          "ms": 15055.800000000745,
+          "parameter": 35718,
+          "parameterName": "ACTIVE_UNIFORMS",
+          "argument": null,
+          "program": {
+            "id": 5,
+            "name": "CubemapFromEquirect",
+            "type": "ShaderMaterial"
+          },
+          "stack": "Error\n    at proto.<computed> [as getProgramParameter] (<anonymous>:66:20)\n    at new WebGLUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:5507:16)\n    at onFirstUse (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6581:20)\n    at WebGLProgram.getUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6595:4)\n    at setProgram (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:17199:31)\n    at WebGLRenderer.renderBufferDirect (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15941:20)\n    at renderObject (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16866:11)\n    at renderObjects (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16835:6)\n    at renderScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16675:36)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16493:5)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)\n    at CubeCamera.update (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.core.js:22098:12)\n    at WebGLCubeRenderTarget.fromEquirectangularTexture (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.core.js:22342:10)\n    at Object.get (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:2612:20)\n    at getBackground (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:1323:54)\n    at Object.addToRenderList (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:1375:22)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16434:16)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)\n    at animate (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:814:50)"
+        },
+        {
+          "name": "getProgramParameter",
+          "atMs": 33596.199999999255,
+          "ms": 5416,
+          "parameter": 35718,
+          "parameterName": "ACTIVE_UNIFORMS",
+          "argument": null,
+          "program": {
+            "id": 34,
+            "name": "",
+            "type": "MeshBasicMaterial"
+          },
+          "stack": "Error\n    at proto.<computed> [as getProgramParameter] (<anonymous>:66:20)\n    at new WebGLUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:5507:16)\n    at onFirstUse (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6581:20)\n    at WebGLProgram.getUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6595:4)\n    at setProgram (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:17199:31)\n    at WebGLRenderer.renderBufferDirect (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15941:20)\n    at renderObject (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16866:11)\n    at renderObjects (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16835:6)\n    at renderScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16675:36)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16493:5)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)\n    at animate (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:814:50)"
+        },
+        {
+          "name": "getProgramParameter",
+          "atMs": 29529.199999999255,
+          "ms": 2622.9000000003725,
+          "parameter": 35718,
+          "parameterName": "ACTIVE_UNIFORMS",
+          "argument": null,
+          "program": {
+            "id": 24,
+            "name": "",
+            "type": "MeshBasicMaterial"
+          },
+          "stack": "Error\n    at proto.<computed> [as getProgramParameter] (<anonymous>:66:20)\n    at new WebGLUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:5507:16)\n    at onFirstUse (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6581:20)\n    at WebGLProgram.getUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6595:4)\n    at setProgram (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:17199:31)\n    at WebGLRenderer.renderBufferDirect (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15941:20)\n    at renderObject (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16866:11)\n    at renderObjects (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16835:6)\n    at renderScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16675:36)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16493:5)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)\n    at animate (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:814:50)"
+        },
+        {
+          "name": "getProgramParameter",
+          "atMs": 39321.300000000745,
+          "ms": 1935.2999999988824,
+          "parameter": 35718,
+          "parameterName": "ACTIVE_UNIFORMS",
+          "argument": null,
+          "program": {
+            "id": 40,
+            "name": "",
+            "type": "MeshStandardMaterial"
+          },
+          "stack": "Error\n    at proto.<computed> [as getProgramParameter] (<anonymous>:66:20)\n    at new WebGLUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:5507:16)\n    at onFirstUse (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6581:20)\n    at WebGLProgram.getUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6595:4)\n    at setProgram (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:17199:31)\n    at WebGLRenderer.renderBufferDirect (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15941:20)\n    at renderObject (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16866:11)\n    at renderObjects (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16835:6)\n    at renderScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16677:41)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16493:5)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)\n    at animate (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:814:50)"
+        }
+      ],
+      "pageErrors": [],
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/gl-callers-2026-10-15T05-28-20-614Z-lL28pt/software-shader-errors-off.json",
+      "rawSha256": "5a96e913318d7f8b54d633f4e891b8a9d32fc7cdac93648d3a97ea2d8fef1a93",
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/gl-callers-2026-10-15T05-28-20-614Z-lL28pt/browser-runs/software-shader-errors-off-2026-10-15T05-31-10-326Z-sRBThD/browser-report.json",
+      "reportSha256": "1a4e06fb7a29d6185ff93c93a29f920b76d1c5f6ade35ab8b1fa2b90ebe4a533"
+    },
+    {
+      "stage": "native-shader-errors-off",
+      "status": "passed",
+      "candidate": "shader-errors-off",
+      "actualBackend": "ANGLE (Apple, ANGLE Metal Renderer: Apple M3, Unspecified Version)",
+      "glObservers": true,
+      "entryVisibleMs": 4557.299999998882,
+      "walkingSpeedsMetresPerSecond": [
+        2.7265552677517473,
+        2.7135772995410377,
+        2.7268687483052765,
+        2.6872472915897396
+      ],
+      "firstCampusDraw": {
+        "atMs": 3063.5,
+        "ms": 1482.5,
+        "calls": 348,
+        "triangles": 1964022,
+        "scene": "",
+        "type": "Scene",
+        "entryReady": false
+      },
+      "slowQueryCallers": [
+        {
+          "name": "getProgramParameter",
+          "atMs": 883,
+          "ms": 14.099999999627471,
+          "parameter": 35718,
+          "parameterName": "ACTIVE_UNIFORMS",
+          "argument": null,
+          "program": {
+            "id": 0,
+            "name": "PMREM.Background",
+            "type": "MeshBasicMaterial"
+          },
+          "stack": "Error\n    at proto.<computed> [as getProgramParameter] (<anonymous>:66:20)\n    at new WebGLUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:5507:16)\n    at onFirstUse (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6581:20)\n    at WebGLProgram.getUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6595:4)\n    at setProgram (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:17199:31)\n    at WebGLRenderer.renderBufferDirect (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15941:20)\n    at renderObject (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16866:11)\n    at renderObjects (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16835:6)\n    at renderScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16675:36)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16493:5)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)\n    at PMREMGenerator._sceneToCubeUV (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:3064:14)\n    at PMREMGenerator.fromScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:2780:8)\n    at boot (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:898:103)"
+        },
+        {
+          "name": "getExtension",
+          "atMs": 845.2999999988824,
+          "ms": 2.100000001490116,
+          "parameter": null,
+          "parameterName": null,
+          "argument": "EXT_color_buffer_float",
+          "stack": "Error\n    at proto.<computed> [as getExtension] (<anonymous>:66:20)\n    at getExtension (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:3769:20)\n    at Object.init (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:3789:4)\n    at initGLContext (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15243:15)\n    at new WebGLRenderer (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15358:3)\n    at boot (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:888:22)"
+        },
+        {
+          "name": "getExtension",
+          "atMs": 849.9000000003725,
+          "ms": 1.3999999985098839,
+          "parameter": null,
+          "parameterName": null,
+          "argument": "WEBGL_clip_cull_distance",
+          "stack": "Error\n    at proto.<computed> [as getExtension] (<anonymous>:66:20)\n    at getExtension (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:3769:20)\n    at Object.init (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:3790:4)\n    at initGLContext (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15243:15)\n    at new WebGLRenderer (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15358:3)\n    at boot (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:888:22)"
+        },
+        {
+          "name": "getActiveUniform",
+          "atMs": 898.6999999992549,
+          "ms": 0.5,
+          "parameter": 0,
+          "parameterName": null,
+          "argument": null,
+          "program": {
+            "id": 0,
+            "name": "PMREM.Background",
+            "type": "MeshBasicMaterial"
+          },
+          "stack": "Error\n    at proto.<computed> [as getActiveUniform] (<anonymous>:66:20)\n    at new WebGLUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:5511:20)\n    at onFirstUse (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6581:20)\n    at WebGLProgram.getUniforms (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:6595:4)\n    at setProgram (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:17199:31)\n    at WebGLRenderer.renderBufferDirect (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:15941:20)\n    at renderObject (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16866:11)\n    at renderObjects (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16835:6)\n    at renderScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16675:36)\n    at WebGLRenderer.render (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:16493:5)\n    at renderer.<computed> [as render] (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:896:220)\n    at PMREMGenerator._sceneToCubeUV (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:3064:14)\n    at PMREMGenerator.fromScene (http://127.0.0.1:4277/playable-3d/vendor/three/build/three.module.js:2780:8)\n    at boot (http://127.0.0.1:4277/playable-3d/app.js?v=combined-controls-20261015:898:103)"
+        }
+      ],
+      "pageErrors": [],
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/gl-callers-2026-10-15T05-28-20-614Z-lL28pt/native-shader-errors-off.json",
+      "rawSha256": "fbf365b21ccd228abc5a2579c945fa5d63882d99252a5caa626d2509a72cd595",
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/gl-callers-2026-10-15T05-28-20-614Z-lL28pt/browser-runs/native-shader-errors-off-2026-10-15T05-32-30-564Z-bQtEkR/browser-report.json",
+      "reportSha256": "722b82ebd7bffe4ec0470579a3ecacd5ea044d25384dda2b71b2bb0687b55bb4"
+    },
+    {
+      "stage": "software-unwrapped-gl-control",
+      "status": "failed",
+      "candidate": null,
+      "actualBackend": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+      "glObservers": false,
+      "entryVisibleMs": 74173.30000000075,
+      "walkingSpeedsMetresPerSecond": [
+        1.4753706899991867,
+        0,
+        0,
+        0
+      ],
+      "firstCampusDraw": {
+        "atMs": 12654.099999999627,
+        "ms": 59119.59999999963,
+        "calls": 348,
+        "triangles": 888290,
+        "scene": "",
+        "type": "Scene",
+        "entryReady": false
+      },
+      "slowQueryCallers": [],
+      "pageErrors": [],
+      "raw": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/gl-callers-2026-10-15T05-28-20-614Z-lL28pt/software-unwrapped-gl-control.json",
+      "rawSha256": "fd629cad3e1cf6adb33db627b510ccfbcecfebc516825671b7349c60321e3f22",
+      "report": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/gl-callers-2026-10-15T05-28-20-614Z-lL28pt/browser-runs/software-unwrapped-gl-control-2026-10-15T05-33-15-820Z-xsRJry/browser-report.json",
+      "reportSha256": "c1605e17319f3fe37184ac1783403205428f6ed4cc21c884cb6caa2a436671f8"
+    }
+  ],
+  "callers": {
+    "optionalLog": "Three WebGLProgram.onFirstUse, three.module.js:6496; default debug.checkShaderErrors=true at14999",
+    "requiredReflection": "Three WebGLUniforms, three.module.js:5507; called by onFirstUse6581, cachedUniforms/cachedAttributes already retained for each program",
+    "skyPath": "animate app.js814 -> WebGLRenderer -> WebGLBackground.getBackground1323 -> WebGLCubeMaps.get2612 -> WebGLCubeRenderTarget.fromEquirectangularTexture three.core.js22342 -> CubeCamera.update22098 -> render -> getUniforms -> onFirstUse; program CubemapFromEquirect",
+    "harness": "GL observer invokes original.apply exactly once and adds no query; fixture renderer query occurs after test body; unwrapped-GL control still fails",
+    "limits": "Wall time inside queries can include compilation and preceding driver/GPU work. Neither isolated compiler cost nor an irreducible SwiftShader lower bound is established."
+  },
+  "support": {
+    "representativeSchoolDevices": [],
+    "studentSoftwareRepresentativeness": "unverified",
+    "softwareImplementedCompatibilityPath": true,
+    "forcedSoftwareDiagnosticAndCILane": true,
+    "acceleratedStartupTargetMs": 8000,
+    "softwareAcceptableWaitMs": null,
+    "schoolHardwareAcceptance": "outstanding; keep completed-frame/original-geometry/real-walk/parcel checks",
+    "sources": [
+      {
+        "url": "https://chromium.googlesource.com/chromium/src/+/main/docs/gpu/swiftshader.md",
+        "verifiedAt": "2026-10-15",
+        "claim": "CPU implementation used for GPU-less bots; explicit software flags do not identify school hardware"
+      },
+      {
+        "url": "https://threejs.org/docs/pages/WebGLRenderer.html#debug",
+        "verifiedAt": "2026-10-15",
+        "claim": "Optional production shader-error checks; development checks recommended"
+      }
+    ]
+  },
+  "recommendation": "Do not retain shader-errors-off or pursue deeper software-only visual/engine compromises before representative school backends are measured. Keep software compatibility failures and hardware acceptance open; perform the proposed two-case native batch first.",
+  "native33Status": "docs/native-remaining-33-status-20261015.json:5 passed,28 not revalidated; diagnostic passes are not additional historical-case clears",
+  "validation": {
+    "normalInventoryExactPriorIDs": 243,
+    "priorRawFilesUnchanged": 411,
+    "olderEvidenceFilesUnchanged": 477,
+    "release": "Release verified: 284 exact asset hashes and 89 reachable local modules (HEAD).",
+    "syntax": "QA probe node --check and git diff --check pass",
+    "fullSuiteRun": false,
+    "liveMerge": false,
+    "deployment": false
+  },
+  "evidenceRoot": "/Users/tania.byrnes/Documents/Codex/2026-10-13/task/ecc-safe-runs/gl-callers-2026-10-15T05-28-20-614Z-lL28pt"
+}

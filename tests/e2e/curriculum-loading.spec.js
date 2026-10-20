@@ -1,9 +1,12 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {writeFile} from 'node:fs/promises';
 import {test,expect} from './campus-fixtures.js';
+import {walkMarket} from './market-controls.js';
+import {waitForEntry} from './entry-readiness.js';
 const state=page=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state||'{}'));
 test('curriculum rooms remain accessible when campus decoration and Studio fail',async({page},info)=>{
  test.setTimeout(90000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.route('**/mature-eucalypt-b-packed.glb',r=>r.abort());
+ await page.route('**/assets/plaza/limestone-ecc-campus-v1.png',r=>r.abort());
  await page.route('**/studio.js?*',r=>r.abort());
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});
  await expect(page.locator('#loading')).toBeHidden({timeout:30000});
@@ -11,8 +14,7 @@ test('curriculum rooms remain accessible when campus decoration and Studio fail'
  await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');
  await page.locator('#places-toggle').click();await page.locator('#est-destination').click();
  await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
- await page.locator('#scene').focus();await page.keyboard.down('w');
- try{await expect(page.locator('#interact')).toContainText('Open EST Prep',{timeout:10000});}finally{await page.keyboard.up('w');}
+ await walkMarket(page,'KeyW',{selector:'#interact',text:'Open EST Prep'},10000);
  await expect(page.locator('#interact')).toContainText('Open EST Prep');
  await page.locator('#interact').click();await expect(page.locator('#module-overlay')).toBeVisible();
  await expect(page.frameLocator('#module-frame').locator('body')).toContainText('EST');
@@ -30,11 +32,12 @@ for(const width of [1280,390])test(`slow saved avatar, Studio and poster never g
  page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
  const saved=JSON.stringify({activeId:'saved',profiles:[{id:'saved',name:'Saved student',body:'schoolboy'},{id:'other',name:'Other',body:'a'}]});
  await page.addInitScript(saved=>localStorage.setItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo',saved),saved);
- for(const glob of ['**/player-schoolboy*.glb','**/studio.js?*','**/est-lab-systems-poster.png','**/mature-eucalypt-b-packed.glb'])await page.route(glob,async r=>{await gate;await r.continue();});
+ // Original trees are required entry geometry; hold deferred surface detail instead.
+ for(const glob of ['**/player-schoolboy*.glb','**/studio.js?*','**/est-lab-systems-poster.png','**/assets/plaza/limestone-ecc-campus-v1.png'])await page.route(glob,async r=>{await gate;await r.continue();});
  try{
   await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:15000});
   await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);
-  const start=(await state(page)).position[2];await page.keyboard.down('w');await page.waitForTimeout(650);await page.keyboard.up('w');
+  await expect.poll(async()=>(await state(page)).entryReady,{timeout:30000}).toBe(true);const start=(await state(page)).position[2];await page.locator('#scene').focus();await page.keyboard.down('w');await page.waitForTimeout(650);await page.keyboard.up('w');
   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);
   await page.locator('#places-toggle').click();await page.locator('#studio-view').click();await expect(page.locator('#toast')).toContainText('Avatar Studio is getting ready');
   await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
@@ -58,6 +61,7 @@ test('failed avatar keeps fallback playable, retry restores saved avatar without
  await page.addInitScript(saved=>localStorage.setItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo',saved),saved);
  await page.route('**/player-schoolboy*.glb',r=>fail?r.abort():r.continue());
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:15000});
+ await waitForEntry(page);
  await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);
  await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await state(page)).mode,{timeout:12000}).toBe('interior');
  fail=false;await page.getByRole('button',{name:'Retry saved avatar',exact:true}).click();
@@ -74,9 +78,12 @@ test('unavailable saved clothing uses fallback and never fetches other outfits',
  await page.addInitScript(saved=>localStorage.setItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo',saved),saved);
  await page.route('**/occupational-top-chef.glb?*',r=>fail?r.abort():r.continue());
  await page.goto('/playable-3d/',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:15000});
+ await waitForEntry(page);
  await expect.poll(async()=>(await state(page)).avatarFallback).toBe(true);
  await page.locator('#places-toggle').click();await page.locator('#careers-destination').click();await expect.poll(async()=>(await state(page)).mode).toBe('careers');
  expect(requests.some(u=>/hospital-scrub-top|occupational-top-(work|suit)|occupational-pants-(chef|tradie|scrubs)|hair-(sweep|curls|ponytail)\.glb|shoes-(trainers|dress|clogs)\.glb/.test(u))).toBe(false);
  fail=false;await page.getByRole('button',{name:'Retry saved avatar',exact:true}).click();await expect.poll(async()=>(await state(page)).avatarFallback,{timeout:15000}).toBe(false);
  expect((await state(page)).mode).toBe('careers');expect(await page.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo'))).toBe(saved);
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

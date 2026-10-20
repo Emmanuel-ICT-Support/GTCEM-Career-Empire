@@ -49,7 +49,7 @@ function apply(name){activePhase=name;const p=presets[name];basePhase(name);worl
 addExteriorLandmarks(world.town,approvedPalette(world.est),world.campusGrass);
 addTeachingExteriors(world.town,approvedPalette(world.est),world.campusTextures);
 if(!world.exteriorLandmarkCollider){world.exteriorLandmarkCollider=world.townPhysics.world.createCollider(RAPIER.ColliderDesc.cuboid(6,1.4,1.5).setTranslation(43,1.4,-26));}
-let surroundings=null;if(!entryOnly){const {addSurroundings}=await import('./environment/surroundings.js?v=ecc-ba60122');surroundings=await addSurroundings(world.town,approvedPalette(world.est));}
+let surroundings=null;if(!entryOnly){const {addSurroundings}=await import('./environment/surroundings.js?v=broad-integrated-20261014');surroundings=await addSurroundings(world.town,approvedPalette(world.est),world.campus?.treeSource);}
 if(!world.town.getObjectByName('Soft campus perimeter'))polishGround(world.town);
 if(world.campus.group)partitionInstances(world.campus.group,{filter:o=>!o.userData.distanceDetail});partitionInstances(world.est);if(surroundings)partitionInstances(surroundings,{filter:o=>o.name==='Oval edge eucalypts'});
 if(!entryOnly)world.phase('flourishing');

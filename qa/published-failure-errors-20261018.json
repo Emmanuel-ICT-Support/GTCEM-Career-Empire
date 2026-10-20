@@ -1,0 +1,816 @@
+{
+  "run": 38667011027,
+  "sha": "423d2ab590285eeb87ab38f675ff4a9df1e2852e",
+  "source": "Fresh decoded GitHub Actions job logs via connected read-only GitHub reader on 18 October 2026",
+  "failures": [
+    {
+      "job": 116204154207,
+      "file": "admin-preview.spec.js",
+      "title": "public shortcut opens isolated fresh Admin and preserves normal gates 1280",
+      "errors": [
+        "Error: Test timeout of 120000ms exceeded",
+        "24 |  await expect.poll(()=>state(preview)).toMatchObject({market:{paid:false,wallet:0,officeFlow:{active:false}}});",
+        "> 26 |  await preview.locator('#market-card summary').click();await preview.locator('#market-exit').click();await expect.poll(()=>state(preview),{timeout:45000}).toMatchObject({mode:'town'});",
+        "28 |  await expect.poll(()=>state(preview)).toMatchObject({market:{...unpaid,officeFlow:{active:true}}});"
+      ]
+    },
+    {
+      "job": 116204154207,
+      "file": "admin-preview.spec.js",
+      "title": "public shortcut opens isolated fresh Admin and preserves normal gates 390",
+      "errors": [
+        "Error: expect(received).toMatchObject(expected)",
+        "- Expected  - 1",
+        "+ Received  + 1",
+        "- Timeout 5000ms exceeded while waiting on the predicate",
+        "> 20 |  await expect.poll(()=>state(preview)).toMatchObject({adminReview:true,mode:'market',market:{...unpaid,adminReview:true,officeFlow:{active:true}}});"
+      ]
+    },
+    {
+      "job": 116204154207,
+      "file": "chapel-approach.spec.js",
+      "title": "live keyboard route reaches the actual Chapel door without changing position or progress directly",
+      "errors": [
+        "Error: locator.click: Test timeout of 90000ms exceeded.",
+        "Call log:",
+        "- waiting for locator('#interact')",
+        "- waiting for element to be visible, enabled and stable",
+        "12 |  await page.keyboard.down('ShiftLeft');try{await walkToMap(page,'KeyW','z',-7.6);}finally{await page.keyboard.up('ShiftLeft');}const door=await record('chapel-door');expect(Math.hypot(door.physical[0]+3.15,door.physical[2]+8.8)).toBeLessThan(3);",
+        "13 |  if(!await page.getByRole('button',{name:'Step inside',exact:true}).isVisible())await page.locator('#interact').click();await page.getByRole('button',{name:'Step inside',exact:true}).click();await expect.poll(()=>page.evaluate(()=>window.observeChapelApproach().state),{timeout:30000}).toMatchObject({mode:'chapel',discovery:{step:1,developed:true}});"
+      ]
+    },
+    {
+      "job": 116204154207,
+      "file": "entry-visibility-probe.spec.js",
+      "title": "initial complete campus, unobstructed rear buildings and parcel walking 1280",
+      "errors": [
+        "Error: expect(received).toBeGreaterThanOrEqual(expected)",
+        "Expected: >= 0.6",
+        "Received:    0.06060606060606061",
+        "18 |  await expect.poll(()=>page.evaluate(()=>window.inspectInitialView?JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}'):{}),{timeout:30000}).toMatchObject({entryReady:true});",
+        "> 20 |  await expect.poll(()=>page.evaluate(()=>window.inspectInitialView().roots.every(root=>root.meshes.some(mesh=>mesh.draws>0))),{timeout:20000}).toBe(true);await page.screenshot({path:info.outputPath('stationary-after-root-draw.png')});expect(first.roots).toHaveLength(2);for(const root of first.roots){expect(root.targetPixels).toBeGreaterThan(0);expect(root.unoccludedPixels/root.targetPixels).toBeGreaterThanOrEqual(root.name.startsWith('SPACE')?.8:.6);expect(root.meshes.every(mesh=>mesh.effectiveVisible&&mesh.draws>0)).toBe(true);}expect(first.otherBuildings.every(root=>root.present&&root.visible)).toBe(true);await expect(page.locator('#loading')).toBeHidden();",
+        "21 |  await walkToMap(page,'KeyW','z',16.7);await expect(page.locator('#discovery-dialog')).toBeVisible();const moved=await page.evaluate(()=>window.inspectInitialView());expect(moved.state.position[2]).toBeLessThan(first.state.position[2]-3);expect(moved.state.discovery.step).toBe(1);expect(moved.frames).toBeGreaterThan(first.frames);await page.locator('#develop').press('End');await expect(page.locator('#develop-response')).toHaveText('Your picture is ready. Follow it to the Chapel.');await page.screenshot({path:info.outputPath('visible-campus-automatic-parcel.png')});expect(errors).toEqual([]);"
+      ]
+    },
+    {
+      "job": 116204154207,
+      "file": "entry-visibility-probe.spec.js",
+      "title": "initial complete campus, unobstructed rear buildings and parcel walking 390",
+      "errors": [
+        "Error: expect(received).toBeGreaterThanOrEqual(expected)",
+        "Expected: >= 0.6",
+        "Received:    0.140625",
+        "18 |  await expect.poll(()=>page.evaluate(()=>window.inspectInitialView?JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}'):{}),{timeout:30000}).toMatchObject({entryReady:true});",
+        "> 20 |  await expect.poll(()=>page.evaluate(()=>window.inspectInitialView().roots.every(root=>root.meshes.some(mesh=>mesh.draws>0))),{timeout:20000}).toBe(true);await page.screenshot({path:info.outputPath('stationary-after-root-draw.png')});expect(first.roots).toHaveLength(2);for(const root of first.roots){expect(root.targetPixels).toBeGreaterThan(0);expect(root.unoccludedPixels/root.targetPixels).toBeGreaterThanOrEqual(root.name.startsWith('SPACE')?.8:.6);expect(root.meshes.every(mesh=>mesh.effectiveVisible&&mesh.draws>0)).toBe(true);}expect(first.otherBuildings.every(root=>root.present&&root.visible)).toBe(true);await expect(page.locator('#loading')).toBeHidden();",
+        "21 |  await walkToMap(page,'KeyW','z',16.7);await expect(page.locator('#discovery-dialog')).toBeVisible();const moved=await page.evaluate(()=>window.inspectInitialView());expect(moved.state.position[2]).toBeLessThan(first.state.position[2]-3);expect(moved.state.discovery.step).toBe(1);expect(moved.frames).toBeGreaterThan(first.frames);await page.locator('#develop').press('End');await expect(page.locator('#develop-response')).toHaveText('Your picture is ready. Follow it to the Chapel.');await page.screenshot({path:info.outputPath('visible-campus-automatic-parcel.png')});expect(errors).toEqual([]);"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "market-gate.spec.js",
+      "title": "physical market gate exits and re-enters without clicks 1280",
+      "errors": [
+        "Error: page.evaluate: Error: Market keyboard waypoint timeout {\"sample\":{\"mode\":\"town\",\"position\":[42.988956451416016,0.0000994659165735047,36],\"scene\":null},\"stop\":{\"mode\":\"market\"}}"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "market-gate.spec.js",
+      "title": "physical market gate exits and re-enters without clicks 390",
+      "errors": [
+        "Error: page.evaluate: Error: Market keyboard waypoint timeout {\"sample\":{\"mode\":\"town\",\"position\":[42.98894979053201,0.00011703377350941735,36],\"scene\":null},\"stop\":{\"mode\":\"market\"}}"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "market-stats.spec.js",
+      "title": "Market money and collection stay available 1280 &mode=full",
+      "errors": [
+        "Error: expect(locator).toBeVisible() failed",
+        "Locator: getByRole('region', { name: 'Exploration tools' }).getByRole('heading', { name: 'Market money', exact: true })",
+        "Expected: visible",
+        "Timeout: 5000ms",
+        "Error: element(s) not found",
+        "Call log:",
+        "- waiting for getByRole('region', { name: 'Exploration tools' }).getByRole('heading', { name: 'Market money', exact: true })"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "navigation-map.spec.js",
+      "title": "live default map and Stats 1280",
+      "errors": [
+        "Error: expect(received).not.toBe(expected) // Object.is equality",
+        "Expected: not \"190.7\"",
+        "- Timeout 5000ms exceeded while waiting on the predicate",
+        "> 5 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});const requests=[];page.on('request',r=>requests.push(r.url()));await page.goto('/playable-3d/');await expect(page.locator('#taster-intro')).toBeVisible({timeout:90000});await page.locator('#taster-skip').click();await expect(page.locator('#campus-minimap')).toBeVisible();expect(await page.locator('#campus-minimap').getAttribute('data-target')).toBe('parcel');const marker=page.locator('#campus-minimap [data-position]');const before=await marker.getAttribute('cy');await page.locator('#scene').focus();await page.keyboard.down('KeyW');await page.waitForTimeout(1200);await page.keyboard.up('KeyW');await expect.poll(()=>",
+        "8 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});await page.addInitScript(()=>{if(localStorage.getItem('ce-player:e2e-owned:'+'seeded'))return;const c=document.createElement('canvas');c.width=c.height=4;localStorage.setItem('ce-player:e2e-owned:'+'ce-missing-frame-local-review-v1',JSON.stringify({step:4,chapelVisited:true,shots:{mural:{label:'Mural',image:c.toDataURL('image/jpeg')}},souvenir:c.toDataURL('image/png')}));localStorage.setItem('ce-player:e2e-owned:'+'seeded','true');});await page.goto('/playable-3d/');await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','m"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "navigation-map.spec.js",
+      "title": "live default map and Stats 390",
+      "errors": [
+        "Error: expect(received).not.toBe(expected) // Object.is equality",
+        "Expected: not \"190.7\"",
+        "- Timeout 5000ms exceeded while waiting on the predicate",
+        "> 5 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});const requests=[];page.on('request',r=>requests.push(r.url()));await page.goto('/playable-3d/');await expect(page.locator('#taster-intro')).toBeVisible({timeout:90000});await page.locator('#taster-skip').click();await expect(page.locator('#campus-minimap')).toBeVisible();expect(await page.locator('#campus-minimap').getAttribute('data-target')).toBe('parcel');const marker=page.locator('#campus-minimap [data-position]');const before=await marker.getAttribute('cy');await page.locator('#scene').focus();await page.keyboard.down('KeyW');await page.waitForTimeout(1200);await page.keyboard.up('KeyW');await expect.poll(()=>",
+        "8 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});await page.addInitScript(()=>{if(localStorage.getItem('ce-player:e2e-owned:'+'seeded'))return;const c=document.createElement('canvas');c.width=c.height=4;localStorage.setItem('ce-player:e2e-owned:'+'ce-missing-frame-local-review-v1',JSON.stringify({step:4,chapelVisited:true,shots:{mural:{label:'Mural',image:c.toDataURL('image/jpeg')}},souvenir:c.toDataURL('image/png')}));localStorage.setItem('ce-player:e2e-owned:'+'seeded','true');});await page.goto('/playable-3d/');await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','m"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "navigation-map.spec.js",
+      "title": "returning photo handover and once-only rewards 1280",
+      "errors": [
+        "Error: expect(locator).toContainText(expected) failed",
+        "Locator: locator('#discovery-copy')",
+        "Expected substring: \"completed a mini overview\"",
+        "Received string:    \"Take a look at your photo. It will stay here until you continue. Continue for your companion campus tour: return to the start, explore your menu, Stats and course outline, then begin Initiative with Mara.\"",
+        "Timeout: 5000ms",
+        "Call log:",
+        "- waiting for locator('#discovery-copy')",
+        ">  8 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});await page.addInitScript(()=>{if(localStorage.getItem('ce-player:e2e-owned:'+'seeded'))return;const c=document.createElement('canvas');c.width=c.height=4;localStorage.setItem('ce-player:e2e-owned:'+'ce-missing-frame-local-review-v1',JSON.stringify({step:4,chapelVisited:true,shots:{mural:{label:'Mural',image:c.toDataURL('image/jpeg')}},souvenir:c.toDataURL('image/png')}));localStorage.setItem('ce-player:e2e-owned:'+'seeded','true');});await page.goto('/playable-3d/');await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target'",
+        "11 |  test.setTimeout(150000);await page.setViewportSize({width:390,height:844});await page.addInitScript(()=>localStorage.setItem('ce-player:e2e-owned:'+'ce-missing-frame-local-review-v1',JSON.stringify({step:1,developed:true,shots:{}})));await page.goto('/playable-3d/');await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','chapel');await page.locator('#exploration-help').click();await page.locator('#discovery-assist').click();await page.getByRole('button',{name:'Continue from doorway',exact:true}).click({timeout:60000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "navigation-map.spec.js",
+      "title": "returning photo handover and once-only rewards 390",
+      "errors": [
+        "Error: expect(locator).toContainText(expected) failed",
+        "Locator: locator('#discovery-copy')",
+        "Expected substring: \"completed a mini overview\"",
+        "Received string:    \"Take a look at your photo. It will stay here until you continue. Continue for your companion campus tour: return to the start, explore your menu, Stats and course outline, then begin Initiative with Mara.\"",
+        "Timeout: 5000ms",
+        "Call log:",
+        "- waiting for locator('#discovery-copy')",
+        ">  8 |  test.setTimeout(150000);await page.setViewportSize({width,height:844});await page.addInitScript(()=>{if(localStorage.getItem('ce-player:e2e-owned:'+'seeded'))return;const c=document.createElement('canvas');c.width=c.height=4;localStorage.setItem('ce-player:e2e-owned:'+'ce-missing-frame-local-review-v1',JSON.stringify({step:4,chapelVisited:true,shots:{mural:{label:'Mural',image:c.toDataURL('image/jpeg')}},souvenir:c.toDataURL('image/png')}));localStorage.setItem('ce-player:e2e-owned:'+'seeded','true');});await page.goto('/playable-3d/');await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target'",
+        "11 |  test.setTimeout(150000);await page.setViewportSize({width:390,height:844});await page.addInitScript(()=>localStorage.setItem('ce-player:e2e-owned:'+'ce-missing-frame-local-review-v1',JSON.stringify({step:1,developed:true,shots:{}})));await page.goto('/playable-3d/');await expect(page.locator('#campus-minimap')).toBeVisible({timeout:90000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target','chapel');await page.locator('#exploration-help').click();await page.locator('#discovery-assist').click();await page.getByRole('button',{name:'Continue from doorway',exact:true}).click({timeout:60000});await expect(page.locator('#campus-minimap')).toHaveAttribute('data-target"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "render-budget.spec.js",
+      "title": "Auto keeps controls available, manual quality works, and hidden views stop rendering",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: 1",
+        "Received: 0.5",
+        "> 11 |  await page.waitForTimeout(5000);expect(await page.evaluate(()=>window.renderProbe.ratio)).toBe(await page.evaluate(()=>Math.min(devicePixelRatio,1.5)));",
+        "12 |  const start=await page.evaluate(()=>{window.testHidden=true;document.dispatchEvent(new Event('visibilitychange'));return window.renderProbe.frame;});await page.waitForTimeout(800);expect(await page.evaluate(()=>window.renderProbe.frame)).toBe(start);",
+        "13 |  await page.evaluate(()=>{window.testHidden=false;document.dispatchEvent(new Event('visibilitychange'));});await expect.poll(()=>page.evaluate(()=>window.renderProbe.frame)).toBeGreaterThan(start);"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "runtime-recovery.spec.js",
+      "title": "pending Market travel yields to visible Character Studio and late completion stays cancelled",
+      "errors": [
+        "TimeoutError: locator.waitFor: Timeout 30000ms exceeded.",
+        "Call log:",
+        "- waiting for locator('#market-hud') to be visible"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "runtime-recovery.spec.js",
+      "title": "stalled Market travel releases the campus and normal retry remains visible and walkable",
+      "errors": [
+        "TimeoutError: locator.waitFor: Timeout 30000ms exceeded.",
+        "Call log:",
+        "- waiting for locator('#market-hud') to be visible"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "staged-entry.spec.js",
+      "title": "sharp entry prepares the next task without loading distant campus or recording completion",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: 1",
+        "Received: 0.5"
+      ]
+    },
+    {
+      "job": 116204154150,
+      "file": "staged-entry.spec.js",
+      "title": "skipping avatar prepares market kits without a market visit",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: false",
+        "Received: true"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "arrival-gardens.spec.js",
+      "title": "arrival walk reaches Studio and retains avatar save after reload",
+      "errors": [
+        "Error: Walking did not reach the Studio approach",
+        "14 |    await page.waitForTimeout(1100);"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "avatar-recovery.spec.js",
+      "title": "failed startup avatar can retry without reloading or changing the saved profile",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: true",
+        "Received: undefined",
+        "- Timeout 5000ms exceeded while waiting on the predicate"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "avatar-studio-entry.spec.js",
+      "title": "Home Base returns to ECC welcome; Studio remains separate",
+      "errors": [
+        "Error: Timeout 5000ms exceeded while waiting on the predicate"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "chapel.spec.js",
+      "title": "Chapel reflection and campus return at 1440px",
+      "errors": [
+        "Error: expect(received).toBeLessThan(expected)",
+        "Expected: < 5.4",
+        "Received:   5.657",
+        "- Timeout 5000ms exceeded while waiting on the predicate",
+        "5 |  test.setTimeout(180000);await page.setViewportSize({width,height:900});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:120000});await page.locator('#places-toggle').click();await page.locator('#chapel-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive ECC Chapel',{timeout:30000});await expect.poll(async()=>(await state(page)).mode).toBe('chapel');",
+        "> 6 |  await page.waitForTimeout(4400);await page.screenshot({path:testInfo.outputPath(`ce-chapel-${width}.png`)});const before=(await state(page)).position;await page.keyboard.down('KeyW');await page.waitForTimeout(800);await page.keyboard.up('KeyW');await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(before[2]-.3);",
+        "7 |  await page.locator('#interact').click();await expect(page.locator('#reflection-dialog')).toBeVisible();await page.waitForTimeout(1100);const paused=(await state(page)).position;await page.keyboard.down('KeyW');await page.waitForTimeout(1100);await page.keyboard.up('KeyW');expect((await state(page)).position).toEqual(paused);await page.locator('#close-reflection').click();await expect(page.locator('#reflection-dialog')).toBeHidden();"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "chapel.spec.js",
+      "title": "Chapel reflection and campus return at 390px",
+      "errors": [
+        "Error: expect(received).toBeCloseTo(expected, precision)",
+        "Expected: -8.8",
+        "Received: 4.263",
+        "Expected precision:    0",
+        "Expected difference: < 0.5",
+        "Received difference:   13.063",
+        "- Timeout 5000ms exceeded while waiting on the predicate",
+        "6 |  await page.waitForTimeout(4400);await page.screenshot({path:testInfo.outputPath(`ce-chapel-${width}.png`)});const before=(await state(page)).position;await page.keyboard.down('KeyW');await page.waitForTimeout(800);await page.keyboard.up('KeyW');await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(before[2]-.3);",
+        "7 |  await page.locator('#interact').click();await expect(page.locator('#reflection-dialog')).toBeVisible();await page.waitForTimeout(1100);const paused=(await state(page)).position;await page.keyboard.down('KeyW');await page.waitForTimeout(1100);await page.keyboard.up('KeyW');expect((await state(page)).position).toEqual(paused);await page.locator('#close-reflection').click();await expect(page.locator('#reflection-dialog')).toBeHidden();"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "curriculum-loading.spec.js",
+      "title": "curriculum rooms remain accessible when campus decoration and Studio fail",
+      "errors": [
+        "Error: expect(locator).toBeVisible() failed",
+        "Locator:  locator('#module-overlay')",
+        "Expected: visible",
+        "Received: hidden",
+        "Timeout:  5000ms",
+        "Call log:",
+        "- waiting for locator('#module-overlay')"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "curriculum-loading.spec.js",
+      "title": "slow saved avatar, Studio and poster never gate EST at 1280px",
+      "errors": [
+        "Error: expect(received).toBeLessThan(expected)",
+        "Expected: < 22.8",
+        "Received:   23.3",
+        "- Timeout 5000ms exceeded while waiting on the predicate",
+        "37 |   const start=(await state(page)).position[2];await page.keyboard.down('w');await page.waitForTimeout(650);await page.keyboard.up('w');",
+        "> 38 |   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "curriculum-loading.spec.js",
+      "title": "slow saved avatar, Studio and poster never gate EST at 390px",
+      "errors": [
+        "Error: expect(received).toBeLessThan(expected)",
+        "Expected: < 22.8",
+        "Received:   23.3",
+        "- Timeout 5000ms exceeded while waiting on the predicate",
+        "37 |   const start=(await state(page)).position[2];await page.keyboard.down('w');await page.waitForTimeout(650);await page.keyboard.up('w');",
+        "> 38 |   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "curriculum-loading.spec.js",
+      "title": "failed avatar keeps fallback playable, retry restores saved avatar without rewriting it",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: true",
+        "Received: undefined",
+        "- Timeout 5000ms exceeded while waiting on the predicate"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "curriculum-loading.spec.js",
+      "title": "unavailable saved clothing uses fallback and never fetches other outfits",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: true",
+        "Received: undefined",
+        "- Timeout 5000ms exceeded while waiting on the predicate"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "est-wall-video.spec.js",
+      "title": "EST requires wall play, seeks and restarts at 1440px",
+      "errors": [
+        "Error: expect(locator).toBeVisible() failed",
+        "Locator:  locator('#est-watch')",
+        "Expected: visible",
+        "Received: hidden",
+        "Timeout:  5000ms",
+        "Call log:",
+        "- waiting for locator('#est-watch')",
+        "> 4 |  test.setTimeout(150000);await page.setViewportSize({width,height:900});await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:90000});await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive EST Prep hall',{timeout:30000});await expect(page.locator('#est-video-dialog')).not.toBeVisible();await expect(page.locator('#est-watch')).toBeVisible();await page.locator('#est-watch').click();const v=page.locator('#est-wall-media');await expect.poll(()=>v.evaluate(v=>v.currentTime),{timeout:60000}).toBeGreaterThan(.3);expect(await v.evaluate(v=>({"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "est-wall-video.spec.js",
+      "title": "EST requires wall play, seeks and restarts at 390px",
+      "errors": [
+        "Error: expect(locator).toBeVisible() failed",
+        "Locator:  locator('#est-watch')",
+        "Expected: visible",
+        "Received: hidden",
+        "Timeout:  5000ms",
+        "Call log:",
+        "- waiting for locator('#est-watch')",
+        "> 4 |  test.setTimeout(150000);await page.setViewportSize({width,height:900});await page.goto('/playable-3d/');await expect(page.locator('#loading')).toBeHidden({timeout:90000});await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive EST Prep hall',{timeout:30000});await expect(page.locator('#est-video-dialog')).not.toBeVisible();await expect(page.locator('#est-watch')).toBeVisible();await page.locator('#est-watch').click();const v=page.locator('#est-wall-media');await expect.poll(()=>v.evaluate(v=>v.currentTime),{timeout:60000}).toBeGreaterThan(.3);expect(await v.evaluate(v=>({"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "first-play.spec.js",
+      "title": "Arrival is playable while distant models and textures wait, then opens the whole campus",
+      "errors": [
+        "Error: expect(received).toBeLessThan(expected)",
+        "Expected: < 22.8",
+        "Received:   23.3",
+        "- Timeout 5000ms exceeded while waiting on the predicate",
+        "15 |   await page.keyboard.down('w');await page.waitForTimeout(700);await page.keyboard.up('w');",
+        "> 16 |   await expect.poll(async()=>(await state(page)).position[2]).toBeLessThan(start-.5);",
+        "17 |   await page.keyboard.down('Shift');await page.keyboard.down('w');await page.waitForTimeout(5000);await page.keyboard.up('w');await page.keyboard.up('Shift');",
+        "18 |   expect((await state(page)).position[2]).toBeGreaterThanOrEqual(3.49);"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "first-play.spec.js",
+      "title": "background failure keeps Arrival and Studio usable; retry does not duplicate scenery or replace the avatar",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: 1",
+        "Received: 0",
+        "> 55 |  const after=await page.evaluate(()=>window.inspectCampus());expect(after.groups).toBe(1);expect(after.colliders).toBeGreaterThan(before.colliders);expect(avatars).toBe(1);"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "first-play.spec.js",
+      "title": "a failed entry texture retries before optional landscape loads",
+      "errors": [
+        "Error: Timeout 5000ms exceeded while waiting on the predicate"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "game-entry-loading.spec.js",
+      "title": "desktop current wardrobe \u203a game entry loads only the active avatar and worn clothes",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: true",
+        "Received: false",
+        "- Timeout 120000ms exceeded while waiting on the predicate"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "game-entry-loading.spec.js",
+      "title": "phone default avatar \u203a game entry loads only the active avatar and worn clothes",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: true",
+        "Received: false",
+        "- Timeout 120000ms exceeded while waiting on the predicate"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "startup-campus-entry.spec.js",
+      "title": "video to complete exterior, walking and automatic parcel at 1280",
+      "errors": [
+        "Error: expect(received).toMatchObject(expected)",
+        "- Expected  - 1",
+        "+ Received  + 1",
+        "- Timeout 30000ms exceeded while waiting on the predicate",
+        "> 16 |   await expect.poll(async()=>(await sample())?.state,{timeout:30000}).toMatchObject({entryReady:true,avatarBody:'antonio',campusReady:false});",
+        "17 |   const entry=await sample();expect(entry.entryVisibleMs).toBeGreaterThan(0);expect(entry.entryVisibleMs-exploringAt).toBeLessThan(8000);expect(entry.roots).toHaveLength(2);expect(entry.roots.every(o=>o.visible&&o.meshes>0&&o.inView>0)).toBe(true);expect(entry.garden).toBe(false);expect(entry.rooms).toBe(false);expect(requests.some(url=>/mature-eucalypt|learning-interiors\\.js|\\/studio\\.js/.test(url))).toBe(false);"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "startup-campus-entry.spec.js",
+      "title": "video to complete exterior, walking and automatic parcel at 390",
+      "errors": [
+        "Error: expect(received).toMatchObject(expected)",
+        "- Expected  - 1",
+        "+ Received  + 1",
+        "- Timeout 30000ms exceeded while waiting on the predicate",
+        "> 16 |   await expect.poll(async()=>(await sample())?.state,{timeout:30000}).toMatchObject({entryReady:true,avatarBody:'antonio',campusReady:false});",
+        "17 |   const entry=await sample();expect(entry.entryVisibleMs).toBeGreaterThan(0);expect(entry.entryVisibleMs-exploringAt).toBeLessThan(8000);expect(entry.roots).toHaveLength(2);expect(entry.roots.every(o=>o.visible&&o.meshes>0&&o.inView>0)).toBe(true);expect(entry.garden).toBe(false);expect(entry.rooms).toBe(false);expect(requests.some(url=>/mature-eucalypt|learning-interiors\\.js|\\/studio\\.js/.test(url))).toBe(false);"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "startup-costs.spec.js",
+      "title": "measure complete campus handover costs cold-skip",
+      "errors": [
+        "Error: expect(received).toBeLessThan(expected)",
+        "Expected: < 8000",
+        "Received:   11657.5",
+        "> 23 |  await page.screenshot({path:info.outputPath(experience+'-complete-campus.png')});await walkToMap(page,'KeyW','z',16.7);await expect(page.locator('#discovery-dialog')).toBeVisible();expect(errors).toEqual([]);if(experience==='cold-skip')expect(handoverDelayMs).toBeLessThan(8000);"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "startup-performance.spec.js",
+      "title": "normal play avoids GPU pixel probes and uses shared building textures",
+      "errors": [
+        "Error: expect(received).toBeGreaterThan(expected)",
+        "Expected: > 0.5",
+        "Received:   0.019999999999999574",
+        "- Timeout 5000ms exceeded while waiting on the predicate",
+        "> 11 |  await page.keyboard.down('w');await page.waitForTimeout(1000);await page.keyboard.up('w');await expect.poll(async()=>start.position[2]-(await state()).position[2]).toBeGreaterThan(.5);"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "startup-surface-gate.spec.js",
+      "title": "complete intro reaches natural end and hands over to usable movement",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: 1",
+        "Received: 0",
+        "- Timeout 10000ms exceeded while waiting on the predicate",
+        "20 |  await expect.poll(()=>page.evaluate(()=>JSON.parse(document.querySelector('#diagnostics')?.dataset.state||'{}')),{timeout:30000}).toMatchObject({entryReady:true,campusReady:false});const before=await page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').position);await page.locator('#scene').focus();await page.keyboard.down('KeyW');await page.waitForTimeout(1200);await page.keyboard.up('KeyW');await expect.poll(()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}').position)).not.toEqual(before);"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "startup-surface-gate.spec.js",
+      "title": "mocked owned-account parcel, map and shared wallet persist without a duplicate reward",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: 1",
+        "Received: 0",
+        "- Timeout 10000ms exceeded while waiting on the predicate",
+        "35 |  test.setTimeout(90000);await page.goto('/playable-3d/');await expect(page.locator('#taster-skip')).toBeVisible({timeout:30000});await page.locator('#taster-skip').click();await expect.poll(()=>page.evaluate(()=>JSON.parse(document.querySelector('#diagnostics')?.dataset.state||'{}')),{timeout:30000}).toMatchObject({entryReady:true,campusReady:false});"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "suit-flicker.spec.js",
+      "title": "playable suit shadows follow every walking frame at 1280",
+      "errors": [
+        "Error: locator.click: Test timeout of 30000ms exceeded.",
+        "Call log:",
+        "- waiting for locator('#helper-picker [data-continue]')",
+        "2 \u00d7 waiting for element to be visible, enabled and stable",
+        "2 \u00d7 waiting for element to be visible, enabled and stable",
+        "8 \u00d7 waiting for element to be visible, enabled and stable",
+        "30 |  await page.evaluate(()=>{window.dispatchEvent(new KeyboardEvent('keydown',{code:'KeyW'}));setTimeout(()=>window.dispatchEvent(new KeyboardEvent('keyup',{code:'KeyW'})),1300);});"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "suit-flicker.spec.js",
+      "title": "playable suit shadows follow every walking frame at 390",
+      "errors": [
+        "Error: locator.click: Test timeout of 30000ms exceeded.",
+        "Call log:",
+        "- waiting for locator('#helper-picker [data-continue]')",
+        "2 \u00d7 waiting for element to be visible, enabled and stable",
+        "2 \u00d7 waiting for element to be visible, enabled and stable",
+        "13 \u00d7 waiting for element to be visible, enabled and stable",
+        "30 |  await page.evaluate(()=>{window.dispatchEvent(new KeyboardEvent('keydown',{code:'KeyW'}));setTimeout(()=>window.dispatchEvent(new KeyboardEvent('keyup',{code:'KeyW'})),1300);});"
+      ]
+    },
+    {
+      "job": 116204154157,
+      "file": "whole-characters.spec.js",
+      "title": "named characters: selected-only startup, lazy tests, rig measurements, switching and persistence",
+      "errors": [
+        "Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'scene')"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "header-controls.spec.js",
+      "title": "banner controls are clear and destinations work at 854",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: true",
+        "Received: false",
+        "14 |  if(width>=854){expect(await page.locator('.topbar').evaluate(e=>e.offsetHeight)).toBeLessThan(80);}"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "movement.spec.js",
+      "title": "player travel, gait, turn and stop at 1280",
+      "errors": [
+        "Error: expect(received).toBeGreaterThan(expected)",
+        "Expected: > 2.2",
+        "Received:   0.3887267525539174",
+        "> 23 |  const walk=await measure();const run=await measure(true);expect(walk.distance).toBeGreaterThan(2.2);expect(run.distance).toBeGreaterThan(walk.distance*1.25);expect(run.moving.rate).toBeGreaterThan(walk.moving.rate*1.3);expect(walk.moving.weight).toBeGreaterThan(.9);expect(run.stopped.weight).toBeLessThan(.05);",
+        "24 |  await page.evaluate(()=>{travelProbe.yaw=Math.PI/2;});const sideways=await measure();expect(sideways.moving.position[0]).toBeLessThan(run.stopped.position[0]);"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "movement.spec.js",
+      "title": "player travel, gait, turn and stop at 390",
+      "errors": [
+        "Error: expect(received).toBeGreaterThan(expected)",
+        "Expected: > 2.2",
+        "Received:   0.7819264489564174",
+        "> 23 |  const walk=await measure();const run=await measure(true);expect(walk.distance).toBeGreaterThan(2.2);expect(run.distance).toBeGreaterThan(walk.distance*1.25);expect(run.moving.rate).toBeGreaterThan(walk.moving.rate*1.3);expect(walk.moving.weight).toBeGreaterThan(.9);expect(run.stopped.weight).toBeLessThan(.05);",
+        "24 |  await page.evaluate(()=>{travelProbe.yaw=Math.PI/2;});const sideways=await measure();expect(sideways.moving.position[0]).toBeLessThan(run.stopped.position[0]);"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "movement.spec.js",
+      "title": "player travel, gait, turn and stop at 1280 at 8 FPS",
+      "errors": [
+        "Error: expect(received).toBeGreaterThan(expected)",
+        "Expected: > 3.281472526228047",
+        "Received:   1.3379808315630577",
+        "> 23 |  const walk=await measure();const run=await measure(true);expect(walk.distance).toBeGreaterThan(2.2);expect(run.distance).toBeGreaterThan(walk.distance*1.25);expect(run.moving.rate).toBeGreaterThan(walk.moving.rate*1.3);expect(walk.moving.weight).toBeGreaterThan(.9);expect(run.stopped.weight).toBeLessThan(.05);",
+        "24 |  await page.evaluate(()=>{travelProbe.yaw=Math.PI/2;});const sideways=await measure();expect(sideways.moving.position[0]).toBeLessThan(run.stopped.position[0]);"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "night-market-agency.spec.js",
+      "title": "Home Economics entrance and return use real navigation",
+      "errors": [
+        "Error: expect(locator).toHaveText(expected) failed",
+        "Locator: locator('#interact')",
+        "Expected pattern: /Enter Live Music/",
+        "Received string:  \"Talk to Echo\"",
+        "Timeout: 15000ms",
+        "Call log:",
+        "- waiting for locator('#interact')",
+        "> 43 |  test.setTimeout(90000);await page.goto('/playable-3d/?view=home-economics&market-review=1');await expect(page.locator('#loading')).toBeHidden({timeout:60000});await page.locator('#scene').focus();await page.keyboard.down('w');await page.waitForTimeout(700);await page.keyboard.up('w');await expect(page.locator('#interact')).toHaveText(/Enter Live Music/,{timeout:15000});await page.locator('#interact').click();await expect(page.locator('#market-hud')).toBeVisible();await page.locator('#market-hud summary').click();await page.locator('#market-exit').click();await expect(page.locator('#market-hud')).toBeHidden();await walkMarket(page,'KeyW',{selector:'#interact',text:'Enter Live Music & ",
+        "46 |  test.setTimeout(120000);await page.setViewportSize({width,height:844});await page.goto('/playable-3d/?experience=sunday-markets&market-review=1');await expect(page.locator('#loading')).toBeHidden({timeout:40000});await walkThroughMarketEntrance(page);"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "night-market-agency.spec.js",
+      "title": "complete keyboard shift, learning, review transfer and return 390",
+      "errors": [
+        "TimeoutError: page.waitForFunction: Timeout 15000ms exceeded.",
+        "46 |  test.setTimeout(120000);await page.setViewportSize({width,height:844});await page.goto('/playable-3d/?experience=sunday-markets&market-review=1');await expect(page.locator('#loading')).toBeHidden({timeout:40000});await walkThroughMarketEntrance(page);",
+        "50 |  const popupPromise=page.waitForEvent('popup');await click(page,'Save to My work');const popup=await popupPromise;await expect(page.locator('#case-note-status')).toContainText('review only',{timeout:25000});await expect(popup.locator('#work-body')).toContainText(/Customers were unsure/);expect(await popup.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:career-empire-my-life-work-v1'))).toBe(null);await popup.close();await close(page);await walk('d','Use crew pass');await expect(page.locator('#interact')).toHaveText('Use crew pass');await page.locator('#interact').click();await click(page,'Use my crew pass');await expect(page.locator('#market-dialog')).not.toBeVisible();await page"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "night-market-research.spec.js",
+      "title": "research mission and pass 1280",
+      "errors": [
+        "Error: locator.click: Test timeout of 30000ms exceeded.",
+        "Call log:",
+        "- waiting for getByRole('button', { name: 'Try this with next customers', exact: true })"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "night-market-research.spec.js",
+      "title": "research mission and pass 390",
+      "errors": [
+        "Error: locator.click: Test timeout of 30000ms exceeded.",
+        "Call log:",
+        "- waiting for getByRole('button', { name: 'Try this with next customers', exact: true })"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "night-market-research.spec.js",
+      "title": "fresh review uses the actual game and leaves existing saves untouched",
+      "errors": [
+        "Error: expect(locator).toContainText(expected) failed",
+        "Locator: locator('#market-objective')",
+        "Expected substring: \"Your goal: make service smoother.\"",
+        "Received string:    \"Try an idea at the work bench, watch the queue, then share what you found with Mara.\"",
+        "Timeout: 5000ms",
+        "Call log:",
+        "- waiting for locator('#market-objective')"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "night-market.spec.js",
+      "title": "legacy night market complete loop and saved rewards at 1280px",
+      "errors": [
+        "Error: expect(locator).toHaveText(expected) failed",
+        "Locator: locator('#interact')",
+        "Expected pattern: /Talk to Mara/",
+        "Received string:  \"Enter Live Music & Sunday Markets\"",
+        "Timeout: 12000ms",
+        "Call log:",
+        "- waiting for locator('#interact')",
+        "8 |  test.setTimeout(120000);await page.addInitScript(()=>{if(!localStorage.getItem('ce-player:e2e-owned:'+'ce-night-market-practice-v1'))localStorage.setItem('ce-player:e2e-owned:'+'ce-night-market-practice-v1',JSON.stringify({version:1,events:[]}));});await page.setViewportSize({width,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));await open(page);"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "night-market.spec.js",
+      "title": "legacy night market complete loop and saved rewards at 390px",
+      "errors": [
+        "Error: locator.click: Test timeout of 120000ms exceeded.",
+        "Call log:",
+        "- waiting for locator('#night-market-entry')"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "night-market.spec.js",
+      "title": "market failure leaves campus and curriculum reachable",
+      "errors": [
+        "Error: expect(locator).toContainText(expected) failed",
+        "Locator: locator('#toast')",
+        "Expected substring: \"night market could not open\"",
+        "Received string:    \"The market could not open. Campus activities remain available.\"",
+        "Timeout: 5000ms",
+        "Call log:",
+        "- waiting for locator('#toast')",
+        "> 27 |  test.setTimeout(60000);await page.route('**/night-market.js?*',r=>r.abort());await page.goto(path);await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page,{waitForEntry:false});await expect(page.locator('#toast')).toContainText('night market could not open');await page.locator('#places-toggle').click();await page.locator('#est-destination').click();await expect.poll(async()=>(await data(page)).mode,{timeout:20000}).toBe('interior');"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "phone-startup.spec.js",
+      "title": "phone opening uses smaller phone assets once and releases startup cache",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: false",
+        "Received: true"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "phone-startup.spec.js",
+      "title": "failed phone tree load clears temporary cache and supports retry without reloading the character",
+      "errors": [
+        "Error: expect(locator).toBeVisible() failed",
+        "Locator:  locator('#campus-retry')",
+        "Expected: visible",
+        "Received: hidden",
+        "Timeout:  90000ms",
+        "Call log:",
+        "- waiting for locator('#campus-retry')",
+        "26 |  test.setTimeout(120000);await cacheProbe(page);let fail=true;"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "playable-scenery.spec.js",
+      "title": "campus waits for both buildings and keeps destinations and movement",
+      "errors": [
+        "Error: expect(locator).toBeVisible() failed",
+        "Locator:  locator('#loading')",
+        "Expected: visible",
+        "Received: hidden",
+        "Timeout:  5000ms",
+        "Call log:",
+        "- waiting for locator('#loading')"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "playable-scenery.spec.js",
+      "title": "failed campus loading explains retry instead of revealing missing buildings",
+      "errors": [
+        "Error: expect(locator).toBeVisible() failed",
+        "Locator:  locator('#loading')",
+        "Expected: visible",
+        "Received: hidden",
+        "Timeout:  5000ms",
+        "Call log:",
+        "- waiting for locator('#loading')"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "playable-startup.spec.js",
+      "title": "startup loads only the active avatar and keeps the studio and hall usable",
+      "errors": [
+        "Error: expect(locator).toHaveAttribute(expected) failed",
+        "Locator:  locator('#scene')",
+        "Expected: \"true\"",
+        "Received: \"\"",
+        "Timeout:  5000ms",
+        "Call log:",
+        "- waiting for locator('#scene')",
+        "Campus browser evidence unavailable: page.evaluate: TypeError: canvas?.getContext is not a function",
+        "Campus browser evidence unavailable: page.evaluate: TypeError: canvas?.getContext is not a function",
+        "Campus browser evidence unavailable: page.evaluate: TypeError: canvas?.getContext is not a function"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "stall-refine.spec.js",
+      "title": "Juniper food and staff clear the shallow counter in packing and collection roles",
+      "errors": [
+        "Error: locator.selectOption: Test timeout of 90000ms exceeded.",
+        "Call log:",
+        "- waiting for getByLabel('Collection location', { exact: true })",
+        "28 |  expect(staff.min).toBeGreaterThan(-4.59);expect(staff.max).toBeLessThan(-3.625);"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "startup-exterior.spec.js",
+      "title": "delayed courtyard must not hold game entry",
+      "errors": [
+        "Error: expect(received).toBeLessThan(expected)",
+        "Expected: < 8000",
+        "Received:   NaN",
+        "> 12 |  expect(ms).toBeLessThan(8000);"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "startup-exterior.spec.js",
+      "title": "failed courtyard keeps curriculum usable and retry opens campus once",
+      "errors": [
+        "Error: locator.click: Test timeout of 90000ms exceeded.",
+        "Call log:",
+        "- waiting for locator('#campus-retry')",
+        "2 \u00d7 waiting for element to be visible, enabled and stable",
+        "2 \u00d7 waiting for element to be visible, enabled and stable",
+        "27 \u00d7 waiting for element to be visible, enabled and stable",
+        "28 |  const finished=await page.evaluate(()=>window.exteriorCheck());expect(finished.children).toBe(1);expect(finished.colliders).toBeGreaterThan(20);"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "teachers.spec.js",
+      "title": "teachers: reactions, bounded collision, lazy loading, mobile and recovery",
+      "errors": [
+        "Error: locator.click: Test timeout of 240000ms exceeded.",
+        "Call log:",
+        "- waiting for getByRole('button', { name: /Say hello to Mr Middleton/ })"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "test-character-controls.spec.js",
+      "title": "Dress ups named colours, lazy archive and saved per-style choices 1280",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality",
+        "Expected: 2",
+        "Received: 5"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "trial-launch.spec.js",
+      "title": "plan to visible trial has a clear next step at 1280",
+      "errors": [
+        "Error: locator.click: Test timeout of 90000ms exceeded.",
+        "Call log:",
+        "- waiting for getByRole('button', { name: 'Set this arrangement', exact: true })"
+      ]
+    },
+    {
+      "job": 116204154238,
+      "file": "trial-launch.spec.js",
+      "title": "plan to visible trial has a clear next step at 390",
+      "errors": [
+        "Error: locator.click: Test timeout of 90000ms exceeded.",
+        "Call log:",
+        "- waiting for getByRole('button', { name: 'Set this arrangement', exact: true })"
+      ]
+    }
+  ]
+}

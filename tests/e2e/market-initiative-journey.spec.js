@@ -1,3 +1,4 @@
+import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {enterMarket,observeMarketWalking,walkMarket} from './market-controls.js';
 const state=p=>p.evaluate(()=>JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}'));
@@ -11,3 +12,5 @@ test('guest walks the initiative shift, compares the result and receives net wag
  await walkMarket(page,'KeyA',{selector:'#interact',text:'Talk to Mara'},15000);await page.locator('#interact').click();await click(page,'Keep this learning connection');await click(page,'Finish the shift · receive $18 and crew pass');await expect(page.locator('#market-dialog')).toContainText('$20 gross − $2 community tax = $18 net');await click(page,'Explore the market');await expect.poll(()=>state(page)).toMatchObject({market:{paid:true,wallet:1800,tax:200,pass:true}});
  const earned=(await state(page)).market.events;await page.locator('#interact').click();await expect(page.locator('#market-dialog-title')).toHaveText('Your shift is paid');await expect(page.getByRole('button',{name:'Finish the shift · receive $18 and crew pass',exact:true})).toHaveCount(0);expect((await state(page)).market.events).toEqual(earned);await page.locator('.market-close').click();await page.locator('#exploration-stats-toggle').click();const panel=page.getByRole('region',{name:'Exploration tools'});await expect(panel).toContainText('Wallet $18.00');await expect(panel).toContainText('Community contributions $2.00');await expect(panel.locator('[data-market-item=crew-pass]')).toBeVisible();await page.screenshot({path:info.outputPath('initiative-earned-stats.png')});expect(errors).toEqual([]);await info.attach('initiative-journey',{body:JSON.stringify((await state(page)).market,null,2),contentType:'application/json'});
 });
+
+test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});
