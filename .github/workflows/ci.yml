@@ -12,6 +12,9 @@ name: CI
         required: false
         default: false
 
+env:
+  SOFTWARE_CASE: 'Stats changes publish while the cached world keeps its honest frame count$'
+
 jobs:
   checks:
     runs-on: ubuntu-latest
@@ -137,7 +140,7 @@ jobs:
         run: node scripts/verify-accelerated-browser.mjs
 
       - name: Run browser shard with one worker
-        run: npx playwright test --grep-invert "$CRITICAL_CASES" --shard=${{ matrix.shard }}/4 --workers=1 --max-failures=0 --reporter=line,json
+        run: npx playwright test --grep-invert "$CRITICAL_CASES|$SOFTWARE_CASE" --shard=${{ matrix.shard }}/4 --workers=1 --max-failures=0 --reporter=line,json
         env:
           CRITICAL_CASES: 'full natural intro|actual photo completion|same-run photo teachers|selected Sprout appears|actual keyboard walk through west Administration|real grass failure'
           PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
@@ -147,6 +150,32 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: browser-evidence-shard-${{ matrix.shard }}
+          path: coverage/
+          if-no-files-found: warn
+          retention-days: 3
+
+  software-fixture:
+    name: Primary software-only Stats case
+    needs: checks
+    if: ${{ !inputs.focused }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Execute the original explicit SwiftShader case once
+        run: npx playwright test --config playwright.config.mjs tests/e2e/runtime-recovery.spec.js --grep "$SOFTWARE_CASE" --project=chromium --workers=1 --retries=0 --max-failures=0 --reporter=line,json
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/browser-report.json
+      - name: Preserve separate primary software evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-evidence-software-fixture
           path: coverage/
           if-no-files-found: warn
           retention-days: 3
@@ -215,7 +244,7 @@ jobs:
 
   test:
     name: test
-    needs: [checks, critical, browser, software-compatibility]
+    needs: [checks, critical, browser, software-fixture, software-compatibility]
     if: ${{ always() && !inputs.focused }}
     runs-on: ubuntu-latest
     steps:
@@ -247,6 +276,7 @@ jobs:
           CHECKS_RESULT: ${{ needs.checks.result }}
           CRITICAL_RESULT: ${{ needs.critical.result }}
           BROWSER_RESULT: ${{ needs.browser.result }}
+          SOFTWARE_FIXTURE_RESULT: ${{ needs['software-fixture'].result }}
         run: node scripts/ci-shard-proof.mjs coverage-checks/browser-inventory.json ci-evidence coverage/browser-rollup.json
 
       - name: Report actual runtime lanes separately from unique inventory accounting

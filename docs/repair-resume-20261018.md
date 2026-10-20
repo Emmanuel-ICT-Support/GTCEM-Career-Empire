@@ -278,3 +278,21 @@ Local validation of this qualification change: loopback/DNS/range regression,
 partition pass (critical7; shards65/60/59/61). Local browser rerun is deferred
 because only484MiB is free, below the repository1GiB reserve. It is not counted
 as passed. Full hosted CI on this commit is required before any merge.
+
+### Explicit software fixture partition correction
+
+Full run39407007656 accounted for all252 primary cases exactly once:
+251passed/1failed, zero skipped/flaky/unrun. Both original walking-shadow tests
+passed. The sole failure was the Stats cached-world case, which explicitly forces
+SwiftShader even on a Mac. Its60s watchdog expired during prerequisite surface
+detail loading, before the Stats assertions; that is not a Metal graphics failure.
+
+The canonical primary execution of that unchanged case now has a dedicated Ubuntu
+job using the original root config and chromium project. All four Mac shards
+exclude its exact title as well as the critical partition. The collector requires
+its separate one-case unsharded report and successful job status in addition to
+the existing critical/four-shard reports. The independent two-case Ubuntu
+compatibility report is retained as a separate gate and is never substituted for
+primary evidence. No game code, assertion, watchdog or readiness limit changed.
+Local syntax/accounting checks and collection-only proof are run in a shallow
+sparse code checkout; missing-asset/full browser checks are deferred to hosted CI.
