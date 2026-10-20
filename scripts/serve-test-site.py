@@ -1,5 +1,6 @@
 """Local test server with byte ranges, matching production media delivery."""
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+from socketserver import TCPServer
 from pathlib import Path
 import re, sys
 
@@ -47,6 +48,12 @@ class Handler(SimpleHTTPRequestHandler):
             remaining -= len(block)
 
 class TestServer(ThreadingHTTPServer):
+    def server_bind(self):
+        # HTTPServer resolves getfqdn() after binding, blocking macOS CI startup.
+        # This loopback-only test server needs the literal bound address instead.
+        TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[:2]
+
     # ES-module startup opens many parallel requests; the default backlog of five
     # resets legitimate browser downloads and leaves the import graph incomplete.
     request_queue_size = 128

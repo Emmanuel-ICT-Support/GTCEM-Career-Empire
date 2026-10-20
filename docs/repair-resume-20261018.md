@@ -241,3 +241,40 @@ Use revised-flow-final-clean for captures after transient toasts clear.
 All26accounting checks and286hashes/91modules pass. These are browser
 viewport captures with a synthetic completed-photo checkpoint; the full suite
 separately covers the natural intro and actual photo journey.
+
+## Temporary accelerated graphics requirement — 20 October 2026
+
+Tania approved graphics acceleration as a temporary supported-device requirement.
+Software-rendered interactive performance remains unsupported: the strict
+1300 ms walking cadence requirement failed on Ubuntu SwiftShader. No graphics,
+original antialiasing, trees, camera, runtime code or test assertions are reduced.
+The physical Mac M3 walking checks passed separately. Diagnostic run 39405898479
+also passed both unchanged walking cases on standard macos-15 Apple Paravirtual
+Metal (9 moving frames at 1280, 19 at 390). Virtual Metal is not physical-device
+or school-PC qualification. Representative school-device acceptance is outstanding.
+
+The primary CI critical job and all four browser shards now use standard macos-15.
+Each requires an actual WebGL2 Apple Metal preflight using the exact Chromium
+project launch options and preserves its renderer receipt in the existing artifact.
+This preflight observes the configured browser, not every game page; explicit
+software-only fixture overrides remain unchanged and are not called accelerated.
+The separate required software compatibility job stays on Ubuntu, as do source,
+unit, inventory, accounting and aggregate jobs. All original cases, critical
+partition, project ID and artifact names remain intact. The existing aggregate
+must prove the complete inventory exactly once with no failures, skips, flaky,
+interrupted or unrun cases, and require the software compatibility job to succeed.
+No full-suite success or release qualification is claimed before that run completes.
+
+Server diagnostic stacks at 15 and 30 seconds showed HTTPServer.server_bind()
+blocked in socket.getfqdn(); this is unrelated to game rendering. The test server
+now uses TCPServer's identical socket binding and stores its numeric bound address
+without hostname resolution. It still binds 127.0.0.1, serves the same paths and
+byte ranges, and retains existing readiness and game timeouts. Focused regression
+coverage rejects DNS calls and exercises root/full/range/invalid-range delivery.
+No diagnostic workflow, profiling helper or antialias experiment is included.
+
+Local validation of this qualification change: loopback/DNS/range regression,
+15 renderer/accounting checks, source checks and collection-only exact252-case
+partition pass (critical7; shards65/60/59/61). Local browser rerun is deferred
+because only484MiB is free, below the repository1GiB reserve. It is not counted
+as passed. Full hosted CI on this commit is required before any merge.

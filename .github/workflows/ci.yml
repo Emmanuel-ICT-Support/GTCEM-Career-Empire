@@ -31,7 +31,7 @@ jobs:
 
       - name: Run source checks and unit coverage once
         if: ${{ !inputs.focused }}
-        run: npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs scripts/evidence-directory.test.mjs scripts/ui-readiness-report.test.mjs
+        run: python3 -B scripts/serve-test-site.test.py && npm run check && npm run coverage && node --test scripts/ci-shard-proof.test.mjs scripts/evidence-directory.test.mjs scripts/ui-readiness-report.test.mjs scripts/accelerated-browser.test.mjs
 
       - name: Verify focused lane policy and saved runtime handlers
         if: ${{ inputs.focused }}
@@ -61,15 +61,21 @@ jobs:
   critical:
     if: ${{ !inputs.focused }}
     needs: checks
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install chromium
+      - name: Require actual Metal renderer with the configured browser
+        run: node scripts/verify-accelerated-browser.mjs
+
       - name: Validate startup before student journeys
         run: npx playwright test --grep "real grass failure" --workers=1 --max-failures=0 --reporter=line,json
         env:
@@ -102,7 +108,7 @@ jobs:
   browser:
     needs: [checks, critical]
     if: ${{ !inputs.focused && needs.checks.result == 'success' && needs.critical.result == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -118,11 +124,17 @@ jobs:
           node-version: 22
           cache: npm
 
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
       - name: Install dependencies
         run: npm ci
 
       - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
+
+      - name: Require actual Metal renderer with the configured browser
+        run: node scripts/verify-accelerated-browser.mjs
 
       - name: Run browser shard with one worker
         run: npx playwright test --grep-invert "$CRITICAL_CASES" --shard=${{ matrix.shard }}/4 --workers=1 --max-failures=0 --reporter=line,json
