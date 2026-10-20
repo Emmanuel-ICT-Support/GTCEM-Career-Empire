@@ -1,7 +1,8 @@
 name: Suit shadow diagnostic (not release qualification)
 
 # Install on a separate diagnostic branch based on the failing source commit.
-# Existing ci.yml and required checks are intentionally unchanged.
+# Existing ci.yml and required Ubuntu checks are intentionally unchanged.
+# Standard macos-15 only: no paid xlarge runner or persistent registration.
 'on':
   push:
     branches: ['diagnostic/suit-shadow-e657a1e']
@@ -11,7 +12,7 @@ permissions:
 
 jobs:
   suit-shadow-diagnostic:
-    runs-on: ubuntu-latest
+    runs-on: macos-15
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Install the same Playwright browser as CI
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
       - name: Record environment and source revision
         shell: bash
         run: |
@@ -35,6 +36,11 @@ jobs:
             npm --version
             npx playwright --version
           } 2>&1 | tee coverage/suit-diagnostic/environment.txt
+      - name: Require a native Apple Metal browser backend
+        run: |
+          mkdir -p coverage/suit-diagnostic
+          system_profiler SPDisplaysDataType > coverage/suit-diagnostic/mac-graphics.txt
+          node scripts/probe-suit-native.mjs
       - name: Profile the two unchanged walking-shadow tests
         shell: bash
         env:
@@ -48,6 +54,9 @@ jobs:
             --project=chromium --workers=1 --retries=0 --max-failures=0 \
             --reporter=line,json \
             2>&1 | tee coverage/suit-diagnostic/console.log
+      - name: Verify the actual game used native Metal at both widths
+        if: always()
+        run: node scripts/probe-suit-native.mjs --verify-game
       # CE_SUIT_PROFILE captures the existing 1280px native trace SUMMARY.
       # Both widths log frame timing; full Playwright tracing remains off,
       # matching CI and avoiding an extra tracing variable in this comparison.

@@ -1,0 +1,39 @@
+// Diagnostic only. No fallback, skip, or browser flags that differ from config.
+import fs from 'node:fs';
+import {chromium} from '@playwright/test';
+import config from '../playwright.config.mjs';
+const output='coverage/suit-diagnostic';
+fs.mkdirSync(output,{recursive:true});
+const isAppleMetal=value=>/ANGLE Metal Renderer:\s*Apple M\d/i.test(value||'')&&!/swiftshader|llvmpipe|softpipe|software|paravirtual/i.test(value||'');
+if(process.argv.includes('--verify-game')){
+ const log=fs.readFileSync(`${output}/console.log`,'utf8').replace(/\x1b\[[0-9;]*[A-Za-z]/g,'');
+ const records=log.split('\n').filter(line=>line.includes('SUIT_FRAME_TIMING ')).map(line=>{
+  const result=JSON.parse(line.slice(line.indexOf('SUIT_FRAME_TIMING ')+'SUIT_FRAME_TIMING '.length));
+  return {width:result.width,backend:JSON.parse(result.state).renderBackend,movingFrames:result.movingFrames};
+ });
+ fs.writeFileSync(`${output}/game-native-backends.json`,JSON.stringify(records,null,2));
+ if(records.length!==2||![1280,390].every(width=>records.some(r=>r.width===width&&isAppleMetal(r.backend))))throw new Error('Native qualification not established: need both game runs on verified Apple Metal, with no software fallback.');
+ console.log('Verified actual game backends',JSON.stringify(records));
+}else{
+ const project=config.projects.find(p=>p.name==='chromium');
+ if(!project)throw new Error('Chromium project missing');
+ const use={...config.use,...project.use};
+ const launch={...config.use?.launchOptions,...project.use?.launchOptions};
+ if(use.channel!==undefined)launch.channel=use.channel;
+ if(use.headless!==undefined)launch.headless=use.headless;
+ // Defaults are Playwright Chromium's normal headless defaults, as in the tests.
+ const browser=await chromium.launch(launch);
+ try{
+  const page=await browser.newPage();
+  const result=await page.evaluate(()=>{
+   const gl=document.createElement('canvas').getContext('webgl2',{antialias:true,alpha:false,powerPreference:'high-performance'});
+   if(!gl)return {backend:null,error:'WebGL2 unavailable'};
+   const ext=gl.getExtension('WEBGL_debug_renderer_info');
+   return {backend:String(gl.getParameter(ext?ext.UNMASKED_RENDERER_WEBGL:gl.RENDERER)),attributes:gl.getContextAttributes()};
+  });
+  const evidence={...result,platform:process.platform,architecture:process.arch,browser:browser.version(),launch};
+  fs.writeFileSync(`${output}/native-capability.json`,JSON.stringify(evidence,null,2));
+  console.log('NATIVE_CAPABILITY',JSON.stringify(evidence));
+  if(process.platform!=='darwin'||!isAppleMetal(result.backend))throw new Error('Runner not qualified: no verified native Apple Metal backend. Stop; do not skip tests and report success.');
+ }finally{await browser.close();}
+}
