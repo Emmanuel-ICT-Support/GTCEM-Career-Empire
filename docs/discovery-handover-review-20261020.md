@@ -10,14 +10,14 @@ Remote `Emmanuel-ICT-Support/GTCEM-Career-Empire` main was freshly read through 
 
 - First photo-finish Continue opens a concise celebration and the agreed life-beyond-school/initiative introduction. Exactly two choices: Head straight to the market; Keep exploring.
 - Straight travel uses the existing safe entrance (`43, -17.8`) and verifies arrival. Failed travel retains the handover for retry or exploration. Keep exploring returns focus and gameplay, with a persistent next-experience travel reminder. The map uses the identical entrance. Entering the market retires both next-experience indications. Reload does not automatically reopen the celebration or tour.
-- Stats leads with My Journey and banked discoveries, including actual saved mural and final images. A pre-existing saved Chapel photo is retained. The current trail records a Chapel visit rather than taking a new Chapel photo; for that case the existing Chapel image is honestly labelled Chapel discovery. No photo-taking mechanic was invented. Banked records survive replay/retake independently of the trail and do not create duplicate wallet awards. Existing guest-run/account save boundaries remain intact. Storage failure is described as tab-only; damaged journey data is not overwritten.
-- The existing finances remain behind an optional Game money details disclosure. The handover and optional tour no longer introduce earnings/tax. Existing award amounts, ledger and market rules are unchanged.
+- Stats leads with My Journey and banked discoveries, including actual saved mural and final images. A pre-existing saved Chapel photo is retained. The current trail records a Chapel visit rather than taking a new Chapel photo; for that case the existing Chapel image is honestly labelled Chapel discovery. No photo-taking mechanic was invented. Banked records survive replay/retake independently of the trail. Discovery creates no currency rewards. Existing guest-run/account save boundaries remain intact. Storage failure is described as tab-only; damaged journey data is not overwritten.
+- The existing finances remain behind an optional Game money details disclosure. The handover and optional tour no longer introduce earnings/tax. Existing wallet history, ledger formats and market rules are preserved. Parcel opening, optional cleanup, mural/final-photo completion and market arrival no longer award discovery currency. Cleanup remains available with a plain thank-you and its own completion flag.
 - Companion and plain Help use the same contextual content and actions. Selected companions add their portrait and a short personality line. Selection creates no automatic conversation. The actual selected model retains physical following, with separate persisted hide/show choice and Help access while hidden. Only the selected model loads; replacement still disposes the previous model.
 - The older campus tour, flyover, avatar choice and course outline remain optional in Options. The unrelated full-campus guidance flow is retained.
 
 ## Verification and limits
 
-Final source: `npm test -- --configLoader runner --no-cache` — **75 files, 347 tests passed**, zero failed (4.56 seconds). Eleven changed/new production JavaScript modules pass `node --check`. `git diff --check` passes. Changed runtime manifest entries are refreshed and three new modules added.
+Final source: `npm test -- --configLoader runner --no-cache` — **76 files, 349 tests passed**, zero failed (4.80 seconds). Eleven changed/new production JavaScript modules pass `node --check`. `git diff --check` passes. Changed runtime manifest entries are refreshed and three new modules added.
 
 Playwright `--list` collects **5 new component scenarios**: both choices/later travel, failed travel recovery, Stats banking/reload, companion/no-companion/hide/show Help, and narrow reduced-motion keyboard focus/escape/target sizes. The fixture deliberately labels its synthetic save and absent campus assets. It is not evidence of real campus rendering or actual GLB pixels.
 
@@ -29,9 +29,15 @@ Playwright `--list` collects **5 new component scenarios**: both choices/later t
 
 Raw logs and generated receipts are separate from source, in sibling `task-2/review-receipts/`:
 
-- `unit-final-reviewed-source.log`: final 347/347 result.
+- `unit-no-currency-final.log`: final 349/349 result.
+- `no-currency-focused.log`: 19 focused passes including production component methods leaving an existing wallet byte-for-byte unchanged and never creating a fresh wallet.
+- `unit-final-reviewed-source.log`: earlier 347/347 result before the currency correction.
 - `changed-module-syntax.json`: 11 syntax checks.
 - `browser-collection.log`: five collected scenarios.
 - `browser-attempt-1.log`: denied server bind before browser tests.
 - `source-check-final.log`: sparse-checkout reference failures.
 - Earlier failed/incomplete attempt logs are preserved alongside these.
+
+## Explicit no-money correction
+
+The first review commit removed financial introduction copy but retained legacy discovery award calls. That did not fully satisfy the clarified requirement. The follow-up removes those runtime triggers, including automatic update/arrival awards and the completion method. The legacy wallet API remains available for reading/compatibility and its historical tests remain intact; discovery does not call its award method. Prior logs are retained. Visual verification remains blocked by the same denied loopback bind; it has not been retried.
