@@ -1,3 +1,4 @@
+import {createJourneyStore,createDiscoveryHandover} from './discovery-handover.mjs?v=discovery-handover-20261021';
 import {createClassroomGate} from './classroom-gate.mjs?v=classroom-20261018';
 import {estEyeHeight,estPlayTop} from './est-camera.mjs?v=broad-integrated-20261014';
 import {MARKET_APPROACH} from './landing.mjs?v=post-photo-tour-20261013';
@@ -6,14 +7,14 @@ import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=
 import {needsSoftwarePresentation,createSoftwarePresentation} from './software-presentation.mjs?v=interaction-upload-priority-20261016';
 import {renderQuality,rendererName} from './render-quality.mjs?v=ecc-ba60122';
 import {waitForPriorityAsset,withAssetDeadline,canClearDetailWarning} from './startup-assets.mjs?v=ecc-ba60122';
-import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=initiative-arcade-20261014';
+import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=discovery-handover-20261021';
 import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
 import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
 import {keepOutdoorClearance,keepChapelClearance,campusEntryFraming} from './camera-clearance.mjs?v=ecc-ba60122';
-import {createDiscovery} from './discovery-opening.js?v=guided-photo-20261014';
+import {createDiscovery} from './discovery-opening.js?v=discovery-handover-20261021';
 import {createLocomotion, STEP, turnTowards,accumulateTravelTime} from './locomotion.js?v=ecc-ba60122';
-import {createHelperPicker} from './helper-picker.js?v=options-companion-20261012';
+import {createHelperPicker} from './helper-picker.js?v=discovery-handover-20261021';
 import {createExplorer} from '../economy-lab/exploration.mjs?v=navigation-20261012';
 import {createFlyover} from './flyover.js?v=visible-controls-20261015';
 import {configurePhoneAssets} from './phone-assets.js?v=phone-load-20260917';
@@ -41,6 +42,7 @@ const discoveryReview=entryParams.get('mode')!=='full'&&!entryParams.has('experi
 const reviewProfiles={getItem:()=>null,setItem:()=>{}};
 const gameSession=window.CareerEmpireGameRun;
 const gameStorage=adminReviewRequested?createPreviewStorage():(gameSession?.storage||localStorage);
+const journey=createJourneyStore(gameStorage);let discoveryHandover=null;
 const state=loadProfiles(isolatedDiscovery?reviewProfiles:gameStorage);
 let discovery=null,intro=null,explorationTools=null,revealCameraStart=null;
 let frameGate,surfaceUploads,softwarePresentation,portraitCapturePending=false,lastUploadWorldPose=null;
@@ -57,17 +59,17 @@ document.getElementById('choose-helper').onclick=()=>helperPicker.choose(true);
 document.getElementById('guidance-help').onclick=()=>{if(echo)echo.showHelp();else toast('Guidance is preparing. Try again in a moment.');};
 let shadowScene=null,shadowTime=-Infinity,shadowActor=null,shadowActorYaw=0;
 const shadowActorPosition=new THREE.Vector3();
-function echoAction(action){if(action==='studio')openStudio();else if(action==='market')goToMarketEntrance();else visitResources();}
+function echoAction(action){if(action==='clue'){$('discovery-help').click();return;}if(action==='studio')openStudio();else if(action==='market')goToMarketEntrance();else visitResources();}
 async function visitResources(){await setMode('town');worlds.teleport(false,-7,23.3);actor.model.position.copy(worlds.position(false));yaw=0;aerial=false;setLocation('Course Documents · Arrival Gardens');updateCamera(1,true);echo?.showResources();}
 let echoLoad=null;
 async function loadEcho(){
  if(echo)return echo;if(echoLoad)return echoLoad;
- echoLoad=import('./echo-guide.js?v=options-companion-20261012').then(m=>{echo=m.createEchoGuide({storage:gameStorage,scene:worlds.town,physics:worlds.townPhysics.world,canvas,profile:()=>state.activeId,helper:()=>helperPicker.selected(),onPause:()=>{resetNavigationInput();actor.setWalking(false);},onAction:echoAction,review:new URLSearchParams(location.search).get('echo-review')==='1'});if(mode==='market')echo.markMarketVisited();return echo;}).finally(()=>{echoLoad=null;});return echoLoad;
+ echoLoad=import('./echo-guide.js?v=discovery-handover-20261021').then(m=>{echo=m.createEchoGuide({storage:gameStorage,scene:worlds.town,physics:worlds.townPhysics.world,canvas,profile:()=>state.activeId,helper:()=>helperPicker.selected(),context:()=>discovery?({...discovery.snapshot(),marketVisited:journey.snapshot().marketVisited}):null,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onAction:echoAction,review:new URLSearchParams(location.search).get('echo-review')==='1'});echo.setHidden(helperPicker.store.hidden(state.activeId));if(mode==='market')echo.markMarketVisited();return echo;}).finally(()=>{echoLoad=null;});return echoLoad;
 }
 async function applySelectedCompanion(helper=helperPicker.selected()){
- const isCreature=Boolean(helper.model);if(!echo&&!isCreature)return;
+ const isCreature=Boolean(helper.model);const visibility=$('companion-visibility');if(visibility)visibility.hidden=!isCreature;if(!echo&&!isCreature)return;
  const status=$('companion-status');if(status){status.hidden=false;status.textContent=isCreature?'Loading '+helper.name+'…':'Companion removed.';}
- try{const guide=await loadEcho();await guide.selectHelper(helper);if(helperPicker.selected().id!==helper.id)return;if(status){status.textContent=guide.snapshot().helperStatus==='failed'?helper.name+' could not load. Echo is available instead. Choose this companion again to retry.':isCreature?helper.name+' is ready beside you.':'Companion removed.';}}
+ try{const guide=await loadEcho();await guide.selectHelper(helper);guide.setHidden(helperPicker.store.hidden(state.activeId));if(helperPicker.selected().id!==helper.id)return;if(status){status.textContent=guide.snapshot().helperStatus==='failed'?helper.name+' could not load. Echo is available instead. Choose this companion again to retry.':isCreature?helper.name+' is ready beside you.':'Companion removed.';}}
  catch(error){if(status){status.hidden=false;status.textContent='Companion could not load. Your game is ready. Open Optional companion to retry.';}console.warn('Companion unavailable; game remains playable.',error);}
 }
 const marketRequested=new URLSearchParams(location.search).get('experience') && ['night-market','sunday-markets'].includes(new URLSearchParams(location.search).get('experience'));
@@ -76,8 +78,8 @@ const marketDialogOpen=()=>Boolean(classroomGate?.open()||nightMarket?.isOpen())
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
 let chapelTilt=0,flyover;
 function resetNavigationInput(){renderMotion=null;locomotion.reset();keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;if(softwareNavigationAt!==null)softwareNavigationAt=clock.getElapsedTime();document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
-function explorationMenuOpen(){return Boolean(orientationTour?.blocksWalking()||document.querySelector('#exploration-options')?.open||document.querySelector('#whole-character-choice')?.open||document.querySelector('#orientation-handover')?.open||explorationTools?.open());}
-function canFlyover(){return !marketDialogOpen()&&!intro?.open()&&!discovery?.open()&&!echo?.open()&&mode==='town'&&campusReady&&!enteringHall&&!enteringCareers&&!studioLoadPending&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!$('leave-dialog').open;}
+function explorationMenuOpen(){return Boolean(discoveryHandover?.open()||orientationTour?.blocksWalking()||document.querySelector('#exploration-options')?.open||document.querySelector('#whole-character-choice')?.open||document.querySelector('#orientation-handover')?.open||explorationTools?.open());}
+function canFlyover(){return !discoveryHandover?.open()&&!marketDialogOpen()&&!intro?.open()&&!discovery?.open()&&!echo?.open()&&mode==='town'&&campusReady&&!enteringHall&&!enteringCareers&&!studioLoadPending&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!$('leave-dialog').open;}
 function flyoverBlockedReason(){
  if(discovery?.open())return 'Close the picture clue to use Flyover · F.';
  if(helperPicker.open())return 'Finish or close companion choices to use Flyover · F.';
@@ -771,7 +773,7 @@ function takeNavigationElapsed(now,elapsed=0){
   const delta=Math.max(0,now-softwareNavigationAt);softwareNavigationAt=now;return delta;
 }
 function canStepNavigation(){
-  return !flyover?.active&&(mode!=='town'||entryReady)&&!marketOpening&&!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open();
+  return !discoveryHandover?.open()&&!flyover?.active&&(mode!=='town'||entryReady)&&!marketOpening&&!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open();
 }
 function softwareMovementActive(){return canStepNavigation()&&(keys.size>0||joystick.x!==0||joystick.z!==0);}
 function uploadWorldPose(){return [mode,actor.model.uuid,...actor.model.position.toArray().map(v=>+v.toFixed(3)),+actor.model.rotation.y.toFixed(3)].join('|');}
@@ -841,7 +843,7 @@ function animate(){
   if(document.hidden){accumulator=0;frames=0;metricsTime=now;return;}
   orientationTour?.update();flyover?.refresh();
   if(flyover?.active){if(!document.hidden&&!feedbackOpen()){flyover.update(dt);worlds.update(now,camera);}}
-  else if((mode!=='town'||entryReady)&&!marketOpening&&!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open){
+  else if(!discoveryHandover?.open()&&(mode!=='town'||entryReady)&&!marketOpening&&!intro?.open()&&!discovery?.open()&&!document.hidden&&!feedbackOpen()&&!marketDialogOpen()&&mode!=='studio'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open){
     // Freeze the displayed pose while a panel is open. A zero-input physics
     // step can still snap interpolation to a pending body pose. Keep staged
     // preparation and scene updates below running independently of movement.
@@ -859,7 +861,7 @@ function animate(){
   const paused=renderQuality(renderBackend,$('quality').value,devicePixelRatio).software&&mode!=='studio'&&!intro?.open()&&!discovery?.cinematic()&&(discovery?.openDialog()||explorationMenuOpen()||helperPicker.open()||echo?.open()||marketDialogOpen()||!$('module-overlay').hidden||$('reflection-dialog').open);
   // Keep the current view still behind a paused software UI. Camera smoothing
   // alone must not repeatedly invalidate its cached world frame.
-  if(!paused&&!discovery?.cinematic())updateCamera(dt,discovery?.reduced());if(!intro?.open()){discovery?.update(mode,actor.model.position,discovery?.cinematic()?Math.max(0,elapsed):dt);explorationTools?.update(dt,!discovery?.open()&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open());}echo?.update(dt,actor.model.position,camera,mode!=='studio'&&!helperPicker.open()&&!aerial&&!flyover?.active&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open,activeScene());positionESTPlayButton();
+  if(!paused&&!discovery?.cinematic())updateCamera(dt,discovery?.reduced());if(!intro?.open()){discovery?.update(mode,actor.model.position,discovery?.cinematic()?Math.max(0,elapsed):dt);discoveryHandover?.update(mode==='market');explorationTools?.update(dt,!discovery?.open()&&!explorationMenuOpen()&&!helperPicker.open()&&!echo?.open());}echo?.update(dt,actor.model.position,camera,mode!=='studio'&&!helperPicker.open()&&!aerial&&!flyover?.active&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open,activeScene());positionESTPlayButton();
   // Preserve the visible world while the requested Market or Stats module
   // loads. Repeated scene draws can starve the requested UI on a constrained GPU.
   const entryFrameRequired=mode==='town'&&entryPreparing&&entryGeometryReady&&!entryDrawSubmitted;
@@ -904,25 +906,31 @@ function setupExplorationMenus(){
  const all=document.createElement('a');all.href='?mode=full';all.textContent='All campus activities';list.append(all);
  const previewTools=document.createElement('details');previewTools.id='preview-tools';const previewTitle=document.createElement('summary');previewTitle.textContent='Preview tools';const previewNote=document.createElement('p');previewNote.textContent='Public preview tools. Opens a temporary tab without changing your playthrough.';const adminLink=document.createElement('a');adminLink.id='admin-review-entry';adminLink.textContent='Open Market Admin for review';adminLink.href=adminPreviewURL(location.href);adminLink.target='_blank';adminLink.rel='noopener noreferrer';adminLink.onclick=()=>closeExplorationOptions(false);previewTools.append(previewTitle,previewNote,adminLink);list.append(previewTools);
  const trail=$('discovery');const more=document.createElement('details');more.id='exploration-trail-options';more.innerHTML='<summary>Picture trail</summary>';more.append(trail);trail.hidden=false;list.append(more);list.append($('discovery-still').closest('label'));
- const resumeTour=document.createElement('button');resumeTour.id='resume-campus-tour';resumeTour.textContent='Resume companion tour';resumeTour.hidden=true;resumeTour.onclick=()=>{closeExplorationOptions(false);showOrientationHandover({restore:true}).catch(()=>{});};options.addEventListener('toggle',()=>{resumeTour.hidden=!discovery?.snapshot().souvenir;});list.append(resumeTour);
- const replay=document.createElement('button');replay.id='replay-campus-tour';replay.textContent='Replay companion tour';replay.onclick=()=>{closeExplorationOptions(false);showOrientationHandover().catch(()=>{});};list.append(replay);
- const help=document.createElement('button');help.id='exploration-help';help.textContent='Help';help.onclick=()=>{options.open=false;explorationTools?.close();$('discovery-help').click();};$('header-controls').prepend(help);
+ const resumeTour=document.createElement('button');resumeTour.id='resume-campus-tour';resumeTour.textContent='Resume companion tour';resumeTour.hidden=true;resumeTour.onclick=()=>{closeExplorationOptions(false);showOptionalOrientationTour({restore:true}).catch(()=>{});};options.addEventListener('toggle',()=>{resumeTour.hidden=!discovery?.snapshot().souvenir;});list.append(resumeTour);
+ const replay=document.createElement('button');replay.id='replay-campus-tour';replay.textContent='Replay companion tour';replay.onclick=()=>{closeExplorationOptions(false);showOptionalOrientationTour().catch(()=>{});};list.append(replay);
+ const help=document.createElement('button');help.id='exploration-help';help.textContent='Help';help.onclick=async()=>{options.open=false;explorationTools?.close();try{const guide=await loadEcho();guide.showHelp();}catch{toast('Help could not load. Open Picture trail in Options for your clue and movement assistance.');}};$('header-controls').prepend(help);
  $('resume-options').onclick=()=>closeExplorationOptions();
  options.addEventListener('toggle',()=>{if(options.open){explorationTools?.close();resetNavigationInput();actor?.setWalking(false);}else if(document.activeElement===options.querySelector('summary')){resetNavigationInput();canvas.focus({preventScroll:true});}if(!options.open)orientationTour?.update();});
  document.addEventListener('keydown',event=>{if(options.open&&event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();closeExplorationOptions();}},true);
  let dismissalTarget=null;
  document.addEventListener('pointerdown',event=>{if(!options.open){dismissalTarget=null;return;}if(options.contains(event.target))return;const world=event.target===canvas||event.target.closest('.movement');closeExplorationOptions(Boolean(world));if(world){dismissalTarget=event.target;event.preventDefault();event.stopImmediatePropagation();}},true);
  document.addEventListener('click',event=>{if(dismissalTarget===event.target){dismissalTarget=null;event.preventDefault();event.stopImmediatePropagation();}},true);
+ const visibility=document.createElement('button');visibility.id='companion-visibility';visibility.textContent=helperPicker.store.hidden(state.activeId)?'Show companion':'Hide companion';visibility.hidden=!helperPicker.selected().model;visibility.onclick=()=>{const hidden=!helperPicker.store.hidden(state.activeId);helperPicker.store.setHidden(state.activeId,hidden);echo?.setHidden(hidden);visibility.textContent=hidden?'Show companion':'Hide companion';};list.append(visibility);
  const status=document.createElement('p');status.id='companion-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.hidden=true;$('experience').append(status);
 }
 function closeExplorationOptions(focus=true){const options=$('exploration-options');if(options){options.open=false;options.querySelectorAll('details').forEach(menu=>menu.open=false);}resetNavigationInput();orientationTour?.update();if(focus)canvas.focus({preventScroll:true});}
 let companionOffered=gameStorage.getItem('ce-companion-offered')==='1';
 let orientationHandoverSeen=false,orientationSummary=orientationHandoverCopy({earned:null,tax:null});
-async function showOrientationHandover({restore=false}={}){
+async function showOrientationHandover(){
+ if(!discovery?.snapshot().souvenir)return;
+ journey.bank({...discovery.snapshot(),souvenir:discovery.photo()});await explorationTools?.completeOrientation();
+ $('discovery-dialog').close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;orientationHandoverSeen=true;discoveryHandover.show();if(helperPicker.selected().model)applySelectedCompanion();
+}
+async function showOptionalOrientationTour({restore=false}={}){
  if(!discovery?.snapshot().souvenir)return;
  resetNavigationInput();actor.setWalking(false);closeExplorationOptions(false);explorationTools?.close();document.body.classList.add('guest-photo-finished');$('choose-helper').hidden=false;
  orientationSummary=orientationHandoverCopy({earned:null,tax:null});try{orientationSummary=orientationHandoverCopy(await explorationTools.completeOrientation());}catch{}
- if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=cadence-audit-20261018&retry='+orientationTourAttempt).then(({createOrientationTour})=>{
+ if(!orientationTourLoad)orientationTourLoad=import('./orientation-tour.mjs?v=discovery-handover-20261021&retry='+orientationTourAttempt).then(({createOrientationTour})=>{
   orientationTour=createOrientationTour({storage:gameStorage,photo:()=>discovery.photo(),summary:()=>orientationSummary,helper:()=>helperPicker.selected(),
    chooseHelper:async preparing=>{await helperPicker.choose(true);const selected=helperPicker.selected();if(selected.model)preparing(selected.name+' is getting ready. You can skip the tour while your companion prepares.');await companionApply;if(selected.model&&echo?.snapshot().helperStatus==='failed')throw Error('Companion unavailable');},
    fly:()=>{closeExplorationOptions(false);explorationTools.showMap();return flyover.enter();},openOptions:()=>{$('exploration-options').open=true;},optionsOpen:()=>Boolean($('exploration-options')?.open),
@@ -1003,9 +1011,10 @@ async function boot(){
       discovery=createDiscovery({THREE,worlds,canvas,enterQuiet:enterChapel,storage:gameStorage,onPhotoFinish:showOrientationHandover, onParcel:()=>{explorationTools?.awardParcel();worlds.ensureChapel().catch(()=>{});},available:()=>!intro?.open()&&!helperPicker.open()&&!echo?.open()&&!explorationMenuOpen(),onLocation:label=>{if($('location-title').textContent!==label.title||$('location-subtitle').textContent!==label.subtitle){setLocation(label.title);$('location-subtitle').textContent=label.subtitle;}},beforeCapture:async()=>{resetNavigationInput();actor.setWalking(false);prepareCastPortrait(teachers,actor.model.position);await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));prepareCastPortrait(teachers,actor.model.position);},pathsReady:()=>entryReady,muralReady:()=>worlds.muralReady,position:()=>actor.model.position,mode:()=>mode,travel:async target=>{if(target==='oval'){await prepareEntry();await loadTeachers({explicit:true});}if(['start','parcel','chapel-door','chapel'].includes(target))await prepareEntry();else await ensureCampus();if(target==='chapel'){await enterChapel();return;}await setMode('town');const points={start:[-7,23.3,0],parcel:[-7,16.3,0],'chapel-door':[-3.15,-8.8,1.1],mural:[10.6,-38.4,Math.PI/2],oval:[-4,-57,Math.PI]};const v=points[target];worlds.teleport(false,v[0],v[1]);actor.model.position.copy(worlds.position(false));yaw=v[2];setLocation(target==='mural'?'Mural detail':target==='oval'?'Oval · filming spot':'Arrival Gardens');updateCamera(1,true);},capture:capturePortraitFrame,pause:()=>{resetNavigationInput();actor.setWalking(false);},releaseReveal:()=>{resetNavigationInput();actor.setWalking(false);if(mode==='town'){const p=actor.model.position;yaw=Math.atan2(camera.position.x-p.x,camera.position.z-p.z);aerial=false;updateCamera(1,true);}},reveal:()=>{revealCameraStart=camera.clone();if(mode==='town')setLocation('Oval · filming spot');updateTeacherLoading();},explore:()=>canvas.focus(),personalise:()=>openWholeCharacterChoice(),market:async()=>{if(!orientationHandoverSeen)await showOrientationHandover();else await goToMarketEntrance();},frameReveal:t=>{const p=actor.model.position,from=revealCameraStart||camera;const startYaw=Math.atan2(from.position.x-p.x,from.position.z-p.z);const delta=Math.atan2(Math.sin(Math.PI-startYaw),Math.cos(Math.PI-startYaw));const angle=startYaw+delta*t,initialDistance=Math.hypot(from.position.x-p.x,from.position.z-p.z),distance=THREE.MathUtils.lerp(initialDistance,6.4,t);camera.position.set(p.x+Math.sin(angle)*distance,THREE.MathUtils.lerp(from.position.y,2.5,t),p.z+Math.cos(angle)*distance);camera.lookAt(p.x,1.25,p.z+2.4*t);yaw=angle;if(t===1)actor.model.rotation.y=0;},stageCast:(t,dt)=>{const layout=revealLayout(actor.model.position);teachers.forEach(n=>n.stagePose(layout.teacherX(n.id),layout.teacherZ(t),t<1,t===1&&dt===0?.3:dt));},castReady:()=>teachers.length===2});
     }
     if(discoveryReview){
-      setupExplorationMenus();if(discovery.snapshot().souvenir){document.body.classList.add('guest-photo-finished');if(companionOffered&&helperPicker.selected().model)afterFirstPaint().then(()=>applySelectedCompanion());}
-      if(entryParams.get('tour')&&discovery.snapshot().souvenir)afterFirstPaint().then(()=>showOrientationHandover({restore:entryParams.get('tour')==='resume'})).catch(()=>{});
-      explorationTools=createExplorationTools({THREE,worlds,position:()=>actor.model.position,navigationPosition:()=>flyover?.active?camera.position:actor.model.position,navigationTarget:()=>orientationTour?.target(),routeMarket:goToMarketEntrance,mode:()=>mode,state:()=>discovery.snapshot(),photo:()=>discovery.photo(),reviewPhoto:()=>discovery.showPhotoFinish(),review:isolatedDiscovery||adminReviewRequested,storage:gameStorage,market:()=>nightMarket,notify:message=>toast(message),onOpen:()=>{const options=document.querySelector('#exploration-options');if(options)options.open=false;resetNavigationInput();},onClose:()=>orientationTour?.update(),header:$('header-controls')});
+      setupExplorationMenus();if(discovery.snapshot().souvenir){document.body.classList.add('guest-photo-finished');if(helperPicker.selected().model)afterFirstPaint().then(()=>applySelectedCompanion());}
+      if(entryParams.get('tour')&&discovery.snapshot().souvenir)afterFirstPaint().then(()=>showOptionalOrientationTour({restore:entryParams.get('tour')==='resume'})).catch(()=>{});
+      explorationTools=createExplorationTools({THREE,worlds,position:()=>actor.model.position,navigationPosition:()=>flyover?.active?camera.position:actor.model.position,navigationTarget:()=>orientationTour?.target(),routeMarket:goToMarketEntrance,mode:()=>mode,state:()=>({...discovery.snapshot(),souvenir:discovery.photo()}),photo:()=>discovery.photo(),reviewPhoto:()=>discovery.showPhotoFinish(),review:isolatedDiscovery||adminReviewRequested,storage:gameStorage,market:()=>nightMarket,notify:message=>toast(message),onOpen:()=>{const options=document.querySelector('#exploration-options');if(options)options.open=false;resetNavigationInput();},onClose:()=>orientationTour?.update(),journey,header:$('header-controls')});
+      journey.bank({...discovery.snapshot(),souvenir:discovery.photo()});discoveryHandover=createDiscoveryHandover({journey,header:$('header-controls'),goMarket:async()=>{await goToMarketEntrance();if(!adminReviewRequested&&(mode!=='town'||Math.hypot(actor.model.position.x-MARKET_APPROACH.x,actor.model.position.z-MARKET_APPROACH.z)>.3))throw Error('Market entrance unavailable');},pause:()=>{closeExplorationOptions(false);echo?.close();resetNavigationInput();actor.setWalking(false);},resume:()=>{resetNavigationInput();canvas.focus({preventScroll:true});}});discoveryHandover.update();
       const introStorage=gameStorage;
       intro=window.CareerEmpireIntro?.intro||createTasterIntro({profile:state.activeId,storage:introStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onResume:()=>{resetNavigationInput();updateEntryLoading();updateCamera(1,true);},focusTarget:canvas});
       if(window.CareerEmpireIntro){window.CareerEmpireIntro.bridge.pause=()=>{resetNavigationInput();actor.setWalking(false);};window.CareerEmpireIntro.bridge.resume=()=>{resetNavigationInput();updateEntryLoading();updateCamera(1,true);};}

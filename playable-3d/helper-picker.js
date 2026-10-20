@@ -1,4 +1,4 @@
-import {HELPERS,helperFor,createHelperStore} from './helper-state.js?v=guidance-20260928';
+import {HELPERS,helperFor,createHelperStore} from './helper-state.js?v=discovery-handover-20261021';
 export function createHelperPicker({profile,onOpen=()=>{},onClose=()=>{},onChange=()=>{},storage,guest=false}){
  if(!storage)try{storage=localStorage;}catch{}
  const store=createHelperStore(storage),dialog=document.createElement('dialog');dialog.id='helper-picker';dialog.setAttribute('aria-labelledby','helper-heading');

@@ -80,7 +80,7 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
   $('discovery-title').textContent=final?(state.souvenir?'Congratulations!':'Your campus photo'):clue.title;
   $('discovery-picture').src=final?(state.souvenir||'./discovery-assets/oval-clue.jpg'):clue.image;
   $('discovery-picture').alt=final?'Your in-game cast portrait and chosen scout detail.':clue.alt;
-  $('discovery-copy').textContent=final?(state.souvenir?'Take a look at your photo. It will stay here until you continue. Continue for your companion campus tour: return to the start, explore your menu, Stats and course outline, then begin Initiative with Mara.':'Take your photo to complete the mini overview.'):clue.copy;
+  $('discovery-copy').textContent=final?(state.souvenir?'Take a look at your photo. It will stay here until you continue. Continue to celebrate your first experience and choose what to do next.':'Take your photo to complete the mini overview.'):clue.copy;
   $('discovery-hint').textContent=hint?clue.hint:'';$('discovery-after').hidden=!final;
   for(const id of ['discovery-clearer','discovery-assist'])$(id).hidden=final;
   $('discovery-poster').disabled=!state.souvenir;let handover=$('discovery-market-handover');if(!handover){handover=document.createElement('button');handover.id='discovery-market-handover';handover.textContent='Head to the market · first activity';handover.onclick=()=>{dialog.close();market();};$('discovery-after').append(handover);}handover.hidden=!state.souvenir||photoReviewPending;let inspect=$('discovery-inspect');if(!inspect){inspect=document.createElement('button');inspect.id='discovery-inspect';inspect.textContent='Inspect full photo';inspect.onclick=()=>{const expanded=inspect.getAttribute('aria-pressed')==='true';inspect.setAttribute('aria-pressed',String(!expanded));inspect.textContent=expanded?'Inspect full photo':'Fit photo';$('discovery-picture').style.height=expanded?'':'auto';};$('discovery-after').append(inspect);}inspect.hidden=!state.souvenir;inspect.setAttribute('aria-pressed','false');inspect.textContent='Inspect full photo';
@@ -160,9 +160,9 @@ export function createDiscovery({THREE:T,worlds,canvas,position,mode,travel,capt
  async function continuePhotoReview(){
   if(captureBusy||photoHandoverBusy)return;scoutPlace=null;
   if(photoReviewPending&&state.souvenir){
-   photoHandoverBusy=true;$('discovery-continue').disabled=true;$('discovery-continue').textContent='Opening your campus tour…';
+   photoHandoverBusy=true;$('discovery-continue').disabled=true;$('discovery-continue').textContent='Opening your next experience…';
    try{await onPhotoFinish();photoReviewPending=false;if(dialog.open){dialog.close();explore();}}
-   catch{$('discovery-hint').textContent='Your photo is safe. The campus tour could not open; choose Continue to retry.';}
+   catch{$('discovery-hint').textContent='Your photo is safe. Your next experience could not open; choose Continue to retry.';}
    finally{photoHandoverBusy=false;$('discovery-continue').disabled=false;$('discovery-continue').textContent='Continue';}
   }else{dialog.close();explore();}
  }

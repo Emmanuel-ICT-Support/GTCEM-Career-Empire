@@ -1,8 +1,8 @@
 {
-  "release": "touch-options-20261018",
+  "release": "discovery-handover-review-20261021",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "83e3f1f9adbf25c36a043ef3da22000cd1a7303c",
-  "scope": "Unpublished follow-up: mobile Options scrolls above the touch joystick. Original graphics, frame assertion and classroom pacing behavior preserved. Final-source full regression pending.",
+  "baseCommit": "dee8291bd3cc8ae713f47ad9fbc89d5624092730",
+  "scope": "Review only: discovery My Journey banking, two-choice initiative handover, shared optional guidance and persistent companion visibility. Browser validation blocked; no deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "dc113878ace864e0e350c005a0c12d2166b93cda1c62aa69f6b194be9cc165ff"
+      "sha256": "a0550a14595a27c79a8b8c54b0127014c0657a9a49324ce5e714646444fcd071"
     },
     {
       "path": "arcade-carnival.js",
@@ -614,7 +614,7 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "9b1514ab0cd5d0dc9ee6c791acd02fe4aac07bf296f81a76e640365d4c094df3"
+      "sha256": "c873c09780e710a6b416a24ea0cb6aec7dc07af4c300e01a0a8b815df1992cd8"
     },
     {
       "path": "discovery-state.mjs",
@@ -730,7 +730,7 @@
     },
     {
       "path": "echo-guide.js",
-      "sha256": "c25a3d3c869d8844338773420f3bbbd6476a0078ad67c536dbe357bd81d3e11c"
+      "sha256": "5163b4c25f561ce8e086a3da2b26bed597939e077a3ffbfd30671729e2f88bcc"
     },
     {
       "path": "echo-state.js",
@@ -818,7 +818,7 @@
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "f542441de65c17dc6a8d042231836cb9f2275273ae0328669362e44cff1de0fb"
+      "sha256": "d39d47612386572b917084831768c20bf4f14eb61ee1986fccec8a582ed46612"
     },
     {
       "path": "field-guide.html",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "aa290735494981cbc18d479b4ff947ee05b61ed6e177946ffd31a3ff63cc695c"
+      "sha256": "385cafa0a541563903ca7ccca563eb82db158c85dd5ddb67413dc977ab090685"
     },
     {
       "path": "header-controls.css",
@@ -858,15 +858,15 @@
     },
     {
       "path": "helper-picker.js",
-      "sha256": "d38d528457f56a7e347c716d6d3b05e41ac559041e5af20bb5c3edec1bc15827"
+      "sha256": "79fa85fe62b50493d68cc7673c8c1f6ea82c182377a768b824b58727d77d7b02"
     },
     {
       "path": "helper-state.js",
-      "sha256": "91b9e917718d5364226d33ea647e5a92ec69a480a9a0366ef480863daf828feb"
+      "sha256": "cc15be4b685039bfc9b5edafffbcef0f889fa88a68b5d4f352436de89404abe0"
     },
     {
       "path": "index.html",
-      "sha256": "27af8a62fc586a2191a8f5c22a0f03245706c8d5759df3f67bb8c082f6d5e3f1"
+      "sha256": "7624a66b8e3e9b01fd0694d0acccaed7b5801359a74d7d2d1fd7c4d6b54dcdd0"
     },
     {
       "path": "initiative-field-guide.html",
@@ -974,7 +974,7 @@
     },
     {
       "path": "orientation-tour.mjs",
-      "sha256": "4faa9567e8683cd455e629d1f253a75b881fc29777678d3ace1924d5fabf3938"
+      "sha256": "ce3244a928f00a2ebb742f1640f20a72f7bb8ee7651e882718eb9ee1894c315b"
     },
     {
       "path": "phone-assets.js",
@@ -1147,6 +1147,18 @@
     {
       "path": "classroom-gate.mjs",
       "sha256": "b770c1e5e87cf0b30d27f4a55aa4d9877f629724434989a1a92698bbcb821d3b"
+    },
+    {
+      "path": "companion-follow.mjs",
+      "sha256": "b0c2e5dfc7a5aadaa1952770f192409d2ce9bd95682ae6537d930008a95cd6e7"
+    },
+    {
+      "path": "context-guidance.mjs",
+      "sha256": "a1b09c6e17cf81d785fa8f5a73d25e25a493b86fbd30b179a6c95cb56c90b0c5"
+    },
+    {
+      "path": "discovery-handover.mjs",
+      "sha256": "6b75a31b233fb4dd6a8bd42b730b11bed696280551089b2cbea77f3bdec1afb5"
     }
   ],
   "estVideo": {

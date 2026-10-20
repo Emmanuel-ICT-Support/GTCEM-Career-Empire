@@ -5,7 +5,7 @@ export function resumeOrientationStep(saved){
  if(!saved||![1,2].includes(saved.version)||!Number.isInteger(saved.step)||saved.step<0||saved.step>=(saved.version===1?8:10))return 0;
  return saved.version===1&&saved.step>=6?saved.step+2:saved.step;
 }
-const TITLES=['First mission complete!','Your companion','Fly back to the start','Your menu','Your earnings and collection','Your course outline','Choose your character','Explore at your own pace','Start with Initiative','Mara needs your help'];
+const TITLES=['First mission complete!','Your companion','Fly back to the start','Your menu','Your discoveries','Your course outline','Choose your character','Explore at your own pace','Start with Initiative','Mara needs your help'];
 export function createOrientationTour({storage,photo,summary,helper,chooseHelper,fly,openOptions,optionsOpen,openStats,statsOpen,openCourse,goMarket,openCharacter,characterOpen=()=>false,pause,resume,stop}){
  const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./orientation-tour.css?v=post-photo-tour-20261013',import.meta.url);document.head.append(css);
  const panel=document.createElement('section');panel.id='orientation-tour';panel.hidden=true;panel.setAttribute('role','region');panel.setAttribute('aria-label','Companion campus tour');
@@ -16,11 +16,11 @@ export function createOrientationTour({storage,photo,summary,helper,chooseHelper
  function render(){
   panel.hidden=!active||awaitingClose;if(!active)return;panel.dataset.step=String(step);panel.dataset.flight=String(step===2);q('[data-count]').textContent=(step+1)+' / 10 · campus tour';q('h2').textContent=TITLES[step];q('[data-status]').textContent=notice;
   const h=helper(),image=step===0?photo():step===1&&h.model?h.portrait:step===9?'./assets/community-cast-20260927/mara-portrait.png':null;
-  q('[data-visual]').innerHTML=step===3?'<span>Options</span><span>Places · Character · Companion · My Life</span>':step===4?'<span>◈ Earnings</span><span>♧ Community taxes</span><span>▧ Collected pictures</span>':step===5?'<span>Unit 3</span><span>Unit 4</span>':step===8?'<span>Notice</span><span>Investigate</span><span>Agree & act</span><span>Check</span>':'';q('[data-picture]').hidden=!image;if(image)q('[data-picture]').src=new URL(image,import.meta.url).href;
+  q('[data-visual]').innerHTML=step===3?'<span>Options</span><span>Places · Character · Companion · My Life</span>':step===4?'<span>▧ My Journey</span><span>Collected discoveries and pictures</span>':step===5?'<span>Unit 3</span><span>Unit 4</span>':step===8?'<span>Notice</span><span>Investigate</span><span>Agree & act</span><span>Check</span>':'';q('[data-picture]').hidden=!image;if(image)q('[data-picture]').src=new URL(image,import.meta.url).href;
   const copy=[summary(),h.model?'Hi, I’m '+h.name+'. I’ll help you find your way.':'You can explore independently. The same help is available with phone / journal or no companion.',
    'Use Flyover to return to Arrival Gardens. Follow the start marker on the live map at bottom right. WASD moves; Q / E changes height. Land with the visible button or L. Landing elsewhere is fine: the start is still your destination.',
    'Open Options to see Places, Character, the optional companion and My Life. Close it when you are ready to continue.',
-   'Open Stats to inspect your recorded earnings, community taxes and collected pictures. The opening practice balance is separate from money earned. Close Stats to continue.',
+   'Open Stats to see My Journey: the discoveries and pictures you collected. Close Stats whenever you are ready.',
    'My Life keeps your draft learning sequence and printable outline alongside Progress and My work. Numbered phases are proposed; teaching weeks, lessons, dates and assessment tasks are still to be confirmed.',
    'Choose a character in Avatar Studio. Your character is how you appear in this world; it does not choose or limit your occupation. Save and return to continue, or keep your current character.',
    'Take time to explore if you like. Close this tour to walk freely; choose Resume companion tour in Options whenever you want to continue. When you are ready, continue to Initiative.',
