@@ -1,0 +1,60 @@
+name: Suit shadow diagnostic (not release qualification)
+
+# Install on a separate diagnostic branch based on the failing source commit.
+# Existing ci.yml and required checks are intentionally unchanged.
+'on':
+  push:
+    branches: ['diagnostic/suit-shadow-e657a1e']
+
+permissions:
+  contents: read
+
+jobs:
+  suit-shadow-diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Install the same Playwright browser as CI
+        run: npx playwright install --with-deps chromium
+      - name: Record environment and source revision
+        shell: bash
+        run: |
+          mkdir -p coverage/suit-diagnostic
+          {
+            git rev-parse HEAD
+            git status --short
+            uname -a
+            node --version
+            npm --version
+            npx playwright --version
+          } 2>&1 | tee coverage/suit-diagnostic/environment.txt
+      - name: Profile the two unchanged walking-shadow tests
+        shell: bash
+        env:
+          CE_SUIT_PROFILE: '1'
+          PLAYWRIGHT_JSON_OUTPUT_FILE: coverage/suit-diagnostic/browser-report.json
+        run: |
+          set -o pipefail
+          npx playwright test tests/e2e/suit-flicker.spec.js \
+            --grep "playable suit shadows follow every walking frame" \
+            --project=chromium --workers=1 --retries=0 --max-failures=0 \
+            --reporter=line,json \
+            2>&1 | tee coverage/suit-diagnostic/console.log
+      # CE_SUIT_PROFILE captures the existing 1280px native trace SUMMARY.
+      # Both widths log frame timing; full Playwright tracing remains off,
+      # matching CI and avoiding an extra tracing variable in this comparison.
+      - name: Preserve evidence even if a test fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: suit-shadow-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: coverage/
+          if-no-files-found: warn
+          retention-days: 3
