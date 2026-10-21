@@ -1,3 +1,4 @@
+import {openDiscoveryClue,openClueHelp} from './discovery-controls.js';
 import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {walkThroughMarketEntrance} from './market-controls.js';
@@ -10,7 +11,7 @@ test('completed photo hands over from full campus to visible Market and real wal
  const state=()=>page.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}'));
  await page.goto('/playable-3d/?guestRun=market-transition');await expect.poll(state,{timeout:30000}).toMatchObject({entryReady:true});
  await page.locator('#exploration-options > summary').click();await page.locator('#destination-menu > summary').click();await page.locator('#oval-destination').click();await expect.poll(state,{timeout:30000}).toMatchObject({campusReady:true,mode:'town'});await page.locator('#resume-options').click();
- await page.locator('#exploration-help').click();await expect(page.locator('#discovery-dialog')).toBeVisible();await page.locator('#discovery-market-handover').click();await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','0');await page.locator('#orientation-tour [data-skip]').click();await page.locator('#exploration-options > summary').click();await page.locator('#destination-menu > summary').click();await page.locator('#market-destination').click();await walkThroughMarketEntrance(page);
+ await openDiscoveryClue(page);await expect(page.locator('#discovery-dialog')).toBeVisible();await page.locator('#discovery-market-handover').click();await expect(page.locator('#discovery-handover')).toBeVisible();await expect(page.locator('#discovery-handover button')).toHaveText(['Head straight to the market','Keep exploring']);await page.locator('#discovery-handover [data-market]').click();await walkThroughMarketEntrance(page);
  await expect.poll(state,{timeout:30000}).toMatchObject({mode:'market',market:{guidance:['Mara']}});await expect(page.locator('#market-hud')).toBeVisible();await page.screenshot({path:info.outputPath('market-visible.png')});
  await page.locator('#scene').focus();await page.keyboard.down('KeyW');try{await expect(page.locator('#interact')).toHaveText('Talk to Mara',{timeout:20000});}finally{await page.keyboard.up('KeyW');}
  const moved=await state();expect(moved.position[2]).toBeLessThan(0);await page.locator('#interact').click();await expect(page.locator('#market-dialog-title')).toHaveText('Meet the Juniper crew');expect(errors).toEqual([]);

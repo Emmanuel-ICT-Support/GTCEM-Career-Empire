@@ -79,3 +79,35 @@
 #orientation-handover .dialog-actions{flex-wrap:wrap;gap:8px}
 
 .discovery-review.guest-photo-finished #flyover-slot{display:inline-flex!important}
+
+/* Welcoming photo trail: one main action, optional help, in-game camera. */
+body:has(#discovery-dialog[open]) #flyover-quick-controls,body:has(#discovery-dialog[open]) #flyover-hint,body:has(#discovery-dialog[open]) #flyover-reminder{visibility:hidden!important;pointer-events:none!important}
+#discovery-dialog{width:min(620px,calc(100vw - 24px));max-height:calc(100dvh - 24px);padding:26px;border:2px solid #b9d9bd;border-radius:24px;background:linear-gradient(145deg,#fff9e8 0%,#fffdf5 55%,#edf7e9 100%);box-shadow:0 18px 70px #173b3540;line-height:1.5}
+#discovery-dialog .discovery-eyebrow{display:inline-block;background:#e7efd8;color:#254c40;padding:5px 10px;border-radius:20px;font:800 11px/1.4 system-ui;letter-spacing:1.3px}
+#discovery-dialog h2{font:750 clamp(23px,4.5vw,30px)/1.18 system-ui;margin:14px 0}
+#discovery-dialog p:empty{display:none}#discovery-copy{font-size:16px;line-height:1.5}#discovery-picture{border:7px solid white;box-shadow:0 4px 12px #23473c1c;border-radius:16px;background:#e5eddf}
+#discovery-dialog button{min-height:44px;font:650 15px/1.35 system-ui;padding:10px 15px;border-radius:12px;border-color:#628578}#discovery-dialog button:disabled{opacity:.5;cursor:default}
+#discovery-dialog .discovery-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}#discovery-dialog #discovery-continue,#discovery-dialog .discovery-choice-primary{background:#245d4d;color:#fffdf2;border-color:#245d4d;font-weight:750}
+#discovery-close{min-width:44px}#discovery-help-options,.scout-keyboard{margin-top:14px;border:1px solid #c9dbbf;border-radius:12px;background:#edf5e6;padding:10px 12px;font-size:14px}#discovery-help-options>summary,.scout-keyboard>summary{cursor:pointer;font-weight:700;min-height:24px}#discovery-hint{padding:0;background:transparent;line-height:1.5}
+#discovery-storage{border-top:1px solid #d5dfcd;margin:16px 0 0;padding-top:12px;font:12px/1.5 system-ui;color:#4c6256}
+#discovery-gift-context{background:#fbe3a4;border-left:5px solid #b37310;border-radius:14px;padding:14px;margin:14px 0;color:#264639}#discovery-gift-context strong{font-size:14px}#discovery-gift-context p{margin:5px 0 0;font-size:15px}#discovery-gift-context img{float:right;width:64px;height:64px;object-fit:contain;margin-left:10px}
+#discovery-dialog .develop-pictures{background:#d8e6d2;border:7px solid white;box-shadow:0 4px 15px #25443820;border-radius:16px}#discovery-dialog .develop-pictures img{width:100%;height:230px;object-fit:contain}#scout-toy .develop-instruction{display:block;margin-top:16px;font-weight:700;color:#274e42}#scout-toy #develop{min-height:44px;accent-color:#277960;cursor:ew-resize}#develop-response{font-weight:700;color:#245b43;font-size:14px}
+#discovery-celebration{display:flex;gap:12px;align-items:center;background:#e4f1d4;border:1px solid #9ac181;border-radius:14px;padding:12px;margin:12px 0;font-weight:700;color:#28513a}#discovery-celebration img{width:54px;height:54px;object-fit:cover;border:4px solid #fff;border-radius:10px;transform:rotate(-4deg)}
+#discovery-dialog.scout-camera-dialog{width:min(560px,calc(100vw - 24px));padding:22px;font-size:15px;line-height:1.5}#discovery-dialog.scout-camera-dialog #discovery-copy{font-size:15px;line-height:1.5}
+.scout-phone{max-width:330px;margin:0 auto;padding:10px;background:#1e3f38;border:3px solid #2f564b;border-radius:28px;box-shadow:0 9px 20px #1d3e352b}.scout-phone-top{display:flex;align-items:center;gap:8px;padding:7px 4px 12px;color:#fff8de;font:750 10px/1.4 system-ui;letter-spacing:1px}.scout-phone-top>span{color:#f8bf58}.scout-phone-top small{margin-left:auto;font-size:8px}
+#discovery-dialog.scout-camera-dialog .scout-phone .scout-viewfinder{width:100%;min-height:180px;margin:0;border:0;border-radius:16px;background:#36584e}.scout-phone .scout-viewfinder>img{min-height:180px;width:100%;object-fit:contain;color:#fff8de;font:14px/1.5 system-ui}.scout-phone .scout-reticle{border-width:3px;box-shadow:0 0 0 2px #1b3d34,0 0 0 300px #173b3515}
+#discovery-dialog #scout-shutter{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;width:86px;height:86px;min-height:86px;border:6px solid #fff9e9;border-radius:50%;background:#f6bc52;color:#193d32;box-shadow:0 0 0 2px #8ba889;padding:3px!important;font:750 11px/1.2 system-ui}#scout-shutter>span:first-child{font-size:25px;line-height:1}#discovery-dialog #scout-shutter:focus-visible{outline:3px solid #ffcf5f;outline-offset:5px}.scout-camera-actions{margin:12px 0 4px}.scout-keyboard{background:#f0f4e7;font-size:12px}.scout-keyboard p{font-size:13px}.scout-keyboard .scout-direction{flex-wrap:wrap}#scout-feedback{font-size:14px;font-weight:650;color:#315e45}
+@media(max-width:620px){#discovery-dialog,#discovery-dialog.scout-camera-dialog{padding:17px;border-radius:20px}#discovery-dialog .develop-pictures img{height:180px}#discovery-gift-context{padding:11px}#discovery-gift-context p{font-size:14px}#discovery-dialog .discovery-actions #discovery-continue{width:100%}#discovery-dialog.scout-camera-dialog .scout-phone{max-width:290px}#discovery-picture{height:190px}#discovery-dialog .discovery-actions{margin-top:12px}}
+@media(prefers-reduced-motion:reduce){#discovery-dialog *,#discovery-dialog *::before,#discovery-dialog *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* Extra reminder controls may wrap; keep them within the narrow header. */
+@media(max-width:820px){.discovery-review .topbar{height:auto;min-height:66px;flex-wrap:wrap}.discovery-review .header-controls{flex-wrap:wrap;min-width:0;max-width:100%}}
+#discovery-dialog .flyover-modal-hint{display:none!important}
+#discovery-save-info{border-top:1px solid #d5dfcd;margin-top:14px;padding-top:10px;color:#4c6256;font:12px/1.5 system-ui}#discovery-save-info>summary{cursor:pointer;min-height:28px}#discovery-save-info #discovery-storage{border:0;padding-top:6px;margin-top:0}
+#discovery-dialog .develop-pictures img{height:clamp(110px,22vh,180px)}
+#discovery-dialog[data-panel="reveal"] .discovery-actions{position:sticky;bottom:-26px;background:#fffdf2;padding:10px 0;margin-top:8px;z-index:2}
+@media(max-width:620px){#discovery-dialog[data-panel="reveal"] .discovery-actions{bottom:-17px}#discovery-gift-context img{width:48px;height:48px}}
+#discovery-dialog .develop-pictures img{height:clamp(100px,18vh,160px)}
+#discovery-dialog[data-panel="reveal"] .discovery-actions{position:static;bottom:auto;padding:0;z-index:auto}
+/* Loaded artwork keeps its natural ratio so pointer coordinates match the source. */
+#discovery-dialog.scout-camera-dialog .scout-phone .scout-viewfinder{min-height:0}.scout-phone .scout-viewfinder>img{min-height:0;height:auto}
+#discovery-dialog.scout-camera-dialog .scout-viewfinder:has(img[data-pending]),#discovery-dialog.scout-camera-dialog .scout-viewfinder:has(img[data-unavailable]),.scout-phone .scout-viewfinder>img[data-pending],.scout-phone .scout-viewfinder>img[data-unavailable]{min-height:180px}

@@ -1,8 +1,8 @@
 {
-  "release": "discovery-handover-review-20261021",
+  "release": "colourful-discovery-review-20261021",
   "gameUrl": "/playable-3d/",
   "baseCommit": "dee8291bd3cc8ae713f47ad9fbc89d5624092730",
-  "scope": "Review only: nonmonetary discovery My Journey banking, two-choice initiative handover, shared optional guidance and persistent companion visibility. Existing wallet history preserved; discovery currency triggers removed. Browser validation blocked; no deployment.",
+  "scope": "Review only: colourful accessible photo-trail panels, one-time gift context, accurate run/browser save wording, My Journey banking, two-choice initiative handover and optional companion guidance. All discovery currency triggers suppressed; historic wallet preserved. Component QA only; complete baseline assets unavailable; no deployment.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "3252ec5b9aabbf5a9b76a29f38d22d4c382b233bd0ce46cdc3c56f74b27b5e62"
+      "sha256": "06666da6f6f37db6eb988fe01e8a56627ef9700adbd40f5895008bb266f1da15"
     },
     {
       "path": "arcade-carnival.js",
@@ -610,11 +610,11 @@
     },
     {
       "path": "discovery-opening.css",
-      "sha256": "532fedb8b0ecc5f7a25dba12f61cee9c46be595083b854518a57d91feebfecf8"
+      "sha256": "5ef84e79acba6e1c06b5c9e33a64c4d772bb55de6d72d565629325b76f94e2c0"
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "c873c09780e710a6b416a24ea0cb6aec7dc07af4c300e01a0a8b815df1992cd8"
+      "sha256": "b41d930fcdcf9b04de1ae6f7ca0805b04220b3665448794650ea0eca6e3b457b"
     },
     {
       "path": "discovery-state.mjs",
@@ -818,7 +818,7 @@
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "26dc7d27e8f1b359c33796756654a0b564c88e031c90ef1f07ac2501b975c718"
+      "sha256": "d5d86c84ec0f2dc825923098250cf167051e547391880f88926ea0558c040341"
     },
     {
       "path": "field-guide.html",
@@ -842,7 +842,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "385cafa0a541563903ca7ccca563eb82db158c85dd5ddb67413dc977ab090685"
+      "sha256": "b7706b6ca85696201cba5f1b8781edfe4aaecfa8590f34b166e2b1c623140521"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +866,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "7624a66b8e3e9b01fd0694d0acccaed7b5801359a74d7d2d1fd7c4d6b54dcdd0"
+      "sha256": "8d101edaa96f8cd4a887be59220fcb4dd4505d45b95e037e8693c3bcc2b7d62d"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1158,7 +1158,7 @@
     },
     {
       "path": "discovery-handover.mjs",
-      "sha256": "6b75a31b233fb4dd6a8bd42b730b11bed696280551089b2cbea77f3bdec1afb5"
+      "sha256": "c34b96cfaa54308e474cb1b25359a70a9b5c2b049be4e55449f2872cde29f193"
     }
   ],
   "estVideo": {
