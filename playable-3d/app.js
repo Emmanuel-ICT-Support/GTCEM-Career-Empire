@@ -911,7 +911,7 @@ function setupExplorationMenus(){
  const help=document.createElement('button');help.id='exploration-help';help.textContent='Help';help.onclick=async()=>{options.open=false;explorationTools?.close();try{const guide=await loadEcho();guide.showHelp();}catch{toast('Help could not load. Open Picture trail in Options for your clue and movement assistance.');}};$('header-controls').prepend(help);
  $('resume-options').onclick=()=>closeExplorationOptions();
  options.addEventListener('toggle',()=>{if(options.open){explorationTools?.close();resetNavigationInput();actor?.setWalking(false);}else if(document.activeElement===options.querySelector('summary')){resetNavigationInput();canvas.focus({preventScroll:true});}if(!options.open)orientationTour?.update();});
- document.addEventListener('keydown',event=>{if(options.open&&event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();closeExplorationOptions();}},true);
+ document.addEventListener('keydown',event=>{if(options.open&&event.key==='Escape'&&!document.querySelector('dialog[open]')){event.preventDefault();event.stopImmediatePropagation();closeExplorationOptions();}},true);
  let dismissalTarget=null;
  document.addEventListener('pointerdown',event=>{if(!options.open){dismissalTarget=null;return;}if(options.contains(event.target))return;const world=event.target===canvas||event.target.closest('.movement');closeExplorationOptions(Boolean(world));if(world){dismissalTarget=event.target;event.preventDefault();event.stopImmediatePropagation();}},true);
  document.addEventListener('click',event=>{if(dismissalTarget===event.target){dismissalTarget=null;event.preventDefault();event.stopImmediatePropagation();}},true);
