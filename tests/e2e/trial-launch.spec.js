@@ -22,7 +22,7 @@ for(const width of [1280,390])test(`plan to visible trial has a clear next step 
  const result=await page.evaluate(()=>trialReview().market.snapshot());expect(result.trials).toHaveLength(1);expect(result.wallet).toBe(0);expect(result.paid).toBe(false);expect(result.shared).toBe(false);
  await page.getByRole('button',{name:'Record that I checked this result',exact:true}).click();
  await page.getByRole('button',{name:'Go and talk it through with Mara',exact:true}).click();
- await visit(0,-3.6);await expect(page.locator('#market-dialog')).toContainText('Name what you practised');
+ await visit(0,-3.6);await expect(page.locator('#market-dialog')).toHaveAttribute('data-market-teaching-stage','record');await expect(page.locator('#market-dialog-title')).toHaveText('Your shift: what you actually tried');await expect(page.getByRole('button',{name:'Connect this to initiative',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Back to the market',exact:true}).click();await expect(page.locator('#market-test')).toBeHidden();
 });
 

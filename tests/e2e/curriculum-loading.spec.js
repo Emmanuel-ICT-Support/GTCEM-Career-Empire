@@ -1,3 +1,4 @@
+import {installNavigationProbe,attachNavigationProbe} from './navigation-input-probe.js';
 import {enterClassroomWhenAsked} from './market-controls.js';
 import {writeFile} from 'node:fs/promises';
 import {test,expect} from './campus-fixtures.js';
@@ -27,7 +28,7 @@ test('curriculum rooms remain accessible when campus decoration and Studio fail'
 });
 
 for(const width of [1280,390])test(`slow saved avatar, Studio and poster never gate EST at ${width}px`,async({page},info)=>{
- test.setTimeout(90000);await page.setViewportSize({width,height:844});
+ test.setTimeout(90000);await installNavigationProbe(page);await page.setViewportSize({width,height:844});
  let release;const gate=new Promise(resolve=>release=resolve),requests=[],errors=[];
  page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
  const saved=JSON.stringify({activeId:'saved',profiles:[{id:'saved',name:'Saved student',body:'schoolboy'},{id:'other',name:'Other',body:'a'}]});
@@ -87,3 +88,5 @@ test('unavailable saved clothing uses fallback and never fetches other outfits',
 });
 
 test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});
+
+test.afterEach(({page},info)=>attachNavigationProbe(page,info));
