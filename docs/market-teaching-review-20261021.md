@@ -14,7 +14,7 @@ After an inspected trial, the main route shows actual recorded arrangement, cust
 
 A worked example connects information, agreement, appropriate support and checking the result. It explains possible benefits: greater autonomy/recognition, efficiency, employment/advancement opportunities. A different workplace application offers explanatory feedback for every response, including uncertainty. Responses remain presentation-only, ungraded and unsaved; pay does not depend on getting an answer right. Each teaching stage has one primary action, manual progress, optional previous part/resources, keyboard focus, phone layout and reduced motion.
 
-Source: SCSA Careers and Employability General Year 12 syllabus for teaching from 2027, Unit 3 Enterprising behaviours, printed page 9. The five are prescribed examples of ways to show initiative, not a fixed action sequence. The existing Notice/Think/Act/Support/Review sheet is available only as an optional evidence organiser; it is not another mandated curriculum list. The original Initiative module’s optional Step In First song and Act, Improve, Speak, Support, Step Up hook directly reinforce the five behaviours. No compulsory song or hook recall, generic STAR mnemonic, learning-style claim or research attribution was introduced.
+Source: SCSA Careers and Employability General Year 12 syllabus for teaching from 2027, Unit 3 Enterprising behaviours, printed page 9. The five are prescribed examples of ways to show initiative, not a fixed action sequence. The new route and its help use ordinary contextual questions tied directly to these syllabus ways. The user clarified that the draft song and extra named thinking sequence complicate this experience, so neither is surfaced by the redesign. Original historical files remain untouched. No new mnemonic, generic STAR guide, learning-style claim or research attribution was introduced.
 
 ## Preserved boundaries
 
@@ -31,3 +31,23 @@ Existing optional five-behaviour practice, case note, resources and reception re
 - First market regression attempt includes two obsolete briefing-selector failures; corrected selectors preserve all action, recall, pay and assessment assertions. Failed receipts are retained. Full final-source suite remains a release gate.
 
 Evidence is local Chrome/Apple Metal unless stated otherwise, not physical school-device qualification. Final full-suite/required hosted checks and current screenshots must be reported before merge/publication. No passing CI or release claim is made here.
+
+## Syllabus-only clarification
+
+The user explicitly rejected elevating the draft song or an additional named thinking sequence in this redesign. The candidate therefore removes the new song entry and replaces the named organiser with ordinary contextual shift help linked directly to the syllabus ways. Historical song/sheet files remain intact.
+
+The initial full browser run at 8d5de3c was stopped after this direction changed: 62 passed, 2 old-copy assertion failures, 1 interrupted, 202 unrun of 267. Its raw receipts remain under market-final-full-attempt-1. No runtime/movement failure is inferred from the interrupted visibility case. The two copy assertions are corrected to the agreed slider wording, retaining all existing walking, frame, planting and progress checks. A fresh final-candidate run is required.
+
+## Syllabus coverage map
+
+The first briefing makes the initiative opportunities visible before the arrangement trial. Core review explicitly connects action evidence, explanation and application rather than treating a successful queue as all five ways. Each way has a mandatory short recognition-of-reason question and explanatory feedback; an unsure or mistaken response receives feedback and can continue without a wage penalty. These choices are not saved, scored or represented as workplace competence.
+
+| Syllabus way | Explanation and concrete market example | Meaningful practice opportunity already in the simulation | Core recognition/explanation check |
+| --- | --- | --- | --- |
+| being proactive | Behaviour 1: anticipate the collection-bag shortage; alert Mara before the group arrives | Packaging stock → alert Mara (`stock`); purchasing remains Mara’s role | Explain early anticipation versus unauthorised purchasing |
+| identifying ways to improve current work practices | Behaviour 2: investigate sign/collection placement and compare customer access with packing | Informed service-improvement suggestion (`sign`), plus actual arrangement trials and observed results | Explain why comparing the whole job is stronger than assuming any shorter queue is improvement |
+| vocalising your opinions | Behaviour 3: explain an informed suggestion and listen to crew reasons | Crew-priority / customer-guide discussion (`crew`), with Sam’s workflow information | Distinguish constructive evidence-backed discussion from imposing a role change |
+| helping fellow workers | Behaviour 4: offer Sam useful empty-bag support while checking priorities | Offer support → agree priorities → sort bags with Sam (`help`) | Explain useful, safe support versus taking over untrained work |
+| seeking more responsibilities | Behaviour 5: ask Mara for supervised order-number checking and limits | Request and agree supervised task/training (`training`) | Explain suitable agreed training versus untrained payment handling |
+
+Implementation: `market-teaching.mjs` exports the five examples and five reason checks, uses the existing syllabus terms/meanings, and reports actual `initiativeEvidence` separately from illustration. Existing `market-initiative.mjs` owns the optional in-world action vignettes and safeguards; no reducer/schema or grading changes. The worked example covers possible autonomy/recognition, efficiency and employment/advancement benefits, including trade-offs. The new-workplace application checks safe recognition across ways and explains every response. Optional original five-way retrieval/recognition activities remain quiet additional practice.

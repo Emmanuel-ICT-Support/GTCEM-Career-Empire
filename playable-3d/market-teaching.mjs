@@ -8,6 +8,14 @@ export const MARKET_BEHAVIOUR_EXAMPLES=Object.freeze([
  'Ask Sam what support would be useful and check your current priorities. Sorting empty bags together can help; food handling and payments stay with the trained crew.',
  'Ask Mara for supervised order-number checking and the training it needs. Finish or hand over your current task first. Ask about missing orders; do not take on payments or food substitutions.'
 ]);
+export const MARKET_BEHAVIOUR_CHECKS=Object.freeze([
+ {prompt:'Why does the packaging example show being proactive?',reason:'It anticipates a likely shortage and raises it before work is disrupted.',other:'It means buying supplies yourself without checking.',feedback:'Anticipating a need and alerting Mara early is being proactive. Checking existing arrangements avoids an assumption, and purchasing stays with the person authorised to do it.'},
+ {prompt:'Why does comparing the sign or collection position show identifying ways to improve current work practices?',reason:'It investigates a possible improvement and checks the effect on the whole job.',other:'Any change is an improvement if the collection queue looks shorter.',feedback:'An improvement needs a reason and a check of its effect. Customer access may improve while packing slows down. Compare both and respect why the current practice exists.'},
+ {prompt:'Why does discussing the suggestion with Mara show vocalising your opinions?',reason:'It shares an informed idea constructively and listens to the crew’s reasons.',other:'It means insisting on your idea or changing the roles without agreement.',feedback:'Vocalising your opinions involves constructive ideas, feedback or suggestions. Explain the information behind the idea and listen to other views; speaking most forcefully or taking over is not the aim.'},
+ {prompt:'Why does sorting empty bags with Sam show helping fellow workers?',reason:'It offers useful support, checks priorities and stays within safe roles.',other:'It means doing Sam’s tasks for him, including jobs you have not been trained for.',feedback:'Helping fellow workers responds to support that is actually useful. Agree priorities and safe methods; helping does not require taking over food handling or other work beyond your training.'},
+ {prompt:'Why does asking for supervised order-number training show seeking more responsibilities?',reason:'It asks for a suitable new task, training and agreed limits.',other:'It means taking charge of payments immediately to prove you can do more.',feedback:'Seeking more responsibilities includes asking for suitable tasks or training. Agree limits and workload with Mara first. Untrained payment handling or too much responsibility too soon can cause mistakes and stress.'}
+]);
+export function behaviourCheckFeedback(index,choice){const item=MARKET_BEHAVIOUR_CHECKS[index];return item&&['reason','other','unsure'].includes(choice)?(choice==='unsure'?'Consider this explanation: ':choice==='other'?'Compare the boundary: ':'That explanation connects the example: ')+item.feedback:null;}
 export const TRANSFER_CASE=Object.freeze({
  text:'In a bike workshop, a new colleague is struggling with a heavy box. You are not trained to lift it and your own job is about to begin. What is a thoughtful first step?',
  choices:[
@@ -31,7 +39,7 @@ export function transferFeedback(id){return TRANSFER_CASE.choices.find(c=>c.id==
 
 // Presentation only: no score, timer, new saved event or competence award.
 export function createMarketTeaching({show,dialog,state,startShift,complete,onMissingTrial,close,introImage=()=>null,resources=()=>[]}){
- let step=0,signature='',answer=null;
+ let step=0,signature='',answer=null,checks={};
  const insert=node=>dialog.querySelector('.market-choices').before(node);
  function card(title,body,className=''){const item=document.createElement('section');item.className='market-teaching-card '+className;const heading=document.createElement('h3'),copy=document.createElement('p');heading.textContent=title;copy.textContent=body;item.append(heading,copy);return item;}
  function decorate(stage,{previous=false}={}){
@@ -45,6 +53,7 @@ export function createMarketTeaching({show,dialog,state,startShift,complete,onMi
   show('Meet the Juniper crew','Initiative means noticing what needs doing and taking a thoughtful first step, without waiting to be told every move. Mara needs help making ordering and collection work smoothly.',[[state().accepted?'Continue my shift':'Start my shift',startShift]],'Your agreed job: try an arrangement, observe the result and explain what you found. Fictional pay stays $20 gross − $2 community tax = $18 plus a crew pass. Help, retries and mixed results do not reduce it.');
   const picture=introImage();if(picture){const image=document.createElement('img');image.className='market-intro-image';image.src=picture;image.alt='Mara and Sam at Juniper Kitchen, the workplace for your shift';insert(image);}
   insert(card('Two customer routes','Phone orders are already paid: customers collect them. Walk-up customers order and pay at the counter.','market-route-summary'));
+  insert(card('Initiative at this stall','Spot a likely stock shortage, suggest clearer collection, share an informed opinion, offer Sam useful help, or ask for supervised training. Talk to Mara or Sam about these opportunities. Your review connects the examples to the five syllabus ways; changing the queue settings alone does not show all five.'));
   insert(card('Your bounded attempt','Look around, ask the customer or Sam, or test the current arrangement first. You may try the provided sign and collection settings. There is no timer or required first failure.'));
   insert(card('Stay within your role','Keep the emergency walkway clear. Do not handle payments, substitute food or do untrained lifting. Ask Mara about unfamiliar tasks, training and responsibility.'));
   decorate('intro');
@@ -61,8 +70,12 @@ export function createMarketTeaching({show,dialog,state,startShift,complete,onMi
   }
   if(step>=1&&step<=5){
    const index=step-1,b=INITIATIVE_BEHAVIOURS[index],connection=behaviourConnection(s,index);
-   show(b.term,b.meaning,[[step<5?'Next behaviour':'See a worked example',next]],`Curriculum example ${step} of 5 · These ways can overlap. They are not tasks to perform in sequence; a connection needs action evidence and explanation.`);
-   insert(card('At the Sunday Market',MARKET_BEHAVIOUR_EXAMPLES[index]));insert(card(connection.status,connection.detail,'market-evidence-status'));insert(card('Check the boundary',b.boundary));decorate('behaviour-'+step,{previous:true});return;
+   const check=checks[index]||{choice:null,reviewed:false},question=MARKET_BEHAVIOUR_CHECKS[index];
+   show(b.term,b.meaning,[[check.reviewed?(step<5?'Next behaviour':'See a worked example'):'Check this example',check.reviewed?next:()=>{if(check.choice){check.reviewed=true;checks[index]=check;render();}},!check.reviewed&&!check.choice]],`Curriculum example ${step} of 5 · These ways can overlap. They are not tasks to perform in sequence; a connection needs action evidence and explanation.`);
+   insert(card('At the Sunday Market',MARKET_BEHAVIOUR_EXAMPLES[index]));insert(card(connection.status,connection.detail,'market-evidence-status'));insert(card('Check the boundary',b.boundary));
+   if(check.reviewed){const feedback=card('Compare your reasoning',behaviourCheckFeedback(index,check.choice));feedback.setAttribute('role','status');insert(feedback);}
+   else {const field=document.createElement('fieldset');field.className='market-transfer-options';const legend=document.createElement('legend');legend.textContent=question.prompt;field.append(legend);for(const [value,text]of [['reason',question.reason],['other',question.other],['unsure','I’m not sure yet — show an explanation']]){const label=document.createElement('label'),input=document.createElement('input'),copy=document.createElement('span');input.type='radio';input.name='market-behaviour-check';input.value=value;input.checked=check.choice===value;input.onchange=()=>{check.choice=value;checks[index]=check;dialog.querySelector('[data-teaching-primary]').disabled=false;};copy.textContent=text;label.append(input,copy);field.append(label);}insert(field);}
+   decorate('behaviour-'+step,{previous:true});return;
   }
   if(step===6){
    show('A worked example: reason before acting','Illustrated example: before the next group, two collection bags remain for six expected orders. This is a model to learn from, not a record of your own actions.',[['Try a different workplace',next]],'Asking for support can come before taking action. Use information, agreement and a check of what happened to explain a useful first step.');
@@ -77,6 +90,6 @@ export function createMarketTeaching({show,dialog,state,startShift,complete,onMi
   }
   show('Compare your reasoning',transferFeedback(answer),[['Finish my learning review',complete]],'Keep the connection: initiative includes a constructive first step, suitable boundaries and support. Naming an example or reading feedback does not certify independent workplace competence. Your agreed wages are unchanged.');decorate('feedback',{previous:true});
  }
- function debrief({restart=false}={}){const r=recordedTrial(state());const key=JSON.stringify(r);if(restart||key!==signature){signature=key;step=0;answer=null;}render();}
+ function debrief({restart=false}={}){const r=recordedTrial(state());const key=JSON.stringify(r);if(restart||key!==signature){signature=key;step=0;answer=null;checks={};}render();}
  return {intro,debrief,snapshot:()=>({stage:dialog.dataset.marketTeachingStage||null,step,answer,answerSaved:false})};
 }

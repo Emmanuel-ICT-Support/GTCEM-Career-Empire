@@ -2,16 +2,8 @@
   "release": "curriculum-market-review-20261021",
   "gameUrl": "/playable-3d/",
   "baseCommit": "dee8291bd3cc8ae713f47ad9fbc89d5624092730",
-  "scope": "Discovery-to-market handover plus curriculum-first manual market teaching: actual recorded actions, five initiative behaviours and benefits, worked example and ungraded application. Optional original song and evidence organiser. Existing pay, saved-state schema, assessment boundaries and full-mode economy preserved. Baseline assets restored from origin; release remains gated by final validation.",
+  "scope": "Discovery-to-market handover plus curriculum-first manual market teaching: actual recorded actions, five initiative behaviours and benefits, worked example and ungraded application. Contextual help directly reinforces syllabus ways; no additional mnemonic or draft song surfaced. Existing pay, saved-state schema, assessment boundaries and full-mode economy preserved. Baseline assets restored from origin; release remains gated by final validation.",
   "files": [
-    {
-      "path": "../Assets/EST Preparation/EST - Knowledge reactor/Initiative Song/Step In First - full guide mix.mp3",
-      "sha256": "b89f6aabc01d4f462cd882963a9afdf36801c7dff64401ecb8b2816bf71dfd26"
-    },
-    {
-      "path": "../Assets/EST Preparation/EST - Knowledge reactor/Initiative Song/Step In First - lyrics and chords.txt",
-      "sha256": "0956118f1b35cd9932005d3ba7fffcd9f460ea2b8519a5e82a5596a40680da34"
-    },
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
       "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
@@ -958,7 +950,7 @@
     },
     {
       "path": "market-teaching.mjs",
-      "sha256": "d9d62616f8c15d64df6f06e109f50f5c1ed7dcfc4152cfcca8f4f00957fc02aa"
+      "sha256": "9d63b57bafc437ee9f0ea7de6138ff7572eb6b9465f157a4240c40a7ddac7b74"
     },
     {
       "path": "mobile-play.css",
@@ -982,7 +974,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "4c1ff88f101e17248f3ef4da8931f134a37d508cab82cc2591d037000868797f"
+      "sha256": "6fbf77ebff56ab38dce41fd39631834f2d109b43fa67d3efdcf03d901ffc53eb"
     },
     {
       "path": "opening-chapters-state.js",
@@ -1180,6 +1172,6 @@
     "width": 1280,
     "height": 720
   },
-  "status": "Approved release candidate",
+  "status": "Review candidate \u2014 final release gates pending",
   "pilotBaseCommit": "a2794e42c359ed930124e34b459d71bcc35216ef"
 }
