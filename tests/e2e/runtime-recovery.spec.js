@@ -14,10 +14,10 @@ test.afterEach(async({page},info)=>{
    const options=page.locator('#exploration-options');if(!await options.evaluate(e=>e.open))await options.locator(':scope > summary').click();
    await expect.poll(()=>state(page),{timeout:10000}).toMatchObject({avatarFallback:false,surfaceDetailPending:0});
    const panel=page.getByRole('region',{name:'Exploration tools'});if(!await panel.isVisible())await page.locator('#exploration-stats-toggle').click();
-   await expect(panel.getByRole('heading',{name:'Market money',exact:true})).toBeVisible();
+   const moneyDetails=panel.locator('details[data-stats-disclosure="game-money"]');if(!await moneyDetails.evaluate(e=>e.open))await moneyDetails.locator(':scope > summary').click();await expect(panel.getByRole('heading',{name:'Market money',exact:true})).toBeVisible();
    observations.push({phase:'before-save',probe:await page.evaluate(()=>window.recoveryProbe()),state:await state(page)});
    if(!(await panel.innerText()).includes('Wallet $13.00 · Savings $5.00'))await panel.getByRole('button',{name:'Save $5',exact:true}).click();
-   await expect(panel).toContainText('Wallet $13.00 · Savings $5.00');
+   await expect(panel).toContainText('Wallet $13.00 · Savings $5.00');await expect(panel.getByRole('heading',{name:'Market money',exact:true})).toBeVisible();
    for(let i=0;i<4;i++){await page.waitForTimeout(1000);observations.push({phase:'after-save-'+i,probe:await page.evaluate(()=>window.recoveryProbe()),state:await state(page)});}
   }
  }catch(error){observations.push({diagnosticError:String(error)});}
@@ -43,9 +43,9 @@ test('stalled Market travel releases the campus and normal retry remains visible
  await page.locator('#scene').focus();await page.keyboard.down('KeyW');try{await expect.poll(async()=>(await state(page)).position[2],{timeout:10000}).toBeLessThan(11);}finally{await page.keyboard.up('KeyW');}await page.screenshot({path:info.outputPath('market-deadline-retry.png')});
 });
 softwareTest('Stats changes publish while the cached world keeps its honest frame count',async({page},info)=>{
- test.setTimeout(60000);info.annotations.push({type:'runtime-lane',description:'software-compatibility'});await start(page,'paused-stats',info);await page.locator('#exploration-options > summary').click();await expect.poll(()=>state(page),{timeout:30000}).toMatchObject({avatarFallback:false,surfaceDetailPending:0});await page.locator('#exploration-stats-toggle').click();const panel=page.getByRole('region',{name:'Exploration tools'});await expect(panel.getByRole('heading',{name:'Market money',exact:true})).toBeVisible();
+ test.setTimeout(60000);info.annotations.push({type:'runtime-lane',description:'software-compatibility'});await start(page,'paused-stats',info);await page.locator('#exploration-options > summary').click();await expect.poll(()=>state(page),{timeout:30000}).toMatchObject({avatarFallback:false,surfaceDetailPending:0});await page.locator('#exploration-stats-toggle').click();const panel=page.getByRole('region',{name:'Exploration tools'});await panel.getByText('Game money details',{exact:true}).click();await expect(panel.getByRole('heading',{name:'Market money',exact:true})).toBeVisible();
  await expect.poll(()=>state(page)).toMatchObject({exploration:{statsOpen:true,market:{wallet:1800}}});let frame=-1,stable=0;await expect.poll(async()=>{const n=await page.evaluate(()=>window.recoveryProbe().renderedFrames);stable=n===frame?stable+1:0;frame=n;return stable;},{timeout:15000,intervals:[1000]}).toBeGreaterThanOrEqual(2);
- await panel.getByRole('button',{name:'Save $5',exact:true}).click();await expect(panel).toContainText('Wallet $13.00 · Savings $5.00');await expect.poll(()=>state(page)).toMatchObject({exploration:{market:{wallet:1300,savings:500}},renderedFrames:frame});
+ await panel.getByRole('button',{name:'Save $5',exact:true}).click();await expect(panel).toContainText('Wallet $13.00 · Savings $5.00');await expect(panel.getByRole('heading',{name:'Market money',exact:true})).toBeVisible();await expect.poll(()=>state(page)).toMatchObject({exploration:{market:{wallet:1300,savings:500}},renderedFrames:frame});
 });
 
 test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

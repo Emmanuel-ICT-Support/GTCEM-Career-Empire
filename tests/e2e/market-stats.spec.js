@@ -23,9 +23,9 @@ for(const width of [1280,390])for(const entry of ['', '&mode=full'])test(`Market
   await page.locator('#exploration-stats-toggle').evaluate(button=>{
    const times=window.__statsContentTimes={requestAt:null,contentAt:null};
    const observer=new MutationObserver(()=>{const heading=[...document.querySelectorAll('.tools-content h3')].find(n=>n.textContent==='Market money');if(times.requestAt!==null&&heading?.getClientRects().length){times.contentAt=performance.now();observer.disconnect();}});
-   observer.observe(document.body,{subtree:true,childList:true});button.addEventListener('click',()=>times.requestAt=performance.now(),{once:true,capture:true});
+   observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['open']});button.addEventListener('click',()=>times.requestAt=performance.now(),{once:true,capture:true});
   });
-  await page.locator('#exploration-stats-toggle').click();const panel=page.getByRole('region',{name:'Exploration tools'});await expect(panel.getByRole('heading',{name:'Market money',exact:true})).toBeVisible();
+  await page.locator('#exploration-stats-toggle').click();const panel=page.getByRole('region',{name:'Exploration tools'});await panel.getByText('Game money details',{exact:true}).click();await expect(panel.getByRole('heading',{name:'Market money',exact:true})).toBeVisible();
   const contentMs=await page.evaluate(()=>{const t=window.__statsContentTimes;return t.contentAt===null?null:t.contentAt-t.requestAt;});
   expect(contentMs,'Market content must be available within five seconds of the actual request').not.toBeNull();expect(contentMs).toBeLessThan(5000);complete({requestToDOMContentMs:contentMs});
   enter('functional');await expect(panel.locator('[data-market-item=plant]')).toBeVisible();await expect(panel.locator('[data-market-item=ticket]')).toBeVisible();await expect(panel).toContainText('Wallet $14.00');

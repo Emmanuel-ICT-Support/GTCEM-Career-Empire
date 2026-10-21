@@ -834,7 +834,7 @@
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "d5d86c84ec0f2dc825923098250cf167051e547391880f88926ea0558c040341"
+      "sha256": "d02080a4eaf1c7d164afb179080b498ca9fbe62b2f60d912472d6c8cad9b65f2"
     },
     {
       "path": "field-guide.html",
@@ -930,7 +930,7 @@
     },
     {
       "path": "market-collection.mjs",
-      "sha256": "ab8c83435e0c709d158edce8d181fd758e559cac6b1962ad415d69814878af73"
+      "sha256": "1b8152b6e470edc97046c60f1d1336574559065c5a2246a74ee2072e983b0ce7"
     },
     {
       "path": "market-food.js",
@@ -1043,6 +1043,10 @@
     {
       "path": "startup-assets.mjs",
       "sha256": "aafe7461355477e47f90eb1e002b8ffe93f407bdd1bd16690c86352473d1ce71"
+    },
+    {
+      "path": "stats-panel-state.mjs",
+      "sha256": "6d8aaee0a11e261e64f8c41ad97e2e466e829f8bdf5246aee3f816856a496dc8"
     },
     {
       "path": "studio.js",

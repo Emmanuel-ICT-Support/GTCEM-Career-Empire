@@ -1,6 +1,6 @@
 export async function optionalMarketAction(page,name){
- const target=page.getByRole('button',{name,exact:true,includeHidden:true});if(await target.isVisible()){await target.click();return;}
- const details=page.locator('#market-dialog .market-teaching-resources').filter({has:target}).first();if(await details.getAttribute('open')===null)await details.locator(':scope > summary').click();await target.click();
+ const visible=page.getByRole('button',{name,exact:true});if(await visible.isVisible()){await visible.click();return;}
+ const hidden=page.getByRole('button',{name,exact:true,includeHidden:true});const details=page.locator('#market-dialog .market-teaching-resources').filter({has:hidden}).first();if(await details.getAttribute('open')===null)await details.locator(':scope > summary').click();await visible.click();
 }
 export async function startMarketShift(page){const start=page.getByRole('button',{name:'Start my shift',exact:true});if(await start.isVisible())await start.click();else await page.getByRole('button',{name:'Take the shift',exact:true}).click();}
 export async function finishMarketLearning(page,{answer='support'}={}){

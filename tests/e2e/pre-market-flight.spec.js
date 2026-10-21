@@ -22,7 +22,7 @@ window.preMarketFlightProbe=()=>({mode,campusReady,position:actor.model.position
  await expect.poll(()=>page.evaluate(()=>JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}')),{timeout:60000}).toMatchObject({campusReady:true,teachers:[{id:'middleton'},{id:'psandodakis'}]});
  if(!(await sample()).photo&&!await page.locator('#discovery-dialog').isVisible())await page.locator('#discovery-pose').click();
  await expect.poll(sample,{timeout:30000}).toMatchObject({photo:true});
- await page.locator('#discovery-continue').click();await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','0');
+ await page.locator('#discovery-continue').click();await expect(page.locator('#discovery-handover')).toBeVisible();await expect(page.locator('#orientation-tour')).not.toBeVisible();await page.getByRole('button',{name:'Keep exploring',exact:true}).click();await page.locator('#exploration-options > summary').click();await page.locator('#replay-campus-tour').click();await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','0');
  await page.locator('#orientation-tour [data-action]').click();await page.locator('#helper-picker [name=guidance][value=creature]').check();await page.locator('#helper-picker [name=helper][value=sprout]').check();await page.locator('#helper-picker [data-continue]').click();
  await expect(page.locator('#orientation-tour')).toHaveAttribute('data-step','1',{timeout:30000});
  const before=await sample();expect(before).toMatchObject({mode:'town',campusReady:true,photo:true,echo:{helper:'sprout',helperStatus:'ready'}});await expect(page.locator('#market-hud')).toHaveCount(0);
