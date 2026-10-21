@@ -1,3 +1,4 @@
+import {startMarketShift,finishMarketLearning,optionalMarketAction} from './market-teaching-controls.js';
 import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance,walkMarket,observeMarketWalking} from './market-controls.js';
@@ -11,13 +12,13 @@ async function start(page,width){
  });
 }
 const visit=(page,x,z)=>page.evaluate(([x,z])=>{const spot=market.interaction({x,z});if(!spot)throw Error('No interaction');spot.action();},[x,z]);
-const click=(page,name)=>page.getByRole('button',{name,exact:true}).click();
+const click=(page,name)=>optionalMarketAction(page,name);
 const close=page=>page.locator('.market-close').click();
 async function wave(page){await visit(page,4.2,-1.8);await click(page,'Try this with next customers');await page.evaluate(()=>market.update(10,10,camera));await click(page,'Record that I checked this result');}
-async function pay(page){await click(page,'Go and talk it through with Mara');if(await page.evaluate(()=>typeof market!=='undefined'))await visit(page,0,-3.6);else{await walkMarket(page,'KeyA',{selector:'#interact',text:'Talk to Mara'},15000);await page.locator('#interact').click();}await click(page,'Keep this learning connection');await click(page,'Finish the shift · receive $18 and crew pass');}
+async function pay(page){await click(page,'Go and talk it through with Mara');if(await page.evaluate(()=>typeof market!=='undefined'))await visit(page,0,-3.6);else{await walkMarket(page,'KeyA',{selector:'#interact',text:'Talk to Mara'},15000);await page.locator('#interact').click();}await finishMarketLearning(page);await click(page,'Finish the shift · receive $18 and crew pass');}
 for(const width of [1280,390])test(`agency, trial comparison and editable artifact ${width}`,async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await start(page,width);
- await visit(page,0,-3.6);await click(page,'Take the shift');
+ await visit(page,0,-3.6);await startMarketShift(page);
  await visit(page,4.2,-1.8);await page.getByLabel('Sign wording',{exact:true}).selectOption('orders');await page.getByLabel('Sign position',{exact:true}).selectOption('approach');await click(page,'Apply setup · investigate first');await close(page);
 
  await wave(page);await expect(page.locator('#market-dialog')).toContainText('0 of 4');await close(page);
@@ -32,11 +33,11 @@ for(const width of [1280,390])test(`agency, trial comparison and editable artifa
  const snapshot=await page.evaluate(()=>market.snapshot());expect(snapshot.wallet).toBe(1800);expect(snapshot.learned).toBe(false);expect(snapshot.badges).toEqual(['initiative','problem','adapting']);expect(errors).toEqual([]);
 });
 test('unresolved baseline is paid without writing or guessing a reflection answer',async({page})=>{
- await start(page,1280);await visit(page,0,-3.6);await click(page,'Take the shift');await wave(page);await pay(page);
+ await start(page,1280);await visit(page,0,-3.6);await startMarketShift(page);await wave(page);await pay(page);
  const s=await page.evaluate(()=>market.snapshot());expect(s.wallet).toBe(1800);expect(s.solution).toBe(null);expect(s.caseNote).toEqual({});expect(s.badges).toEqual(['problem']);
 });
 for(const width of [1280,390])test(`optional guide and My work bridge ${width}`,async({page})=>{
- await start(page,width);await visit(page,0,-3.6);await click(page,'Thinking guide');await expect(page.locator('#market-dialog')).toContainText('Notice');expect((await page.evaluate(()=>market.snapshot())).accepted).toBe(false);await click(page,'Back to Mara');await click(page,'Take the shift');await page.evaluate(()=>market.caseNote());await page.getByLabel('I noticed…',{exact:true}).selectOption('Customers were unsure where to collect paid orders.');
+ await start(page,width);await visit(page,0,-3.6);await click(page,'Thinking guide');await expect(page.locator('#market-dialog')).toContainText('Notice');expect((await page.evaluate(()=>market.snapshot())).accepted).toBe(false);await click(page,'Back to Mara');await startMarketShift(page);await page.evaluate(()=>market.caseNote());await page.getByLabel('I noticed…',{exact:true}).selectOption('Customers were unsure where to collect paid orders.');
  const popupPromise=page.waitForEvent('popup');await click(page,'Save to My work');const popup=await popupPromise;await expect(page.locator('#case-note-status')).toContainText('Saved in My work',{timeout:25000});await expect(popup.locator('#work-body')).toContainText(/Customers were unsure/ );await expect(popup.locator('#market-work-reference')).toBeVisible();await expect(popup.locator('#market-learning-reference')).toBeVisible();await expect(popup.locator('#market-learning-reference')).toHaveAttribute('href',/initiative-field-guide\.html$/);await expect(popup.locator('#work-list .work-list-item')).toHaveCount(1);await expect(popup.locator('#work-count')).toHaveText('1');const owned=await popup.evaluate(()=>JSON.parse(localStorage.getItem('ce-player:e2e-owned:career-empire-my-life-work-v1')));expect(owned.entries).toHaveLength(1);await popup.close();
  await click(page,'Initiative / reference sheet');await page.getByText('View the original one-pager',{exact:true}).click();await expect(page.locator('#market-dialog img')).toBeVisible();expect(await page.locator('#market-dialog img').evaluate(i=>i.complete&&i.naturalWidth>0)).toBe(true);expect(await page.locator('#market-dialog').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);
 });
@@ -46,7 +47,7 @@ test('Home Economics entrance and return use real navigation',async({page})=>{
 for(const width of [1280,390])test(`complete keyboard shift, learning, review transfer and return ${width}`,async({page})=>{
  test.setTimeout(120000);await observeMarketWalking(page);await page.setViewportSize({width,height:844});await page.goto('/playable-3d/?experience=sunday-markets&market-review=1');await expect(page.locator('#loading')).toBeHidden({timeout:40000});await walkThroughMarketEntrance(page);
  const walk=async(key,label)=>walkMarket(page,'Key'+key.toUpperCase(),{selector:'#interact',text:label},15000);
- await walk('w','Talk to Mara');await expect(page.locator('#interact')).toHaveText('Talk to Mara');await page.locator('#interact').click();await click(page,'Take the shift');
+ await walk('w','Talk to Mara');await expect(page.locator('#interact')).toHaveText('Talk to Mara');await page.locator('#interact').click();await startMarketShift(page);
  await walk('d','Set up & test');await expect(page.locator('#interact')).toHaveText('Set up & test');await page.locator('#interact').click();await page.getByLabel('Sign wording',{exact:true}).selectOption('both');await page.getByLabel('Sign position',{exact:true}).selectOption('approach');await click(page,'Apply setup · investigate first');await close(page);await page.locator('#interact').click();await click(page,'Try this with next customers');await expect(page.getByRole('button',{name:'Record that I checked this result',exact:true})).toBeVisible({timeout:12000});await click(page,'Record that I checked this result');await pay(page);await click(page,'My first gig / case note');await page.getByLabel('I noticed…',{exact:true}).selectOption('Customers were unsure where to collect paid orders.');
  const popupPromise=page.waitForEvent('popup');await click(page,'Save to My work');const popup=await popupPromise;await expect(page.locator('#case-note-status')).toContainText('review only',{timeout:25000});await expect(popup.locator('#work-body')).toContainText(/Customers were unsure/);expect(await popup.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:career-empire-my-life-work-v1'))).toBe(null);await popup.close();await close(page);
  // Walk south around the workbench before heading east; the straight line
@@ -63,7 +64,7 @@ for(const width of [1280,390])test(`purchases, preserved reflection and celebrat
 });
 
 for(const width of [1280,390])test(`arrangement primary applies choices and hidden position is retained ${width}`,async({page},info)=>{
- await start(page,width);await visit(page,0,-3.6);await click(page,'Take the shift');await visit(page,4.2,-1.8);await expect(page.getByLabel('Sign position',{exact:true})).toBeHidden();await page.getByLabel('Sign wording',{exact:true}).selectOption('orders');await page.getByLabel('Sign position',{exact:true}).selectOption('approach');await page.getByLabel('Sign wording',{exact:true}).selectOption('none');await expect(page.getByLabel('Sign position',{exact:true})).toBeHidden();await page.getByLabel('Sign wording',{exact:true}).selectOption('orders');await expect(page.getByLabel('Sign position',{exact:true})).toHaveValue('approach');await page.screenshot({path:info.outputPath(`market-arrangement-${width}.png`)});await click(page,'Try this with next customers');await page.evaluate(()=>market.update(10,10,camera));expect(await page.evaluate(()=>market.snapshot().trials[0].plan)).toMatchObject({sign:'orders',position:'approach'});
+ await start(page,width);await visit(page,0,-3.6);await startMarketShift(page);await visit(page,4.2,-1.8);await expect(page.getByLabel('Sign position',{exact:true})).toBeHidden();await page.getByLabel('Sign wording',{exact:true}).selectOption('orders');await page.getByLabel('Sign position',{exact:true}).selectOption('approach');await page.getByLabel('Sign wording',{exact:true}).selectOption('none');await expect(page.getByLabel('Sign position',{exact:true})).toBeHidden();await page.getByLabel('Sign wording',{exact:true}).selectOption('orders');await expect(page.getByLabel('Sign position',{exact:true})).toHaveValue('approach');await page.screenshot({path:info.outputPath(`market-arrangement-${width}.png`)});await click(page,'Try this with next customers');await page.evaluate(()=>market.update(10,10,camera));expect(await page.evaluate(()=>market.snapshot().trials[0].plan)).toMatchObject({sign:'orders',position:'approach'});
 });
 
 test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});

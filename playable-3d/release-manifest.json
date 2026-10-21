@@ -1,9 +1,17 @@
 {
-  "release": "colourful-discovery-review-20261021",
+  "release": "curriculum-market-review-20261021",
   "gameUrl": "/playable-3d/",
   "baseCommit": "dee8291bd3cc8ae713f47ad9fbc89d5624092730",
-  "scope": "Review only: colourful accessible photo-trail panels, one-time gift context, accurate run/browser save wording, My Journey banking, two-choice initiative handover and optional companion guidance. All discovery currency triggers suppressed; historic wallet preserved. Component QA only; complete baseline assets unavailable; no deployment.",
+  "scope": "Discovery-to-market handover plus curriculum-first manual market teaching: actual recorded actions, five initiative behaviours and benefits, worked example and ungraded application. Optional original song and evidence organiser. Existing pay, saved-state schema, assessment boundaries and full-mode economy preserved. Baseline assets restored from origin; release remains gated by final validation.",
   "files": [
+    {
+      "path": "../Assets/EST Preparation/EST - Knowledge reactor/Initiative Song/Step In First - full guide mix.mp3",
+      "sha256": "b89f6aabc01d4f462cd882963a9afdf36801c7dff64401ecb8b2816bf71dfd26"
+    },
+    {
+      "path": "../Assets/EST Preparation/EST - Knowledge reactor/Initiative Song/Step In First - lyrics and chords.txt",
+      "sha256": "0956118f1b35cd9932005d3ba7fffcd9f460ea2b8519a5e82a5596a40680da34"
+    },
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
       "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
@@ -62,7 +70,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "06666da6f6f37db6eb988fe01e8a56627ef9700adbd40f5895008bb266f1da15"
+      "sha256": "b4f50219d821898e11153d38252b68683ccd9bc01fdaf3ab62e5f3a19569c4bd"
     },
     {
       "path": "arcade-carnival.js",
@@ -589,6 +597,18 @@
       "sha256": "4a4341e07fd4f54e08b90ee5fe0178d47f121447b83ef81d6200c25ad5773705"
     },
     {
+      "path": "classroom-gate.mjs",
+      "sha256": "b770c1e5e87cf0b30d27f4a55aa4d9877f629724434989a1a92698bbcb821d3b"
+    },
+    {
+      "path": "companion-follow.mjs",
+      "sha256": "b0c2e5dfc7a5aadaa1952770f192409d2ce9bd95682ae6537d930008a95cd6e7"
+    },
+    {
+      "path": "context-guidance.mjs",
+      "sha256": "a1b09c6e17cf81d785fa8f5a73d25e25a493b86fbd30b179a6c95cb56c90b0c5"
+    },
+    {
       "path": "deferred-textures.js",
       "sha256": "90dcabc7a59c622d4cba91f095ff3e4a097bc417f10f7ace0bce563a568d1b88"
     },
@@ -607,6 +627,10 @@
     {
       "path": "discovery-assets/parcel-clue.jpg",
       "sha256": "d30417c50a870cc6d2da20d65cc2e314d0c96d5aa930921ed99d11bc486acbed"
+    },
+    {
+      "path": "discovery-handover.mjs",
+      "sha256": "c34b96cfaa54308e474cb1b25359a70a9b5c2b049be4e55449f2872cde29f193"
     },
     {
       "path": "discovery-opening.css",
@@ -842,7 +866,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "b7706b6ca85696201cba5f1b8781edfe4aaecfa8590f34b166e2b1c623140521"
+      "sha256": "c78e24242b806d092dfe85e1cb001feae23bf9807b578742d741c08e099a945f"
     },
     {
       "path": "header-controls.css",
@@ -866,7 +890,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "8d101edaa96f8cd4a887be59220fcb4dd4505d45b95e037e8693c3bcc2b7d62d"
+      "sha256": "571bfc33b1a46a36503db40dc72ccbdc25bfdb2ac1d847380537a4751f698d2e"
     },
     {
       "path": "initiative-field-guide.html",
@@ -922,7 +946,7 @@
     },
     {
       "path": "market-initiative.css",
-      "sha256": "48a8d6d910a6886bf40a6efc1f801b54a82b6b2deee46ddaccbb02153c917b8e"
+      "sha256": "0b5f647c7e88081ba9000dd0d8b571da0ed8fe53d6c4908003a83df76ec3f15b"
     },
     {
       "path": "market-initiative.mjs",
@@ -931,6 +955,10 @@
     {
       "path": "market-surroundings.js",
       "sha256": "6c5ee529f49d408cdd358e68900cce4aa210e64cb89cc59a91a6c64e9aca285e"
+    },
+    {
+      "path": "market-teaching.mjs",
+      "sha256": "d9d62616f8c15d64df6f06e109f50f5c1ed7dcfc4152cfcca8f4f00957fc02aa"
     },
     {
       "path": "mobile-play.css",
@@ -954,7 +982,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "b787fea988a723bf8307379fde7c346b1cbe062dd92256da3dc6064754b25503"
+      "sha256": "4c1ff88f101e17248f3ef4da8931f134a37d508cab82cc2591d037000868797f"
     },
     {
       "path": "opening-chapters-state.js",
@@ -1143,22 +1171,6 @@
     {
       "path": "world.js",
       "sha256": "ad8afaca4bf51044cec04b20a4cad0e3562f6901f1c5ba408c061f7d31b1451d"
-    },
-    {
-      "path": "classroom-gate.mjs",
-      "sha256": "b770c1e5e87cf0b30d27f4a55aa4d9877f629724434989a1a92698bbcb821d3b"
-    },
-    {
-      "path": "companion-follow.mjs",
-      "sha256": "b0c2e5dfc7a5aadaa1952770f192409d2ce9bd95682ae6537d930008a95cd6e7"
-    },
-    {
-      "path": "context-guidance.mjs",
-      "sha256": "a1b09c6e17cf81d785fa8f5a73d25e25a493b86fbd30b179a6c95cb56c90b0c5"
-    },
-    {
-      "path": "discovery-handover.mjs",
-      "sha256": "c34b96cfaa54308e474cb1b25359a70a9b5c2b049be4e55449f2872cde29f193"
     }
   ],
   "estVideo": {

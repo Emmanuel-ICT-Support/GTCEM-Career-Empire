@@ -1,3 +1,4 @@
+import {startMarketShift,finishMarketLearning,optionalMarketAction} from './market-teaching-controls.js';
 import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
@@ -5,7 +6,7 @@ for(const width of [1280,390])test(`opening queue visibly moves before summary a
  test.setTimeout(60000);await page.setViewportSize({width,height:844});
  await page.route('**/app.js?*',async r=>{const response=await r.fetch();await r.fulfill({response,body:(await response.text())+'\nwindow.queueReview=()=>({market:nightMarket,camera});'});});
  await page.goto('/playable-3d/?experience=sunday-markets&market-review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page);
- await page.evaluate(()=>queueReview().market.interaction({x:0,z:-3.6}).action());await page.getByRole('button',{name:'Take the shift',exact:true}).click();
+ await page.evaluate(()=>queueReview().market.interaction({x:0,z:-3.6}).action());await startMarketShift(page);
  await page.evaluate(()=>queueReview().market.interaction({x:-3,z:4}).action());await page.getByRole('button',{name:'Watch the queue',exact:true}).click();
  await expect(page.locator('#market-dialog')).not.toBeVisible();
  const positions=()=>page.evaluate(()=>queueReview().market.scene.children.filter(o=>o.name.startsWith('Market actor / customer')).slice(0,6).map(o=>o.position.toArray()));

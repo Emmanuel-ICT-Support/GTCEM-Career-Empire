@@ -1,3 +1,4 @@
+import {startMarketShift,finishMarketLearning,optionalMarketAction} from './market-teaching-controls.js';
 import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
@@ -6,8 +7,8 @@ for(const width of [1280,390])test(`plan to visible trial has a clear next step 
  await page.route('**/app.js?*',async r=>{const response=await r.fetch();await r.fulfill({response,body:(await response.text())+'\nwindow.trialReview=()=>({market:nightMarket,camera});'});});
  await page.goto('/playable-3d/?experience=sunday-markets&market-review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page);
  const visit=(x,z)=>page.evaluate(([x,z])=>trialReview().market.interaction({x,z}).action(),[x,z]);
- await visit(0,-3.6);await page.getByRole('button',{name:'Take the shift',exact:true}).click();
- await visit(4.2,-1.8);await page.getByLabel('Sign wording',{exact:true}).selectOption('pickup');await page.getByLabel('Sign position',{exact:true}).selectOption('approach');await page.getByRole('button',{name:'Apply setup · investigate first',exact:true}).click();
+ await visit(0,-3.6);await startMarketShift(page);
+ await visit(4.2,-1.8);await page.getByLabel('Sign wording',{exact:true}).selectOption('pickup');await page.getByLabel('Sign position',{exact:true}).selectOption('approach');await optionalMarketAction(page,'Apply setup · investigate first');
  await expect(page.locator('#market-dialog')).toContainText('Setup applied · customers have not started');await page.getByRole('button',{name:'Back to the market',exact:true}).click();
  const sign=await page.evaluate(()=>{const root=trialReview().market.scene.getObjectByName('Juniper / movable collection sign');return root.children.filter(c=>c.geometry?.type==='PlaneGeometry').map(c=>({z:c.position.z,rotation:c.rotation.y,sprite:c.isSprite||false}));});
  expect(sign).toHaveLength(2);expect(sign.every(s=>Math.abs(s.z)>.05&&!s.sprite)).toBe(true);expect(sign[1].rotation).toBeCloseTo(Math.PI);
