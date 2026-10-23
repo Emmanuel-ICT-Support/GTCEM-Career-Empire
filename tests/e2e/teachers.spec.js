@@ -11,7 +11,9 @@ await p.goto('/playable-3d/?view=teachers');await p.waitForFunction(()=>window._
 const cycles=[];
 for(const [id,actions]of [['middleton',['wave','laugh','look']],['psandodakis',['nod','cheer','clap','dance']]]){
  for(const action of actions){
-  await p.evaluate(id=>{const t=window.__npcTest,n=t.teachers.find(n=>n.id===id),r=n.root.position;t.worlds.teleport(false,r.x,r.z+3.2);t.actor.model.position.copy(t.worlds.position(false));t.updateCamera(1,true);t.updateInteraction();},id);
+  // Keep the original 3.2m approach, on the target’s far side: roaming teachers
+  // can otherwise make the other teacher the genuinely nearest interaction.
+  await p.evaluate(id=>{const t=window.__npcTest,n=t.teachers.find(n=>n.id===id),r=n.root.position,other=t.teachers.find(o=>o.id!==id).root.position,dx=r.x-other.x,dz=r.z-other.z,length=Math.hypot(dx,dz);t.worlds.teleport(false,r.x+3.2*dx/length,r.z+3.2*dz/length);t.actor.model.position.copy(t.worlds.position(false));t.updateCamera(1,true);t.updateInteraction();},id);
   await p.getByRole('button',{name:new RegExp('Say hello to '+(id==='middleton'?'Mr Middleton':'Mr Psandodakis'))}).click();
   await p.waitForFunction(({id,action})=>window.__npcTest.teachers.find(n=>n.id===id).snapshot().state===action,{id,action});
   const result=await p.evaluate(({id,action})=>{const t=window.__npcTest,n=t.teachers.find(n=>n.id===id),before=n.snapshot().reactions;n.react(t.actor.model.position);const repeatedIgnored=n.snapshot().reactions===before;for(let i=0;i<80;i++){for(const npc of t.teachers){npc.fixedUpdate(1/60,t.actor.model.position);npc.update(1/60,t.actor.model.position);}t.worlds.townPhysics.world.step();}return{id,action,repeatedIgnored,snapshot:n.snapshot()};},{id,action});assert(result.repeatedIgnored);cycles.push(result);
