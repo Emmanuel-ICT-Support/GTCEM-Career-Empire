@@ -1,0 +1,8 @@
+import {test,expect} from './campus-fixtures.js';
+test('native key release preserves a held interval with no render callback and does not replay it',async({page},info)=>{
+ await page.route('**/app.js?*',async route=>{const response=await route.fetch();await route.fulfill({response,body:await response.text()+`\nwindow.nativeInputProbe=()=>({position:actor?.model?.position.toArray(),frames:renderedFrames,software:softwareNavigationAt!==null,canStep:canStepNavigation(),helperReady:echo?.snapshot().helperStatus==='ready'});`});});
+ await page.goto('/playable-3d/');await expect.poll(()=>page.evaluate(()=>window.nativeInputProbe?.()),{timeout:30000}).toMatchObject({software:false,canStep:true,helperReady:true});await page.locator('#scene').focus();await page.keyboard.down('KeyW');
+ const held=await page.evaluate(()=>{const before=nativeInputProbe(),until=performance.now()+650;while(performance.now()<until){}window.dispatchEvent(new KeyboardEvent('keyup',{code:'KeyW',key:'w',bubbles:true}));return {before,after:nativeInputProbe()};});await page.keyboard.up('KeyW');
+ expect(held.before.position[2]-held.after.position[2]).toBeGreaterThan(.5);expect(held.before.position[2]-held.after.position[2]).toBeLessThan(1.5);expect(held.after.frames).toBe(held.before.frames);
+ const resumed=await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve(nativeInputProbe())))));expect(Math.abs(resumed.position[2]-held.after.position[2])).toBeLessThan(.2);await info.attach('native-input-settlement',{body:JSON.stringify({held,resumed},null,2),contentType:'application/json'});
+});
