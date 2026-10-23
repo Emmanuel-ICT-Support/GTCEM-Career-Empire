@@ -434,7 +434,7 @@ export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},sch
       const geometry=mesh.geometry.clone().applyMatrix4(mesh.matrixWorld);
       const vertices=new Float32Array(geometry.attributes.position.array);
       const indices=geometry.index?new Uint32Array(geometry.index.array):Uint32Array.from({length:vertices.length/3},(_,i)=>i);
-      townPhysics.world.createCollider(RAPIER.ColliderDesc.trimesh(vertices,indices));
+      townPhysics.world.createCollider(RAPIER.ColliderDesc.trimesh(vertices,indices));townPhysics.groundedRest=false;
       walkingSurfaces.add(mesh);geometry.dispose();
     });
   }
@@ -545,9 +545,15 @@ export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},sch
     get pendingSurfaceDetails(){return textures.pending;},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},
     update(time,camera){pondTime.value=time;if(importedTrees&&camera){importedTrees.update(time,camera);trunks.visible=crowns.visible=false;scenery.lod=importedTrees.stats();}if(spray.visible)spray.scale.y=1+Math.sin(time*3)*.075;materials.water.roughness=.2+Math.sin(time*.8)*.025;},
-    move(inside,delta){const physics=physical(inside);physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
+    move(inside,delta){const physics=physical(inside);
+      // Static campus surfaces need no new downward contact solve at rest.
+      // Re-solving triangle contacts with zero travel creates tiny alternating
+      // corrections, visibly jittering the pose and invalidating every shadow.
+      // Keep gravity for airborne players and all collision solves for travel.
+      if(physics.groundedRest&&delta.x===0&&delta.z===0&&physics.controller.computedGrounded()){const p=physics.body.translation();return {x:p.x,y:p.y-.785,z:p.z};}
+      physics.groundedRest=false;physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
       if(!inside&&arrivalOnly){next.x=Math.max(-13,Math.min(-5.2,next.x));next.z=Math.max(3.5,Math.min(29,next.z));}
-      next.x=Math.max(inside==='chapel'?-10.5:inside?-6.9:-38,Math.min(inside==='chapel'?10.5:inside?6.9:50,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-76,Math.min(inside==='chapel'?8.3:inside?6.9:36,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();return {x:next.x,y:next.y-.785,z:next.z};},
+      next.x=Math.max(inside==='chapel'?-10.5:inside?-6.9:-38,Math.min(inside==='chapel'?10.5:inside?6.9:50,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-76,Math.min(inside==='chapel'?8.3:inside?6.9:36,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();physics.groundedRest=delta.x===0&&delta.z===0&&physics.controller.computedGrounded();return {x:next.x,y:next.y-.785,z:next.z};},
     protectCamera(inside,position,target){
       const physics=physical(inside),origin={x:position.x,y:position.y+1.35,z:position.z};
       const dx=target.x-origin.x,dy=target.y-origin.y,dz=target.z-origin.z,length=Math.hypot(dx,dy,dz);
@@ -557,6 +563,6 @@ export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},sch
       if(hit){const distance=Math.max(.05,hit.timeOfImpact-.3);target.set(origin.x+direction.x*distance,origin.y+direction.y*distance,origin.z+direction.z*distance);}
     },
     position(inside){const p=physical(inside).body.translation();return new THREE.Vector3(p.x,p.y-.785,p.z);},
-    teleport(inside,x,z,feetY){const p=physical(inside);p.verticalVelocity=0;const y=Number.isFinite(feetY)?feetY+.785:inside?.8:.9;p.body.setTranslation({x,y,z},true);p.body.setNextKinematicTranslation({x,y,z});p.world.step();}
+    teleport(inside,x,z,feetY){const p=physical(inside);p.groundedRest=false;p.verticalVelocity=0;const y=Number.isFinite(feetY)?feetY+.785:inside?.8:.9;p.body.setTranslation({x,y,z},true);p.body.setNextKinematicTranslation({x,y,z});p.world.step();}
   };
 }

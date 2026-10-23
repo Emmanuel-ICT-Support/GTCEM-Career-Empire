@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "9ee9456bdee891594e6e34790bab29ce5b436ee115fd2d952ff3976ea8e07427"
+      "sha256": "9b64cf711b99c588f104b954f10656d0e18d1905cb2f5694248a80919d4ad871"
     },
     {
       "path": "arcade-carnival.js",
@@ -1166,7 +1166,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "ad8afaca4bf51044cec04b20a4cad0e3562f6901f1c5ba408c061f7d31b1451d"
+      "sha256": "b90e0a43a9f14429497bef8c23667988e154de54c64c86d7f652d665610a8459"
     }
   ],
   "estVideo": {
