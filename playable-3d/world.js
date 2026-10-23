@@ -549,8 +549,9 @@ export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},sch
       // Static campus surfaces need no new downward contact solve at rest.
       // Re-solving triangle contacts with zero travel creates tiny alternating
       // corrections, visibly jittering the pose and invalidating every shadow.
+      // Keep the shared physics world advancing NPC bodies while the player rests.
       // Keep gravity for airborne players and all collision solves for travel.
-      if(physics.groundedRest&&delta.x===0&&delta.z===0&&physics.controller.computedGrounded()){const p=physics.body.translation();return {x:p.x,y:p.y-.785,z:p.z};}
+      if(physics.groundedRest&&delta.x===0&&delta.z===0&&physics.controller.computedGrounded()){physics.world.step();const p=physics.body.translation();return {x:p.x,y:p.y-.785,z:p.z};}
       physics.groundedRest=false;physics.verticalVelocity=physics.controller.computedGrounded()?-.1:Math.max(-12,physics.verticalVelocity-9.81/60);physics.controller.computeColliderMovement(physics.collider,{x:delta.x,y:physics.verticalVelocity/60,z:delta.z});const movement=physics.controller.computedMovement(),p=physics.body.translation();const next={x:p.x+movement.x,y:p.y+movement.y,z:p.z+movement.z};
       if(!inside&&arrivalOnly){next.x=Math.max(-13,Math.min(-5.2,next.x));next.z=Math.max(3.5,Math.min(29,next.z));}
       next.x=Math.max(inside==='chapel'?-10.5:inside?-6.9:-38,Math.min(inside==='chapel'?10.5:inside?6.9:50,next.x));next.z=Math.max(inside==='chapel'?-8.3:inside?-6.8:-76,Math.min(inside==='chapel'?8.3:inside?6.9:36,next.z));physics.body.setNextKinematicTranslation(next);physics.world.step();physics.groundedRest=delta.x===0&&delta.z===0&&physics.controller.computedGrounded();return {x:next.x,y:next.y-.785,z:next.z};},
