@@ -1,8 +1,8 @@
 {
-  "release": "touch-options-20261018",
+  "release": "curriculum-market-review-20261021",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "83e3f1f9adbf25c36a043ef3da22000cd1a7303c",
-  "scope": "Unpublished follow-up: mobile Options scrolls above the touch joystick. Original graphics, frame assertion and classroom pacing behavior preserved. Final-source full regression pending.",
+  "baseCommit": "dee8291bd3cc8ae713f47ad9fbc89d5624092730",
+  "scope": "Discovery-to-market handover plus curriculum-first manual market teaching: actual recorded actions, five initiative behaviours and benefits, worked example and ungraded application. Contextual help directly reinforces syllabus ways; no additional mnemonic or draft song surfaced. Existing pay, saved-state schema, assessment boundaries and full-mode economy preserved. Baseline assets restored from origin; release remains gated by final validation.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -38,7 +38,7 @@
     },
     {
       "path": "../economy-lab/index.html",
-      "sha256": "9f552e5ce3e12dc539aca9d81ca7450cdf71e426253f826f63cc5618dd38a1b5"
+      "sha256": "5254baab9d345fedc51e724a744af22d3fd821197822d0aaf1440209d8af751a"
     },
     {
       "path": "../economy-lab/style.css",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "dc113878ace864e0e350c005a0c12d2166b93cda1c62aa69f6b194be9cc165ff"
+      "sha256": "9b64cf711b99c588f104b954f10656d0e18d1905cb2f5694248a80919d4ad871"
     },
     {
       "path": "arcade-carnival.js",
@@ -589,6 +589,18 @@
       "sha256": "4a4341e07fd4f54e08b90ee5fe0178d47f121447b83ef81d6200c25ad5773705"
     },
     {
+      "path": "classroom-gate.mjs",
+      "sha256": "b770c1e5e87cf0b30d27f4a55aa4d9877f629724434989a1a92698bbcb821d3b"
+    },
+    {
+      "path": "companion-follow.mjs",
+      "sha256": "b0c2e5dfc7a5aadaa1952770f192409d2ce9bd95682ae6537d930008a95cd6e7"
+    },
+    {
+      "path": "context-guidance.mjs",
+      "sha256": "a1b09c6e17cf81d785fa8f5a73d25e25a493b86fbd30b179a6c95cb56c90b0c5"
+    },
+    {
       "path": "deferred-textures.js",
       "sha256": "90dcabc7a59c622d4cba91f095ff3e4a097bc417f10f7ace0bce563a568d1b88"
     },
@@ -609,12 +621,16 @@
       "sha256": "d30417c50a870cc6d2da20d65cc2e314d0c96d5aa930921ed99d11bc486acbed"
     },
     {
+      "path": "discovery-handover.mjs",
+      "sha256": "c34b96cfaa54308e474cb1b25359a70a9b5c2b049be4e55449f2872cde29f193"
+    },
+    {
       "path": "discovery-opening.css",
-      "sha256": "532fedb8b0ecc5f7a25dba12f61cee9c46be595083b854518a57d91feebfecf8"
+      "sha256": "5ef84e79acba6e1c06b5c9e33a64c4d772bb55de6d72d565629325b76f94e2c0"
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "9b1514ab0cd5d0dc9ee6c791acd02fe4aac07bf296f81a76e640365d4c094df3"
+      "sha256": "b41d930fcdcf9b04de1ae6f7ca0805b04220b3665448794650ea0eca6e3b457b"
     },
     {
       "path": "discovery-state.mjs",
@@ -730,7 +746,7 @@
     },
     {
       "path": "echo-guide.js",
-      "sha256": "c25a3d3c869d8844338773420f3bbbd6476a0078ad67c536dbe357bd81d3e11c"
+      "sha256": "5163b4c25f561ce8e086a3da2b26bed597939e077a3ffbfd30671729e2f88bcc"
     },
     {
       "path": "echo-state.js",
@@ -818,7 +834,7 @@
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "f542441de65c17dc6a8d042231836cb9f2275273ae0328669362e44cff1de0fb"
+      "sha256": "d02080a4eaf1c7d164afb179080b498ca9fbe62b2f60d912472d6c8cad9b65f2"
     },
     {
       "path": "field-guide.html",
@@ -842,7 +858,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "aa290735494981cbc18d479b4ff947ee05b61ed6e177946ffd31a3ff63cc695c"
+      "sha256": "c78e24242b806d092dfe85e1cb001feae23bf9807b578742d741c08e099a945f"
     },
     {
       "path": "header-controls.css",
@@ -858,15 +874,15 @@
     },
     {
       "path": "helper-picker.js",
-      "sha256": "d38d528457f56a7e347c716d6d3b05e41ac559041e5af20bb5c3edec1bc15827"
+      "sha256": "79fa85fe62b50493d68cc7673c8c1f6ea82c182377a768b824b58727d77d7b02"
     },
     {
       "path": "helper-state.js",
-      "sha256": "91b9e917718d5364226d33ea647e5a92ec69a480a9a0366ef480863daf828feb"
+      "sha256": "cc15be4b685039bfc9b5edafffbcef0f889fa88a68b5d4f352436de89404abe0"
     },
     {
       "path": "index.html",
-      "sha256": "27af8a62fc586a2191a8f5c22a0f03245706c8d5759df3f67bb8c082f6d5e3f1"
+      "sha256": "571bfc33b1a46a36503db40dc72ccbdc25bfdb2ac1d847380537a4751f698d2e"
     },
     {
       "path": "initiative-field-guide.html",
@@ -914,7 +930,7 @@
     },
     {
       "path": "market-collection.mjs",
-      "sha256": "ab8c83435e0c709d158edce8d181fd758e559cac6b1962ad415d69814878af73"
+      "sha256": "1b8152b6e470edc97046c60f1d1336574559065c5a2246a74ee2072e983b0ce7"
     },
     {
       "path": "market-food.js",
@@ -922,7 +938,7 @@
     },
     {
       "path": "market-initiative.css",
-      "sha256": "48a8d6d910a6886bf40a6efc1f801b54a82b6b2deee46ddaccbb02153c917b8e"
+      "sha256": "0b5f647c7e88081ba9000dd0d8b571da0ed8fe53d6c4908003a83df76ec3f15b"
     },
     {
       "path": "market-initiative.mjs",
@@ -931,6 +947,10 @@
     {
       "path": "market-surroundings.js",
       "sha256": "6c5ee529f49d408cdd358e68900cce4aa210e64cb89cc59a91a6c64e9aca285e"
+    },
+    {
+      "path": "market-teaching.mjs",
+      "sha256": "9d63b57bafc437ee9f0ea7de6138ff7572eb6b9465f157a4240c40a7ddac7b74"
     },
     {
       "path": "mobile-play.css",
@@ -954,7 +974,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "b787fea988a723bf8307379fde7c346b1cbe062dd92256da3dc6064754b25503"
+      "sha256": "6fbf77ebff56ab38dce41fd39631834f2d109b43fa67d3efdcf03d901ffc53eb"
     },
     {
       "path": "opening-chapters-state.js",
@@ -974,7 +994,7 @@
     },
     {
       "path": "orientation-tour.mjs",
-      "sha256": "4faa9567e8683cd455e629d1f253a75b881fc29777678d3ace1924d5fabf3938"
+      "sha256": "ce3244a928f00a2ebb742f1640f20a72f7bb8ee7651e882718eb9ee1894c315b"
     },
     {
       "path": "phone-assets.js",
@@ -1023,6 +1043,10 @@
     {
       "path": "startup-assets.mjs",
       "sha256": "aafe7461355477e47f90eb1e002b8ffe93f407bdd1bd16690c86352473d1ce71"
+    },
+    {
+      "path": "stats-panel-state.mjs",
+      "sha256": "6d8aaee0a11e261e64f8c41ad97e2e466e829f8bdf5246aee3f816856a496dc8"
     },
     {
       "path": "studio.js",
@@ -1142,11 +1166,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "ad8afaca4bf51044cec04b20a4cad0e3562f6901f1c5ba408c061f7d31b1451d"
-    },
-    {
-      "path": "classroom-gate.mjs",
-      "sha256": "b770c1e5e87cf0b30d27f4a55aa4d9877f629724434989a1a92698bbcb821d3b"
+      "sha256": "b90e0a43a9f14429497bef8c23667988e154de54c64c86d7f652d665610a8459"
     }
   ],
   "estVideo": {
@@ -1156,6 +1176,6 @@
     "width": 1280,
     "height": 720
   },
-  "status": "Approved release candidate",
+  "status": "Review candidate \u2014 final release gates pending",
   "pilotBaseCommit": "a2794e42c359ed930124e34b459d71bcc35216ef"
 }

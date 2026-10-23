@@ -1,3 +1,4 @@
+import {startMarketShift,finishMarketLearning,optionalMarketAction} from './market-teaching-controls.js';
 import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance} from './market-controls.js';
@@ -23,8 +24,8 @@ test('Juniper food and staff clear the shallow counter in packing and collection
  // Capture a deterministic inspection camera without changing user saves.
  await page.evaluate(()=>{const {market,camera,renderer}=window.stallReview();renderer.render(market.scene,camera);});
  await page.screenshot({path:info.outputPath('juniper-approach.png')});
- await page.evaluate(()=>window.stallReview().market.interaction({x:0,z:-3.6}).action());await page.getByRole('button',{name:'Take the shift',exact:true}).click();
- await page.evaluate(()=>window.stallReview().market.interaction({x:4.2,z:-1.8}).action());await page.getByLabel('Where will customers collect?',{exact:true}).selectOption('front');await page.getByLabel('What will Sam do?',{exact:true}).selectOption('collect');await page.getByRole('button',{name:'Apply setup · investigate first',exact:true}).click();
+ await page.evaluate(()=>window.stallReview().market.interaction({x:0,z:-3.6}).action());await startMarketShift(page);
+ await page.evaluate(()=>window.stallReview().market.interaction({x:4.2,z:-1.8}).action());await page.getByLabel('Where will customers collect?',{exact:true}).selectOption('front');await page.getByLabel('What will Sam do?',{exact:true}).selectOption('collect');await optionalMarketAction(page,'Apply setup · investigate first');
  const staff=await page.evaluate(()=>{const {market,THREE:T}=window.stallReview();market.scene.updateMatrixWorld(true);const actor=market.scene.getObjectByName('Market actor / sam');const box=new T.Box3().setFromObject(actor.children.at(-1),true);return {min:box.min.z,max:box.max.z};});
  expect(staff.min).toBeGreaterThan(-4.59);expect(staff.max).toBeLessThan(-3.625);
 });

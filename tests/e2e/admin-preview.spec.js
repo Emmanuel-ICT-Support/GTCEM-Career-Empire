@@ -1,10 +1,11 @@
+import {startMarketShift,finishMarketLearning,optionalMarketAction} from './market-teaching-controls.js';
 import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 import {enterMarket} from './market-controls.js';
 const previewURL='/playable-3d/?experience=night-market&market-review=1&admin-review=1';
 const state=p=>p.locator('#diagnostics').evaluate(n=>JSON.parse(n.dataset.state||'{}'));
 const unpaid={paid:false,accepted:false,wallet:0,tax:0,pass:false,researchPaid:false,badges:[],events:[]};
-const click=(p,name)=>p.getByRole('button',{name,exact:true}).click();
+const click=(p,name)=>optionalMarketAction(p,name);
 for(const width of [1280,390])test(`public shortcut opens isolated fresh Admin and preserves normal gates ${width}`,async({page,context},info)=>{
  test.setTimeout(120000);await page.setViewportSize({width,height:844});
  await context.route('**/playable-3d/app.js*',async route=>{const response=await route.fetch();await route.fulfill({response,body:await response.text()+`\nwindow.adminRouteClicks=0;document.querySelector('#market-destination').addEventListener('click',()=>window.adminRouteClicks++,true);window.observeAdminRoute=()=>({pageMs:performance.now(),hidden:document.hidden,clicks:window.adminRouteClicks,actual:{mode,marketOpening,marketLeaving,modeRequest,marketTravelRequest,position:actor.model.position.toArray(),market:nightMarket?.snapshot()},published:JSON.parse(document.querySelector('#diagnostics').dataset.state||'{}')});`});});

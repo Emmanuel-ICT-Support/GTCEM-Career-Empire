@@ -1,5 +1,6 @@
+import {createMarketTeaching} from './market-teaching.mjs?v=market-teaching-review-20261021';
 import {initiativeProgress} from './initiative-progress.mjs?v=initiative-arcade-20261014';
-import {createInitiativeLearning} from './market-initiative.mjs?v=initiative-arcade-20261014';
+import {createInitiativeLearning,INITIATIVE_BEHAVIOURS} from './market-initiative.mjs?v=initiative-arcade-20261014';
 import {administrationAvailable} from './admin-preview.mjs?v=admin-preview-20261013';
 import {arrangementChoices,canTryArrangement,applyArrangement,showSignPosition} from './market-arrangement.mjs?v=market-arrangement-20261012';
 import {inAdministration,nearestInteraction} from './administration-flow.js?v=market-admin-20261012';
@@ -124,9 +125,10 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  if(publicAdminReview){const note=document.createElement('p');note.id='market-review-notice';note.textContent='Public Admin preview · not saved · no wages or crew pass';hud.append(note);}
  document.getElementById('experience').append(hud);
  const dialog=document.createElement('dialog');dialog.id='market-dialog';dialog.setAttribute('aria-labelledby','market-dialog-title');document.body.append(dialog);
- const learningCss=document.createElement('link');learningCss.rel='stylesheet';learningCss.href=new URL('./market-initiative.css?v=initiative-arcade-20261014',import.meta.url);document.head.append(learningCss);
+ const learningCss=document.createElement('link');learningCss.rel='stylesheet';learningCss.href=new URL('./market-initiative.css?v=curriculum-market-20261021',import.meta.url);document.head.append(learningCss);
  const learning=createInitiativeLearning({show,dialog,state:()=>store.state,record:event=>commit(event,'Learning practice recorded; agreed pay is unchanged.'),back:close});
- let introTimer=null,introFrame=0,introPaused=false,exitArmed=false;
+ const teaching=createMarketTeaching({show,dialog,state:()=>store.state,introImage:()=>captureBriefing?.(0),startShift:()=>{if(store.state.accepted){close();return;}if(commit('accept','Make service smoother. Investigate or try an arrangement — you choose.'))close();else journal();},complete:()=>{if(store.state.paid)return agencyMara();if(!store.state.consolidated&&!commit('consolidate','Learning connection saved. Your reflection choices are optional.'))return journal();handover();},onMissingTrial:()=>store.state.trials.length?trialResults():agencySetup(),close,resources:()=>[['Help with my shift',thinkingGuide],['Five behaviours / recall',learning.resource],...(store.state.accepted?[['Discuss an idea / crew priorities',learning.opportunities],['My first gig / case note',caseNote]]:[]),['Replay intro',()=>teaching.intro()]]});
+ let introTimer=null,exitArmed=false;
  let visible=false,customerProgress=0,previousSolution=store.state.solution,lastAnnounced='',music=null,watching=0,observationHold=false,testing=0,noteDraft=null;
  hud.querySelector('#market-test').onclick=()=>show('Test this arrangement',describePlan(store.state.plan),[['Start the test',beginTrial]],'Watch four phone customers and two walk-up customers. Results appear after the group finishes.');
  const announce=text=>{lastAnnounced=text;hud.querySelector('#market-status').textContent=text;};
@@ -135,7 +137,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  dialog.addEventListener('close',()=>document.getElementById('scene').focus());
  dialog.addEventListener('cancel',()=>{clearTimeout(introTimer);const restore=observationHold;observationHold=false;if(restore)sync();onClose();});
  function show(title,body,choices=[],extra=''){if(chapterPlayback)endPreview();
-  clearTimeout(introTimer);introTimer=null;onPause();dialog.classList.remove('market-intro','market-arcade');dialog.replaceChildren();const eyebrow=document.createElement('div');eyebrow.className='market-kicker';eyebrow.textContent=publicAdminReview?'PUBLIC ADMIN PREVIEW / NOT SAVED':'SUNDAY MARKETS / PRACTICE';dialog.append(eyebrow);
+  clearTimeout(introTimer);introTimer=null;onPause();dialog.classList.remove('market-intro','market-arcade','market-teaching');delete dialog.dataset.marketTeachingStage;dialog.replaceChildren();const eyebrow=document.createElement('div');eyebrow.className='market-kicker';eyebrow.textContent=publicAdminReview?'PUBLIC ADMIN PREVIEW / NOT SAVED':'SUNDAY MARKETS / PRACTICE';dialog.append(eyebrow);
   const h=document.createElement('h2');h.id='market-dialog-title';h.textContent=title;dialog.append(h);
   const p=document.createElement('p');p.className='market-body';p.textContent=body;dialog.append(p);if(title==='Mara’s roster and order record'){const figure=document.createElement('figure');figure.className='market-record-author';const portrait=document.createElement('img');portrait.src=new URL('./assets/community-cast-20260927/mara-portrait.png',import.meta.url).href;portrait.alt='Mara, Juniper Kitchen owner and record author';portrait.width=portrait.height=112;const caption=document.createElement('figcaption');caption.textContent='Mara · Juniper Kitchen';figure.append(portrait,caption);p.before(figure);}
   if(extra){const note=document.createElement('p');note.className='market-note';note.textContent=extra;dialog.append(note);}
@@ -162,34 +164,13 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   ]);
   else show('“Good to see you again.”','“Your first shift is already paid. Visit Reception through the west entrance for your next paid gig, or enjoy the market.”',[['Visit Reception',()=>visitDistrict(2)],['See my market journal',journal]]);
  }
- const maraFrames=[
-  ['Meet the Juniper crew','“I’m Mara. I own Juniper Kitchen, selling fresh rice bowls. It’s busy and the queue feels disorganised. Sam helps me pack.”'],
-  ['Order or collect?','“Phone customers have paid: show your order at collection. Walk-up customers order and pay at the ordering counter.”'],
-  ['Show initiative','“Notice what could work better. Look around, ask questions and try an idea. If Sam guides or serves customers, I pack alone.”'],
-  ['Try, watch, share','“Watch the next group use your arrangement. What worked? What would you change? Your journal’s thinking guide is optional.”'],
-  ['Your agreed job','Try an arrangement. Check the result. Share what you found. $20 gross − $2 community tax = $18 plus a crew pass. Help, retries and mixed results do not reduce your pay.']
- ];
- function maraIntro(){
-  const draw=()=>{
-   const [title,body]=maraFrames[introFrame];
-   show(title,body,[[store.state.accepted?'Continue my shift':introFrame===4?'Let’s take a look':'Take the shift',()=>{if(store.state.accepted){close();return;}if(commit('accept','Make service smoother. Investigate or try an arrangement — you choose.'))close();else journal();}],['Thinking guide',thinkingGuide],['Five behaviours / recall',learning.resource]],introFrame===4?'Fictional practice pay. No timer. You can explore first.':'Agreed job: try, check and hand over. $20 gross − $2 community tax = $18 plus a crew pass. Help, retries and mixed results keep full pay.');
-   dialog.classList.add('market-intro');
-   if(captureBriefing){const image=document.createElement('img');image.className='market-intro-image';image.alt=['Mara and Sam at Juniper Kitchen','Customers waiting between ordering and collection','Juniper work bench and collection counter','Customer flow through the market','Juniper Kitchen ready for your practice shift'][introFrame];image.src=captureBriefing(Math.min(introFrame,3));const visual=document.createElement('div');visual.className='market-intro-visual';visual.append(image);if(introFrame===1){visual.classList.add('market-intro-split');visual.replaceChildren();for(const [view,alt]of [[4,'Prepaid phone-order collection panel'],[5,'Walk-up ordering counter']]){const half=document.createElement('img');half.className='market-intro-image';half.alt=alt;half.src=captureBriefing(view);visual.append(half);}}if(introFrame===2){const focus=document.createElement('span');focus.className='market-notice-focus';focus.textContent='⌕';focus.setAttribute('aria-hidden','true');visual.append(focus);}if(introFrame===0){const crowd=document.createElement('img');crowd.className='market-lunch-rush';crowd.alt='A playful exaggerated crowd of hungry market customers with phones and rice bowls';crowd.src=new URL('./assets/market/lunch-rush.jpg',import.meta.url).href;visual.append(crowd);}dialog.querySelector('.market-body').before(visual);}
-   const routes=document.createElement('div');routes.className='market-brief-route';for(const [title,detail]of [['Phone preorder','Already paid → collection'],['Walk-up customer','Order and pay → counter']]){const card=document.createElement('div'),h=document.createElement('strong'),caption=document.createElement('span');h.textContent=title;caption.textContent=detail;card.append(h,caption);routes.append(card);}dialog.querySelector('.market-body').before(routes);
-   const skills=document.createElement('p');skills.className='market-note';skills.textContent='Skills you’re practising: initiative · problem solving · working with others';dialog.querySelector('.market-body').after(skills);const captions=document.createElement('div');captions.className='market-beat-captions';for(const caption of [['Meet Mara. Meet Sam.','Lunch is getting busy.'],['Ordered online? Collect here.','Ordering now? Order and pay.','But where should everyone go?'],['Show initiative.','Look around. Ask questions. Try an improvement.'],['Observe → try → check','Watch the next group.'],['Your agreed job']][introFrame]){const line=document.createElement('span');line.textContent=caption;captions.append(line);}dialog.querySelector('.market-intro-visual')?.append(captions);
-   const text=dialog.querySelector('.market-body');text.setAttribute('aria-live','polite');
-   const controls=document.createElement('div');controls.className='market-intro-controls';
-   const progress=document.createElement('span');progress.textContent=`${introFrame+1} of ${maraFrames.length}`;controls.append(progress);
-   for(const [name,action]of [[introPaused?'Play':'Pause',()=>{introPaused=!introPaused;draw();}],['Next',()=>{introFrame=Math.min(introFrame+1,maraFrames.length-1);draw();}],['Skip intro',()=>{introFrame=maraFrames.length-1;draw();}],['Replay intro',()=>{introFrame=0;draw();}]]){const button=document.createElement('button');button.textContent=name;button.onclick=action;controls.append(button);}
-   dialog.querySelector('.market-choices').before(controls);
-   if(introFrame<maraFrames.length-1&&!introPaused&&!matchMedia('(prefers-reduced-motion: reduce)').matches)introTimer=setTimeout(()=>{if(dialog.open){introFrame++;draw();}},[6000,10000,9000,8000,6000][introFrame]);
-  };introFrame=0;introPaused=false;draw();
- }
+ function quietActions(items){const details=document.createElement('details');details.className='market-teaching-resources';const summary=document.createElement('summary');summary.textContent='Optional help & resources';details.append(summary);for(const [label,action]of items){const button=document.createElement('button');button.textContent=label;button.onclick=action;details.append(button);}dialog.querySelector('.market-choices').after(details);}
+ function maraIntro(){teaching.intro();}
  function agencyMara(){
   const s=store.state;
   if(!s.accepted)return maraIntro();
-  if(s.paid)return show('Your shift is paid','Your experiment is part of the record, including anything that did not work. You can revisit your case note and use your crew pass.',[['My first gig / case note',caseNote],['Five behaviours / recall',learning.resource],['Connect this to Initiative',consolidation]]);
-  if(!s.trials.length||!s.tested)return show('Try your arrangement','Mara: “Set your plan at the test bench, then go and watch the queue to see whether it improves things. Come back and talk it through with me afterwards.”',[['Discuss an idea / crew priorities',learning.opportunities],['Five behaviours / recall',learning.resource],['Back to the market',close]]);
+  if(s.paid){show('Your shift is paid','Your experiment is part of the record, including anything that did not work. Revisit your case note or use your crew pass.',[['My first gig / case note',caseNote]]);quietActions([['Five behaviours / recall',learning.resource],['Replay the learning review',()=>teaching.debrief({restart:true})],['Help with my shift',thinkingGuide]]);return;}
+  if(!s.trials.length||!s.tested){show('Try your arrangement','Mara: “You can ask the customer or Sam, observe the queue, or try the current arrangement first. At the test bench, choose a setup and watch the next six customers. Come back and explain what happened.”',[['Back to the market',close]],'Work within the agreed role. Keep the emergency walkway clear. Mixed results and useful questions do not reduce your agreed pay.');quietActions([['Discuss an idea / crew priorities',learning.opportunities],['Five behaviours / recall',learning.resource],['Help with my shift',thinkingGuide]]);return;}
   if(!s.reviewed)return trialResults();
   return consolidation();
  }
@@ -210,10 +191,10 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   const current=()=>arrangementChoices(Object.fromEntries(Object.entries(selects).map(([key,select])=>[key,select.value])));
   const apply=()=>{const changed=Object.keys(current()).some(key=>current()[key]!==store.state.plan[key]);if(!applyArrangement(store,current())){journal();return false;}if(changed)customerProgress=0;sync();return true;};
   const run=document.createElement('button');run.textContent='Try this with next customers';run.className='market-arrangement-primary';run.onclick=()=>{if(canTryArrangement(store.state,current())&&apply())beginTrial();};actions.append(run);
-  const save=document.createElement('button');save.textContent='Apply setup · investigate first';save.className='market-arrangement-secondary';save.onclick=()=>{if(apply())planReady();};actions.append(save);
+  const save=document.createElement('button');save.textContent='Apply setup · investigate first';save.className='market-arrangement-secondary';save.onclick=()=>{if(apply())planReady();};const optionalSetup=document.createElement('details');optionalSetup.className='market-teaching-resources';const setupSummary=document.createElement('summary');setupSummary.textContent='Investigate first / previous trials';optionalSetup.append(setupSummary,save);actions.after(optionalSetup);
   function previewChoices(){const plan=current();rows.position.hidden=!showSignPosition(plan);preview.textContent='Your setup: '+[PLAN_OPTIONS.sign[plan.sign],...(showSignPosition(plan)?[PLAN_OPTIONS.position[plan.position]]:[]),PLAN_OPTIONS.collection[plan.collection],PLAN_OPTIONS.helper[plan.helper]].join(' · ');run.disabled=!canTryArrangement(store.state,plan);}
   Object.values(selects).forEach(select=>select.onchange=previewChoices);previewChoices();
-  if(s.trials.length){const results=document.createElement('button');results.textContent='Compare my trial results';results.onclick=trialResults;actions.append(results);}
+  if(s.trials.length){const results=document.createElement('button');results.textContent='Compare my trial results';results.onclick=trialResults;optionalSetup.append(results);}
   if(s.trials.length>=12){const note=document.createElement('p');note.textContent='You have tried twelve groups of customers. Review what happened and hand over to Mara for your full wages.';form.append(note);}
   selects.sign.focus();
  }
@@ -228,36 +209,22 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  }
  function trialResults(){
   const s=store.state,t=s.trials.at(-1);if(!t)return agencySetup();
-  show(`Trial ${s.trials.length} / what happened`,t.outcome.facts.join(' '),[
-   [t.inspected?'Result already recorded':'Record that I checked this result',()=>{if(commit('inspect-trial','Result checked. Decide what you want to change, investigate or hand over.'))trialResults();else journal();},t.inspected],
-   ['Compare all trials / reflect',caseNote],
-   ['Return to investigate or revise',close],
-   ['Go and talk it through with Mara',close,!t.inspected]
-  ],'These are observations from this simulation, not a score. What do they suggest? You can finish with an unresolved issue and recommend a next step.');
+  show(`Trial ${s.trials.length} / what happened`,t.outcome.facts.join(' '),[t.inspected?['Go and talk it through with Mara',close]:['Record that I checked this result',()=>{if(commit('inspect-trial','Result checked. Decide what you want to change, investigate or hand over.'))trialResults();else journal();}]],'These are observations from this simulation, not a score. You can investigate, revise or finish with an unresolved issue and recommend a next step.');
+  quietActions([['Compare all trials / reflect',caseNote],['Return to investigate or revise',close]]);
  }
- function consolidation(){
-  const s=store.state;if(!s.reviewed)return trialResults();
-  const t=s.trials.at(-1);
-  show('Name what you practised',`Mara: “You tried an arrangement and checked what happened. Looking for a better work practice can support initiative; comparing outcomes practises problem solving. We name other behaviours only when your actions support them.” ${t.outcome.effective?'This arrangement balanced customer access and packing in our trial.':'Your trial left a tradeoff to work on. Reporting that honestly is useful work too.'}`,[
-   ['Keep this learning connection',()=>{if(!s.consolidated&& !commit('consolidate','Learning connection saved. Your reflection choices are optional.'))return journal();handover();}],
-   ['Initiative / reference sheet',initiativeSheet],
-   ['Five behaviours / recall',learning.resource],
-   ['Discuss an idea / crew priorities',learning.opportunities],
-   ['Review my case note',caseNote],
-   ['Try another arrangement first',close]
-  ],'Reflection choices do not affect your agreed pay. These game badges recognise practice, not verified workplace competence.');
- }
+ function consolidation(){const s=store.state;if(!s.reviewed)return trialResults();if(s.consolidated&&!s.paid)return handover();teaching.debrief();}
  function handover(){const s=store.state;
   show('Your experiment counts','Mara: “Thanks for trying it and checking the result. We can use what you found. Your agreed wages are ready.”',[
-   ['Finish the shift · receive $18 and crew pass',()=>{if(commit('pay','Paid $18 after $2 community tax. Crew pass earned for the agreed work.'))show('First gig complete','Your wages and crew pass are yours. Next: visit Reception through the west entrance for your next paid gig. Your case note keeps your experiments and explanation.',[['Visit Reception',()=>visitDistrict(2)],['My first gig / case note',caseNote],['Recall game / takeaway resource',learning.resource],['Explore the market',close]],'$20 gross − $2 community tax = $18 net. Reflection text is not graded and never changes your pay.');else journal();},s.paid],
-   ['My first gig / case note',caseNote]
-  ]);
+   ['Finish the shift · receive $18 and crew pass',()=>{if(commit('pay','Paid $18 after $2 community tax. Crew pass earned for the agreed work.'))shiftComplete();else journal();},s.paid],
+  ]);quietActions([['My first gig / case note',caseNote],['Five behaviours / recall',learning.resource]]);
  }
+ function shiftComplete(){show('First gig complete','Your wages and crew pass are yours. Next: visit Reception through the west entrance for your next paid gig. Your case note keeps your experiments and explanation.',[['Visit Reception',()=>visitDistrict(2)]],'$20 gross − $2 community tax = $18 net. Reflection text is not graded and never changes your pay.');quietActions([['My first gig / case note',caseNote],['Recall game / takeaway resource',learning.resource],['Explore the market',close]]);}
  function thinkingGuide(){
-  show('A guide when you need it','Notice — What is happening? Who is affected?\n\nThink — What might explain it? What could you find out?\n\nAct — What small change could you try within the agreed boundaries?\n\nSupport — Who could help you, or who might need your help?\n\nReview — What changed? What would you keep or try differently?', [['Back to Mara',agencyMara],['My case note',caseNote]],'Use any prompt that helps. You can skip, revisit or reorder them. Opening this guide does not change pay or badges.');
+  show('Help with your shift','What have you seen or heard at this stall? You can ask the customer or Sam, observe the queue, or try an agreed arrangement. Use that information to explain a useful action within your role.', [['Back to Mara',agencyMara],['My case note',caseNote]],'You do not need every answer immediately. Ask Mara about unfamiliar tasks or support. Keep the emergency walkway clear and leave payments and food handling with trained crew.');
+  const connection=document.createElement('p');connection.textContent='Connect your action to the syllabus ways where there is evidence: being proactive; identifying ways to improve current work practices; vocalising your opinions; helping fellow workers; seeking more responsibilities. Explain how it could help and any limits; naming a way alone does not show competence.';dialog.querySelector('.market-choices').before(connection);
  }
  function initiativeSheet(){
-  show('Initiative / keep the connection','Initiative means taking constructive action: being proactive, identifying ways to improve current work practices, vocalising your opinions, helping fellow workers and seeking more responsibilities.\n\nThink back to your trial: which behaviour did you practise? What did you do, how did you know or learn what to do, and who else was involved?', [['Five behaviours / recall',learning.resource],['My case note',caseNote],['Optional thinking guide',thinkingGuide]],'Reference resource from EST Initiative. Reading it does not complete an assessment or certify workplace competence.');
+  show('Initiative / keep the connection','Initiative means taking constructive action: being proactive, identifying ways to improve current work practices, vocalising your opinions, helping fellow workers and seeking more responsibilities.\n\nThink back to your trial: which behaviour did you practise? What did you do, how did you know or learn what to do, and who else was involved?', [['Five behaviours / recall',learning.resource],['My case note',caseNote],['Help with my shift',thinkingGuide]],'Reference resource from EST Initiative. Reading it does not complete an assessment or certify workplace competence.');
   const link=document.createElement('a');link.href='../Assets/EST%20Preparation/initiative-one-page-summary.png';link.target='_blank';link.rel='noopener';link.textContent='Open original Initiative one-pager at full size';
   const img=document.createElement('img');img.src=link.href;img.alt='Initiative reference sheet: five workplace behaviours, examples, Notice Think Act Support Review, and a Situation Initiative Impact Skill answer builder.';img.style.cssText='width:100%;height:auto';
   const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent='View the original one-pager';details.append(summary,link,img);dialog.querySelector('.market-choices').before(details);
@@ -486,7 +453,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
    ...(s.paid?[["Work is changing / explore the clues",changingWorld]]:[]),
    ['Where do I go?',()=>show('Around the market','Mara: Juniper Kitchen, ahead.\nCustomer and queue view: left of the entrance path.\nSam: Juniper crew. Work bench: right of the stall.\nStage: right of Juniper. Crew pass: front-right corner.\nLittle Finds: left. Savings and keepsakes: Stats.\nFree break: bench in front of the stage.',[], 'Use WASD / arrow keys or the movement controls. Drag to look. Walk close, then press E or tap the interaction button. All activities are untimed.')],
    ['My first gig / case note',caseNote,s.revision!==3],
-   ['Optional thinking guide',thinkingGuide],
+   ['Help with my shift',thinkingGuide],
    ['Initiative / reference sheet',initiativeSheet],
    ['Restart this practice…',restartPractice]
   ],store.error||(reviewMode?'Fresh review: progress lasts until reload and never changes your saved market. Game badges are practice only.':'One anonymous practice save in this browser, shared by its local characters. Game badges are not portfolio evidence or résumé claims. No student login.'));

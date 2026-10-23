@@ -13,15 +13,17 @@ test('doorway then exit presents mural without another progress mutation; later 
  assert.equal(context.chapelCheckpoint(true),false);assert.equal(context.presented,1);assert.equal(context.state,s);
  for(const next of [{...s,skipped:true},collectShot(s,'mural',shot),advance(collectShot(s,'mural',shot),'oval')]){context.state=next;context.chapelCheckpoint(true);assert.equal(context.presented,1);}
 });
-test('real slider handler reveals one picture, survives dialog reopening, and follows only after development',()=>{
+test('real slider handler reveals one picture, survives dialog reopening, and follows only after development',async()=>{
  const elements=new Map();const $=id=>{if(!elements.has(id))elements.set(id,{style:{},hidden:false});return elements.get(id);};
  const img={style:{}};const toy={innerHTML:'',querySelector:()=>img};let saved=0,closed=0;
- const context={$,toy,development:0,state:advance(normalise(null),'parcel'),save(){saved++;},dialog:{close(){closed++;}},explore(){}};
+ const context={$,toy,development:0,state:advance(normalise(null),'parcel'),save(){saved++;},dialog:{dataset:{},close(){closed++;}},captureBusy:false,photoHandoverBusy:false,photoReviewPending:false,giftContextVisible:true,explore(){}};
  vm.createContext(context);vm.runInContext(source.slice(source.indexOf(' function renderDevelop()'),source.indexOf(' function renderDestinationClue()')),context);
- context.renderDevelop();assert.equal((toy.innerHTML.match(/<img /g)||[]).length,1);assert.ok(!toy.innerHTML.includes('mural'));assert.equal($('develop-next').hidden,true);
- $('develop').value=55;$('develop').oninput();context.renderDevelop();assert.equal($('develop').value,55);assert.equal($('develop-next').hidden,true);
- $('develop').value=100;$('develop').oninput();assert.equal($('develop-next').hidden,false);assert.equal(img.style.filter,'blur(0px) brightness(1)');
- $('develop-next').onclick();assert.equal(context.state.developed,true);assert.equal(saved,1);assert.equal(closed,1);
+ vm.runInContext(source.slice(source.indexOf(' async function continuePhotoReview()'),source.indexOf(" $('discovery-continue').onclick=continuePhotoReview;")),context);
+ context.renderDevelop();assert.equal((toy.innerHTML.match(/<img /g)||[]).length,1);assert.ok(!toy.innerHTML.includes('mural'));assert.equal($('discovery-continue').disabled,true);
+ $('develop').value=55;$('develop').oninput();context.renderDevelop();assert.equal($('develop').value,55);assert.equal($('discovery-continue').disabled,true);
+ await context.continuePhotoReview();assert.equal(context.state.developed,false);assert.equal(closed,0);
+ $('develop').value=100;$('develop').oninput();assert.equal($('discovery-continue').disabled,false);assert.equal(img.style.filter,'blur(0px) brightness(1)');
+ await context.continuePhotoReview();assert.equal(context.state.developed,true);assert.equal(saved,1);assert.equal(closed,1);
 });
 test('sequential progress survives same-run serialisation and repeated shots/reward remain idempotent',()=>{
  let s=normalise(JSON.parse(JSON.stringify(visitChapel(advance(normalise(null),'parcel')))));

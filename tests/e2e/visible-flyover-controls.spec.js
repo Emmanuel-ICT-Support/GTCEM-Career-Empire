@@ -1,3 +1,4 @@
+import {openDiscoveryClue,openClueHelp} from './discovery-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {waitForEntry} from './entry-readiness.js';
 
@@ -17,8 +18,8 @@ for(const width of [1280,390])test.describe(`visible Flyover controls ${width}`,
   const reminder=page.locator('#flyover-reminder');await expect(reminder).toBeEnabled();await expect(reminder).toHaveText('Flyover · F');
   const hud=await page.locator('#flyover-quick-controls').boundingBox(),movement=await page.locator('#movement').boundingBox();expect(Math.abs(hud.x-movement.x)).toBeLessThanOrEqual(2);expect(hud.y+hud.height).toBeLessThanOrEqual(movement.y-8);
   await page.screenshot({path:info.outputPath(`flyover-ready-${width}.png`)});
-  await page.locator('#exploration-help').click();await expect(page.locator('#discovery-dialog')).toBeVisible();await expect(reminder).toBeDisabled();await expect(page.locator('#discovery-dialog .flyover-modal-hint')).toContainText('Close the picture clue to use Flyover · F.');await expect(page.locator('#discovery-dialog .flyover-modal-hint')).toBeInViewport();
-  await page.keyboard.press('KeyF');expect((await snapshot()).active).toBe(false);await page.screenshot({path:info.outputPath(`flyover-clue-blocked-${width}.png`)});await page.locator('#discovery-close').click();await expect(reminder).toBeEnabled();
+  await openDiscoveryClue(page);await expect(page.locator('#discovery-dialog')).toBeVisible();await expect(reminder).not.toBeVisible();await expect(page.locator('#discovery-dialog .flyover-modal-hint')).not.toBeVisible();
+  await page.keyboard.press('KeyF');expect((await snapshot()).active).toBe(false);await page.screenshot({path:info.outputPath(`flyover-clue-blocked-${width}.png`)});await page.keyboard.press('Escape');await expect(reminder).toBeEnabled();
   const before=await snapshot();await activate(reminder);await expect(page.locator('#flyover-land')).toBeVisible();await expect(page.locator('#flyover-toggle')).toHaveText('Return to player');await expect(reminder).toBeHidden();const entered=await page.evaluate(()=>window.__flyoverClickSnapshot);
   await hold('KeyE',350);await hold('KeyW',500);const flying=await snapshot();for(const control of await page.locator('#flyover-panel button').all())await expect(control).toBeInViewport();expect(flying.active).toBe(true);expect(flying.camera).not.toEqual(entered.camera);expect(flying.actor).toEqual(entered.actor);expect(flying.physical).toEqual(entered.physical);
   await page.screenshot({path:info.outputPath(`flyover-flying-${width}.png`)});await activate(page.locator('#flyover-toggle'));await expect(reminder).toBeVisible();const returned=await page.evaluate(()=>window.__flyoverClickSnapshot);expect(returned.active).toBe(false);expect(returned.actor).toEqual(entered.actor);expect(returned.physical).toEqual(entered.physical);expect(returned.camera).toEqual(entered.camera);

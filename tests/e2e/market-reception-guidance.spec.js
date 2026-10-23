@@ -1,3 +1,4 @@
+import {startMarketShift,finishMarketLearning,optionalMarketAction} from './market-teaching-controls.js';
 import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from '@playwright/test';
 const prior=['accept','share-plan','run-trial','inspect-trial','consolidate'];
@@ -19,7 +20,7 @@ for(const width of [1280,390]){
   await expect(page.locator('#market-reception')).toBeHidden();
   expect(requests.some(u=>/opening-district|opening-chapters/.test(u))).toBe(false);
   await page.evaluate(()=>market.interaction({x:0,z:-3.6}).action());
-  await page.getByRole('button',{name:'Keep this learning connection',exact:true}).click();
+  await finishMarketLearning(page);
   await page.getByRole('button',{name:'Finish the shift · receive $18 and crew pass',exact:true}).click();
   await expect(page.locator('#market-dialog-title')).toHaveText('First gig complete');
   await expect(page.locator('#market-dialog')).toContainText('Reception through the west entrance');

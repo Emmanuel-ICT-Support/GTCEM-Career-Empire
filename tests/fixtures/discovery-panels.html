@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Production discovery panels review</title><base href="/playable-3d/">
+<script type="importmap">{"imports":{"three":"/playable-3d/vendor/three/build/three.module.js"}}</script>
+<style>body{margin:0;padding:24px;font:16px/1.5 system-ui;background:#e7efdf;color:#173b35}#fixture-note{max-width:60ch}button{min-height:44px;padding:10px;font:inherit}#experience{min-height:90vh}#scene{width:100%;height:200px;background:#d9e5d0}#discovery{display:none}#flyover-reminder{position:fixed;bottom:20px;left:20px}</style>
+<main id="experience"><p id="fixture-note">Production discovery panel review. Uses restored campus artwork. Test positions and seeded saves are fixture data; this is not a 3D gameplay qualification.</p><select id="profile" aria-label="Fixture player"><option>Review</option></select><canvas id="scene" tabindex="0" aria-label="Gameplay focus target"></canvas><button id="reopen">Reopen clue</button><button id="open-chapel">Open Chapel choices</button><button id="flyover-reminder">Flyover · F</button><output id="travel-status"></output></main>
+<script type="module">
+import * as THREE from 'three';
+import {createDiscovery} from '/playable-3d/discovery-opening.js';
+import {KEY} from '/playable-3d/discovery-state.mjs';
+import {createJourneyStore} from '/playable-3d/discovery-handover.mjs';
+import {helperFor} from '/playable-3d/helper-state.js';
+const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),stage=params.get('stage')||'gift';const backing=localStorage;const storage=params.get('guest')?{persistent:false,getItem:k=>backing.getItem(k),setItem:(k,v)=>backing.setItem(k,v)}:backing;
+const photo=document.createElement('canvas');photo.width=photo.height=80;const paint=photo.getContext('2d');paint.fillStyle='#deaa4f';paint.fillRect(0,0,80,80);paint.fillStyle='#213e35';paint.font='12px system-ui';paint.fillText('Test save',8,40);
+if(!sessionStorage.getItem('panel-fixture-seeded')){sessionStorage.setItem('panel-fixture-seeded','1');const initial=stage==='gift'?{step:0,shots:{}}:stage==='chapel'?{step:1,developed:true,shots:{}}:stage==='mural'?{step:1,developed:true,chapelVisited:true,shots:{}}:{step:3,developed:true,chapelVisited:true,shots:{mural:{label:'Synthetic test save',image:photo.toDataURL('image/jpeg')}}};storage.setItem(KEY,JSON.stringify(initial));}
+let position={x:stage==='gift'?-7:stage==='mural'?10.6:-3.15,y:0,z:stage==='gift'?14.8:stage==='mural'?-38.4:-8.8},mode='town',entered=0,travels=[];const journey=createJourneyStore(storage),selected=helperFor(params.get('companion')||'none');
+const discovery=createDiscovery({THREE,worlds:{town:new THREE.Scene()},canvas:$('scene'),position:()=>position,mode:()=>mode,travel:async target=>{travels.push(target);$('travel-status').textContent=target;},capture:()=>{throw Error('No world capture in component fixture');},pause(){},reveal(){},explore:()=>$('scene').focus(),personalise(){},market(){},castReady:()=>true,frameReveal(){},stageCast(){},releaseReveal(){},storage,helper:()=>selected,onDiscoveries:s=>journey.bank(s),enterQuiet:()=>{entered++;mode='chapel';}});
+$('reopen').onclick=()=>document.getElementById('discovery-open').click();$('open-chapel').onclick=()=>discovery.quietDoor();window.review={discovery,journey,travels,entered:()=>entered,position:p=>position=p};
+if(stage==='gift'||stage==='mural')discovery.interaction('town',position).action();else if(stage==='chapel')discovery.quietDoor();else $('reopen').click();
+</script></html>

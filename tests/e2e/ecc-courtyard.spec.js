@@ -1,8 +1,9 @@
+import {installNavigationProbe,attachNavigationProbe} from './navigation-input-probe.js';
 import {test,expect} from './campus-fixtures.js';
 
 const state=page=>page.locator('#diagnostics').evaluate(e=>JSON.parse(e.dataset.state));
 test('courtyard review opens the playable world and survives quality, resize and destination changes',async({page})=>{
- test.setTimeout(180000);const errors=[];
+ test.setTimeout(180000);await installNavigationProbe(page);const errors=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
  await page.goto('/playable-3d/?view=ecc-courtyard&diagnostics=pixels');await expect(page.locator('#loading')).toBeHidden({timeout:90000});
  await expect(page.locator('#scene')).toHaveAttribute('data-rendered','true');
@@ -18,3 +19,5 @@ test('courtyard review opens the playable world and survives quality, resize and
  await page.locator('#places-toggle').click();await page.locator('#town-view').click();await expect(page.locator('#scene')).toHaveAttribute('aria-label','Interactive 3D town');
  expect(errors).toEqual([]);
 });
+
+test.afterEach(({page},info)=>attachNavigationProbe(page,info));

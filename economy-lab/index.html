@@ -1,5 +1,24 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Career Empire · My Life</title><link rel="stylesheet" href="style.css?v=post-photo-tour-20261013"><link rel="modulepreload" href="app.mjs?v=initiative-arcade-20261014"><link rel="modulepreload" href="exploration.mjs?v=navigation-20261012"><link rel="modulepreload" href="economy.mjs?v=navigation-20261012"><link rel="modulepreload" href="work-ui.mjs?v=initiative-arcade-20261014-guest-first-20261012"><link rel="modulepreload" href="work-store.mjs?v=my-life-1"><link rel="modulepreload" href="market-work-bridge.mjs?v=activity-library-1"></head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Career Empire · My Life</title><link rel="stylesheet" href="style.css?v=post-photo-tour-20261013"><link rel="modulepreload" href="app.mjs?v=initiative-arcade-20261014"><link rel="modulepreload" href="exploration.mjs?v=navigation-20261012"><link rel="modulepreload" href="economy.mjs?v=navigation-20261012"><link rel="modulepreload" href="work-ui.mjs?v=initiative-arcade-20261014-guest-first-20261012"><link rel="modulepreload" href="work-store.mjs?v=my-life-1"><link rel="modulepreload" href="market-work-bridge.mjs?v=activity-library-1"><script id="guest-return-bridge">
+// Install before module loading: the visible return link must preserve the guest run even on a slow connection.
+document.addEventListener('click', event => {
+  const link = event.target.closest?.('a[href]');
+  const token = new URLSearchParams(location.search).get('guestRun');
+  if (!link || !token) return;
+  const target = new URL(link.href, location.href);
+  if (target.origin !== location.origin || !target.pathname.endsWith('/playable-3d/')) return;
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('ce-game-run-handoff-v1'));
+    if (!saved || saved.id !== token || !saved.data || typeof saved.data !== 'object' || !(Date.now() - saved.createdAt < 3600000)) throw new Error('Missing return snapshot');
+    target.searchParams.set('guestRun', token);
+    link.href = target.href;
+  } catch {
+    event.preventDefault();
+    const status = document.getElementById('tracker-loading');
+    if (status) { status.hidden = false; status.textContent = 'Your game return could not be restored. Keep this page open and try returning again after loading finishes.'; }
+  }
+}, true);
+</script></head>
 <body><header class="topbar"><a class="brand" href="./" aria-label="Career Empire My Life"><span class="brand-mark">CE</span><span>CAREER EMPIRE<small>MY LIFE / LOCAL PREVIEW</small></span></a><a class="back-to-game" id="back-to-game" href="../playable-3d/">← Back to game</a><span class="practice-tag">LOCAL PRACTICE</span><button id="open-player">My life <span aria-hidden="true">↗</span></button></header>
 <main><p id="tracker-loading" role="status">Loading your saved balances and work… You can switch sections or return to the game.</p><section class="world" id="home-world" aria-label="Your practice world" hidden><div class="scene" id="scene" role="img" aria-label="Illustrative Home Base and simulated shared class world"></div>
 <div class="world-title"><span class="eyebrow">A LIFE YOU’RE BUILDING</span><h1>Your choices<br>leave a mark.</h1><p id="view-description">Earn, make room for what matters,<br>and see your world change.</p></div>

@@ -1,3 +1,4 @@
+import {startMarketShift,finishMarketLearning,optionalMarketAction} from './market-teaching-controls.js';
 import {enterClassroomWhenAsked} from './market-controls.js';
 import {test,expect} from './campus-fixtures.js';
 import {walkThroughMarketEntrance,openPlaces,enterMarket} from './market-controls.js';
@@ -8,12 +9,12 @@ async function walkUntil(page,key,label){await page.keyboard.down(key);try{await
 for(const width of [1280,390])test(`legacy night market complete loop and saved rewards at ${width}px`,async({page},info)=>{
  test.setTimeout(120000);await page.addInitScript(()=>{if(!localStorage.getItem('ce-player:e2e-owned:'+'ce-night-market-practice-v1'))localStorage.setItem('ce-player:e2e-owned:'+'ce-night-market-practice-v1',JSON.stringify({version:1,events:[]}));});await page.setViewportSize({width,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));await open(page);
  const profile=await page.evaluate(()=>localStorage.getItem('ce-player:e2e-owned:'+'career-empire-3d-profiles-v2-tripo'));
- await walkUntil(page,'w',/Talk to Mara/);await page.locator('#interact').click();await page.getByRole('button',{name:'Take the shift',exact:true}).click();
+ await walkUntil(page,'w',/Talk to Mara/);await page.locator('#interact').click();await startMarketShift(page);
  await walkUntil(page,'s',/Talk to the waiting customer/);await page.locator('#interact').click();await page.getByRole('button',{name:'Ask: “What information would help you?”',exact:true}).click();
  await expect(page.locator('#market-dialog')).toContainText('Communication game badge');await page.getByRole('button',{name:'Back to the market',exact:true}).click();
  await walkUntil(page,'w',/Talk to Mara/);await page.locator('#interact').click();await page.getByRole('button',{name:'Try a sign on the counter',exact:true}).click();
  await expect(page.locator('#market-dialog')).toContainText('blocked');await page.getByRole('button',{name:'Move the sign to the path',exact:true}).click();await expect(page.locator('#market-balance')).toContainText('3 game badges');
- await page.locator('#interact').click();await page.getByRole('button',{name:'Finish the shift · receive $18',exact:true}).click();await expect(page.locator('#market-dialog')).toContainText('$20 gross − $2 community tax = $18 net');await page.getByRole('button',{name:'Explore the market',exact:true}).click();
+ await page.locator('#interact').click();await page.getByRole('button',{name:'Finish the shift · receive $18',exact:true}).click();await expect(page.locator('#market-dialog')).toContainText('$20 gross − $2 community tax = $18 net');await optionalMarketAction(page,'Explore the market');
  await page.screenshot({path:info.outputPath('first-shift-complete.png')});
  await page.reload();await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page);await expect(page.locator('#market-hud')).toBeVisible({timeout:30000});await expect(page.locator('#market-balance')).toContainText('Wallet $18.00');
  await walkUntil(page,'w',/Talk to Mara/);await page.locator('#interact').click();await expect(page.locator('#market-dialog')).toContainText('already paid');await expect(page.getByRole('button',{name:'Finish the shift · receive $18',exact:true})).toHaveCount(0);await page.locator('.market-close').click();
