@@ -1,0 +1,178 @@
+/* Teacher-only palette from playable-3d/style.css and market-initiative.css.
+   Keep dashboard.css layout, responsive rules and all functional state hooks. */
+.teacher-dashboard-page {
+  --bg: #F7F9F4;
+  --panel: #FFFDF2;
+  --panel-strong: #F8FBF1;
+  --line: #B4CBB4;
+  --text: #193D35;
+  --muted: #4C6658;
+  --accent: #245B4D;
+  --accent-2: #326644;
+  --accent-3: #765319;
+  --accent-4: #A03930;
+  --shadow: 0 8px 24px #193D350B;
+  color-scheme: light;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+.teacher-dashboard-page::before,
+.teacher-dashboard-page .teacher-command-panel::before { background: none; }
+.teacher-dashboard-page :is(.panel, .metric, .timeline-item, .skill-card, .module-card) {
+  border-color: var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+  backdrop-filter: none;
+}
+.teacher-dashboard-page :is(.dashboard-nav-link, .module-link, .dashboard-dropdown-action) {
+  border-color: var(--line);
+  border-radius: 10px;
+  background: #FFFDF2;
+  color: var(--accent);
+}
+.teacher-dashboard-page .dashboard-nav-link { font-weight: 650; }
+.teacher-dashboard-page :is(.dashboard-nav-link.active, .dashboard-focus-chip.is-active, .teacher-review-filter-button.is-active) {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #FFFDF2;
+}
+.teacher-dashboard-page :is(.dashboard-focus-chip.is-active span, .teacher-review-filter-button.is-active span) { color: #FFFDF2; }
+.teacher-dashboard-page :is(a, button, summary, input, select, textarea):focus-visible,
+.teacher-dashboard-page .response-review-tag-chip input:focus-visible + span {
+  outline: 3px solid #95691F;
+  outline-offset: 3px;
+}
+.teacher-dashboard-page :is(a, button, summary):hover { border-color: var(--accent); }
+.teacher-dashboard-page :is(button, input, select, textarea) { font-family: inherit; }
+.teacher-dashboard-page :is(select, input[type="text"], input[type="number"], textarea) {
+  border-color: #91AA92;
+  background: #FFFDF2;
+  color: var(--text);
+  border-radius: 10px;
+}
+.teacher-dashboard-page input[readonly] { background: #EDF3E7; }
+.teacher-dashboard-page :is(input, textarea)::placeholder { color: var(--muted); opacity: 1; }
+.teacher-dashboard-page .teacher-command-panel {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: linear-gradient(145deg, #FFF9E9, #F3F7E9);
+  box-shadow: var(--shadow);
+}
+.teacher-dashboard-page .teacher-command-copy h1 { color: var(--text); line-height: 1.08; }
+.teacher-dashboard-page .teacher-command-copy .subtitle { color: var(--muted); }
+.teacher-dashboard-page .teacher-school-chip {
+  border-color: #C9D9BF;
+  border-radius: 14px;
+  background: #E7EFDF;
+  color: #243F38;
+  line-height: 1.2;
+}
+.teacher-dashboard-page :is(.eyebrow, .badge, .teacher-status-bars .badge, .pill, .kicker) {
+  border-color: #C9D9BF;
+  background: #EDF3E7;
+  color: var(--accent);
+}
+.teacher-dashboard-page .teacher-status-bars .badge { border-radius: 10px; }
+.teacher-dashboard-page .teacher-scope-panel { background: #F8FBF1; }
+.teacher-dashboard-page .teacher-kpi-strip .metric-card--art {
+  border-radius: 16px;
+  background: #FFFDF2;
+  box-shadow: var(--shadow);
+}
+.teacher-dashboard-page .teacher-kpi-strip .metric-card--art::after { opacity: .14; filter: none; }
+.teacher-dashboard-page .metric-card--art::before { background: #B4CBB4; opacity: 1; }
+.teacher-dashboard-page .teacher-kpi-strip .metric-value { color: var(--text); }
+.teacher-dashboard-page :is(.metric-note, .metric-label) { color: var(--muted); }
+.teacher-dashboard-page .teacher-priority-strip .panel { background: #F8FBF1; }
+.teacher-dashboard-page .teacher-priority-strip .teacher-priority-panel { background: #FFF0C7; border-color: #D6B56B; }
+.teacher-dashboard-page .teacher-priority-strip .panel p:last-child { color: #243F38; font-weight: 500; }
+.teacher-dashboard-page .dashboard-dropdown { border-radius: 18px; }
+.teacher-dashboard-page .dashboard-dropdown-summary { background: #F3F7E9; }
+.teacher-dashboard-page .dashboard-dropdown[open] .dashboard-dropdown-summary { border-bottom-color: #C9D9BF; }
+.teacher-dashboard-page .teacher-primary-review { background: #FFFDF2; border-color: #D6B56B; }
+.teacher-dashboard-page .teacher-primary-review .dashboard-dropdown-summary { background: #FFF0C7; }
+.teacher-dashboard-page :is(.module-availability-summary, .module-availability-card, .dashboard-focus-chip, .dashboard-focus-current,
+  .teacher-chart-card, .teacher-chart-empty, .response-review-card, .response-review-source,
+  .response-review-tags, .diagnostic-beta-dropdown, .capability-board-column, .capability-board-entry,
+  .capability-evidence-card, .student-portfolio-card, .portfolio-evidence-cell, .learning-profile-cell,
+  .portfolio-evidence-entry, .learning-response-entry, .learning-profile-cell-grid > div,
+  .teacher-response-cell, .teacher-matrix-result, .answer-response, .skill-card-modern) {
+  border-color: #C9D9BF;
+  border-radius: 12px;
+  background: #F8FBF1;
+  color: var(--text);
+  box-shadow: none;
+}
+.teacher-dashboard-page .module-availability-card--active { border-color: #87AB8D; background: #EAF2E2; }
+.teacher-dashboard-page .module-availability-card--archived { border-color: #D6B56B; background: #FFF6DC; }
+.teacher-dashboard-page .module-availability-card--inactive { background: #F0F2EB; }
+.teacher-dashboard-page :is(.module-availability-summary p, .module-availability-card p,
+  .capability-board-column-header span, .capability-board-entry > span, .capability-board-entry small,
+  .capability-board-empty, .capability-evidence-card p, .capability-evidence-card small,
+  .student-portfolio-card p, .student-portfolio-card small) { color: var(--muted); }
+.teacher-dashboard-page :is(.capability-board-column-header strong, .capability-board-entry-top strong,
+  .capability-board-entry p, .portfolio-evidence-entry p, .learning-response-entry p,
+  .capability-progression, .capability-evidence-card blockquote) { color: var(--text); }
+.teacher-dashboard-page .module-availability-switch { border-color: #91AA92; background: #E3EADC; color: var(--text); }
+.teacher-dashboard-page .module-availability-switch::before { background: #4C6658; }
+.teacher-dashboard-page .module-availability-switch.is-on { border-color: var(--accent); background: var(--accent); color: #FFFDF2; }
+.teacher-dashboard-page .module-availability-switch.is-on::before { background: #FFFDF2; }
+.teacher-dashboard-page :is(.diagnostic-beta-label, .teacher-matrix-code--mid) { background: #FFF0C7; border-color: #D6B56B; color: #765319; }
+.teacher-dashboard-page .diagnostic-beta-dropdown-content a { background: #EAF2E2; border-color: var(--line); color: var(--accent); }
+.teacher-dashboard-page .teacher-module-card {
+  background: linear-gradient(180deg, #FFFDF2E6, #F3F7E9FA), var(--module-image) center / cover no-repeat;
+}
+.teacher-dashboard-page .teacher-module-card::before { background: none; }
+.teacher-dashboard-page :is(.teacher-module-logo, .module-logo, .skill-logo) {
+  background: #FFFDF2; border-color: var(--line); box-shadow: none;
+}
+.teacher-dashboard-page .teacher-donut { box-shadow: none; }
+.teacher-dashboard-page .teacher-donut::before { background: #FFFDF2; }
+.teacher-dashboard-page :is(.teacher-chart-track, .progress-track, .mini-track, .capability-evidence-meter) { background: #DFE8D9; }
+.teacher-dashboard-page :is(.teacher-chart-fill, .progress-fill, .mini-fill) { background: #245B4D; }
+.teacher-dashboard-page :is(.teacher-chart-fill.green, .progress-fill.green, .mini-fill.green) { background: #61865B; }
+.teacher-dashboard-page :is(.teacher-chart-fill.gold, .progress-fill.gold, .mini-fill.gold) { background: #BD913E; }
+.teacher-dashboard-page .mini-fill.red { background: #A03930; }
+.teacher-dashboard-page :is(.teacher-matrix-scroll, .teacher-matrix tbody th, .teacher-matrix tbody td) { background: #FFFDF2; }
+.teacher-dashboard-page :is(.teacher-matrix th, .teacher-matrix td) { border-color: #C9D9BF; }
+.teacher-dashboard-page .teacher-matrix thead th { background: #E7EFDF; color: var(--text); }
+.teacher-dashboard-page :is(.teacher-matrix tbody tr:nth-child(even) th, .teacher-matrix tbody tr:nth-child(even) td) { background: #F3F7E9; }
+.teacher-dashboard-page :is(.teacher-matrix-result--high, .teacher-matrix-code--high) { background: #E4EFDB; border-color: #87AB8D; color: #245B4D; }
+.teacher-dashboard-page .teacher-matrix-result--mid { background: #FFF0C7; border-color: #D6B56B; }
+.teacher-dashboard-page .teacher-matrix-result--low { background: #FBEAE3; border-color: #C99183; }
+.teacher-dashboard-page :is(.teacher-matrix-result--nys, .teacher-matrix-code--nys) { background: #EBEFE6; border-color: #B4CBB4; color: var(--muted); }
+.teacher-dashboard-page .teacher-signal-item { border-left-color: #87AB8D; }
+.teacher-dashboard-page :is(.teacher-signal-item::after, .answer-compare-card::after) { opacity: .08; }
+.teacher-dashboard-page .teacher-review-filter-button { background: #FFFDF2; }
+.teacher-dashboard-page .response-review-tag-chip span { background: #FFFDF2; border-color: var(--line); color: var(--text); }
+.teacher-dashboard-page .response-review-tag-chip input:checked + span { background: #E4EFDB; border-color: #61865B; color: #193D35; }
+.teacher-dashboard-page .module-link.button-danger { background: #FBEAE3; border-color: #C99183; color: #A03930; }
+.teacher-dashboard-page .module-link-disabled { background: #EBEFE6; color: var(--muted); border-color: #B4CBB4; }
+.teacher-dashboard-page .skill-card-modern::before { opacity: .12; }
+.teacher-dashboard-page .skill-visual::before { filter: none; }
+.teacher-dashboard-page .skill-hero-logo { animation: none; filter: none; }
+.teacher-dashboard-page .teacher-primary-review .response-review-list { scrollbar-color: #B28A3E #FFF6DC; }
+.teacher-dashboard-page .teacher-primary-review .response-review-list::-webkit-scrollbar-track { background: #FFF6DC; }
+.teacher-dashboard-page .teacher-primary-review .response-review-list::-webkit-scrollbar-thumb { background: #B28A3E; }
+.teacher-dashboard-page :is(.skill-star-example, .skill-star-entry-banked, .skill-star-actions, .teacher-glossary-summary) {
+  border-color: #C9D9BF;
+  background: #F3F7E9;
+}
+.teacher-dashboard-page :is(.skill-star-row p, .skill-star-summary, .skill-star-tag-list span, .timeline-kicker) { color: var(--text); }
+.teacher-dashboard-page :is(.skill-star-title, .skill-score-block .kicker, .skill-star-entry-meta) { color: var(--accent); }
+.teacher-dashboard-page :is(.skill-mini-logo, .skill-hero-logo) { animation: none; }
+.teacher-dashboard-page .skill-mini-logo img { filter: none; }
+/* Keep capability percentages and long subskill labels readable in class cards. */
+.teacher-dashboard-page .skill-card-top {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: 12px;
+}
+.teacher-dashboard-page .skill-score-block { min-width: 0; }
+.teacher-dashboard-page .skill-score { font-size: clamp(36px, 4vw, 54px); }
+.teacher-dashboard-page .skill-subskill-card {
+  grid-template-columns: 40px minmax(0, 1fr);
+  background: #EDF3E7;
+  color: var(--text);
+}
+.teacher-dashboard-page .skill-subskill-card img { width: 40px; height: 40px; }
