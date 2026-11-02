@@ -1,6 +1,7 @@
-import {createMarketTeaching} from './market-teaching.mjs?v=market-teaching-review-20261021';
+import {createMarketWelcome} from './market-welcome.mjs?v=mara-language-20261102';
+import {createMarketTeaching} from './market-teaching.mjs?v=mara-language-20261102';
 import {initiativeProgress} from './initiative-progress.mjs?v=initiative-arcade-20261014';
-import {createInitiativeLearning,INITIATIVE_BEHAVIOURS} from './market-initiative.mjs?v=initiative-arcade-20261014';
+import {createInitiativeLearning,INITIATIVE_BEHAVIOURS} from './market-initiative.mjs?v=mara-language-20261102';
 import {administrationAvailable} from './admin-preview.mjs?v=admin-preview-20261013';
 import {arrangementChoices,canTryArrangement,applyArrangement,showSignPosition} from './market-arrangement.mjs?v=market-arrangement-20261012';
 import {inAdministration,nearestInteraction} from './administration-flow.js?v=market-admin-20261012';
@@ -127,7 +128,9 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  const dialog=document.createElement('dialog');dialog.id='market-dialog';dialog.setAttribute('aria-labelledby','market-dialog-title');document.body.append(dialog);
  const learningCss=document.createElement('link');learningCss.rel='stylesheet';learningCss.href=new URL('./market-initiative.css?v=curriculum-market-20261021',import.meta.url);document.head.append(learningCss);
  const learning=createInitiativeLearning({show,dialog,state:()=>store.state,record:event=>commit(event,'Learning practice recorded; agreed pay is unchanged.'),back:close});
- const teaching=createMarketTeaching({show,dialog,state:()=>store.state,introImage:()=>captureBriefing?.(0),startShift:()=>{if(store.state.accepted){close();return;}if(commit('accept','Make service smoother. Investigate or try an arrangement — you choose.'))close();else journal();},complete:()=>{if(store.state.paid)return agencyMara();if(!store.state.consolidated&&!commit('consolidate','Learning connection saved. Your reflection choices are optional.'))return journal();handover();},onMissingTrial:()=>store.state.trials.length?trialResults():agencySetup(),close,resources:()=>[['Help with my shift',thinkingGuide],['Five behaviours / recall',learning.resource],...(store.state.accepted?[['Discuss an idea / crew priorities',learning.opportunities],['My first gig / case note',caseNote]]:[]),['Replay intro',()=>teaching.intro()]]});
+ const teaching=createMarketTeaching({show,dialog,state:()=>store.state,complete:()=>{if(store.state.paid)return agencyMara();if(!store.state.consolidated&&!commit('consolidate','Learning connection saved. Your reflection choices are optional.'))return journal();handover();},onMissingTrial:()=>store.state.trials.length?trialResults():agencySetup(),close,resources:()=>[['Help with my shift',thinkingGuide],['Five behaviours / recall',learning.resource],...(store.state.accepted?[['Discuss an idea / crew priorities',learning.opportunities],['My first gig / case note',caseNote]]:[]),['Replay intro',()=>welcome.intro()]]});
+ const welcome=createMarketWelcome({show,dialog,introImage:()=>captureBriefing?.(0),help:()=>quietActions([['Help with my shift',thinkingGuide],['Five behaviours / recall',learning.resource]]),watch:beginObservation,close,startShift:()=>{if(store.state.accepted){close();return;}if(commit('accept','Shift started. Try an idea at the work bench, or ask the crew.')){if(openingObserved)commit('observe','Opening queue observed.');close();}else journal();}});
+ let openingObserved=false;
  let introTimer=null,exitArmed=false;
  let visible=false,customerProgress=0,previousSolution=store.state.solution,lastAnnounced='',music=null,watching=0,observationHold=false,testing=0,noteDraft=null;
  hud.querySelector('#market-test').onclick=()=>show('Test this arrangement',describePlan(store.state.plan),[['Start the test',beginTrial]],'Watch four phone customers and two walk-up customers. Results appear after the group finishes.');
@@ -165,7 +168,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   else show('“Good to see you again.”','“Your first shift is already paid. Visit Reception through the west entrance for your next paid gig, or enjoy the market.”',[['Visit Reception',()=>visitDistrict(2)],['See my market journal',journal]]);
  }
  function quietActions(items){const details=document.createElement('details');details.className='market-teaching-resources';const summary=document.createElement('summary');summary.textContent='Optional help & resources';details.append(summary);for(const [label,action]of items){const button=document.createElement('button');button.textContent=label;button.onclick=action;details.append(button);}dialog.querySelector('.market-choices').after(details);}
- function maraIntro(){teaching.intro();}
+ function maraIntro(){if(!store.state.accepted&&openingObserved)return welcome.offer();welcome.intro();}
  function agencyMara(){
   const s=store.state;
   if(!s.accepted)return maraIntro();
@@ -274,7 +277,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  }
  function observe(){
   const s=store.state;
-  if(!s.accepted)return show('Watch the queue','Take a shift with Mara first. You can explore freely.');
+  if(!s.accepted){if(s.revision===3)return beginObservation();return show('Watch the queue','Take a shift with Mara first. You can explore freely.');}
   if(testing>0)return show('A trial is running','Finish watching this trial before replaying the opening queue.');
   if(s.revision===3&&!s.paid&&!s.tested&&(s.events.some(e=>e.type==='plan')||arrangementReady))return show('Test this arrangement',describePlan(s.plan),[['Start the test',beginTrial],['Replay the opening queue',beginObservation]],'Watch whether your changes improve things, then talk it through with Mara.');
   show(s.observed?'Watch the opening queue again':'Watch a group of customers','Watch the labelled phone-order customer join the ordering queue while food waits at collection. This replays the opening problem, not your latest trial.',[[s.observed?'Watch again':'Watch the queue',beginObservation]]);
@@ -339,7 +342,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
  function stopMusic(){if(music){clearInterval(music.timer);music.ctx.close();music=null;}}
  function startMusic(){try{const ctx=new (window.AudioContext||window.webkitAudioContext)(),notes=[220,261.63,329.63,293.66,261.63,196,220,0];let n=0;const play=()=>{const f=notes[n++%notes.length];if(!f)return;const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,ctx.currentTime);g.gain.linearRampToValueAtTime(.035,ctx.currentTime+.025);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.45);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.5);};ctx.resume();play();music={ctx,timer:setInterval(play,500)};}catch{announce('Sound is unavailable. The market remains playable.');}}
  document.addEventListener('visibilitychange',()=>{if(document.hidden)stopMusic();});
- const restartPractice=()=>show('Start a fresh market visit?','This clears only this market practice: shift, money, badges, lantern and crew pass. Your character, outfit, portfolio and the original shop are untouched.',[['Yes, restart this practice',()=>{if(store.reset()){customerProgress=0;watching=0;testing=0;noteDraft=null;sync();announce('Fresh practice started. Meet Mara at Juniper Kitchen.');close();}else journal();}]]);
+ const restartPractice=()=>show('Start a fresh market visit?','This clears only this market practice: shift, money, badges, lantern and crew pass. Your character, outfit, portfolio and the original shop are untouched.',[['Yes, restart this practice',()=>{if(store.reset()){customerProgress=0;watching=0;testing=0;openingObserved=false;noteDraft=null;sync();announce('Fresh practice started. Meet Mara at Juniper Kitchen.');close();}else journal();}]]);
  let openingChapters=null,chapterModule=null,chapterAttempts=0,chapterPlayback=null;
  let district=null,districtModule=null,districtAttempts=0,districtVisit=0,activeDistrict=false,receptionSeen=false,noraStarted=false,districtWeek=2,lastPlan=null,lastApplication=null;
  const districtRoute=document.createElement('button');districtRoute.id='market-district-route';districtRoute.textContent='Office / places';districtRoute.hidden=true;hud.append(districtRoute);
@@ -509,7 +512,8 @@ if(playerPosition){if(playerPosition.z<10.4)exitArmed=true;if(exitArmed&&!dialog
     watching+=dt;
     hud.querySelector('#market-objective').textContent=watching<3?'Opening queue: phone-order customers arrive — they have already paid.':watching<6?'They join the ordering queue instead of going to collection.':'Their food is ready at collection, but they are still waiting in the queue.';
     if(watching>=9){watching=0;observationHold=true;
-     const recorded=s.observed||s.paid||commit('observe','Opening queue observed.');
+     if(s.revision===3&&!s.accepted){openingObserved=true;welcome.result();}
+     const recorded=s.accepted&&(s.observed||s.paid||commit('observe','Opening queue observed.'));
      if(recorded)show('What you observed','Phone customers waited in the ordering queue while their bags sat at collection. From behind the queue, the counter is hard to see.',[['Watch again',beginObservation]]);
     }
    }

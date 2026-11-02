@@ -15,7 +15,7 @@ test('all character copies load, animate independently and render in the market'
 });
 test('a missing Sam keeps the shift accessible and retries on re-entry',async({page})=>{
  test.setTimeout(60000);await page.route('**/market-npcs/sam.glb',r=>r.abort());await fixture(page);
- await expect.poll(()=>page.evaluate(()=>market.snapshot().visuals.assets.sam)).toBe('fallback');await page.evaluate(()=>market.interaction({x:0,z:-3.6}).action());await expect(page.getByRole('button',{name:'Start my shift',exact:true})).toBeVisible();await startMarketShift(page);
+ await expect.poll(()=>page.evaluate(()=>market.snapshot().visuals.assets.sam)).toBe('fallback');await page.evaluate(()=>market.interaction({x:0,z:-3.6}).action());await expect(page.getByRole('button',{name:'Let’s take a look',exact:true})).toBeVisible();await startMarketShift(page);
  await expect.poll(()=>page.evaluate(()=>Object.values(market.snapshot().visuals.assets).filter(v=>v==='ready').length),{timeout:30000}).toBe(6);
  await page.unroute('**/market-npcs/sam.glb');await page.evaluate(()=>{market.setVisible(false);market.setVisible(true);});await expect.poll(()=>page.evaluate(()=>market.snapshot().visuals.ready),{timeout:20000}).toBe(14);
 });

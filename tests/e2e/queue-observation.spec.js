@@ -7,7 +7,9 @@ for(const width of [1280,390])test(`opening queue visibly moves before summary a
  await page.route('**/app.js?*',async r=>{const response=await r.fetch();await r.fulfill({response,body:(await response.text())+'\nwindow.queueReview=()=>({market:nightMarket,camera});'});});
  await page.goto('/playable-3d/?experience=sunday-markets&market-review=1',{waitUntil:'domcontentloaded'});await expect(page.locator('#loading')).toBeHidden({timeout:30000});await walkThroughMarketEntrance(page);
  await page.evaluate(()=>queueReview().market.interaction({x:0,z:-3.6}).action());await startMarketShift(page);
- await page.evaluate(()=>queueReview().market.interaction({x:-3,z:4}).action());await page.getByRole('button',{name:'Watch the queue',exact:true}).click();
+ // The approved welcome observes the opening queue before accepting the shift.
+ expect(await page.evaluate(()=>queueReview().market.snapshot().observed)).toBe(true);
+ await page.evaluate(()=>queueReview().market.interaction({x:-3,z:4}).action());await page.getByRole('button',{name:'Watch again',exact:true}).click();
  await expect(page.locator('#market-dialog')).not.toBeVisible();
  const positions=()=>page.evaluate(()=>queueReview().market.scene.children.filter(o=>o.name.startsWith('Market actor / customer')).slice(0,6).map(o=>o.position.toArray()));
  const start=await positions();

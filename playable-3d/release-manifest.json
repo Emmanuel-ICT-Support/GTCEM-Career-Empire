@@ -1,8 +1,8 @@
 {
-  "release": "curriculum-market-review-20261021",
+  "release": "mara-language-20261102",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "dee8291bd3cc8ae713f47ad9fbc89d5624092730",
-  "scope": "Discovery-to-market handover plus curriculum-first manual market teaching: actual recorded actions, five initiative behaviours and benefits, worked example and ungraded application. Contextual help directly reinforces syllabus ways; no additional mnemonic or draft song surfaced. Existing pay, saved-state schema, assessment boundaries and full-mode economy preserved. Baseline assets restored from origin; release remains gated by final validation.",
+  "baseCommit": "0599498a4692269ad080df6173e444ab0eac474a",
+  "scope": "User-authorized actual-production Mara release: approved welcome, unchanged queue observation before accepting work, guided observation/hint/replay and one shared shift offer; concise initiative review and recall copy. Existing curriculum IDs, trial simulation, pay, saved state and artwork retained. Local full272-case run plus narrow recovery yields269distinct passing cases. Baseline SwiftShader cadence2 and native-renderer prerequisite1 remain uncleared; no green-full-suite or school-device qualification. Production deployment/live verification require a separate receipt.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "667c16842a2f4aeb50f513be965f1fbd9930c40c55f046a02e0b6b632279fedd"
+      "sha256": "7306cb6cc64d84f6bbb3a5acca0aac6a98c56372fe0960209301664ac389053e"
     },
     {
       "path": "arcade-carnival.js",
@@ -858,7 +858,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "c78e24242b806d092dfe85e1cb001feae23bf9807b578742d741c08e099a945f"
+      "sha256": "976442b8b3b834cdea972642b9bf9501d80a3109f509d1f469d2207159e85769"
     },
     {
       "path": "header-controls.css",
@@ -882,7 +882,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "571bfc33b1a46a36503db40dc72ccbdc25bfdb2ac1d847380537a4751f698d2e"
+      "sha256": "9498121b2d6b4ec8c0cdbaf75c9277eeb9e48a27e36547bcb3bb77d76efb1ebd"
     },
     {
       "path": "initiative-field-guide.html",
@@ -942,7 +942,7 @@
     },
     {
       "path": "market-initiative.mjs",
-      "sha256": "b06e93908aaed0078173cf8dd47076a04efd7d65e040e81b96cbbb84168e3e99"
+      "sha256": "f19310d86cc2e8f0b400a8effa30d2e2f2d109e817f62abcab00948f65940b18"
     },
     {
       "path": "market-surroundings.js",
@@ -950,7 +950,11 @@
     },
     {
       "path": "market-teaching.mjs",
-      "sha256": "9d63b57bafc437ee9f0ea7de6138ff7572eb6b9465f157a4240c40a7ddac7b74"
+      "sha256": "23da87f6226324875e2e312215b86d6ee8ab2e2a4f26dc63a6252221f784b8bc"
+    },
+    {
+      "path": "market-welcome.mjs",
+      "sha256": "84147d7baeacce3398b9a1629859e9512eec3b65357a75a76df9322fb3ef692d"
     },
     {
       "path": "mobile-play.css",
@@ -974,7 +978,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "6fbf77ebff56ab38dce41fd39631834f2d109b43fa67d3efdcf03d901ffc53eb"
+      "sha256": "a637cd7faf6e6343d3f1edf4a5affbf4d58d014855ce9befb53e1f56f0b69ccf"
     },
     {
       "path": "opening-chapters-state.js",

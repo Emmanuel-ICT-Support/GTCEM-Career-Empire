@@ -1,0 +1,30 @@
+import {test,expect} from '@playwright/test';
+import {MARA_WELCOME} from '../../playable-3d/market-welcome.mjs';
+for(const width of [1280,390])test(`Mara opening choices and shared offer ${width}`,async({page})=>{
+ await page.setViewportSize({width,height:844});
+ await page.goto('/tests/fixtures/discovery-panels.html');
+ await page.evaluate(async()=>{
+  document.body.innerHTML='<main id="experience"><canvas id="scene" tabindex="0"></canvas></main>';
+  const map=document.createElement('script');map.type='importmap';map.textContent=JSON.stringify({imports:{three:'/playable-3d/vendor/three/build/three.module.js','three/addons/':'/playable-3d/vendor/three/examples/jsm/'}});document.head.append(map);
+  const {createNightMarket}=await import('/playable-3d/night-market.js');const data=new Map();window.reviewMarket=createNightMarket({storage:{getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v),removeItem:k=>data.delete(k)},onPause(){},onClose(){}});reviewMarket.setVisible(true);reviewMarket.interaction({x:0,z:-3.6}).action();
+ });
+ const click=name=>page.getByRole('button',{name,exact:true}).click();
+ const finishWatch=()=>page.evaluate(async()=>{const T=await import('three');reviewMarket.update(10,10,new T.PerspectiveCamera());});
+ await expect(page.locator('.market-body')).toHaveText(MARA_WELCOME);
+ await click('Let’s take a look');await finishWatch();
+ expect(await page.evaluate(()=>reviewMarket.snapshot().accepted)).toBe(false);
+ await click('I’m not sure');await expect(page.locator('.market-body')).toContainText('already paid');await click('Take another look');await finishWatch();
+ await click('Tell Mara');await click('I’d like another look');await finishWatch();
+ await click('Tell Mara');await click(width===390?'It was hard to see where to collect':'People who had paid were waiting to order');await expect(page.locator('.market-note')).toContainText('That’s initiative');await click('What can I do to help?');
+ await click('What does the job involve?');await click('Back to the shift offer');await click('Not now');
+ expect(await page.evaluate(()=>reviewMarket.snapshot().accepted)).toBe(false);
+ await page.evaluate(()=>reviewMarket.interaction({x:0,z:-3.6}).action());
+ await expect(page.locator('#market-dialog-title')).toHaveText('Want to try a shift?');
+ await click('Yes, let’s try it');
+ expect(await page.evaluate(()=>reviewMarket.snapshot())).toMatchObject({accepted:true,observed:true,wallet:0,trials:[]});
+ await page.evaluate(()=>reviewMarket.replayIntro());await click('Let’s take a look');await finishWatch();await click('Watch again');await finishWatch();
+ expect(await page.evaluate(()=>reviewMarket.snapshot().events.filter(e=>e==='accept'))).toHaveLength(1);
+ expect(await page.evaluate(()=>reviewMarket.snapshot().events.filter(e=>e==='observe'))).toHaveLength(1);
+ await expect(page.locator('#market-dialog')).toHaveText(/What you observed/);
+ expect(await page.locator('#market-dialog').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);
+});
