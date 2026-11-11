@@ -9,10 +9,10 @@ import {renderQuality,rendererName} from './render-quality.mjs?v=ecc-ba60122';
 import {waitForPriorityAsset,withAssetDeadline,canClearDetailWarning} from './startup-assets.mjs?v=ecc-ba60122';
 import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=discovery-handover-20261021';
 import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
-import {createTasterIntro} from './intro-taster.mjs?v=default-exploration-20261011';
+import {createTasterIntro} from './intro-taster.mjs?v=est-wall-entry-20261111';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
 import {keepOutdoorClearance,keepChapelClearance,campusEntryFraming} from './camera-clearance.mjs?v=ecc-ba60122';
-import {createDiscovery} from './discovery-opening.js?v=colourful-discovery-20261021';
+import {createDiscovery} from './discovery-opening.js?v=est-wall-entry-20261111';
 import {createLocomotion, STEP, turnTowards,accumulateTravelTime} from './locomotion.js?v=ecc-ba60122';
 import {createHelperPicker} from './helper-picker.js?v=discovery-handover-20261021';
 import {createExplorer} from '../economy-lab/exploration.mjs?v=navigation-20261012';
@@ -481,17 +481,27 @@ function leaveStudio(callback){if(dirty()){pendingLeave=callback;$('leave-dialog
 function saveDraft(){if($('save-avatar').disabled){toast('Wait for the selected outfit to load before saving.');return false;}state.profiles=state.profiles.map(p=>p.id===state.activeId?normaliseProfile(draft):p);const ok=persist();if(ok){try{gameStorage.setItem('ce-arrival-complete-'+state.activeId,'1');}catch{}echo?.guidance({avatarSaved:true});}updateActor();$('edit-state').textContent=ok?'Saved':'Not saved';return ok;}
 function openStudio(){if(mode==='studio')return;setMode('studio');}
 let enteringHall=false,enteringCareers=false;
+function campusBuildingsLocked(){
+ if(!discoveryReview)return false;
+ const progress=discovery?.snapshot();
+ return !progress?.chapelVisited&&!progress?.skipped;
+}
+function skipIntroExploration(){
+ discovery.skip();
+ toast('Intro exploration skipped. Campus buildings are available in Options → Places.');
+}
 async function enterHall(){
-  if(discoveryReview&&!discovery?.snapshot().chapelVisited){toast('Start with the envelope and Chapel. Other interiors open after that checkpoint.');return;}
+  if(campusBuildingsLocked()){toast('Start with the envelope and Chapel. Other interiors open after that checkpoint.');return;}
   if(enteringHall)return;enteringHall=true;
   const request=++hallRequest;toast('Opening EST Prep...');
   try{await worlds.ensureInterior();}catch{enteringHall=false;if(request===hallRequest)toast('EST Prep could not load. Choose Enter EST Prep to retry.');return;}
   enteringHall=false;
   if(request!==hallRequest||mode!=='town')return;
-  worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');worlds.estVideo.prepare().catch(()=>{});toast('Choose Play EST video on the wall whenever you are ready.');
+  clearTimeout(toastTimer);$('toast').hidden=true;
+  worlds.teleport(true,0,5.0);actor.model.rotation.y=Math.PI;setMode('interior');playESTWall();
 }
 async function enterCareers(){
-  if(discoveryReview&&!discovery?.snapshot().chapelVisited){toast('Start with the envelope and Chapel. Other interiors open after that checkpoint.');return;}
+  if(campusBuildingsLocked()){toast('Start with the envelope and Chapel. Other interiors open after that checkpoint.');return;}
   if(enteringCareers)return;enteringCareers=true;
   const request=++hallRequest;toast('Opening Careers Advice Centre...');
   try{await worlds.ensureCareers();}catch{enteringCareers=false;if(request===hallRequest)toast('Careers could not load. Please try again.');return;}
@@ -501,9 +511,15 @@ async function enterCareers(){
 }
 async function enterChapel(){const request=++hallRequest;toast('Opening the Chapel...');try{await worlds.ensureChapel();if(!worlds.chapel.userData.reflectionProbe){const target=new THREE.WebGLCubeRenderTarget(128,{type:THREE.HalfFloatType});const probe=new THREE.CubeCamera(.1,35,target);probe.position.set(0,2.2,-2);probe.update(renderer,worlds.chapel);worlds.chapel.environment=target.texture;worlds.chapel.environmentIntensity=.45;worlds.chapel.userData.reflectionProbe=target;}}catch{if(request===hallRequest)toast('Chapel could not load. Try entering again.');return;}if(request!==hallRequest||mode!=='town')return;worlds.teleport('chapel',...CHAPEL.entry);chapelRevealElapsed=0;setMode('chapel');}
 function leaveChapel(){const nextClue=discoveryReview;setMode('town');worlds.teleport(false,...(entryReady?[CHAPEL.x,CHAPEL.z]:[-7,23.3]));actor.model.position.copy(worlds.position(false));yaw=1.1;clearTimeout(toastTimer);$('toast').hidden=true;updateCamera(1,true);if(nextClue)discovery?.chapelCheckpoint(true);openCampusInBackground();}
-function closeESTVideo(){documentRequest++;if(document.fullscreenElement)document.exitFullscreen?.();$('est-document-frame').replaceChildren();$('est-video-dialog').close();watchingEST=false;worlds.estVideo.pause();$('est-video-controls').hidden=true;keys.clear();joystick.reset();tapMovement=null;canvas.focus();}
+function playESTWall(){
+ const {video,play}=worlds.estVideo;
+ video.muted=true;
+ video.loop=true;
+ play().catch(()=>{});
+}
+function closeESTVideo(){documentRequest++;if(document.fullscreenElement)document.exitFullscreen?.();$('est-document-frame').replaceChildren();$('est-video-dialog').close();watchingEST=false;const media=worlds.estVideo.video;media.hidden=true;document.body.append(media);if(mode==='interior')playESTWall();else worlds.estVideo.pause();$('est-video-controls').hidden=true;keys.clear();joystick.reset();tapMovement=null;canvas.focus();}
 function showESTFilm(){documentRequest++; $('est-documents').hidden=true;$('est-document-frame').hidden=true;$('est-document-frame').replaceChildren();$('est-source-title').hidden=true;worlds.estVideo.video.hidden=false;$('est-film-controls').hidden=false; }
-function watchESTVideo(){watchingEST=true;$('est-video-zoom').value='1';$('est-media-slot').classList.remove('zoomed');const media=worlds.estVideo.video;media.hidden=false;media.controls=true;$('est-media-slot').append(media);showESTFilm();$('est-video-dialog').showModal();$('interact').hidden=true;$('est-watch').hidden=true;interaction=null;clearTimeout(toastTimer);$('toast').hidden=true;keys.clear();joystick.reset();tapMovement=null;actor.setWalking(false);$('est-video-controls').hidden=false;$('est-video-play').textContent='Play';$('est-video-status').textContent='Loading the video for smooth playback and seeking…';worlds.estVideo.play().catch(()=>{$('est-video-status').textContent='Video could not load. Choose Play to retry.';});}
+function watchESTVideo(){watchingEST=true;$('est-video-zoom').value='1';$('est-media-slot').classList.remove('zoomed');const media=worlds.estVideo.video;media.loop=false;media.muted=false;media.hidden=false;media.controls=true;$('est-video-sound').textContent='Mute';$('est-media-slot').append(media);showESTFilm();$('est-video-dialog').showModal();$('interact').hidden=true;$('est-watch').hidden=true;interaction=null;clearTimeout(toastTimer);$('toast').hidden=true;keys.clear();joystick.reset();tapMovement=null;actor.setWalking(false);$('est-video-controls').hidden=false;$('est-video-play').textContent='Play';$('est-video-status').textContent='Loading the video for smooth playback and seeking…';worlds.estVideo.play().catch(()=>{$('est-video-status').textContent='Video could not load. Choose Play to retry.';});}
 const estDocuments={
  core:{title:'CORE — EST Content',file:'2026-CEMGT-EST-Unit-3-Content.pdf'},
  term:{title:'TERM — Glossary of Terms',file:'Glossary of Terms.pdf'},
@@ -513,7 +529,13 @@ let documentRequest=0,documentPages;
 async function openESTDocument(key){const request=++documentRequest,doc=estDocuments[key];worlds.estVideo.pause();worlds.estVideo.video.hidden=true;$('est-film-controls').hidden=true;$('est-documents').hidden=false;$('est-source-title').hidden=false;$('est-source-title').textContent=doc.title;const url='../Assets/EST%20Preparation/EST%20-%20Knowledge%20reactor/'+encodeURIComponent(doc.file);const frame=$('est-document-frame');frame.hidden=false;frame.textContent='Loading document pages…';$('est-media-slot').classList.remove('zoomed');$('est-document-zoom').value='1';frame.style.setProperty('--document-zoom',1);$('est-document-link').hidden=false;$('est-document-link').href=url;$('est-document-link').textContent='Open original '+doc.title+' PDF ↗';document.querySelectorAll('[data-est-document]').forEach(button=>button.setAttribute('aria-pressed',button.dataset.estDocument===key));$('est-video-status').textContent='Choose CORE, TERM or VTCS above. Scroll through every page; use Document zoom to enlarge the text.';
  try{documentPages??=fetch('./assets/est-documents/pages.json').then(r=>{if(!r.ok)throw Error('Document pages unavailable');return r.json();});const pages=(await documentPages)[key];if(request!==documentRequest)return;frame.replaceChildren();for(const [index,src] of pages.entries()){const figure=document.createElement('figure'),image=document.createElement('img'),caption=document.createElement('figcaption');image.src=src;image.alt=doc.title+' — page '+(index+1);image.loading=index?'lazy':'eager';caption.textContent='Page '+(index+1)+' of '+pages.length;figure.append(image,caption);frame.append(figure);}frame.scrollTo(0,0);}catch{documentPages=null;if(request===documentRequest)frame.textContent='The document pages could not load. Choose the document again, or open the original PDF above.';}}
 
-function positionESTPlayButton(){const button=$('est-watch');if(mode!=='interior'||watchingEST){button.hidden=true;return;}const point=worlds.estVideo.screen.getWorldPosition(new THREE.Vector3()).project(camera);button.hidden=point.z<0||point.z>1||Math.abs(point.x)>.9||Math.abs(point.y)>.85;if(!button.hidden){button.style.left=((point.x+1)*.5*viewport.width)+'px';button.style.top=estPlayTop(point.y,viewport.height,document.querySelector('.topbar').getBoundingClientRect().bottom,button.offsetHeight)+'px';}}
+function positionESTPlayButton(){
+ const button=$('est-watch');
+ button.hidden=mode!=='interior'||watchingEST;
+ if(button.hidden)return;
+ button.style.left=(viewport.width-button.offsetWidth/2-12)+'px';
+ button.style.top=estPlayTop(1,viewport.height,document.querySelector('.topbar').getBoundingClientRect().bottom,button.offsetHeight)+'px';
+}
 
 function reflect(){keys.clear();joystick.reset();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
 let marketGateApproachArmed=true;
@@ -595,6 +617,19 @@ function updateCamera(dt,snap=false){
     desiredCamera.set(.5,4.4+(distance-8)*.75,distance);lookAt.set(-.3,1,-1.5);
     camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*5));camera.lookAt(lookAt);return;
   }
+  // Frame the whole lab from the central entry aisle before resuming chase view.
+  const estEntrance=mode==='interior'&&!aerial&&!watchingEST&&p.z>-.8&&Math.abs(p.x)<1.4&&Math.cos(yaw)>.96;
+  if(mode==='interior'){
+    const fov=estEntrance?Math.max(63,THREE.MathUtils.radToDeg(2*Math.atan(.94/camera.aspect))):(isMobile()?62:55);
+    if(camera.fov!==fov){camera.fov=fov;camera.updateProjectionMatrix();}
+  }
+  if(estEntrance){
+    desiredCamera.set(p.x,1.95,6.7);
+    lookAt.set(p.x,2.3,-6.48);
+    camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));
+    camera.lookAt(lookAt);
+    return;
+  }
   if(watchingEST){const viewingDistance=Math.max(7.9,6.8/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*camera.aspect));desiredCamera.set(0,3.3,-6.48+viewingDistance);lookAt.set(0,3.3,-6.48);camera.position.lerp(desiredCamera,snap?1:1-Math.exp(-dt*7));camera.lookAt(lookAt);return;}
   if(mode==='town'&&worlds.town.fog){worlds.town.fog.near=aerial?200:64;worlds.town.fog.far=aerial?320:175;}
   if(aerial&&mode==='town'&&camera.fov!==(isMobile()?62:55)){camera.fov=isMobile()?62:55;camera.updateProjectionMatrix();}
@@ -644,7 +679,7 @@ function updateInteraction(){
   if(discoveryInteraction){interaction=discoveryInteraction;$('interact').querySelector('span').textContent=interaction.label;$('interact').hidden=false;return;}
   if(mode==='market')interaction=nightMarket.interaction(p);
   else if(mode==='town'){
-    const limited=discoveryReview&&!discovery?.snapshot().chapelVisited;
+    const limited=campusBuildingsLocked();
     const approaching=!limited&&Math.hypot(p.x-EST.x,p.z-EST.doorZ)<7;
     if(approaching&&!nearHall)worlds.ensureInterior().catch(()=>{});
     nearHall=approaching;
@@ -692,7 +727,7 @@ function openModule(name,stage,url){
   };
   frame.src=new URL(url||'../modules/est-prep/index.html',import.meta.url).href;$('close-module').focus();
 }
-function closeModule(){moduleObserver?.disconnect();clearTimeout(moduleTimer);$('module-overlay').hidden=true;$('experience').inert=false;$('module-frame').onload=null;$('module-frame').removeAttribute('src');canvas.focus();}
+function closeModule(){moduleObserver?.disconnect();clearTimeout(moduleTimer);$('module-overlay').hidden=true;$('experience').inert=false;$('module-frame').onload=null;$('module-frame').removeAttribute('src');if(mode==='interior')playESTWall();canvas.focus();}
 function phaseChange(name){if(!Object.hasOwn(PHASES,name))return;phase=name;worlds.phase(name);$('phase').value=name;}
 function qualityChange(){const quality=renderQuality(renderBackend,$('quality').value,devicePixelRatio);renderer.setPixelRatio(quality.pixelRatio);renderer.shadowMap.enabled=quality.shadows;resize();}
 function bindEvents(){
@@ -711,8 +746,8 @@ function bindEvents(){
   $('space-destination').addEventListener('click',()=>campusSpot(7,-53,'SPACE',-Math.PI/2));
 
   $('retry-saved-avatar').addEventListener('click',()=>updateActor());
-  document.addEventListener('ce-feedback-open',()=>{flyover?.stop();keys.clear();joystick.reset();tapMovement=null;actor?.setWalking(false);worlds.estVideo.pause();});
-  $('careers-destination').addEventListener('click',()=>{const go=()=>{setMode('town');enterCareers();};if(mode==='studio')leaveStudio(go);else go();});
+  document.addEventListener('ce-feedback-open',()=>{flyover?.stop();keys.clear();joystick.reset();tapMovement=null;actor?.setWalking(false);});
+  $('careers-destination').addEventListener('click',()=>{if($('exploration-options')?.open)closeExplorationOptions();const go=()=>{setMode('town');enterCareers();};if(mode==='studio')leaveStudio(go);else go();});
   $('est-video-close').addEventListener('click',closeESTVideo);
   $('est-watch').addEventListener('click',watchESTVideo);
   $('est-video-dialog').addEventListener('cancel',e=>{e.preventDefault();closeESTVideo();});
@@ -732,7 +767,7 @@ function bindEvents(){
   $('close-reflection').addEventListener('click',()=>$('reflection-dialog').close());
   $('reflection-dialog').addEventListener('close',()=>{keys.clear();joystick.reset();canvas.focus();});
   $('town-view').addEventListener('click',returnTown);$('studio-view').addEventListener('click',openStudio);
-  $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>{const go=()=>{setMode('town');enterHall();};if(mode==='studio')leaveStudio(go);else go();});$('chapel-destination').addEventListener('click',()=>destination('chapel'));
+  $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>{if($('exploration-options')?.open)closeExplorationOptions();const go=()=>{setMode('town');enterHall();};if(mode==='studio')leaveStudio(go);else go();});$('chapel-destination').addEventListener('click',()=>destination('chapel'));
   $('interact').addEventListener('click',()=>interaction?.action());$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
   $('campus-retry').addEventListener('click',()=>{if(detailFailed)worlds.retryDetailTextures().then(refreshSurfaceDetailNotice,()=>{detailFailed=true;detailNotice();});else if(!entryReady)prepareEntry().catch(()=>{});else openCampusInBackground();});
   $('aerial').addEventListener('click',async()=>{const request=modeRequest;if(mode==='town'&&!campusReady){try{await ensureCampus();}catch{return;}if(request!==modeRequest)return;}aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
@@ -899,6 +934,10 @@ function animate(){
 function setupExplorationMenus(){
  const options=document.createElement('details');options.id='exploration-options';options.className='header-menu';options.innerHTML='<summary>Options</summary><div id="exploration-option-list"><p id="options-pause-note">Movement paused while Options is open.</p><button type="button" id="resume-options">Close options / Resume</button></div>';$('header-controls').append(options);
  const list=$('exploration-option-list');
+ const skip=document.createElement('button');skip.type='button';skip.id='skip-intro-exploration';skip.textContent='Skip intro exploration';
+ skip.onclick=()=>{closeExplorationOptions();skipIntroExploration();};
+ options.addEventListener('toggle',()=>{skip.hidden=Boolean(discovery.snapshot().skipped||discovery.snapshot().souvenir);});
+ list.append(skip);
  for(const selector of ['#destination-menu','#world-tools','#header-phase','#flyover-slot','#choose-helper','#my-life-link','#blueprint-link','.legacy-link']){const item=document.querySelector(selector);if(item){item.hidden=false;list.append(item);if(item.id==='header-phase')$('phase').hidden=false;}}
  $('choose-helper').textContent='Optional companion';$('choose-helper').hidden=false;
  // Optional character editing keeps the quiet exploration entry.
@@ -1017,8 +1056,8 @@ async function boot(){
       explorationTools=createExplorationTools({THREE,worlds,position:()=>actor.model.position,navigationPosition:()=>flyover?.active?camera.position:actor.model.position,navigationTarget:()=>orientationTour?.target(),routeMarket:goToMarketEntrance,mode:()=>mode,state:()=>({...discovery.snapshot(),souvenir:discovery.photo()}),photo:()=>discovery.photo(),reviewPhoto:()=>discovery.showPhotoFinish(),review:isolatedDiscovery||adminReviewRequested,storage:gameStorage,market:()=>nightMarket,notify:message=>toast(message),onOpen:()=>{const options=document.querySelector('#exploration-options');if(options)options.open=false;resetNavigationInput();},onClose:()=>orientationTour?.update(),journey,header:$('header-controls')});
       journey.bank({...discovery.snapshot(),souvenir:discovery.photo()});discoveryHandover=createDiscoveryHandover({journey,header:$('header-controls'),goMarket:async()=>{await goToMarketEntrance();if(!adminReviewRequested&&(mode!=='town'||Math.hypot(actor.model.position.x-MARKET_APPROACH.x,actor.model.position.z-MARKET_APPROACH.z)>.3))throw Error('Market entrance unavailable');},pause:()=>{closeExplorationOptions(false);echo?.close();resetNavigationInput();actor.setWalking(false);},resume:()=>{resetNavigationInput();canvas.focus({preventScroll:true});}});discoveryHandover.update();
       const introStorage=gameStorage;
-      intro=window.CareerEmpireIntro?.intro||createTasterIntro({profile:state.activeId,storage:introStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onResume:()=>{resetNavigationInput();updateEntryLoading();updateCamera(1,true);},focusTarget:canvas});
-      if(window.CareerEmpireIntro){window.CareerEmpireIntro.bridge.pause=()=>{resetNavigationInput();actor.setWalking(false);};window.CareerEmpireIntro.bridge.resume=()=>{resetNavigationInput();updateEntryLoading();updateCamera(1,true);};}
+      intro=window.CareerEmpireIntro?.intro||createTasterIntro({profile:state.activeId,storage:introStorage,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onResume:()=>{resetNavigationInput();updateEntryLoading();updateCamera(1,true);},onSkipExploration:skipIntroExploration,focusTarget:canvas});
+      if(window.CareerEmpireIntro){window.CareerEmpireIntro.bridge.pause=()=>{resetNavigationInput();actor.setWalking(false);};window.CareerEmpireIntro.bridge.resume=()=>{resetNavigationInput();updateEntryLoading();updateCamera(1,true);};window.CareerEmpireIntro.bridge.skipExploration=skipIntroExploration;if(window.CareerEmpireIntro.bridge.skipExplorationRequested)skipIntroExploration();}
       const replay=$('replay-taster-intro');replay.hidden=false;replay.onclick=()=>{$('world-tools').open=false;intro.show();};
       if(!window.CareerEmpireIntro&&!new URLSearchParams(location.search).has('view'))intro.showIfDue(discovery.snapshot());
     }

@@ -38,3 +38,19 @@ test('initial guest destination actions cannot load EST or Careers interiors bef
 });
 
 test.beforeEach(({page})=>{enterClassroomWhenAsked(page);});
+
+test('skipping intro exploration unlocks campus buildings without earning discoveries',async({page})=>{
+ test.setTimeout(150000);
+ await page.goto('/playable-3d/');
+ await page.locator('#taster-skip-exploration').click();
+ await page.locator('#exploration-options > summary').click();
+ await page.locator('#places-toggle').click();
+ await page.locator('#est-destination').click();
+ await expect.poll(()=>d(page),{timeout:30000}).toMatchObject({mode:'interior',discovery:{step:0,skipped:true,chapelVisited:false}});
+ await expect.poll(()=>page.locator('#est-wall-media').evaluate(v=>v.muted&&v.loop&&!v.paused&&v.currentTime>.3),{timeout:40000}).toBe(true);
+ await expect(page.locator('#exploration-options')).not.toHaveAttribute('open','');
+ await page.locator('#exploration-options > summary').click();
+ await page.locator('#places-toggle').click();
+ await page.locator('#careers-destination').click();
+ await expect.poll(()=>d(page),{timeout:30000}).toMatchObject({mode:'careers'});
+});

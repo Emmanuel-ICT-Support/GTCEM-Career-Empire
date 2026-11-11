@@ -1,8 +1,8 @@
 {
-  "release": "mara-language-20261102",
+  "release": "est-wall-entry-20261111",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "0599498a4692269ad080df6173e444ab0eac474a",
-  "scope": "User-authorized actual-production Mara release: approved welcome, unchanged queue observation before accepting work, guided observation/hint/replay and one shared shift offer; concise initiative review and recall copy. Existing curriculum IDs, trial simulation, pay, saved state and artwork retained. Local full272-case run plus narrow recovery yields269distinct passing cases. Baseline SwiftShader cadence2 and native-renderer prerequisite1 remain uncleared; no green-full-suite or school-device qualification. Production deployment/live verification require a separate receipt.",
+  "baseCommit": "d3544e129682381d397417c08bed0242d5e58d88",
+  "scope": "EST Prep entrance framing and muted looping wall playback. Optional intro exploration skip enables campus building access using the existing skipped state without marking discoveries earned.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -62,7 +62,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "7306cb6cc64d84f6bbb3a5acca0aac6a98c56372fe0960209301664ac389053e"
+      "sha256": "12393ed956efdaf105af4d83bc52a633182414d2db81d0c7901d975f9d42cd37"
     },
     {
       "path": "arcade-carnival.js",
@@ -630,7 +630,7 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "b41d930fcdcf9b04de1ae6f7ca0805b04220b3665448794650ea0eca6e3b457b"
+      "sha256": "dcf3fd3a100a67e9c0446314886a23c5f6f1cbcb68292591f1491ae8c1370df5"
     },
     {
       "path": "discovery-state.mjs",
@@ -858,7 +858,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "976442b8b3b834cdea972642b9bf9501d80a3109f509d1f469d2207159e85769"
+      "sha256": "cc98270dfdacb0f437fbb6c81c12ba06d1f3b564976d7fcb7ce53969232c7d06"
     },
     {
       "path": "header-controls.css",
@@ -882,7 +882,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "9498121b2d6b4ec8c0cdbaf75c9277eeb9e48a27e36547bcb3bb77d76efb1ebd"
+      "sha256": "7b3b787c3b07d1f109b31198ef7ddb7ee418e968a192eaeaa4bfe9b93e463dba"
     },
     {
       "path": "initiative-field-guide.html",
@@ -898,7 +898,7 @@
     },
     {
       "path": "intro-taster.mjs",
-      "sha256": "96588757e24da359495a4887aece8169e20a9d8b20ca95bef9eb6193610ac87e"
+      "sha256": "c121c8061b320e3181830f67ba573c52c1fc7efa95012b7de6b923bac6e5334e"
     },
     {
       "path": "joystick.js",
@@ -1180,6 +1180,6 @@
     "width": 1280,
     "height": 720
   },
-  "status": "Review candidate \u2014 final release gates pending",
+  "status": "Review candidate — final release gates pending",
   "pilotBaseCommit": "a2794e42c359ed930124e34b459d71bcc35216ef"
 }
