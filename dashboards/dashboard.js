@@ -1,3 +1,7 @@
+var publicInitiativePortfolioMode = Boolean(document.getElementById("student-hero-title")) && new URLSearchParams(window.location.search).get("publicInitiative") === "1";
+var publicInitiativeDraft = null;
+var publicInitiativeEntries = [];
+var publicInitiativeApi = null;
 const STUDENT_REWARD_ICONS = {
   chamber: "../Assets/Images and Animations/Celebration Reward Icons/Chamber complete.png",
   salary: "../Assets/Images and Animations/Celebration Reward Icons/Salary Banked.png",
@@ -1063,6 +1067,15 @@ function average(values) {
 }
 
 const EMPLOYABILITY_SKILL_META = {
+  initiative: {
+    accent: "#50cdb6", accentSoft: "rgba(80, 205, 182, 0.16)", accentStrong: "rgba(80, 205, 182, 0.34)",
+    starExample: { title: "Fictional Initiative model - not your evidence", rows: [
+      { label: "S", term: "Situation", text: "At a fictional Market stall, the collection queue blocked the entrance." },
+      { label: "T", term: "Task", text: "Avery needed to keep access clear while respecting the stall lead's layout." },
+      { label: "A", term: "Actions", text: "Avery noticed the issue, explained it to the lead and asked permission to trial a clearer queue marker." },
+      { label: "R", term: "Results", text: "In this fictional example, the entrance became clearer. Avery would check that the new queue did not block another stall." }
+    ] }
+  },
   "communication": {
     accent: "#68d2ff",
     accentSoft: "rgba(104, 210, 255, 0.16)",
@@ -4050,8 +4063,8 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
       ? getCurrentStudentModuleStatuses()[EMPLOYABILITY_PORTFOLIO_MODULE_ID]
       : "active";
     const canBuildPortfolioEvidence = studentPortfolioStatus === "active";
-    const subskills = category.subskills.slice(0, 4);
-    const parentLogoPath = getEmployabilityLogoPath(category.id) || category.logoPath || "";
+    const subskills = category.id === "initiative" ? category.subskills : category.subskills.slice(0, 4);
+    const parentLogoPath = category.id === "initiative" ? category.logoPath || "" : getEmployabilityLogoPath(category.id) || category.logoPath || "";
     const studentEvidenceEntries = isStudentGrid ? (skillEvidenceMap[category.id] || []) : [];
     const starExample = getStarPresetExample(category, meta);
     const bankedEvidenceMarkup = studentEvidenceEntries.map(entry => `
@@ -4107,7 +4120,7 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
     ` : "";
     const subskillItems = subskills.map((subskill, index) => ({
       ...subskill,
-      logoPath: getEmployabilityLogoPath(category.id, subskill.id)
+      logoPath: category.id === "initiative" ? subskill.logoPath || "" : getEmployabilityLogoPath(category.id, subskill.id)
     }));
     return `
       <article class="skill-card skill-card-modern ${isStudentGrid ? "skill-card-has-star" : ""}" style="--skill-accent: ${meta.accent}; --skill-accent-soft: ${meta.accentSoft}; --skill-accent-strong: ${meta.accentStrong}; --skill-progress-angle: ${progress * 3.6}deg;">
@@ -4196,17 +4209,205 @@ function openSkillStarBuilder(skillId, skillTitle, contextId, existingEntry = nu
     status: "",
     isSaving: false
   };
+  if (publicInitiativePortfolioMode) starBuilderState.stepIndex = 0;
   renderSkillStarBuilder();
 }
 
 function closeSkillStarBuilder() {
+  if (publicInitiativePortfolioMode && starBuilderState) publicInitiativeDraft = structuredClone(starBuilderState);
   starBuilderState = null;
   const modal = ensureSkillStarBuilderModal();
   modal.hidden = true;
   modal.innerHTML = "";
 }
 
+function updatePublicInitiativeBuilderResponse(value) {
+  if (!starBuilderState) return;
+  const step = STAR_BUILDER_STEPS[starBuilderState.stepIndex];
+  starBuilderState.responses[step.key] = value;
+  starBuilderState.error = "";
+  starBuilderState.status = "";
+}
+
+function renderPublicInitiativeStarBuilder() {
+  const modal = ensureSkillStarBuilderModal();
+  if (!starBuilderState) {
+    modal.hidden = true;
+    return;
+  }
+
+  const step = STAR_BUILDER_STEPS[starBuilderState.stepIndex];
+  const contextLabel = getStarContextLabel(starBuilderState.contextId).toLowerCase();
+  const currentValue = starBuilderState.responses[step.key] || "";
+  const isFinalStep = starBuilderState.stepIndex === STAR_BUILDER_STEPS.length - 1;
+  const examples = getStarBuilderExamples(starBuilderState.contextId, step.key, step.examples);
+  const summaryPreview = createStarEvidenceSummary(starBuilderState);
+  const actionDisabled = starBuilderState.isSaving ? "disabled" : "";
+  const finalButtonLabel = publicInitiativePortfolioMode ? "Add to anonymous log" : starBuilderState.resubmittingEntryId ? "Resubmit STAR evidence" : "Bank STAR evidence";
+  const taggedSkillLabel = getStarEntrySkillTitles(starBuilderState).join(" + ");
+
+  modal.hidden = false;
+  modal.innerHTML = `
+    <div class="skill-star-builder-dialog" role="dialog" aria-modal="true" aria-labelledby="skill-star-builder-title">
+      <button class="skill-star-builder-close" type="button" data-star-builder-close aria-label="Close STAR builder">Close</button>
+      <div class="skill-star-builder-topline">
+        <span>${escapeHtml(taggedSkillLabel)}</span>
+        <span>${escapeHtml(getStarContextLabel(starBuilderState.contextId))}</span>
+      </div>
+      <div class="skill-star-builder-progress" aria-label="STAR builder progress">
+        ${STAR_BUILDER_STEPS.map((item, index) => `
+          <span class="${index === starBuilderState.stepIndex ? "is-active" : index < starBuilderState.stepIndex ? "is-complete" : ""}">${escapeHtml(item.label)}</span>
+        `).join("")}
+      </div>
+      <h2 id="skill-star-builder-title">${publicInitiativePortfolioMode ? "Reflect on" : "So you improved"} ${escapeHtml(taggedSkillLabel)} in a ${escapeHtml(contextLabel)} context${publicInitiativePortfolioMode ? "." : "?"}</h2>
+      <p class="skill-star-builder-lead">${escapeHtml(step.lead)}</p>
+      <label class="skill-star-builder-date-field">
+        <span>Date of experience</span>
+        <input type="date" data-star-builder-experience-date max="${escapeHtml(getTodayDateInputValue())}" value="${escapeHtml(starBuilderState.experienceDate || "")}">
+      </label>
+      <div class="skill-star-builder-privacy-note">
+        <strong>${escapeHtml(publicInitiativePortfolioMode ? "Anonymous practice: keep personal details out." : STUDENT_FREE_TEXT_PRIVACY_NOTICE.title)}</strong>
+        <span>${escapeHtml(publicInitiativePortfolioMode ? "Anonymous practice only. Do not include names or private details. Nothing is submitted or linked to a student; create a PDF before leaving." : STUDENT_FREE_TEXT_PRIVACY_NOTICE.body)}</span>
+      </div>
+      ${renderStarBuilderSkillPicker()}
+      <label class="skill-star-builder-field">
+        <span>${escapeHtml(step.term)}</span>
+        <small>${escapeHtml(step.prompt)}</small>
+        <textarea rows="5" data-star-builder-input>${escapeHtml(currentValue)}</textarea>
+      </label>
+      <div class="skill-star-builder-examples">
+        <span>Examples</span>
+        ${examples.map(example => `<p>${escapeHtml(example)}</p>`).join("")}
+      </div>
+      <div class="skill-star-summary-preview">
+        <span>Summary preview</span>
+        <strong data-star-builder-summary>${escapeHtml(summaryPreview)}</strong>
+      </div>
+      ${starBuilderState.status ? `<div class="skill-star-builder-status">${escapeHtml(starBuilderState.status)}</div>` : ""}
+      ${starBuilderState.error ? `<div class="skill-star-builder-error">${escapeHtml(starBuilderState.error)}</div>` : ""}
+      <div class="skill-star-builder-actions">
+        <button class="module-link" type="button" data-star-builder-back ${starBuilderState.stepIndex === 0 || starBuilderState.isSaving ? "disabled" : ""}>Back</button>
+        <button class="module-link primary" type="button" data-star-builder-next ${actionDisabled}>${starBuilderState.isSaving ? "Saving..." : isFinalStep ? finalButtonLabel : "Next"}</button>
+      </div>
+    </div>
+  `;
+
+  const input = modal.querySelector("[data-star-builder-input]");
+  try {
+    input?.focus({ preventScroll: true });
+  } catch (_) {
+    input?.focus();
+  }
+  input?.addEventListener("input", event => {
+    updatePublicInitiativeBuilderResponse(event.target.value);
+    const summaryTarget = modal.querySelector("[data-star-builder-summary]");
+    if (summaryTarget) summaryTarget.textContent = createStarEvidenceSummary(starBuilderState);
+  });
+  modal.querySelector("[data-star-builder-close]")?.addEventListener("click", closeSkillStarBuilder);
+  modal.querySelector("[data-star-builder-experience-date]")?.addEventListener("input", event => {
+    starBuilderState.experienceDate = event.target.value;
+    starBuilderState.error = "";
+  });
+  modal.querySelectorAll("[data-star-toggle-skill]").forEach(button => {
+    button.addEventListener("click", () => {
+      toggleStarBuilderSkill(button.dataset.starToggleSkill);
+      renderSkillStarBuilder();
+    });
+  });
+  modal.querySelectorAll("[data-star-toggle-subskill]").forEach(button => {
+    button.addEventListener("click", () => {
+      toggleStarBuilderSubskill(button.dataset.starToggleSubskill);
+      renderSkillStarBuilder();
+    });
+  });
+  modal.querySelector("[data-star-builder-back]")?.addEventListener("click", () => {
+    if (!starBuilderState || starBuilderState.stepIndex === 0) return;
+    starBuilderState.stepIndex -= 1;
+    starBuilderState.error = "";
+    starBuilderState.status = "";
+    renderSkillStarBuilder();
+  });
+  modal.querySelector("[data-star-builder-next]")?.addEventListener("click", async () => {
+    if (!starBuilderState) return;
+    const latestValue = modal.querySelector("[data-star-builder-input]")?.value || "";
+    updatePublicInitiativeBuilderResponse(latestValue);
+    if (latestValue.trim().length < 12) {
+      starBuilderState.error = "Add a little more detail so this feels like usable evidence.";
+      renderSkillStarBuilder();
+      return;
+    }
+    if (!isFinalStep) {
+      starBuilderState.stepIndex += 1;
+      renderSkillStarBuilder();
+      return;
+    }
+    if (!starBuilderState.experienceDate) {
+      starBuilderState.error = "Choose the date this experience happened.";
+      renderSkillStarBuilder();
+      return;
+    }
+    if (parseTime(starBuilderState.experienceDate) > Date.now()) {
+      starBuilderState.error = "Use the real date of the experience, not a future date.";
+      renderSkillStarBuilder();
+      return;
+    }
+    if (publicInitiativePortfolioMode) { addPublicInitiativeReflection(); return; }
+    const createdAt = new Date().toISOString();
+    const entry = {
+      id: `star-${Date.now()}`,
+      skillId: starBuilderState.skillId,
+      skillTitle: starBuilderState.skillTitle,
+      skillIds: [...starBuilderState.selectedSkillIds],
+      skillTitles: getStarEntrySkillTitles(starBuilderState),
+      subskillTags: getStarBuilderSelectedSubskillTags(),
+      experienceDate: starBuilderState.experienceDate,
+      contextId: starBuilderState.contextId,
+      responses: { ...starBuilderState.responses },
+      summary: createStarEvidenceSummary(starBuilderState),
+      reviewText: createStarEvidenceReviewText(starBuilderState),
+      reviewStatus: "pending_review",
+      salaryReward: STAR_EVIDENCE_SALARY_REWARD,
+      createdAt,
+      supersedesEntryId: starBuilderState.resubmittingEntryId || null,
+      supersedesReviewId: starBuilderState.resubmittingReviewId || null
+    };
+    starBuilderState.error = "";
+    starBuilderState.status = starBuilderState.resubmittingEntryId
+      ? "Resubmitting final entry for teacher review..."
+      : "Saving final entry for teacher review...";
+    starBuilderState.isSaving = true;
+    renderSkillStarBuilder();
+    const previousEntryId = starBuilderState.resubmittingEntryId;
+    const previousReviewId = starBuilderState.resubmittingReviewId;
+    const review = await queueSkillStarEvidenceForReview(entry).catch(error => {
+      console.warn("STAR evidence review could not be queued:", error.message || error);
+      return null;
+    });
+    const reviewContext = getStarEvidenceReviewContext();
+    if (reviewContext.studentId && !review?.id) {
+      starBuilderState.error = "Could not send this STAR evidence for teacher approval. Please try again.";
+      starBuilderState.status = "";
+      starBuilderState.isSaving = false;
+      renderSkillStarBuilder();
+      return;
+    }
+    if (review?.id) entry.reviewId = review.id;
+    if (previousEntryId) {
+      if (review?.id) {
+        await retireSkillStarReviewForResubmission(previousEntryId, previousReviewId, review.id);
+      }
+      replaceSkillStarEvidence(previousEntryId, entry);
+    } else {
+      saveSkillStarEvidence(entry);
+      bankStarEvidenceSalary(entry);
+    }
+    closeSkillStarBuilder();
+    initDashboards().catch(console.error);
+  });
+}
+
 function renderSkillStarBuilder() {
+  if (publicInitiativePortfolioMode) return renderPublicInitiativeStarBuilder();
   const modal = ensureSkillStarBuilderModal();
   if (!starBuilderState) {
     modal.hidden = true;
@@ -6000,6 +6201,7 @@ async function renderStudentLiveData(players, skillsData) {
   });
 
   renderSkills(skillsData, "student-skill-grid", progressMap, skillEvidenceMap);
+  await launchInitiativePortfolioFromMarket();
   renderStudentResponseReviewNotices(reviewRows);
   renderStudentModules([
     {
@@ -7048,8 +7250,80 @@ async function initDashboards() {
   }
 }
 
-if (requireStudentHubAccess()) {
+if (publicInitiativePortfolioMode) {
+  initPublicInitiativePortfolio();
+} else if (requireStudentHubAccess()) {
   initDashboards().catch(error => {
     console.error(error);
   });
+}
+
+// Isolated Market handoff: no STAR responses, progress, evidence or rewards are generated.
+var initiativePortfolioRequestHandled = false;
+async function launchInitiativePortfolioFromMarket() {
+  if (initiativePortfolioRequestHandled || new URLSearchParams(window.location.search).get("portfolio") !== "initiative") return;
+  initiativePortfolioRequestHandled = true;
+  const root = document.getElementById("student-skill-grid");
+  if (!root) return;
+  const panel = document.createElement("section");
+  panel.setAttribute("aria-label", "Market portfolio route");
+  const note = document.createElement("p"); note.setAttribute("role", "status");
+  panel.appendChild(note); root.before(panel);
+  try {
+    const route = await import("../modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs?v=initiative-portfolio-r1");
+    const result = route.resolveInitiativeLaunch({ search: window.location.search, studentLogin: getAuthPrototypeState()?.studentLogin, moduleStatuses: getCurrentStudentModuleStatuses(), categories: employabilitySkillCategoriesCache, draftOpen: Boolean(starBuilderState) });
+    note.textContent = result.notice || result.reason || "Return to the Market when ready.";
+    const back = document.createElement("a"); back.textContent = "Return to the Market"; back.href = route.getMarketReturnUrl(window.location.href); panel.appendChild(back);
+    if (result.status === "ready") openSkillStarBuilder(result.skillId, result.skillTitle, result.contextId);
+  } catch (error) {
+    note.textContent = "The Initiative builder could not open. Your existing work has not been changed. Return to the game and try again later.";
+  }
+}
+
+async function initPublicInitiativePortfolio() {
+  // Presentation-only match to the reviewed Market entrance; no state or account changes.
+  document.body.classList.add("initiative-public-aesthetic");
+  const aestheticSheet = document.createElement("link"); aestheticSheet.rel = "stylesheet"; aestheticSheet.href = "./initiative-portfolio.css?v=market-aesthetic-r1"; document.head.appendChild(aestheticSheet);
+  document.title = "Initiative - public Career Empire STAR log";
+  document.body.replaceChildren();
+  const root = document.createElement("main"); root.id = "initiative-public-log"; root.className = "page-shell"; document.body.appendChild(root);
+  root.innerHTML = '<h1>Initiative - your STAR reflection log</h1><p>Public practice: no login, student account or teacher submission. This log stays in this tab only. Create a PDF before leaving; do not include names or private information.</p><p id="initiative-public-status" role="status">Loading Initiative...</p><div id="initiative-public-actions"></div><div id="initiative-public-entries"></div>';
+  const marketScene = document.createElement("figure"); marketScene.className = "initiative-portfolio-scene";
+  const sceneImage = document.createElement("img"); sceneImage.src = "../playable-3d/market-entrance/market-trial.jpg"; sceneImage.alt = "Customers approach Juniper Kitchen as Mara's crew trials separate signs for ordering and pickup."; sceneImage.width = 1280; sceneImage.height = 720; marketScene.appendChild(sceneImage);
+  const sceneCaption = document.createElement("figcaption"); const maraImage = document.createElement("img"); maraImage.src = "../playable-3d/market-entrance/mara-portrait.png"; maraImage.alt = ""; maraImage.width = 56; maraImage.height = 56;
+  const sceneWords = document.createElement("span"); const sceneLabel = document.createElement("strong"); sceneLabel.textContent = "Sunday Markets / Initiative"; sceneWords.append(sceneLabel, document.createTextNode("Use STAR to explain what you did, why you chose it and what happened.")); sceneCaption.append(maraImage, sceneWords); marketScene.appendChild(sceneCaption); root.prepend(marketScene);
+  const style = document.createElement("style"); style.textContent = '#initiative-public-log{max-width:1100px;margin:32px auto;padding:24px;--skill-accent:#ffbf58;--skill-accent-strong:#ffbf58}#initiative-public-log h1{font-size:clamp(1.9rem,5vw,3rem);line-height:1.15}#initiative-public-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:24px 0}#initiative-public-actions>a{color:#ffdc9b}#initiative-public-actions details{width:100%}#initiative-public-log section[aria-label]{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px;padding:20px;border:1px solid #395065;border-radius:18px}#initiative-public-log section[aria-label]>div{display:flex;align-items:center;gap:12px;padding:12px;background:#ffffff08;border-radius:12px}.initiative-public-entry{padding:24px;margin:20px 0;border:1px solid #395065;border-radius:18px;background:#ffffff05}.initiative-public-entry .skill-star-marker strong{color:#06101c}@media print {html,body{height:auto!important;min-height:0!important;display:block!important;margin:0!important;padding:0!important;background:#fff!important}#initiative-public-log{min-height:0!important;height:auto!important;max-width:none!important}#initiative-public-log *{color:#000!important;background:transparent!important}#initiative-public-log section[aria-label]{display:none!important}#initiative-public-log .skill-star-marker strong{border:1px solid #555}body>*{display:none!important}body>#initiative-public-log{display:block!important}#initiative-public-actions{display:none!important}.skill-star-grid{display:block!important}.skill-star-row{break-inside:avoid}.initiative-public-entry{break-after:auto;margin-bottom:2em}#initiative-public-log{width:100%;margin:0;padding:0;color:#000;background:#fff}a{display:none!important}}'; document.head.appendChild(style);
+  try {
+    publicInitiativeApi = await import("../modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs?v=initiative-portfolio-public-r2");
+    const response = await fetch("../data/employability-skills.json"); if (!response.ok) throw Error("Skills unavailable");
+    const skills = await response.json(); const initiative = skills.categories.find(item => item.id === "initiative"); if (!initiative) throw Error("Initiative unavailable");
+    employabilitySkillCategoriesCache = [initiative];
+    const artwork = document.createElement("section"); artwork.setAttribute("aria-label", "Initiative and five ways to show it");
+    const hero = document.createElement("img"); hero.src = initiative.logoPath; hero.alt = ""; hero.width = 160; hero.height = 160; hero.addEventListener("error",()=>{hero.hidden=true;}); artwork.appendChild(hero);
+    for (const skill of initiative.subskills) { const card = document.createElement("div"); const image = document.createElement("img"); image.src = skill.logoPath; image.alt = ""; image.width = 64; image.height = 64; image.addEventListener("error",()=>{image.hidden=true;}); const title = document.createElement("span"); title.textContent = skill.title; card.append(image,title); artwork.appendChild(card); }
+    root.querySelector("#initiative-public-actions").before(artwork);
+    const actions = root.querySelector("#initiative-public-actions");
+    const makeButton = (text, fn) => { const button = document.createElement("button"); button.type = "button"; button.className = "module-link"; button.textContent = text; button.addEventListener("click", fn); actions.appendChild(button); };
+    makeButton("Open Initiative STAR builder", () => { if (publicInitiativeDraft) { starBuilderState = structuredClone(publicInitiativeDraft); renderSkillStarBuilder(); } else openSkillStarBuilder("initiative", "Initiative", "gameplay"); });
+    makeButton("Create PDF of my log", () => { if (!publicInitiativeEntries.length) { root.querySelector("#initiative-public-status").textContent = "Add a reflection to your log first. Your draft stays available in the builder."; return; } window.print(); });
+    makeButton("Return to open Market tab", () => { window.close(); });
+    const back = document.createElement("a"); back.textContent = "Return to the Market"; back.href = publicInitiativeApi.getMarketReturnUrl(window.location.href); actions.appendChild(back);
+    const model = document.createElement("details"); const summary = document.createElement("summary"); summary.textContent = "Show a fictional Initiative STAR model"; model.appendChild(summary); const body = document.createElement("div"); body.innerHTML = renderStarRows(EMPLOYABILITY_SKILL_META.initiative.starExample.rows); model.appendChild(body); actions.appendChild(model);
+    root.querySelector("#initiative-public-status").textContent = "Only your own words will enter this anonymous log. Create PDF opens your browser print dialog: choose Save as PDF.";
+    window.addEventListener("beforeunload", event => { if (publicInitiativeDraft || publicInitiativeEntries.length || starBuilderState) { event.preventDefault(); event.returnValue = ""; } });
+    openSkillStarBuilder("initiative", "Initiative", "gameplay");
+  } catch (_) { root.querySelector("#initiative-public-status").textContent = "Initiative could not load. No student or teacher records were opened. Return to the game tab and try again later."; }
+}
+function addPublicInitiativeReflection() {
+  publicInitiativeEntries.push(publicInitiativeApi.makeAnonymousEntry(starBuilderState));
+  closeSkillStarBuilder(); publicInitiativeDraft = null;
+  const list = document.getElementById("initiative-public-entries"); list.replaceChildren();
+  for (const [index, entry] of publicInitiativeEntries.entries()) {
+    const article = document.createElement("article"); article.className = "initiative-public-entry";
+    const heading = document.createElement("h2"); heading.textContent = `Initiative reflection ${index + 1}`; article.appendChild(heading);
+    const meta = document.createElement("p"); meta.textContent = `Gameplay - ${entry.experienceDate}. ${entry.status}`; article.appendChild(meta);
+    const tags = document.createElement("p"); tags.textContent = "Selected ways: " + (entry.subskillTags.map(tag => getSkillCategory("initiative").subskills.find(s => s.id === tag.subskillId)?.title).join("; ") || "None selected"); article.appendChild(tags);
+    const rows = document.createElement("div"); rows.className = "skill-star-grid"; rows.innerHTML = renderStarRows(getStarRowsForEntry(entry)); article.appendChild(rows); list.appendChild(article);
+  }
+  document.getElementById("initiative-public-status").textContent = "Reflection added in this tab only. Create a PDF to keep your log. Nothing was submitted, assessed or rewarded.";
 }

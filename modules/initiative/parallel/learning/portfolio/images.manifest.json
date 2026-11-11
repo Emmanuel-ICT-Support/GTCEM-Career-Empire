@@ -1,0 +1,70 @@
+{
+  "contractVersion": 1,
+  "status": "Final reviewed native glossy family integrated in isolated conditional release candidate; rendered runtime/PDF verification pending",
+  "relativeTo": "Career Empire repository root",
+  "dashboardPathRule": "Data logoPath prefixes these paths with ../ because the consumer is dashboards/student.html",
+  "assets": [
+    {
+      "id": "initiative",
+      "path": "Assets/employability-logos/initiative/initiative.png",
+      "meaning": "Useful proactive workplace action within role and safety limits",
+      "sha256": "754f40d730f436c67497eb81587e856a031aba62fb975e85f6e3817676c0d047",
+      "bytes": 136003,
+      "width": 1024,
+      "height": 1024,
+      "transparent": true
+    },
+    {
+      "id": "being-proactive",
+      "path": "Assets/employability-logos/initiative/being-proactive.png",
+      "learningId": "ce.term.initiative.act",
+      "sha256": "620fcaabadd8c2796143ff0539caac0c233f32032dfffaaf70ef9fcff0a950d7",
+      "bytes": 168274,
+      "width": 1024,
+      "height": 1024,
+      "transparent": true
+    },
+    {
+      "id": "improving-work-practices",
+      "path": "Assets/employability-logos/initiative/improving-work-practices.png",
+      "learningId": "ce.term.initiative.improve",
+      "sha256": "8edf1e6b5adcf62a1a386e7eac269c83344ee431843499383c28686387680268",
+      "bytes": 171998,
+      "width": 1024,
+      "height": 1024,
+      "transparent": true
+    },
+    {
+      "id": "vocalising-opinions",
+      "path": "Assets/employability-logos/initiative/vocalising-opinions.png",
+      "learningId": "ce.term.initiative.speak",
+      "sha256": "f85d29cb6ffb659f2506ab9ba4940af99f93a79a06451e1c46413f15274b8773",
+      "bytes": 162147,
+      "width": 1024,
+      "height": 1024,
+      "transparent": true
+    },
+    {
+      "id": "helping-fellow-workers",
+      "path": "Assets/employability-logos/initiative/helping-fellow-workers.png",
+      "learningId": "ce.term.initiative.support",
+      "sha256": "753a4642aea0f7ac2cefb4810d483d4de7dfaf55a30bcfbaec0a007456101d75",
+      "bytes": 173717,
+      "width": 1024,
+      "height": 1024,
+      "transparent": true
+    },
+    {
+      "id": "seeking-more-responsibilities",
+      "path": "Assets/employability-logos/initiative/seeking-more-responsibilities.png",
+      "learningId": "ce.term.initiative.step-up",
+      "sha256": "e65c3f306147727be3d3b07c36a852fe2bc48af85558994996bd38511b60f390",
+      "bytes": 164958,
+      "width": 1024,
+      "height": 1024,
+      "transparent": true
+    }
+  ],
+  "presentation": "Original native SVG-rendered glossy gradient illustration, transparent 1024x1024 PNGs. Decorative alongside text. Not the earlier generated atlas/navy suite and not a claim of 3D model rendering.",
+  "familyRule": "One parent Initiative emblem repeated across all six badges: golden bulb in coral hand, with subordinate supporting motif for each of five ways. Main/subskill identities form one visual family. Do not use earlier six separate objects or rejected navy suite."
+}

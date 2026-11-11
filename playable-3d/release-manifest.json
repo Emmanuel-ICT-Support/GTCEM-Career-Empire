@@ -1,12 +1,36 @@
 {
-  "release": "capabilities-map-20261112",
+  "release": "market-portfolio-capabilities-map-20261111",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "7da894d8069705a4019f664c8af0ebf6b9901ee5",
-  "scope": "Mark Capabilities at the Careers Advice Centre on the campus navigation map.",
+  "baseCommit": "7ac4efa5ac59ed9c2e6c806ebcc20f6014b53559",
+  "scope": "Preserve deployed Capabilities monitor and authenticated single-page STAR/teacher refresh; add approved Market entrance, anonymous five-step STAR/PDF, sixfinal logos/nativeMarketstill, outdoorprogressmodefix and clear unavailableArchon. Preserve EST wall/skip and agreedMarketwages. Hardwareacceptance remains separately pending. Preserve subsequent Capabilities campus map marker and Careers position correction.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
       "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
+    },
+    {
+      "path": "../Assets/employability-logos/initiative/being-proactive.png",
+      "sha256": "620fcaabadd8c2796143ff0539caac0c233f32032dfffaaf70ef9fcff0a950d7"
+    },
+    {
+      "path": "../Assets/employability-logos/initiative/helping-fellow-workers.png",
+      "sha256": "753a4642aea0f7ac2cefb4810d483d4de7dfaf55a30bcfbaec0a007456101d75"
+    },
+    {
+      "path": "../Assets/employability-logos/initiative/improving-work-practices.png",
+      "sha256": "8edf1e6b5adcf62a1a386e7eac269c83344ee431843499383c28686387680268"
+    },
+    {
+      "path": "../Assets/employability-logos/initiative/initiative.png",
+      "sha256": "754f40d730f436c67497eb81587e856a031aba62fb975e85f6e3817676c0d047"
+    },
+    {
+      "path": "../Assets/employability-logos/initiative/seeking-more-responsibilities.png",
+      "sha256": "e65c3f306147727be3d3b07c36a852fe2bc48af85558994996bd38511b60f390"
+    },
+    {
+      "path": "../Assets/employability-logos/initiative/vocalising-opinions.png",
+      "sha256": "f85d29cb6ffb659f2506ab9ba4940af99f93a79a06451e1c46413f15274b8773"
     },
     {
       "path": "../dashboards/capabilities.html",
@@ -18,11 +42,15 @@
     },
     {
       "path": "../dashboards/dashboard.js",
-      "sha256": "e6e6a5825d4d44bd63dc59c0fef1e334b125c71d5cfc725b6301eb0d9a79106f"
+      "sha256": "3748afe0cf2d2dd678099da578bcd955a6e0388b2705c0f6a08c0dffc54f7a36"
+    },
+    {
+      "path": "../dashboards/initiative-portfolio.css",
+      "sha256": "f50a3db34325e569bf4bf4ec5d515c3e4ac0b7de1491a10c20c6be258f2a6eb9"
     },
     {
       "path": "../dashboards/student.html",
-      "sha256": "88573d70e0e998c447bcbbcda913157275bf87715e98da680ebc47e6b902efb8"
+      "sha256": "1f67aaa8c640761848d746aaa3ac4241da6e1f06e001791c69e1e5c8c5302f11"
     },
     {
       "path": "../dashboards/teacher-game-theme.css",
@@ -31,6 +59,10 @@
     {
       "path": "../dashboards/teacher.html",
       "sha256": "761bbb5e09f023c80958e958f9bf1a42e8425826f7a98a4223a5fcb0adee3b75"
+    },
+    {
+      "path": "../data/employability-skills.json",
+      "sha256": "bc251f13e3e93560cce6dd4293ffe245cac0aa7eef99262e81ca315e0106623c"
     },
     {
       "path": "../economy-lab/app.mjs",
@@ -73,6 +105,30 @@
       "sha256": "c66f122a16cb69aea859e3c849a2575bd1d35103d1fcfac932c99f0e470d8649"
     },
     {
+      "path": "../modules/initiative/parallel/integration/market-learning-host.mjs",
+      "sha256": "acf36826eabffd429e26df895df08abced33d6c8b163bc9094417892ca59d3c9"
+    },
+    {
+      "path": "../modules/initiative/parallel/learning/lesson.css",
+      "sha256": "2548b6a8f39a247e512c65fcf554cd629aa8dc77246e1800d655bb3a5acd04fa"
+    },
+    {
+      "path": "../modules/initiative/parallel/learning/lesson.mjs",
+      "sha256": "50eff5064b8ddcb338760bb48d101c0b113cef14798eac32971ffe85c614943a"
+    },
+    {
+      "path": "../modules/initiative/parallel/learning/library.json",
+      "sha256": "ae97e51da217aca0cd8d4b7f438afea53a19e3fb0ff63cbf6009d7f56df36265"
+    },
+    {
+      "path": "../modules/initiative/parallel/learning/portfolio/images.manifest.json",
+      "sha256": "6aa69bcedc9b385b9584c19d44ca57ccb592503287587a0894106c34f1e51501"
+    },
+    {
+      "path": "../modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs",
+      "sha256": "91fcae8e3a4102f5bd22e5a8ae1e58524ce1c1bea196e4828eef09d6580825ac"
+    },
+    {
       "path": "../src/services/feedback-widget.js",
       "sha256": "90bad9446f2e31fcf75b36eac271b50de898222999ed709dd925aacd91a542b0"
     },
@@ -86,7 +142,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "ca99f2b5b2d316eb5956edf4c855755be3b4024f65c28c6b3d46a5bc6365b853"
+      "sha256": "921420306d9a06a98915b8cca792472280122649cce2d864ca0b1a81b5d34cff"
     },
     {
       "path": "arcade-carnival.js",
@@ -882,7 +938,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "9467be15d5ea9cce93fffaab34393e540c62340cb982b30463fed23dadef7caf"
+      "sha256": "d577d58f9262b1f40cbbd729aeefe375d4c0aae6efeeb1591cbef7e061f602fa"
     },
     {
       "path": "header-controls.css",
@@ -906,11 +962,15 @@
     },
     {
       "path": "index.html",
-      "sha256": "67c1f21673a9b87208e1a1fb8cddf1f7cf382f5de3ae0a812593ca25cc2d2d22"
+      "sha256": "90d6e8ad936db001ab30243c4c8bfb335d786a1d44f07d16f59b534db13e00da"
     },
     {
       "path": "initiative-field-guide.html",
       "sha256": "063ebe50f63f1ccee2f63f25e24a70ad9be27b6885d2b9679ba99e3e57dc2971"
+    },
+    {
+      "path": "initiative-market.mjs",
+      "sha256": "0f9275a4a300e000a33373631893462e9302f2e7413f102f9656ef727047c776"
     },
     {
       "path": "initiative-progress.mjs",
@@ -945,6 +1005,10 @@
       "sha256": "270edfe2f8851eb7d713b85177ada1b6506de53289645fe3085280a688941bb0"
     },
     {
+      "path": "market-archon.mjs",
+      "sha256": "9853142e3eeea593c7602900bee964ef784a4c93d7edc50d2329fc04f7d44dca"
+    },
+    {
       "path": "market-arrangement.mjs",
       "sha256": "92d703c88ebaef976746d861bcdd4fc2544f497a8b818d3687a16bbbf7d3c1bb"
     },
@@ -957,6 +1021,22 @@
       "sha256": "1b8152b6e470edc97046c60f1d1336574559065c5a2246a74ee2072e983b0ce7"
     },
     {
+      "path": "market-entrance/entrance.css",
+      "sha256": "f47334d32f4a39feb875ea8d8fb4dea03e33f691a49bf9f86fd4b2f07961aa28"
+    },
+    {
+      "path": "market-entrance/mara-portrait.png",
+      "sha256": "6524c90c8c31281f8cf56d09152ece469d3e05e223f39ec955a16206debc637c"
+    },
+    {
+      "path": "market-entrance/market-entrance.mjs",
+      "sha256": "80330b1f5dfe2614556569ce80b003b810ee866602a322fb51040771466b1c0e"
+    },
+    {
+      "path": "market-entrance/market-trial.jpg",
+      "sha256": "9836a65c26a0d1262ee1647f10f5c682814dcccb8bb1f11fc493e2e535964fae"
+    },
+    {
       "path": "market-food.js",
       "sha256": "e50734bd175770224d80d429a8c7873b0f0ddea476b1bde27b858f9b11196f3c"
     },
@@ -967,6 +1047,10 @@
     {
       "path": "market-initiative.mjs",
       "sha256": "f19310d86cc2e8f0b400a8effa30d2e2f2d109e817f62abcab00948f65940b18"
+    },
+    {
+      "path": "market-learning-routes.mjs",
+      "sha256": "0028f628401db5c385f530781728aa1f42e22112a944e6bab485c3634e7be1d0"
     },
     {
       "path": "market-surroundings.js",
@@ -1002,7 +1086,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "a637cd7faf6e6343d3f1edf4a5affbf4d58d014855ce9befb53e1f56f0b69ccf"
+      "sha256": "328e0e210a3fbee7e3aed9ceddad81ce0ee85457aaeab73ae49ea429ec16bd47"
     },
     {
       "path": "opening-chapters-state.js",

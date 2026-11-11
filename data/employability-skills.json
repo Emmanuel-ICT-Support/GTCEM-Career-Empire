@@ -159,6 +159,60 @@
           "description": "Use a decision-making model to plan, implement, and evaluate solutions."
         }
       ]
+    },
+    {
+      "id": "initiative",
+      "title": "Initiative",
+      "description": "Take a proactive approach to work tasks, challenges and unexpected events, within your role, training and safety limits.",
+      "iconLabel": "Initiative",
+      "logoPath": "../Assets/employability-logos/initiative/initiative.png",
+      "curriculumIds": [
+        "CEM12-U3-EB-01",
+        "CEM12-U3-EB-02",
+        "CEM12-U3-EB-03"
+      ],
+      "subskills": [
+        {
+          "id": "being-proactive",
+          "title": "Being proactive",
+          "description": "Anticipate a useful task or problem and take an appropriate first step.",
+          "learningId": "ce.term.initiative.act",
+          "curriculumId": "CEM12-U3-EB-02.d1",
+          "logoPath": "../Assets/employability-logos/initiative/being-proactive.png"
+        },
+        {
+          "id": "improving-work-practices",
+          "title": "Identifying ways to improve current work practices",
+          "description": "Suggest safer, clearer or more efficient ways to work.",
+          "learningId": "ce.term.initiative.improve",
+          "curriculumId": "CEM12-U3-EB-02.d2",
+          "logoPath": "../Assets/employability-logos/initiative/improving-work-practices.png"
+        },
+        {
+          "id": "vocalising-opinions",
+          "title": "Vocalising your opinions",
+          "description": "Share informed ideas or concerns constructively and listen to others.",
+          "learningId": "ce.term.initiative.speak",
+          "curriculumId": "CEM12-U3-EB-02.d3",
+          "logoPath": "../Assets/employability-logos/initiative/vocalising-opinions.png"
+        },
+        {
+          "id": "helping-fellow-workers",
+          "title": "Helping fellow workers",
+          "description": "Offer useful support while checking team priorities and safe methods.",
+          "learningId": "ce.term.initiative.support",
+          "curriculumId": "CEM12-U3-EB-02.d4",
+          "logoPath": "../Assets/employability-logos/initiative/helping-fellow-workers.png"
+        },
+        {
+          "id": "seeking-more-responsibilities",
+          "title": "Seeking more responsibilities",
+          "description": "Ask for appropriate new duties, training and agreed support.",
+          "learningId": "ce.term.initiative.step-up",
+          "curriculumId": "CEM12-U3-EB-02.d5",
+          "logoPath": "../Assets/employability-logos/initiative/seeking-more-responsibilities.png"
+        }
+      ]
     }
   ]
 }

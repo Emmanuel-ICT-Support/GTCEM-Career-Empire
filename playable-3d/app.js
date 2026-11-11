@@ -354,8 +354,13 @@ function renderEditor(){
   icons();
 }
 let studioLoad,modeRequest=0,campusLoad,campusReady=false,environmentReady=false,entryEnvironmentModule;
+let campusNoticeVisible=false;
+function setCampusNoticeVisible(visible){
+ campusNoticeVisible=visible;
+ $('campus-progress').hidden=mode!=='town'||!visible;
+}
 function campusNotice(message,failed=false){
-  $('campus-progress').hidden=campusReady;
+  setCampusNoticeVisible(!campusReady);
   $('campus-progress-message').textContent=message;
   $('campus-retry').hidden=!failed;
 }
@@ -392,22 +397,23 @@ async function ensureCampus(){
 let entryLoad,entryAvatarPriority,entryPreparing=false,entryGeometryReady=false,entryDrawSubmitted=false,entryReady=false,entryFailure=false,entryHandover=false,entrySceneFrame=0,entryReadyAt=0,preparing=false,prepared=new Set(),lastPreparation=0;
 let detailLoad,detailFailed=false;
 function detailNotice(){
- $('campus-progress').hidden=false;
+ setCampusNoticeVisible(true);
  $('campus-progress-message').textContent='Some surface detail is still loading. You can keep exploring; Retry will request missing surfaces again.';
  $('campus-retry').hidden=false;
 }
 function refreshSurfaceDetailNotice(){
  detailFailed=worlds.failedSurfaceDetails>0;
- if(!detailFailed&&canClearDetailWarning({entryReady,campusReady,campusLoading:campusLoad,pending:worlds.pendingSurfaceDetails,campusFailed:worlds.scenery.status==='fallback'}))$('campus-progress').hidden=true;
+ if(!detailFailed&&canClearDetailWarning({entryReady,campusReady,campusLoading:campusLoad,pending:worlds.pendingSurfaceDetails,campusFailed:worlds.scenery.status==='fallback'}))setCampusNoticeVisible(false);
 }
 function startSurfaceDetail(){
  if(detailLoad)return detailLoad;
  detailFailed=false;
- detailLoad=worlds.loadDetailTextures().then(()=>{if(canClearDetailWarning({entryReady,campusReady,campusLoading:campusLoad,pending:worlds.pendingSurfaceDetails,campusFailed:worlds.scenery.status==='fallback'}))$('campus-progress').hidden=true;}).catch(()=>{detailFailed=true;detailNotice();}).finally(()=>{detailLoad=null;if(!detailFailed&&worlds.pendingSurfaceDetails>0)startSurfaceDetail();});
+ detailLoad=worlds.loadDetailTextures().then(()=>{if(canClearDetailWarning({entryReady,campusReady,campusLoading:campusLoad,pending:worlds.pendingSurfaceDetails,campusFailed:worlds.scenery.status==='fallback'}))setCampusNoticeVisible(false);}).catch(()=>{detailFailed=true;detailNotice();}).finally(()=>{detailLoad=null;if(!detailFailed&&worlds.pendingSurfaceDetails>0)startSurfaceDetail();});
  return detailLoad;
 }
 
 function updateEntryLoading(){
+ $('campus-progress').hidden=mode!=='town'||!campusNoticeVisible;
  if(!discoveryReview||!entryHandover)return;
  const waiting=mode==='town'&&!entryReady&&!entryFailure&&!intro?.open();
  $('loading').hidden=!waiting;if(waiting)$('loading-message').textContent='Opening campus…';
@@ -424,7 +430,14 @@ async function prepareEntry(){
  const environmentModule=environmentReady?null:(entryEnvironmentModule||=import('./environment.js?v=broad-integrated-20261014'));environmentModule?.catch(()=>{});
  // Complete exterior geometry and original opening planting during the intro; interiors and decorative maps remain deferred.
  const originalExteriors=worlds.loadBuildingExteriors();
- entryLoad=Promise.all([worlds.loadEntry(),originalExteriors,entryAvatarPriority?waitForPriorityAsset(entryAvatarPriority):Promise.resolve()]).then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}showMarketExteriorSigns();worlds.loadMuralTexture().catch(()=>{detailFailed=true;detailNotice();});entryGeometryReady=true;updateCamera(1,true);if(mode==='town')await waitForVisibleEntryFrame();entryReady=true;entryReadyAt=clock.getElapsedTime();worlds.openCampus();$('campus-progress').hidden=true;updateEntryLoading();canvas.dataset.entryVisibleMs=String(performance.now());startSurfaceDetail();}).catch(error=>{entryFailure=true;campusNotice('Campus buildings could not load. Retry to open campus.',true);updateEntryLoading();throw error;}).finally(()=>{entryPreparing=false;entryLoad=null;});
+ entryLoad=Promise.all([worlds.loadEntry(),originalExteriors,entryAvatarPriority?waitForPriorityAsset(entryAvatarPriority):Promise.resolve()]).then(async()=>{if(!environmentReady){const {integrateEnvironment}=await environmentModule;await integrateEnvironment(worlds,{entryOnly:true});worlds.phase(phase);}showMarketExteriorSigns();
+ // The courtyard HDR is visible entry lighting, not an optional surface. Its
+ // first environment conversion must finish in the loading frame, rather than
+ // synchronously blocking the first accepted walking input. Preserve the same
+ // image, bounded asset failure/fallback and actual frame-completion gate.
+ campusNotice('Preparing outdoor light and reflections…');
+ await worlds.campusTextures.startMatching(url=>url.includes('garden-reflections')).catch(()=>{detailFailed=true;detailNotice();});
+ worlds.loadMuralTexture().catch(()=>{detailFailed=true;detailNotice();});entryGeometryReady=true;updateCamera(1,true);if(mode==='town')await waitForVisibleEntryFrame();entryReady=true;entryReadyAt=clock.getElapsedTime();worlds.openCampus();setCampusNoticeVisible(false);updateEntryLoading();canvas.dataset.entryVisibleMs=String(performance.now());startSurfaceDetail();}).catch(error=>{entryFailure=true;campusNotice('Campus buildings could not load. Retry to open campus.',true);updateEntryLoading();throw error;}).finally(()=>{entryPreparing=false;entryLoad=null;});
  return entryLoad;
 }
 function prepareNextTask(now){
@@ -436,7 +449,7 @@ function prepareNextTask(now){
  if(!next||prepared.has(key))return;
  preparing=true;
  const job=next==='studio'?Promise.all([import('./studio.js?v=lazy-20260917'),loadCharacterKit(active().body)])
-  :next==='market'?import('./night-market.js?v=mara-language-20261102').then(()=>import('./market-characters.js?v=market-admin-20261012')).then(m=>m.prepareMarketCharacters(()=>!document.hidden&&state.activeId===profileId&&echo?.nextPreparation()==='market'))
+  :next==='market'?import('./night-market.js?v=market-entrance-public-20261111').then(()=>import('./market-characters.js?v=market-admin-20261012')).then(m=>m.prepareMarketCharacters(()=>!document.hidden&&state.activeId===profileId&&echo?.nextPreparation()==='market'))
   :((mode==='town'&&now-entryReadyAt>15)||(mode==='market'&&nightMarket?.snapshot().visuals.ready===nightMarket?.snapshot().visuals.total))?ensureCampus():null;
  if(!job){preparing=false;return;}
  Promise.resolve(job).then(result=>{if(result!==false)prepared.add(key);}).catch(error=>{prepared.add(key);console.warn('Next activity will retry when opened',error);}).finally(()=>{preparing=false;lastPreparation=clock.getElapsedTime();});
@@ -556,7 +569,7 @@ async function requestMarket(){
 }
 async function openMarket(){
  if(marketOpening)return;const request=++marketTravelRequest,controller=new AbortController();marketTravelController=controller;marketOpening=true;resetNavigationInput();actor?.setWalking(false);toast('Opening Sunday Market…');
- try{if(!nightMarket){const moduleReady=marketModuleAttempt?import('./night-market.js?v=mara-language-20261102&retry='+marketModuleAttempt):import('./night-market.js?v=mara-language-20261102');const {createNightMarket}=await withAssetDeadline(moduleReady,15000,'The Market is taking too long to open. Try again.',controller.signal);if(request!==marketTravelRequest)return;nightMarket=createNightMarket({onTravel:point=>{resetNavigationInput();actor.model.position.set(point.x,point.y,point.z);actor.model.rotation.y=Math.PI;actor.setWalking(false);setLocation(point.x<-12?'Markets Administration':'Sunday Market');yaw=point.yaw??0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);},captureBriefing:marketBriefingImage,campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:gameStorage,adminReview:adminReviewRequested,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}if(request!==marketTravelRequest)return;await setMode('market');if(adminReviewRequested&&request===marketTravelRequest&&mode==='market')nightMarket.visitDistrict(2);}
+ try{if(!nightMarket){const moduleReady=marketModuleAttempt?import('./night-market.js?v=market-entrance-public-20261111&retry='+marketModuleAttempt):import('./night-market.js?v=market-entrance-public-20261111');const {createNightMarket}=await withAssetDeadline(moduleReady,15000,'The Market is taking too long to open. Try again.',controller.signal);if(request!==marketTravelRequest)return;nightMarket=createNightMarket({onTravel:point=>{resetNavigationInput();actor.model.position.set(point.x,point.y,point.z);actor.model.rotation.y=Math.PI;actor.setWalking(false);setLocation(point.x<-12?'Markets Administration':'Sunday Market');yaw=point.yaw??0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);},captureBriefing:marketBriefingImage,currentLearner:()=>gameSession?.id&&state.activeId?gameSession.id+":"+state.activeId:null,archonLobbyUrl:globalThis.CareerEmpireMarketConfig?.archonLobbyUrl,campusGrass:worlds.campusGrass,campusPalette:worlds.campusPalette,storage:gameStorage,adminReview:adminReviewRequested,onPause:()=>{resetNavigationInput();actor.setWalking(false);},onClose:()=>{resetNavigationInput();canvas.focus();},onExit:returnTown});nightMarket.scene.environment=worlds.town.environment;nightMarket.scene.environmentIntensity=.3;}if(request!==marketTravelRequest)return;await setMode('market');if(adminReviewRequested&&request===marketTravelRequest&&mode==='market')nightMarket.visitDistrict(2);}
  catch(error){if(request!==marketTravelRequest)return;marketModuleAttempt++;console.warn('Market unavailable',error);toast('The market could not open. Campus activities remain available.');}finally{if(request===marketTravelRequest){marketOpening=false;marketTravelController=null;}}
 }
 async function leaveMarketByGate(){
@@ -871,7 +884,7 @@ function sceneViewStamp(scene){
 }
 
 function animate(){
-  if(detailFailed&&worlds?.pendingSurfaceDetails===0){detailFailed=false;if(canClearDetailWarning({entryReady,campusReady,campusLoading:campusLoad,pending:worlds.pendingSurfaceDetails,campusFailed:worlds.scenery.status==='fallback'}))$('campus-progress').hidden=true;}
+  if(detailFailed&&worlds?.pendingSurfaceDetails===0){detailFailed=false;if(canClearDetailWarning({entryReady,campusReady,campusLoading:campusLoad,pending:worlds.pendingSurfaceDetails,campusFailed:worlds.scenery.status==='fallback'}))setCampusNoticeVisible(false);}
   requestAnimationFrame(animate);const now=clock.getElapsedTime(),elapsed=now-lastTime,dt=Math.min(elapsed,.25);lastTime=now;const movementElapsed=takeNavigationElapsed(now,elapsed);publishDiagnostics(now);updateEntryLoading();
   // Upload arriving selected-avatar/surface assets before natural video handover.
   // Keep gameplay paused and bound the hidden-world GPU cadence to 2 fps.
@@ -1038,9 +1051,9 @@ async function boot(){
     if(renderQuality(renderBackend,'auto',1).software){softwareNavigationAt=clock.getElapsedTime();setInterval(advanceSoftwareNavigation,16);}
     if(!completeView){
       $('loading').hidden=true;icons();if(mode!=='market'&&!studioFirst)prepareEntry().catch(()=>{});animate();
-      if(mode==='market')$('campus-progress').hidden=true;
+      if(mode==='market')setCampusNoticeVisible(false);
       else if(studioFirst){
-        $('campus-progress').hidden=true;
+        setCampusNoticeVisible(false);
         setMode('studio').then(async opened=>{if(!opened){openCampusInBackground();return;}if(mode==='studio'){draft.body='pantstest';editorTab='style';renderEditor();updatePreview();}});
       }
     }else {icons();const ready=ensureCampus();animate();await ready;}

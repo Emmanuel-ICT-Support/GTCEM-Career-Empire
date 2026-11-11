@@ -1,0 +1,511 @@
+{
+  "schemaVersion": "1.0.0",
+  "libraryId": "ce.learning.shared",
+  "revision": "initiative-learning-r1",
+  "consumers": [
+    "initiative",
+    "careers-archon"
+  ],
+  "cohort": {
+    "candidate": "WA Year 12 General Careers and Employability Units 3/4",
+    "schoolTeachingYear": "Blueprint says 2027; teacher confirmation pending",
+    "verifiedSyllabus": "effective 2026 v6"
+  },
+  "sources": [
+    {
+      "id": "scsa-cem12-2026-v6",
+      "title": "SCSA Careers and Employability General Year 12",
+      "edition": "2024/25736[v6], effective 1 January 2026",
+      "url": "https://senior-secondary.scsa.wa.edu.au/__data/assets/pdf_file/0008/1126385/Careers-and-Employability-General-Year-12_Syllabus-for-teaching-from-January-2026.PDF",
+      "pages": "Printed 10 (PDF 14): initiative content; printed 24 (PDF 28): glossary",
+      "verification": "Authoritative document text inspected online; school 2027 edition alignment unresolved."
+    },
+    {
+      "id": "carolan-cem-g12-2025",
+      "title": "Michael Carolan, CEM G12: Careers and Employability",
+      "edition": "First published November 2025, DELIVER Educational Consulting; printed coursebook ISBN 978-1-923117-08-2",
+      "path": "Assets/Carolan Text/CEM G12 Unit 3 print master_Emmanuel Catholic College.pdf",
+      "sha256": "f84f70211d9823d13e3c3de7f94cff18a82f01546deb5eef43f2b3a4b613dd24",
+      "pages": "Print 24-26 / PDF 26-28: concept and behaviours; print 27 / PDF 29: activity 2C; print 28-30 / PDF 30-32: benefits; print 31 / PDF 33: activity 2D",
+      "verification": "Title/copyright and relevant page text extracted using Apple PDFKit. No visual-page inspection claimed.",
+      "rights": "School-licensed source. Do not bundle original textbook, illustrations or extracted pages in either public game. These examples and wording are newly authored."
+    }
+  ],
+  "terms": [
+    {
+      "id": "ce.term.initiative",
+      "label": "Initiative",
+      "definition": "Taking useful action early to complete work, respond to difficulties or handle an unexpected situation.",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original paraphrase"
+    },
+    {
+      "id": "ce.term.initiative.act",
+      "legacyBehaviourId": "act",
+      "label": "Be proactive",
+      "definition": "Notice a need and take an appropriate first step before a problem grows.",
+      "example": "Avery notices the queue sign has fallen before opening and checks where to secure it.",
+      "nonExample": "Avery waits until a customer complains.",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original paraphrase"
+    },
+    {
+      "id": "ce.term.initiative.improve",
+      "legacyBehaviourId": "improve",
+      "label": "Improve work practices",
+      "definition": "Suggest a practical change that makes a repeated task safer, clearer or more efficient.",
+      "example": "Kai proposes labelled packing trays and asks the team to test the new routine.",
+      "nonExample": "Kai changes agreed prices without checking.",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original paraphrase"
+    },
+    {
+      "id": "ce.term.initiative.speak",
+      "legacyBehaviourId": "speak",
+      "label": "Share opinions respectfully",
+      "definition": "Explain a useful idea or concern, listen to others and give a reason.",
+      "example": "Sam explains that the queue blocks the accessible entrance and suggests a clear route.",
+      "nonExample": "Sam insults the team and refuses to listen.",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original paraphrase"
+    },
+    {
+      "id": "ce.term.initiative.support",
+      "legacyBehaviourId": "support",
+      "label": "Help fellow workers",
+      "definition": "Offer useful assistance while respecting roles, workload and safety.",
+      "example": "Avery offers to restock bags while a trained colleague handles the till.",
+      "nonExample": "Avery abandons an assigned safety check to take over the till.",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original paraphrase"
+    },
+    {
+      "id": "ce.term.initiative.step-up",
+      "legacyBehaviourId": "step-up",
+      "label": "Seek more responsibility",
+      "definition": "Ask to learn or take on suitable duties with the training and authority needed.",
+      "example": "Kai asks to shadow the stock check before learning to do it independently.",
+      "nonExample": "Kai operates equipment without training.",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original paraphrase"
+    },
+    {
+      "id": "ce.term.initiative.empowerment",
+      "label": "Empowerment",
+      "definition": "Having an appropriate voice and scope to act in your work.",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original paraphrase"
+    },
+    {
+      "id": "ce.term.initiative.recognition",
+      "label": "Recognition",
+      "definition": "Others noticing and acknowledging a useful contribution.",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original paraphrase"
+    },
+    {
+      "id": "ce.term.initiative.efficiency",
+      "label": "Efficiency",
+      "definition": "Using time and resources well while maintaining safety and quality.",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original paraphrase"
+    },
+    {
+      "id": "ce.term.initiative.opportunity",
+      "label": "Work opportunity",
+      "definition": "A possible chance for new duties, training or advancement; never a guaranteed promotion.",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original paraphrase"
+    }
+  ],
+  "checks": [
+    {
+      "id": "ce.check.initiative.act",
+      "termIds": [
+        "ce.term.initiative.act"
+      ],
+      "curriculumIds": [
+        "CEM12-U3-EB-02"
+      ],
+      "prompt": "Avery notices the queue sign has fallen before opening and checks where to secure it. Which behaviour is the strongest match?",
+      "options": [
+        {
+          "id": "act",
+          "text": "Be proactive"
+        },
+        {
+          "id": "improve",
+          "text": "Improve work practices"
+        },
+        {
+          "id": "speak",
+          "text": "Share opinions respectfully"
+        },
+        {
+          "id": "support",
+          "text": "Help fellow workers"
+        },
+        {
+          "id": "step-up",
+          "text": "Seek more responsibility"
+        }
+      ],
+      "answerId": "act",
+      "feedback": "Be proactive: Notice a need and take an appropriate first step before a problem grows. Behaviours can overlap; explain the action when discussing alternatives.",
+      "retryHint": "Compare the action with the five meanings.",
+      "kind": "classify",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original fictional example"
+    },
+    {
+      "id": "ce.check.initiative.improve",
+      "termIds": [
+        "ce.term.initiative.improve"
+      ],
+      "curriculumIds": [
+        "CEM12-U3-EB-02"
+      ],
+      "prompt": "Kai proposes labelled packing trays and asks the team to test the new routine. Which behaviour is the strongest match?",
+      "options": [
+        {
+          "id": "act",
+          "text": "Be proactive"
+        },
+        {
+          "id": "improve",
+          "text": "Improve work practices"
+        },
+        {
+          "id": "speak",
+          "text": "Share opinions respectfully"
+        },
+        {
+          "id": "support",
+          "text": "Help fellow workers"
+        },
+        {
+          "id": "step-up",
+          "text": "Seek more responsibility"
+        }
+      ],
+      "answerId": "improve",
+      "feedback": "Improve work practices: Suggest a practical change that makes a repeated task safer, clearer or more efficient. Behaviours can overlap; explain the action when discussing alternatives.",
+      "retryHint": "Compare the action with the five meanings.",
+      "kind": "classify",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original fictional example"
+    },
+    {
+      "id": "ce.check.initiative.speak",
+      "termIds": [
+        "ce.term.initiative.speak"
+      ],
+      "curriculumIds": [
+        "CEM12-U3-EB-02"
+      ],
+      "prompt": "Sam explains that the queue blocks the accessible entrance and suggests a clear route. Which behaviour is the strongest match?",
+      "options": [
+        {
+          "id": "act",
+          "text": "Be proactive"
+        },
+        {
+          "id": "improve",
+          "text": "Improve work practices"
+        },
+        {
+          "id": "speak",
+          "text": "Share opinions respectfully"
+        },
+        {
+          "id": "support",
+          "text": "Help fellow workers"
+        },
+        {
+          "id": "step-up",
+          "text": "Seek more responsibility"
+        }
+      ],
+      "answerId": "speak",
+      "feedback": "Share opinions respectfully: Explain a useful idea or concern, listen to others and give a reason. Behaviours can overlap; explain the action when discussing alternatives.",
+      "retryHint": "Compare the action with the five meanings.",
+      "kind": "classify",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original fictional example"
+    },
+    {
+      "id": "ce.check.initiative.support",
+      "termIds": [
+        "ce.term.initiative.support"
+      ],
+      "curriculumIds": [
+        "CEM12-U3-EB-02"
+      ],
+      "prompt": "Avery offers to restock bags while a trained colleague handles the till. Which behaviour is the strongest match?",
+      "options": [
+        {
+          "id": "act",
+          "text": "Be proactive"
+        },
+        {
+          "id": "improve",
+          "text": "Improve work practices"
+        },
+        {
+          "id": "speak",
+          "text": "Share opinions respectfully"
+        },
+        {
+          "id": "support",
+          "text": "Help fellow workers"
+        },
+        {
+          "id": "step-up",
+          "text": "Seek more responsibility"
+        }
+      ],
+      "answerId": "support",
+      "feedback": "Help fellow workers: Offer useful assistance while respecting roles, workload and safety. Behaviours can overlap; explain the action when discussing alternatives.",
+      "retryHint": "Compare the action with the five meanings.",
+      "kind": "classify",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original fictional example"
+    },
+    {
+      "id": "ce.check.initiative.step-up",
+      "termIds": [
+        "ce.term.initiative.step-up"
+      ],
+      "curriculumIds": [
+        "CEM12-U3-EB-02"
+      ],
+      "prompt": "Kai asks to shadow the stock check before learning to do it independently. Which behaviour is the strongest match?",
+      "options": [
+        {
+          "id": "act",
+          "text": "Be proactive"
+        },
+        {
+          "id": "improve",
+          "text": "Improve work practices"
+        },
+        {
+          "id": "speak",
+          "text": "Share opinions respectfully"
+        },
+        {
+          "id": "support",
+          "text": "Help fellow workers"
+        },
+        {
+          "id": "step-up",
+          "text": "Seek more responsibility"
+        }
+      ],
+      "answerId": "step-up",
+      "feedback": "Seek more responsibility: Ask to learn or take on suitable duties with the training and authority needed. Behaviours can overlap; explain the action when discussing alternatives.",
+      "retryHint": "Compare the action with the five meanings.",
+      "kind": "classify",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original fictional example"
+    },
+    {
+      "id": "ce.check.initiative.boundary",
+      "termIds": [
+        "ce.term.initiative",
+        "ce.term.initiative.step-up"
+      ],
+      "curriculumIds": [
+        "CEM12-U3-EB-01",
+        "CEM12-U3-EB-02"
+      ],
+      "prompt": "An untrained worker spots a faulty powered machine. What should they do first?",
+      "options": [
+        {
+          "id": "report",
+          "text": "Keep clear, warn others as appropriate and use the workplace reporting process."
+        },
+        {
+          "id": "repair",
+          "text": "Repair it immediately to prove initiative."
+        },
+        {
+          "id": "ignore",
+          "text": "Ignore it until told what to do."
+        }
+      ],
+      "answerId": "report",
+      "feedback": "Useful initiative respects safety, competence and authority. Reporting a risk is proactive action.",
+      "retryHint": "Initiative does not authorise unsafe tasks.",
+      "kind": "decision",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original fictional example"
+    },
+    {
+      "id": "ce.check.initiative.benefit",
+      "termIds": [
+        "ce.term.initiative.efficiency",
+        "ce.term.initiative.opportunity"
+      ],
+      "curriculumIds": [
+        "CEM12-U3-EB-03"
+      ],
+      "prompt": "A team tests labelled trays and reduces packing errors. Which conclusion is supported?",
+      "options": [
+        {
+          "id": "efficiency",
+          "text": "Less rework can save time and materials while protecting quality."
+        },
+        {
+          "id": "promotion",
+          "text": "Every worker is guaranteed promotion."
+        },
+        {
+          "id": "speed",
+          "text": "Quality no longer matters."
+        }
+      ],
+      "answerId": "efficiency",
+      "feedback": "Explain the mechanism: fewer errors can reduce rework and waste. Recognition or opportunities may follow, but are not guaranteed.",
+      "retryHint": "Choose the effect supported by the situation.",
+      "kind": "cause-effect",
+      "sourceIds": [
+        "scsa-cem12-2026-v6",
+        "carolan-cem-g12-2025"
+      ],
+      "authorship": "original fictional example"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "ce.lesson.initiative.foundation",
+      "revision": 1,
+      "title": "Step in with purpose",
+      "subtitle": "Notice. Check. Act. Explain.",
+      "status": "local-review-candidate",
+      "curriculumIds": [
+        "CEM12-U3-EB-01",
+        "CEM12-U3-EB-02",
+        "CEM12-U3-EB-03"
+      ],
+      "termIds": [
+        "ce.term.initiative",
+        "ce.term.initiative.act",
+        "ce.term.initiative.improve",
+        "ce.term.initiative.speak",
+        "ce.term.initiative.support",
+        "ce.term.initiative.step-up",
+        "ce.term.initiative.empowerment",
+        "ce.term.initiative.recognition",
+        "ce.term.initiative.efficiency",
+        "ce.term.initiative.opportunity"
+      ],
+      "objective": "Recognise useful initiative, choose a safe response and explain a workplace benefit.",
+      "successCriteria": [
+        "Explain initiative in your own words.",
+        "Distinguish five behaviours using a reason.",
+        "Connect an action to a plausible benefit."
+      ],
+      "priorKnowledge": "Recall someone noticing a useful job before being asked. What made it helpful?",
+      "model": {
+        "context": "Avery is preparing a fictional market stall. A loose queue marker narrows the entrance.",
+        "steps": [
+          "I notice a problem before opening: people may struggle to enter.",
+          "I check the agreed layout and my role. I do not move safety equipment without authority.",
+          "I explain the concern and suggest a clearer position to the stall lead.",
+          "With permission, I move the marker and check the entrance is clear.",
+          "This is proactive action and respectful communication. A clearer entrance may help customers and reduce disruption."
+        ],
+        "nonExample": "Moving every barrier without checking access and safety is action, but it is not sound initiative."
+      },
+      "guidedCheckIds": [
+        "ce.check.initiative.act",
+        "ce.check.initiative.boundary"
+      ],
+      "independentCheckIds": [
+        "ce.check.initiative.improve",
+        "ce.check.initiative.speak",
+        "ce.check.initiative.support",
+        "ce.check.initiative.step-up",
+        "ce.check.initiative.benefit"
+      ],
+      "transfer": {
+        "id": "ce.evidence.initiative.transfer",
+        "prompt": "Choose a new workplace situation. Describe what you notice, a safe action within your role, the behaviour it shows, and a plausible workplace effect.",
+        "scaffold": "I noticed __. I checked __. I would __. This shows __ because __. It could help by __.",
+        "rubric": [
+          {
+            "id": "concept",
+            "criterion": "Explains proactive, useful action."
+          },
+          {
+            "id": "behaviour",
+            "criterion": "Links a defensible behaviour to the action."
+          },
+          {
+            "id": "boundary",
+            "criterion": "Considers safety, training and authority."
+          },
+          {
+            "id": "benefit",
+            "criterion": "Explains a plausible causal workplace effect."
+          }
+        ],
+        "scoring": "Teacher reviews each criterion: demonstrated, developing or not yet evidenced. No keyword scoring."
+      },
+      "retrieval": {
+        "prompt": "Without reopening the cards, explain initiative, recall five behaviours and explain one benefit.",
+        "timing": "After application, then teacher-scheduled revisits in a later lesson and week. School pacing remains unconfirmed.",
+        "mastery": "Practice accuracy is a support signal, not proof of transfer or formal assessment."
+      }
+    }
+  ]
+}
