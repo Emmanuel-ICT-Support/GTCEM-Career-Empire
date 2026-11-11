@@ -1,8 +1,8 @@
 {
-  "release": "capabilities-monitor-20261112",
+  "release": "capabilities-map-20261112",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "c787440838760b604972ae586d62c51eeee44791",
-  "scope": "Add a Capabilities monitor to the Careers Advice Centre, an anonymous capability overview and the signed-in learner and teacher dashboard refresh.",
+  "baseCommit": "7da894d8069705a4019f664c8af0ebf6b9901ee5",
+  "scope": "Mark Capabilities at the Careers Advice Centre on the campus navigation map.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -86,7 +86,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "f8b1d4156cb61744f13a2a1b24cf8927c436abe4067a10ffe782f2e0f0d54764"
+      "sha256": "ca99f2b5b2d316eb5956edf4c855755be3b4024f65c28c6b3d46a5bc6365b853"
     },
     {
       "path": "arcade-carnival.js",
@@ -858,7 +858,7 @@
     },
     {
       "path": "exploration-tools.mjs",
-      "sha256": "d02080a4eaf1c7d164afb179080b498ca9fbe62b2f60d912472d6c8cad9b65f2"
+      "sha256": "3986490d9a32933f40b70786805c595beed2309ce8f2a21f55d2456c20f68e49"
     },
     {
       "path": "field-guide.html",
@@ -882,7 +882,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "5e5bad05bceb2d19a83b5b8c3f9ea98152f2566bd63273b00357137456079ffc"
+      "sha256": "9467be15d5ea9cce93fffaab34393e540c62340cb982b30463fed23dadef7caf"
     },
     {
       "path": "header-controls.css",
@@ -906,7 +906,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "c0e02bcd03719ed9b758d4e2807a0eaae739fb7c046d6602c77a29bfb1adfc06"
+      "sha256": "67c1f21673a9b87208e1a1fb8cddf1f7cf382f5de3ae0a812593ca25cc2d2d22"
     },
     {
       "path": "initiative-field-guide.html",

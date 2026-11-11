@@ -7,7 +7,7 @@ import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=
 import {needsSoftwarePresentation,createSoftwarePresentation} from './software-presentation.mjs?v=interaction-upload-priority-20261016';
 import {renderQuality,rendererName} from './render-quality.mjs?v=ecc-ba60122';
 import {waitForPriorityAsset,withAssetDeadline,canClearDetailWarning} from './startup-assets.mjs?v=ecc-ba60122';
-import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=discovery-handover-20261021';
+import {createExplorationTools,orientationHandoverCopy} from './exploration-tools.mjs?v=capabilities-map-20261112';
 import {WHOLE_AVATARS} from './whole-avatar-catalog.mjs?v=named-students-20261011';
 import {createTasterIntro} from './intro-taster.mjs?v=est-wall-entry-20261111';
 import {revealLayout,preparePortrait,prepareCastPortrait} from './reveal-layout.mjs';
