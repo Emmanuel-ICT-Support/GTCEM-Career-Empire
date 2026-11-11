@@ -3751,7 +3751,7 @@ function renderCapabilityPortfolioCell(entries = [], category) {
         <strong>${categoryEntries.length} entr${categoryEntries.length === 1 ? "y" : "ies"}</strong>
         <span>${escapeHtml(getCapabilityProgressionLabel(categoryEntries))}</span>
       </div>
-      <div class="portfolio-evidence-entry-list">
+      <div class="portfolio-evidence-entry-list" tabindex="0" role="region" aria-label="Evidence entries for ${escapeHtml(category.title)}">
         ${categoryEntries.map(entry => `
           <article class="portfolio-evidence-entry">
             <div>
@@ -4129,7 +4129,7 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
           </div>
         </div>
         <p class="skill-description">${escapeHtml(category.description)}</p>
-        ${starExampleMarkup}
+        ${starActionMarkup}
         ${createProgressBar(progress)}
         <div class="skill-subskill-grid">
           ${subskillItems.map(subskill => `
@@ -4139,7 +4139,7 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
             </span>
           `).join("")}
         </div>
-        ${starActionMarkup}
+        ${starExampleMarkup ? `<details class="skill-card-evidence"><summary>Evidence and example</summary>${starExampleMarkup}</details>` : ""}
       </article>
     `;
   }).join("");
@@ -4183,7 +4183,6 @@ function openSkillStarBuilder(skillId, skillTitle, contextId, existingEntry = nu
     selectedSubskillIds,
     experienceDate: formatDateInputValue(existingEntry?.experienceDate || existingEntry?.dateOfExperience || ""),
     contextId,
-    stepIndex: 0,
     responses: {
       situation: existingEntry?.responses?.situation || "",
       task: existingEntry?.responses?.task || "",
@@ -4207,14 +4206,6 @@ function closeSkillStarBuilder() {
   modal.innerHTML = "";
 }
 
-function updateSkillStarBuilderResponse(value) {
-  if (!starBuilderState) return;
-  const step = STAR_BUILDER_STEPS[starBuilderState.stepIndex];
-  starBuilderState.responses[step.key] = value;
-  starBuilderState.error = "";
-  starBuilderState.status = "";
-}
-
 function renderSkillStarBuilder() {
   const modal = ensureSkillStarBuilderModal();
   if (!starBuilderState) {
@@ -4222,11 +4213,6 @@ function renderSkillStarBuilder() {
     return;
   }
 
-  const step = STAR_BUILDER_STEPS[starBuilderState.stepIndex];
-  const contextLabel = getStarContextLabel(starBuilderState.contextId).toLowerCase();
-  const currentValue = starBuilderState.responses[step.key] || "";
-  const isFinalStep = starBuilderState.stepIndex === STAR_BUILDER_STEPS.length - 1;
-  const examples = getStarBuilderExamples(starBuilderState.contextId, step.key, step.examples);
   const summaryPreview = createStarEvidenceSummary(starBuilderState);
   const actionDisabled = starBuilderState.isSaving ? "disabled" : "";
   const finalButtonLabel = starBuilderState.resubmittingEntryId ? "Resubmit STAR evidence" : "Bank STAR evidence";
@@ -4235,101 +4221,104 @@ function renderSkillStarBuilder() {
   modal.hidden = false;
   modal.innerHTML = `
     <div class="skill-star-builder-dialog" role="dialog" aria-modal="true" aria-labelledby="skill-star-builder-title">
-      <button class="skill-star-builder-close" type="button" data-star-builder-close aria-label="Close STAR builder">Close</button>
+      <button class="skill-star-builder-close" type="button" data-star-builder-close aria-label="Close STAR builder" ${actionDisabled}>Close</button>
       <div class="skill-star-builder-topline">
         <span>${escapeHtml(taggedSkillLabel)}</span>
         <span>${escapeHtml(getStarContextLabel(starBuilderState.contextId))}</span>
       </div>
-      <div class="skill-star-builder-progress" aria-label="STAR builder progress">
-        ${STAR_BUILDER_STEPS.map((item, index) => `
-          <span class="${index === starBuilderState.stepIndex ? "is-active" : index < starBuilderState.stepIndex ? "is-complete" : ""}">${escapeHtml(item.label)}</span>
+      <h2 id="skill-star-builder-title">Add STAR evidence</h2>
+      <div class="skill-star-builder-meta">
+        <label class="skill-star-builder-date-field">
+          <span>Date of experience</span>
+          <input type="date" data-star-builder-experience-date max="${escapeHtml(getTodayDateInputValue())}" value="${escapeHtml(starBuilderState.experienceDate || "")}">
+        </label>
+        <details data-star-builder-tags ${starBuilderState.tagsOpen ? "open" : ""}>
+          <summary>Capability tags</summary>
+          ${renderStarBuilderSkillPicker()}
+        </details>
+        <details>
+          <summary>${escapeHtml(STUDENT_FREE_TEXT_PRIVACY_NOTICE.title)}</summary>
+          <p>${escapeHtml(STUDENT_FREE_TEXT_PRIVACY_NOTICE.body)}</p>
+        </details>
+      </div>
+      <div class="skill-star-builder-fields">
+        ${STAR_BUILDER_STEPS.map(step => `
+          <div class="skill-star-builder-entry-field">
+            <label class="skill-star-builder-field">
+              <span>${escapeHtml(step.term)}</span>
+              <textarea rows="2" data-star-builder-input="${step.key}" aria-describedby="star-prompt-${step.key}">${escapeHtml(starBuilderState.responses[step.key])}</textarea>
+            </label>
+            <details id="star-prompt-${step.key}">
+              <summary>Prompt and examples</summary>
+              <p>${escapeHtml(step.prompt)}</p>
+              ${getStarBuilderExamples(starBuilderState.contextId, step.key, step.examples).map(example => `<p>${escapeHtml(example)}</p>`).join("")}
+            </details>
+          </div>
         `).join("")}
-      </div>
-      <h2 id="skill-star-builder-title">So you improved ${escapeHtml(taggedSkillLabel)} in a ${escapeHtml(contextLabel)} context?</h2>
-      <p class="skill-star-builder-lead">${escapeHtml(step.lead)}</p>
-      <label class="skill-star-builder-date-field">
-        <span>Date of experience</span>
-        <input type="date" data-star-builder-experience-date max="${escapeHtml(getTodayDateInputValue())}" value="${escapeHtml(starBuilderState.experienceDate || "")}">
-      </label>
-      <div class="skill-star-builder-privacy-note">
-        <strong>${escapeHtml(STUDENT_FREE_TEXT_PRIVACY_NOTICE.title)}</strong>
-        <span>${escapeHtml(STUDENT_FREE_TEXT_PRIVACY_NOTICE.body)}</span>
-      </div>
-      ${renderStarBuilderSkillPicker()}
-      <label class="skill-star-builder-field">
-        <span>${escapeHtml(step.term)}</span>
-        <small>${escapeHtml(step.prompt)}</small>
-        <textarea rows="5" data-star-builder-input>${escapeHtml(currentValue)}</textarea>
-      </label>
-      <div class="skill-star-builder-examples">
-        <span>Examples</span>
-        ${examples.map(example => `<p>${escapeHtml(example)}</p>`).join("")}
-      </div>
-      <div class="skill-star-summary-preview">
-        <span>Summary preview</span>
-        <strong data-star-builder-summary>${escapeHtml(summaryPreview)}</strong>
+        <div class="skill-star-summary-preview">
+          <span>Summary preview</span>
+          <strong data-star-builder-summary>${escapeHtml(summaryPreview)}</strong>
+        </div>
       </div>
       ${starBuilderState.status ? `<div class="skill-star-builder-status">${escapeHtml(starBuilderState.status)}</div>` : ""}
       ${starBuilderState.error ? `<div class="skill-star-builder-error">${escapeHtml(starBuilderState.error)}</div>` : ""}
       <div class="skill-star-builder-actions">
-        <button class="module-link" type="button" data-star-builder-back ${starBuilderState.stepIndex === 0 || starBuilderState.isSaving ? "disabled" : ""}>Back</button>
-        <button class="module-link primary" type="button" data-star-builder-next ${actionDisabled}>${starBuilderState.isSaving ? "Saving..." : isFinalStep ? finalButtonLabel : "Next"}</button>
+        <button class="module-link primary" type="button" data-star-builder-next ${actionDisabled}>${starBuilderState.isSaving ? "Saving..." : finalButtonLabel}</button>
       </div>
     </div>
   `;
 
-  const input = modal.querySelector("[data-star-builder-input]");
-  try {
-    input?.focus({ preventScroll: true });
-  } catch (_) {
-    input?.focus();
-  }
-  input?.addEventListener("input", event => {
-    updateSkillStarBuilderResponse(event.target.value);
-    const summaryTarget = modal.querySelector("[data-star-builder-summary]");
-    if (summaryTarget) summaryTarget.textContent = createStarEvidenceSummary(starBuilderState);
+  const inputs = [...modal.querySelectorAll("[data-star-builder-input]")];
+  const summaryTarget = modal.querySelector("[data-star-builder-summary]");
+  const tags = modal.querySelector("[data-star-builder-tags]");
+  tags?.addEventListener("toggle", () => {
+    if (starBuilderState && tags.isConnected) starBuilderState.tagsOpen = tags.open;
   });
-  modal.querySelector("[data-star-builder-close]")?.addEventListener("click", closeSkillStarBuilder);
+  for (const input of inputs) {
+    input.addEventListener("input", () => {
+      starBuilderState.responses[input.dataset.starBuilderInput] = input.value;
+      input.removeAttribute("aria-invalid");
+      starBuilderState.error = "";
+      starBuilderState.status = "";
+      summaryTarget.textContent = createStarEvidenceSummary(starBuilderState);
+    });
+  }
+  modal.querySelector("[data-star-builder-close]")?.addEventListener("click", () => {
+    if (!starBuilderState?.isSaving) closeSkillStarBuilder();
+  });
   modal.querySelector("[data-star-builder-experience-date]")?.addEventListener("input", event => {
     starBuilderState.experienceDate = event.target.value;
     starBuilderState.error = "";
   });
   modal.querySelectorAll("[data-star-toggle-skill]").forEach(button => {
     button.addEventListener("click", () => {
+      starBuilderState.tagsOpen = true;
       toggleStarBuilderSkill(button.dataset.starToggleSkill);
       renderSkillStarBuilder();
     });
   });
   modal.querySelectorAll("[data-star-toggle-subskill]").forEach(button => {
     button.addEventListener("click", () => {
+      starBuilderState.tagsOpen = true;
       toggleStarBuilderSubskill(button.dataset.starToggleSubskill);
       renderSkillStarBuilder();
     });
   });
-  modal.querySelector("[data-star-builder-back]")?.addEventListener("click", () => {
-    if (!starBuilderState || starBuilderState.stepIndex === 0) return;
-    starBuilderState.stepIndex -= 1;
-    starBuilderState.error = "";
-    starBuilderState.status = "";
-    renderSkillStarBuilder();
-  });
   modal.querySelector("[data-star-builder-next]")?.addEventListener("click", async () => {
-    if (!starBuilderState) return;
-    const latestValue = modal.querySelector("[data-star-builder-input]")?.value || "";
-    updateSkillStarBuilderResponse(latestValue);
-    if (latestValue.trim().length < 12) {
-      starBuilderState.error = "Add a little more detail so this feels like usable evidence.";
+    if (!starBuilderState || starBuilderState.isSaving) return;
+    const incomplete = STAR_BUILDER_STEPS.find(step => starBuilderState.responses[step.key].trim().length < 12);
+    if (incomplete) {
+      starBuilderState.error = `Add a little more detail to ${incomplete.term}.`;
       renderSkillStarBuilder();
-      return;
-    }
-    if (!isFinalStep) {
-      starBuilderState.stepIndex += 1;
-      renderSkillStarBuilder();
+      const field = modal.querySelector(`[data-star-builder-input="${incomplete.key}"]`);
+      field.setAttribute("aria-invalid", "true");
+      field.focus();
       return;
     }
     if (!starBuilderState.experienceDate) {
       starBuilderState.error = "Choose the date this experience happened.";
       renderSkillStarBuilder();
+      modal.querySelector("[data-star-builder-experience-date]")?.focus();
       return;
     }
     if (parseTime(starBuilderState.experienceDate) > Date.now()) {
@@ -6952,6 +6941,15 @@ function renderTeacherLiveData(players, skillsData, teacherData = null) {
 }
 
 async function initDashboards() {
+  const capabilityPreview = document.getElementById("capability-preview-grid");
+  if (capabilityPreview) {
+    try {
+      renderSkills(await loadEmployabilitySkills(), capabilityPreview.id, {});
+    } catch {
+      capabilityPreview.textContent = "Capabilities could not load. Reload this page to try again.";
+    }
+    return;
+  }
   syncMegatrendsLaunchLinks();
   let skillsData = { categories: [] };
   let players = [];

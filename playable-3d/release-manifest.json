@@ -1,12 +1,36 @@
 {
-  "release": "est-wall-entry-20261111",
+  "release": "capabilities-monitor-20261112",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "d3544e129682381d397417c08bed0242d5e58d88",
-  "scope": "EST Prep entrance framing and muted looping wall playback. Optional intro exploration skip enables campus building access using the existing skipped state without marking discoveries earned.",
+  "baseCommit": "c787440838760b604972ae586d62c51eeee44791",
+  "scope": "Add a Capabilities monitor to the Careers Advice Centre, an anonymous capability overview and the signed-in learner and teacher dashboard refresh.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
       "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
+    },
+    {
+      "path": "../dashboards/capabilities.html",
+      "sha256": "cb4b02a2e3957cd8eec749f1a1f3d51ab2129ee2c203ec0f536df82d77d02cb5"
+    },
+    {
+      "path": "../dashboards/dashboard.css",
+      "sha256": "1ca5a488b2d23c62b88e3cf407fa355bd0f0cee0378b7cc53f3573b83b21b416"
+    },
+    {
+      "path": "../dashboards/dashboard.js",
+      "sha256": "e6e6a5825d4d44bd63dc59c0fef1e334b125c71d5cfc725b6301eb0d9a79106f"
+    },
+    {
+      "path": "../dashboards/student.html",
+      "sha256": "88573d70e0e998c447bcbbcda913157275bf87715e98da680ebc47e6b902efb8"
+    },
+    {
+      "path": "../dashboards/teacher-game-theme.css",
+      "sha256": "a470bc6e757529cb38d9ebe85f112d758ff108b8fc3505dd5aeb55a1efc9c98d"
+    },
+    {
+      "path": "../dashboards/teacher.html",
+      "sha256": "761bbb5e09f023c80958e958f9bf1a42e8425826f7a98a4223a5fcb0adee3b75"
     },
     {
       "path": "../economy-lab/app.mjs",
@@ -62,7 +86,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "12393ed956efdaf105af4d83bc52a633182414d2db81d0c7901d975f9d42cd37"
+      "sha256": "f8b1d4156cb61744f13a2a1b24cf8927c436abe4067a10ffe782f2e0f0d54764"
     },
     {
       "path": "arcade-carnival.js",
@@ -858,7 +882,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "cc98270dfdacb0f437fbb6c81c12ba06d1f3b564976d7fcb7ce53969232c7d06"
+      "sha256": "5e5bad05bceb2d19a83b5b8c3f9ea98152f2566bd63273b00357137456079ffc"
     },
     {
       "path": "header-controls.css",
@@ -882,7 +906,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "7b3b787c3b07d1f109b31198ef7ddb7ee418e968a192eaeaa4bfe9b93e463dba"
+      "sha256": "c0e02bcd03719ed9b758d4e2807a0eaae739fb7c046d6602c77a29bfb1adfc06"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1170,7 +1194,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "c2696792f462ba23c80490957afc3ae77ee692a9d3746943e9d23a76c0aa5cd3"
+      "sha256": "4942f2ed7c52492be7860391dba38184f9b444e248d131f5b21db3bf293dabb4"
     }
   ],
   "estVideo": {
@@ -1180,6 +1204,6 @@
     "width": 1280,
     "height": 720
   },
-  "status": "Review candidate — final release gates pending",
+  "status": "Scoped release candidate",
   "pilotBaseCommit": "a2794e42c359ed930124e34b459d71bcc35216ef"
 }

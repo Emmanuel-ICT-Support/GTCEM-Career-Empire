@@ -936,3 +936,5 @@ User review — 27 September 2026: Tania reports “much better!” after viewin
 ## Authorised live release — 27 September 2026
 
 After positive preview feedback, Tania explicitly requests “send to live please”. This supersedes earlier no-publication instructions for this scoped repair. Current remote main verified as79131181a7682cb7916ebf6f78aaca5e5ee7be4b, same runtime tree as the reviewed helper-release base. Publish movement and suit-shadow repair only; preserve separately staged opening-recovery work. Live release and public verification pending.
+
+12 November 2026 — Capabilities monitor release. A separate Careers Advice Centre monitor opens the public capabilities catalogue, with the authenticated Student Hub portfolio linked from there. Includes the one-page learner STAR form and the existing light teacher theme applied to the evidence matrix. Prepared against the deployed c787440 base; other working checkout edits were excluded.

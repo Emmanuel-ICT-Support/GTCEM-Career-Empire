@@ -5163,3 +5163,66 @@ textarea {
     justify-self: start;
   }
 }
+
+/* Compact, light capability entry surfaces. */
+.student-dashboard-page #student-skill-grid .skill-card-has-star,
+.skill-star-builder-dialog {
+  color-scheme: light;
+  color: #193d35;
+  background: #fffdf2;
+  border-color: #b4cbb4;
+}
+.student-dashboard-page #student-skill-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: 1rem;
+}
+.student-dashboard-page #student-skill-grid .skill-card-has-star {
+  --text: #193d35;
+  --muted: #4c6658;
+}
+.student-dashboard-page #student-skill-grid :is(.skill-description,.skill-score-label,.skill-star-actions > span,.skill-subskill-card,.skill-star-action) {color:#35594b}
+.student-dashboard-page #student-skill-grid :is(.skill-star-action,.skill-subskill-card) {background:#eef3e7;border-color:#b4cbb4}
+.student-dashboard-page #student-skill-grid .skill-card-evidence {margin-top:.65rem;color:#245b4d}
+.skill-star-builder-dialog {
+  --text:#193d35;
+  --muted:#4c6658;
+  gap:.5rem;
+  width:min(100%, 66rem);
+  max-height:calc(100dvh - 2rem);
+  overflow:auto;
+  padding:clamp(.9rem,2vw,1.5rem);
+}
+.skill-star-builder-dialog h2 {margin:.55rem 0 .8rem;font-size:clamp(1.5rem,3vw,2.35rem)}
+.skill-star-builder-dialog :is(.skill-star-builder-close,.skill-star-builder-topline span,.skill-star-builder-chip,.skill-star-builder-tags,.skill-star-builder-subskill-group,.skill-star-summary-preview) {background:#eef3e7;border-color:#b4cbb4;color:#193d35}
+.skill-star-builder-dialog .skill-star-builder-chip.is-selected {background:#245b4d;border-color:#245b4d;color:white}
+.skill-star-builder-meta {display:flex;align-items:end;flex-wrap:wrap;gap:.5rem 1.25rem;margin-bottom:.85rem}
+.skill-star-builder-meta details[open] {flex-basis:100%}
+.skill-star-builder-dialog summary {color:#245b4d;font-size:.9rem;font-weight:700;cursor:pointer}
+.skill-star-builder-dialog details p {font-size:.9rem;margin:.35rem 0;color:#4c6658}
+.skill-star-builder-dialog .skill-star-builder-date-field {margin:0}
+.skill-star-builder-dialog :is(input,textarea) {background:#fffef9;border-color:#a5bba7;color:#193d35}
+.skill-star-builder-fields {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+.skill-star-builder-entry-field {min-width:0}
+.skill-star-builder-entry-field textarea {min-height:4.25rem;resize:vertical}
+.skill-star-builder-dialog [aria-invalid="true"] {border-color:#a03930}
+.skill-star-builder-dialog .skill-star-summary-preview {margin:0;align-self:start}
+.skill-star-builder-dialog .skill-star-summary-preview strong {color:#193d35}
+.skill-star-builder-dialog .skill-star-builder-actions {margin-top:.8rem}
+.skill-star-builder-dialog .module-link.primary {background:#245b4d;border-color:#245b4d;color:white}
+@media(max-width:640px){.skill-star-builder-fields{grid-template-columns:1fr}}
+.skill-star-builder-dialog :is(.skill-star-builder-date-field > span,.skill-star-builder-field > span) {color:#245b4d}
+.skill-star-builder-dialog .skill-star-builder-error {color:#8b2b24;background:#fff1e8;border-color:#df9e91}
+.skill-star-builder-dialog .skill-star-builder-status {color:#245b4d;background:#e5f1dc;border-color:#a5bba7}
+
+/* The Careers monitor introduces capabilities before sign-in. */
+.capabilities-monitor-page {color-scheme:light;background:#f1f5eb;color:#193d35}
+.capabilities-monitor-page::before {display:none}
+.capabilities-monitor {max-width:76rem;margin:auto;padding:clamp(1rem,4vw,2.5rem)}
+.capabilities-monitor header {margin-bottom:1.3rem}
+.capabilities-monitor h1 {margin:.25rem 0}
+.capabilities-monitor :is(.kicker,p) {color:#35594b}
+.capabilities-monitor .module-link.primary {display:inline-flex;background:#245b4d;border-color:#245b4d;color:#fff}
+.capabilities-monitor #capability-preview-grid {grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:1rem}
+.capabilities-monitor .skill-card-modern {background:#fffdf2;border-color:#b4cbb4;color:#193d35}
+.capabilities-monitor :is(.skill-score,.skill-score-label,.progress-track) {display:none}
+.capabilities-monitor .skill-subskill-card {background:#eef3e7;border-color:#b4cbb4;color:#35594b}
