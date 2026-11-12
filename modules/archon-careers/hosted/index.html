@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="archon-room-endpoint" content="https://sklvaoitnlbjrqmgpryf.supabase.co/functions/v1/archon-rooms"><meta name="archon-room-public-key" content="sb_publishable_b9rmKyQ3MDfkjNyFeuuj6A_0pLp5yMv"><meta name="archon-room-gateway-mode" content="publishable-capability"><title>Careers Archon · Meeting of Minds</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#193747,#071219 70%);color:#eff7f5;font:17px system-ui;min-height:100vh}main{max-width:1100px;margin:auto;padding:30px}header,section{border:1px solid #35505c;border-radius:18px;padding:22px;background:#10232c}header p,.muted{color:#b2ccd3}h1{margin:5px 0;font-size:clamp(28px,6vw,54px)}h2{margin:0 0 12px}.tag{letter-spacing:.13em;color:#8fe0d4;font-size:13px;font-weight:700}.layout{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-top:18px}svg{display:block;width:100%;filter:drop-shadow(0 18px 12px #050b10)}.cell{cursor:pointer;stroke:#152832;stroke-width:2}.legal{stroke:#ffc579;stroke-width:4}.legal:hover,.legal:focus{fill:#b37a44;outline:none}.card{background:#182f3a;border:1px solid #41616d;border-radius:12px;padding:13px;margin:12px 0;overflow-wrap:anywhere;white-space:pre-wrap}button,select,textarea{font:inherit;border-radius:9px;padding:9px;border:1px solid #63949d}button{background:#9be1d5;color:#09272e;font-weight:700;cursor:pointer}textarea{width:100%;min-height:105px;background:#091820;color:white;display:block;margin:10px 0}select{margin:8px 0}#error{color:#ffc98f;min-height:1.3em}svg text{pointer-events:none}@media(max-width:760px){main{padding:12px}.layout{grid-template-columns:1fr}}
+#guide{border:1px solid #8fe0d4;border-radius:12px;background:#16343d;padding:14px;margin:14px 0}#guide summary{cursor:pointer;font-weight:700;color:#a8f2e4}#guide ol{padding-left:24px}#guide li+li{margin-top:5px}#guide small{color:#c1d6db}
+label.card{display:block;white-space:normal;cursor:pointer}label.card:has(input:checked){border-color:#8fe0d4;background:#234852}.territory-choices{border:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:10px}.territory-choices legend{padding:0 0 10px;color:#b2ccd3}.territory-card{display:flex;flex-direction:column;align-items:center;gap:9px;padding:12px;background:linear-gradient(#294b56,#142b35);border:2px solid #41616d;border-radius:14px;cursor:pointer;text-align:center;font-size:14px}.territory-card svg{width:100%;max-width:110px;filter:drop-shadow(0 5px 9px #0b141d)}.territory-card circle{fill:var(--team);stroke:#eff8ed;stroke-width:3}.territory-card path{fill:none;stroke:#19343c;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}.territory-card:has(input:checked),.territory-card:focus-within{border-color:var(--team);background:#294951}[hidden]{display:none!important}.result{border:2px solid var(--team);padding:15px;border-radius:12px;color:var(--team)}#stage[data-phase="writing"] h2,#stage[data-phase="review"] .card,#stage[data-phase="territory"] .territory-card,.result{animation:arrive .32s ease-out both}.result{position:relative;text-align:center;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#355260,#10232c 70%);padding:30px 18px;box-shadow:0 0 34px color-mix(in srgb,var(--team) 30%,transparent)}.result h2{font-size:clamp(27px,4vw,44px);margin:8px 0}.result-medal{display:grid;place-items:center;margin:0 auto 14px;width:72px;height:72px;border:3px solid var(--team);border-radius:50%;font-size:43px;background:#142832;box-shadow:0 0 24px var(--team);animation:medal .65s cubic-bezier(.2,.8,.3,1.2) both}@keyframes arrive{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes medal{from{opacity:0;transform:scale(.5) rotate(-18deg)}to{opacity:1;transform:scale(1) rotate(0)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}</style>
+<link rel="stylesheet" href="./parallel/gameplay/player.css">
+<main><nav aria-label="Career Empire"><a href="../../../playable-3d/?experience=sunday-markets" id="market-return">Market entrance</a> · <strong>Test release</strong><p>For Tania’s testing. Full browser acceptance is still in progress. An adjudicator creates a Game ID for two players; no teacher setup is needed.</p></nav><header id="match-bar"><div class="tag">CAREER EMPIRE · CAREERS ARCHON</div><h1>Meeting of Minds</h1><div class="match-actions"><p id="seat">Take a seat for a workplace challenge.</p><a id="round-action" href="#stage" hidden>Round activity</a><button id="leave" hidden>Exit to lobby</button><p id="game-code" hidden>Game ID <strong id="game-code-value"></strong></p></div></header>
+<div id="lobby-intro">
+  <div class="lobby-hero">
+    <video id="gameplay-preview" controls muted playsinline preload="none" poster="./art/archon-gameplay-poster.jpg" aria-label="Silent Careers Archon gameplay preview">
+      <source src="./art/archon-gameplay.mp4" type="video/mp4">
+    </video>
+    <div class="lobby-hero-title"><h2>Careers Archon</h2><p>Move. Challenge. Claim the square.</p></div>
+  </div>
+  <section class="lobby-rules" aria-labelledby="lobby-rules-title">
+    <h2 id="lobby-rules-title">How to play</h2>
+    <ol>
+      <li><strong>Move a piece.</strong> Choose a highlighted square. Landing on an opponent starts a challenge.</li>
+      <li><strong>Show initiative.</strong> Both players answer privately, then discuss their answers with the adjudicator.</li>
+      <li><strong>Claim territory.</strong> The adjudicator decides. The winner can set a rule for a newly claimed square.</li>
+    </ol>
+  </section>
+</div>
+<section id="lobby"><h2 id="lobby-title" tabindex="-1">Choose your seat</h2>
+<div class="lobby-paths" id="entry">
+<div><h3>Adjudicator</h3><p>Create a game ID to share with two players. Guide the discussion and record the verdict.</p><button id="reserve">Create a game</button></div>
+<div><h3>Player</h3><p>Join as Teal or Amber, move your occupation pieces and answer workplace scenarios.</p>
+<form id="join"><label for="game-id">8-character game ID</label><input id="game-id" name="id" required maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false"> <button>Join game</button></form></div>
+</div><button id="cancel-entry" hidden>Back to seat choices</button>
+<div id="saved"></div><p id="lobby-error" role="status"></p>
+<details id="expired-draft" hidden>
+  <summary>Copy your draft from the expired game</summary>
+  <textarea aria-label="Draft from the expired game" readonly rows="4"></textarea>
+</details></section>
+<div class="layout" hidden><section id="board-area" tabindex="-1" aria-label="Match board">
+<p id="board-instructions" role="status"></p>
+<details id="match-help"><summary>How to play</summary><ol>
+<li>The adjudicator reserves a Game ID. Two players join with that code.</li>
+<li>On your turn, select one of your pieces and choose a highlighted square. Drag the board to change your view.</li>
+<li>Challenge an opposing piece to start an Initiative duel. Both players answer privately, then discuss the revealed answers using the Initiative guide.</li>
+<li>The adjudicator records the verdict and explains why. After a decisive duel, the winner chooses an available territory effect when prompted. Select a marked square to read its rule.</li>
+<li>A side wins when its opponent has no legal moves. If neither side can move, the match is drawn.</li>
+</ol></details><iframe id="board" src="./preview.html?match" title="Careers Archon board"></iframe></section><section id="stage-area"><a class="board-link" href="#board-area" hidden>Back to board</a><div id="stage" tabindex="-1"></div><p id="error" role="status"></p></section></div></main>
+<script type="module">
+import {squareName,territoryEffects,territoryChoices} from './board-rules.mjs';
+import { createMatchClient, phaseCopy } from './parallel/gameplay/match-client.mjs';
+// Hosted packaging supplies the public configuration and the shared client module.
+const endpoint = document.querySelector('meta[name="archon-room-endpoint"]')?.content.trim();
+const publicKey = document.querySelector('meta[name="archon-room-public-key"]')?.content.trim();
+const gatewayMode = document.querySelector('meta[name="archon-room-gateway-mode"]')?.content.trim();
+const hostedRooms = true; // Static candidate: fail closed until reviewed hosted config exists.
+let hostedTransport;
+async function getHostedTransport() {
+  if (!endpoint || !publicKey) throw Error('The online room service is not configured.');
+  if (!gatewayMode) throw Error('The online room service requires a reviewed gateway mode.');
+  hostedTransport ??= import('./archon-room-client.mjs')
+    .then(({createArchonTransport}) => createArchonTransport({endpoint, publicKey, gatewayMode}))
+    .catch(error => { hostedTransport=undefined; throw error; });
+  return hostedTransport;
+}
+
+if(window.parent!==window)document.querySelector('#market-return').hidden=true;
+const entry=document.querySelector('#entry');
+const lobbyIntro=document.querySelector('#lobby-intro');
+const gameplayPreview=document.querySelector('#gameplay-preview');
+const motionPreference=window.matchMedia('(prefers-reduced-motion: reduce)');
+if(!motionPreference.matches)gameplayPreview.play().catch(()=>{});
+motionPreference.addEventListener('change',event=>{if(event.matches)gameplayPreview.pause();});
+const lobbyTitle=document.querySelector('#lobby-title');
+const cancelEntry=document.querySelector('#cancel-entry');
+let entering=false;
+let cancelled=false;
+const lobby=document.querySelector('#lobby');
+const layout=document.querySelector('.layout');
+const lobbyError=document.querySelector('#lobby-error');
+const saved=document.querySelector('#saved');
+const expiredDraft=document.querySelector('#expired-draft');
+const storageKey=hostedRooms ? 'careers-archon-seats:'+endpoint : 'careers-archon-seats';
+let seat;
+function readSeats() {
+  try { return JSON.parse(localStorage.getItem(storageKey)) || {}; }
+  catch { return {}; }
+}
+function saveSeats(records) {
+  try { localStorage.setItem(storageKey,JSON.stringify(records)); }
+  catch { lobbyError.textContent='This browser could not save your seat for later.'; }
+}
+function useSeat(value) {
+  gameplayPreview.pause();
+  lobbyIntro.hidden=true;
+  document.body.classList.add('seated');
+  expiredDraft.hidden=true;
+  expiredDraft.open=false;
+  expiredDraft.querySelector('textarea').value='';
+  entry.hidden=true;
+  cancelEntry.hidden=true;
+  lobbyTitle.textContent='Connecting to your game';
+  lobbyTitle.focus();
+  saved.replaceChildren();
+  stopHostedPolling();
+  client.use(value);
+  seat=value;
+  const current=readSeats();
+  current[seat.token]=seat;
+  saveSeats(current);
+  document.querySelector('#leave').hidden=false;
+  displayed='';
+  context='';
+  roomKey='';
+  if(hostedRooms)startHostedPolling(value);
+  else update();
+}
+function renderSaved() {
+  saved.replaceChildren();
+  for(const value of Object.values(readSeats())) {
+    const button=document.createElement('button');
+    button.textContent='Resume '+value.id+(value.role?' · '+value.role:'');
+    button.disabled=entering&&!cancelled;
+    button.onclick=()=>useSeat(value);
+    saved.append(button,' ');
+  }
+}
+function entryBusy(busy) {
+  entry.querySelectorAll('button,input').forEach(control=>{control.disabled=busy;});
+  cancelEntry.hidden=!busy;
+}
+cancelEntry.onclick=()=>{
+  cancelled=true;
+  cancelEntry.hidden=true;
+  lobbyError.textContent='If the seat is created, it will appear in your saved seats.';
+  renderSaved();
+  lobbyTitle.focus();
+};
+const entryAttempts=new Map();
+async function enter(gameId) {
+  const path=gameId ? '/rooms/'+gameId+'/join' : '/rooms';
+  if(entering||seat)return;
+  entering=true;
+  cancelled=false;
+  entryBusy(true);
+  cancelEntry.focus();
+  renderSaved();
+  const key='archon-entry:'+(hostedRooms ? endpoint+':' : '')+path;
+  function forgetAttempt() {
+    entryAttempts.delete(path);
+    try { sessionStorage.removeItem(key); } catch {}
+  }
+  try {
+    lobbyError.textContent='';
+    let attempt=entryAttempts.get(path);
+    try { attempt ||= sessionStorage.getItem(key); } catch {}
+    attempt ||= crypto.randomUUID();
+    entryAttempts.set(path,attempt);
+    try { sessionStorage.setItem(key,attempt); } catch {}
+    let value;
+    if(hostedRooms) {
+      const transport=await getHostedTransport();
+      value=gameId ? await transport.join({gameId,attemptId:attempt})
+        : await transport.reserve({attemptId:attempt});
+    } else {
+      const response=await fetch(path,{method:'POST',headers:{'X-Entry-Attempt':attempt}});
+      if(!response.ok)throw Error(response.status===404?'This reservation has expired or the ID is incorrect.':'This game has started or both seats are taken.');
+      value=await response.json();
+    }
+    forgetAttempt();
+    if(!cancelled&&!seat)useSeat(value);
+    else {
+      saveSeats({...readSeats(),[value.token]:value});
+      if(!seat)lobbyError.textContent='Your seat is ready to resume.';
+    }
+  } catch(err) {
+    if(hostedRooms && err.status===410) {
+      forgetAttempt();
+      if(!seat)lobbyError.textContent=expiredRoomMessage;
+    } else if(!seat)lobbyError.textContent=hostedRooms && err.status===429
+      ? 'The game service is busy. Try again shortly.' : err.message;
+  }
+  finally {
+    entering=false;
+    entryBusy(false);
+    if(!seat)renderSaved();
+  }
+}
+document.querySelector('#reserve').onclick=()=>enter();
+document.querySelector('#join').onsubmit=event=>{
+  event.preventDefault();
+  const id=new FormData(event.target).get('id').trim().toUpperCase();
+  if(!/^[A-F0-9]{8}$/.test(id)){lobbyError.textContent='Enter the eight-character game ID.';return;}
+  enter(id);
+};
+const board = document.querySelector('#board');
+const stage = document.querySelector('#stage');
+const gameCode = document.querySelector('#game-code');
+const gameCodeValue = document.querySelector('#game-code-value');
+const error = document.querySelector('#error');
+let match;
+let displayed = '';
+let context='';
+let roomKey='';
+let actionBusy=false;
+function renderBoard() {
+  if (!match) return;
+  const {round,role,turn,phase,pieces,tiles,clash,result}=match;
+  board.contentWindow.postMessage({type:'city-state',state:{round,role,turn,phase,pieces,tiles,clash,result}},location.origin);
+}
+const status = document.querySelector('#board-instructions');
+const boardArea = document.querySelector('#board-area');
+const roundAction = document.querySelector('#round-action');
+const boardLink = document.querySelector('.board-link');
+for(const [link,target] of [[roundAction,stage],[boardLink,boardArea]]) {
+  link.addEventListener('click',event=>{
+    event.preventDefault();
+    target.focus();
+    target.scrollIntoView({block:'start'});
+  });
+}
+document.querySelector('#leave').onclick=()=>{
+  stopHostedPolling();
+  client.use(null);
+  seat=null;match=null;displayed='';context='';roomKey='';
+  document.body.classList.remove('playing','seated');
+  lobbyIntro.hidden=false;
+  roundAction.hidden=true;
+  gameCode.hidden=true;
+  gameCodeValue.textContent='';
+  stage.replaceChildren();
+  error.textContent='';lobbyError.textContent='';
+  entry.hidden=false;
+  lobbyTitle.textContent='Choose your seat';
+  lobby.hidden=false;layout.hidden=true;
+  document.querySelector('#leave').hidden=true;
+  document.querySelector('#seat').textContent='Take a seat for a workplace challenge.';
+  renderSaved();
+  lobbyTitle.focus();
+};
+function renderLobbyCountdown() {
+  if(match?.phase!=='lobby')return;
+  const joined=match.joined.filter(role=>role!=='Judge').length;
+  const seconds=Math.max(0,Math.ceil((match.expiresAt-Date.now())/1000));
+  const countdown=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');
+  saved.querySelector('.room-time').textContent=joined+' of 2 players joined · Reservation expires in '+countdown;
+}
+function render() {
+  const code=match.gameId;
+  gameCode.hidden=typeof code!=='string'||!code;
+  if(gameCodeValue.textContent!==code)gameCodeValue.textContent=gameCode.hidden?'':code;
+  const records=readSeats();
+  if(records[seat.token]?.role!==match.role) {
+    records[seat.token]={...seat,role:match.role};
+    saveSeats(records);
+  }
+  if(match.phase==='lobby') {
+    lobby.hidden=false;layout.hidden=true;
+    lobbyTitle.textContent='Waiting for players';
+    document.querySelector('#seat').textContent=match.role==='Judge'?'Student adjudicator':'Player '+match.role;
+    const joined=match.joined.filter(role=>role!=='Judge').length;
+    const key=[match.round,joined].join(':');
+    if(roomKey!==key) {
+      roomKey=key;
+      saved.innerHTML='<p class="room-time"></p>';
+      if(match.role==='Judge'&&joined===2) {
+        const start=document.createElement('button');
+        start.textContent='Start match';start.onclick=()=>update({type:'start'});saved.append(start);
+      }
+    }
+    renderLobbyCountdown();
+    syncBusy();
+    return;
+  }
+  lobby.hidden=true;layout.hidden=false;
+  document.body.classList.add('playing');
+  const next = JSON.stringify(match);
+  if (next === displayed) return;
+  displayed = next;
+  const phase=match.phase;
+  const nextContext=[match.round,match.duelCount,phase,match.role].join(':');
+  const changed=nextContext!==context;
+  if(!changed&&phase==='writing'&&stage.querySelector('textarea')&&!match.submitted.includes(match.role)) {
+    stage.querySelector('.answer-count').textContent=match.submitted.length+' of 2 answers submitted. Answers reveal together.';
+    return;
+  }
+  context=nextContext;
+  stage.dataset.phase=phase;
+  const onBoard=phase==='board';
+  stage.hidden=onBoard;
+  boardLink.hidden=onBoard;
+  roundAction.hidden=onBoard;
+  roundAction.textContent=phase==='ended'?'Match result':'Round activity';
+  if(changed)queueMicrotask(()=>{
+    if(context!==nextContext)return;
+    const target=onBoard?boardArea:stage;
+    target.focus({preventScroll:true});
+    target.scrollIntoView({block:'start'});
+  });
+  const judge=match.role==='Judge';
+  document.querySelector('#seat').textContent = judge ? 'Student adjudicator' : 'Player '+match.role;
+  renderBoard();
+  if(phase==='ended') {
+    const {winner}=match.result;
+    stage.innerHTML='<div class="result" role="status"><div class="result-medal" aria-hidden="true">★</div><h2></h2><p></p></div>';
+    const result=stage.querySelector('.result');
+    result.dataset.outcome=winner==='draw'?'draw':judge?'result':winner===match.role?'win':'loss';
+    result.style.setProperty('--team',winner==='A'?'#2acdb4':winner==='B'?'#efaa42':'#f6e2a8');
+    result.querySelector('h2').textContent=winner==='draw'?'Match drawn':(winner==='A'?'Teal':'Amber')+' wins!';
+    result.querySelector('p').textContent=winner==='draw'?'Neither side has a legal move.':(winner==='A'?'Amber':'Teal')+' has no legal moves left.';
+    status.textContent='Match complete. View the result below.';
+    result.insertAdjacentHTML('beforeend','<div class="result-actions"><button id="result-exit" type="button">Exit to lobby</button></div>');
+    if(judge)result.querySelector('.result-actions').insertAdjacentHTML('afterbegin','<button id="reset">Play again</button>');
+    result.querySelector('#result-exit').onclick=()=>document.querySelector('#leave').click();
+    syncBusy();
+    return;
+  }
+  const tile=match.tile;
+  const territory=tile? squareName(tile.col,tile.row)+' · Player '+tile.holder+
+    (tile.effect?' · '+territoryEffects[tile.effect].name:''):'';
+  status.textContent = phase === 'board' ? 'Turn · Player '+match.turn+(territory?' · Last territory: '+territory:'') :
+    phase === 'territory' ? territory+' is choosing a territory effect' :
+    phase === 'resolved' ? match.verdict.winner==='tie'?'Tie · defender holds':territory : 'Board paused · contested square';
+  const [label,title,hint]=phaseCopy(match);
+  if(onBoard) {
+    const team=match.turn==='A'?'Teal':'Amber';
+    status.textContent=match.turn===match.role
+      ? 'Your turn. Select a piece, then a highlighted square.'
+      : team+' to move.';
+    stage.replaceChildren();
+    return;
+  }
+  stage.innerHTML='<div class="tag"></div><h2></h2><p></p>';
+  stage.querySelector('.tag').textContent=label;
+  stage.querySelector('h2').textContent=title;
+  stage.querySelector('p').textContent=hint;
+  if(match.card) {
+    const scenario=document.createElement('div');
+    scenario.className='scenario';
+    scenario.innerHTML='<h3></h3><p></p>';
+    scenario.querySelector('h3').textContent=match.card.title;
+    scenario.querySelector('p').textContent=match.card.prompt;
+    stage.append(scenario);
+  }
+  if (phase === 'writing') {
+    stage.insertAdjacentHTML('beforeend',`<p class="answer-count" role="status">${match.submitted.length} of 2 answers submitted. Answers reveal together.</p>`);
+    if (!judge && !match.submitted.includes(match.role)) stage.insertAdjacentHTML('beforeend','<form data-action="submit"><label for="answer">Your private answer</label><textarea id="answer" required minlength="10" maxlength="500"></textarea><p class="muted">10–500 characters. Your response is final when submitted.</p><button>Submit response</button></form>');
+  }
+  if (['review','territory','resolved'].includes(phase)) {
+    const comparison=document.createElement('div');
+    comparison.className='answer-comparison';
+    for (const side of ['A','B']) {
+      const card = document.createElement('div');
+      card.className='card';
+      card.dataset.team=side;
+      const title=document.createElement('h3');
+      title.textContent=side==='A'?'Player A · Teal':'Player B · Amber';
+      const response=document.createElement('p');
+      response.textContent=match.answers[side];
+      card.append(title,response);
+      comparison.append(card);
+    }
+    stage.append(comparison);
+  }
+  if (['review','territory','resolved'].includes(phase) && match.card?.note) {
+    const note=document.createElement('p');
+    note.className='card marking-note';
+    note.textContent='Marking note · '+match.card.note;
+    stage.append(note);
+  }
+  if (phase === 'review') {
+    stage.insertAdjacentHTML('beforeend',`
+      <details id="guide" open>
+        <summary>Initiative marking guide</summary>
+        <p><strong>What is initiative?</strong> Notice what needs doing and take a useful step without waiting to be told. Work safely and within your role.</p>
+        <strong>Five ways to show initiative</strong>
+        <ol>
+          <li><strong>Be proactive.</strong> Act early when you spot a need, such as checking supplies before a rush.</li>
+          <li><strong>Improve a work practice.</strong> Suggest a better way to do a task, such as labelling collection orders.</li>
+          <li><strong>Speak up.</strong> Share a constructive idea or concern, such as flagging a confusing queue sign.</li>
+          <li><strong>Help a fellow worker.</strong> Offer useful support when you see a need, such as helping a colleague reset a stall.</li>
+          <li><strong>Seek more responsibility.</strong> Ask to take on an appropriate task or learn a new one, such as checking stock with supervision.</li>
+        </ol>
+        <p><strong>Discuss both answers.</strong> Which of the five does Player A show? Which does Player B show? Point to a specific action in each answer. An answer can show more than one.</p>
+        <p><strong>Choose the stronger answer.</strong> Look for a specific workplace action, a clear benefit and an explanation of why an employer would value it. Explain which answer makes that connection more clearly.</p>
+        <small>Adapted from Carolan, Year 12 CEM Unit 3, chapter 2, pp. 24–26 and 28–30.</small>
+        <details class="initiative-infographic">
+          <summary>View the Initiative infographic</summary>
+          <img class="initiative-guide" src="./art/initiative-guide.png" alt="Initiative summary with workplace examples, five ways to show initiative, and a short-answer builder. The marking criteria and examples are provided above." width="1024" height="1536" loading="lazy">
+        </details>
+      </details>`);
+    if (judge) stage.insertAdjacentHTML('beforeend','<form data-action="verdict"><label for="winner">Verdict </label><select id="winner" required><option value="">Choose</option><option>A</option><option>B</option><option value="tie">Tie · defender holds</option></select><label for="reason">Explain using the rubric</label><textarea id="reason" required minlength="10" maxlength="500"></textarea><button>Apply verdict</button></form>');
+  }
+  if (['territory','resolved'].includes(phase)) {
+    const note=document.createElement('p');
+    note.textContent=(match.verdict.winner==='tie'?'Tie':'Player '+match.verdict.winner+' wins')+' · '+match.verdict.reason;
+    stage.append(note);
+    if (phase==='territory') {
+      if(match.role===match.verdict.winner) {
+        const colour=match.role==='A'?'#2acdb4':'#efaa42';
+        stage.insertAdjacentHTML('beforeend',`<h3>Set the rule for ${squareName(tile.col,tile.row)}</h3>
+          <p>This square keeps your team colour and its rule for the rest of the match.</p>
+          <form data-action="territory" style="--team:${colour}">
+          <fieldset class="territory-choices"><legend>Choose one territory card</legend>
+          ${Object.entries(territoryChoices).map(([key,effect])=>`
+            <label class="territory-card">
+              <svg viewBox="0 0 128 128" aria-hidden="true"><circle cx="64" cy="64" r="53"/>
+              <path d="${effect.icon}"/></svg>
+              <span><input required type="radio" name="effect" value="${key}"> <strong>${effect.name}</strong></span>
+              <span>${effect.description}</span>
+            </label>`).join('')}
+          </fieldset><p><button>Confirm territory effect</button></p></form>`);
+      } else stage.insertAdjacentHTML('beforeend','<p>Waiting for the winning player to choose a territory effect.</p>');
+    }
+    if (judge && phase==='resolved') stage.insertAdjacentHTML('beforeend','<button id="continue">Continue match</button> <button id="reset">Reset match</button>');
+  }
+  syncBusy();
+}
+function syncBusy() {
+  stage.setAttribute('aria-busy',String(actionBusy));
+  for(const button of [...stage.querySelectorAll('button'),...saved.querySelectorAll('button')]) {
+    if(seat)button.disabled=actionBusy;
+  }
+}
+const expiredRoomMessage='This game has expired. Create a new game or join with another game ID.';
+function terminalHostedState(status) {
+  if(status===410)return {unavailable:true,expired:true};
+  if([401,403,404].includes(status))return {unavailable:true};
+}
+const hostedActionAttempts=new WeakMap();
+const client=createMatchClient({
+  async request(current,action,signal) {
+    if(hostedRooms) {
+      const transport=await getHostedTransport();
+      const fingerprint=action && JSON.stringify(action);
+      let attempt=hostedActionAttempts.get(current);
+      if(action && attempt?.fingerprint!==fingerprint) {
+        attempt={fingerprint,id:crypto.randomUUID()};
+        hostedActionAttempts.set(current,attempt);
+      }
+      try {
+        const state=await transport.match(current,action,{attemptId:action ? attempt.id : undefined,signal});
+        if(action)hostedActionAttempts.delete(current);
+        return state;
+      } catch(error) {
+        if(action && error.status>=400 && error.status<500 && error.status!==429) {
+          hostedActionAttempts.delete(current);
+        }
+        const terminal=terminalHostedState(error.status);
+        if(terminal)return terminal;
+        throw error;
+      }
+    }
+    const headers={Authorization:current.token};
+    const options=action?{method:'POST',headers,signal,body:JSON.stringify(action)}:{headers,signal};
+    const response=await fetch('/rooms/'+current.id+'/match',options);
+    if(response.status===404||response.status===401||response.status===403)return {unavailable:true};
+    if(!response.ok)throw Error(response.status===409?'The match changed or that action is unavailable.':'Could not reach the game. Try again.');
+    return response.json();
+  },
+  onState(state) {
+    if(hostedPoller && !state.unavailable)hostedPoller.afterWrite(state);
+    else applyMatchState(state);
+  },
+  onError: showMatchError,
+  onBusy(busy) {
+    actionBusy=busy;
+    syncHostedVisibility();
+    syncBusy();
+  },
+});
+function applyMatchState(state) {
+  if(state.unavailable) {
+    const draft=state.expired ? stage.querySelector('textarea')?.value : '';
+    const records=readSeats();
+    delete records[seat.token];
+    saveSeats(records);
+    document.querySelector('#leave').click();
+    lobbyError.textContent=state.expired ? expiredRoomMessage
+      : 'This seat is no longer available. Create or join a new game.';
+    if(draft?.trim()) {
+      expiredDraft.querySelector('textarea').value=draft;
+      expiredDraft.hidden=false;
+      expiredDraft.open=true;
+    }
+    return;
+  }
+  match=state;
+  if(layout.hidden)lobbyError.textContent='';
+  render();
+}
+function showMatchError(err) {
+  (layout.hidden?lobbyError:error).textContent=err.message;
+}
+
+let hostedPoller;
+let pollingGeneration=0;
+function stopHostedPolling() {
+  pollingGeneration++;
+  hostedPoller?.stop();
+  hostedPoller=undefined;
+}
+function syncHostedVisibility() {
+  hostedPoller?.setVisible(!document.hidden && !actionBusy);
+}
+async function startHostedPolling(current) {
+  const generation=pollingGeneration;
+  try {
+    const [transport,{createAdaptivePoller}]=await Promise.all([
+      getHostedTransport(), import('./archon-room-poller.mjs')
+    ]);
+    if(generation!==pollingGeneration)return;
+    hostedPoller=createAdaptivePoller({
+      transport,
+      seat:current,
+      onState:applyMatchState,
+      onError(err) {
+        const terminal=terminalHostedState(err.status);
+        if(terminal)applyMatchState(terminal);
+        else showMatchError(err);
+      }
+    });
+    syncHostedVisibility();
+    hostedPoller.start();
+  } catch(err) {
+    if(generation===pollingGeneration)showMatchError(err);
+  }
+}
+function update(action) {
+  if(!action)return hostedRooms ? undefined : client.update();
+  if(!match||actionBusy||(action.round&&action.round!==match.round))return;
+  error.textContent='';lobbyError.textContent='';
+  return client.update({...action,round:match.round});
+}
+renderSaved();
+window.addEventListener('message',event=>{
+  if(event.origin!==location.origin||event.source!==board.contentWindow)return;
+  if(event.data?.type==='city-ready')renderBoard();
+  if(event.data?.type==='city-move'&&match) {
+    const {piece,col,row,round}=event.data;
+    update({type:'move',piece,col,row,round});
+  }
+});
+stage.addEventListener('submit',e=>{
+  e.preventDefault();
+  const field=e.target.querySelector('textarea');
+  if(field&&field.value.trim().length<10) {
+    error.textContent='Write at least 10 characters, excluding spaces at the start or end.';
+    field.focus();
+    return;
+  }
+  update({type:e.target.dataset.action,text:field?.value,winner:e.target.querySelector('select')?.value,effect:new FormData(e.target).get('effect')});
+});
+stage.addEventListener('click',e=>{
+  if(e.target.id==='continue')update({type:'continue'});
+  if(e.target.id==='reset'&&(match?.phase==='ended'||window.confirm('Reset the board for everyone in this room?'))) {
+    update({type:'reset'});
+  }
+});
+if(hostedRooms) {
+  document.addEventListener('visibilitychange',syncHostedVisibility);
+  window.addEventListener('pagehide',stopHostedPolling);
+  window.addEventListener('pageshow',event=>{
+    if(event.persisted && seat)startHostedPolling(seat);
+  });
+  setInterval(renderLobbyCountdown,1000);
+} else {
+  setInterval(update,600);
+}
+</script>

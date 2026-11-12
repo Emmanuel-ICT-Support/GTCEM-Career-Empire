@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Careers Archon · Site preview</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#10232b;color:#f6f3e7;font:16px system-ui}main{max-width:1160px;margin:auto;padding:18px}header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}h1{font-size:clamp(24px,4vw,42px);margin:6px 0}small{letter-spacing:.11em;color:#a9e5d9}button{font:inherit;background:#edce8d;color:#1d272a;border:0;border-radius:8px;padding:10px 14px;cursor:pointer}button:disabled{opacity:.55;cursor:default}button:focus-visible{outline:3px solid white;outline-offset:3px}#scene{position:relative;height:clamp(340px,60vh,670px);overflow:hidden;border-radius:14px;background:#cbdeda}canvas{display:block}#unlock{position:absolute;bottom:8%;left:50%;transform:translateX(-50%);font-weight:bold;box-shadow:0 4px 20px #12242a66}#controls{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}#status{min-height:3em}#roster{color:#c6dbdf;font-size:14px}[hidden]{display:none!important}
+#art-stage{margin-top:12px;padding:16px 20px;background:#193640;border:1px solid #527277;border-radius:13px}#art-stage h2{margin:0 0 8px}#art-stage button{margin:6px 8px 0 0}#art-stage p{margin:7px 0}.art-answers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.art-answers p{padding:12px;background:#10232b;border-radius:8px}</style>
+<link id="embedded-styles" rel="stylesheet" href="./parallel/gameplay/player.css" media="not all">
+<main><header><div><small>CAREER EMPIRE · LOCAL MOTION STUDY</small><h1 id="heading">The Market</h1></div><button id="back" hidden>Back to Market</button></header>
+<div id="menu"></div><div id="scene" hidden><button id="unlock">🔒 Open the arcade shutters</button></div>
+<div id="controls" hidden></div><small id="motion-help">Drag to orbit. Scroll or use the zoom buttons. Click or tap to select.</small><p id="status" role="status"></p>
+<section id="art-stage" hidden aria-live="polite"></section><p id="roster" hidden>Teal · Student A &nbsp; Amber · Student B &nbsp; | &nbsp; EL Electrician · CP Carpenter · NS Nurse · SD Software Developer · RE Renewable Energy Technician · EC Early Childhood Educator</p></main>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+<script type="module" src="./preview.js"></script>

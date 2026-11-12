@@ -461,10 +461,11 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   const s=store.state,badges=s.badges.map(b=>BADGES[b].join(': ')).join(' ');
   show('Your market journal',`${s.paid?'First shift complete.':s.accepted?'Shift in progress.':'A first opportunity is waiting.'} Wallet ${money(s.wallet)} · Savings ${money(s.savings)}. ${s.rested?'You took a free break.':''} ${s.encore?'Ticket stub: MY FIRST GIG — Juniper Kitchen crew.':s.pass?'Crew pass: ready to use beside the stage.':''} ${badges||'Game badges will describe the skills you practise.'}`,[
    ['Replay Mara’s welcome',maraIntro],
+   ['Careers Archon · test release',()=>initiativeChoices({welcome:journal,mara:close}).byId.archon(journal)],
    ['Money & keepsakes in Stats',()=>{close();document.getElementById('exploration-stats-toggle')?.click();}],
    [canVisitAdministration()?'Explore the administration centre':'Markets Administration · after the first gig',()=>canVisitAdministration()?visitDistrict(2):show('Your next assignment','Finish your agreed first gig with Mara, then visit Reception through the west entrance. Nora checks evidence, Dev tests work plans, and the opportunities team helps Alex apply.',[['Keep exploring',close]])],
    ...(s.paid?[["Work is changing / explore the clues",changingWorld]]:[]),
-   ['Where do I go?',()=>show('Around the market','Mara: Juniper Kitchen, ahead.\nCustomer and queue view: left of the entrance path.\nSam: Juniper crew. Work bench: right of the stall.\nStage: right of Juniper. Crew pass: front-right corner.\nLittle Finds: left. Savings and keepsakes: Stats.\nFree break: bench in front of the stage.',[], 'Use WASD / arrow keys or the movement controls. Drag to look. Walk close, then press E or tap the interaction button. All activities are untimed.')],
+   ['Where do I go?',()=>show('Around the market','Mara: Juniper Kitchen, ahead.\nCustomer and queue view: left of the entrance path.\nSam: Juniper crew. Work bench: right of the stall.\nStage: right of Juniper. Crew pass: front-right corner.\nLittle Finds: left. Savings and keepsakes: Stats.\nFree break: bench in front of the stage.',[['Careers Archon · test release',()=>initiativeChoices({welcome:journal,mara:close}).byId.archon(journal)]], 'Use WASD / arrow keys or the movement controls. Drag to look. Walk close, then press E or tap the interaction button. All activities are untimed.')],
    ['My first gig / case note',caseNote,s.revision!==3],
    ['Help with my shift',thinkingGuide],
    ['Initiative / reference sheet',initiativeSheet],

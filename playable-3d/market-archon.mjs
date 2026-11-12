@@ -20,7 +20,7 @@ export function createMarketArchon({ dialog, show, lobbyUrl }) {
 
   function openLobby(back, label = 'Back to Arcade Games') {
     removeFrame();
-    show('Careers Archon', 'Join or reserve a game with your group. You can return to your Market visit at any time.', [
+    show('Careers Archon · test release', 'For Tania’s testing; full browser acceptance is still in progress. An adjudicator creates a Game ID and two players join; no teacher setup is needed. You can return to your Market visit at any time.', [
       [label, () => { removeFrame(); back(); }]
     ]);
     frame = dialog.ownerDocument.createElement('iframe');

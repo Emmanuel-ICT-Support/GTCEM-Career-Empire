@@ -1,0 +1,241 @@
+body { background: radial-gradient(ellipse at top, #203f42, #0b1a21 70%); }
+main { max-width: 1220px; }
+header { border-color: #806844; background: linear-gradient(125deg, #243b34, #10232c 70%); }
+.tag { color: #f2c88d; }
+#lobby { margin-top: 18px; }
+.lobby-paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 14px; }
+.lobby-paths > div { padding: 16px; border: 1px solid #4e645e; border-radius: 12px; background: #192f36; }
+.lobby-paths h3 { margin: 0; }
+#join label { display: block; margin-bottom: 6px; font-weight: 700; }
+#join input { font: inherit; color: #eff7f5; background: #0b1b23; border: 1px solid #82a4a7; border-radius: 9px; min-height: 44px; width: min(100%, 11ch); padding: 8px; text-transform: uppercase; letter-spacing: .09em; }
+button { min-height: 44px; }
+button:disabled { opacity: .62; cursor: wait; }
+:where(button, input, select, textarea, summary):focus-visible { outline: 3px solid #ffd18f; outline-offset: 3px; }
+#saved button { margin: 5px 6px 5px 0; }
+#lobby-error, #error { color: #ffc98f; }
+#stage form > label { display: block; margin-top: 12px; font-weight: 700; }
+#stage h2 { margin-top: 5px; }
+#stage .scenario { padding: 14px; border-left: 3px solid #d9aa70; background: #1b343e; }
+#stage .scenario h3 { margin: 0 0 6px; }
+#stage .scenario p { margin: 0; }
+#stage .answer-count { color: #b2ccd3; }
+#stage[data-phase="review"] .card { white-space: pre-wrap; }
+#stage:focus { outline: 0; }
+#stage > .tag { display: block; }
+#board { display: block; margin-top: 12px; border-radius: 10px; }
+@media(max-width: 760px) {
+  .layout > section { min-width: 0; padding: 14px; }
+  .layout > section:last-child { grid-row: 1; }
+  #board { max-height: 65vh; }
+}
+
+/* Match view: keep the scene full width and put tools at its edge. */
+body.playing { background: #101f25; }
+body.playing main { max-width: none; padding: 0 clamp(12px, 2vw, 28px) 18px; }
+body.playing #match-bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  column-gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: #101f25;
+}
+body.playing #match-bar h1 { font-size: clamp(18px, 3vw, 25px); margin: 0; }
+body.playing #match-bar .tag { display: none; }
+.match-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 0 12px; }
+#seat { margin: 0; font-size: .9rem; }
+#game-code {
+  margin: 0 0 0 auto;
+  padding: 4px 8px;
+  border: 1px solid #52625f;
+  border-radius: 6px;
+  color: #f6d5a6;
+  font-size: .875rem;
+  white-space: nowrap;
+  user-select: text;
+}
+#game-code-value { letter-spacing: .08em; }
+body.playing .match-actions { margin-inline-start: auto; justify-content: flex-end; }
+#leave, .match-actions a, .board-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  border: 0;
+  border-radius: 0;
+  padding: 0 2px;
+  background: transparent;
+  color: #c4eee4;
+  font: inherit;
+  font-size: .9rem;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+body.playing .layout { display: block; margin: 0; }
+body.playing .layout > section { padding: 0; border: 0; background: none; }
+#board-area { outline-offset: 3px; }
+#board-area, #stage { scroll-margin-top: 92px; }
+#board-instructions { margin: 0 0 6px; font-size: .94rem; }
+#match-help { font-size: .9rem; }
+#match-help summary { min-height: 44px; width: fit-content; cursor: pointer; color: #c4eee4; }
+#match-help ol { max-width: 70ch; padding-left: 24px; margin: 0 0 10px; }
+body.playing #board {
+  display: block;
+  width: 100%;
+  height: clamp(300px, calc(100dvh - 112px), 920px);
+  max-height: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+#stage-area { max-width: 74ch; margin: 0 auto; }
+#stage-area:has(#stage:not([hidden])) { margin-top: 18px; }
+#error:empty { display: none; }
+#stage .result { border: 0; border-left: 3px solid var(--team); border-radius: 0; background: none; box-shadow: none; padding: 0 12px; text-align: left; }
+#stage .result-medal { display: none; }
+
+/* The embedded player board shares the stylesheet but has its own layout. */
+body.embedded-board { background: #10232b; }
+.embedded-board main {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  max-width: none;
+  height: 100vh;
+  padding: 0;
+}
+.embedded-board #scene { height: auto; min-height: 0; border-radius: 0; }
+.embedded-board #menu:empty { display: none; }
+.embedded-board #status { margin: 0; min-height: 0; font-size: .9rem; overflow-wrap: anywhere; }
+.embedded-board .board-footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 8px;
+}
+.embedded-board #board-tools { flex: none; }
+.embedded-board #board-tools summary {
+  display: list-item;
+  min-height: 44px;
+  line-height: 44px;
+  cursor: pointer;
+  color: #c4eee4;
+}
+.embedded-board #controls {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  max-height: 42vh;
+  overflow: auto;
+  margin: 0;
+  padding: 8px;
+  background: #10232b;
+  border-top: 1px solid #51716f;
+}
+.embedded-board #controls button, .embedded-board #controls select {
+  max-width: 100%;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid #739391;
+  background: #1d363e;
+  color: #eef8f5;
+  font: inherit;
+  font-size: .9rem;
+}
+
+/* Initiative rounds use the plaza's warm stone, teal and amber palette. */
+#stage:not([data-phase="board"]):not([data-phase="ended"]) {
+  padding: clamp(16px, 4vw, 34px);
+  border-radius: 20px;
+  background: #fff3d8;
+  color: #233944;
+}
+#stage > .tag { color: #17625c; }
+#stage > h2 { font-size: clamp(26px, 5vw, 39px); margin: 5px 0; }
+#stage .scenario {
+  color: #fff;
+  padding: clamp(18px, 4vw, 30px);
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(95deg, #103f46 22%, #103f46d6 72%),
+    url("../../art/perth-dusk-panorama.jpg") center 61% / cover;
+}
+#stage .answer-count {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #d5ede2;
+  color: #174a42;
+  font-weight: 700;
+}
+#stage label { font-weight: 700; }
+#stage textarea, #stage select { background: #fffdf7; color: #233944; border: 1px solid #738886; }
+#stage .muted { color: #475957; }
+.answer-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+#stage .answer-comparison .card { border: 0; margin: 12px 0 0; padding: 14px; background: #d6eee6; color: #193f39; }
+#stage .answer-comparison .card[data-team="B"] { background: #f8dfa9; color: #553619; }
+.answer-comparison h3, .answer-comparison p { margin: 0; }
+.answer-comparison p { margin-top: 6px; overflow-wrap: anywhere; white-space: pre-wrap; }
+#stage .marking-note { background: #dfe9f3; color: #253d58; border: 0; }
+#stage #guide { background: #fffaf0; border: 1px solid #b3c4bb; color: #233944; padding: 14px; border-radius: 12px; margin: 14px 0; }
+#stage #guide summary { color: #174a42; font-weight: 800; }
+.initiative-guide { display: block; width: 100%; height: auto; margin: 12px 0; border-radius: 10px; }
+#stage .territory-choices legend { color: #344b52; }
+#stage .territory-card { background: #fffaf0; color: #233944; }
+#stage .territory-card:has(input:checked) { background: #d7eee7; border-color: #227267; }
+#stage .result {
+  text-align: center;
+  color: #fff9e7;
+  padding: clamp(24px, 5vw, 48px);
+  border: 2px solid var(--team);
+  border-radius: 20px;
+  background: linear-gradient(#113844c9, #132d39), url("../../art/perth-dusk-panorama.jpg") center / cover;
+}
+#stage .result-medal { display: grid; color: #ffe2a3; animation: none; }
+#stage .result:is([data-outcome="win"], [data-outcome="result"]) .result-medal {
+  animation: medal .65s cubic-bezier(.2,.8,.3,1.2) both, victory-glow .85s ease-out .3s 2;
+}
+.result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+@keyframes victory-glow { 50% { box-shadow: 0 0 36px 10px var(--team); } }
+@media (max-width: 520px) { .answer-comparison { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) {
+  #stage .result, #stage .result:is([data-outcome="win"], [data-outcome="result"]) .result-medal { animation: none !important; }
+}
+
+body:not(.seated) #match-bar { display: none; }
+body:not(.seated) {
+  background: radial-gradient(ellipse at top, #275c5b 0, #132e38 62%);
+}
+.lobby-hero { position: relative; background: #162f35; border: 1px solid #d9ac66; border-radius: 24px; overflow: hidden; }
+.lobby-hero video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; }
+.lobby-hero-title {
+  position: absolute;
+  inset: 0 0 auto;
+  padding: clamp(14px, 3vw, 34px);
+  background: linear-gradient(#10242de8, transparent);
+  pointer-events: none;
+}
+.lobby-hero-title h2 { margin: 0; color: #fff0d3; font: 800 clamp(28px, 6vw, 68px)/1 Georgia, serif; }
+.lobby-hero-title p { margin: 7px 0; color: #fff0d3; font-weight: 650; }
+.lobby-rules, body:not(.seated) #lobby {
+  margin-top: 16px;
+  color: #223a40;
+  background: #fff3d8;
+  border: 1px solid #dfba7b;
+}
+.lobby-rules h2, body:not(.seated) #lobby h2 { font-family: Georgia, serif; }
+.lobby-rules ol { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; padding: 0; list-style-position: inside; margin: 0; }
+.lobby-rules li { padding: 12px; background: #f5e5c6; border-radius: 10px; }
+body:not(.seated) .lobby-paths > div { background: #d9eee4; color: #243d40; border-color: #8bb7a6; }
+body:not(.seated) .lobby-paths > div + div { background: #fae2ae; border-color: #cb9d55; }
+body:not(.seated) #lobby-error { color: #7c2f1d; }
+@media(max-width: 640px) {
+  .lobby-rules ol { grid-template-columns: 1fr; }
+}
