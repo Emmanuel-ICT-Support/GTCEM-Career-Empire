@@ -1,8 +1,8 @@
 {
-  "release": "initiative-notes-worksheet-20261112",
+  "release": "chapel-walk-in-20261113",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "7597b1a33b4b946a6c89cc0758c6e0d33a46c11e",
-  "scope": "Attributed Carolan-informed Notes reading, shared-bank practice and written response worksheet. Preserve published Archon, same learner/run draft boundary, Market navigation and other module candidates; no original licensed pages or backend changes.",
+  "baseCommit": "250c409e0b3587c23401d50ec5e7a4f08caf0ec0",
+  "scope": "Automatic Chapel doorway walking, upward/around interior camera and reliable pointer/keyboard/touch exit. Serial merge on Notes250c409; preserve Archon, Notes, curriculum, assets and separate CI/EST/portfolio/Flyover work.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -274,7 +274,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "12298877c8ec695ac0add84f892dd3e62f86148004921db0e17247cdf09bc000"
+      "sha256": "15acd2d09259ec77ab6c7703f21b136dbe2a212d3f2a8681caef5d0703af56d4"
     },
     {
       "path": "arcade-carnival.js",
@@ -793,6 +793,10 @@
       "sha256": "5a5a4f87d52c9bde95c76e6ce042cc6060a11d8f6097740d04c8522cc9484cd9"
     },
     {
+      "path": "chapel-entry.mjs",
+      "sha256": "1249c822cd9ecb461ca5edee9b94d7c691bb0ab6bb6b2522c542ad9ac8f1e589"
+    },
+    {
       "path": "chapel.js",
       "sha256": "02ff6b89c8e505b8c1ebfcb8ac6b1687af7fc82b0421513a3cb5fe3f05ac8e82"
     },
@@ -842,7 +846,7 @@
     },
     {
       "path": "discovery-opening.js",
-      "sha256": "dcf3fd3a100a67e9c0446314886a23c5f6f1cbcb68292591f1491ae8c1370df5"
+      "sha256": "debd2734cb78ef5722a3cfe596edceecbde5b77ecea80ed33fd3b6db6045c1d6"
     },
     {
       "path": "discovery-state.mjs",
@@ -1070,7 +1074,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "1ca2e264d3c3da8c28ef0280c1219b733538bac4c492d8d89a8fffe5683edbb9"
+      "sha256": "f298d210022fc1bedab7cfc7dabaf2fb7d69fbf0cb6ecbdbbd94dbeb969f2ede"
     },
     {
       "path": "header-controls.css",
@@ -1094,7 +1098,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "3c25a421b4a7674e86288dedd607cab3edd1559b43a35e58db515aa9faf796b4"
+      "sha256": "1824f91150452ea6f206f0997c37c204344daa9ab969a4bd6c72c9f00b4ef4dd"
     },
     {
       "path": "initiative-field-guide.html",

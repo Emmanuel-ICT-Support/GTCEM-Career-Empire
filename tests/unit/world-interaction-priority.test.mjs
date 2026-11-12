@@ -8,6 +8,8 @@ function interact(x,z,teacher=false){
  vm.runInNewContext(fn+';updateInteraction();',context);context.interaction?.action();return {label:span.textContent,actions};
 }
 test('following companion cannot take fixed-world actions away from the player',()=>{
- for(const [x,z,teacher,label,action]of [[-12.2,5,false,'Open Avatar Studio','Studio'],[-3.15,-8.8,false,'Enter Chapel','Chapel'],[-7,-50,true,'Say hello to Mr Middleton','Teacher'],[-9.8,22.3,false,'Open Original Career Empire ↗','Original']])expect(interact(x,z,teacher)).toEqual({label,actions:[action]});
+ for(const [x,z,teacher,label,action]of [[-12.2,5,false,'Open Avatar Studio','Studio'],[-7,-50,true,'Say hello to Mr Middleton','Teacher'],[-9.8,22.3,false,'Open Original Career Empire ↗','Original']])expect(interact(x,z,teacher)).toEqual({label,actions:[action]});
 });
 test('companion conversation remains available away from world actions',()=>expect(interact(-7,23.3)).toEqual({label:'Talk to Echo',actions:['Echo']}));
+
+test('standing at the Chapel clue point never enters through an interaction button',()=>{const result=interact(-3.15,-8.8);expect(result.label).not.toBe('Enter Chapel');expect(result.actions).not.toContain('Chapel');});

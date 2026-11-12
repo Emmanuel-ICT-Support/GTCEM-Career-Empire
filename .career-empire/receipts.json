@@ -362,5 +362,23 @@
       "playable-3d/release-manifest.json": "100644:dde9fdf1ca917a0ebc8c9df8b22dc309c119d652",
       "tests/unit/notes-worksheet.test.mjs": "100644:0199e9f30fcca4d52e01ebf18e0cb1c77d2c45a2"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-146",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "a938bff91dd2a9f64ffedbf5aefab63d4f6c06f6ce216c62dc7be305addca840",
+    "recordSha256": "f3cea5fff43a26759d9c604d22dda2f271304ec376086d6bd7a8b62897cb8118",
+    "reviewedAt": "2026-11-12T22:02:38.900Z",
+    "reviewEvidence": "Eight exact Chapel files on250c409;387 tests/82files;353 staged assets/106imports;10 focused cases;5 native desktop/phone walk/look/exit cases. Published cf55c1b9 source-review files9/9 verified, reader1280/390 passed. Direct user live approval. Broad CI admin-preview failure remains separate; no Safari/physical acceptance.",
+    "files": {
+      "playable-3d/app.js": "100644:733aba8b409fd7e62f7aac88c857d03863eb3ff8",
+      "playable-3d/chapel-entry.mjs": "100644:0b45967eeb691be5889566a959d37460d2ababfb",
+      "playable-3d/discovery-opening.js": "100644:2ce06a571e2637ffe3549c3bb7b4f19989355f4b",
+      "playable-3d/guest-shell.mjs": "100644:c096d5d63f71853455c70a9593cdd51ed68323b8",
+      "playable-3d/index.html": "100644:5c9d229e2f067d759289f58d5fe1475731830707",
+      "playable-3d/release-manifest.json": "100644:b5271e0b7660658145307dddbc6ce9ee232eedd4",
+      "tests/unit/software-navigation.test.mjs": "100644:d4530880f1c85bf3f653f5e1129d0a3179f0c2a8",
+      "tests/unit/world-interaction-priority.test.mjs": "100644:e3d0c918f408e3b6f47bcddf4607c2e6a93d88f7"
+    }
   }
 ]
