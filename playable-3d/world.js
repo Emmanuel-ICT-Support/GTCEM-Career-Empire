@@ -1,5 +1,5 @@
 import {approvedPalette} from './environment/approved-campus-kit.js?v=ecc-ba60122';
-import {createESTWallVideo} from './est-wall-video.js?v=load1-20260914';
+import {createESTWallVideo} from './est-wall-video.js?v=est-outside-20261113';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=ecc-ba60122';
 import {LEGACY} from './destinations.js?v=ecc1';
@@ -291,7 +291,7 @@ export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},sch
     return careersLoad;
   }
   const hallSign=sign('EST PREP',4.0);hallSign.position.set(0,5.65,-6.48);interior.add(hallSign);
-  const estVideo=createESTWallVideo(interior);
+  const estVideo=createESTWallVideo(interior,{previewScene:town});
   const stations=[{id:'content',name:'CORE',x:-3.5,z:1.5,colour:0x2e8481},{id:'glossary',name:'TERM',x:3.5,z:1.5,colour:0x927331},{id:'decoder',name:'VTCS',x:-3.5,z:-3.5,colour:0x466faa},{id:'boss',name:'BOSS',x:3.5,z:-3.5,colour:0x9d5368}];
   for(const s of stations){const plaque=sign(s.name,1.04);plaque.position.set(s.x,1.47,s.z+.10);interior.add(plaque);const light=new THREE.PointLight(s.colour,2,3);light.position.set(s.x,1.7,s.z);interior.add(light);}
   // Stronger daytime sun + hemisphere

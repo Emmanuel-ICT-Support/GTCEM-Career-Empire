@@ -380,5 +380,22 @@
       "tests/unit/software-navigation.test.mjs": "100644:d4530880f1c85bf3f653f5e1129d0a3179f0c2a8",
       "tests/unit/world-interaction-priority.test.mjs": "100644:e3d0c918f408e3b6f47bcddf4607c2e6a93d88f7"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-149",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "1d2622a2d46a2f556b705ff41e7c44e49aa84b016c49e8be097ea72be289e1af",
+    "recordSha256": "9e6e5ce7ff916fa118b33de3d0427d2d160081b20385f7c58de46d466d655d74",
+    "reviewedAt": "2026-11-12T22:38:06.730Z",
+    "reviewEvidence": "Seven exact current1733b4b merged EST files; source check387tests/82files,353assets/106imports,4 focused native-video lifecycle/gesture tests; actual native1280/390 outside muted loop, physical entry, screen mouse/touch, audible cinema/close recovery. Published source review44cc39b nine served hashes match, reader1280/390 pass. Native fullscreen denied in headless and broad CI missing-browser/interrupted-native limits retained; no all-green claim.",
+    "files": {
+      "playable-3d/app.js": "100644:0b56ac3a6e09232d036741e29b1012817dbdea02",
+      "playable-3d/est-wall-video.js": "100644:eaba98e37ea475f0cf696c5e172ebbe10b1021b1",
+      "playable-3d/guest-shell.mjs": "100644:cfc16dcce32e073fe825e44aab3ff5b9cc9e35c1",
+      "playable-3d/index.html": "100644:120a511477f1093db9f9926aad19bc7c4a9c516c",
+      "playable-3d/release-manifest.json": "100644:f32b3edfc02eadafded1121ee5ed0137f49b443b",
+      "playable-3d/style.css": "100644:686a485a8a28f7cd1a88dd7f9f63c69a316b97e1",
+      "playable-3d/world.js": "100644:b8d8e60915e0bdd82be8b4187fafef85a68087b3"
+    }
   }
 ]

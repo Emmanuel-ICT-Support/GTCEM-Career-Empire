@@ -54,3 +54,6 @@
 @media(max-width:620px),(max-height:500px) and (max-width:950px){.mode-switch .my-life-link{width:56px;min-width:56px;padding:6px 3px;font-size:11px;line-height:1.2}.mode-switch .my-life-link svg{display:none}}
 
 .blueprint-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 12px;border:1px solid transparent;border-radius:5px;color:inherit;font-size:13px;font-weight:600;text-decoration:none}.blueprint-link:hover{background:#dce7dc}
+
+#est-cinema{display:flex;flex:1;min-height:0;flex-direction:column;gap:8px}
+#est-cinema:fullscreen{width:100vw;height:100dvh;padding:8px;box-sizing:border-box;background:#102622;color:#fff;overflow:auto}

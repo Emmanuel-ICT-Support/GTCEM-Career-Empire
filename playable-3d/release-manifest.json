@@ -1,8 +1,8 @@
 {
-  "release": "chapel-walk-in-20261113",
+  "release": "est-outside-20261113",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "250c409e0b3587c23401d50ec5e7a4f08caf0ec0",
-  "scope": "Automatic Chapel doorway walking, upward/around interior camera and reliable pointer/keyboard/touch exit. Serial merge on Notes250c409; preserve Archon, Notes, curriculum, assets and separate CI/EST/portfolio/Flyover work.",
+  "baseCommit": "1733b4b5e1447e9877e9abb972b816bf1d4102cc",
+  "scope": "EST shared outside briefing projection, muted approach playback and indoor screen cinema gesture/fullscreen fallback. Preserve Chapel1733b4b, Archon, Notes and all unrelated work.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -274,7 +274,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "15acd2d09259ec77ab6c7703f21b136dbe2a212d3f2a8681caef5d0703af56d4"
+      "sha256": "ce6d71e95e51f8237de1238c7b55b8533a051877d66f88d71e6c5d190ca04a1e"
     },
     {
       "path": "arcade-carnival.js",
@@ -1038,7 +1038,7 @@
     },
     {
       "path": "est-wall-video.js",
-      "sha256": "01dff693af85f4c15b86bda3a17e88fe9b0e49fe8c03e6079861f79d80ca9ea4"
+      "sha256": "6fd408b918963130e15ebec269be43de567370bc634a69805ad5e5c279abe1c8"
     },
     {
       "path": "evidence-express.js",
@@ -1074,7 +1074,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "f298d210022fc1bedab7cfc7dabaf2fb7d69fbf0cb6ecbdbbd94dbeb969f2ede"
+      "sha256": "5d6ff1c332aa35124f31707f2580a2f54581b134e783a429a94166afaf0eba81"
     },
     {
       "path": "header-controls.css",
@@ -1098,7 +1098,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "1824f91150452ea6f206f0997c37c204344daa9ab969a4bd6c72c9f00b4ef4dd"
+      "sha256": "ce3f21fdc420d4b177c557f08f24d215d2da851eb7a86b769e94deeddbf6aaf7"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1302,7 +1302,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "7ccc47fd6828e9b3d3d67ceff9c566c48d8239dbc3dce65fc5b4912b4f07d921"
+      "sha256": "d09a0cfce8f22db8753b19cf861569b775ecda088e6f49bdbe1b7b6f1fe483c7"
     },
     {
       "path": "taster-assets/career-empire-intro.mp4",
@@ -1414,7 +1414,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "4942f2ed7c52492be7860391dba38184f9b444e248d131f5b21db3bf293dabb4"
+      "sha256": "84b335396725be3ad02c67fb9d25e9ec09afe10b273b1e375466267b1499c481"
     }
   ],
   "estVideo": {
