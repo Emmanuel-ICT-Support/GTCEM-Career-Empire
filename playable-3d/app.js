@@ -1,7 +1,7 @@
 import {createChapelDoorway,chapelReturnPoint,chapelLookTilt,chapelLookHeight,bindChapelInteraction} from './chapel-entry.mjs?v=chapel-walk-in-20261113';
 import {createJourneyStore,createDiscoveryHandover,explorationForRoute} from './discovery-handover.mjs?v=discovery-handover-20261021';
 import {createClassroomGate} from './classroom-gate.mjs?v=classroom-20261018';
-import {estEyeHeight,estPlayTop} from './est-camera.mjs?v=broad-integrated-20261014';
+import {estEyeHeight} from './est-camera.mjs?v=broad-integrated-20261014';
 import {MARKET_APPROACH} from './landing.mjs?v=post-photo-tour-20261013';
 import {isAdminPreview,adminPreviewURL,createPreviewStorage} from './admin-preview.mjs?v=admin-preview-20261013';
 import {createGpuFrameGate,createTextureUploadQueue} from './frame-budget.mjs?v=interaction-upload-priority-20261016';
@@ -25,7 +25,7 @@ import {afterFirstPaint} from './deferred-textures.js?v=ecc-ba60122';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds,sign} from './world.js?v=est-outside-20261113';
+import {createWorlds,sign} from './world.js?v=est-final-20261113';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=test-characters-20261013';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES,TEST_CHARACTER_INFO,COLOUR_PRESETS} from './profiles.js?v=test-characters-20261013';
@@ -485,7 +485,7 @@ async function setMode(next){
       clearTimeout(toastTimer);$('toast').hidden=true;
     }catch{studioLoadPending=false;if(request===modeRequest)toast('Avatar Studio is getting ready. The studio is still setting things up. Explore Career Empire and pop back in a few minutes.');return false;}
   }
-  if(watchingEST)closeESTVideo();worlds?.estVideo.pause();hallRequest++;previewRequest++;resetNavigationInput();actor?.setWalking(false);document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;$('guidance-help').hidden=next!=='town';$('experience').classList.toggle('in-chapel',next==='chapel');
+  if(watchingEST)closeESTVideo();worlds?.estVideo.pause();hallRequest++;previewRequest++;resetNavigationInput();actor?.setWalking(false);document.querySelectorAll('.movement button').forEach(b=>b.classList.remove('pressed'));drag=null;mode=next;$('guidance-help').hidden=next!=='town';$('experience').classList.toggle('in-chapel',next==='chapel');$('experience').classList.toggle('in-est',next==='interior');
   nightMarket?.setVisible(next==='market');
   echo?.close();if(next==='market')echo?.markMarketVisited();
   const inStudio=next==='studio';$('experience').classList.toggle('in-studio',inStudio);$('arrival-mission').hidden=inStudio||next==='interior'||next==='careers'||next==='chapel';$('est-watch').hidden=true;
@@ -564,7 +564,7 @@ function playESTWall(){
 }
 function closeESTVideo(){documentRequest++;if(document.fullscreenElement)document.exitFullscreen?.();$('est-document-frame').replaceChildren();$('est-video-dialog').close();watchingEST=false;const media=worlds.estVideo.video;media.hidden=true;document.body.append(media);if(mode==='interior')playESTWall();else worlds.estVideo.pause();$('est-video-controls').hidden=true;keys.clear();joystick.reset();tapMovement=null;canvas.focus();}
 function showESTFilm(){documentRequest++; $('est-documents').hidden=true;$('est-document-frame').hidden=true;$('est-document-frame').replaceChildren();$('est-source-title').hidden=true;worlds.estVideo.video.hidden=false;$('est-film-controls').hidden=false; }
-function watchESTVideo(){watchingEST=true;$('est-video-zoom').value='1';$('est-media-slot').classList.remove('zoomed');const media=worlds.estVideo.video;media.loop=false;media.muted=false;media.hidden=false;media.controls=true;$('est-video-sound').textContent='Mute';$('est-media-slot').append(media);showESTFilm();$('est-video-dialog').showModal();$('interact').hidden=true;$('est-watch').hidden=true;interaction=null;clearTimeout(toastTimer);$('toast').hidden=true;keys.clear();joystick.reset();tapMovement=null;actor.setWalking(false);$('est-video-controls').hidden=false;$('est-video-play').textContent='Play';$('est-video-status').textContent='Loading the video for smooth playback and seeking…';worlds.estVideo.play().catch(()=>{$('est-video-status').textContent='Video could not load. Choose Play to retry.';});}
+function watchESTVideo(){watchingEST=true;$('est-video-zoom').value='1';$('est-media-slot').classList.remove('zoomed');const media=worlds.estVideo.video;media.loop=false;media.muted=false;media.hidden=false;media.controls=true;$('est-video-sound').textContent='Mute';$('est-media-slot').append(media);showESTFilm();$('est-video-dialog').showModal();$('est-entry-actions').hidden=true;$('interact').hidden=true;$('est-watch').hidden=true;interaction=null;clearTimeout(toastTimer);$('toast').hidden=true;keys.clear();joystick.reset();tapMovement=null;actor.setWalking(false);$('est-video-controls').hidden=false;$('est-video-play').textContent='Play';$('est-video-status').textContent='Loading the video for smooth playback and seeking…';worlds.estVideo.play().catch(()=>{$('est-video-status').textContent='Video could not load. Choose Play to retry.';});}
 const estDocuments={
  core:{title:'CORE — EST Content',file:'2026-CEMGT-EST-Unit-3-Content.pdf'},
  term:{title:'TERM — Glossary of Terms',file:'Glossary of Terms.pdf'},
@@ -574,12 +574,10 @@ let documentRequest=0,documentPages;
 async function openESTDocument(key){const request=++documentRequest,doc=estDocuments[key];worlds.estVideo.pause();worlds.estVideo.video.hidden=true;$('est-film-controls').hidden=true;$('est-documents').hidden=false;$('est-source-title').hidden=false;$('est-source-title').textContent=doc.title;const url='../Assets/EST%20Preparation/EST%20-%20Knowledge%20reactor/'+encodeURIComponent(doc.file);const frame=$('est-document-frame');frame.hidden=false;frame.textContent='Loading document pages…';$('est-media-slot').classList.remove('zoomed');$('est-document-zoom').value='1';frame.style.setProperty('--document-zoom',1);$('est-document-link').hidden=false;$('est-document-link').href=url;$('est-document-link').textContent='Open original '+doc.title+' PDF ↗';document.querySelectorAll('[data-est-document]').forEach(button=>button.setAttribute('aria-pressed',button.dataset.estDocument===key));$('est-video-status').textContent='Choose CORE, TERM or VTCS above. Scroll through every page; use Document zoom to enlarge the text.';
  try{documentPages??=fetch('./assets/est-documents/pages.json').then(r=>{if(!r.ok)throw Error('Document pages unavailable');return r.json();});const pages=(await documentPages)[key];if(request!==documentRequest)return;frame.replaceChildren();for(const [index,src] of pages.entries()){const figure=document.createElement('figure'),image=document.createElement('img'),caption=document.createElement('figcaption');image.src=src;image.alt=doc.title+' — page '+(index+1);image.loading=index?'lazy':'eager';caption.textContent='Page '+(index+1)+' of '+pages.length;figure.append(image,caption);frame.append(figure);}frame.scrollTo(0,0);}catch{documentPages=null;if(request===documentRequest)frame.textContent='The document pages could not load. Choose the document again, or open the original PDF above.';}}
 
+function canUseESTEntryActions(){return mode==='interior'&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open;}
+function returnFromEST(){if(canUseESTEntryActions())destination('est');}
 function positionESTPlayButton(){
- const button=$('est-watch');
- button.hidden=mode!=='interior'||watchingEST;
- if(button.hidden)return;
- button.style.left=(viewport.width-button.offsetWidth/2-12)+'px';
- button.style.top=estPlayTop(1,viewport.height,document.querySelector('.topbar').getBoundingClientRect().bottom,button.offsetHeight)+'px';
+ const available=canUseESTEntryActions();$('est-entry-actions').hidden=!available;$('est-watch').hidden=!available;
 }
 
 function reflect(){keys.clear();joystick.reset();tapMovement=null;$('reflection-dialog').showModal();$('close-reflection').focus();}
@@ -753,7 +751,7 @@ function updateInteraction(){
     else if(p.z>4.2)interaction={label:'Return to campus',action:()=>destination('est')};
     else interaction={label:'Open EST Prep',action:()=>openModule('Learning labs')};
   }
-  $('interact').hidden=!interaction;if(interaction)if($('interact').querySelector('span').textContent!==interaction.label)$('interact').querySelector('span').textContent=interaction.label;
+  $('interact').hidden=!interaction||(mode==='interior'&&['Return to campus','Watch EST Lab briefing'].includes(interaction?.label));if(interaction)if($('interact').querySelector('span').textContent!==interaction.label)$('interact').querySelector('span').textContent=interaction.label;
 }
 function openModule(name,stage,url,kind){
   const capabilities=kind==='capabilities';
@@ -793,7 +791,7 @@ function bindEvents(){
   document.addEventListener('ce-feedback-open',()=>{flyover?.stop();keys.clear();joystick.reset();tapMovement=null;actor?.setWalking(false);});
   $('careers-destination').addEventListener('click',()=>{if($('exploration-options')?.open)closeExplorationOptions();const go=()=>{setMode('town');enterCareers();};if(mode==='studio')leaveStudio(go);else go();});
   $('est-video-close').addEventListener('click',closeESTVideo);
-  $('est-watch').addEventListener('click',watchESTVideo);
+  $('est-watch').addEventListener('click',()=>{if(canUseESTEntryActions())watchESTVideo();});$('est-return').addEventListener('click',returnFromEST);
   $('est-video-dialog').addEventListener('cancel',e=>{e.preventDefault();closeESTVideo();});
   $('est-video-zoom').addEventListener('change',()=>{const slot=$('est-media-slot'),zoom=Number($('est-video-zoom').value);slot.classList.toggle('zoomed',zoom>1);slot.style.setProperty('--video-zoom',zoom);slot.scrollTo(0,0);});
   $('est-video-fullscreen').addEventListener('click',()=>{if($('est-cinema').requestFullscreen)$('est-cinema').requestFullscreen().catch(()=>toast('Use the video fullscreen control.'));else worlds.estVideo.video.webkitEnterFullscreen?.();});
@@ -911,7 +909,7 @@ function advanceSoftwareNavigation(){
 
 function sceneViewStamp(scene){
   const d=discovery?.snapshot(),h=echo?.snapshot();
-  return [scene.uuid,mode,phase,$('quality').value,viewport.width,viewport.height,entryReady,campusReady,worlds.scenery.status,actor.model.uuid,+actor.model.rotation.y.toFixed(3),...actor.model.position.toArray().map(v=>+v.toFixed(3)),...camera.position.toArray().map(v=>+v.toFixed(3)),...camera.quaternion.toArray().map(v=>+v.toFixed(4)),teachers.length,scene.children.length,d?.step,d?.souvenir,d?.chapelVisited,h?.helper,h?.helperStatus,h?.visible,worlds.estVideo?.previewing?worlds.estVideo.video.currentTime.toFixed(2):''].join('|');
+  return [scene.uuid,mode,phase,$('quality').value,viewport.width,viewport.height,entryReady,campusReady,worlds.scenery.status,actor.model.uuid,+actor.model.rotation.y.toFixed(3),...actor.model.position.toArray().map(v=>+v.toFixed(3)),...camera.position.toArray().map(v=>+v.toFixed(3)),...camera.quaternion.toArray().map(v=>+v.toFixed(4)),teachers.length,worlds.stationCards?.version,scene.children.length,d?.step,d?.souvenir,d?.chapelVisited,h?.helper,h?.helperStatus,h?.visible,worlds.estVideo?.previewing?worlds.estVideo.video.currentTime.toFixed(2):''].join('|');
 }
 
 function animate(){

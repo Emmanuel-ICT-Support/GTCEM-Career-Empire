@@ -1,5 +1,6 @@
+import {createESTStationCards} from './est-station-cards.mjs?v=est-final-20261113';
 import {approvedPalette} from './environment/approved-campus-kit.js?v=ecc-ba60122';
-import {createESTWallVideo} from './est-wall-video.js?v=est-outside-20261113';
+import {createESTWallVideo} from './est-wall-video.js?v=est-final-20261113';
 import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=ecc-ba60122';
 import {LEGACY} from './destinations.js?v=ecc1';
@@ -268,7 +269,7 @@ export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},sch
   let interiorLoad,currentPhase='flourishing';
   function ensureInterior(){
     // The decorative poster must never hold the learning room closed.
-    estVideo.ensurePoster().catch(()=>{});
+    estVideo.ensurePoster().catch(()=>{});stationCards.ensure().catch(()=>{});
     if(!interiorLoad)interiorLoad=loader.loadAsync('./assets/est-interior.glb').then(asset=>{
       inner.add(consolidate(asset.scene));phase(currentPhase);
     }).catch(error=>{interiorLoad=null;throw error;});
@@ -293,7 +294,8 @@ export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},sch
   const hallSign=sign('EST PREP',4.0);hallSign.position.set(0,5.65,-6.48);interior.add(hallSign);
   const estVideo=createESTWallVideo(interior,{previewScene:town});
   const stations=[{id:'content',name:'CORE',x:-3.5,z:1.5,colour:0x2e8481},{id:'glossary',name:'TERM',x:3.5,z:1.5,colour:0x927331},{id:'decoder',name:'VTCS',x:-3.5,z:-3.5,colour:0x466faa},{id:'boss',name:'BOSS',x:3.5,z:-3.5,colour:0x9d5368}];
-  for(const s of stations){const plaque=sign(s.name,1.04);plaque.position.set(s.x,1.47,s.z+.10);interior.add(plaque);const light=new THREE.PointLight(s.colour,2,3);light.position.set(s.x,1.7,s.z);interior.add(light);}
+  const stationCards=createESTStationCards(interior,stations);
+  for(const s of stations){const light=new THREE.PointLight(s.colour,2,3);light.position.set(s.x,1.7,s.z);interior.add(light);}
   // Stronger daytime sun + hemisphere
   const sun=new THREE.DirectionalLight(0xffe0ac,3.5);sun.position.set(-18,24,24);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-36;sun.shadow.camera.right=36;sun.shadow.camera.top=38;sun.shadow.camera.bottom=-32;sun.shadow.camera.far=110;sun.shadow.normalBias=.035;town.add(sun);
   town.add(new THREE.HemisphereLight(0xe8f6ff,0x7d9168,1.5));
@@ -542,7 +544,7 @@ export async function createWorlds(onProgress=()=>{},onSurfaceFailure=()=>{},sch
   }
   for(const o of [trunks,crowns,shrubs,garden,flowers,planting,marks,wear])o.visible=false;
   let arrivalOnly=true;
-  return {findLanding:landing,revealCampusDetail(){for(const root of pendingDetailRoots)root.visible=true;},loadBuildingExteriors,syncWalkingSurfaces:()=>addWalkingSurfaces(town),loadMuralTexture:()=>textures.startMatching(url=>url.includes('media-mural-sharp')),get muralReady(){let ready=false;town.getObjectByName('Campus teaching building exteriors')?.traverse(mesh=>{if(mesh.isMesh&&mesh.material.name==='Media mural original artwork')ready=Boolean(mesh.material.map.image?.width>1&&mesh.material.userData.artworkDrawn);});return ready;},campusGrass:materials.grass,campusPalette:palette,campusTextures:textures,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);const roots=await Promise.all([precinct.loadDetail(),outerAsset.loadDetail(),loadLandscape()]);for(const root of roots){entryPlantingRoots.add(root);root.visible=true;}addWalkingSurfaces(town);},retryDetailTextures:()=>textures.retry(),get failedSurfaceDetails(){return textures.failed;},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,capabilitiesDesk,estVideo,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
+  return {findLanding:landing,revealCampusDetail(){for(const root of pendingDetailRoots)root.visible=true;},loadBuildingExteriors,syncWalkingSurfaces:()=>addWalkingSurfaces(town),loadMuralTexture:()=>textures.startMatching(url=>url.includes('media-mural-sharp')),get muralReady(){let ready=false;town.getObjectByName('Campus teaching building exteriors')?.traverse(mesh=>{if(mesh.isMesh&&mesh.material.name==='Media mural original artwork')ready=Boolean(mesh.material.map.image?.width>1&&mesh.material.userData.artworkDrawn);});return ready;},campusGrass:materials.grass,campusPalette:palette,campusTextures:textures,loadEntry:async()=>{await loadExterior();createCampusPaths(town,palette);const roots=await Promise.all([precinct.loadDetail(),outerAsset.loadDetail(),loadLandscape()]);for(const root of roots){entryPlantingRoots.add(root);root.visible=true;}addWalkingSurfaces(town);},retryDetailTextures:()=>textures.retry(),get failedSurfaceDetails(){return textures.failed;},loadDetailTextures:async()=>{await loadExterior();return textures.start();},openCampus(){arrivalOnly=false;},get arrivalOnly(){return arrivalOnly;},careers,ensureCareers,shopDesk,myLifeDesk,capabilitiesDesk,estVideo,stationCards,chapel,ensureChapel,chapelPhysics,campus,loadScenery,scenery,ensureInterior,town,interior,townPhysics,interiorPhysics,est,stations,phase,
     tileKits:{grass:tileKits.grass.count,path:tileKits.path.count,asphalt:tileKits.asphalt.count,plaza:tileKits.plaza.count},
     get pendingSurfaceDetails(){return textures.pending;},
     plazaTextures:{grass:!!grassMap,stone:!!stoneMap,asphalt:!!asphaltMap,dash:!!dashMap,crosswalk:!!crosswalkMap,curb:!!curbMap},

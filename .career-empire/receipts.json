@@ -397,5 +397,24 @@
       "playable-3d/style.css": "100644:686a485a8a28f7cd1a88dd7f9f63c69a316b97e1",
       "playable-3d/world.js": "100644:b8d8e60915e0bdd82be8b4187fafef85a68087b3"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-155",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "6d204cf642c07b7a980e4fddcfc59e6a3402b07c4741541f41691b0cbd9e75ec",
+    "recordSha256": "7f0058aafcbe0cc76421b29162739075c5ecfbbf9349ab393ef2dce26092ae56",
+    "reviewedAt": "2026-11-12T23:42:19.867Z",
+    "reviewEvidence": "Nine exact final EST files on56d83fe;391unit tests/83files,355runtime hashes/107imports,4 focused video tests, native1280/390 plus1920 entry/no-movement Play and Return, four matching monitor/guide cards, floor-height window and screen-click cinema pass. Published source review e608af8 fifteen served hashes match and reader1280/390 eight images/no overflow pass; preserve d671750 Market reader. Full CI26pass/13admin-legacy-wardrobe-old-Chapel failures/1interrupted/233not-run retained; no all-green, native fullscreen/Safari/physical acceptance claim.",
+    "files": {
+      "playable-3d/app.js": "100644:b1cc3b04c3ab0fe4ec949aa28eff7ae3e7f7e580",
+      "playable-3d/est-station-cards.mjs": "100644:5d5aeb61f33cd83e9e86d085696b0c96c6d9c6a8",
+      "playable-3d/est-wall-video.js": "100644:c115da74c5e115dc15c789a2492c5a25abba58aa",
+      "playable-3d/guest-shell.mjs": "100644:d0f97fa215f40eee9841ee982b8533f009fb94e2",
+      "playable-3d/index.html": "100644:07ad711c033457fe8e9b733f05284a2feb99b8d5",
+      "playable-3d/release-manifest.json": "100644:fc978878f513184aa83b16c3aaab999389e41ef5",
+      "playable-3d/style.css": "100644:39b739a60e3767be6d22e22b7abda976c4e01a36",
+      "playable-3d/world.js": "100644:4352148f503a16e88bd0ee6404d1836cd83b4a9e",
+      "tests/unit/est-presentation.test.mjs": "100644:c3178fddd65df3a595a697524c24e66b905579f8"
+    }
   }
 ]

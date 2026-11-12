@@ -5,7 +5,15 @@ export function createESTWallVideo(scene,{previewScene}={}){
  const material=new THREE.MeshBasicMaterial({color:0xffffff});const screen=new THREE.Mesh(new THREE.PlaneGeometry(6.4,3.6),material);screen.name='EST Lab briefing wall screen';screen.position.set(0,3.3,-6.48);scene.add(screen);
  const frame=new THREE.Mesh(new THREE.BoxGeometry(6.58,3.78,.14),new THREE.MeshStandardMaterial({color:0x203d43,roughness:.7}));frame.position.set(0,3.3,-6.59);scene.add(frame);
  const outsideScreen=previewScene?screen.clone():null;
- if(outsideScreen){outsideScreen.name='EST briefing on actual outdoor room back wall';outsideScreen.geometry=new THREE.PlaneGeometry(2.84,1.6);outsideScreen.position.set(16,2.7,21.7);outsideScreen.rotation.y=Math.PI;previewScene.add(outsideScreen);}
+ let outsideWindow=null;
+ if(outsideScreen){
+  // The three central front panes span x 13.124..18.877, y .36..3.12.
+  // A window-sized backing covers the old cabinet view; the native 16:9 film
+  // uses the full window height without cropping teaching text or stretching.
+  outsideWindow=new THREE.Mesh(new THREE.PlaneGeometry(5.753,2.76),new THREE.MeshBasicMaterial({color:0x0b1725,toneMapped:false}));
+  outsideWindow.name='EST floor-to-ceiling window display';outsideWindow.position.set(16,1.74,13.93);outsideWindow.rotation.y=Math.PI;previewScene.add(outsideWindow);
+  outsideScreen.name='EST full-height window briefing';outsideScreen.geometry=new THREE.PlaneGeometry(2.76*16/9,2.76);outsideScreen.position.set(16,1.74,13.925);outsideScreen.rotation.y=Math.PI;previewScene.add(outsideScreen);
+ }
  let posterLoad;
  function ensurePoster(){
   if(!posterLoad)posterLoad=new THREE.TextureLoader().loadAsync('../Assets/EST%20Preparation/est-lab-systems-poster.png').then(poster=>{
@@ -38,5 +46,5 @@ export function createESTWallVideo(scene,{previewScene}={}){
   if(!wanted){if(previewing)video.pause();previewing=false;attempted=false;return;}
   previewing=true;if(!attempted)retryPreview();
  }
- return {video,screen,outsideScreen,updatePreview,retryPreview,get previewing(){return previewing;},get previewError(){return previewError;},ensurePoster,prepare,pause:()=>video.pause(),play,restart:()=>{prepare();video.currentTime=0;return video.play();}};
+ return {video,screen,outsideScreen,outsideWindow,updatePreview,retryPreview,get previewing(){return previewing;},get previewError(){return previewError;},ensurePoster,prepare,pause:()=>video.pause(),play,restart:()=>{prepare();video.currentTime=0;return video.play();}};
 }

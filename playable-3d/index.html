@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#24433e">
   <title>Career Empire | Your first day</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="./style.css?v=est-outside-20261113">
+  <link rel="stylesheet" href="./style.css?v=est-final-20261113">
   <script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.js","three/addons/":"./vendor/three/examples/jsm/","@dimforge/rapier3d-compat":"./vendor/rapier/rapier.mjs"}}</script>
   <script src="./vendor/lucide/lucide.min.js?v=dressups-entry-20260921" defer></script>
   <link rel="stylesheet" href="./mobile-play.css?v=demo-20260914">
@@ -54,7 +54,7 @@
     <div class="loading" id="loading" role="status"><span class="loading-mark"><i data-lucide="landmark"></i></span><h1>Career Empire</h1><p id="loading-message">Opening the learning district...</p><progress></progress><button id="avatar-retry" type="button" hidden>Retry avatar download</button><a id="fallback-link" href="../modules/est-prep/index.html" hidden>Continue to EST Prep</a></div>
     <div class="toast" id="toast" role="status" hidden></div>
     <output id="diagnostics" class="sr-only" aria-label="Prototype diagnostics"></output>
-  <button id="est-watch" class="est-watch" hidden>EST briefing controls</button>
+  <nav id="est-entry-actions" aria-label="EST entry actions" hidden><button id="est-watch" class="est-watch" type="button">Play EST video</button><button id="est-return" type="button">Return to campus</button></nav>
   <dialog id="est-video-dialog" aria-label="EST briefing cinema"><div id="est-cinema">
     <h2 id="est-source-title" hidden>Choose a source document</h2>
     <div id="est-documents" hidden><nav aria-label="SCSA source documents"><button data-est-document="core">CORE · EST Content</button><button data-est-document="term">TERM · Glossary of Terms</button><button data-est-document="vtcs">VTCS · Words used in questions</button></nav><label>Document zoom <select id="est-document-zoom"><option value="1">Fit width</option><option value="1.5">150%</option><option value="2">200%</option></select></label><a id="est-document-link" target="_blank" rel="noopener">Select a document above</a></div>
@@ -63,7 +63,7 @@
   </div></dialog></main>
   <section class="module-overlay" id="module-overlay" aria-label="EST Prep activity" hidden><header><div><i data-lucide="landmark"></i><strong id="module-heading">EST Prep</strong><span id="module-name"></span></div><button id="close-module"><i data-lucide="arrow-left"></i><span>Return to hall</span></button></header><iframe id="module-frame" title="Existing EST Prep learning module"></iframe></section>
   <dialog id="leave-dialog"><h2>Save your character?</h2><p>You have unsaved appearance changes.</p><div class="dialog-actions"><button id="keep-editing">Keep editing</button><button id="discard-changes">Discard</button><button class="primary" id="save-changes">Save</button></div></dialog>
-<script type="module" src="./guest-shell.mjs?v=est-outside-20261113"></script>
+<script type="module" src="./guest-shell.mjs?v=est-final-20261113"></script>
 <dialog id="reflection-dialog" aria-labelledby="reflection-title"><p class="eyebrow">ECC CHAPEL</p><h2 id="reflection-title">A moment of stillness</h2><p>Let your shoulders soften. Notice the light around you.</p><p>Take a gentle breath, at your own pace.</p><p>What is one good thing you can carry into the rest of your day?</p><button id="close-reflection">Return to the Chapel</button></dialog>
 <script src="../config/supabase-config.js"></script>
 <script src="../src/services/supabase-browser.js"></script>

@@ -57,3 +57,11 @@
 
 #est-cinema{display:flex;flex:1;min-height:0;flex-direction:column;gap:8px}
 #est-cinema:fullscreen{width:100vw;height:100dvh;padding:8px;box-sizing:border-box;background:#102622;color:#fff;overflow:auto}
+
+/* Stable EST actions are available from the first interior frame. */
+#est-entry-actions{position:fixed;z-index:6;bottom:32px;left:50%;transform:translateX(-50%);display:flex;gap:10px;padding:8px;border-radius:12px;background:#f7f4e9f5;border:1px solid #b9cbbf;max-width:calc(100% - 24px);box-shadow:0 3px 18px #102d2533}
+#est-entry-actions button{position:static;transform:none;min-height:48px;padding:12px 18px;font-size:14px;font-weight:700;white-space:nowrap;border-radius:8px}
+#est-watch{background:#24554c;color:white;border:2px solid #d8bf75;box-shadow:none}
+#est-return{background:#fdfcf7;color:#20473d;border:1px solid #78998b}
+.in-est .interaction{bottom:112px}
+@media(max-width:620px){#est-entry-actions{bottom:180px;left:12px;right:12px;transform:none;max-width:none;padding:7px;gap:7px}#est-entry-actions button{flex:1;padding:10px 8px;font-size:12px;min-height:46px}.in-est .interaction{bottom:248px;max-width:calc(100% - 24px)}}

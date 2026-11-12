@@ -1,9 +1,13 @@
 {
-  "release": "est-outside-20261113",
+  "release": "est-final-20261113",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "1733b4b5e1447e9877e9abb972b816bf1d4102cc",
-  "scope": "EST shared outside briefing projection, muted approach playback and indoor screen cinema gesture/fullscreen fallback. Preserve Chapel1733b4b, Archon, Notes and all unrelated work.",
+  "baseCommit": "56d83fe54e5121cabf9152e86282f4c01412da29",
+  "scope": "Final bounded EST window display, two immediate entry actions and four corresponding monitor cards with existing celebrating guide. Preserve Archon Notes Chapel, queued portfolio and separate CI.",
   "files": [
+    {
+      "path": "../Assets/EST Preparation/guide-character/guide-celebration.png",
+      "sha256": "59cd19df4cf0755dea0eb2fbd7941aab13a466c40dd56cf27780a6c555da7222"
+    },
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
       "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
@@ -274,7 +278,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "ce6d71e95e51f8237de1238c7b55b8533a051877d66f88d71e6c5d190ca04a1e"
+      "sha256": "570f6847e69d110b5eb1cf3d7ec3255d198761e23d85d175145c515e4e22b55b"
     },
     {
       "path": "arcade-carnival.js",
@@ -1037,8 +1041,12 @@
       "sha256": "364da9308cf57aea65f54645923017c6267d5347bb983315fd5f17334c07cf3f"
     },
     {
+      "path": "est-station-cards.mjs",
+      "sha256": "297010d37a7d55c04464e2f5008656eef01399bd7e4be6c136684ce0110614db"
+    },
+    {
       "path": "est-wall-video.js",
-      "sha256": "6fd408b918963130e15ebec269be43de567370bc634a69805ad5e5c279abe1c8"
+      "sha256": "63dd36d7e3459572bab9d41416b1b9f803aa9494fa6cd8f9865a5fa290600cac"
     },
     {
       "path": "evidence-express.js",
@@ -1074,7 +1082,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "5d6ff1c332aa35124f31707f2580a2f54581b134e783a429a94166afaf0eba81"
+      "sha256": "5a3a2b2ea4cd7a6685a23fbe412af8aff98774a722b03fcc1b1e15b458811302"
     },
     {
       "path": "header-controls.css",
@@ -1098,7 +1106,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "ce3f21fdc420d4b177c557f08f24d215d2da851eb7a86b769e94deeddbf6aaf7"
+      "sha256": "c3dc8509de79509b8a93930e36feb63d2ebced4230e4b048d33d574f2a4685e7"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1302,7 +1310,7 @@
     },
     {
       "path": "style.css",
-      "sha256": "d09a0cfce8f22db8753b19cf861569b775ecda088e6f49bdbe1b7b6f1fe483c7"
+      "sha256": "0e4a31e98cffb28c2b4ab7ef7d4dd368402f81707bc6d67df4437eed4960b24b"
     },
     {
       "path": "taster-assets/career-empire-intro.mp4",
@@ -1414,7 +1422,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "84b335396725be3ad02c67fb9d25e9ec09afe10b273b1e375466267b1499c481"
+      "sha256": "e4acb25fe41b8cdf0746957a3f1be78ee77203665106bae5e8a023f478bf10d4"
     }
   ],
   "estVideo": {
