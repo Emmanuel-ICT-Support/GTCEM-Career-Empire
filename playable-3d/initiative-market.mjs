@@ -1,12 +1,13 @@
+import {worksheetDraftFits} from '../modules/initiative/parallel/learning/notes-worksheet.mjs?v=notes-worksheet-20261112';
 const revision = 'initiative-learning-r1';
 const schemaVersion = '1.0.0';
 const hash = 'ae97e51da217aca0cd8d4b7f438afea53a19e3fb0ff63cbf6009d7f56df36265';
 const lessonId = 'ce.lesson.initiative.foundation';
 const evidenceId = 'ce.evidence.initiative.transfer';
 
-export function initiativeMarketChoices({ notes, archon, mara, welcome }) {
+export function initiativeMarketChoices({ notes, archon, mara, welcome, notesReturnLabel }) {
   return [
-    ['Initiative lecture and notes', () => notes(welcome)],
+    ['Initiative lecture and notes', () => notes(welcome, notesReturnLabel)],
     ['Careers Archon', () => archon(welcome)],
     ['Mara’s Market experience', mara]
   ];
@@ -34,13 +35,13 @@ export function createInitiativeNotes({
   dialog.addEventListener('cancel', dispose);
   dialog.addEventListener('close', () => { if (!dialog.open) dispose(); });
 
-  return async function openNotes(welcome) {
+  return async function openNotes(welcome, returnLabel = 'Back to Market choices') {
     dispose();
     const learner = currentLearner();
     const context = { learner, libraryRevision: revision, schemaVersion, lessonId, evidenceId };
     const back = () => { dispose(); welcome(); };
-    show('Initiative lecture and notes', 'Learn the five behaviours and practise explaining initiative.', [
-      ['Back to Market choices', back]
+    show('Initiative lecture and notes', 'Read the source-informed guide, complete your responses and return to the Market.', [
+      [returnLabel, back]
     ]);
     const root = doc.createElement('div');
     const status = doc.createElement('p');
@@ -73,23 +74,28 @@ export function createInitiativeNotes({
         lessonId, onExit: back,
         onEvidence(event) {
           if (!isCurrent()) return;
-          status.textContent = persist(recordEvidence, { ...event, learner })
+          if (event.type === 'transfer-draft' && !worksheetDraftFits(visit.lesson.serializeDraft?.() ?? event.text)) { status.textContent = 'These notes exceed the 4,000-character device limit. Edits remain available for this visit; shorten a response to save.'; return; }
+          status.textContent = persist(recordEvidence, { ...event, ...(event.type === 'transfer-draft' ? {text:visit.lesson.serializeDraft?.() ?? event.text} : {}), learner })
             ? 'Practice recorded for this learner.'
             : 'Practice was not recorded. You can try again.';
         }
       });
-      // Shared renderer r1 has no draft hydration API and renders one textarea.
       const input = root.querySelector('textarea');
       if (!input) throw new Error('Draft field unavailable');
-      input.value = unsaved.get(learner) ?? readDraft(context) ?? '';
-      input.addEventListener('input', () => {
+      const restored = unsaved.get(learner) ?? readDraft(context) ?? '';
+      if (visit.lesson.restoreDraft) visit.lesson.restoreDraft(restored);
+      else input.value = restored;
+      root.addEventListener('input', () => {
         if (!isCurrent()) return;
-        unsaved.set(learner, input.value);
-        if (persist(saveDraft, { ...context, text: input.value })) {
+        const text = visit.lesson.serializeDraft?.() ?? input.value;
+        unsaved.set(learner, text);
+        if (worksheetDraftFits(text) && persist(saveDraft, { ...context, text })) {
           unsaved.delete(learner);
-          status.textContent = 'Draft saved.';
+          status.textContent = 'Draft kept for this game run. Guest drafts last only while this tab stays open; teacher sync is not confirmed.';
         } else {
-          status.textContent = 'Draft is kept for this visit only. Saving failed.';
+          status.textContent = worksheetDraftFits(text)
+            ? 'Draft is kept for this visit only. Saving failed.'
+            : 'These notes exceed the 4,000-character device limit. Your edits are kept for this visit; shorten a response to save.';
         }
       });
       status.textContent = unsaved.has(learner) ? 'Unsaved draft restored for this visit.' : '';

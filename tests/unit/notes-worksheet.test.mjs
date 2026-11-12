@@ -1,0 +1,7 @@
+import {test} from 'vitest';
+import assert from 'node:assert/strict';
+import {decodeWorksheetDraft,encodeWorksheetDraft,worksheetDraftFits} from '../../modules/initiative/parallel/learning/notes-worksheet.mjs';
+test('old four-thousand-character explanations restore without truncation or interpretation',()=>{const text='I noticed <a> & \"a\" '.repeat(240).slice(0,4000);assert.deepEqual(decodeWorksheetDraft(text),{transfer:text});});
+test('written answers and shared-check choices survive a complete JSON round trip',()=>{const fields={definition:'Useful action without being told.',ella:'Milk → service can continue.',transfer:'I would check my role.','check:ce.check.initiative.act':'act','check:ce.check.initiative.benefit':'efficiency'};assert.deepEqual(decodeWorksheetDraft(encodeWorksheetDraft(fields)),fields);assert.equal(worksheetDraftFits(encodeWorksheetDraft(fields)),true);});
+test('malformed structured drafts are kept as recoverable text, unrelated keys ignored',()=>{const raw='ce-notes-worksheet-v1:{broken';assert.deepEqual(decodeWorksheetDraft(raw),{transfer:raw});assert.deepEqual(decodeWorksheetDraft('ce-notes-worksheet-v1:{"definition":"draft","token":"private","check:unknown":"x"}'),{definition:'draft'});});
+test('over-limit encoded drafts are refused before the existing storage slice can corrupt JSON',()=>{const encoded=encodeWorksheetDraft({transfer:'a'.repeat(4000),definition:'more'});assert.equal(worksheetDraftFits(encoded),false);assert.equal(decodeWorksheetDraft(encoded).transfer.length,4000);});

@@ -341,5 +341,26 @@
       "playable-3d/release-manifest.json": "100644:94b8fcc5dbba944e9158f6f0164a00603a9f7bd4",
       "tests/unit/archon-camera.test.mjs": "100644:513204956e0914c7e730c5847d378dd190ea22db"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261112-145",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "3a2a4ab40396096a992b28de2751dd561f8090beb7b43676abced684db202eff",
+    "recordSha256": "a343f98ae19a08f9a8fcaea773bdd6b8ef986fd5143b36512128b5124b581918",
+    "reviewedAt": "2026-11-12T15:38:01.811Z",
+    "reviewEvidence": "Authenticated owner yes15:28:58UTC independently read, approving public supporting Notes record/screenshots then game release. Exact11 frozen/index versions match386/82 source/unit,352/105 final index and actual-game1280/390/1920 plus six draft recovery/isolation checks. Blueprint74553d6dab3b95b5b02a8a609133c5997b950d3e Pages43249335964 succeeded; all10 public file hashes independently verified. No original licensed page/full transcription. Required local CI invoked before commit, result separately retained; no all-CI-green claim.",
+    "files": {
+      "modules/initiative/parallel/learning/lesson.css": "100644:738f272fd32a8ac8fc4a56f1671918d4852d7270",
+      "modules/initiative/parallel/learning/lesson.mjs": "100644:3f52c0fb4e0286b80419b056b1352433d90ab8b9",
+      "modules/initiative/parallel/learning/notes-worksheet.mjs": "100644:782452599936f7ada7dbd0f813ade8e3307d7a91",
+      "playable-3d/app.js": "100644:d608909250106262f3aecb3b83f22fad776f80ca",
+      "playable-3d/guest-shell.mjs": "100644:7bb9a61ec86c60f2044b32084af2a80ddd7667ae",
+      "playable-3d/index.html": "100644:01e7cb73b72ecee71020d9bf43f4371ddde36eb3",
+      "playable-3d/initiative-market.mjs": "100644:fb63dbaea1b955eca613c0a0db5670134fb8402b",
+      "playable-3d/market-learning-routes.mjs": "100644:b8c5830707ded60c6b942739f362b54c85827c85",
+      "playable-3d/night-market.js": "100644:386cd202eafe61d435c5796d26725cb99dfa06b7",
+      "playable-3d/release-manifest.json": "100644:dde9fdf1ca917a0ebc8c9df8b22dc309c119d652",
+      "tests/unit/notes-worksheet.test.mjs": "100644:0199e9f30fcca4d52e01ebf18e0cb1c77d2c45a2"
+    }
   }
 ]

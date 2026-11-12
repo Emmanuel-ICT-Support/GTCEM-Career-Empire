@@ -1,5 +1,5 @@
 import {mountMarketEntrance} from './market-entrance/market-entrance.mjs?v=market-infographic-20261111';
-import {createMarketLearningRoutes} from './market-learning-routes.mjs?v=market-infographic-20261111';
+import {createMarketLearningRoutes} from './market-learning-routes.mjs?v=notes-worksheet-20261112';
 import {createMarketWelcome} from './market-welcome.mjs?v=mara-language-20261102';
 import {createMarketTeaching} from './market-teaching.mjs?v=mara-language-20261102';
 import {initiativeProgress} from './initiative-progress.mjs?v=initiative-arcade-20261014';
@@ -461,6 +461,7 @@ export function createNightMarket({storage,onPause,onClose,onExit,onTravel=()=>{
   const s=store.state,badges=s.badges.map(b=>BADGES[b].join(': ')).join(' ');
   show('Your market journal',`${s.paid?'First shift complete.':s.accepted?'Shift in progress.':'A first opportunity is waiting.'} Wallet ${money(s.wallet)} · Savings ${money(s.savings)}. ${s.rested?'You took a free break.':''} ${s.encore?'Ticket stub: MY FIRST GIG — Juniper Kitchen crew.':s.pass?'Crew pass: ready to use beside the stage.':''} ${badges||'Game badges will describe the skills you practise.'}`,[
    ['Replay Mara’s welcome',maraIntro],
+   ['Lecture notes',()=>initiativeChoices({welcome:journal,mara:close,notesReturnLabel:'Back to my journal'}).byId.notes()],
    ['Careers Archon · test release',()=>initiativeChoices({welcome:journal,mara:close}).byId.archon(journal)],
    ['Money & keepsakes in Stats',()=>{close();document.getElementById('exploration-stats-toggle')?.click();}],
    [canVisitAdministration()?'Explore the administration centre':'Markets Administration · after the first gig',()=>canVisitAdministration()?visitDistrict(2):show('Your next assignment','Finish your agreed first gig with Mara, then visit Reception through the west entrance. Nora checks evidence, Dev tests work plans, and the opportunities team helps Alex apply.',[['Keep exploring',close]])],

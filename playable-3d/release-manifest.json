@@ -1,8 +1,8 @@
 {
-  "release": "archon-readable-board-20261112",
+  "release": "initiative-notes-worksheet-20261112",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "6d4c793c20b0e5c163f9758cc332a719e87108d3",
-  "scope": "Readable Meeting of Minds, large Game ID, native lobby video loop and front-side board camera/limits with skippable reduced-motion-aware overview. Preserve Perth world, rules and existing hosted service; no backend/security change.",
+  "baseCommit": "7597b1a33b4b946a6c89cc0758c6e0d33a46c11e",
+  "scope": "Attributed Carolan-informed Notes reading, shared-bank practice and written response worksheet. Preserve published Archon, same learner/run draft boundary, Market navigation and other module candidates; no original licensed pages or backend changes.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -238,15 +238,19 @@
     },
     {
       "path": "../modules/initiative/parallel/learning/lesson.css",
-      "sha256": "2548b6a8f39a247e512c65fcf554cd629aa8dc77246e1800d655bb3a5acd04fa"
+      "sha256": "b39fa251bb6e98c22526231d21110b7b2709e1e6f3d1cbf3179d868715cae890"
     },
     {
       "path": "../modules/initiative/parallel/learning/lesson.mjs",
-      "sha256": "50eff5064b8ddcb338760bb48d101c0b113cef14798eac32971ffe85c614943a"
+      "sha256": "6d159cd7106ed39413fc53f1383a49fed22945cdfa5ec2964d4fd0825ea437c2"
     },
     {
       "path": "../modules/initiative/parallel/learning/library.json",
       "sha256": "ae97e51da217aca0cd8d4b7f438afea53a19e3fb0ff63cbf6009d7f56df36265"
+    },
+    {
+      "path": "../modules/initiative/parallel/learning/notes-worksheet.mjs",
+      "sha256": "c33000ae9e1ef12cffa734016f8b0d9e5576ddd60da69b1125fe549bf9fc7006"
     },
     {
       "path": "../modules/initiative/parallel/learning/portfolio/images.manifest.json",
@@ -270,7 +274,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "6181bdb5cb811d7af269dd69997df0487b98686fbb0e0976fc01ff3c64b3a2e7"
+      "sha256": "12298877c8ec695ac0add84f892dd3e62f86148004921db0e17247cdf09bc000"
     },
     {
       "path": "arcade-carnival.js",
@@ -1066,7 +1070,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "a9590780a3de4d86ac4fb98d86de9c24596910b06b6d0877341e8d48c36d228a"
+      "sha256": "1ca2e264d3c3da8c28ef0280c1219b733538bac4c492d8d89a8fffe5683edbb9"
     },
     {
       "path": "header-controls.css",
@@ -1090,7 +1094,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "6f26209ac99c87fa7803353f8e847efad84501de7105d37173a63663df757978"
+      "sha256": "3c25a421b4a7674e86288dedd607cab3edd1559b43a35e58db515aa9faf796b4"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1098,7 +1102,7 @@
     },
     {
       "path": "initiative-market.mjs",
-      "sha256": "0f9275a4a300e000a33373631893462e9302f2e7413f102f9656ef727047c776"
+      "sha256": "b124b79d309d441307155d0496dbbac1d08647d1bb720e8deaea7db9f11625bf"
     },
     {
       "path": "initiative-progress.mjs",
@@ -1178,7 +1182,7 @@
     },
     {
       "path": "market-learning-routes.mjs",
-      "sha256": "b9bba37fec3530edf87138a10a7aca15504a67cb1fd441cf8d14173c27361cb2"
+      "sha256": "870c6c84eccb075edfc8bebd3e43f0514bd7ef65c4cbbdee37d9023f54bc06fe"
     },
     {
       "path": "market-surroundings.js",
@@ -1214,7 +1218,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "9c37753558cb76a4af89062e05b7e1bfa16e0330e610f88bcc63852b628f6ef1"
+      "sha256": "be22f1afdcccb42dd3dc8fcce52edf8a5e31dcbc21cab70db82b9b8a800b0273"
     },
     {
       "path": "opening-chapters-state.js",
