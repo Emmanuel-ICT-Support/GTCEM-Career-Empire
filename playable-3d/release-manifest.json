@@ -1,8 +1,8 @@
 {
-  "release": "archon-self-service-testing-20261112",
+  "release": "archon-readable-board-20261112",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "69aa78eedb6a0216552e8fd5778b6b359f64cc71",
-  "scope": "Self-service Careers Archon testing release: adjudicator creates Game ID, two players join; latest native video-first lobby and preserved Market/map return. Full hosted browser acceptance remains open. Scheduled private cleanup is independently reported verified by the Archon owner; this frontend task did not change or retest it. No backend/security change in this frontend release.",
+  "baseCommit": "6d4c793c20b0e5c163f9758cc332a719e87108d3",
+  "scope": "Readable Meeting of Minds, large Game ID, native lobby video loop and front-side board camera/limits with skippable reduced-motion-aware overview. Preserve Perth world, rules and existing hosted service; no backend/security change.",
   "files": [
     {
       "path": "../Assets/EST Preparation/initiative-one-page-summary.png",
@@ -103,6 +103,134 @@
     {
       "path": "../economy-lab/work-ui.mjs",
       "sha256": "c66f122a16cb69aea859e3c849a2575bd1d35103d1fcfac932c99f0e470d8649"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/archon-room-client.mjs",
+      "sha256": "3ddab51a4fffc2484fd89880e23cd7ebc17e8183b5d06e52ec77cc080334445c"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/archon-room-poller.mjs",
+      "sha256": "5024e008428a90818fa56aa754b223c245dba01419333fcb43d4668cb985e632"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/arcade-crown.glb",
+      "sha256": "d6d8f2b09875fb1a1fedef983c7f7bebe237db014f4c294ebb758c371f7dffcc"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/archon-gameplay-poster.jpg",
+      "sha256": "09ed9b65f3a95d7a8d7faff18a4930e83f3b893404a5e8cc3edc70d31d75566a"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/archon-gameplay.mp4",
+      "sha256": "83459b0b2e387c82b46431cbc39fa00fcca6c3248cb4a818ed0d17621363caa7"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/hair-bob.glb",
+      "sha256": "6ceb08dd97a616d11b29f3c4079bfd21e0ed96aea76f059770f4bc7b4fecf1c3"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/hair-sweep.glb",
+      "sha256": "7e2c04b75344c0bf07d4539cbbd36bbd160f7b6d99353e92c0fe112475492563"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/hospital-scrub-top.glb",
+      "sha256": "34d11bf9d1ac4100140b03f448f08107d4cb388563bf4f68887eb6fd652374b0"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/initiative-guide.png",
+      "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/neckline-skin.glb",
+      "sha256": "06e0e2fe84d1fd6eb1c67b1f413ff224e2b07054427155b73e4ae7c2f385e9ab"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/occupational-pants-scrubs.glb",
+      "sha256": "fc3ed1c6ee4c327f6e0f22bcad90a8909851bb15ddca1947dc8457a8fa32a981"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/occupational-pants-tradie.glb",
+      "sha256": "cecf2768bf5816859e29eb43f75a486029e824771aa7fdf2a67f141a13d4feab"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/occupational-top-work.glb",
+      "sha256": "ca989ceea847a37b1fdf832127d604fd7893db995ba3d5bf41a336f2f7cad407"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/perth-dusk-panorama.jpg",
+      "sha256": "3f297eb1403c0cbabadbd7d321fcc708361fec1b7c835bd35b965fe8a302c242"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/shoes-boots.glb",
+      "sha256": "163c0b81b4b97627966fd52b2a91698d4bd891335308a01e23fd7399626080a9"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/shoes-clogs.glb",
+      "sha256": "8c079b1103d68406ca6f4bd767495ea2c91b77299d467112ea7d7621bb713c58"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/studio-walking-base.glb",
+      "sha256": "38631c75839ef638ce6821b9ccd7152cbc1f2ca75cd8c7d075c6c6847b732b3e"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/art/waterfront-facades.png",
+      "sha256": "a3764632a40bb5fd35c3e8bf7ab3e4072fa751a466b1f39b000e1f2c598172f9"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/board-rules.mjs",
+      "sha256": "24458e80dd8293cf68b12dbc0abc95988d40ef9f1b80b72595247123cd0a785a"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/index.html",
+      "sha256": "bfb980e53261502a651a87377239fe833f31faf77b661d0dd02a5934bb7d4254"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/parallel/gameplay/board-camera.mjs",
+      "sha256": "f92c9ad73bdd07098c8d97a22882fa57c345f6b1136ec031efc1311f5762f4c5"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/parallel/gameplay/match-client.mjs",
+      "sha256": "227e4274b471da6b6d3ae911b27d7e62efb8c8c8038c656b00ede5b1d3486960"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/parallel/gameplay/player.css",
+      "sha256": "2461b124e30f1661930bdba14363041025037116ea8969e2985d40cee359486c"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/parallel/gameplay/plaza-doors.mjs",
+      "sha256": "92d101ffefcbc3afb5eee32cf4a42d89310b536c63cfede5c681ab557b270533"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/parallel/pieces/showcase-pieces.mjs",
+      "sha256": "528b99c3a509bb03b9b3137a546fc4e80f3270fb3af0119af440753b490280b2"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/preview.html",
+      "sha256": "2858f47e253ec4b16dbc7569501ea43a2e7ef8636da21635e8e3ba1308013833"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/preview.js",
+      "sha256": "c5a38bcc61e7b90208fdddfac807dba793fe4c321933ebd6fc5bf7a1f14ff129"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/vendor/loaders/GLTFLoader.js",
+      "sha256": "67ac5551fdafa6e349bd80c8f8e5e39c136d6b2fb1ad647db9abb21dc86f9e4a"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/vendor/three.core.js",
+      "sha256": "eb077d2417f61d3e6d9264c317cabc4ea35769ed6b0ab533067292a550784c20"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/vendor/three.module.js",
+      "sha256": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/vendor/utils/BufferGeometryUtils.js",
+      "sha256": "fda7e946b8e0b5ab39b779206589e7a1079a22eb24efb89d7223e03fdfb1f751"
+    },
+    {
+      "path": "../modules/archon-careers/hosted/vendor/utils/SkeletonUtils.js",
+      "sha256": "0761b1e003917b215d25dd81439d854b36034b5a57ce84c2cfe3b02428d7b253"
     },
     {
       "path": "../modules/initiative/parallel/integration/market-learning-host.mjs",
@@ -1279,130 +1407,6 @@
     {
       "path": "world.js",
       "sha256": "4942f2ed7c52492be7860391dba38184f9b444e248d131f5b21db3bf293dabb4"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/archon-room-client.mjs",
-      "sha256": "3ddab51a4fffc2484fd89880e23cd7ebc17e8183b5d06e52ec77cc080334445c"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/archon-room-poller.mjs",
-      "sha256": "5024e008428a90818fa56aa754b223c245dba01419333fcb43d4668cb985e632"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/arcade-crown.glb",
-      "sha256": "d6d8f2b09875fb1a1fedef983c7f7bebe237db014f4c294ebb758c371f7dffcc"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/archon-gameplay-poster.jpg",
-      "sha256": "09ed9b65f3a95d7a8d7faff18a4930e83f3b893404a5e8cc3edc70d31d75566a"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/archon-gameplay.mp4",
-      "sha256": "83459b0b2e387c82b46431cbc39fa00fcca6c3248cb4a818ed0d17621363caa7"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/hair-bob.glb",
-      "sha256": "6ceb08dd97a616d11b29f3c4079bfd21e0ed96aea76f059770f4bc7b4fecf1c3"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/hair-sweep.glb",
-      "sha256": "7e2c04b75344c0bf07d4539cbbd36bbd160f7b6d99353e92c0fe112475492563"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/hospital-scrub-top.glb",
-      "sha256": "34d11bf9d1ac4100140b03f448f08107d4cb388563bf4f68887eb6fd652374b0"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/initiative-guide.png",
-      "sha256": "2054950318cbfb9c1df260cf0cce62f57ef656c834fa67c26fdb583cf7477ea7"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/neckline-skin.glb",
-      "sha256": "06e0e2fe84d1fd6eb1c67b1f413ff224e2b07054427155b73e4ae7c2f385e9ab"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/occupational-pants-scrubs.glb",
-      "sha256": "fc3ed1c6ee4c327f6e0f22bcad90a8909851bb15ddca1947dc8457a8fa32a981"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/occupational-pants-tradie.glb",
-      "sha256": "cecf2768bf5816859e29eb43f75a486029e824771aa7fdf2a67f141a13d4feab"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/occupational-top-work.glb",
-      "sha256": "ca989ceea847a37b1fdf832127d604fd7893db995ba3d5bf41a336f2f7cad407"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/perth-dusk-panorama.jpg",
-      "sha256": "3f297eb1403c0cbabadbd7d321fcc708361fec1b7c835bd35b965fe8a302c242"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/shoes-boots.glb",
-      "sha256": "163c0b81b4b97627966fd52b2a91698d4bd891335308a01e23fd7399626080a9"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/shoes-clogs.glb",
-      "sha256": "8c079b1103d68406ca6f4bd767495ea2c91b77299d467112ea7d7621bb713c58"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/studio-walking-base.glb",
-      "sha256": "38631c75839ef638ce6821b9ccd7152cbc1f2ca75cd8c7d075c6c6847b732b3e"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/art/waterfront-facades.png",
-      "sha256": "a3764632a40bb5fd35c3e8bf7ab3e4072fa751a466b1f39b000e1f2c598172f9"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/board-rules.mjs",
-      "sha256": "24458e80dd8293cf68b12dbc0abc95988d40ef9f1b80b72595247123cd0a785a"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/index.html",
-      "sha256": "17a81b4158149c3d171b28e8f7383275e401dbce79136cccee3e8279e95938b2"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/parallel/gameplay/match-client.mjs",
-      "sha256": "227e4274b471da6b6d3ae911b27d7e62efb8c8c8038c656b00ede5b1d3486960"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/parallel/gameplay/player.css",
-      "sha256": "441b188909768644bc475c67435d83bb5d2bb97925f350fe51fe72aa60e79a1d"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/parallel/gameplay/plaza-doors.mjs",
-      "sha256": "92d101ffefcbc3afb5eee32cf4a42d89310b536c63cfede5c681ab557b270533"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/parallel/pieces/showcase-pieces.mjs",
-      "sha256": "528b99c3a509bb03b9b3137a546fc4e80f3270fb3af0119af440753b490280b2"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/preview.html",
-      "sha256": "b8cefd5b4205baa52789b48e98d4cf2e228a776b2b36041edc13025c372c4e98"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/preview.js",
-      "sha256": "4c8303e92d6636198885b943694fd134a084df33564f95678980e14409206545"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/vendor/loaders/GLTFLoader.js",
-      "sha256": "67ac5551fdafa6e349bd80c8f8e5e39c136d6b2fb1ad647db9abb21dc86f9e4a"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/vendor/three.core.js",
-      "sha256": "eb077d2417f61d3e6d9264c317cabc4ea35769ed6b0ab533067292a550784c20"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/vendor/three.module.js",
-      "sha256": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/vendor/utils/BufferGeometryUtils.js",
-      "sha256": "fda7e946b8e0b5ab39b779206589e7a1079a22eb24efb89d7223e03fdfb1f751"
-    },
-    {
-      "path": "../modules/archon-careers/hosted/vendor/utils/SkeletonUtils.js",
-      "sha256": "0761b1e003917b215d25dd81439d854b36034b5a57ce84c2cfe3b02428d7b253"
     }
   ],
   "estVideo": {

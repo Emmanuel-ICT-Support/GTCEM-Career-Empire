@@ -324,5 +324,22 @@
       "scripts/js-syntax-check.mjs": "100644:cee07943f27e128472f0dc273919262ccd7cbdd4",
       "tests/unit/dev-check-syntax.test.mjs": "100644:0f6728b5c5f5d43afc50305afa3d9216a543ab19"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261112-144",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "6fb6bb1816db9e1188bedc23d53d5ddeee543f393464b4f95175912773411330",
+    "recordSha256": "4f74339e54b14aa9ef066d8bdfe495526b8d2daae6ae48a6662d0f0b1bb85567",
+    "reviewedAt": "2026-11-12T10:33:00.924Z",
+    "reviewEvidence": "Exact seven staged source bindings reviewed from 6d4c793; final 382 tests in 81 files, 351 runtime hashes and 104 imports passed. Genuine hosted eight-duel match plus final native Start/Skip, both seats at 1280/390, reset/orbit and Market return passed. Blueprint source review 9bc8aec961a34fd3d31dea89357c24459fda76e1 independently verified all nine public file hashes. Human explicitly approved publication in this integration chat.",
+    "files": {
+      "modules/archon-careers/hosted/index.html": "100644:4ebd4002e3982648b4ea3599575faa676722f366",
+      "modules/archon-careers/hosted/parallel/gameplay/board-camera.mjs": "100644:26e6aa2dcff100c55479a45cc8e009367df53cc1",
+      "modules/archon-careers/hosted/parallel/gameplay/player.css": "100644:357c619981b44dff41860417c08ab340f1622c25",
+      "modules/archon-careers/hosted/preview.html": "100644:8bf0b878080b9ed6ae6a086d3eaea2fd83dbc302",
+      "modules/archon-careers/hosted/preview.js": "100644:4823e7d37f3d07764eba4f804e7977032165073d",
+      "playable-3d/release-manifest.json": "100644:94b8fcc5dbba944e9158f6f0164a00603a9f7bd4",
+      "tests/unit/archon-camera.test.mjs": "100644:513204956e0914c7e730c5847d378dd190ea22db"
+    }
   }
 ]

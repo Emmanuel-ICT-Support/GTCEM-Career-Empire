@@ -5,11 +5,11 @@
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#193747,#071219 70%);color:#eff7f5;font:17px system-ui;min-height:100vh}main{max-width:1100px;margin:auto;padding:30px}header,section{border:1px solid #35505c;border-radius:18px;padding:22px;background:#10232c}header p,.muted{color:#b2ccd3}h1{margin:5px 0;font-size:clamp(28px,6vw,54px)}h2{margin:0 0 12px}.tag{letter-spacing:.13em;color:#8fe0d4;font-size:13px;font-weight:700}.layout{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-top:18px}svg{display:block;width:100%;filter:drop-shadow(0 18px 12px #050b10)}.cell{cursor:pointer;stroke:#152832;stroke-width:2}.legal{stroke:#ffc579;stroke-width:4}.legal:hover,.legal:focus{fill:#b37a44;outline:none}.card{background:#182f3a;border:1px solid #41616d;border-radius:12px;padding:13px;margin:12px 0;overflow-wrap:anywhere;white-space:pre-wrap}button,select,textarea{font:inherit;border-radius:9px;padding:9px;border:1px solid #63949d}button{background:#9be1d5;color:#09272e;font-weight:700;cursor:pointer}textarea{width:100%;min-height:105px;background:#091820;color:white;display:block;margin:10px 0}select{margin:8px 0}#error{color:#ffc98f;min-height:1.3em}svg text{pointer-events:none}@media(max-width:760px){main{padding:12px}.layout{grid-template-columns:1fr}}
 #guide{border:1px solid #8fe0d4;border-radius:12px;background:#16343d;padding:14px;margin:14px 0}#guide summary{cursor:pointer;font-weight:700;color:#a8f2e4}#guide ol{padding-left:24px}#guide li+li{margin-top:5px}#guide small{color:#c1d6db}
 label.card{display:block;white-space:normal;cursor:pointer}label.card:has(input:checked){border-color:#8fe0d4;background:#234852}.territory-choices{border:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:10px}.territory-choices legend{padding:0 0 10px;color:#b2ccd3}.territory-card{display:flex;flex-direction:column;align-items:center;gap:9px;padding:12px;background:linear-gradient(#294b56,#142b35);border:2px solid #41616d;border-radius:14px;cursor:pointer;text-align:center;font-size:14px}.territory-card svg{width:100%;max-width:110px;filter:drop-shadow(0 5px 9px #0b141d)}.territory-card circle{fill:var(--team);stroke:#eff8ed;stroke-width:3}.territory-card path{fill:none;stroke:#19343c;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}.territory-card:has(input:checked),.territory-card:focus-within{border-color:var(--team);background:#294951}[hidden]{display:none!important}.result{border:2px solid var(--team);padding:15px;border-radius:12px;color:var(--team)}#stage[data-phase="writing"] h2,#stage[data-phase="review"] .card,#stage[data-phase="territory"] .territory-card,.result{animation:arrive .32s ease-out both}.result{position:relative;text-align:center;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#355260,#10232c 70%);padding:30px 18px;box-shadow:0 0 34px color-mix(in srgb,var(--team) 30%,transparent)}.result h2{font-size:clamp(27px,4vw,44px);margin:8px 0}.result-medal{display:grid;place-items:center;margin:0 auto 14px;width:72px;height:72px;border:3px solid var(--team);border-radius:50%;font-size:43px;background:#142832;box-shadow:0 0 24px var(--team);animation:medal .65s cubic-bezier(.2,.8,.3,1.2) both}@keyframes arrive{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes medal{from{opacity:0;transform:scale(.5) rotate(-18deg)}to{opacity:1;transform:scale(1) rotate(0)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}</style>
-<link rel="stylesheet" href="./parallel/gameplay/player.css">
+<link rel="stylesheet" href="./parallel/gameplay/player.css?v=readable-board-20261112">
 <main><nav aria-label="Career Empire"><a href="../../../playable-3d/?experience=sunday-markets" id="market-return">Market entrance</a> · <strong>Test release</strong><p>For Tania’s testing. Full browser acceptance is still in progress. An adjudicator creates a Game ID for two players; no teacher setup is needed.</p></nav><header id="match-bar"><div class="tag">CAREER EMPIRE · CAREERS ARCHON</div><h1>Meeting of Minds</h1><div class="match-actions"><p id="seat">Take a seat for a workplace challenge.</p><a id="round-action" href="#stage" hidden>Round activity</a><button id="leave" hidden>Exit to lobby</button><p id="game-code" hidden>Game ID <strong id="game-code-value"></strong></p></div></header>
 <div id="lobby-intro">
   <div class="lobby-hero">
-    <video id="gameplay-preview" controls muted playsinline preload="none" poster="./art/archon-gameplay-poster.jpg" aria-label="Silent Careers Archon gameplay preview">
+    <video id="gameplay-preview" controls muted loop playsinline preload="metadata" poster="./art/archon-gameplay-poster.jpg" aria-label="Silent Careers Archon gameplay preview">
       <source src="./art/archon-gameplay.mp4" type="video/mp4">
     </video>
     <div class="lobby-hero-title"><h2>Careers Archon</h2><p>Move. Challenge. Claim the square.</p></div>
@@ -42,7 +42,7 @@ label.card{display:block;white-space:normal;cursor:pointer}label.card:has(input:
 <li>Challenge an opposing piece to start an Initiative duel. Both players answer privately, then discuss the revealed answers using the Initiative guide.</li>
 <li>The adjudicator records the verdict and explains why. After a decisive duel, the winner chooses an available territory effect when prompted. Select a marked square to read its rule.</li>
 <li>A side wins when its opponent has no legal moves. If neither side can move, the match is drawn.</li>
-</ol></details><iframe id="board" src="./preview.html?match" title="Careers Archon board"></iframe></section><section id="stage-area"><a class="board-link" href="#board-area" hidden>Back to board</a><div id="stage" tabindex="-1"></div><p id="error" role="status"></p></section></div></main>
+</ol></details><iframe id="board" src="./preview.html?match&v=readable-board-20261112" title="Careers Archon board"></iframe></section><section id="stage-area"><a class="board-link" href="#board-area" hidden>Back to board</a><div id="stage" tabindex="-1"></div><p id="error" role="status"></p></section></div></main>
 <script type="module">
 import {squareName,territoryEffects,territoryChoices} from './board-rules.mjs';
 import { createMatchClient, phaseCopy } from './parallel/gameplay/match-client.mjs';
@@ -200,10 +200,13 @@ let displayed = '';
 let context='';
 let roomKey='';
 let actionBusy=false;
+let lastBoardPhase,lastBoardRound,overviewRound;
 function renderBoard() {
   if (!match) return;
   const {round,role,turn,phase,pieces,tiles,clash,result}=match;
-  board.contentWindow.postMessage({type:'city-state',state:{round,role,turn,phase,pieces,tiles,clash,result}},location.origin);
+  if(phase==='board'&&(lastBoardPhase==='lobby'||lastBoardRound&&lastBoardRound!==round))overviewRound=round;
+  lastBoardPhase=phase;lastBoardRound=round;
+  board.contentWindow.postMessage({type:'city-state',state:{round,role,turn,phase,pieces,tiles,clash,result,overview:overviewRound===round}},location.origin);
 }
 const status = document.querySelector('#board-instructions');
 const boardArea = document.querySelector('#board-area');
@@ -266,6 +269,7 @@ function render() {
       }
     }
     renderLobbyCountdown();
+    renderBoard();
     syncBusy();
     return;
   }

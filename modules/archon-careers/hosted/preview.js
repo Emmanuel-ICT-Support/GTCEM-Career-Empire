@@ -1,3 +1,4 @@
+import {boardView,clampBoardOrbit,boardZoom,overviewPose,shouldOverview} from './parallel/gameplay/board-camera.mjs?v=readable-board-20261112';
 import {addShowcaseBase,attachShowcaseDetails} from './parallel/pieces/showcase-pieces.mjs';
 import { buildPlazaDoors, plazaDoorLayout, posePlazaDoors } from './parallel/gameplay/plaza-doors.mjs';
 import * as T from './vendor/three.module.js';
@@ -7,7 +8,7 @@ const el = id => document.getElementById(id);
 const status = el('status');
 const sceneHost = el('scene');
 const controls = el('controls');
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let renderer, scene, camera, gates, pieces, squares, active, motion, opening, open;
 let frame;
 let traffic=[];
@@ -16,17 +17,27 @@ let finaleStart=0;
 const cameraGoal=new T.Vector3();
 const cameraFocus=new T.Vector3();
 let boardOrbit=null;
+let overviewStart=null,overviewElapsed=0,pendingOverview=false;
+const overviewButton=document.createElement('button');
+overviewButton.id='skip-overview';overviewButton.textContent='Skip overview · Play now';overviewButton.hidden=true;
+sceneHost.append(overviewButton);
+function finishOverview(){overviewStart=null;pendingOverview=false;overviewButton.hidden=true;}
+overviewButton.onclick=finishOverview;
+function startOverview(){if(reduce){finishOverview();return;}pendingOverview=false;overviewElapsed=0;overviewStart=performance.now();boardOrbit=null;overviewButton.hidden=false;}
+matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{reduce=event.matches;if(reduce)finishOverview();});
 const orbitTarget=new T.Vector3();
 
 function zoomBoard(factor) {
   if(!open||motion)return;
-  const target=active ? active.root.position.clone().add(new T.Vector3(0,.48,0)) : new T.Vector3();
+  finishOverview();
+  const target=shared?new T.Vector3(0,.2,0):active ? active.root.position.clone().add(new T.Vector3(0,.48,0)) : new T.Vector3();
   if(!boardOrbit||!orbitTarget.equals(target)) {
     orbitTarget.copy(target);
     boardOrbit=new T.Spherical().setFromVector3(camera.position.clone().sub(orbitTarget));
   }
   boardOrbit.phi=T.MathUtils.clamp(boardOrbit.phi,.035,1.49);
   boardOrbit.radius=T.MathUtils.clamp(boardOrbit.radius*factor,active?1.65:3.3,24);
+  if(shared)clampBoardOrbit(boardOrbit);
 }
 const focusGoal=new T.Vector3();
 const ray = new T.Raycaster();
@@ -1401,6 +1412,7 @@ function create() {
   },{passive:false});
   canvas.addEventListener('pointerdown',event=>{
     if(!open||motion||!event.isPrimary||event.button!==0)return;
+    finishOverview();
     drag={id:event.pointerId,x:event.clientX,y:event.clientY};
     dragged=false;
     canvas.setPointerCapture(event.pointerId);
@@ -1410,13 +1422,14 @@ function create() {
     const dx=event.clientX-drag.x,dy=event.clientY-drag.y;
     if(!dragged&&Math.hypot(dx,dy)<5)return;
     if(!boardOrbit){
-      orbitTarget.set(0,0,0);
-      boardOrbit=new T.Spherical().setFromVector3(camera.position);
+      orbitTarget.set(0,shared ? .2 : 0,0);
+      boardOrbit=new T.Spherical().setFromVector3(camera.position.clone().sub(orbitTarget));
     }
     dragged=true;
     canvas.style.cursor='grabbing';
     boardOrbit.theta-=dx*.008;
     boardOrbit.phi=T.MathUtils.clamp(boardOrbit.phi-dy*.008,.035,1.49);
+    if(shared)clampBoardOrbit(boardOrbit);
     drag.x=event.clientX;
     drag.y=event.clientY;
   });
@@ -1487,7 +1500,7 @@ function create() {
   new ResizeObserver(()=>{
     const {clientWidth:w,clientHeight:h}=sceneHost;
     if(!w||!h)return;
-    renderer.setSize(w,h);camera.aspect=w/h;camera.zoom=Math.min(1,camera.aspect/1.12);camera.updateProjectionMatrix();
+    renderer.setSize(w,h);camera.aspect=w/h;camera.zoom=shared?boardZoom(camera.aspect):Math.min(1,camera.aspect/1.12);camera.updateProjectionMatrix();
   }).observe(sceneHost);
 }
 function reset() {
@@ -1496,7 +1509,7 @@ function reset() {
   open=shared;opening=null;motion=null;active=null;artTile=null;artView='board';
   el('art-stage').hidden=true;
   if(shared) {
-    camera.position.set(2.65,11.4,9.65);
+    camera.position.set(boardView.x,boardView.y,boardView.z);
     cameraFocus.set(0,.2,0);
   } else {
     camera.position.set(0,2.6,9.1);
@@ -1517,6 +1530,7 @@ function reset() {
   el('unlock').hidden=shared;el('roster').hidden=true;
   status.textContent=shared?'Select on the board or use Board tools.':'Unlock the Market Arcade shutters.';
   if(shared) {
+    if(pendingOverview)startOverview();
     controls.hidden=false;
     el('board-tools').hidden=false;
     updateControls();
@@ -1599,7 +1613,7 @@ function updateControls() {
   syncTerritoryBadges();
   button(controls,'Zoom in',()=>zoomBoard(.78)).disabled=!!motion;
   button(controls,'Zoom out',()=>zoomBoard(1/.78)).disabled=!!motion;
-  button(controls,'Reset board view',()=>{boardOrbit=null;artView='board';updateControls();}).disabled=!!motion;
+  button(controls,'Reset board view',()=>{finishOverview();boardOrbit=null;active=null;artView='board';updateControls();}).disabled=!!motion;
   const moves=destinations();
   if(shared) {
     const options=selectablePieces();
@@ -1610,7 +1624,7 @@ function updateControls() {
       for(const piece of options)picker.add(new Option(labels[piece.code]+' · '+squareName(piece.col,piece.row),piece.id));
       picker.value=active?.id??'';
       picker.disabled=!!motion;
-      picker.onchange=()=>{active=options.find(item=>item.id===picker.value);updateControls();};
+      picker.onchange=()=>{finishOverview();active=options.find(item=>item.id===picker.value);updateControls();};
       controls.append(picker);
     }
   } else {
@@ -1731,12 +1745,16 @@ function draw(now) {
     const narrow=Math.max(0,2.25-camera.aspect);
     cameraGoal.set(-.28,2.85,9.9+Math.max(1,narrow*4.65));
     focusGoal.set(.47,.85,-2.85);
+  } else if(shared&&overviewStart!==null) {
+    overviewElapsed+=Math.max(0,Math.min(50,now-overviewStart));overviewStart=now;
+    const progress=overviewElapsed/3600,pose=overviewPose(progress);
+    cameraGoal.set(pose.x,pose.y,pose.z);focusGoal.set(0,.2,0);
+    if(progress>=1)finishOverview();
   } else if(open&&boardOrbit&&!motion) {
     cameraGoal.setFromSpherical(boardOrbit).add(orbitTarget);
     focusGoal.copy(orbitTarget);
   } else if(open&&perthScene) {
-    const side=sharedState?.role==='B'?-1:1;
-    cameraGoal.set(4.4,15.3,side*4.8);
+    cameraGoal.set(boardView.x,boardView.y,boardView.z);
     focusGoal.set(0,.20,0);
   } else if(!reduce&&motion) {
     const {x,z}=motion.piece.root.position;
@@ -1806,6 +1824,7 @@ async function launch() {
 function syncBoard(state) {
   const previous=sharedState;
   sharedState=state;
+  if(shouldOverview(previous,state,reduce))pendingOverview=true;
   if(!renderer)return;
   if(state.phase!=='ended'&&finale) {
     scene.remove(finale);
@@ -1819,6 +1838,7 @@ function syncBoard(state) {
     finaleStart=performance.now();
   }
   if(previous?.round!==state.round) {
+    boardOrbit=null;
     for(const piece of pieces)scene.remove(piece.root);
     pieces=state.pieces.map(figure);active=null;motion=null;
   } else {
@@ -1837,6 +1857,7 @@ function syncBoard(state) {
   }
   if(!selectablePieces().includes(active))active=null;
   updateControls();
+  if(pendingOverview)startOverview();
 }
 el('back').onclick=()=>menu();
 el('unlock').onclick=()=>{

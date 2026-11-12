@@ -239,3 +239,50 @@ body:not(.seated) #lobby-error { color: #7c2f1d; }
 @media(max-width: 640px) {
   .lobby-rules ol { grid-template-columns: 1fr; }
 }
+
+/* Readable match identity and an unobstructed, shared promenade view. */
+body:not(.embedded-board) > main { max-width: 1440px; }
+body:not(.embedded-board) nav { padding: 4px 0 14px; color: #d3e6df; line-height: 1.5; }
+body:not(.embedded-board) nav a { color: #b5f0df; text-underline-offset: .2em; }
+body:not(.embedded-board) nav strong { color: #f8d899; }
+body.playing nav { padding-bottom: 8px; font-size: .85rem; }
+body.playing nav p { display: none; }
+body.seated #match-bar, body.playing #match-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px 24px;
+  flex-wrap: wrap; padding: clamp(14px, 2vw, 24px); margin-bottom: 12px;
+  border: 1px solid #607b74; border-radius: 20px;
+  background: linear-gradient(115deg, #234b48, #152e39 72%);
+  box-shadow: 0 10px 30px #07181c44;
+}
+body.playing #match-bar { position: sticky; top: 0; }
+body.playing #board-area, body.playing #stage { scroll-margin-top: 190px; }
+body.playing #match-bar h1, body.seated #match-bar h1 {
+  font-family: Georgia, serif; font-size: clamp(28px, 3.4vw, 46px); line-height: 1.05; color: #fff0cf;
+}
+body.playing #match-bar .tag { display: block; width: 100%; font-size: 11px; color: #b8dace; }
+body.seated .match-actions { gap: 8px 16px; align-items: center; }
+#seat { font-weight: 750; color: #c9eee3; }
+#game-code {
+  display: flex; align-items: center; gap: 10px; padding: 10px 16px; margin: 0;
+  border: 1px solid #ebc480; border-radius: 12px;
+  background: #fff0c9; color: #29423e; font-size: .9rem; font-weight: 750;
+}
+#game-code-value { font-size: clamp(26px, 3vw, 36px); line-height: 1.1; color: #153c39; letter-spacing: .09em; font-variant-numeric: tabular-nums; }
+body.playing #board { height: clamp(400px, calc(100svh - 210px), 920px); border-radius: 18px; overflow: hidden; }
+body.playing #board-instructions { padding: 8px 12px; border-left: 3px solid #e7c181; background: #193b3f; border-radius: 0 8px 8px 0; font-weight: 650; }
+body.playing #match-help { margin: 0 0 6px; }
+#skip-overview { position: absolute; z-index: 2; top: 14px; right: 14px; padding: 12px 16px; border: 1px solid #e9ca91; border-radius: 12px; background: #fff0cd; color: #153c39; box-shadow: 0 4px 20px #08232b55; }
+@media(max-width: 600px) {
+  body.playing main { padding: 0 10px 14px; }
+  body.playing #match-bar { gap: 10px; padding: 16px; }
+  body.playing .match-actions { width: 100%; margin: 0; justify-content: space-between; }
+  body.playing #game-code { order: -1; width: 100%; justify-content: space-between; padding: 10px 12px; }
+  #game-code-value { font-size: 27px; }
+  body.playing #board { height: clamp(390px, calc(100svh - 270px), 760px); }
+  #skip-overview { top: 8px; right: 8px; font-size: .85rem; }
+}
+
+/* Keep the Skip control in a real overlay above the WebGL surface. */
+.embedded-board #scene { isolation: isolate; }
+.embedded-board #scene canvas { position: relative; z-index: 0; }
+.embedded-board #skip-overview { z-index: 4; pointer-events: auto; }
