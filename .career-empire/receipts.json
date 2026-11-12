@@ -260,5 +260,18 @@
       "tests/e2e/est-wall-video.spec.js": "100644:f23c088997a3ff06f94d70673f02e041d488c902",
       "tests/e2e/guest-first.spec.js": "100644:505cdeb9be5f7825b84bbbcb02763ad64ec999b8"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261112-140",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "de7ef06eff6fcb4a9dff3cb9aae4b80fbdd714a99cafa1179951d07ece157c34",
+    "recordSha256": "4856c717596aba03e1b1d6f25fb5db3a2a6eb613f5652b20ffe18ca3d1e21828",
+    "reviewedAt": "2026-11-12T00:23:35.521Z",
+    "reviewEvidence": "Actual3stagedtestGit/sourceSHA review at20842798;runtimeunchanged;originalassertionsretained+HDR/bannerchecks;9/9affected+371/371full79files,cloud67736c758d;patchbe0c0a71;servedcompleteBlueprint c20bb138b7024ff370422c40cafc4361448fed9d recordSHA4856c717596aba03e1b1d6f25fb5db3a2a6eb613f5652b20ffe18ca3d1e21828. ActualGitHubCIawaitsguardedpush.",
+    "files": {
+      "tests/unit/entry-environment-dependencies.test.mjs": "100644:73fdad35b7e801161464b995830dfbc6fc422809",
+      "tests/unit/entry-mode-overlay.test.mjs": "100644:7b7048eb3f444c6c4447376682bf516b5fdff561",
+      "tests/unit/world-interaction-priority.test.mjs": "100644:7f6660dc4a8b1407018135ef2f22239b54635ff2"
+    }
   }
 ]
