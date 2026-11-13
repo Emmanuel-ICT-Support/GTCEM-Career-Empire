@@ -1,0 +1,10 @@
+[data-est-media-shell]{position:relative}
+[data-est-media-shell]:not([data-media-state="ready"]) video[data-est-media]{visibility:hidden}
+.est-media-fallback{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;pointer-events:none}
+.est-media-fallback>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#071424}
+.est-media-fallback>div{position:relative;width:100%;padding:10px;background:#061425ed;color:#fff;font-size:14px;line-height:1.4;pointer-events:auto;text-align:center}
+.est-media-fallback button{display:block;margin:8px auto 0;padding:8px 14px;border:1px solid #7ee8e8;border-radius:8px;background:#123a51;color:#fff;cursor:pointer}
+.est-media-fallback button[hidden]{display:none}
+[data-media-state="ready"]>.est-media-fallback{display:none}
+
+.topic-reminder-pip-close{z-index:4}

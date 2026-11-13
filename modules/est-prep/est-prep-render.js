@@ -870,7 +870,7 @@ function renderEvidence() {
 
 function renderStageRoot(html) {
   const root = document.getElementById("stage-root");
-  if (root) root.innerHTML = html;
+  if (root) { root.innerHTML = html; window.ESTMediaReady?.bind(root); }
 }
 
 function renderFreeTextPrivacyNotice() {

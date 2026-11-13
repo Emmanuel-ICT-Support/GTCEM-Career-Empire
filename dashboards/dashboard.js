@@ -1,7 +1,12 @@
 var publicInitiativePortfolioMode = Boolean(document.getElementById("student-hero-title")) && new URLSearchParams(window.location.search).get("publicInitiative") === "1";
+var portfolioDemoMode = Boolean(document.getElementById("student-hero-title")) && new URLSearchParams(window.location.search).get("portfolioDemo") === "1";
+var isolatedPortfolioMode = publicInitiativePortfolioMode || portfolioDemoMode;
+var portfolioDemoEntries = [], portfolioDemoApi = null, portfolioDemoSkills = null;
+var portfolioEvidenceViews = {};
 var publicInitiativeDraft = null;
 var publicInitiativeEntries = [];
 var publicInitiativeApi = null;
+var publicInitiativeContextId = "gameplay";
 const STUDENT_REWARD_ICONS = {
   chamber: "../Assets/Images and Animations/Celebration Reward Icons/Chamber complete.png",
   salary: "../Assets/Images and Animations/Celebration Reward Icons/Salary Banked.png",
@@ -1415,6 +1420,7 @@ function getStarContextLabel(contextId) {
 }
 
 function getStarBuilderExamples(contextId, stepKey, fallback = []) {
+  if (publicInitiativeApi?.employabilityContextExamples) return publicInitiativeApi.employabilityContextExamples(starBuilderState?.skillId || "initiative", contextId, stepKey, fallback);
   return STAR_CONTEXT_EXAMPLES[contextId]?.[stepKey] || fallback;
 }
 
@@ -1631,7 +1637,16 @@ function findReviewForStarEntry(entry, reviewRows = []) {
       && normaliseWhitespace(row.raw_response_text) === normaliseWhitespace(entry.reviewText || createStarEvidenceReviewText(entry)));
 }
 
-function syncSkillStarEvidenceWithReviews(entries = [], reviewRows = []) {
+function currentLearnerPortfolioEntries(entries, reviewRows, context) {
+  if (!context?.studentId || !context?.classId) return [];
+  const ownedReviews = (Array.isArray(reviewRows) ? reviewRows : []).filter(row =>
+    row.student_id === context.studentId && row.class_id === context.classId && row.evidence_type === "employability-star");
+  return (Array.isArray(entries) ? entries : []).filter(entry => !entry.demoOnly && entry.id && ownedReviews.some(row =>
+    (!entry.reviewId || row.id === entry.reviewId) && (row.source_evidence_id === entry.id ||
+    row.task_key === `employability-star:${entry.skillId}:${entry.contextId}:${entry.id}`)));
+}
+
+function syncSkillStarEvidenceWithReviews(entries = [], reviewRows = [], { persist = true } = {}) {
   let changed = false;
   const syncedEntries = entries.map(entry => {
     const review = findReviewForStarEntry(entry, reviewRows);
@@ -1651,7 +1666,7 @@ function syncSkillStarEvidenceWithReviews(entries = [], reviewRows = []) {
     return next;
   });
 
-  if (changed) {
+  if (changed && persist) {
     localStorage.setItem(STAR_EVIDENCE_STORAGE_KEY, JSON.stringify(syncedEntries));
   }
   return syncedEntries;
@@ -3938,6 +3953,7 @@ function getStarPresetExample(category, meta) {
 }
 
 function getSkillStarReviewStatusMarkup(entry) {
+  if (portfolioDemoMode) return '<p class="skill-star-review-status">' + (entry.fictionalSeed ? 'Fictional demonstration example' : 'Anonymous demo practice in this tab only') + ' — no assessment, teacher submission or reward.</p>';
   const status = String(entry?.reviewStatus || "pending_review");
   if (status === "approved") {
     return '<p class="skill-star-review-status skill-star-review-status--approved">Teacher approved this for anonymous examples.</p>';
@@ -3975,7 +3991,7 @@ function renderStarBuilderSkillPicker() {
     <div class="skill-star-builder-tags">
       <div class="skill-star-builder-tag-header">
         <strong>Portfolio tags</strong>
-        <span>Tag every employability skill this example demonstrates.</span>
+        <span>${publicInitiativePortfolioMode ? "This Market route focuses on Initiative. Choose the behaviours your own actions show." : "Tag every employability skill this example demonstrates."}</span>
       </div>
       <div class="skill-star-builder-chip-row">
         ${categories.map(category => {
@@ -4059,7 +4075,7 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
     const progress = clampPercent(progressMap[category.id] || 0);
     const meta = EMPLOYABILITY_SKILL_META[category.id] || EMPLOYABILITY_SKILL_META.communication;
     const isStudentGrid = targetId === "student-skill-grid";
-    const studentPortfolioStatus = isStudentGrid
+    const studentPortfolioStatus = isStudentGrid && !portfolioDemoMode
       ? getCurrentStudentModuleStatuses()[EMPLOYABILITY_PORTFOLIO_MODULE_ID]
       : "active";
     const canBuildPortfolioEvidence = studentPortfolioStatus === "active";
@@ -4067,21 +4083,6 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
     const parentLogoPath = category.id === "initiative" ? category.logoPath || "" : getEmployabilityLogoPath(category.id) || category.logoPath || "";
     const studentEvidenceEntries = isStudentGrid ? (skillEvidenceMap[category.id] || []) : [];
     const starExample = getStarPresetExample(category, meta);
-    const bankedEvidenceMarkup = studentEvidenceEntries.map(entry => `
-      <article class="skill-star-entry skill-star-entry-banked">
-        <div class="skill-star-entry-meta">
-          <span>${escapeHtml(getStarContextLabel(entry.contextId))}</span>
-          <time>${escapeHtml(formatExperienceDate(getStarEntryExperienceDate(entry)))}</time>
-        </div>
-        <strong class="skill-star-summary">${escapeHtml(entry.summary || createStarEvidenceSummary(entry))}</strong>
-        ${renderStarTagList(entry, category.id)}
-        ${getSkillStarReviewStatusMarkup(entry)}
-        <div class="skill-star-grid">
-          ${renderStarRows(getStarRowsForEntry(entry))}
-        </div>
-        <div class="skill-star-reward">Salary signal +${formatCurrency(entry.salaryReward || STAR_EVIDENCE_SALARY_REWARD)}</div>
-      </article>
-    `).join("");
     const starActionMarkup = isStudentGrid ? canBuildPortfolioEvidence ? `
       <div class="skill-star-actions">
         <span>Build STAR evidence from</span>
@@ -4099,23 +4100,21 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
       </div>
     ` : "";
     const starExampleMarkup = isStudentGrid ? `
-      <div class="skill-star-example">
-        <div class="skill-star-header">
-          <div>
-            <div class="skill-star-title">${escapeHtml(starExample.title)}</div>
-            <p>${studentEvidenceEntries.length ? "Newest student evidence appears first. The preset example stays underneath for reference." : "The preset example stays here until students bank their own STAR evidence."}</p>
-          </div>
-          <span>Evidence stream</span>
+      <div class="skill-star-example" data-evidence-panel="${escapeHtml(category.id)}">
+        <div class="skill-star-header"><div>
+          <div class="skill-star-title">${portfolioDemoMode ? "Fictional demonstration" : "Your reflections"} / ${escapeHtml(category.title)}</div>
+          <p>Scroll your entries. A reflection can carry several capability tags.</p>
+        </div></div>
+        <div class="portfolio-evidence-views" aria-label="${escapeHtml(category.title)} evidence view">
+          <button type="button" data-evidence-view-for="${escapeHtml(category.id)}" data-evidence-view="timeline" aria-pressed="${portfolioEvidenceViews[category.id] !== "skills"}">Chronological</button>
+          <button type="button" data-evidence-view-for="${escapeHtml(category.id)}" data-evidence-view="skills" aria-pressed="${portfolioEvidenceViews[category.id] === "skills"}">By capability</button>
         </div>
-        <div class="skill-star-scroll">
-          ${bankedEvidenceMarkup}
-          <article class="skill-star-entry">
-            <div class="skill-star-entry-label">Predetermined example</div>
-            <div class="skill-star-grid">
-              ${renderStarRows(starExample.rows)}
-            </div>
-          </article>
+        <div class="skill-star-scroll" tabindex="0" aria-label="${escapeHtml(category.title)} reflection entries">
+          ${renderRightHandPortfolioStream(studentEvidenceEntries, category.id, portfolioEvidenceViews[category.id] || "timeline")}
         </div>
+        <details class="portfolio-fictional-model"><summary>Separate fictional STAR model</summary>
+          <div class="skill-star-grid">${renderStarRows(starExample.rows)}</div>
+        </details>
       </div>
     ` : "";
     const subskillItems = subskills.map((subskill, index) => ({
@@ -4137,8 +4136,8 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
           </div>
           <div class="skill-score-block">
             <div class="kicker">${escapeHtml(category.title)}</div>
-            <strong class="skill-score">${progress}%</strong>
-            <span class="skill-score-label">${isStudentGrid ? "STAR evidence signal" : "evidence signal"}</span>
+            <strong class="skill-score">${portfolioDemoMode ? "—" : `${progress}%`}</strong>
+            <span class="skill-score-label">${portfolioDemoMode ? "Demonstration only" : isStudentGrid ? "STAR evidence signal" : "evidence signal"}</span>
           </div>
         </div>
         <p class="skill-description">${escapeHtml(category.description)}</p>
@@ -4152,7 +4151,7 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
             </span>
           `).join("")}
         </div>
-        ${starExampleMarkup ? `<details class="skill-card-evidence"><summary>Evidence and example</summary>${starExampleMarkup}</details>` : ""}
+        ${starExampleMarkup ? `<details class="skill-card-evidence" open><summary>Evidence and example</summary>${starExampleMarkup}</details>` : ""}
       </article>
     `;
   }).join("");
@@ -4167,6 +4166,15 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
     });
   });
 
+  container.querySelectorAll("[data-evidence-view]").forEach(button => {
+    button.addEventListener("click", () => {
+      const id = button.dataset.evidenceViewFor;
+      portfolioEvidenceViews[id] = button.dataset.evidenceView;
+      const panel = button.closest("[data-evidence-panel]");
+      panel.querySelector(".skill-star-scroll").innerHTML = renderRightHandPortfolioStream(skillEvidenceMap[id] || [], id, portfolioEvidenceViews[id]);
+      panel.querySelectorAll("[data-evidence-view]").forEach(control => control.setAttribute("aria-pressed", String(control.dataset.evidenceView === portfolioEvidenceViews[id])));
+    });
+  });
   container.querySelectorAll("[data-star-resubmit-entry-id]").forEach(button => {
     button.addEventListener("click", () => {
       openSkillStarResubmission(button.dataset.starResubmitEntryId);
@@ -4209,7 +4217,6 @@ function openSkillStarBuilder(skillId, skillTitle, contextId, existingEntry = nu
     status: "",
     isSaving: false
   };
-  if (publicInitiativePortfolioMode) starBuilderState.stepIndex = 0;
   renderSkillStarBuilder();
 }
 
@@ -4221,193 +4228,7 @@ function closeSkillStarBuilder() {
   modal.innerHTML = "";
 }
 
-function updatePublicInitiativeBuilderResponse(value) {
-  if (!starBuilderState) return;
-  const step = STAR_BUILDER_STEPS[starBuilderState.stepIndex];
-  starBuilderState.responses[step.key] = value;
-  starBuilderState.error = "";
-  starBuilderState.status = "";
-}
-
-function renderPublicInitiativeStarBuilder() {
-  const modal = ensureSkillStarBuilderModal();
-  if (!starBuilderState) {
-    modal.hidden = true;
-    return;
-  }
-
-  const step = STAR_BUILDER_STEPS[starBuilderState.stepIndex];
-  const contextLabel = getStarContextLabel(starBuilderState.contextId).toLowerCase();
-  const currentValue = starBuilderState.responses[step.key] || "";
-  const isFinalStep = starBuilderState.stepIndex === STAR_BUILDER_STEPS.length - 1;
-  const examples = getStarBuilderExamples(starBuilderState.contextId, step.key, step.examples);
-  const summaryPreview = createStarEvidenceSummary(starBuilderState);
-  const actionDisabled = starBuilderState.isSaving ? "disabled" : "";
-  const finalButtonLabel = publicInitiativePortfolioMode ? "Add to anonymous log" : starBuilderState.resubmittingEntryId ? "Resubmit STAR evidence" : "Bank STAR evidence";
-  const taggedSkillLabel = getStarEntrySkillTitles(starBuilderState).join(" + ");
-
-  modal.hidden = false;
-  modal.innerHTML = `
-    <div class="skill-star-builder-dialog" role="dialog" aria-modal="true" aria-labelledby="skill-star-builder-title">
-      <button class="skill-star-builder-close" type="button" data-star-builder-close aria-label="Close STAR builder">Close</button>
-      <div class="skill-star-builder-topline">
-        <span>${escapeHtml(taggedSkillLabel)}</span>
-        <span>${escapeHtml(getStarContextLabel(starBuilderState.contextId))}</span>
-      </div>
-      <div class="skill-star-builder-progress" aria-label="STAR builder progress">
-        ${STAR_BUILDER_STEPS.map((item, index) => `
-          <span class="${index === starBuilderState.stepIndex ? "is-active" : index < starBuilderState.stepIndex ? "is-complete" : ""}">${escapeHtml(item.label)}</span>
-        `).join("")}
-      </div>
-      <h2 id="skill-star-builder-title">${publicInitiativePortfolioMode ? "Reflect on" : "So you improved"} ${escapeHtml(taggedSkillLabel)} in a ${escapeHtml(contextLabel)} context${publicInitiativePortfolioMode ? "." : "?"}</h2>
-      <p class="skill-star-builder-lead">${escapeHtml(step.lead)}</p>
-      <label class="skill-star-builder-date-field">
-        <span>Date of experience</span>
-        <input type="date" data-star-builder-experience-date max="${escapeHtml(getTodayDateInputValue())}" value="${escapeHtml(starBuilderState.experienceDate || "")}">
-      </label>
-      <div class="skill-star-builder-privacy-note">
-        <strong>${escapeHtml(publicInitiativePortfolioMode ? "Anonymous practice: keep personal details out." : STUDENT_FREE_TEXT_PRIVACY_NOTICE.title)}</strong>
-        <span>${escapeHtml(publicInitiativePortfolioMode ? "Anonymous practice only. Do not include names or private details. Nothing is submitted or linked to a student; create a PDF before leaving." : STUDENT_FREE_TEXT_PRIVACY_NOTICE.body)}</span>
-      </div>
-      ${renderStarBuilderSkillPicker()}
-      <label class="skill-star-builder-field">
-        <span>${escapeHtml(step.term)}</span>
-        <small>${escapeHtml(step.prompt)}</small>
-        <textarea rows="5" data-star-builder-input>${escapeHtml(currentValue)}</textarea>
-      </label>
-      <div class="skill-star-builder-examples">
-        <span>Examples</span>
-        ${examples.map(example => `<p>${escapeHtml(example)}</p>`).join("")}
-      </div>
-      <div class="skill-star-summary-preview">
-        <span>Summary preview</span>
-        <strong data-star-builder-summary>${escapeHtml(summaryPreview)}</strong>
-      </div>
-      ${starBuilderState.status ? `<div class="skill-star-builder-status">${escapeHtml(starBuilderState.status)}</div>` : ""}
-      ${starBuilderState.error ? `<div class="skill-star-builder-error">${escapeHtml(starBuilderState.error)}</div>` : ""}
-      <div class="skill-star-builder-actions">
-        <button class="module-link" type="button" data-star-builder-back ${starBuilderState.stepIndex === 0 || starBuilderState.isSaving ? "disabled" : ""}>Back</button>
-        <button class="module-link primary" type="button" data-star-builder-next ${actionDisabled}>${starBuilderState.isSaving ? "Saving..." : isFinalStep ? finalButtonLabel : "Next"}</button>
-      </div>
-    </div>
-  `;
-
-  const input = modal.querySelector("[data-star-builder-input]");
-  try {
-    input?.focus({ preventScroll: true });
-  } catch (_) {
-    input?.focus();
-  }
-  input?.addEventListener("input", event => {
-    updatePublicInitiativeBuilderResponse(event.target.value);
-    const summaryTarget = modal.querySelector("[data-star-builder-summary]");
-    if (summaryTarget) summaryTarget.textContent = createStarEvidenceSummary(starBuilderState);
-  });
-  modal.querySelector("[data-star-builder-close]")?.addEventListener("click", closeSkillStarBuilder);
-  modal.querySelector("[data-star-builder-experience-date]")?.addEventListener("input", event => {
-    starBuilderState.experienceDate = event.target.value;
-    starBuilderState.error = "";
-  });
-  modal.querySelectorAll("[data-star-toggle-skill]").forEach(button => {
-    button.addEventListener("click", () => {
-      toggleStarBuilderSkill(button.dataset.starToggleSkill);
-      renderSkillStarBuilder();
-    });
-  });
-  modal.querySelectorAll("[data-star-toggle-subskill]").forEach(button => {
-    button.addEventListener("click", () => {
-      toggleStarBuilderSubskill(button.dataset.starToggleSubskill);
-      renderSkillStarBuilder();
-    });
-  });
-  modal.querySelector("[data-star-builder-back]")?.addEventListener("click", () => {
-    if (!starBuilderState || starBuilderState.stepIndex === 0) return;
-    starBuilderState.stepIndex -= 1;
-    starBuilderState.error = "";
-    starBuilderState.status = "";
-    renderSkillStarBuilder();
-  });
-  modal.querySelector("[data-star-builder-next]")?.addEventListener("click", async () => {
-    if (!starBuilderState) return;
-    const latestValue = modal.querySelector("[data-star-builder-input]")?.value || "";
-    updatePublicInitiativeBuilderResponse(latestValue);
-    if (latestValue.trim().length < 12) {
-      starBuilderState.error = "Add a little more detail so this feels like usable evidence.";
-      renderSkillStarBuilder();
-      return;
-    }
-    if (!isFinalStep) {
-      starBuilderState.stepIndex += 1;
-      renderSkillStarBuilder();
-      return;
-    }
-    if (!starBuilderState.experienceDate) {
-      starBuilderState.error = "Choose the date this experience happened.";
-      renderSkillStarBuilder();
-      return;
-    }
-    if (parseTime(starBuilderState.experienceDate) > Date.now()) {
-      starBuilderState.error = "Use the real date of the experience, not a future date.";
-      renderSkillStarBuilder();
-      return;
-    }
-    if (publicInitiativePortfolioMode) { addPublicInitiativeReflection(); return; }
-    const createdAt = new Date().toISOString();
-    const entry = {
-      id: `star-${Date.now()}`,
-      skillId: starBuilderState.skillId,
-      skillTitle: starBuilderState.skillTitle,
-      skillIds: [...starBuilderState.selectedSkillIds],
-      skillTitles: getStarEntrySkillTitles(starBuilderState),
-      subskillTags: getStarBuilderSelectedSubskillTags(),
-      experienceDate: starBuilderState.experienceDate,
-      contextId: starBuilderState.contextId,
-      responses: { ...starBuilderState.responses },
-      summary: createStarEvidenceSummary(starBuilderState),
-      reviewText: createStarEvidenceReviewText(starBuilderState),
-      reviewStatus: "pending_review",
-      salaryReward: STAR_EVIDENCE_SALARY_REWARD,
-      createdAt,
-      supersedesEntryId: starBuilderState.resubmittingEntryId || null,
-      supersedesReviewId: starBuilderState.resubmittingReviewId || null
-    };
-    starBuilderState.error = "";
-    starBuilderState.status = starBuilderState.resubmittingEntryId
-      ? "Resubmitting final entry for teacher review..."
-      : "Saving final entry for teacher review...";
-    starBuilderState.isSaving = true;
-    renderSkillStarBuilder();
-    const previousEntryId = starBuilderState.resubmittingEntryId;
-    const previousReviewId = starBuilderState.resubmittingReviewId;
-    const review = await queueSkillStarEvidenceForReview(entry).catch(error => {
-      console.warn("STAR evidence review could not be queued:", error.message || error);
-      return null;
-    });
-    const reviewContext = getStarEvidenceReviewContext();
-    if (reviewContext.studentId && !review?.id) {
-      starBuilderState.error = "Could not send this STAR evidence for teacher approval. Please try again.";
-      starBuilderState.status = "";
-      starBuilderState.isSaving = false;
-      renderSkillStarBuilder();
-      return;
-    }
-    if (review?.id) entry.reviewId = review.id;
-    if (previousEntryId) {
-      if (review?.id) {
-        await retireSkillStarReviewForResubmission(previousEntryId, previousReviewId, review.id);
-      }
-      replaceSkillStarEvidence(previousEntryId, entry);
-    } else {
-      saveSkillStarEvidence(entry);
-      bankStarEvidenceSalary(entry);
-    }
-    closeSkillStarBuilder();
-    initDashboards().catch(console.error);
-  });
-}
-
 function renderSkillStarBuilder() {
-  if (publicInitiativePortfolioMode) return renderPublicInitiativeStarBuilder();
   const modal = ensureSkillStarBuilderModal();
   if (!starBuilderState) {
     modal.hidden = true;
@@ -4416,7 +4237,7 @@ function renderSkillStarBuilder() {
 
   const summaryPreview = createStarEvidenceSummary(starBuilderState);
   const actionDisabled = starBuilderState.isSaving ? "disabled" : "";
-  const finalButtonLabel = starBuilderState.resubmittingEntryId ? "Resubmit STAR evidence" : "Bank STAR evidence";
+  const finalButtonLabel = isolatedPortfolioMode ? "Add to anonymous log" : starBuilderState.resubmittingEntryId ? "Resubmit STAR evidence" : "Bank STAR evidence";
   const taggedSkillLabel = getStarEntrySkillTitles(starBuilderState).join(" + ");
 
   modal.hidden = false;
@@ -4427,7 +4248,8 @@ function renderSkillStarBuilder() {
         <span>${escapeHtml(taggedSkillLabel)}</span>
         <span>${escapeHtml(getStarContextLabel(starBuilderState.contextId))}</span>
       </div>
-      <h2 id="skill-star-builder-title">Add STAR evidence</h2>
+      <h2 id="skill-star-builder-title">${isolatedPortfolioMode ? "Add STAR reflection" : "Add STAR evidence"}</h2>
+      ${isolatedPortfolioMode ? '<p class="skill-star-builder-public-note">Anonymous practice: keep names and private details out. Nothing is submitted, assessed or rewarded.</p>' : ""}
       <div class="skill-star-builder-meta">
         <label class="skill-star-builder-date-field">
           <span>Date of experience</span>
@@ -4438,8 +4260,8 @@ function renderSkillStarBuilder() {
           ${renderStarBuilderSkillPicker()}
         </details>
         <details>
-          <summary>${escapeHtml(STUDENT_FREE_TEXT_PRIVACY_NOTICE.title)}</summary>
-          <p>${escapeHtml(STUDENT_FREE_TEXT_PRIVACY_NOTICE.body)}</p>
+          <summary>${escapeHtml(isolatedPortfolioMode ? "Anonymous practice: keep personal details out." : STUDENT_FREE_TEXT_PRIVACY_NOTICE.title)}</summary>
+          <p>${escapeHtml(isolatedPortfolioMode ? "This reflection stays in this tab only. No login, teacher submission, assessment or reward. Create a PDF before leaving; do not include names or private information." : STUDENT_FREE_TEXT_PRIVACY_NOTICE.body)}</p>
         </details>
       </div>
       <div class="skill-star-builder-fields">
@@ -4527,6 +4349,8 @@ function renderSkillStarBuilder() {
       renderSkillStarBuilder();
       return;
     }
+    if (portfolioDemoMode) { addDemoPortfolioReflection(); return; }
+    if (publicInitiativePortfolioMode) { addPublicInitiativeReflection(); return; }
     const createdAt = new Date().toISOString();
     const entry = {
       id: `star-${Date.now()}`,
@@ -4616,7 +4440,7 @@ function renderStudentPortfolioEntry(entry, currentSkillId = "") {
       <div class="skill-star-grid">
         ${renderStarRows(getStarRowsForEntry(entry))}
       </div>
-      <div class="student-portfolio-entry-actions">
+      <div class="student-portfolio-entry-actions" ${portfolioDemoMode ? "hidden" : ""}>
         <button class="module-link" type="button" data-portfolio-edit-entry-id="${escapeHtml(entry.id)}">Edit STAR entry</button>
       </div>
     </article>
@@ -4667,12 +4491,12 @@ function renderStudentPortfolio() {
       <button class="student-portfolio-close" type="button" data-student-portfolio-close aria-label="Close portfolio">Close</button>
       <div class="student-portfolio-heading">
         <span>Employability Portfolio</span>
-        <h2 id="student-portfolio-title">Your STAR reflection log</h2>
-        <p>Saved employability evidence is separate from Lifelong Learning. Multi-skill reflections appear under every skill they are tagged to.</p>
+        <h2 id="student-portfolio-title">${portfolioDemoMode ? "Fictional demonstration portfolio" : "Your STAR reflection log"}</h2>
+        <p>${portfolioDemoMode ? "Fictional examples and anonymous demo practice stay separate from learner records." : "Only your verified saved reflections appear here. Older work that cannot be matched to your current account stays untouched."} Multi-skill reflections appear under every skill they are tagged to.</p>
       </div>
       <div class="student-portfolio-stats">
         <span><strong>${entries.length}</strong> reflections</span>
-        <span><strong>${activeEntries.length}</strong> active evidence signals</span>
+        <span><strong>${portfolioDemoMode ? 0 : activeEntries.length}</strong> ${portfolioDemoMode ? "assessed or rewarded entries" : "active evidence signals"}</span>
         <span><strong>${skillCount}</strong> skill areas tagged</span>
         <span><strong>${subskillCount}</strong> sub-skills named</span>
       </div>
@@ -6063,13 +5887,10 @@ async function renderStudentLiveData(players, skillsData) {
   const hasAvatarProgress = avatarCompletion > 0;
   const hasAnySavedProgress = hasPlayerProgress || hasLifelongProgress || hasESTProgress || hasInitiativeProgress || hasArchonProgress || hasAvatarProgress;
   const progressRecord = hasPlayerProgress ? record : null;
-  let reviewRows = await getCurrentStudentResponseReviews();
-  let skillEvidenceEntries = syncSkillStarEvidenceWithReviews(getSkillStarEvidenceEntries(), reviewRows);
-  const pendingReviewSync = await ensurePendingSkillStarEvidenceReviews(skillEvidenceEntries, reviewRows);
-  if (pendingReviewSync.changed) {
-    reviewRows = await getCurrentStudentResponseReviews();
-    skillEvidenceEntries = syncSkillStarEvidenceWithReviews(pendingReviewSync.entries, reviewRows);
-  }
+  const reviewRows = await getCurrentStudentResponseReviews();
+  // Never infer an owner from free text or queue an unlinked shared-browser record under this login.
+  const ownedEntries = currentLearnerPortfolioEntries(getSkillStarEvidenceEntries(), reviewRows, getStarEvidenceReviewContext());
+  const skillEvidenceEntries = syncSkillStarEvidenceWithReviews(ownedEntries, reviewRows, { persist: false });
   const skillEvidenceMap = getSkillStarEvidenceMap(skillEvidenceEntries);
   setupStudentPortfolioButton(skillsData, skillEvidenceEntries, moduleStatuses[EMPLOYABILITY_PORTFOLIO_MODULE_ID]);
   const progressMap = applySkillEvidenceProgress(deriveEmployabilityProgress(progressRecord), skillEvidenceMap);
@@ -7153,6 +6974,9 @@ async function initDashboards() {
     return;
   }
   syncMegatrendsLaunchLinks();
+  if (document.getElementById("student-hero-title")) {
+    try { publicInitiativeApi = await import("../modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs?v=portfolio-careers-core-20261113"); } catch (_) { /* Existing examples remain available if the shared models cannot load. */ }
+  }
   let skillsData = { categories: [] };
   let players = [];
   const isTeacherDashboardPage = Boolean(document.getElementById("teacher-module-health"));
@@ -7250,7 +7074,9 @@ async function initDashboards() {
   }
 }
 
-if (publicInitiativePortfolioMode) {
+if (portfolioDemoMode) {
+  initFictionalPortfolioDemo();
+} else if (publicInitiativePortfolioMode) {
   initPublicInitiativePortfolio();
 } else if (requireStudentHubAccess()) {
   initDashboards().catch(error => {
@@ -7283,7 +7109,7 @@ async function launchInitiativePortfolioFromMarket() {
 async function initPublicInitiativePortfolio() {
   // Presentation-only match to the reviewed Market entrance; no state or account changes.
   document.body.classList.add("initiative-public-aesthetic");
-  const aestheticSheet = document.createElement("link"); aestheticSheet.rel = "stylesheet"; aestheticSheet.href = "./initiative-portfolio.css?v=market-aesthetic-r1"; document.head.appendChild(aestheticSheet);
+  const aestheticSheet = document.createElement("link"); aestheticSheet.rel = "stylesheet"; aestheticSheet.href = "./initiative-portfolio.css?v=portfolio-alignment-20261113"; document.head.appendChild(aestheticSheet);
   document.title = "Initiative - public Career Empire STAR log";
   document.body.replaceChildren();
   const root = document.createElement("main"); root.id = "initiative-public-log"; root.className = "page-shell"; document.body.appendChild(root);
@@ -7294,7 +7120,7 @@ async function initPublicInitiativePortfolio() {
   const sceneWords = document.createElement("span"); const sceneLabel = document.createElement("strong"); sceneLabel.textContent = "Sunday Markets / Initiative"; sceneWords.append(sceneLabel, document.createTextNode("Use STAR to explain what you did, why you chose it and what happened.")); sceneCaption.append(maraImage, sceneWords); marketScene.appendChild(sceneCaption); root.prepend(marketScene);
   const style = document.createElement("style"); style.textContent = '#initiative-public-log{max-width:1100px;margin:32px auto;padding:24px;--skill-accent:#ffbf58;--skill-accent-strong:#ffbf58}#initiative-public-log h1{font-size:clamp(1.9rem,5vw,3rem);line-height:1.15}#initiative-public-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:24px 0}#initiative-public-actions>a{color:#ffdc9b}#initiative-public-actions details{width:100%}#initiative-public-log section[aria-label]{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px;padding:20px;border:1px solid #395065;border-radius:18px}#initiative-public-log section[aria-label]>div{display:flex;align-items:center;gap:12px;padding:12px;background:#ffffff08;border-radius:12px}.initiative-public-entry{padding:24px;margin:20px 0;border:1px solid #395065;border-radius:18px;background:#ffffff05}.initiative-public-entry .skill-star-marker strong{color:#06101c}@media print {html,body{height:auto!important;min-height:0!important;display:block!important;margin:0!important;padding:0!important;background:#fff!important}#initiative-public-log{min-height:0!important;height:auto!important;max-width:none!important}#initiative-public-log *{color:#000!important;background:transparent!important}#initiative-public-log section[aria-label]{display:none!important}#initiative-public-log .skill-star-marker strong{border:1px solid #555}body>*{display:none!important}body>#initiative-public-log{display:block!important}#initiative-public-actions{display:none!important}.skill-star-grid{display:block!important}.skill-star-row{break-inside:avoid}.initiative-public-entry{break-after:auto;margin-bottom:2em}#initiative-public-log{width:100%;margin:0;padding:0;color:#000;background:#fff}a{display:none!important}}'; document.head.appendChild(style);
   try {
-    publicInitiativeApi = await import("../modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs?v=portfolio-overview-20261113");
+    publicInitiativeApi = await import("../modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs?v=portfolio-alignment-20261113");
     const response = await fetch("../data/employability-skills.json"); if (!response.ok) throw Error("Skills unavailable");
     const skills = await response.json(); const initiative = skills.categories.find(item => item.id === "initiative"); if (!initiative) throw Error("Initiative unavailable");
     employabilitySkillCategoriesCache = [initiative];
@@ -7302,13 +7128,23 @@ async function initPublicInitiativePortfolio() {
     const hero = document.createElement("img"); hero.src = initiative.logoPath; hero.alt = ""; hero.width = 160; hero.height = 160; hero.addEventListener("error",()=>{hero.hidden=true;}); artwork.appendChild(hero);
     for (const skill of initiative.subskills) { const card = document.createElement("div"); const image = document.createElement("img"); image.src = skill.logoPath; image.alt = ""; image.width = 64; image.height = 64; image.addEventListener("error",()=>{image.hidden=true;}); const title = document.createElement("span"); title.textContent = skill.title; card.append(image,title); artwork.appendChild(card); }
     root.querySelector("#initiative-public-actions").before(artwork);
+    const experienceChoice = document.createElement("fieldset"); experienceChoice.className = "initiative-context-choice";
+    const experienceLegend = document.createElement("legend"); experienceLegend.textContent = "Build a STAR reflection from"; experienceChoice.appendChild(experienceLegend);
+    for (const context of STAR_CONTEXTS) {
+      const label = document.createElement("label"); const input = document.createElement("input"); input.type = "radio"; input.name = "initiative-context"; input.value = context.id; input.checked = context.id === publicInitiativeContextId;
+      const words = document.createElement("span"); words.textContent = context.label; label.append(input, words); experienceChoice.appendChild(label);
+      input.addEventListener("change", () => { if (!input.checked) return; publicInitiativeContextId = context.id; if (publicInitiativeDraft) publicInitiativeDraft.contextId = context.id; updateModel(); });
+    }
+    root.querySelector("#initiative-public-actions").before(experienceChoice);
     const actions = root.querySelector("#initiative-public-actions");
     const makeButton = (text, fn) => { const button = document.createElement("button"); button.type = "button"; button.className = "module-link"; button.textContent = text; button.addEventListener("click", fn); actions.appendChild(button); return button; };
-    const startEntry = makeButton("Start entry", () => { if (publicInitiativeDraft) { starBuilderState = structuredClone(publicInitiativeDraft); renderSkillStarBuilder(); } else openSkillStarBuilder("initiative", "Initiative", "gameplay"); startEntry.textContent = "Continue entry"; });
+    const startEntry = makeButton("Start entry", () => { if (publicInitiativeDraft) { starBuilderState = structuredClone(publicInitiativeDraft); renderSkillStarBuilder(); } else openSkillStarBuilder("initiative", "Initiative", publicInitiativeContextId); startEntry.textContent = "Continue entry"; }); startEntry.dataset.publicInitiativeStart = "true";
     makeButton("Create PDF of my log", () => { if (!publicInitiativeEntries.length) { root.querySelector("#initiative-public-status").textContent = "Add a reflection to your log first. Your draft stays available in the builder."; return; } window.print(); });
     makeButton("Return to open Market tab", () => { if (publicInitiativeApi.resumeOpenMarket(window)) { window.close(); root.querySelector("#initiative-public-status").textContent = "Your Market tab is ready. Close this portfolio tab when you are ready."; } else { root.querySelector("#initiative-public-status").textContent = "No open Market tab was found. Use Open Market below. Your log stays here until you leave."; } });
     const back = document.createElement("a"); back.textContent = "Open Market"; back.href = publicInitiativeApi.getPublicMarketReturnUrl(window.location.href); actions.appendChild(back);
-    const model = document.createElement("details"); const summary = document.createElement("summary"); summary.textContent = "Show a fictional Initiative STAR model"; model.appendChild(summary); const body = document.createElement("div"); body.innerHTML = renderStarRows(EMPLOYABILITY_SKILL_META.initiative.starExample.rows); model.appendChild(body); actions.appendChild(model);
+    const model = document.createElement("details"); const summary = document.createElement("summary"); model.appendChild(summary); const body = document.createElement("div"); model.appendChild(body); actions.appendChild(model);
+    function updateModel() { summary.textContent = "Show a fictional " + getStarContextLabel(publicInitiativeContextId) + " Initiative model"; body.innerHTML = renderStarRows(STAR_BUILDER_STEPS.filter(step => step.key !== "nextSteps").map(step => ({ label: step.label, term: step.term, text: publicInitiativeApi.contextExamples(publicInitiativeContextId, step.key)[0] }))); }
+    updateModel();
     root.querySelector("#initiative-public-status").textContent = "Only your own words will enter this anonymous log. Create PDF opens your browser print dialog: choose Save as PDF.";
     window.addEventListener("beforeunload", event => { if (publicInitiativeDraft || publicInitiativeEntries.length || starBuilderState) { event.preventDefault(); event.returnValue = ""; } });
   } catch (_) { root.querySelector("#initiative-public-status").textContent = "Initiative could not load. No student or teacher records were opened. Return to the game tab and try again later."; }
@@ -7316,13 +7152,55 @@ async function initPublicInitiativePortfolio() {
 function addPublicInitiativeReflection() {
   publicInitiativeEntries.push(publicInitiativeApi.makeAnonymousEntry(starBuilderState));
   closeSkillStarBuilder(); publicInitiativeDraft = null;
+  const startEntry = document.querySelector("[data-public-initiative-start]"); if (startEntry) startEntry.textContent = "Start entry";
   const list = document.getElementById("initiative-public-entries"); list.replaceChildren();
   for (const [index, entry] of publicInitiativeEntries.entries()) {
     const article = document.createElement("article"); article.className = "initiative-public-entry";
     const heading = document.createElement("h2"); heading.textContent = `Initiative reflection ${index + 1}`; article.appendChild(heading);
-    const meta = document.createElement("p"); meta.textContent = `Gameplay - ${entry.experienceDate}. ${entry.status}`; article.appendChild(meta);
+    const meta = document.createElement("p"); meta.textContent = `${getStarContextLabel(entry.contextId)} - ${entry.experienceDate}. ${entry.status}`; article.appendChild(meta);
     const tags = document.createElement("p"); tags.textContent = "Selected ways: " + (entry.subskillTags.map(tag => getSkillCategory("initiative").subskills.find(s => s.id === tag.subskillId)?.title).join("; ") || "None selected"); article.appendChild(tags);
     const rows = document.createElement("div"); rows.className = "skill-star-grid"; rows.innerHTML = renderStarRows(getStarRowsForEntry(entry)); article.appendChild(rows); list.appendChild(article);
   }
   document.getElementById("initiative-public-status").textContent = "Reflection added in this tab only. Create a PDF to keep your log. Nothing was submitted, assessed or rewarded.";
+}
+
+
+function renderRightHandPortfolioStream(entries, currentSkillId, view) {
+  const ordered = [...entries].sort(compareStarEntriesByExperienceDate);
+  const renderEntry = entry => `<article class="skill-star-entry skill-star-entry-banked" data-portfolio-entry="${escapeHtml(entry.id)}">
+    <div class="skill-star-entry-meta"><span>${escapeHtml(getStarContextLabel(entry.contextId))}</span><time>${escapeHtml(formatExperienceDate(getStarEntryExperienceDate(entry)))}</time></div>
+    <strong class="skill-star-summary">${escapeHtml(entry.summary || createStarEvidenceSummary(entry))}</strong>
+    ${renderStarTagList(entry, currentSkillId)}${getSkillStarReviewStatusMarkup(entry)}
+    <div class="skill-star-grid">${renderStarRows(getStarRowsForEntry(entry))}</div>
+  </article>`;
+  if (!ordered.length) return '<p class="student-portfolio-empty">No reflections for this capability yet. Choose an experience to build your own STAR reflection.</p>';
+  if (view !== "skills") return ordered.map(renderEntry).join("");
+  return employabilitySkillCategoriesCache.map(category => {
+    const matching = ordered.filter(entry => getStarEntrySkillIds(entry).includes(category.id));
+    return matching.length ? `<section class="portfolio-evidence-group" data-capability-group="${escapeHtml(category.id)}"><h4>${escapeHtml(category.title)}</h4>${matching.map(renderEntry).join("")}</section>` : "";
+  }).join("");
+}
+
+async function initFictionalPortfolioDemo() {
+  // This branch runs before access checks or account initialisation, including with existing cookies.
+  document.title = "Fictional Portfolio demonstration - Career Empire";
+  document.body.replaceChildren();
+  const root = document.createElement("main");root.className = "page-shell portfolio-demo-page";document.body.appendChild(root);
+  root.innerHTML = '<header class="panel portfolio-demo-banner"><div class="kicker">Careers Advice Centre / demonstration</div><h1>Employability Portfolio</h1><p><strong>Fictional demonstration — no learner data.</strong> These dated examples show how one reflection can demonstrate several capabilities. Anonymous practice stays in this tab only; nothing is saved, submitted, assessed or rewarded. Keep names and private details out.</p><button id="student-hub-portfolio-button" class="module-link" type="button">View Portfolio</button><p><a href="../playable-3d/">Return to campus</a></p></header><section id="capabilities"><h2>SCSA Careers and Employability Skills</h2><p>All capabilities, including Initiative. School, Workplace, Community and Gameplay use the same all-in-one STAR form.</p><div id="student-skill-grid" class="skill-grid" role="status">Loading fictional demonstration…</div></section>';
+  try {
+    [portfolioDemoApi, publicInitiativeApi] = await Promise.all([import('./portfolio-demo.mjs?v=portfolio-careers-core-20261113'), import('../modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs?v=portfolio-careers-core-20261113')]);
+    const response = await fetch('../data/employability-skills.json');if (!response.ok) throw Error('Capability content unavailable');
+    portfolioDemoSkills = await response.json();employabilitySkillCategoriesCache = portfolioDemoSkills.categories;
+    portfolioDemoEntries = portfolioDemoApi.createFictionalPortfolioEntries(employabilitySkillCategoriesCache);
+    renderFictionalPortfolioDemo();
+  } catch (_) { document.getElementById('student-skill-grid').textContent = 'The fictional demonstration could not load. No student records were opened. Reload to try again.'; }
+}
+function renderFictionalPortfolioDemo() {
+  const map = Object.fromEntries(employabilitySkillCategoriesCache.map(category => [category.id, portfolioDemoEntries.filter(entry => getStarEntrySkillIds(entry).includes(category.id))]));
+  renderSkills(portfolioDemoSkills, 'student-skill-grid', {}, map);
+  setupStudentPortfolioButton(portfolioDemoSkills, portfolioDemoEntries, 'active');
+}
+function addDemoPortfolioReflection() {
+  portfolioDemoEntries.push(portfolioDemoApi.makeDemoPracticeEntry(starBuilderState, employabilitySkillCategoriesCache, portfolioDemoEntries.length + 1));
+  closeSkillStarBuilder();renderFictionalPortfolioDemo();
 }

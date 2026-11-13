@@ -503,6 +503,13 @@ function getArcItemMediaType(media) {
   return "image";
 }
 
+function renderESTMediaFallback(poster) {
+  return `<div class="est-media-fallback">${poster ? `<img src="${escapeHtml(poster)}" alt="">` : ""}<div><span data-est-media-status role="status">Loading animation. You can keep reading.</span><button type="button" data-est-media-retry hidden>Retry animation</button></div></div>`;
+}
+function getESTMediaPoster(source) {
+  const match = String(source || "").match(/(?:^|\/)(initiative-portrait|initiative-q1|initiative-q2-replacement|initiative-q3)\.mp4(?:\?|$)/);
+  return match ? '../../Assets/EST Preparation/media-posters/' + (match[1] === 'initiative-portrait' ? 'initiative-intro' : match[1]) + '.jpg' : '';
+}
 function renderArcItemMedia(item) {
   const media = item?.media;
   if (!media?.src) return "";
@@ -512,8 +519,9 @@ function renderArcItemMedia(item) {
 
   if (mediaType === "video") {
     return `
-      <div class="training-card-media training-card-media--video">
-        <video src="${src}" autoplay muted loop playsinline preload="metadata" aria-label="${alt}"></video>
+      <div class="training-card-media training-card-media--video" data-est-media-shell data-media-state="loading">
+        <video data-est-media src="${src}" autoplay muted loop playsinline preload="auto" aria-label="${alt}" poster="${escapeHtml(getESTMediaPoster(media.src))}"></video>
+        ${renderESTMediaFallback(getESTMediaPoster(media.src))}
       </div>
     `;
   }
@@ -1566,7 +1574,7 @@ function toggleTopicIntroVideo(button) {
   const video = button?.closest(".topic-media-card")?.querySelector(".topic-media-video");
   if (!video) return;
   if (video.paused) {
-    video.play();
+    video.play().catch(() => { button.textContent = "Play"; button.setAttribute("aria-label", "Play topic animation"); });
     button.textContent = "Pause";
     button.setAttribute("aria-label", "Pause topic animation");
     button.classList.remove("is-paused");
@@ -1641,12 +1649,14 @@ function renderContentTopicIntro(group) {
   const bankedPercent = Math.max(0, Number(state.contentTopicBestScores[group.id] || 0));
   const hasBankedResult = bankedPercent > 0;
   const introImage = group.introImage || getArcSceneImage(group.id, "neutral");
+  const nextMedia = getContentTrainingConfig(group.id)?.steps?.[0]?.items?.[0]?.media?.src || "";
   const mediaStage = `
-    <div class="topic-media-stage topic-media-stage--${escapeHtml(topicClass)} ${hasVideo ? "topic-media-stage--video" : ""}">
+    <div class="topic-media-stage topic-media-stage--${escapeHtml(topicClass)} ${hasVideo ? "topic-media-stage--video" : ""}" ${hasVideo ? 'data-est-media-shell data-media-state="loading"' : ""}>
       ${hasVideo ? `
-        <video class="topic-media-video ${usesPortraitMedia ? "topic-media-video--portrait" : ""}" autoplay muted loop playsinline aria-hidden="true">
+        <video data-est-media data-est-next-src="${escapeHtml(nextMedia)}" class="topic-media-video ${usesPortraitMedia ? "topic-media-video--portrait" : ""}" autoplay muted loop playsinline preload="auto" poster="${escapeHtml(getESTMediaPoster(group.introVideo))}" aria-hidden="true">
           <source src="${escapeHtml(group.introVideo)}" type="video/mp4">
         </video>
+        ${renderESTMediaFallback(getESTMediaPoster(group.introVideo))}
       ` : `
         <img class="topic-media topic-media-image" src="${escapeHtml(introImage)}" alt="${escapeHtml(group.title)}">
       `}
@@ -1702,11 +1712,12 @@ function renderTopicReminderPip(group) {
   if (!group?.introVideo || state.contentView !== "lesson") return "";
   if (state.contentReminderDismissed?.[group.id]) return "";
   return `
-    <aside class="topic-reminder-pip topic-reminder-pip--${escapeHtml(getTopicClassName(group.id))}" aria-label="${escapeHtml(`${group.title} video reminder`)}">
+    <aside data-est-media-shell data-media-state="loading" class="topic-reminder-pip topic-reminder-pip--${escapeHtml(getTopicClassName(group.id))}" aria-label="${escapeHtml(`${group.title} video reminder`)}">
       <button class="topic-reminder-pip-close" type="button" aria-label="Close video reminder" onclick="window.ESTPrep.dismissTopicReminderPip('${encodeForInlineHandler(group.id)}')">&times;</button>
-      <video class="topic-reminder-pip-video" autoplay muted loop playsinline aria-hidden="true">
+      <video data-est-media class="topic-reminder-pip-video" autoplay muted loop playsinline preload="auto" poster="${escapeHtml(getESTMediaPoster(group.introVideo))}" aria-hidden="true">
         <source src="${escapeHtml(group.introVideo)}" type="video/mp4">
       </video>
+      ${renderESTMediaFallback(getESTMediaPoster(group.introVideo))}
     </aside>
   `;
 }
@@ -1716,6 +1727,7 @@ function renderContentStage() {
   const currentGroup = groups[state.contentGroupIndex];
   renderFocusNav();
   if (state.contentView === "menu" || !currentGroup) {
+    window.ESTMediaReady?.releaseWarm();
     setGameplayViewportMode(false);
     setStageScene("neutral");
     setStageMenuMode(true);

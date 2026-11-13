@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./dashboard.css?v=capability-entry-20261112">
+  <link rel="stylesheet" href="./dashboard.css?v=portfolio-careers-core-20261113">
 </head>
 <body class="student-dashboard-page">
   <main class="page-shell">
@@ -187,11 +187,11 @@
     </details>
   </main>
 
-  <script>if(new URLSearchParams(location.search).get("publicInitiative")!=="1"){document.write("<script src=\"../config/supabase-config.js\"><\/script>");}</script>
-  <script>if(new URLSearchParams(location.search).get("publicInitiative")!=="1"){document.write("<script src=\"../src/services/supabase-browser.js\"><\/script>");}</script>
-  <script>if(new URLSearchParams(location.search).get("publicInitiative")!=="1"){document.write("<script src=\"../src/services/response-moderation.js?v=teacher-written-filter-v5\"><\/script>");}</script>
-  <script src="./dashboard.js?v=portfolio-overview-20261113"></script>
-  <script>if(new URLSearchParams(location.search).get("publicInitiative")!=="1"){document.write("<script src=\"../src/services/session-banner.js?v=20260507-session-banner\"><\/script>");}</script>
-  <script>if(new URLSearchParams(location.search).get("publicInitiative")!=="1"){document.write("<script src=\"../src/services/feedback-widget.js?v=20260513-free-text-privacy\"><\/script>");}</script>
+  <script>if(new URLSearchParams(location.search).get("publicInitiative")!=="1"&&new URLSearchParams(location.search).get("portfolioDemo")!=="1"){document.write("<script src=\"../config/supabase-config.js\"><\/script>");}</script>
+  <script>if(new URLSearchParams(location.search).get("publicInitiative")!=="1"&&new URLSearchParams(location.search).get("portfolioDemo")!=="1"){document.write("<script src=\"../src/services/supabase-browser.js\"><\/script>");}</script>
+  <script>if(new URLSearchParams(location.search).get("publicInitiative")!=="1"&&new URLSearchParams(location.search).get("portfolioDemo")!=="1"){document.write("<script src=\"../src/services/response-moderation.js?v=teacher-written-filter-v5\"><\/script>");}</script>
+  <script src="./dashboard.js?v=portfolio-careers-core-20261113"></script>
+  <script>if(new URLSearchParams(location.search).get("publicInitiative")!=="1"&&new URLSearchParams(location.search).get("portfolioDemo")!=="1"){document.write("<script src=\"../src/services/session-banner.js?v=20260507-session-banner\"><\/script>");}</script>
+  <script>if(new URLSearchParams(location.search).get("publicInitiative")!=="1"&&new URLSearchParams(location.search).get("portfolioDemo")!=="1"){document.write("<script src=\"../src/services/feedback-widget.js?v=20260513-free-text-privacy\"><\/script>");}</script>
 </body>
 </html>

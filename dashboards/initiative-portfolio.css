@@ -44,3 +44,12 @@
   body.initiative-public-aesthetic .skill-star-builder-dialog :is(.is-selected,.primary) :is(strong,span,small) { color:#fffaf0; }
   body.initiative-public-aesthetic .skill-star-builder-dialog .skill-star-builder-progress span.is-active { color:#fffaf0;background:#24574d; }
 }
+
+@media screen {
+  #initiative-public-log .initiative-context-choice {display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0;padding:1rem;border:1px solid #b4cbb4;border-radius:10px;background:#eef3e7;color:#193d35}
+  #initiative-public-log .initiative-context-choice legend {font-weight:700;padding:0 .35rem}
+  #initiative-public-log .initiative-context-choice label {display:flex;align-items:center;gap:.5rem;min-height:44px;padding:.35rem .8rem;border:1px solid #b4cbb4;border-radius:8px;background:#fffdf6;cursor:pointer}
+  #initiative-public-log .initiative-context-choice input {accent-color:#24574d}
+  #initiative-public-log .initiative-context-choice span {color:#193d35;font-weight:700}
+}
+@media print {#initiative-public-log .initiative-context-choice{display:none!important}}

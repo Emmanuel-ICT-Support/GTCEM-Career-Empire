@@ -5226,3 +5226,21 @@ textarea {
 .capabilities-monitor .skill-card-modern {background:#fffdf2;border-color:#b4cbb4;color:#193d35}
 .capabilities-monitor :is(.skill-score,.skill-score-label,.progress-track) {display:none}
 .capabilities-monitor .skill-subskill-card {background:#eef3e7;border-color:#b4cbb4;color:#35594b}
+
+/* Actual right-hand evidence streams, shared by the current learner and isolated demo. */
+.portfolio-evidence-views{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.portfolio-evidence-views button{padding:9px 12px;border:1px solid var(--skill-accent,#7bd8ee);border-radius:10px;background:#10393d;color:#fff;cursor:pointer}
+.portfolio-evidence-views button[aria-pressed="true"]{background:var(--skill-accent,#7bd8ee);color:#082b30;font-weight:800}
+.portfolio-evidence-group h4{margin:4px 0 12px;color:var(--skill-accent-strong,#1b5e58)}
+.portfolio-evidence-group{display:grid;gap:12px}.portfolio-fictional-model{margin-top:14px}.portfolio-fictional-model summary{cursor:pointer;font-weight:700}
+.portfolio-demo-banner{border:2px solid #67dbc6}.portfolio-demo-banner a{color:#a2f3df}.portfolio-demo-page{max-width:1200px}
+.skill-card-evidence{min-width:0}.skill-star-scroll:focus-visible{outline:3px solid #168f81;outline-offset:4px}
+
+.skill-card-has-star .skill-star-example{--text:#173f3b;--muted:#42635c;color:#173f3b;background:#e6eee4;border-color:#91aca0}
+.skill-card-has-star .skill-star-example .skill-star-title,.skill-card-has-star .portfolio-evidence-group h4{color:#20594e}
+.skill-card-has-star .skill-star-entry-banked{background:#fffdf6;border-color:#b6c9bb}
+.skill-card-has-star .skill-star-example .skill-star-summary,.skill-card-has-star .skill-star-example .skill-star-row p{color:#173f3b}
+.skill-card-has-star .skill-star-entry-meta{color:#245d51}
+.skill-card-has-star .skill-star-tag-list span{color:#173f3b;background:#d7ead9;border-color:#8bad94}
+
+.skill-card-has-star .skill-star-review-status:not(.skill-star-review-status--approved):not(.skill-star-review-status--rejected){color:#725113;background:#fff3cb;border-color:#d8b85c}

@@ -487,5 +487,68 @@
       "tests/unit/chapel-entry-action.test.mjs": "100644:568d96ab19691207f2f00982f726826f52d62f03",
       "tests/unit/world-interaction-priority.test.mjs": "100644:dc007dbb415064573e1c20c96601d9f2daee0adf"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-161",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "21a06864591c68ee178c1ddd302e71dde050fd27635a4c16aeef31c4985bf9e5",
+    "recordSha256": "15951e26dafab33dec71139e47d592b3f59fa7c3399025f24550586ae56fef33",
+    "reviewedAt": "2026-11-13T04:34:12.349Z",
+    "reviewEvidence": "Exact public source c8bfb8d2b9a2d08d20846394f9952b5b28387f4b independently verified25files and10desktop/phone reader cases.413unit/90files/coverage pass;419actual staged asset hashes/109imports pass. Native1280/390 anonymous4contexts/shared5field form/draft/PDF/Market returns; isolated7capability fictional demo/right-pane grouping/multi-tags/0Storage/backend; synthetic current-learner/class/exact-binding isolation; Careers eye-level mouse/touch pan/monitor/same-run; Core failure/poster/retry/pause/selected-prewarm/floating reminder; preserved Chapel and EST native cases pass. Broad CI22logged passes/13admin-legacy failures and disconnect; no all-CI-green, whole-product security, real-learner, Safari/physical/classroom or Tania acceptance claim.",
+    "files": {
+      "dashboards/dashboard.js": "100644:9bbc8b388b3a77a6e458219e80eb1b45d21b20c8",
+      "dashboards/initiative-portfolio.css": "100644:44588ee6cb83b0b2b822c8804b95e4d2bc7a5435",
+      "dashboards/student.html": "100644:ba31d9faec94ad744d769cdf5f30f2070f37559e",
+      "modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs": "100644:49754d74037183f84d6bf89d8c6680fa5cedb8c1",
+      "playable-3d/release-manifest.json": "100644:f052fb995e2a48f2cfb8060fef7abdc9cc0a1127",
+      "tests/unit/public-portfolio-alignment.test.mjs": "100644:e142181347b2ed5891d29fefa7cccca51823d1c1"
+    }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-163",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "84a1b4594884fd4ae87fed6b9a1d69c32930cc7c8bb0c6fa9dfb187e3a8cf509",
+    "recordSha256": "15951e26dafab33dec71139e47d592b3f59fa7c3399025f24550586ae56fef33",
+    "reviewedAt": "2026-11-13T04:34:13.555Z",
+    "reviewEvidence": "Exact public source c8bfb8d2b9a2d08d20846394f9952b5b28387f4b independently verified25files and10desktop/phone reader cases.413unit/90files/coverage pass;419actual staged asset hashes/109imports pass. Native1280/390 anonymous4contexts/shared5field form/draft/PDF/Market returns; isolated7capability fictional demo/right-pane grouping/multi-tags/0Storage/backend; synthetic current-learner/class/exact-binding isolation; Careers eye-level mouse/touch pan/monitor/same-run; Core failure/poster/retry/pause/selected-prewarm/floating reminder; preserved Chapel and EST native cases pass. Broad CI22logged passes/13admin-legacy failures and disconnect; no all-CI-green, whole-product security, real-learner, Safari/physical/classroom or Tania acceptance claim.",
+    "files": {
+      "dashboards/dashboard.css": "100644:e34e9543eb8d7335d455f1194cacaa24864c1e72",
+      "dashboards/dashboard.js": "100644:9bbc8b388b3a77a6e458219e80eb1b45d21b20c8",
+      "dashboards/initiative-portfolio.css": "100644:44588ee6cb83b0b2b822c8804b95e4d2bc7a5435",
+      "dashboards/portfolio-demo.mjs": "100644:4f76be26845a85edf0d1be287b945dc7ffdc2276",
+      "dashboards/student.html": "100644:ba31d9faec94ad744d769cdf5f30f2070f37559e",
+      "playable-3d/app.js": "100644:17eb2bac726ba1a33c525834e598c09fefe81368",
+      "playable-3d/careers-view.mjs": "100644:a12ff29bbccab7544a5ea534d31b023b573eaabc",
+      "playable-3d/guest-shell.mjs": "100644:5bf3372bcc5bdd9b787144a6257f09ebd85e8817",
+      "playable-3d/index.html": "100644:5fab60de8990aadcab8900cfe286e3ca42a9ac91",
+      "playable-3d/release-manifest.json": "100644:f052fb995e2a48f2cfb8060fef7abdc9cc0a1127",
+      "tests/unit/careers-view.test.mjs": "100644:c6dd7804b843eca7327c872592ef60544c9e4e43",
+      "tests/unit/current-learner-portfolio.test.mjs": "100644:7a5fcba478a3dfc2ab750898bfa41e7662af7f89",
+      "tests/unit/portfolio-demo-isolation.test.mjs": "100644:1aeb7bebb638c1324a3203ed7253eb6e26cea7e4"
+    }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-164",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "b0097781d185016e9b91ebd58a2f4e2c317d4d4023cf8c7387033a254f489a84",
+    "recordSha256": "15951e26dafab33dec71139e47d592b3f59fa7c3399025f24550586ae56fef33",
+    "reviewedAt": "2026-11-13T04:34:14.786Z",
+    "reviewEvidence": "Exact public source c8bfb8d2b9a2d08d20846394f9952b5b28387f4b independently verified25files and10desktop/phone reader cases.413unit/90files/coverage pass;419actual staged asset hashes/109imports pass. Native1280/390 anonymous4contexts/shared5field form/draft/PDF/Market returns; isolated7capability fictional demo/right-pane grouping/multi-tags/0Storage/backend; synthetic current-learner/class/exact-binding isolation; Careers eye-level mouse/touch pan/monitor/same-run; Core failure/poster/retry/pause/selected-prewarm/floating reminder; preserved Chapel and EST native cases pass. Broad CI22logged passes/13admin-legacy failures and disconnect; no all-CI-green, whole-product security, real-learner, Safari/physical/classroom or Tania acceptance claim.",
+    "files": {
+      "Assets/EST Preparation/media-posters/initiative-intro.jpg": "100644:8b220a820a8cb30ada07c977f5efc2be0c9fbef1",
+      "Assets/EST Preparation/media-posters/initiative-q1.jpg": "100644:1cdcada30abc18ad704871770999a7d0089aa182",
+      "Assets/EST Preparation/media-posters/initiative-q2-replacement.jpg": "100644:427846cd6fba3f368577e1bbcb6d3caebc25b798",
+      "Assets/EST Preparation/media-posters/initiative-q3.jpg": "100644:5db1fc42487ba7e08dd7c10d8d2787ce810ac42c",
+      "modules/est-prep/est-media-ready.css": "100644:22796babb264a806830f498e2b931dae872c951a",
+      "modules/est-prep/est-media-ready.js": "100644:eb5315e4fa8898547a2b3da04b575498b89b549f",
+      "modules/est-prep/est-prep-content.js": "100644:e3e3478e30b910e06db68f777c970743d4b89cc8",
+      "modules/est-prep/est-prep-render.js": "100644:af2da3e34b39cf1d0549afb2e9954a77865de271",
+      "modules/est-prep/index.html": "100644:bb6434dbe333e253d60486cc781bc3eb5e4adbb3",
+      "playable-3d/app.js": "100644:17eb2bac726ba1a33c525834e598c09fefe81368",
+      "playable-3d/guest-shell.mjs": "100644:5bf3372bcc5bdd9b787144a6257f09ebd85e8817",
+      "playable-3d/index.html": "100644:5fab60de8990aadcab8900cfe286e3ca42a9ac91",
+      "playable-3d/release-manifest.json": "100644:f052fb995e2a48f2cfb8060fef7abdc9cc0a1127",
+      "tests/unit/est-media-readiness.test.mjs": "100644:d34209ee30163b4c1150b91ffe19421ccc6bbf8c"
+    }
   }
 ]

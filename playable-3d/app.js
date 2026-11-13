@@ -1,3 +1,4 @@
+import {careersPitch,careersLookHeight,careersPortfolioRoute} from './careers-view.mjs?v=portfolio-careers-core-20261113';
 import {isESTExteriorView,estExteriorPitch,estExteriorLookHeight} from './est-exterior-view.mjs?v=est-podium-pan-20261113';
 import {createChapelDoorway,chapelReturnPoint,chapelLookTilt,chapelLookHeight,bindChapelInteraction,canOfferChapelEntry} from './chapel-entry.mjs?v=chapel-additive-entry-20261113';
 import {createJourneyStore,createDiscoveryHandover,explorationForRoute} from './discovery-handover.mjs?v=discovery-handover-20261021';
@@ -78,7 +79,7 @@ const marketRequested=new URLSearchParams(location.search).get('experience') && 
 let classroomGate;
 const marketDialogOpen=()=>Boolean(classroomGate?.open()||nightMarket?.isOpen());
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
-let chapelTilt=0,estExteriorTilt=0,flyover;
+let chapelTilt=0,estExteriorTilt=0,careersTilt=0,flyover;
 function resetNavigationInput(){renderMotion=null;locomotion.reset();keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;nativeNavigationAt=clock.getElapsedTime();if(softwareNavigationAt!==null)softwareNavigationAt=nativeNavigationAt;document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
 function explorationMenuOpen(){return Boolean(discoveryHandover?.open()||orientationTour?.blocksWalking()||document.querySelector('#exploration-options')?.open||document.querySelector('#whole-character-choice')?.open||document.querySelector('#orientation-handover')?.open||explorationTools?.open());}
 function canFlyover(){return !discoveryHandover?.open()&&!marketDialogOpen()&&!intro?.open()&&!discovery?.open()&&!echo?.open()&&mode==='town'&&campusReady&&!enteringHall&&!enteringCareers&&!studioLoadPending&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!$('leave-dialog').open;}
@@ -154,7 +155,7 @@ function tapTeacher(event){
  const blocker=teacherRay.intersectObjects(worlds.town.children.filter(o=>o!==actor.model&&o!==npc.root),true).find(h=>h.object.isMesh&&visible(h.object)&&h.distance<hit.distance-.05);
  if(!blocker)greetTeacher(npc);
 }
-let moduleObserver=null,moduleTimer=null;
+let moduleObserver=null,moduleTimer=null,moduleReadyGeneration=0;
 const keys=new Set(),clock=new THREE.Clock(),lookAt=new THREE.Vector3(),desiredCamera=new THREE.Vector3();
 const active=()=>state.profiles.find(p=>p.id===state.activeId);
 const copy=value=>structuredClone(value);
@@ -498,7 +499,7 @@ async function setMode(next){
   $('studio-view').classList.toggle('active',inStudio);$('studio-view').setAttribute('aria-pressed',inStudio);
   if(orbit)orbit.enabled=inStudio;canvas.setAttribute('aria-label',inStudio?'Interactive 3D character':next==='market'?'Interactive Live Music and Sunday Markets practice':next==='careers'?'Interactive Careers Advice Centre':next==='chapel'?'Interactive ECC Chapel':next==='interior'?'Interactive EST Prep hall':'Interactive 3D town');
   if(inStudio){draft=copy(active());undo=[];redo=[];editorTab='identity';previewWalking=false;portrait=false;$('pose-avatar').setAttribute('aria-pressed','false');$('portrait-view').setAttribute('aria-pressed','false');updatePreview();renderEditor();resetStudioCamera();}
-  else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(next==='market'?nightMarket.spawn:worlds.position(space()));if(next==='market')actor.model.rotation.y=Math.PI;yaw=0;chapelTilt=0;estExteriorTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='careers'?'Careers Advice Centre':next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
+  else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(next==='market'?nightMarket.spawn:worlds.position(space()));if(next==='market')actor.model.rotation.y=Math.PI;yaw=0;chapelTilt=0;estExteriorTilt=0;careersTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='careers'?'Careers Advice Centre':next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
   resize();updateEntryLoading();
   if(['interior','careers'].includes(next))await explore('building');
   if(['studio','market'].includes(next)&&!adminReviewRequested)await explore(next);
@@ -692,7 +693,7 @@ function updateCamera(dt,snap=false){
     const distance=mode==='chapel'?3.5:4.2;
     if(mode==='chapel')chapelRevealElapsed+=dt;
     const reveal=mode==='chapel'?(discovery?.reduced()?1:Math.min(1,chapelRevealElapsed/3)):1;
-    desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+(mode==='interior'||mode==='careers'?3:1.95),p.z+Math.cos(yaw)*distance);
+    desiredCamera.set(p.x+Math.sin(yaw)*distance,p.y+(mode==='interior'?3:1.95),p.z+Math.cos(yaw)*distance);
     lookAt.set(p.x-Math.sin(yaw)*(mode==='chapel'?5:1.1),p.y+(mode==='chapel'?chapelLookHeight(1.6+1.3*reveal,chapelTilt):1.55),p.z-Math.cos(yaw)*(mode==='chapel'?5:1.1));
   }
   if(mode==='interior'||mode==='careers'){desiredCamera.x=THREE.MathUtils.clamp(desiredCamera.x,-6.65,6.65);desiredCamera.z=THREE.MathUtils.clamp(desiredCamera.z,-6.55,6.75);}
@@ -703,9 +704,10 @@ function updateCamera(dt,snap=false){
   if(!aerial&&mode!=='market'){
     worlds.protectCamera(space(),p,camera.position);if(discoveryReview&&mode==='town')keepOutdoorClearance(THREE,worlds,p,camera,yaw);if(mode==='chapel')keepChapelClearance(THREE,worlds,p,camera,yaw);
     if(mode==='interior'){camera.position.y=Math.min(camera.position.y,p.y+estEyeHeight(Math.hypot(camera.position.x-p.x,camera.position.z-p.z)));worlds.protectCamera(space(),p,camera.position);}
-    if((mode==='interior'||mode==='careers')||(mode!=='chapel'&&camera.position.distanceTo(p)<3.5))lookAt.set(p.x,p.y+.9,p.z);
+    if(mode==='interior'||(!['chapel','careers'].includes(mode)&&camera.position.distanceTo(p)<3.5))lookAt.set(p.x,p.y+.9,p.z);
   }
   if(mode==='town'&&!aerial&&isESTExteriorView(p))lookAt.y=estExteriorLookHeight(lookAt.y,estExteriorTilt,Math.hypot(lookAt.x-camera.position.x,lookAt.z-camera.position.z));
+  if(mode==='careers'&&!aerial)lookAt.y=careersLookHeight(p.y+1.55,careersTilt,Math.hypot(lookAt.x-camera.position.x,lookAt.z-camera.position.z));
   camera.lookAt(lookAt);
 }
 function updateMission(){
@@ -748,7 +750,7 @@ function updateInteraction(){
     else if(echo?.near(p))interaction={label:'Talk to '+helperPicker.selected().name,action:()=>echo.show()};
     else interaction=null;
   }else if(mode==='careers'){
-    interaction=Math.hypot(p.x-worlds.myLifeDesk.x,p.z-worlds.myLifeDesk.z)<2.6?{label:'Open My Life · progress, money & work',action:()=>navigateRunModule(explorationReview?'../economy-lab/?review=1':'../economy-lab/')}:Math.hypot(p.x-worlds.shopDesk.x,p.z-worlds.shopDesk.z)<2.6?{label:'Open shop demo · $100,000',action:()=>openModule('Shop demo',null,'../shop/index.html?demo=1')}:Math.hypot(p.x-worlds.capabilitiesDesk.x,p.z-worlds.capabilitiesDesk.z)<2.25?{label:'Open Capabilities',action:()=>openModule('Capabilities',null,'../dashboards/capabilities.html','capabilities')}:p.z>4.2?{label:'Return to campus',action:()=>destination('careers')}:null;
+    interaction=Math.hypot(p.x-worlds.myLifeDesk.x,p.z-worlds.myLifeDesk.z)<2.6?{label:'Open My Life · progress, money & work',action:()=>navigateRunModule(explorationReview?'../economy-lab/?review=1':'../economy-lab/')}:Math.hypot(p.x-worlds.shopDesk.x,p.z-worlds.shopDesk.z)<2.6?{label:'Open shop demo · $100,000',action:()=>openModule('Shop demo',null,'../shop/index.html?demo=1')}:Math.hypot(p.x-worlds.capabilitiesDesk.x,p.z-worlds.capabilitiesDesk.z)<2.25?{label:gameSession?.isGuest?'Open fictional Portfolio demo':'Open my Portfolio',action:()=>openModule('Employability Portfolio',null,careersPortfolioRoute(Boolean(gameSession?.isGuest)),'capabilities')}:p.z>4.2?{label:'Return to campus',action:()=>destination('careers')}:null;
   }else if(mode==='chapel'){
     interaction={label:'Return to campus',action:leaveChapel};
   }else{
@@ -761,22 +763,23 @@ function updateInteraction(){
   $('interact').hidden=!interaction||(mode==='interior'&&['Return to campus','Watch EST Lab briefing'].includes(interaction?.label));if(interaction)if($('interact').querySelector('span').textContent!==interaction.label)$('interact').querySelector('span').textContent=interaction.label;
 }
 function openModule(name,stage,url,kind){
-  const capabilities=kind==='capabilities';
+  const capabilities=kind==='capabilities',readyGeneration=++moduleReadyGeneration;
   if(watchingEST)closeESTVideo();worlds.estVideo.pause();keys.clear();joystick.reset();tapMovement=null;actor.setWalking(false);$('module-name').textContent=name;$('module-overlay').hidden=false;$('experience').inert=true;
   $('close-module').querySelector('span').textContent=url?'Return to Careers':'Return to hall';
-  $('module-heading').textContent=url?'Careers Advice Centre':'EST Prep';$('module-overlay').setAttribute('aria-label',capabilities?'Capabilities':url?'Shop demonstration':'EST Prep activity');
-  const frame=$('module-frame');frame.title=capabilities?'Career Empire Capabilities':url?'Career Empire shop demo':'Existing EST Prep learning module';
+  $('module-heading').textContent=url?'Careers Advice Centre':'EST Prep';$('module-overlay').setAttribute('aria-label',capabilities?'Employability Portfolio':url?'Shop demonstration':'EST Prep activity');
+  const frame=$('module-frame');const loading=$('module-loading');loading.hidden=Boolean(url);frame.style.visibility=url?'visible':'hidden';const showModuleReady=()=>{requestAnimationFrame(()=>requestAnimationFrame(()=>{if(readyGeneration===moduleReadyGeneration&&!$('module-overlay').hidden){loading.hidden=true;frame.style.visibility='visible';}}));};frame.title=capabilities?'Career Empire Employability Portfolio':url?'Career Empire shop demo':'Existing EST Prep learning module';
   frame.onload=capabilities?null:()=>{
-    const readyVisit=()=>{try{const expected=new URL(url||'../modules/est-prep/index.html',import.meta.url).href;if(frame.contentWindow?.location.href!==expected||$('module-overlay').hidden)return false;const ready=url?frame.contentDocument?.querySelector('#shop-grid'):frame.contentWindow?.ESTPrep;if(!ready)return false;explore(url?'shop':'est');return true;}catch{return false;}};
+    showModuleReady();
+    const readyVisit=()=>{try{const expected=new URL(url||'../modules/est-prep/index.html',import.meta.url).href;if(frame.contentWindow?.location.href!==expected||$('module-overlay').hidden)return false;const ready=url?frame.contentDocument?.querySelector('#shop-grid'):frame.contentWindow?.ESTPrep;if(!ready)return false;if(!stage)showModuleReady();explore(url?'shop':'est');return true;}catch{return false;}};
     if(!stage){if(!readyVisit()){moduleObserver=new MutationObserver(()=>{if(readyVisit()){moduleObserver?.disconnect();clearTimeout(moduleTimer);}});if(frame.contentDocument?.body)moduleObserver.observe(frame.contentDocument.body,{childList:true,subtree:true});moduleTimer=setTimeout(()=>moduleObserver?.disconnect(),15000);}return;}
     readyVisit();
     // The existing module publishes this API. Wait for its asynchronous lab track to finish rendering.
-    const launch=()=>{const doc=frame.contentDocument,api=frame.contentWindow?.ESTPrep;if(!doc?.querySelector('[onclick*="ESTPrep.openStage"]')||!api?.openStage)return false;moduleObserver?.disconnect();clearTimeout(moduleTimer);api.openStage(stage);return true;};
-    if(launch())return;moduleObserver=new MutationObserver(launch);moduleObserver.observe(frame.contentDocument.body,{childList:true,subtree:true});moduleTimer=setTimeout(()=>{moduleObserver?.disconnect();$('module-name').textContent=`${name} / choose a lab below`;},15000);
+    const launch=()=>{const doc=frame.contentDocument,api=frame.contentWindow?.ESTPrep;if(!doc?.querySelector('[onclick*="ESTPrep.openStage"]')||!api?.openStage)return false;moduleObserver?.disconnect();clearTimeout(moduleTimer);api.openStage(stage);showModuleReady();return true;};
+    if(launch())return;moduleObserver=new MutationObserver(launch);moduleObserver.observe(frame.contentDocument.body,{childList:true,subtree:true});moduleTimer=setTimeout(()=>{moduleObserver?.disconnect();loading.hidden=true;frame.style.visibility='visible';$('module-name').textContent=`${name} / choose a lab below`;},15000);
   };
   frame.src=new URL(url||'../modules/est-prep/index.html',import.meta.url).href;$('close-module').focus();
 }
-function closeModule(){moduleObserver?.disconnect();clearTimeout(moduleTimer);$('module-overlay').hidden=true;$('experience').inert=false;$('module-frame').onload=null;$('module-frame').removeAttribute('src');if(mode==='interior')playESTWall();canvas.focus();}
+function closeModule(){moduleReadyGeneration++;moduleObserver?.disconnect();clearTimeout(moduleTimer);$('module-overlay').hidden=true;$('experience').inert=false;$('module-loading').hidden=true;$('module-frame').style.visibility='visible';$('module-frame').onload=null;$('module-frame').removeAttribute('src');if(mode==='interior')playESTWall();canvas.focus();}
 function phaseChange(name){if(!Object.hasOwn(PHASES,name))return;phase=name;worlds.phase(name);$('phase').value=name;}
 function qualityChange(){const quality=renderQuality(renderBackend,$('quality').value,devicePixelRatio);renderer.setPixelRatio(quality.pixelRatio);renderer.shadowMap.enabled=quality.shadows;resize();}
 function bindEvents(){
@@ -819,7 +822,7 @@ function bindEvents(){
   $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>{if($('exploration-options')?.open)closeExplorationOptions();const go=()=>{setMode('town');enterHall();};if(mode==='studio')leaveStudio(go);else go();});$('chapel-destination').addEventListener('click',()=>destination('chapel'));
   bindChapelInteraction($('interact'),{touchAction:()=>mode==='chapel'||interaction?.action===enterChapel?interaction?.action:null,clickAction:()=>interaction?.action(),beforeTouch:()=>{resetNavigationInput();actor.setWalking(false);}});$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
   $('campus-retry').addEventListener('click',()=>{if(detailFailed)worlds.retryDetailTextures().then(refreshSurfaceDetailNotice,()=>{detailFailed=true;detailNotice();});else if(!entryReady)prepareEntry().catch(()=>{});else openCampusInBackground();});
-  $('aerial').addEventListener('click',async()=>{const request=modeRequest;if(mode==='town'&&!campusReady){try{await ensureCampus();}catch{return;}if(request!==modeRequest)return;}aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;estExteriorTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
+  $('aerial').addEventListener('click',async()=>{const request=modeRequest;if(mode==='town'&&!campusReady){try{await ensureCampus();}catch{return;}if(request!==modeRequest)return;}aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;estExteriorTilt=0;careersTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
   $('profile').addEventListener('change',()=>{const id=$('profile').value;$('profile').value=state.activeId;if(id===state.activeId){updateActor();return;}const change=()=>{state.activeId=id;persist();helperPicker.choose();updateActor();if(mode==='studio')setMode('studio');};if(mode==='studio')leaveStudio(change);else change();});
   $('new-profile').addEventListener('click',()=>{const add=()=>{if(state.profiles.length>=24){toast('This browser already has 24 characters.');return;}const p=normaliseProfile({id:crypto.randomUUID(),name:`Character ${state.profiles.length+1}`});state.profiles.push(p);state.activeId=p.id;persist();helperPicker.choose();updateActor();setMode('studio');};if(mode==='studio')leaveStudio(add);else add();});
   document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{editorTab=b.dataset.tab;renderEditor();}));
@@ -832,7 +835,7 @@ function bindEvents(){
   window.addEventListener('keyup',e=>{if(keys.has(e.code))advanceSoftwareNavigation();keys.delete(e.code);});window.addEventListener('blur',()=>{resetNavigationInput();actor?.setWalking(false);flyover?.stop();});document.addEventListener('visibilitychange',()=>{flyover?.stop();resetNavigationInput();actor?.setWalking(false);lastTime=clock.getElapsedTime();});window.addEventListener('resize',resize);
   window.addEventListener('beforeunload',e=>{if(dirty()){e.preventDefault();e.returnValue='';}});
   document.querySelectorAll('[data-key]').forEach(b=>{b.addEventListener('contextmenu',e=>e.preventDefault());b.addEventListener('dragstart',e=>e.preventDefault());b.addEventListener('selectstart',e=>e.preventDefault());let pressedAt=0;b.addEventListener('pointerdown',e=>{if((mode==='town'&&!entryReady)||explorationMenuOpen()||intro?.open()||discovery?.open()||helperPicker.open()||echo?.open())return;e.preventDefault();b.setPointerCapture(e.pointerId);pressedAt=performance.now();keys.add(b.dataset.key);b.classList.add('pressed');});const release=e=>{if(b.classList.contains('pressed')&&e.type==='pointerup'&&performance.now()-pressedAt<180)tapMovement={key:b.dataset.key,until:performance.now()+220};keys.delete(b.dataset.key);b.classList.remove('pressed');};b.addEventListener('pointerup',release);b.addEventListener('pointercancel',release);b.addEventListener('lostpointercapture',release);});
-  canvas.addEventListener('pointerdown',e=>{if((mode==='town'&&!entryReady)||explorationMenuOpen()||intro?.open()||discovery?.open()||helperPicker.open()||echo?.open())return;if(flyover?.pointerdown(e))return;canvas.focus();worlds.estVideo.retryPreview?.();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt,estTilt:estExteriorTilt,moved:false};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(flyover?.pointermove(e))return;if(drag && mode!=='studio'){if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6)drag.moved=true;yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='chapel')chapelTilt=chapelLookTilt(drag.tilt,e.clientY-drag.y);else if(mode==='town'&&!aerial&&isESTExteriorView(actor.model.position))estExteriorTilt=estExteriorPitch(drag.estTilt,e.clientY-drag.y);}});canvas.addEventListener('pointerup',e=>{if(flyover?.active){flyover.pointerup(e);return;}if(drag&&!drag.moved&&!tapESTScreen(e))tapTeacher(e);drag=null;});canvas.addEventListener('pointercancel',()=>{drag=null;flyover?.pointerup();});canvas.addEventListener('lostpointercapture',()=>{drag=null;flyover?.pointerup();});
+  canvas.addEventListener('pointerdown',e=>{if((mode==='town'&&!entryReady)||explorationMenuOpen()||intro?.open()||discovery?.open()||helperPicker.open()||echo?.open())return;if(flyover?.pointerdown(e))return;canvas.focus();worlds.estVideo.retryPreview?.();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt,estTilt:estExteriorTilt,careersTilt,moved:false};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(flyover?.pointermove(e))return;if(drag && mode!=='studio'){if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6)drag.moved=true;yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='careers'&&!aerial)careersTilt=careersPitch(drag.careersTilt,e.clientY-drag.y);else if(mode==='chapel')chapelTilt=chapelLookTilt(drag.tilt,e.clientY-drag.y);else if(mode==='town'&&!aerial&&isESTExteriorView(actor.model.position))estExteriorTilt=estExteriorPitch(drag.estTilt,e.clientY-drag.y);}});canvas.addEventListener('pointerup',e=>{if(flyover?.active){flyover.pointerup(e);return;}if(drag&&!drag.moved&&!tapESTScreen(e))tapTeacher(e);drag=null;});canvas.addEventListener('pointercancel',()=>{drag=null;flyover?.pointerup();});canvas.addEventListener('lostpointercapture',()=>{drag=null;flyover?.pointerup();});
 }
 let renderedFrames=0,lastPixelColours=null,lastPixelReadAt=-Infinity;
 function publishDiagnostics(now,rendered=false){
