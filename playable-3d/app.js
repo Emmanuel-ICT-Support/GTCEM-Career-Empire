@@ -1,3 +1,4 @@
+import {isESTExteriorView,estExteriorPitch,estExteriorLookHeight} from './est-exterior-view.mjs?v=est-podium-pan-20261113';
 import {createChapelDoorway,chapelReturnPoint,chapelLookTilt,chapelLookHeight,bindChapelInteraction} from './chapel-entry.mjs?v=chapel-walk-in-20261113';
 import {createJourneyStore,createDiscoveryHandover,explorationForRoute} from './discovery-handover.mjs?v=discovery-handover-20261021';
 import {createClassroomGate} from './classroom-gate.mjs?v=classroom-20261018';
@@ -25,7 +26,7 @@ import {afterFirstPaint} from './deferred-textures.js?v=ecc-ba60122';
 import {CHAPEL} from './chapel.js?v=opt2-20260914';
 import * as THREE from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
-import {createWorlds,sign} from './world.js?v=est-back-return-20261113';
+import {createWorlds,sign} from './world.js?v=est-podium-pan-20261113';
 import {LEGACY,EST,CAREERS} from './destinations.js?v=demo-20260914';
 import {loadCharacterKit,loadProfileKit,createCharacter,createFallbackCharacter,isSimpleBody} from './characters.js?v=test-characters-20261013';
 import {loadProfiles,saveProfiles,normaliseProfile,OPTIONS,SKIN,PHASES,TEST_CHARACTER_INFO,COLOUR_PRESETS} from './profiles.js?v=test-characters-20261013';
@@ -77,7 +78,7 @@ const marketRequested=new URLSearchParams(location.search).get('experience') && 
 let classroomGate;
 const marketDialogOpen=()=>Boolean(classroomGate?.open()||nightMarket?.isOpen());
 let undo=[],redo=[],pendingLeave=null,previewWalking=false,portrait=false,aerial=false,yaw=0,interaction=null;
-let chapelTilt=0,flyover;
+let chapelTilt=0,estExteriorTilt=0,flyover;
 function resetNavigationInput(){renderMotion=null;locomotion.reset();keys.clear();joystick.reset();tapMovement=null;drag=null;accumulator=0;nativeNavigationAt=clock.getElapsedTime();if(softwareNavigationAt!==null)softwareNavigationAt=nativeNavigationAt;document.querySelectorAll('.movement .pressed').forEach(b=>b.classList.remove('pressed'));}
 function explorationMenuOpen(){return Boolean(discoveryHandover?.open()||orientationTour?.blocksWalking()||document.querySelector('#exploration-options')?.open||document.querySelector('#whole-character-choice')?.open||document.querySelector('#orientation-handover')?.open||explorationTools?.open());}
 function canFlyover(){return !discoveryHandover?.open()&&!marketDialogOpen()&&!intro?.open()&&!discovery?.open()&&!echo?.open()&&mode==='town'&&campusReady&&!enteringHall&&!enteringCareers&&!studioLoadPending&&!feedbackOpen()&&!watchingEST&&$('module-overlay').hidden&&!$('reflection-dialog').open&&!$('leave-dialog').open;}
@@ -497,7 +498,7 @@ async function setMode(next){
   $('studio-view').classList.toggle('active',inStudio);$('studio-view').setAttribute('aria-pressed',inStudio);
   if(orbit)orbit.enabled=inStudio;canvas.setAttribute('aria-label',inStudio?'Interactive 3D character':next==='market'?'Interactive Live Music and Sunday Markets practice':next==='careers'?'Interactive Careers Advice Centre':next==='chapel'?'Interactive ECC Chapel':next==='interior'?'Interactive EST Prep hall':'Interactive 3D town');
   if(inStudio){draft=copy(active());undo=[];redo=[];editorTab='identity';previewWalking=false;portrait=false;$('pose-avatar').setAttribute('aria-pressed','false');$('portrait-view').setAttribute('aria-pressed','false');updatePreview();renderEditor();resetStudioCamera();}
-  else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(next==='market'?nightMarket.spawn:worlds.position(space()));if(next==='market')actor.model.rotation.y=Math.PI;yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='careers'?'Careers Advice Centre':next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
+  else{preview?.dispose();preview=null;activeScene().add(actor.model);actor.model.position.copy(next==='market'?nightMarket.spawn:worlds.position(space()));if(next==='market')actor.model.rotation.y=Math.PI;yaw=0;chapelTilt=0;estExteriorTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');setLocation(next==='careers'?'Careers Advice Centre':next==='chapel'?'ECC Chapel':next==='interior'?'EST Prep':'Arrival Gardens');updateCamera(1,true);}
   resize();updateEntryLoading();
   if(['interior','careers'].includes(next))await explore('building');
   if(['studio','market'].includes(next)&&!adminReviewRequested)await explore(next);
@@ -704,6 +705,7 @@ function updateCamera(dt,snap=false){
     if(mode==='interior'){camera.position.y=Math.min(camera.position.y,p.y+estEyeHeight(Math.hypot(camera.position.x-p.x,camera.position.z-p.z)));worlds.protectCamera(space(),p,camera.position);}
     if((mode==='interior'||mode==='careers')||(mode!=='chapel'&&camera.position.distanceTo(p)<3.5))lookAt.set(p.x,p.y+.9,p.z);
   }
+  if(mode==='town'&&!aerial&&isESTExteriorView(p))lookAt.y=estExteriorLookHeight(lookAt.y,estExteriorTilt,Math.hypot(lookAt.x-camera.position.x,lookAt.z-camera.position.z));
   camera.lookAt(lookAt);
 }
 function updateMission(){
@@ -816,7 +818,7 @@ function bindEvents(){
   $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>{if($('exploration-options')?.open)closeExplorationOptions();const go=()=>{setMode('town');enterHall();};if(mode==='studio')leaveStudio(go);else go();});$('chapel-destination').addEventListener('click',()=>destination('chapel'));
   bindChapelInteraction($('interact'),{touchAction:()=>mode==='chapel'?interaction?.action:null,clickAction:()=>interaction?.action(),beforeTouch:()=>{resetNavigationInput();actor.setWalking(false);}});$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
   $('campus-retry').addEventListener('click',()=>{if(detailFailed)worlds.retryDetailTextures().then(refreshSurfaceDetailNotice,()=>{detailFailed=true;detailNotice();});else if(!entryReady)prepareEntry().catch(()=>{});else openCampusInBackground();});
-  $('aerial').addEventListener('click',async()=>{const request=modeRequest;if(mode==='town'&&!campusReady){try{await ensureCampus();}catch{return;}if(request!==modeRequest)return;}aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
+  $('aerial').addEventListener('click',async()=>{const request=modeRequest;if(mode==='town'&&!campusReady){try{await ensureCampus();}catch{return;}if(request!==modeRequest)return;}aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;estExteriorTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
   $('profile').addEventListener('change',()=>{const id=$('profile').value;$('profile').value=state.activeId;if(id===state.activeId){updateActor();return;}const change=()=>{state.activeId=id;persist();helperPicker.choose();updateActor();if(mode==='studio')setMode('studio');};if(mode==='studio')leaveStudio(change);else change();});
   $('new-profile').addEventListener('click',()=>{const add=()=>{if(state.profiles.length>=24){toast('This browser already has 24 characters.');return;}const p=normaliseProfile({id:crypto.randomUUID(),name:`Character ${state.profiles.length+1}`});state.profiles.push(p);state.activeId=p.id;persist();helperPicker.choose();updateActor();setMode('studio');};if(mode==='studio')leaveStudio(add);else add();});
   document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{editorTab=b.dataset.tab;renderEditor();}));
@@ -829,7 +831,7 @@ function bindEvents(){
   window.addEventListener('keyup',e=>{if(keys.has(e.code))advanceSoftwareNavigation();keys.delete(e.code);});window.addEventListener('blur',()=>{resetNavigationInput();actor?.setWalking(false);flyover?.stop();});document.addEventListener('visibilitychange',()=>{flyover?.stop();resetNavigationInput();actor?.setWalking(false);lastTime=clock.getElapsedTime();});window.addEventListener('resize',resize);
   window.addEventListener('beforeunload',e=>{if(dirty()){e.preventDefault();e.returnValue='';}});
   document.querySelectorAll('[data-key]').forEach(b=>{b.addEventListener('contextmenu',e=>e.preventDefault());b.addEventListener('dragstart',e=>e.preventDefault());b.addEventListener('selectstart',e=>e.preventDefault());let pressedAt=0;b.addEventListener('pointerdown',e=>{if((mode==='town'&&!entryReady)||explorationMenuOpen()||intro?.open()||discovery?.open()||helperPicker.open()||echo?.open())return;e.preventDefault();b.setPointerCapture(e.pointerId);pressedAt=performance.now();keys.add(b.dataset.key);b.classList.add('pressed');});const release=e=>{if(b.classList.contains('pressed')&&e.type==='pointerup'&&performance.now()-pressedAt<180)tapMovement={key:b.dataset.key,until:performance.now()+220};keys.delete(b.dataset.key);b.classList.remove('pressed');};b.addEventListener('pointerup',release);b.addEventListener('pointercancel',release);b.addEventListener('lostpointercapture',release);});
-  canvas.addEventListener('pointerdown',e=>{if((mode==='town'&&!entryReady)||explorationMenuOpen()||intro?.open()||discovery?.open()||helperPicker.open()||echo?.open())return;if(flyover?.pointerdown(e))return;canvas.focus();worlds.estVideo.retryPreview?.();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt,moved:false};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(flyover?.pointermove(e))return;if(drag && mode!=='studio'){if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6)drag.moved=true;yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='chapel')chapelTilt=chapelLookTilt(drag.tilt,e.clientY-drag.y);}});canvas.addEventListener('pointerup',e=>{if(flyover?.active){flyover.pointerup(e);return;}if(drag&&!drag.moved&&!tapESTScreen(e))tapTeacher(e);drag=null;});canvas.addEventListener('pointercancel',()=>{drag=null;flyover?.pointerup();});canvas.addEventListener('lostpointercapture',()=>{drag=null;flyover?.pointerup();});
+  canvas.addEventListener('pointerdown',e=>{if((mode==='town'&&!entryReady)||explorationMenuOpen()||intro?.open()||discovery?.open()||helperPicker.open()||echo?.open())return;if(flyover?.pointerdown(e))return;canvas.focus();worlds.estVideo.retryPreview?.();if(mode==='studio')return;drag={x:e.clientX,y:e.clientY,yaw,tilt:chapelTilt,estTilt:estExteriorTilt,moved:false};canvas.setPointerCapture(e.pointerId);});canvas.addEventListener('pointermove',e=>{if(flyover?.pointermove(e))return;if(drag && mode!=='studio'){if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6)drag.moved=true;yaw=drag.yaw-(e.clientX-drag.x)*.006;if(mode==='chapel')chapelTilt=chapelLookTilt(drag.tilt,e.clientY-drag.y);else if(mode==='town'&&!aerial&&isESTExteriorView(actor.model.position))estExteriorTilt=estExteriorPitch(drag.estTilt,e.clientY-drag.y);}});canvas.addEventListener('pointerup',e=>{if(flyover?.active){flyover.pointerup(e);return;}if(drag&&!drag.moved&&!tapESTScreen(e))tapTeacher(e);drag=null;});canvas.addEventListener('pointercancel',()=>{drag=null;flyover?.pointerup();});canvas.addEventListener('lostpointercapture',()=>{drag=null;flyover?.pointerup();});
 }
 let renderedFrames=0,lastPixelColours=null,lastPixelReadAt=-Infinity;
 function publishDiagnostics(now,rendered=false){

@@ -1,8 +1,8 @@
 {
-  "release": "portfolio-overview-20261113",
+  "release": "est-podium-pan-20261113",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "bf33308878d9d4a96648a5de459734427931063a",
-  "scope": "Overview-first anonymous Initiative portfolio, validated same-origin opener/same-run Market return and ordinary-gated standalone link. Preserve corrected ESTbf33308, Chapel, Notes, Archon and separate CI.",
+  "baseCommit": "399a4daae1bd4ac31f381e5ef7abb277cd067eec",
+  "scope": "Move existing EST cabinet assembly sideways and enable bounded exterior mouse/touch vertical pan. Preserve Portfolio399a4da, rear-window video, entrance return, monitor cards and cinema; no Chapel scene or Blueprint reader publication.",
   "files": [
     {
       "path": "../Assets/EST Preparation/guide-character/guide-celebration.png",
@@ -278,7 +278,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "885f2db827c078884fafb24bca8da1225d851fd5913bacfccf04d4b4f5f4ff1c"
+      "sha256": "b0c7507b0a709a55b6084ec9b6a5201857ddab3ae4080b2125e0a1acb3a30dde"
     },
     {
       "path": "arcade-carnival.js",
@@ -794,7 +794,7 @@
     },
     {
       "path": "campus-landscape.js",
-      "sha256": "5a5a4f87d52c9bde95c76e6ce042cc6060a11d8f6097740d04c8522cc9484cd9"
+      "sha256": "2dc3b1da6ffbb4f5670dfc3fd60a47e60f3bd315a9e97491a90b4acae4e6fc47"
     },
     {
       "path": "chapel-entry.mjs",
@@ -1041,6 +1041,10 @@
       "sha256": "364da9308cf57aea65f54645923017c6267d5347bb983315fd5f17334c07cf3f"
     },
     {
+      "path": "est-exterior-view.mjs",
+      "sha256": "64ea31982316b7cf89ac7b61db10b51f91adc3cff3306d44b62869852a9f429b"
+    },
+    {
       "path": "est-station-cards.mjs",
       "sha256": "297010d37a7d55c04464e2f5008656eef01399bd7e4be6c136684ce0110614db"
     },
@@ -1082,7 +1086,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "72fa06531590996ec5a4f8861e1bfd26d73a5413e3dc9cb52c8196bfb766627b"
+      "sha256": "fe430b49bfbab0a6c7f09493c7d66a0478be96cb6fca85467599f74743dd3e2c"
     },
     {
       "path": "header-controls.css",
@@ -1106,7 +1110,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "70465516216212fbd78391d974d680d268c7b508c45e8f184eab063c07a39e0d"
+      "sha256": "3013818a41d79315ef878a53e1434be1cb06779c67ad33dc31b959dc996918a9"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1422,7 +1426,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "65a88e05df0fd7f534c4d724d79e883fcc8e126d3984005d0442dae2ce9a5a14"
+      "sha256": "a813d1222cdfb123d283f10ada4dcac4bdcc3d325b4206e18277a87a99d1c3c7"
     }
   ],
   "estVideo": {

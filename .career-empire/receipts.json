@@ -452,5 +452,23 @@
       "playable-3d/night-market.js": "100644:bbfba68d76483be5f6f7d437372f62cd72a68cbd",
       "playable-3d/release-manifest.json": "100644:0d48ac270a7335d178021a47970d541c9b2d57c4"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-160",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "e4da553e5f44c7a9f7eac73984889710afb062bf2b78f5416a02879b83dd2eb8",
+    "recordSha256": "04e0fdccb32c37bc8ca36a6ef10b4c52d5f2f805aa2844261ef95e9631e82e88",
+    "reviewedAt": "2026-11-13T01:39:42.849Z",
+    "reviewEvidence": "Explicit Tania publication approval; exact160source01b814a over approved153closeout2c1fbe2.396unit84files356assets108imports. Native1280/390/1920 exact4part cabinet relocation and mouse/touch vertical pan, zero avatar displacement, entry/fourcards/cinema/return16,12.5 pass. Reader6images1280/390 no overflow. CI source/unit/coverage pass;2inherited admin failures271not-run, no fullgreen. Preserve Portfolio399a4da and Chapel room/walking.",
+    "files": {
+      "playable-3d/app.js": "100644:a38b142964bb90574530b9cb68ba89ddd608f40e",
+      "playable-3d/campus-landscape.js": "100644:d3b6c0e2653427bebe6042e26b68e5a8ca7e8ea1",
+      "playable-3d/est-exterior-view.mjs": "100644:1e54162f9b20168b1b998d9a563c9529407a5fa4",
+      "playable-3d/guest-shell.mjs": "100644:94d4ba475653d88040d36a22ae3bc63b10e835ea",
+      "playable-3d/index.html": "100644:8c05ff0872f0e302f9934f599f7c2a7dbec4e699",
+      "playable-3d/release-manifest.json": "100644:bbaf60f0e196bbc47d09b13628eaf4ed8fde5293",
+      "playable-3d/world.js": "100644:ce260964851b7130ca61dc28c76bbdcb4bfe13d4",
+      "tests/unit/est-exterior-view.test.mjs": "100644:f5b4ed0ede6ca5e018474b75792a2d4415085ad9"
+    }
   }
 ]
