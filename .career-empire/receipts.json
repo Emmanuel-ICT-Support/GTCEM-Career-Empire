@@ -565,5 +565,20 @@
       "playable-3d/release-manifest.json": "100644:ac55ad5335d0077beba20cb023ce463bbd24160a",
       "tests/unit/portfolio-global-views.test.mjs": "100644:23cd6c3c271ecfc6621f4abd9515dab57aea156f"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-166",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "81330e77979d7ccff938bcba2762ac9b5af4dfca816d02a9fb1410e430d7a878",
+    "recordSha256": "55216cf5cbba8d921d97a014102ee7277a46eea14c095f05a7c6b14f0211f210",
+    "reviewedAt": "2026-11-13T07:01:20.141Z",
+    "reviewEvidence": "Actual d07b455d source review11/11hashes and desktop/phone reader pass; five exact Git versions;417unit/92files with coverage; native1280/390Initiative-first closed logos/cream-sage/global views/privacy/geometry pass. Required browser suite port4273 collision retained; no all-CI-green claim.",
+    "files": {
+      "dashboards/dashboard.css": "100644:e184de8f89f84c5b40f7ad98c2aecf525e6eae56",
+      "dashboards/dashboard.js": "100644:dc80fc725dcfa02c9b30b3956a1f65d2e5a54189",
+      "dashboards/student.html": "100644:9b8768522d8f7a14c83a21e868ec14b5e74a7824",
+      "playable-3d/release-manifest.json": "100644:3a08d462b09a8a54d89fbe195b87a6136bc60297",
+      "tests/unit/portfolio-overview.test.mjs": "100644:f26b10be3acceb92e527394abb814cf9efd018ba"
+    }
   }
 ]

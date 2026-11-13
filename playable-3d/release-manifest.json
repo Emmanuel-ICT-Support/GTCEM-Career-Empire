@@ -1,8 +1,8 @@
 {
-  "release": "portfolio-global-views-20261113",
+  "release": "portfolio-overview-20261113",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "b4f945ec5300bcd17a359f107ee1ed8d3d11b204",
-  "scope": "One global Portfolio switch, expandable capabilities and unique year/month chronology; preserve existing ownership filtering, anonymous/demo isolation and all other game work.",
+  "baseCommit": "465faea80bdbbac2d143c7f17a8c01e0c5378403",
+  "scope": "Initiative-first illustrated closed capability overviews and matching cream/sage presentation; preserve global views, record/privacy boundaries, Market entry and all unrelated game work.",
   "files": [
     {
       "path": "../Assets/EST Preparation/communication-portrait.mp4",
@@ -102,11 +102,11 @@
     },
     {
       "path": "../dashboards/dashboard.css",
-      "sha256": "e4174693aecd2a38a85bbad4f0d63b329ad14ab9b569696aab6b845553f74c71"
+      "sha256": "545f187938711649e1ebc22dc188ef8f9df830d98045e7ff95504860cf1c7ecd"
     },
     {
       "path": "../dashboards/dashboard.js",
-      "sha256": "a7e1802f82c6123b3a2812e3b48a67600d9604505d4c4c0c419f829fcb82eee3"
+      "sha256": "c79852962d751a94b30c78597f2201d186f4664a3307e2a8d0b8abbbb2834247"
     },
     {
       "path": "../dashboards/initiative-portfolio.css",
@@ -226,7 +226,7 @@
     },
     {
       "path": "../dashboards/student.html",
-      "sha256": "c1e55fc2758dd4ebd504326dcf851ab3245c6090b72b73e2e89d21c3eda61272"
+      "sha256": "2e188b593e298e5b4c2778647d4f7de4fd63d10c05c7d9f0d0ebd83722c623f2"
     },
     {
       "path": "../dashboards/teacher-game-theme.css",

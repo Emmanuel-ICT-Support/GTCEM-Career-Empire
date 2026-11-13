@@ -4071,7 +4071,8 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
     employabilitySkillCategoriesCache = skillsData.categories;
   }
 
-  const cards = skillsData.categories.map(category => {
+  const orderedCategories = targetId === "student-skill-grid" ? portfolioCapabilityOrder(skillsData.categories) : skillsData.categories;
+  const cards = orderedCategories.map(category => {
     const progress = clampPercent(progressMap[category.id] || 0);
     const meta = EMPLOYABILITY_SKILL_META[category.id] || EMPLOYABILITY_SKILL_META.communication;
     const isStudentGrid = targetId === "student-skill-grid";
@@ -4117,7 +4118,7 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
       ...subskill,
       logoPath: category.id === "initiative" ? subskill.logoPath || "" : getEmployabilityLogoPath(category.id, subskill.id)
     }));
-    return `${isStudentGrid ? `<details class="portfolio-capability" data-capability-group="${escapeHtml(category.id)}"><summary>${escapeHtml(category.title)} <span>${studentEvidenceEntries.length} reflection${studentEvidenceEntries.length === 1 ? "" : "s"}</span></summary>` : ""}
+    return `${isStudentGrid ? `<details class="portfolio-capability" data-capability-group="${escapeHtml(category.id)}"><summary>${renderPortfolioCapabilitySummary(category, studentEvidenceEntries.length)}</summary>` : ""}
       <article class="skill-card skill-card-modern ${isStudentGrid ? "skill-card-has-star" : ""}" style="--skill-accent: ${meta.accent}; --skill-accent-soft: ${meta.accentSoft}; --skill-accent-strong: ${meta.accentStrong}; --skill-progress-angle: ${progress * 3.6}deg;">
         ${isStudentGrid ? '<div class="portfolio-capability-left">' : ''}
         <div class="skill-card-top">
@@ -4463,14 +4464,11 @@ function renderStudentPortfolio() {
   const subskillCount = new Set(entries.flatMap(entry => getStarEntrySubskillTags(entry).map(tag => `${tag.skillId}:${tag.subskillId}`))).size;
   const skillCount = new Set(entries.flatMap(getStarEntrySkillIds)).size;
   const timelineMarkup = renderPortfolioTimeline(entries, entry => renderStudentPortfolioEntry(entry));
-  const skillMarkup = categories.map(category => {
+  const skillMarkup = portfolioCapabilityOrder(categories).map(category => {
     const skillEntries = entries.filter(entry => getStarEntrySkillIds(entry).includes(category.id));
     return `
       <details class="student-portfolio-skill-group" data-capability-group="${escapeHtml(category.id)}" style="--skill-accent: ${(EMPLOYABILITY_SKILL_META[category.id] || EMPLOYABILITY_SKILL_META.communication).accent};">
-        <summary class="student-portfolio-skill-header">
-          <strong>${escapeHtml(category.title)}</strong>
-          <span>${skillEntries.length} entr${skillEntries.length === 1 ? "y" : "ies"}</span>
-        </summary>
+        <summary class="student-portfolio-skill-header">${renderPortfolioCapabilitySummary(category, skillEntries.length)}</summary>
         ${skillEntries.length
           ? skillEntries.map(entry => renderStudentPortfolioEntry(entry, category.id)).join("")
           : '<p class="student-portfolio-skill-empty">No STAR reflections tagged to this skill yet.</p>'}
@@ -7152,6 +7150,16 @@ function addPublicInitiativeReflection() {
 }
 
 
+function portfolioCapabilityOrder(categories) {
+  return [...categories.filter(category => category.id === "initiative"), ...categories.filter(category => category.id !== "initiative")];
+}
+
+function renderPortfolioCapabilitySummary(category, count) {
+  const logo = category.id === "initiative" ? category.logoPath : getEmployabilityLogoPath(category.id) || category.logoPath;
+  const subskills = category.id === "initiative" ? category.subskills : category.subskills.slice(0,4);
+  return `<span class="portfolio-summary-overview"><img class="portfolio-summary-logo" loading="lazy" decoding="async" src="${escapeHtml(logo || "")}" alt=""><span class="portfolio-summary-copy"><span class="portfolio-summary-heading"><strong>${escapeHtml(category.title)}</strong><span>${count} reflection${count === 1 ? "" : "s"}</span></span><span class="portfolio-summary-subskills">${subskills.map(part => `<span><img loading="lazy" decoding="async" src="${escapeHtml(category.id === "initiative" ? part.logoPath : getEmployabilityLogoPath(category.id,part.id))}" alt=""><span>${escapeHtml(part.title)}</span></span>`).join("")}</span><span class="portfolio-summary-more">More detail</span></span></span>`;
+}
+
 function uniquePortfolioEntries(entries) {
   const seen = new Set();
   return entries.filter(entry => {
@@ -7204,6 +7212,7 @@ function renderRightHandPortfolioStream(entries, currentSkillId) {
 
 async function initFictionalPortfolioDemo() {
   // This branch runs before access checks or account initialisation, including with existing cookies.
+  document.body.classList.add("portfolio-coastal-aesthetic");
   document.title = "Fictional Portfolio demonstration - Career Empire";
   document.body.replaceChildren();
   const root = document.createElement("main");root.className = "page-shell portfolio-demo-page";document.body.appendChild(root);

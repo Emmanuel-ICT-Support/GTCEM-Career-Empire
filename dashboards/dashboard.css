@@ -5285,3 +5285,31 @@ textarea {
 :is(#student-skill-grid,#student-portfolio-modal) .student-portfolio-entry .skill-star-tag-list span{color:#173f3b;background:#d7ead9;border-color:#8bad94}
 :is(#student-skill-grid,#student-portfolio-modal) .student-portfolio-entry .skill-star-review-status:not(.skill-star-review-status--approved):not(.skill-star-review-status--rejected){color:#725113;background:#fff3cb;border-color:#d8b85c}
 .student-portfolio-skill-header strong{color:#245d51}
+
+/* Illustrated capability overviews remain visible before the detail dropdown. */
+body.portfolio-coastal-aesthetic{--text:#193d35;--muted:#4c6658;background:radial-gradient(ellipse at top,#fffdf2,#e3eadb 72%);color:#193d35}
+.portfolio-coastal-aesthetic .portfolio-demo-banner{background:#fffdf2;color:#193d35;border-color:#b4cbb4}
+.portfolio-coastal-aesthetic :is(h1,h2,p,.kicker){color:#193d35}
+.portfolio-coastal-aesthetic .portfolio-demo-banner a{color:#245d51}
+.portfolio-coastal-aesthetic .module-link{background:#245d51;color:#fff;border-color:#245d51}
+#student-skill-grid{border-radius:18px}
+.portfolio-capability-list{background:#e3eadb;padding:14px;border-radius:18px}
+.portfolio-capability>summary,.student-portfolio-skill-group>summary{list-style:none;padding:16px}
+.portfolio-capability>summary::-webkit-details-marker,.student-portfolio-skill-group>summary::-webkit-details-marker{display:none}
+.portfolio-summary-overview{display:grid;grid-template-columns:116px minmax(0,1fr);gap:20px;align-items:center;width:100%;min-width:0;color:#193d35}
+.portfolio-summary-logo{width:116px;height:116px;object-fit:contain;filter:drop-shadow(0 10px 14px #4c66582b)}
+.portfolio-summary-copy{min-width:0;display:grid;gap:10px}
+.portfolio-summary-heading{display:flex;align-items:center;flex-wrap:wrap;gap:8px 18px}
+.portfolio-summary-heading>strong{font-size:1.25rem;color:#193d35}
+.portfolio-summary-heading>span{font-size:.85rem;color:#4c6658;font-weight:500}
+.portfolio-summary-subskills{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px}
+.portfolio-summary-subskills>span{display:flex;align-items:center;gap:8px;min-width:0;border:1px solid #b4cbb4;border-radius:10px;padding:7px;background:#eef3e7}
+.portfolio-summary-subskills img{width:42px;height:42px;object-fit:contain;flex:none}
+.portfolio-summary-subskills>span>span{font-size:.75rem;line-height:1.2;font-weight:700;margin:0}
+.portfolio-capability>summary .portfolio-summary-more,.student-portfolio-skill-group>summary .portfolio-summary-more{font-size:.82rem;font-weight:700;color:#245d51;margin:0}
+.portfolio-summary-more::after{content:' ▾'}
+details[open]>summary .portfolio-summary-more::after{content:' ▴'}
+.student-portfolio-skill-group{background:#fffdf2;border:1px solid #b4cbb4;border-radius:14px;padding:0;margin-bottom:14px}
+@media(max-width:600px){.portfolio-summary-overview{grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:start}.portfolio-summary-logo{width:72px;height:82px}.portfolio-summary-subskills{grid-template-columns:1fr}.portfolio-summary-subskills img{width:34px;height:34px}.portfolio-capability-list{padding:7px}.portfolio-capability>summary,.student-portfolio-skill-group>summary{padding:12px}.portfolio-summary-heading>strong{font-size:1.12rem}}
+
+.portfolio-capability>summary .portfolio-summary-overview,.portfolio-capability>summary .portfolio-summary-overview span{margin-left:0}
