@@ -5244,3 +5244,44 @@ textarea {
 .skill-card-has-star .skill-star-tag-list span{color:#173f3b;background:#d7ead9;border-color:#8bad94}
 
 .skill-card-has-star .skill-star-review-status:not(.skill-star-review-status--approved):not(.skill-star-review-status--rejected){color:#725113;background:#fff3cb;border-color:#d8b85c}
+
+/* One view control for the full Portfolio, without changing saved records. */
+#student-skill-grid .portfolio-global-controls,#student-skill-grid .portfolio-capability-list,#student-skill-grid .portfolio-global-timeline{grid-column:1/-1;min-width:0}
+.portfolio-capability-list{display:grid;gap:18px;width:100%}
+.portfolio-capability{border:1px solid #91aca0;border-radius:16px;background:#fffdf6;color:#173f3b;min-width:0;overflow:hidden}
+.portfolio-capability>summary{cursor:pointer;padding:18px 20px;font-weight:800;font-size:1.15rem;list-style-position:inside}
+.portfolio-capability>summary span{font-size:.85rem;font-weight:500;margin-left:12px}
+.portfolio-capability .skill-card{border:0;border-radius:0;margin:0}
+.portfolio-capability .skill-card-evidence{min-width:0}
+.portfolio-timeline-year{display:grid;gap:16px;min-width:0;margin:12px 0 28px}
+.portfolio-timeline-year>h3,.portfolio-timeline-month>h4{color:#173f3b;margin:0 0 12px}
+.portfolio-timeline-month{min-width:0;border-left:3px solid #91aca0;padding-left:16px}
+.portfolio-timeline-month .student-portfolio-entry{margin-bottom:16px;overflow-wrap:anywhere}
+.student-portfolio-skill-group>summary{cursor:pointer;padding:14px;list-style-position:inside}
+.student-portfolio-skill-group .student-portfolio-entry{margin:14px}
+.portfolio-capability-list[hidden],.portfolio-global-timeline[hidden]{display:none!important}
+
+/* Right-side content cannot increase the left block or spread its rows. */
+#student-skill-grid .portfolio-capability .skill-card-has-star{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);grid-template-areas:none;align-items:stretch;gap:22px}
+.portfolio-capability-left{display:flex;flex-direction:column;gap:14px;min-width:0}
+.portfolio-capability-left>.skill-description,.portfolio-capability-left>.skill-star-actions{margin:0}
+.portfolio-capability-right{position:relative;min-width:0;min-height:0}
+#student-skill-grid .portfolio-capability-right .skill-card-evidence{margin:0}
+#student-skill-grid .portfolio-capability-right .skill-star-example{position:absolute;inset:0;min-height:0;overflow:auto;overscroll-behavior:contain;grid-area:auto;display:block}
+#student-skill-grid .portfolio-capability-right .skill-star-scroll{max-height:none;overflow:visible}
+@media(max-width:800px){
+ #student-skill-grid .portfolio-capability .skill-card-has-star{grid-template-columns:1fr}
+ #student-skill-grid .portfolio-capability-right .skill-star-example{position:static;min-height:0;overflow:visible}
+ #student-skill-grid .portfolio-capability-right .skill-star-scroll{max-height:65dvh;overflow:auto;overscroll-behavior:contain}
+}
+
+.student-portfolio-entry-actions[hidden]{display:none!important}
+#student-skill-grid .student-portfolio-entry{background:#fffdf6;color:#173f3b;border:1px solid #b6c9bb;padding:16px}
+#student-skill-grid .student-portfolio-entry-header time,#student-skill-grid .student-portfolio-entry-header span{color:#42635c}
+
+.portfolio-global-timeline,.student-portfolio-list{background:#fffdf6;color:#173f3b;border-radius:14px;padding:18px;--text:#173f3b;--muted:#42635c}
+:is(#student-skill-grid,#student-portfolio-modal) .student-portfolio-entry{--text:#173f3b;--muted:#42635c;background:#fffdf6;color:#173f3b;border-color:#b6c9bb}
+:is(#student-skill-grid,#student-portfolio-modal) .student-portfolio-entry :is(.student-portfolio-entry-header strong,.skill-star-row p,.skill-star-marker small){color:#173f3b}
+:is(#student-skill-grid,#student-portfolio-modal) .student-portfolio-entry .skill-star-tag-list span{color:#173f3b;background:#d7ead9;border-color:#8bad94}
+:is(#student-skill-grid,#student-portfolio-modal) .student-portfolio-entry .skill-star-review-status:not(.skill-star-review-status--approved):not(.skill-star-review-status--rejected){color:#725113;background:#fff3cb;border-color:#d8b85c}
+.student-portfolio-skill-header strong{color:#245d51}

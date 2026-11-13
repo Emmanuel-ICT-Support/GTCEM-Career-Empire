@@ -1,8 +1,8 @@
 {
-  "release": "portfolio-careers-core-20261113",
+  "release": "portfolio-global-views-20261113",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "0adc2f5c20236751fe525103be06ba91d1a6d4bc",
-  "scope": "Serial161/163/164: shared anonymous Initiative form, isolated fictional Portfolio demo and actual evidence-pane views, Careers monitor/camera, selected EST media readiness/prewarm/retry. Preserve verified Chapel/EST/Market/Notes/Archon, video bytes and account services.",
+  "baseCommit": "b4f945ec5300bcd17a359f107ee1ed8d3d11b204",
+  "scope": "One global Portfolio switch, expandable capabilities and unique year/month chronology; preserve existing ownership filtering, anonymous/demo isolation and all other game work.",
   "files": [
     {
       "path": "../Assets/EST Preparation/communication-portrait.mp4",
@@ -102,11 +102,11 @@
     },
     {
       "path": "../dashboards/dashboard.css",
-      "sha256": "51b2a4faaf84518ad3002c18b132391b416baf464d1b49ceeae54273b5bbc077"
+      "sha256": "e4174693aecd2a38a85bbad4f0d63b329ad14ab9b569696aab6b845553f74c71"
     },
     {
       "path": "../dashboards/dashboard.js",
-      "sha256": "fe90339e0e9563a78cb82a4fc28de55a06e4f78d602ff81d18f46e7efc863012"
+      "sha256": "a7e1802f82c6123b3a2812e3b48a67600d9604505d4c4c0c419f829fcb82eee3"
     },
     {
       "path": "../dashboards/initiative-portfolio.css",
@@ -226,7 +226,7 @@
     },
     {
       "path": "../dashboards/student.html",
-      "sha256": "77942e4d40063090c8b2585c51fcffd5b5401e466fff75883ddcdefc5e6bb463"
+      "sha256": "c1e55fc2758dd4ebd504326dcf851ab3245c6090b72b73e2e89d21c3eda61272"
     },
     {
       "path": "../dashboards/teacher-game-theme.css",

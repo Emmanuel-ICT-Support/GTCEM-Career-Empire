@@ -550,5 +550,20 @@
       "playable-3d/release-manifest.json": "100644:f052fb995e2a48f2cfb8060fef7abdc9cc0a1127",
       "tests/unit/est-media-readiness.test.mjs": "100644:d34209ee30163b4c1150b91ffe19421ccc6bbf8c"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-165",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "605c40305894f876cc33fd0440d0357cb870cca2c5451ed544b925f5574d24d3",
+    "recordSha256": "cd677034407579bf67f6b31936413745899913a5f3a1fd4ad31febaca4ec06b1",
+    "reviewedAt": "2026-11-13T06:16:59.342Z",
+    "reviewEvidence": "Exact558e8029published source review11/11hashes and desktop/phone reader checked; five final Git versions;415unit/91files;419indexassets109imports; actual native1280/390global switch/dropdowns/multi-tags/year-month/deduplication/bounded-panel geometry/zero demoStorage/backend checks; broad CI inherited admin failure retained.",
+    "files": {
+      "dashboards/dashboard.css": "100644:2be6c9af4ac4a4a727a06423e42463c5fee6ed56",
+      "dashboards/dashboard.js": "100644:470d9530a6ff93c6403a9b37a9a4e7fdb5c474ec",
+      "dashboards/student.html": "100644:0ecca9d0ea34e78bf784e83efb1c2892d797c4a2",
+      "playable-3d/release-manifest.json": "100644:ac55ad5335d0077beba20cb023ce463bbd24160a",
+      "tests/unit/portfolio-global-views.test.mjs": "100644:23cd6c3c271ecfc6621f4abd9515dab57aea156f"
+    }
   }
 ]

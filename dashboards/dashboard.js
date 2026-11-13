@@ -2,7 +2,7 @@ var publicInitiativePortfolioMode = Boolean(document.getElementById("student-her
 var portfolioDemoMode = Boolean(document.getElementById("student-hero-title")) && new URLSearchParams(window.location.search).get("portfolioDemo") === "1";
 var isolatedPortfolioMode = publicInitiativePortfolioMode || portfolioDemoMode;
 var portfolioDemoEntries = [], portfolioDemoApi = null, portfolioDemoSkills = null;
-var portfolioEvidenceViews = {};
+var portfolioGlobalView = "skills";
 var publicInitiativeDraft = null;
 var publicInitiativeEntries = [];
 var publicInitiativeApi = null;
@@ -1170,7 +1170,7 @@ const STAR_REVIEW_QUEUE_MODULE_ID = LEGACY_STAR_MODULE_ID;
 let employabilitySkillCategoriesCache = [];
 let studentPortfolioState = {
   open: false,
-  view: "timeline"
+  view: "skills"
 };
 
 const STAR_CONTEXTS = [
@@ -4071,7 +4071,7 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
     employabilitySkillCategoriesCache = skillsData.categories;
   }
 
-  container.innerHTML = skillsData.categories.map(category => {
+  const cards = skillsData.categories.map(category => {
     const progress = clampPercent(progressMap[category.id] || 0);
     const meta = EMPLOYABILITY_SKILL_META[category.id] || EMPLOYABILITY_SKILL_META.communication;
     const isStudentGrid = targetId === "student-skill-grid";
@@ -4105,12 +4105,8 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
           <div class="skill-star-title">${portfolioDemoMode ? "Fictional demonstration" : "Your reflections"} / ${escapeHtml(category.title)}</div>
           <p>Scroll your entries. A reflection can carry several capability tags.</p>
         </div></div>
-        <div class="portfolio-evidence-views" aria-label="${escapeHtml(category.title)} evidence view">
-          <button type="button" data-evidence-view-for="${escapeHtml(category.id)}" data-evidence-view="timeline" aria-pressed="${portfolioEvidenceViews[category.id] !== "skills"}">Chronological</button>
-          <button type="button" data-evidence-view-for="${escapeHtml(category.id)}" data-evidence-view="skills" aria-pressed="${portfolioEvidenceViews[category.id] === "skills"}">By capability</button>
-        </div>
         <div class="skill-star-scroll" tabindex="0" aria-label="${escapeHtml(category.title)} reflection entries">
-          ${renderRightHandPortfolioStream(studentEvidenceEntries, category.id, portfolioEvidenceViews[category.id] || "timeline")}
+          ${renderRightHandPortfolioStream(studentEvidenceEntries, category.id)}
         </div>
         <details class="portfolio-fictional-model"><summary>Separate fictional STAR model</summary>
           <div class="skill-star-grid">${renderStarRows(starExample.rows)}</div>
@@ -4121,8 +4117,9 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
       ...subskill,
       logoPath: category.id === "initiative" ? subskill.logoPath || "" : getEmployabilityLogoPath(category.id, subskill.id)
     }));
-    return `
+    return `${isStudentGrid ? `<details class="portfolio-capability" data-capability-group="${escapeHtml(category.id)}"><summary>${escapeHtml(category.title)} <span>${studentEvidenceEntries.length} reflection${studentEvidenceEntries.length === 1 ? "" : "s"}</span></summary>` : ""}
       <article class="skill-card skill-card-modern ${isStudentGrid ? "skill-card-has-star" : ""}" style="--skill-accent: ${meta.accent}; --skill-accent-soft: ${meta.accentSoft}; --skill-accent-strong: ${meta.accentStrong}; --skill-progress-angle: ${progress * 3.6}deg;">
+        ${isStudentGrid ? '<div class="portfolio-capability-left">' : ''}
         <div class="skill-card-top">
           <div class="skill-visual" aria-hidden="true">
             <img loading="lazy" decoding="async" class="skill-hero-logo" src="${escapeHtml(parentLogoPath)}" alt="">
@@ -4151,10 +4148,19 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
             </span>
           `).join("")}
         </div>
-        ${starExampleMarkup ? `<details class="skill-card-evidence" open><summary>Evidence and example</summary>${starExampleMarkup}</details>` : ""}
-      </article>
+        ${isStudentGrid ? '</div>' : ''}
+        ${starExampleMarkup ? `<div class="portfolio-capability-right"><div class="skill-card-evidence">${starExampleMarkup}</div></div>` : ""}
+      </article>${isStudentGrid ? "</details>" : ""}
     `;
   }).join("");
+  if (targetId === "student-skill-grid") {
+    const entries = uniquePortfolioEntries(Object.values(skillEvidenceMap).flat());
+    container.innerHTML = renderPortfolioGlobalControls("page") +
+      `<div class="portfolio-capability-list" data-portfolio-capabilities>${cards}</div>` +
+      `<div class="portfolio-global-timeline" data-portfolio-timeline>${renderPortfolioTimeline(entries, entry => renderStudentPortfolioEntry(entry))}</div>`;
+    applyPortfolioGlobalView();
+    container.querySelectorAll("[data-portfolio-global-view]").forEach(button => button.addEventListener("click", () => setPortfolioGlobalView(button.dataset.portfolioGlobalView)));
+  } else container.innerHTML = cards;
 
   container.querySelectorAll("[data-star-builder-context]").forEach(button => {
     button.addEventListener("click", () => {
@@ -4166,15 +4172,10 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
     });
   });
 
-  container.querySelectorAll("[data-evidence-view]").forEach(button => {
-    button.addEventListener("click", () => {
-      const id = button.dataset.evidenceViewFor;
-      portfolioEvidenceViews[id] = button.dataset.evidenceView;
-      const panel = button.closest("[data-evidence-panel]");
-      panel.querySelector(".skill-star-scroll").innerHTML = renderRightHandPortfolioStream(skillEvidenceMap[id] || [], id, portfolioEvidenceViews[id]);
-      panel.querySelectorAll("[data-evidence-view]").forEach(control => control.setAttribute("aria-pressed", String(control.dataset.evidenceView === portfolioEvidenceViews[id])));
-    });
-  });
+  container.querySelectorAll("[data-portfolio-edit-entry-id]").forEach(button => button.addEventListener("click", () => {
+    const entry = uniquePortfolioEntries(Object.values(skillEvidenceMap).flat()).find(item => item.id === button.dataset.portfolioEditEntryId);
+    if (entry && !portfolioDemoMode) openSkillStarBuilder(entry.skillId, entry.skillTitle, entry.contextId, entry);
+  }));
   container.querySelectorAll("[data-star-resubmit-entry-id]").forEach(button => {
     button.addEventListener("click", () => {
       openSkillStarResubmission(button.dataset.starResubmitEntryId);
@@ -4427,7 +4428,7 @@ function renderStudentPortfolioEntry(entry, currentSkillId = "") {
   const primarySkillId = currentSkillId || getStarEntrySkillIds(entry)[0] || "communication";
   const meta = EMPLOYABILITY_SKILL_META[primarySkillId] || EMPLOYABILITY_SKILL_META.communication;
   return `
-    <article class="student-portfolio-entry" style="--skill-accent: ${meta.accent}; --skill-accent-strong: ${meta.accentStrong};">
+    <article class="student-portfolio-entry" data-portfolio-entry="${escapeHtml(entry.id)}" style="--skill-accent: ${meta.accent}; --skill-accent-strong: ${meta.accentStrong};">
       <div class="student-portfolio-entry-header">
         <div>
           <span>${escapeHtml(getStarContextLabel(entry.contextId))}</span>
@@ -4453,35 +4454,27 @@ function renderStudentPortfolio() {
     modal.hidden = true;
     return;
   }
-  const entries = [...(studentPortfolioState.entries || [])]
-    .sort(compareStarEntriesByExperienceDate);
+  const entries = uniquePortfolioEntries(studentPortfolioState.entries || []);
   const categories = studentPortfolioState.skillsData?.categories?.length
     ? studentPortfolioState.skillsData.categories
     : employabilitySkillCategoriesCache || [];
-  const view = studentPortfolioState.view || "timeline";
+  const view = portfolioGlobalView;
   const activeEntries = entries.filter(isSkillStarEvidenceActive);
   const subskillCount = new Set(entries.flatMap(entry => getStarEntrySubskillTags(entry).map(tag => `${tag.skillId}:${tag.subskillId}`))).size;
   const skillCount = new Set(entries.flatMap(getStarEntrySkillIds)).size;
-  const timelineMarkup = entries.length
-    ? entries.map(entry => renderStudentPortfolioEntry(entry)).join("")
-    : `
-      <div class="student-portfolio-empty">
-        <strong>No STAR reflections banked yet</strong>
-        <p>Use any employability skill card to build STAR evidence from school, workplace, community, or gameplay.</p>
-      </div>
-    `;
+  const timelineMarkup = renderPortfolioTimeline(entries, entry => renderStudentPortfolioEntry(entry));
   const skillMarkup = categories.map(category => {
     const skillEntries = entries.filter(entry => getStarEntrySkillIds(entry).includes(category.id));
     return `
-      <section class="student-portfolio-skill-group" style="--skill-accent: ${(EMPLOYABILITY_SKILL_META[category.id] || EMPLOYABILITY_SKILL_META.communication).accent};">
-        <div class="student-portfolio-skill-header">
+      <details class="student-portfolio-skill-group" data-capability-group="${escapeHtml(category.id)}" style="--skill-accent: ${(EMPLOYABILITY_SKILL_META[category.id] || EMPLOYABILITY_SKILL_META.communication).accent};">
+        <summary class="student-portfolio-skill-header">
           <strong>${escapeHtml(category.title)}</strong>
           <span>${skillEntries.length} entr${skillEntries.length === 1 ? "y" : "ies"}</span>
-        </div>
+        </summary>
         ${skillEntries.length
           ? skillEntries.map(entry => renderStudentPortfolioEntry(entry, category.id)).join("")
           : '<p class="student-portfolio-skill-empty">No STAR reflections tagged to this skill yet.</p>'}
-      </section>
+      </details>
     `;
   }).join("");
 
@@ -4500,21 +4493,15 @@ function renderStudentPortfolio() {
         <span><strong>${skillCount}</strong> skill areas tagged</span>
         <span><strong>${subskillCount}</strong> sub-skills named</span>
       </div>
-      <div class="student-portfolio-tabs" role="tablist" aria-label="Portfolio view">
-        <button class="${view === "timeline" ? "is-active" : ""}" type="button" data-student-portfolio-view="timeline">Chronological</button>
-        <button class="${view === "skills" ? "is-active" : ""}" type="button" data-student-portfolio-view="skills">By Skill Type</button>
-      </div>
+      ${renderPortfolioGlobalControls("modal")}
       <div class="student-portfolio-list">
         ${view === "skills" ? skillMarkup : timelineMarkup}
       </div>
     </div>
   `;
   modal.querySelector("[data-student-portfolio-close]")?.addEventListener("click", closeStudentPortfolio);
-  modal.querySelectorAll("[data-student-portfolio-view]").forEach(button => {
-    button.addEventListener("click", () => {
-      studentPortfolioState.view = button.dataset.studentPortfolioView;
-      renderStudentPortfolio();
-    });
+  modal.querySelectorAll("[data-portfolio-global-view]").forEach(button => {
+    button.addEventListener("click", () => { setPortfolioGlobalView(button.dataset.portfolioGlobalView); renderStudentPortfolio(); });
   });
   modal.querySelectorAll("[data-portfolio-edit-entry-id]").forEach(button => {
     button.addEventListener("click", () => {
@@ -7165,20 +7152,54 @@ function addPublicInitiativeReflection() {
 }
 
 
-function renderRightHandPortfolioStream(entries, currentSkillId, view) {
-  const ordered = [...entries].sort(compareStarEntriesByExperienceDate);
-  const renderEntry = entry => `<article class="skill-star-entry skill-star-entry-banked" data-portfolio-entry="${escapeHtml(entry.id)}">
-    <div class="skill-star-entry-meta"><span>${escapeHtml(getStarContextLabel(entry.contextId))}</span><time>${escapeHtml(formatExperienceDate(getStarEntryExperienceDate(entry)))}</time></div>
-    <strong class="skill-star-summary">${escapeHtml(entry.summary || createStarEvidenceSummary(entry))}</strong>
-    ${renderStarTagList(entry, currentSkillId)}${getSkillStarReviewStatusMarkup(entry)}
-    <div class="skill-star-grid">${renderStarRows(getStarRowsForEntry(entry))}</div>
-  </article>`;
-  if (!ordered.length) return '<p class="student-portfolio-empty">No reflections for this capability yet. Choose an experience to build your own STAR reflection.</p>';
-  if (view !== "skills") return ordered.map(renderEntry).join("");
-  return employabilitySkillCategoriesCache.map(category => {
-    const matching = ordered.filter(entry => getStarEntrySkillIds(entry).includes(category.id));
-    return matching.length ? `<section class="portfolio-evidence-group" data-capability-group="${escapeHtml(category.id)}"><h4>${escapeHtml(category.title)}</h4>${matching.map(renderEntry).join("")}</section>` : "";
-  }).join("");
+function uniquePortfolioEntries(entries) {
+  const seen = new Set();
+  return entries.filter(entry => {
+    if (!entry || typeof entry !== "object") return false;
+    if (!entry.id) return true; // Never merge unrelated legacy reflections by their text.
+    if (seen.has(entry.id)) return false;
+    seen.add(entry.id); return true;
+  }).slice().sort(compareStarEntriesByExperienceDate);
+}
+
+function groupPortfolioTimeline(entries) {
+  const years = new Map();
+  for (const entry of uniquePortfolioEntries(entries)) {
+    const date = String(getStarEntryExperienceDate(entry) || "").slice(0, 10);
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+    const valid = match && Number(match[2]) >= 1 && Number(match[2]) <= 12 && Number(match[3]) >= 1 && Number(match[3]) <= 31 && !Number.isNaN(Date.parse(date + 'T00:00:00Z')) && new Date(date + "T00:00:00Z").toISOString().slice(0,10) === date;
+    const year = valid ? match[1] : "undated", month = valid ? match[2] : "undated";
+    if (!years.has(year)) years.set(year, new Map());
+    const months = years.get(year);
+    if (!months.has(month)) months.set(month, []);
+    months.get(month).push(entry);
+  }
+  const descending = (a,b) => a === "undated" ? 1 : b === "undated" ? -1 : b.localeCompare(a);
+  return [...years.keys()].sort(descending).map(year => ({year, months:[...years.get(year).keys()].sort(descending).map(month => ({month, entries:years.get(year).get(month)}))}));
+}
+
+function renderPortfolioTimeline(entries, renderEntry) {
+  const groups = groupPortfolioTimeline(entries);
+  if (!groups.length) return '<p class="student-portfolio-empty">No reflections yet. Choose a capability and experience to write your STAR reflection.</p>';
+  const names = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  return groups.map(group => `<section class="portfolio-timeline-year" data-portfolio-year="${group.year}"><h3>${group.year === "undated" ? "Date not set" : group.year}</h3>${group.months.map(part => `<section class="portfolio-timeline-month" data-portfolio-month="${part.month}"><h4>${part.month === "undated" ? "Undated reflections" : names[Number(part.month)-1]}</h4>${part.entries.map(renderEntry).join("")}</section>`).join("")}</section>`).join("");
+}
+
+function renderPortfolioGlobalControls(surface) {
+  return `<div class="portfolio-global-controls portfolio-evidence-views" data-portfolio-switch="${surface}" role="group" aria-label="Portfolio view"><button type="button" data-portfolio-global-view="skills" aria-pressed="${portfolioGlobalView === "skills"}">By capability</button><button type="button" data-portfolio-global-view="timeline" aria-pressed="${portfolioGlobalView === "timeline"}">Chronological</button></div>`;
+}
+function applyPortfolioGlobalView() {
+  document.querySelectorAll("[data-portfolio-capabilities]").forEach(node => node.hidden = portfolioGlobalView !== "skills");
+  document.querySelectorAll("[data-portfolio-timeline]").forEach(node => node.hidden = portfolioGlobalView !== "timeline");
+  document.querySelectorAll("[data-portfolio-global-view]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.portfolioGlobalView === portfolioGlobalView)));
+}
+function setPortfolioGlobalView(view) {
+  if (view !== "skills" && view !== "timeline") return;
+  portfolioGlobalView = view;
+  applyPortfolioGlobalView();
+}
+function renderRightHandPortfolioStream(entries, currentSkillId) {
+  return uniquePortfolioEntries(entries).map(entry => renderStudentPortfolioEntry(entry, currentSkillId)).join("") || '<p class="student-portfolio-empty">No reflections for this capability yet. Choose an experience to write your own.</p>';
 }
 
 async function initFictionalPortfolioDemo() {
