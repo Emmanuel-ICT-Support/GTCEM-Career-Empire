@@ -1,8 +1,8 @@
 {
-  "release": "est-back-return-20261113",
+  "release": "portfolio-overview-20261113",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "1a7faf627d5177582cc08fb21d42482d26489a9f",
-  "scope": "Correct EST rear-window display and return to its existing exterior entrance before campus preparation. Preserve entry actions, monitor cards, cinema, Archon Notes Chapel, queued portfolio and separate CI.",
+  "baseCommit": "bf33308878d9d4a96648a5de459734427931063a",
+  "scope": "Overview-first anonymous Initiative portfolio, validated same-origin opener/same-run Market return and ordinary-gated standalone link. Preserve corrected ESTbf33308, Chapel, Notes, Archon and separate CI.",
   "files": [
     {
       "path": "../Assets/EST Preparation/guide-character/guide-celebration.png",
@@ -46,7 +46,7 @@
     },
     {
       "path": "../dashboards/dashboard.js",
-      "sha256": "3748afe0cf2d2dd678099da578bcd955a6e0388b2705c0f6a08c0dffc54f7a36"
+      "sha256": "a4e2009614b630c079ecc52ec8d8411a705a26ef051d680669972c31152c71f0"
     },
     {
       "path": "../dashboards/initiative-portfolio.css",
@@ -54,7 +54,7 @@
     },
     {
       "path": "../dashboards/student.html",
-      "sha256": "1f67aaa8c640761848d746aaa3ac4241da6e1f06e001791c69e1e5c8c5302f11"
+      "sha256": "2391036ba81dd35b9b017a6d9f6dcfe96ace672d6242e619a906a55504475160"
     },
     {
       "path": "../dashboards/teacher-game-theme.css",
@@ -262,7 +262,7 @@
     },
     {
       "path": "../modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs",
-      "sha256": "91fcae8e3a4102f5bd22e5a8ae1e58524ce1c1bea196e4828eef09d6580825ac"
+      "sha256": "2d4fe749802248813b7df42b48a447579786966411578f0bd914bbcbde16a450"
     },
     {
       "path": "../src/services/feedback-widget.js",
@@ -278,7 +278,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "f33eb107c633206110938d27079dd1961c8d41edf8d7a47928b0b5610749cda1"
+      "sha256": "885f2db827c078884fafb24bca8da1225d851fd5913bacfccf04d4b4f5f4ff1c"
     },
     {
       "path": "arcade-carnival.js",
@@ -1082,7 +1082,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "9aa9103c2f4f4e4b6d4fb9a3320390b66e7189eef4299b25cc4f83f0e9d9399d"
+      "sha256": "72fa06531590996ec5a4f8861e1bfd26d73a5413e3dc9cb52c8196bfb766627b"
     },
     {
       "path": "header-controls.css",
@@ -1106,7 +1106,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "1d0047785db3a6d0cbb8f54f163a3fbce3a1f8b46c73b6ff8f9a5047a648b83a"
+      "sha256": "70465516216212fbd78391d974d680d268c7b508c45e8f184eab063c07a39e0d"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1174,7 +1174,7 @@
     },
     {
       "path": "market-entrance/market-entrance.mjs",
-      "sha256": "80330b1f5dfe2614556569ce80b003b810ee866602a322fb51040771466b1c0e"
+      "sha256": "3bdcfe74710a87ea1140f6033ffc2ebcedfbd2785280b9d72c17af408fa17164"
     },
     {
       "path": "market-entrance/market-trial.jpg",
@@ -1230,7 +1230,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "be22f1afdcccb42dd3dc8fcce52edf8a5e31dcbc21cab70db82b9b8a800b0273"
+      "sha256": "9a59b119f61b77bc2204d90aa3a4206dd1e13914132e3482be2ba8798ac770ab"
     },
     {
       "path": "opening-chapters-state.js",

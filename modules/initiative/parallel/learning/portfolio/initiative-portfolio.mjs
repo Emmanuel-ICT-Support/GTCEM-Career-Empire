@@ -30,6 +30,20 @@ export function getMarketReturnUrl(dashboardUrl) {
   const url=new URL(dashboardUrl); if(!['http:','https:'].includes(url.protocol)||!url.pathname.endsWith('/dashboards/student.html'))throw new Error('Invalid Career Empire dashboard route');
   return new URL('../playable-3d/',url).href;
 }
+export function getPublicMarketReturnUrl(dashboardUrl){
+ const url=new URL(getMarketReturnUrl(dashboardUrl));
+ url.searchParams.set('experience','sunday-markets');url.searchParams.set('marketReturn','1');
+ return url.href;
+}
+export function resumeOpenMarket(view){
+ try{
+  const opener=view.opener;if(!opener||opener.closed)return false;
+  const current=new URL(view.location.href),target=new URL(opener.location.href);
+  if(target.origin!==current.origin||target.pathname!==new URL(getMarketReturnUrl(current.href)).pathname)return false;
+  if(typeof opener.CareerEmpireReturnToMarket!=='function'||opener.CareerEmpireReturnToMarket()!==true)return false;
+  opener.focus();return true;
+ }catch{return false;}
+}
 export function resolvePublicInitiativeLaunch(search='') {
   return new URLSearchParams(search).get('publicInitiative')==='1'
     ? {status:'ready',skillId:'initiative',skillTitle:'Initiative',contextId:'gameplay',selectedSkillIds:['initiative'],selectedSubskillIds:[],anonymous:true}

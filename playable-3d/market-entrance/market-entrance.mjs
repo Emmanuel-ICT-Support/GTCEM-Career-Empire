@@ -67,9 +67,12 @@ export function mountMarketEntrance(container, { routes, onClose, portfolioHref 
     choice.className = 'ce-market-choice';
     choice.dataset.marketRoute = id;
     if (isLink) {
-      choice.href = portfolioHref;
+      const base = new URL(container.ownerDocument.baseURI);
+      const target = new URL(portfolioHref, base);
+      if (target.origin !== base.origin || target.pathname !== new URL('../dashboards/student.html', base).pathname) throw new TypeError('Portfolio opener requires the same-origin Career Empire dashboard');
+      choice.href = target.href;
       choice.target = '_blank';
-      choice.rel = 'noopener';
+      choice.rel = 'opener';
     } else {
       choice.type = 'button';
       choice.addEventListener('click', routes[id]);

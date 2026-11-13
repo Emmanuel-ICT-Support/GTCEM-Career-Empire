@@ -433,5 +433,24 @@
       "playable-3d/world.js": "100644:945dbd528fa4b177a9ac69f758a21f0d2f0481d5",
       "tests/unit/est-presentation.test.mjs": "100644:5ec0a07dfb6ef67b70b333e533119936418e0fe3"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-153",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "ef504732180a2899390c61411187ff35f474841246b5968bc9be781a800b31c8",
+    "recordSha256": "0151251d835bddc27aa5bc521a98e09b239c5c4276b776ca2609c0add6eb3693",
+    "reviewedAt": "2026-11-13T00:59:15.395Z",
+    "reviewEvidence": "Exact9 candidate on bf33308; source review9ab54c6 published.392unit83files355assets107imports,5focused helper tests,native1280/390 overview Start five-step log one-page PDF zero storage and real same-run/normal-gated Market returns pass. CI source/unit/coverage pass; inherited admin-preview failure retained, no fullgreen. Preserve EST rear-window and return.",
+    "files": {
+      "dashboards/dashboard.js": "100644:1e6101c0d7c70625aee2e8ce81e167afa07f3cc4",
+      "dashboards/student.html": "100644:062aea82bd48901253d25515647476c38d0b3fd4",
+      "modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs": "100644:c13c54411d12ad260d3e50464047060a14e68d6b",
+      "playable-3d/app.js": "100644:7a10872d3ab8a29d97a446085950f9f1bb5c46fc",
+      "playable-3d/guest-shell.mjs": "100644:2d9169476966ee18537829890a5a8a92504a3ed9",
+      "playable-3d/index.html": "100644:b375b021a0c63c2169ba420d835d7abe671a09cb",
+      "playable-3d/market-entrance/market-entrance.mjs": "100644:cc9cef3ea3c96a1f63194da435cd4d71dbcd0e3c",
+      "playable-3d/night-market.js": "100644:bbfba68d76483be5f6f7d437372f62cd72a68cbd",
+      "playable-3d/release-manifest.json": "100644:0d48ac270a7335d178021a47970d541c9b2d57c4"
+    }
   }
 ]
