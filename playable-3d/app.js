@@ -1,5 +1,5 @@
 import {isESTExteriorView,estExteriorPitch,estExteriorLookHeight} from './est-exterior-view.mjs?v=est-podium-pan-20261113';
-import {createChapelDoorway,chapelReturnPoint,chapelLookTilt,chapelLookHeight,bindChapelInteraction} from './chapel-entry.mjs?v=chapel-walk-in-20261113';
+import {createChapelDoorway,chapelReturnPoint,chapelLookTilt,chapelLookHeight,bindChapelInteraction,canOfferChapelEntry} from './chapel-entry.mjs?v=chapel-additive-entry-20261113';
 import {createJourneyStore,createDiscoveryHandover,explorationForRoute} from './discovery-handover.mjs?v=discovery-handover-20261021';
 import {createClassroomGate} from './classroom-gate.mjs?v=classroom-20261018';
 import {estEyeHeight} from './est-camera.mjs?v=broad-integrated-20261014';
@@ -724,6 +724,7 @@ function updateMission(){
 function updateInteraction(){
   if(echo?.open()||feedbackOpen()||marketDialogOpen()||mode==='studio'||watchingEST||(!$('module-overlay').hidden||$('reflection-dialog').open)){$('interact').hidden=true;interaction=null;return;}
   const p=actor.model.position;
+  if(canOfferChapelEntry(p,{mode,ready:entryReady,blocked:aerial||flyover?.active||intro?.open()||discovery?.open()||helperPicker.open()||explorationMenuOpen()||discoveryHandover?.open()})){interaction={label:'Enter Chapel',action:enterChapel};$('interact').querySelector('span').textContent=interaction.label;$('interact').hidden=false;return;}
   const discoveryInteraction=discovery?.interaction(mode,p);
   if(discoveryInteraction){interaction=discoveryInteraction;if($('interact').querySelector('span').textContent!==interaction.label)$('interact').querySelector('span').textContent=interaction.label;$('interact').hidden=false;return;}
   if(mode==='market')interaction=nightMarket.interaction(p);
@@ -816,7 +817,7 @@ function bindEvents(){
   $('reflection-dialog').addEventListener('close',()=>{keys.clear();joystick.reset();canvas.focus();});
   $('town-view').addEventListener('click',returnTown);$('studio-view').addEventListener('click',openStudio);
   $('home-destination').addEventListener('click',()=>destination('home'));$('est-destination').addEventListener('click',()=>{if($('exploration-options')?.open)closeExplorationOptions();const go=()=>{setMode('town');enterHall();};if(mode==='studio')leaveStudio(go);else go();});$('chapel-destination').addEventListener('click',()=>destination('chapel'));
-  bindChapelInteraction($('interact'),{touchAction:()=>mode==='chapel'?interaction?.action:null,clickAction:()=>interaction?.action(),beforeTouch:()=>{resetNavigationInput();actor.setWalking(false);}});$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
+  bindChapelInteraction($('interact'),{touchAction:()=>mode==='chapel'||interaction?.action===enterChapel?interaction?.action:null,clickAction:()=>interaction?.action(),beforeTouch:()=>{resetNavigationInput();actor.setWalking(false);}});$('phase').addEventListener('change',e=>phaseChange(e.target.value));$('quality').addEventListener('change',qualityChange);
   $('campus-retry').addEventListener('click',()=>{if(detailFailed)worlds.retryDetailTextures().then(refreshSurfaceDetailNotice,()=>{detailFailed=true;detailNotice();});else if(!entryReady)prepareEntry().catch(()=>{});else openCampusInBackground();});
   $('aerial').addEventListener('click',async()=>{const request=modeRequest;if(mode==='town'&&!campusReady){try{await ensureCampus();}catch{return;}if(request!==modeRequest)return;}aerial=!aerial;$('aerial').setAttribute('aria-pressed',aerial);});$('recenter').addEventListener('click',()=>{yaw=0;chapelTilt=0;estExteriorTilt=0;aerial=false;$('aerial').setAttribute('aria-pressed','false');updateCamera(1,true);});
   $('profile').addEventListener('change',()=>{const id=$('profile').value;$('profile').value=state.activeId;if(id===state.activeId){updateActor();return;}const change=()=>{state.activeId=id;persist();helperPicker.choose();updateActor();if(mode==='studio')setMode('studio');};if(mode==='studio')leaveStudio(change);else change();});

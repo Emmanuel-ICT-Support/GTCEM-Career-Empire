@@ -1,0 +1,4 @@
+import {test,expect} from 'vitest';
+import {canOfferChapelEntry,CHAPEL_DOOR,createChapelDoorway} from '../../playable-3d/chapel-entry.mjs';
+test('nearby alternate entry works from different approach angles without replacing physical crossing',()=>{for(const angle of [0,Math.PI/2,Math.PI,-Math.PI/2])expect(canOfferChapelEntry({x:CHAPEL_DOOR.x+Math.sin(angle)*2.7,z:CHAPEL_DOOR.z+Math.cos(angle)*2.7})).toBe(true);expect(typeof createChapelDoorway().step).toBe('function');});
+test('entry is unavailable outside its range, in other modes, before readiness or behind modal/flyover controls',()=>{const p={x:CHAPEL_DOOR.x,z:CHAPEL_DOOR.z};expect(canOfferChapelEntry({x:p.x+2.9,z:p.z})).toBe(false);for(const mode of ['chapel','market','studio','interior'])expect(canOfferChapelEntry(p,{mode})).toBe(false);expect(canOfferChapelEntry(p,{ready:false})).toBe(false);expect(canOfferChapelEntry(p,{blocked:true})).toBe(false);});

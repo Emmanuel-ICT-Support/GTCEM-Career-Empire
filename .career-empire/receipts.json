@@ -470,5 +470,22 @@
       "playable-3d/world.js": "100644:ce260964851b7130ca61dc28c76bbdcb4bfe13d4",
       "tests/unit/est-exterior-view.test.mjs": "100644:f5b4ed0ede6ca5e018474b75792a2d4415085ad9"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-162",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "c11edd3d1fe8ca59ad0cac570ee15ac6b024da0e8ae2c9f613e1c02dabd8d917",
+    "recordSha256": "d786d9914533756cc5bdd029ce75f8b4d5919b50ce5fabba27c982ead1889b9e",
+    "reviewedAt": "2026-11-13T02:08:29.549Z",
+    "reviewEvidence": "Tania explicitly clarified add Enter Chapel button only; keep current room/walking/artwork. Exact162source0245e42 over01b814a;398unit85files356assets108imports10focused entry/load/touch tests and2native first-day1280/390 mouse/touch button then physical walk/ceiling/exit/reentry pass.19file source/ESTlive closeout verified. CI source/unit/coverage pass; inherited failures retained, no fullgreen. Preserve73a4315EST and399a4daPortfolio.",
+    "files": {
+      "playable-3d/app.js": "100644:a303f8c826a67b20ac770436355ba953c679c1c7",
+      "playable-3d/chapel-entry.mjs": "100644:4399c21b943154ed05fe937fadf063df03e7575a",
+      "playable-3d/guest-shell.mjs": "100644:f2cbff8ebbd62403bbadc12db824dfeb2e735b7e",
+      "playable-3d/index.html": "100644:999786e2b50c3ecba3c1e9e2b70e4edb358847a6",
+      "playable-3d/release-manifest.json": "100644:26ee764720bf5fcb3c3c6c7cfc08e39911132dc1",
+      "tests/unit/chapel-entry-action.test.mjs": "100644:568d96ab19691207f2f00982f726826f52d62f03",
+      "tests/unit/world-interaction-priority.test.mjs": "100644:dc007dbb415064573e1c20c96601d9f2daee0adf"
+    }
   }
 ]

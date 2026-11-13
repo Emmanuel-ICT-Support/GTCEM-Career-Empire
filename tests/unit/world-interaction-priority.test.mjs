@@ -1,10 +1,11 @@
 import {test,expect} from 'vitest';
+import {canOfferChapelEntry} from '../../playable-3d/chapel-entry.mjs';
 import {readFileSync} from 'node:fs';import vm from 'node:vm';
 const source=readFileSync(new URL('../../playable-3d/app.js',import.meta.url),'utf8');
 const fn=source.slice(source.indexOf('function updateInteraction(){'),source.indexOf('\nfunction openModule('));
 function interact(x,z,teacher=false){
  const span={textContent:''},node={hidden:false,querySelector:()=>span},actions=[];
- const context={actor:{model:{position:{x,y:0,z}}},echo:{open:()=>false,near:()=>true,resourcesNear:()=>false,show:()=>actions.push('Echo')},feedbackOpen:()=>false,marketDialogOpen:()=>false,mode:'town',watchingEST:false,discovery:null,discoveryReview:false,campusReady:true,campusBuildingsLocked:()=>false,keys:new Set(),joystick:{x:0,z:0},EST:{x:16,doorZ:14},CAREERS:{x:-18,doorZ:15},CHAPEL:{x:-3.15,z:-8.8},LEGACY:{x:-9.8,z:22.3,url:'original'},worlds:{ensureInterior:async()=>{},ensureCareers:async()=>{}},nearHall:false,nearCareers:false,enteringHall:false,enteringCareers:false,teachers:teacher?[{name:'Mr Middleton',near:()=>true,root:{visible:true,position:{distanceToSquared:()=>1}}}]:[],greetTeacher:()=>actions.push('Teacher'),openStudio:()=>actions.push('Studio'),enterChapel:()=>actions.push('Chapel'),enterHall(){},enterCareers(){},openMarket(){},helperPicker:{selected:()=>({name:'Echo'})},interaction:null,$:id=>id==='interact'?node:{hidden:true,open:false},window:{open:()=>actions.push('Original')}};
+ const context={canOfferChapelEntry,entryReady:true,aerial:false,flyover:null,intro:null,discoveryHandover:null,explorationMenuOpen:()=>false,actor:{model:{position:{x,y:0,z}}},echo:{open:()=>false,near:()=>true,resourcesNear:()=>false,show:()=>actions.push('Echo')},feedbackOpen:()=>false,marketDialogOpen:()=>false,mode:'town',watchingEST:false,discovery:null,discoveryReview:false,campusReady:true,campusBuildingsLocked:()=>false,keys:new Set(),joystick:{x:0,z:0},EST:{x:16,doorZ:14},CAREERS:{x:-18,doorZ:15},CHAPEL:{x:-3.15,z:-8.8},LEGACY:{x:-9.8,z:22.3,url:'original'},worlds:{ensureInterior:async()=>{},ensureCareers:async()=>{}},nearHall:false,nearCareers:false,enteringHall:false,enteringCareers:false,teachers:teacher?[{name:'Mr Middleton',near:()=>true,root:{visible:true,position:{distanceToSquared:()=>1}}}]:[],greetTeacher:()=>actions.push('Teacher'),openStudio:()=>actions.push('Studio'),enterChapel:()=>actions.push('Chapel'),enterHall(){},enterCareers(){},openMarket(){},helperPicker:{open:()=>false,selected:()=>({name:'Echo'})},interaction:null,$:id=>id==='interact'?node:{hidden:true,open:false},window:{open:()=>actions.push('Original')}};
  vm.runInNewContext(fn+';updateInteraction();',context);context.interaction?.action();return {label:span.textContent,actions};
 }
 test('following companion cannot take fixed-world actions away from the player',()=>{
@@ -12,4 +13,4 @@ test('following companion cannot take fixed-world actions away from the player',
 });
 test('companion conversation remains available away from world actions',()=>expect(interact(-7,23.3)).toEqual({label:'Talk to Echo',actions:['Echo']}));
 
-test('standing at the Chapel clue point never enters through an interaction button',()=>{const result=interact(-3.15,-8.8);expect(result.label).not.toBe('Enter Chapel');expect(result.actions).not.toContain('Chapel');});
+test('nearby Chapel action supplements physical walking and takes priority over the following companion',()=>{expect(interact(-3.15,-8.8)).toEqual({label:'Enter Chapel',actions:['Chapel']});});

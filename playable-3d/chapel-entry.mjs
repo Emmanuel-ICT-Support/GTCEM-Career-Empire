@@ -45,3 +45,6 @@ export function createChapelDoorway(){
   }
  };
 }
+
+// The alternate entry button needs no facing angle; physical crossing is unchanged.
+export function canOfferChapelEntry(position,{mode='town',ready=true,blocked=false}={}){return mode==='town'&&ready&&!blocked&&Math.hypot(position.x-CHAPEL_DOOR.x,position.z-CHAPEL_DOOR.z)<=2.8;}

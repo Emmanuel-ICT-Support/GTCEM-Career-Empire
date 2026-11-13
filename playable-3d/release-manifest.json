@@ -1,8 +1,8 @@
 {
-  "release": "est-podium-pan-20261113",
+  "release": "chapel-additive-entry-20261113",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "399a4daae1bd4ac31f381e5ef7abb277cd067eec",
-  "scope": "Move existing EST cabinet assembly sideways and enable bounded exterior mouse/touch vertical pan. Preserve Portfolio399a4da, rear-window video, entrance return, monitor cards and cinema; no Chapel scene or Blueprint reader publication.",
+  "baseCommit": "73a4315e28cb5d70bebfe150cba0d495f913f3db",
+  "scope": "Restore nearby Enter Chapel alternate action alongside unchanged physical walking/room/artwork. Preserve EST73a4315 and Portfolio399a4da; no scene replacement.",
   "files": [
     {
       "path": "../Assets/EST Preparation/guide-character/guide-celebration.png",
@@ -278,7 +278,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "b0c7507b0a709a55b6084ec9b6a5201857ddab3ae4080b2125e0a1acb3a30dde"
+      "sha256": "47ad6022b3c9a92759f74fcf82dcefb26f38ff008750467c668feb92ebfccc75"
     },
     {
       "path": "arcade-carnival.js",
@@ -798,7 +798,7 @@
     },
     {
       "path": "chapel-entry.mjs",
-      "sha256": "1249c822cd9ecb461ca5edee9b94d7c691bb0ab6bb6b2522c542ad9ac8f1e589"
+      "sha256": "5e4e5404deded23113ee52108dfe3cec6108be36ad2fe965087f06f03abce062"
     },
     {
       "path": "chapel.js",
@@ -1086,7 +1086,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "fe430b49bfbab0a6c7f09493c7d66a0478be96cb6fca85467599f74743dd3e2c"
+      "sha256": "7270924d884fa86501faf2498adb432c8d6aabbce7938c74ddc4b693b5322b68"
     },
     {
       "path": "header-controls.css",
@@ -1110,7 +1110,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "3013818a41d79315ef878a53e1434be1cb06779c67ad33dc31b959dc996918a9"
+      "sha256": "17b320a3313d78bb404b48421282cfe52803aa46ebb34f04a5e46dcbac6c6468"
     },
     {
       "path": "initiative-field-guide.html",
