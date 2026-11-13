@@ -1,8 +1,8 @@
 {
-  "release": "est-final-20261113",
+  "release": "est-back-return-20261113",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "56d83fe54e5121cabf9152e86282f4c01412da29",
-  "scope": "Final bounded EST window display, two immediate entry actions and four corresponding monitor cards with existing celebrating guide. Preserve Archon Notes Chapel, queued portfolio and separate CI.",
+  "baseCommit": "1a7faf627d5177582cc08fb21d42482d26489a9f",
+  "scope": "Correct EST rear-window display and return to its existing exterior entrance before campus preparation. Preserve entry actions, monitor cards, cinema, Archon Notes Chapel, queued portfolio and separate CI.",
   "files": [
     {
       "path": "../Assets/EST Preparation/guide-character/guide-celebration.png",
@@ -278,7 +278,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "570f6847e69d110b5eb1cf3d7ec3255d198761e23d85d175145c515e4e22b55b"
+      "sha256": "f33eb107c633206110938d27079dd1961c8d41edf8d7a47928b0b5610749cda1"
     },
     {
       "path": "arcade-carnival.js",
@@ -1046,7 +1046,7 @@
     },
     {
       "path": "est-wall-video.js",
-      "sha256": "63dd36d7e3459572bab9d41416b1b9f803aa9494fa6cd8f9865a5fa290600cac"
+      "sha256": "1ab1ca2c8a8c0f7e70c06abbcd5085e65f8b2ae04fab7d781dc8f6c8ccafbdcf"
     },
     {
       "path": "evidence-express.js",
@@ -1082,7 +1082,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "5a3a2b2ea4cd7a6685a23fbe412af8aff98774a722b03fcc1b1e15b458811302"
+      "sha256": "9aa9103c2f4f4e4b6d4fb9a3320390b66e7189eef4299b25cc4f83f0e9d9399d"
     },
     {
       "path": "header-controls.css",
@@ -1106,7 +1106,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "c3dc8509de79509b8a93930e36feb63d2ebced4230e4b048d33d574f2a4685e7"
+      "sha256": "1d0047785db3a6d0cbb8f54f163a3fbce3a1f8b46c73b6ff8f9a5047a648b83a"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1422,7 +1422,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "e4acb25fe41b8cdf0746957a3f1be78ee77203665106bae5e8a023f478bf10d4"
+      "sha256": "65a88e05df0fd7f534c4d724d79e883fcc8e126d3984005d0442dae2ce9a5a14"
     }
   ],
   "estVideo": {

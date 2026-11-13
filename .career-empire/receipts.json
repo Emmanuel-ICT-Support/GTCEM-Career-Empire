@@ -416,5 +416,22 @@
       "playable-3d/world.js": "100644:4352148f503a16e88bd0ee6404d1836cd83b4a9e",
       "tests/unit/est-presentation.test.mjs": "100644:c3178fddd65df3a595a697524c24e66b905579f8"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261113-158",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "f7462d4800fe730e32ae9b4040c43ee2a19de876c9952d2bc937d8d1f90ef34c",
+    "recordSha256": "ed3b2957361e20006b0290c91fae7f1b40bc9da08bb90c24f96c965da10f06f3",
+    "reviewedAt": "2026-11-13T00:34:20.537Z",
+    "reviewEvidence": "Exact158 source review269f097 published;392tests83files,355runtime107imports,4focused video tests,native1280/390/1920 front-clear rear21.935 and ESTreturn16,12.5 pass. Desktop/phone source reader4images no overflow. Broader inherited CI failures retained; no fullgreen/classroom/Safari/physical/appearance acceptance.",
+    "files": {
+      "playable-3d/app.js": "100644:ca2d5b9abb81842eb9b9a208723fa3fcd714de31",
+      "playable-3d/est-wall-video.js": "100644:2f176106c3652839bf7b06303cb7fe4ad4ee7502",
+      "playable-3d/guest-shell.mjs": "100644:730a683efcd0d09fb7939287b196fb40799672a7",
+      "playable-3d/index.html": "100644:a7d11b1c889c52b581d4b1acb6ecbaa220b89e00",
+      "playable-3d/release-manifest.json": "100644:6cd7c93eef07cb5136489ab76102247be6886bd7",
+      "playable-3d/world.js": "100644:945dbd528fa4b177a9ac69f758a21f0d2f0481d5",
+      "tests/unit/est-presentation.test.mjs": "100644:5ec0a07dfb6ef67b70b333e533119936418e0fe3"
+    }
   }
 ]

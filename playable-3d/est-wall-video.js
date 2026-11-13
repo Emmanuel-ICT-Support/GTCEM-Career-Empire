@@ -7,12 +7,12 @@ export function createESTWallVideo(scene,{previewScene}={}){
  const outsideScreen=previewScene?screen.clone():null;
  let outsideWindow=null;
  if(outsideScreen){
-  // The three central front panes span x 13.124..18.877, y .36..3.12.
-  // A window-sized backing covers the old cabinet view; the native 16:9 film
+  // The three rear panes span x 13.124..18.877, y .36..3.12.
+  // The backing sits against the rear glazing; the native 16:9 film
   // uses the full window height without cropping teaching text or stretching.
   outsideWindow=new THREE.Mesh(new THREE.PlaneGeometry(5.753,2.76),new THREE.MeshBasicMaterial({color:0x0b1725,toneMapped:false}));
-  outsideWindow.name='EST floor-to-ceiling window display';outsideWindow.position.set(16,1.74,13.93);outsideWindow.rotation.y=Math.PI;previewScene.add(outsideWindow);
-  outsideScreen.name='EST full-height window briefing';outsideScreen.geometry=new THREE.PlaneGeometry(2.76*16/9,2.76);outsideScreen.position.set(16,1.74,13.925);outsideScreen.rotation.y=Math.PI;previewScene.add(outsideScreen);
+  outsideWindow.name='EST floor-to-ceiling back-window display';outsideWindow.position.set(16,1.74,21.94);outsideWindow.rotation.y=Math.PI;previewScene.add(outsideWindow);
+  outsideScreen.name='EST full-height window briefing';outsideScreen.geometry=new THREE.PlaneGeometry(2.76*16/9,2.76);outsideScreen.position.set(16,1.74,21.935);outsideScreen.rotation.y=Math.PI;previewScene.add(outsideScreen);
  }
  let posterLoad;
  function ensurePoster(){
