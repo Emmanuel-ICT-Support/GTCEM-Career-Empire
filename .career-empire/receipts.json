@@ -580,5 +580,18 @@
       "playable-3d/release-manifest.json": "100644:3a08d462b09a8a54d89fbe195b87a6136bc60297",
       "tests/unit/portfolio-overview.test.mjs": "100644:f26b10be3acceb92e527394abb814cf9efd018ba"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261114-167",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "9159cc41bab24d405fa8592bbd4c4ca9fe7f7517d87fa72432efa4f58720e698",
+    "recordSha256": "1851e029d30327e9408497d0970ab667211634bf94d87e76ae14ff6d9b9c9f28",
+    "reviewedAt": "2026-11-14T05:36:55.832Z",
+    "reviewEvidence": "Exact7c3790b source review9/9served hashes plus desktop/phone reader inspected;3exactGitversions;417unit/92files+coverage;419indexassets109imports;1280/390openedViewPortfolio cream background/no navy image/sage backdrop, overview/global views/privacy proof. Broad browser port collision retained; CEAWA/SkillQuest not published.",
+    "files": {
+      "dashboards/dashboard.css": "100644:158f0cdc741c892173428f34b31e9110a3f6cb20",
+      "dashboards/student.html": "100644:e401b451711320c0ffc2bea7b138c6d77f99b39d",
+      "playable-3d/release-manifest.json": "100644:15bef73f90fbfb502d7fa9c92b04e9c77f9e5eb8"
+    }
   }
 ]

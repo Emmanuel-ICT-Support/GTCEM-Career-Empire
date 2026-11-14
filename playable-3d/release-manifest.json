@@ -1,8 +1,8 @@
 {
-  "release": "portfolio-overview-20261113",
+  "release": "portfolio-palette-20261113",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "465faea80bdbbac2d143c7f17a8c01e0c5378403",
-  "scope": "Initiative-first illustrated closed capability overviews and matching cream/sage presentation; preserve global views, record/privacy boundaries, Market entry and all unrelated game work.",
+  "baseCommit": "dfe165750ef842ead53fa978be1bcc44b5ed4e23",
+  "scope": "Complete cream/sage Portfolio palette in the opened dialog, overlay, stats, controls and capability anchor; preserve Initiative-first artwork and every data/game function.",
   "files": [
     {
       "path": "../Assets/EST Preparation/communication-portrait.mp4",
@@ -102,7 +102,7 @@
     },
     {
       "path": "../dashboards/dashboard.css",
-      "sha256": "545f187938711649e1ebc22dc188ef8f9df830d98045e7ff95504860cf1c7ecd"
+      "sha256": "b1026286ada21b72b6cc9129c5a418fac7d2da0c8667a5000849f64f06111f23"
     },
     {
       "path": "../dashboards/dashboard.js",
@@ -226,7 +226,7 @@
     },
     {
       "path": "../dashboards/student.html",
-      "sha256": "2e188b593e298e5b4c2778647d4f7de4fd63d10c05c7d9f0d0ebd83722c623f2"
+      "sha256": "c898a3aa968c78ea9bde863e1df96eec0f48888ec10e0eee1894df24af93d9fe"
     },
     {
       "path": "../dashboards/teacher-game-theme.css",

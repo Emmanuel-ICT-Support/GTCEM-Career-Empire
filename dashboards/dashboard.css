@@ -5313,3 +5313,20 @@ details[open]>summary .portfolio-summary-more::after{content:' ▴'}
 @media(max-width:600px){.portfolio-summary-overview{grid-template-columns:72px minmax(0,1fr);gap:12px;align-items:start}.portfolio-summary-logo{width:72px;height:82px}.portfolio-summary-subskills{grid-template-columns:1fr}.portfolio-summary-subskills img{width:34px;height:34px}.portfolio-capability-list{padding:7px}.portfolio-capability>summary,.student-portfolio-skill-group>summary{padding:12px}.portfolio-summary-heading>strong{font-size:1.12rem}}
 
 .portfolio-capability>summary .portfolio-summary-overview,.portfolio-capability>summary .portfolio-summary-overview span{margin-left:0}
+
+/* Complete the Portfolio palette in the opened view as well as the overview page. */
+.student-portfolio-modal{background:rgba(193,207,187,.88);backdrop-filter:blur(8px)}
+.student-portfolio-dialog{--text:#193d35;--muted:#4c6658;--card:#fffdf2;background:#fffdf2;color:#193d35;border-color:#a5bda6;box-shadow:0 24px 65px #35594b38;color-scheme:light}
+.student-portfolio-heading :is(span,h2,p){color:#193d35}
+.student-portfolio-stats>span{color:#42635c;background:#eef3e7;border-color:#b4cbb4}
+.student-portfolio-stats strong{color:#193d35}
+.student-portfolio-close{background:#e3eadb;color:#245d51;border-color:#a5bda6}
+.student-portfolio-dialog .module-link{background:#245d51;color:#fff;border-color:#245d51}
+.student-portfolio-dialog .student-portfolio-empty{color:#193d35;background:#eef3e7;border-color:#b4cbb4}
+:is(.student-portfolio-dialog,.portfolio-coastal-aesthetic) .portfolio-evidence-views button{color:#245d51;background:#eef3e7;border-color:#a5bda6}
+:is(.student-portfolio-dialog,.portfolio-coastal-aesthetic) .portfolio-evidence-views button[aria-pressed="true"]{color:#fff;background:#245d51;border-color:#245d51}
+#capabilities{--text:#193d35;--muted:#4c6658;background:#e3eadb;color:#193d35;border-radius:18px;padding:18px}
+#capabilities :is(h2,p){color:#193d35}
+body.student-dashboard-page:has(#capabilities:target){background:radial-gradient(ellipse at top,#fffdf2,#e3eadb 72%)}
+
+.student-portfolio-dialog .student-portfolio-entry-header span{color:#42635c}
