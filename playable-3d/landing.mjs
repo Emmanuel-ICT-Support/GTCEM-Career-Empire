@@ -17,3 +17,6 @@ export function findSafeLanding(request,probe,{bounds={minX:-38,maxX:50,minZ:-76
  }
  return fallback?test(fallback.x,fallback.z):null;
 }
+
+export const marketEntranceDistance=p=>Math.hypot(p.x-43,p.z+22);
+export const canOfferMarketEntry=(p,{mode='town',ready=false,blocked=false}={})=>mode==='town'&&ready&&!blocked&&marketEntranceDistance(p)<5;

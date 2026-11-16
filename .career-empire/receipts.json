@@ -642,5 +642,31 @@
       "tests/unit/classroom-gate.test.mjs": "100644:1dd7cbd709fc9bb166bcd7310299578eca2fe621",
       "tests/unit/runtime-recovery.test.mjs": "100644:47374ffc5b74c36b49666a811ff7e06fb3d711b1"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261116-171",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "c7a1f202b137035413f24800011f503d5238e874c5949e8e6580d220ee3566a8",
+    "recordSha256": "236986d4c5450e87fa4577334f332a8374711a92d6b9a76ec74fd125c05a9f0e",
+    "reviewedAt": "2026-11-16T08:59:57.813Z",
+    "reviewEvidence": "Exact public171 source review:17 served hashes and1280/390 actual reader pass;16 qualified Git versions;428 unit tests95files+coverage;419assets109imports;17 focused native checks and2 full mixed-result shifts pass. Both walking/Enter, real lock eventual single visit, recovery/cancel/retry, retained four choices, Mara-only case, crew readability and non-perfect finish verified. Broad inherited Admin-preview failure retained; authentication/privacy and unrelated CI preserved.",
+    "files": {
+      "playable-3d/app.js": "100644:b6d6e92d874b26ca0e252ccb966fcfde9cb8fb32",
+      "playable-3d/guest-shell.mjs": "100644:59fb8eb867bdc360420ba57018277878a2182177",
+      "playable-3d/index.html": "100644:6cdc8ee33fcf8602033307b65cfb0e0023620834",
+      "playable-3d/landing.mjs": "100644:e844ef614135ebff1a7280656542654493012f6c",
+      "playable-3d/market-entrance/market-entrance.mjs": "100644:102a1fe3f26b48c340c6a386086a21b5de9b12cf",
+      "playable-3d/market-teaching.mjs": "100644:b0201696f72ea9c69b54c8ee8cebef392caaed36",
+      "playable-3d/night-market.css": "100644:72283d85693fa7f6a11e3aeb1062d9fb40fce454",
+      "playable-3d/night-market.js": "100644:47d8d92278a6efb8af5eb5777713dd6df0dd82d5",
+      "playable-3d/release-manifest.json": "100644:fde19e0496f530977fce31fc26cd03ca062aab91",
+      "tests/e2e/classroom-gate.spec.js": "100644:4515663896f6706a5ceebf2bf5e572f597f2acf8",
+      "tests/e2e/market-entry-flow.spec.js": "100644:7bece79569be21f201b03e1938c6eb0157ba9c1c",
+      "tests/unit/market-entry.test.mjs": "100644:9b49e213a333ed2dfb41af373d9bf9c6415d659a",
+      "tests/unit/market-shift-progress.test.mjs": "100644:17a9a2208832d946e2507ba597c17cc3bc7f3900",
+      "tests/unit/runtime-recovery.test.mjs": "100644:53f0ccc63f522363b53264791657cb226ebe61e0",
+      "tests/unit/software-navigation.test.mjs": "100644:de5f20e8e839b039c535822bc45366959219e1b5",
+      "tests/unit/world-interaction-priority.test.mjs": "100644:c6458f8c804568bd9bbf015751bf5c159ba3b2ec"
+    }
   }
 ]

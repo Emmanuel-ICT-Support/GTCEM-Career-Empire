@@ -8,22 +8,25 @@ const choices = [
 const marketImage = new URL('./market-trial.jpg', import.meta.url);
 const maraPortrait = new URL('./mara-portrait.png', import.meta.url);
 
-export function mountMarketEntrance(container, { routes, onClose, portfolioHref }) {
+export function mountMarketEntrance(container, { routes, onClose, portfolioHref, stage = 'initiative', onBack, onStart }) {
+  const isMara = stage === 'mara';
   const document = container.ownerDocument;
   const spread = document.createElement('div');
   spread.className = 'ce-market-entrance';
+  spread.dataset.marketStage = isMara ? 'mara' : 'initiative';
   spread.innerHTML = `
     <section class="ce-market-picklist" aria-labelledby="market-dialog-title">
       <h2 id="market-dialog-title" tabindex="-1">Sunday Markets</h2>
-      <h3>Choose how to explore initiative</h3>
+      <h3>${isMara ? 'Your next move' : 'Choose how to explore initiative'}</h3>
       <div class="ce-market-routes"></div>
-      <button class="ce-market-leave" type="button">Back to the Market</button>
+      <button class="ce-market-leave" type="button">${isMara ? 'Back to Initiative options' : 'Back to the Market'}</button>
     </section>
     <section class="ce-market-guide" aria-labelledby="ce-initiative-title">
       <header class="ce-market-masthead">
-        <p class="ce-market-topic">Initiative</p>
-        <h3 id="ce-initiative-title">See a need. Make a difference.</h3>
-        <p>Initiative means spotting what could work better and taking a thoughtful first step. Speaking up with an idea can build your confidence and open up new opportunities.</p>
+        
+        <h3 id="ce-initiative-title">${isMara ? 'See a need, make a difference' : 'Initiative'}</h3>
+        <p>${isMara ? 'Mara has a lunch-rush problem. Notice what is happening, share a useful idea and agree on a first step.' : 'Initiative means noticing a need, thinking of a better way and acting proactively. Believe your idea can help: use self-motivation and good judgement, communicate appropriately, and check with the right person when a change affects others or goes beyond your role.'}</p>
+        ${isMara ? '' : '<p><strong>Small, thoughtful changes can build confidence, trust, opportunities and a sense of fulfilment.</strong></p>'}
       </header>
       <figure class="ce-market-hero">
         <div class="ce-market-scene">
@@ -37,6 +40,7 @@ export function mountMarketEntrance(container, { routes, onClose, portfolioHref 
           </div>
         </figcaption>
       </figure>
+      ${isMara ? `
       <section class="ce-market-first-step" aria-labelledby="ce-market-first-step-title">
         <h4 id="ce-market-first-step-title">How would you help Mara?</h4>
         <ol role="list">
@@ -47,6 +51,7 @@ export function mountMarketEntrance(container, { routes, onClose, portfolioHref 
           <li><strong>Take the first step</strong><span>Agree on a small trial with Mara. Check what changes.</span></li>
         </ol>
       </section>
+      ` : ''}
       <div class="ce-market-content">
         <section aria-labelledby="ce-initiative-ways">
           <h4 id="ce-initiative-ways">Five ways to show initiative</h4>
@@ -63,7 +68,7 @@ export function mountMarketEntrance(container, { routes, onClose, portfolioHref 
           <ul role="list">
             <li><strong>Empowerment and recognition</strong> Mara gives you a say in the trial and acknowledges your contribution.</li>
             <li><strong>Efficiency</strong> Clear signs can cut waiting time and free the crew to pack and serve orders.</li>
-            <li><strong>Work opportunities</strong> A useful contribution can lead to training, new duties or a promotion over time.</li>
+            <li><strong>Work opportunities</strong> A useful contribution can open chances for training, new duties and more fulfilling work over time.</li>
           </ul>
         </section>
       </div>
@@ -86,16 +91,16 @@ export function mountMarketEntrance(container, { routes, onClose, portfolioHref 
       choice.rel = 'opener';
     } else {
       choice.type = 'button';
-      choice.addEventListener('click', routes[id]);
+      choice.addEventListener('click', id === 'mara' && isMara ? onStart : routes[id]);
     }
     const title = document.createElement('strong');
-    title.textContent = id === 'archon' && routes.archonAvailable !== true ? 'Archon Game — coming soon' : label;
+    title.textContent = id === 'archon' && routes.archonAvailable !== true ? 'Archon Game — coming soon' : id === 'mara' && isMara ? 'Head over to have a chat with Mara' : label;
     const detail = document.createElement('span');
-    detail.textContent = id === 'archon' && routes.archonAvailable !== true ? 'Online matches are not available yet. Check availability or return to the Market.' : description;
+    detail.textContent = id === 'archon' && routes.archonAvailable !== true ? 'Online matches are not available yet. Check availability or return to the Market.' : id === 'mara' && isMara ? 'Explore the Markets and meet Mara at Juniper Kitchen.' : description;
     choice.append(title, detail);
     list.append(choice);
   }
-  spread.querySelector('.ce-market-leave').addEventListener('click', onClose);
+  spread.querySelector('.ce-market-leave').addEventListener('click', isMara ? onBack : onClose);
   container.replaceChildren(spread);
   return spread.querySelector('#market-dialog-title');
 }

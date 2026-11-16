@@ -37,13 +37,25 @@ export function behaviourConnection(state,index){
 }
 export function transferFeedback(id){return TRANSFER_CASE.choices.find(c=>c.id===id)?.feedback||null;}
 
+
+// Read-only display of existing game milestones; no new saved event or assessment outcome.
+export function marketShiftProgress(s={}){
+ const trial=Boolean(s.tested||s.trials?.length||s.reviewed||s.consolidated||s.paid),review=Boolean(s.consolidated||s.paid),paid=Boolean(s.paid);
+ return [{id:'trial',label:'Trial complete',complete:trial,current:!trial},{id:'review',label:'Learning review with Mara',complete:review,current:trial&&!review},{id:'finish',label:'Finish shift',complete:paid,current:review&&!paid}];
+}
+export function appendMarketShiftProgress(dialog,s){
+ const document=dialog.ownerDocument,list=document.createElement('ol');list.className='market-shift-progress';list.setAttribute('aria-label','Your Market shift progress');
+ for(const step of marketShiftProgress(s)){const item=document.createElement('li');item.dataset.progressStep=step.id;item.dataset.status=step.complete?'complete':step.current?'current':'later';if(step.current)item.setAttribute('aria-current','step');const title=document.createElement('strong'),status=document.createElement('span');title.textContent=step.label;status.textContent=step.complete?'Done':step.current?'Next':'Still to come';item.append(title,status);list.append(item);}
+ dialog.querySelector('.market-shift-progress')?.remove();dialog.querySelector('#market-dialog-title').after(list);return list;
+}
+
 // Presentation only: no score, timer, new saved event or competence award.
 export function createMarketTeaching({show,dialog,state,complete,onMissingTrial,close,resources=()=>[]}){
  let step=0,signature='',answer=null,checks={};
  const insert=node=>dialog.querySelector('.market-choices').before(node);
  function card(title,body,className=''){const item=document.createElement('section');item.className='market-teaching-card '+className;const heading=document.createElement('h3'),copy=document.createElement('p');heading.textContent=title;copy.textContent=body;item.append(heading,copy);return item;}
  function decorate(stage,{previous=false}={}){
-  dialog.classList.add('market-teaching');dialog.dataset.marketTeachingStage=stage;
+  dialog.classList.add('market-teaching');dialog.dataset.marketTeachingStage=stage;appendMarketShiftProgress(dialog,state());
   const primary=dialog.querySelector('.market-choices button');if(primary){primary.classList.add('market-teaching-primary');primary.dataset.teachingPrimary='true';}
   const items=resources();if(items.length||previous){const optional=document.createElement('details');optional.className='market-teaching-resources';const summary=document.createElement('summary');summary.textContent='Optional help & resources';optional.append(summary);if(previous){const back=document.createElement('button');back.textContent='Previous part';back.onclick=()=>{step=Math.max(0,step-1);render();};optional.append(back);}for(const [label,action]of items){const button=document.createElement('button');button.textContent=label;button.onclick=action;optional.append(button);}dialog.querySelector('.market-choices').after(optional);}
   const heading=dialog.querySelector('h2');heading.tabIndex=-1;heading.focus({preventScroll:true});dialog.scrollTop=0;

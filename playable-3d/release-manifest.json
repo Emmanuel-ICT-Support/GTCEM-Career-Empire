@@ -1,8 +1,8 @@
 {
-  "release": "initiative-direct-entry-20261116",
+  "release": "market-entry-flow-20261116",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "9872415519465f18a55bf6ce9ae283056bef89f0",
-  "scope": "Remove only the public Initiative lesson-pacing word; preserve school authentication, student records, published Market/Mara design, navigation and return flows. Entrance redesign168, CI and unrelated work excluded.",
+  "baseCommit": "26614fe9b60729261fdc414c7a344a37d5614d98",
+  "scope": "Restore the screenshot-matched Initiative introduction before explicit Mara scenario; complete walk/button entry independently of optional visit lock with visible cancel/retry. Preserve auth/student data,170password removal,168candidate,CI and CEAWA.",
   "files": [
     {
       "path": "../Assets/EST Preparation/communication-portrait.mp4",
@@ -526,7 +526,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "ee2ac92a4b74a20da929669bedaafbcae90c3d015abbe1700d616df21e41c370"
+      "sha256": "d9b8b3f588c057c90ced1c6e8f1de37f6b76f4019f83a4241cb13a54747fdae6"
     },
     {
       "path": "arcade-carnival.js",
@@ -1338,7 +1338,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "9d31bbfdc32876c6a32741f5b79ba2ffb9e14642c665fa3305fc3501463ac8f3"
+      "sha256": "7cf476048dfcc56e40ec0b35ae796f764fd1174816a624a14561146e83f68a55"
     },
     {
       "path": "header-controls.css",
@@ -1362,7 +1362,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "6537315c39cd6a84a4d0ae4e3e037dca1298547e812e17c65d8f94aa2f501924"
+      "sha256": "5ca650d8feeb177737f273ac60333834594e6ee1d80ff99686172a7086d0cb3a"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1390,7 +1390,7 @@
     },
     {
       "path": "landing.mjs",
-      "sha256": "4b27bdd89783eaa6e9d4af532a158b5c5a674fa546c8c712cdc497ff471ab0a3"
+      "sha256": "a0e61bd65c42c9bf5017166e15f73134e062eef2516d6dc6c3fefd7448286896"
     },
     {
       "path": "learning-resources.css",
@@ -1430,7 +1430,7 @@
     },
     {
       "path": "market-entrance/market-entrance.mjs",
-      "sha256": "a5dedbd63ac1043f21a658ddcd1b79d403e08bc6fa0608a94fef0edf43aeb622"
+      "sha256": "24e6959302042932f673dda7efc5e9bd10bbbb2f415344c71273e6e9b39a3b16"
     },
     {
       "path": "market-entrance/market-trial.jpg",
@@ -1458,7 +1458,7 @@
     },
     {
       "path": "market-teaching.mjs",
-      "sha256": "23da87f6226324875e2e312215b86d6ee8ab2e2a4f26dc63a6252221f784b8bc"
+      "sha256": "8b63c7a30a64132a0b1c922429d4d174a660c372bedc59baaba1c554073cea7f"
     },
     {
       "path": "market-welcome.mjs",
@@ -1482,11 +1482,11 @@
     },
     {
       "path": "night-market.css",
-      "sha256": "986656728ac6c38d95001cd80ab2dec103039c88d829de390b25c5d60cdba3b2"
+      "sha256": "112992e58e1c0cd6f84fea111887e7e031a18ca38555ddb3a6dad7ad05205b86"
     },
     {
       "path": "night-market.js",
-      "sha256": "209a92a5079ddd04476f1dbc16cc2e9e047504d6021dd7506e407adc544c8d59"
+      "sha256": "844a108f4ca7856802858e8ed4608a948b5dd67dd7fd6ee2f57747e7f8297cd3"
     },
     {
       "path": "opening-chapters-state.js",

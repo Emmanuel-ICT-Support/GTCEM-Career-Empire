@@ -8,13 +8,13 @@ const app=readFileSync(new URL('../../playable-3d/app.js',import.meta.url),'utf8
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b;});return {promise,resolve,reject};};
 
 function marketHarness(){
- const pending=[],urls=[],modes=[],messages=[];let created=0;
+ const pending=[],urls=[],modes=[],messages=[],nodes=new Map();let created=0;const node=id=>{if(!nodes.has(id))nodes.set(id,{hidden:true,textContent:''});return nodes.get(id);};
  const kit={createNightMarket:()=>{created++;return {scene:{}};}};
  const source=app.slice(app.indexOf('async function openMarket('),app.indexOf('async function leaveMarketByGate(){')).replace(/import\(([^)]+)\)/g,'importMarket($1)');
  const cancel=app.slice(app.indexOf('function cancelMarketOpening('),app.indexOf('// Capture only the already-loaded market scene'));
- const context={adminReviewRequested:false,AbortController,withAssetDeadline,importMarket:url=>{urls.push(url);const p=deferred();pending.push(p);return p.promise;},resetNavigationInput(){},actor:{setWalking(){}},toast:m=>messages.push(m),setMode:async mode=>modes.push(mode),worlds:{town:{environment:{}},campusGrass:{},campusPalette:{}},marketBriefingImage(){},gameStorage:{},returnTown(){},console:{warn(){}}};
- const api=vm.runInNewContext('let marketOpening=false,marketTravelRequest=0,marketTravelController=null,marketModuleAttempt=0,nightMarket=null;'+cancel+source+';({openMarket,cancelMarketOpening,state:()=>({opening:marketOpening,attempt:marketModuleAttempt})});',context);
- return {api,pending,urls,modes,messages,kit,created:()=>created};
+ const context={mode:'town',$:node,adminReviewRequested:false,AbortController,withAssetDeadline,importMarket:url=>{urls.push(url);const p=deferred();pending.push(p);return p.promise;},resetNavigationInput(){},actor:{setWalking(){}},toast:m=>messages.push(m),setMode:async mode=>{context.mode=mode;modes.push(mode);},worlds:{town:{environment:{}},campusGrass:{},campusPalette:{}},marketBriefingImage(){},gameStorage:{},returnTown(){},console:{warn(){}}};
+ const api=vm.runInNewContext('let marketOpening=false,marketTravelRequest=0,marketTravelController=null,marketModuleAttempt=0,marketRetryRoute,nightMarket=null;'+cancel+source+';({openMarket,cancelMarketOpening,state:()=>({opening:marketOpening,attempt:marketModuleAttempt})});',context);
+ return {api,pending,urls,modes,messages,kit,nodes,node,created:()=>created};
 }
 test('later navigation releases Market loading and late import cannot switch back',async()=>{
  const h=marketHarness(),first=h.api.openMarket();expect(h.api.state().opening).toBe(true);h.api.cancelMarketOpening('studio');expect(h.api.state().opening).toBe(false);await first;
@@ -61,3 +61,6 @@ test('repeated manual module failures use unique URLs after automatic retries st
  expect(h.urls).toHaveLength(6);expect(new Set(h.urls).size).toBe(6);
  expect(h.urls.slice(1).map(url=>new URL(url,'https://game.test/').searchParams.get('retry'))).toEqual(['1','2','3','4','5']);
 });
+
+test('explicit repeated requests share one opening and release the loading UI',async()=>{const h=marketHarness(),first=h.api.openMarket(),second=h.api.openMarket();expect(h.pending).toHaveLength(1);expect(h.node('market-load-panel').hidden).toBe(false);h.pending[0].resolve(h.kit);await Promise.all([first,second]);expect(h.modes).toEqual(['market']);expect(h.node('market-load-panel').hidden).toBe(true);expect(h.api.state().opening).toBe(false);});
+test('a stalled import exposes retry and cancellation, then a fresh retry completes',async()=>{vi.useFakeTimers();try{const h=marketHarness(),first=h.api.openMarket();await vi.advanceTimersByTimeAsync(15000);await first;expect(h.node('market-load-panel').hidden).toBe(false);expect(h.node('market-load-retry').hidden).toBe(false);expect(h.node('market-load-message').textContent).toContain('Retry');const second=h.api.openMarket();expect(h.node('market-load-retry').hidden).toBe(true);h.pending[1].resolve(h.kit);await second;expect(h.node('market-load-panel').hidden).toBe(true);}finally{vi.useRealTimers();}});
