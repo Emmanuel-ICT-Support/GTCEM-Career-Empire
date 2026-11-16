@@ -1,8 +1,8 @@
 {
-  "release": "portfolio-palette-20261113",
+  "release": "initiative-direct-entry-20261116",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "dfe165750ef842ead53fa978be1bcc44b5ed4e23",
-  "scope": "Complete cream/sage Portfolio palette in the opened dialog, overlay, stats, controls and capability anchor; preserve Initiative-first artwork and every data/game function.",
+  "baseCommit": "9872415519465f18a55bf6ce9ae283056bef89f0",
+  "scope": "Remove only the public Initiative lesson-pacing word; preserve school authentication, student records, published Market/Mara design, navigation and return flows. Entrance redesign168, CI and unrelated work excluded.",
   "files": [
     {
       "path": "../Assets/EST Preparation/communication-portrait.mp4",
@@ -526,7 +526,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "d73b074886add5d373daad6bb487950297b7579272b85d9c26dac2e9b23c1e95"
+      "sha256": "ee2ac92a4b74a20da929669bedaafbcae90c3d015abbe1700d616df21e41c370"
     },
     {
       "path": "arcade-carnival.js",
@@ -1062,7 +1062,7 @@
     },
     {
       "path": "classroom-gate.mjs",
-      "sha256": "b770c1e5e87cf0b30d27f4a55aa4d9877f629724434989a1a92698bbcb821d3b"
+      "sha256": "75cca915226adbc224f9be725eaacd48e2a0e48d20c3c7bb3e78c42e52ada395"
     },
     {
       "path": "companion-follow.mjs",
@@ -1338,7 +1338,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "35d8c0378768ebfe67a75a00e7aaf9e61e2c6703df1a60b2b24f5273ebe0efc6"
+      "sha256": "9d31bbfdc32876c6a32741f5b79ba2ffb9e14642c665fa3305fc3501463ac8f3"
     },
     {
       "path": "header-controls.css",
@@ -1362,7 +1362,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "ad98d2c2de599cb8aa3a4be0085f6f48425f63eaae57a514ca8364981a04a62a"
+      "sha256": "6537315c39cd6a84a4d0ae4e3e037dca1298547e812e17c65d8f94aa2f501924"
     },
     {
       "path": "initiative-field-guide.html",

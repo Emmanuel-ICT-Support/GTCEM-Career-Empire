@@ -10,7 +10,7 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
 function marketHarness(){
  const pending=[],urls=[],modes=[],messages=[];let created=0;
  const kit={createNightMarket:()=>{created++;return {scene:{}};}};
- const source=app.slice(app.indexOf('async function openMarket(){'),app.indexOf('async function leaveMarketByGate(){')).replace(/import\(([^)]+)\)/g,'importMarket($1)');
+ const source=app.slice(app.indexOf('async function openMarket('),app.indexOf('async function leaveMarketByGate(){')).replace(/import\(([^)]+)\)/g,'importMarket($1)');
  const cancel=app.slice(app.indexOf('function cancelMarketOpening('),app.indexOf('// Capture only the already-loaded market scene'));
  const context={adminReviewRequested:false,AbortController,withAssetDeadline,importMarket:url=>{urls.push(url);const p=deferred();pending.push(p);return p.promise;},resetNavigationInput(){},actor:{setWalking(){}},toast:m=>messages.push(m),setMode:async mode=>modes.push(mode),worlds:{town:{environment:{}},campusGrass:{},campusPalette:{}},marketBriefingImage(){},gameStorage:{},returnTown(){},console:{warn(){}}};
  const api=vm.runInNewContext('let marketOpening=false,marketTravelRequest=0,marketTravelController=null,marketModuleAttempt=0,nightMarket=null;'+cancel+source+';({openMarket,cancelMarketOpening,state:()=>({opening:marketOpening,attempt:marketModuleAttempt})});',context);

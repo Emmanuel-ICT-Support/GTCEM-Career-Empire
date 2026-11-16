@@ -2,7 +2,7 @@ import {careersPitch,careersLookHeight,careersPortfolioRoute} from './careers-vi
 import {isESTExteriorView,estExteriorPitch,estExteriorLookHeight} from './est-exterior-view.mjs?v=est-podium-pan-20261113';
 import {createChapelDoorway,chapelReturnPoint,chapelLookTilt,chapelLookHeight,bindChapelInteraction,canOfferChapelEntry} from './chapel-entry.mjs?v=chapel-additive-entry-20261113';
 import {createJourneyStore,createDiscoveryHandover,explorationForRoute} from './discovery-handover.mjs?v=discovery-handover-20261021';
-import {createClassroomGate} from './classroom-gate.mjs?v=classroom-20261018';
+import {createClassroomGate} from './classroom-gate.mjs?v=initiative-direct-entry-20261116';
 import {estEyeHeight} from './est-camera.mjs?v=broad-integrated-20261014';
 import {MARKET_APPROACH} from './landing.mjs?v=post-photo-tour-20261013';
 import {isAdminPreview,adminPreviewURL,createPreviewStorage} from './admin-preview.mjs?v=admin-preview-20261013';

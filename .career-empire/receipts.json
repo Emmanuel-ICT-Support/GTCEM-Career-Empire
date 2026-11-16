@@ -610,5 +610,37 @@
       "playable-3d/night-market.js": "100644:5438fa0dd5af730320bf79562199015551b77d93",
       "playable-3d/release-manifest.json": "100644:bb6175dee28cc484a6473c578de3751e5945d9a7"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261116-169",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "49c9200febbc7770975da5fe6d0bdc2d46b817439bec25adf38ea080ed54d647",
+    "recordSha256": "df280abcdccc0727ab50aa1845108f6e9acee5791bf8d3eee6b23f5ca2a88fb3",
+    "reviewedAt": "2026-11-16T04:47:34.635Z",
+    "reviewEvidence": "Existing169published source explicitly binds this checkout identity;3unchanged served hashes independently match. Legitimate receipt continuity for preserved upstream source only; no runtime169edits.",
+    "files": {
+      "playable-3d/market-entrance/entrance.css": "100644:be44630e479269e776912ed8d4d34e85d51df8ec",
+      "playable-3d/market-entrance/market-entrance.mjs": "100644:a66476e00c5490a4f4b1ab55bf172e9185d563fe",
+      "playable-3d/night-market.js": "100644:5438fa0dd5af730320bf79562199015551b77d93"
+    }
+  },
+  {
+    "changeId": "CE-CHANGE-20261116-170",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "74bae8171bdf05c55f409ea9340d5b12021ecd2e588966fe6d38e3949557d539",
+    "recordSha256": "df280abcdccc0727ab50aa1845108f6e9acee5791bf8d3eee6b23f5ca2a88fb3",
+    "reviewedAt": "2026-11-16T04:47:38.022Z",
+    "reviewEvidence": "Exact3f05a273Blueprint source review:9of9served file hashes and1280/390actual reader passed;9qualifiedGitversions;419unit93files+coverage;419assets109imports;1280/390fresh/repeat/focus/Mara/Market-return and integratedmapNotesJournalArchon checks pass. Broad Admin-preview failure retained; real authentication and student-data permissions unchanged.",
+    "files": {
+      "playable-3d/app.js": "100644:7f3bf137c3604670df5a0df8058019ef4b51e2df",
+      "playable-3d/classroom-gate.mjs": "100644:efec01533cb86b996eb969ff75a97745227234c7",
+      "playable-3d/guest-shell.mjs": "100644:a092cc9ff3f8de18c76ac2ca36c3bf4a9dde5e9a",
+      "playable-3d/index.html": "100644:10a2dd0d3493d1ddfc8a13645cf1a6d622a79de4",
+      "playable-3d/release-manifest.json": "100644:4ae11c2b148afa2b4cb11fa26a7f370a2038c07b",
+      "tests/e2e/classroom-gate.spec.js": "100644:633c4b5add359e3168368ce6963c0d1f43fe31d4",
+      "tests/e2e/market-controls.js": "100644:27c87ceab062c8c67b6a7a7a7e61796135d22a59",
+      "tests/unit/classroom-gate.test.mjs": "100644:1dd7cbd709fc9bb166bcd7310299578eca2fe621",
+      "tests/unit/runtime-recovery.test.mjs": "100644:47374ffc5b74c36b49666a811ff7e06fb3d711b1"
+    }
   }
 ]
