@@ -526,7 +526,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "2802c53176b9ee41b65a02bb35e27c89f6fd03088626bdfdc3fc38fa33407ca2"
+      "sha256": "d73b074886add5d373daad6bb487950297b7579272b85d9c26dac2e9b23c1e95"
     },
     {
       "path": "arcade-carnival.js",
@@ -1338,7 +1338,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "cda5c07f7410353422aae75492bbdd83d5ee0fe708cf3ec906aa6da5053d5fe9"
+      "sha256": "35d8c0378768ebfe67a75a00e7aaf9e61e2c6703df1a60b2b24f5273ebe0efc6"
     },
     {
       "path": "header-controls.css",
@@ -1362,7 +1362,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "82b291bed1c0e811077b5e68181cc2e1b4e148c26db85f792bea98f48ecef621"
+      "sha256": "ad98d2c2de599cb8aa3a4be0085f6f48425f63eaae57a514ca8364981a04a62a"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1422,7 +1422,7 @@
     },
     {
       "path": "market-entrance/entrance.css",
-      "sha256": "f47334d32f4a39feb875ea8d8fb4dea03e33f691a49bf9f86fd4b2f07961aa28"
+      "sha256": "bd7c943e52092a1aae25d5bc983799edc055269cad5ff5117bb8b9b33430be3b"
     },
     {
       "path": "market-entrance/mara-portrait.png",
@@ -1430,7 +1430,7 @@
     },
     {
       "path": "market-entrance/market-entrance.mjs",
-      "sha256": "3bdcfe74710a87ea1140f6033ffc2ebcedfbd2785280b9d72c17af408fa17164"
+      "sha256": "a5dedbd63ac1043f21a658ddcd1b79d403e08bc6fa0608a94fef0edf43aeb622"
     },
     {
       "path": "market-entrance/market-trial.jpg",
@@ -1486,7 +1486,7 @@
     },
     {
       "path": "night-market.js",
-      "sha256": "9a59b119f61b77bc2204d90aa3a4206dd1e13914132e3482be2ba8798ac770ab"
+      "sha256": "209a92a5079ddd04476f1dbc16cc2e9e047504d6021dd7506e407adc544c8d59"
     },
     {
       "path": "opening-chapters-state.js",

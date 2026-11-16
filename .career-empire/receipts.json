@@ -593,5 +593,22 @@
       "dashboards/student.html": "100644:e401b451711320c0ffc2bea7b138c6d77f99b39d",
       "playable-3d/release-manifest.json": "100644:15bef73f90fbfb502d7fa9c92b04e9c77f9e5eb8"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261116-169",
+    "project": "game-market-mara-release-20261116",
+    "integrationSha256": "49c9200febbc7770975da5fe6d0bdc2d46b817439bec25adf38ea080ed54d647",
+    "recordSha256": "8ad0f025cdced6e429c8f61a5aefeb01d7a7ab639ea5e97a3298b3b7c7b9db40",
+    "reviewedAt": "2026-11-16T03:03:32.764Z",
+    "reviewEvidence": "Public Blueprint f83e938 and Chrome desktop/mobile verification of the Market entry and Mara first gig",
+    "files": {
+      "playable-3d/app.js": "100644:1204e9aabb6f2705a9c228cbbcd1839f987f54ad",
+      "playable-3d/guest-shell.mjs": "100644:a2115b122db23ced8a18d96a2b160f401226e1b2",
+      "playable-3d/index.html": "100644:c0930607b97d123843da6d27f6a4d05766b44f1b",
+      "playable-3d/market-entrance/entrance.css": "100644:be44630e479269e776912ed8d4d34e85d51df8ec",
+      "playable-3d/market-entrance/market-entrance.mjs": "100644:a66476e00c5490a4f4b1ab55bf172e9185d563fe",
+      "playable-3d/night-market.js": "100644:5438fa0dd5af730320bf79562199015551b77d93",
+      "playable-3d/release-manifest.json": "100644:bb6175dee28cc484a6473c578de3751e5945d9a7"
+    }
   }
 ]

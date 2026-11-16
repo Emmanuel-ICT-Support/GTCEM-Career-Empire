@@ -159,3 +159,11 @@
   .ce-market-entrance { grid-template-columns: 1fr; }
   .ce-market-guide { border-left: 0; border-top: 3px solid var(--market-brass); }
 }
+
+.ce-market-topic { color: #ebd4a2; font-weight: 700; }
+.ce-market-first-step { padding: .85rem clamp(1.1rem, 3vw, 2rem); background: #e8eee0; }
+.ce-market-first-step ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 8.5rem), 1fr)); gap: .45rem; padding: .5rem 0 0; list-style: none; counter-reset: market-step; }
+.ce-market-first-step li { padding: .65rem; background: #173830; color: #f6f2e5; border-radius: .3rem; counter-increment: market-step; }
+.ce-market-first-step strong { display: block; margin-bottom: .2rem; color: #ebd4a2; }
+.ce-market-first-step strong::before { content: counter(market-step) ". "; }
+.ce-market-first-step span { display: block; font-size: .88rem; }

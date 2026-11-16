@@ -21,8 +21,9 @@ export function mountMarketEntrance(container, { routes, onClose, portfolioHref 
     </section>
     <section class="ce-market-guide" aria-labelledby="ce-initiative-title">
       <header class="ce-market-masthead">
-        <h3 id="ce-initiative-title">Initiative</h3>
-        <p>Notice what needs doing and take a useful first step without waiting to be told. Check with the person in charge when a change affects others or goes beyond your role.</p>
+        <p class="ce-market-topic">Initiative</p>
+        <h3 id="ce-initiative-title">See a need. Make a difference.</h3>
+        <p>Initiative means spotting what could work better and taking a thoughtful first step. Speaking up with an idea can build your confidence and open up new opportunities.</p>
       </header>
       <figure class="ce-market-hero">
         <div class="ce-market-scene">
@@ -36,6 +37,16 @@ export function mountMarketEntrance(container, { routes, onClose, portfolioHref 
           </div>
         </figcaption>
       </figure>
+      <section class="ce-market-first-step" aria-labelledby="ce-market-first-step-title">
+        <h4 id="ce-market-first-step-title">How would you help Mara?</h4>
+        <ol role="list">
+          <li><strong>Notice a need</strong><span>Who is waiting in the wrong line?</span></li>
+          <li><strong>Believe change is possible</strong><span>What small change could help people find pickup?</span></li>
+          <li><strong>Back your contribution</strong><span>What idea could you bring to the crew?</span></li>
+          <li><strong>Communicate with care</strong><span>Listen to customers, then explain your idea to Mara.</span></li>
+          <li><strong>Take the first step</strong><span>Agree on a small trial with Mara. Check what changes.</span></li>
+        </ol>
+      </section>
       <div class="ce-market-content">
         <section aria-labelledby="ce-initiative-ways">
           <h4 id="ce-initiative-ways">Five ways to show initiative</h4>
