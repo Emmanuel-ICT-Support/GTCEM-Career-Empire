@@ -39,3 +39,15 @@ test('failed retry remains retryable and does not reject until its own attempt f
 test('decoded artwork awaiting its upload budget is pending, not a download failure',async()=>{
  let hydrate;const failures=[];const target=new THREE.Texture();const queue=create({onFailure:e=>failures.push(e),scheduleHydration:fn=>new Promise(resolve=>{hydrate=()=>resolve(fn());})});await queue.load({loadAsync:async()=>new THREE.Texture({src:'original-grass'})},'grass',{target});let done=false;const batch=queue.start().then(()=>{done=true;});await tick();expect(queue.pending).toBe(1);expect(queue.failed).toBe(0);expect(failures).toEqual([]);expect(done).toBe(false);hydrate();await batch;expect(target.image.src).toBe('original-grass');expect(queue.pending).toBe(0);
 });
+
+test('destination changes hold unrelated admissions without cancelling or duplicating active downloads',async()=>{
+ const calls=[],release=[];const queue=create();const loader={loadAsync:url=>{calls.push(url);return new Promise(resolve=>release.push(()=>resolve(new THREE.Texture({src:url}))));}};
+ for(const name of ['active-0','active-1','active-2','active-3','held-road','market-grass'])await queue.load(loader,name,{target:new THREE.Texture()});
+ const initial=queue.start();expect(calls).toEqual(['active-0','active-1','active-2','active-3']);queue.setInterest(url=>url==='market-grass');
+ const market=queue.startMatching(url=>url==='market-grass');expect(calls.at(-1)).toBe('market-grass');await queue.startMatching(url=>url==='market-grass');expect(calls.filter(x=>x==='market-grass')).toHaveLength(1);
+ release.forEach(fn=>fn());await Promise.all([initial,market]);expect(calls).not.toContain('held-road');expect(queue.pending).toBe(1);
+ queue.setInterest(null);const resumed=queue.start();expect(calls.at(-1)).toBe('held-road');release.at(-1)();await resumed;expect(queue.pending).toBe(0);expect(calls).toHaveLength(6);
+});
+test('failed Market maps remain retryable while unrelated maps remain held',async()=>{
+ let calls=0;const queue=create();await queue.load({loadAsync:async()=>{if(++calls===1)throw Error('offline');return new THREE.Texture({src:'grass'});}},'grass',{target:new THREE.Texture()});await queue.load({loadAsync:()=>{throw Error('unrelated must wait');}},'road',{target:new THREE.Texture()});queue.setInterest(url=>url==='grass');await expect(queue.startMatching(url=>url==='grass')).rejects.toThrow('retry');await queue.retry();expect(calls).toBe(2);expect(queue.pending).toBe(1);expect(queue.failed).toBe(0);
+});

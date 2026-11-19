@@ -22,7 +22,7 @@
 </head>
 <body data-feedback-mode="development">
 <style>#market-load-panel{position:fixed;z-index:45;top:92px;right:16px;max-width:min(340px,calc(100vw - 32px));padding:16px;border:1px solid #8aa79b;border-radius:12px;background:#fffaf0;color:#183b36;font:15px/1.45 system-ui;box-shadow:0 8px 28px #183b3626}#market-load-panel[hidden]{display:none}#market-load-panel p{margin:0 0 10px}#market-load-panel button{min-height:44px;padding:9px 14px;margin:2px;border:1px solid #8aa79b;border-radius:8px;background:#fff;color:#183b36;font:inherit;cursor:pointer}</style>
-<section id="market-load-panel" role="status" aria-live="polite" hidden><p id="market-load-message"></p><button id="market-load-retry" type="button" hidden>Retry Market entry</button><button id="market-load-cancel" type="button">Keep exploring</button></section>
+<section id="market-load-panel" role="status" aria-live="polite" hidden><p id="market-load-message"></p><button id="market-load-retry" type="button" hidden>Retry Market entry</button><button id="market-load-cancel" type="button">Keep exploring</button><a id="market-load-fallback" data-market-fallback href="./?experience=sunday-markets&amp;marketAccess=2d" target="_blank" rel="noopener" hidden>Open Markets without 3D</a></section>
 
   <main id="experience" aria-label="Career Empire 3D world">
     <aside id="campus-progress" class="campus-progress" role="status" hidden><span id="campus-progress-message"></span><button id="campus-retry" hidden>Retry campus</button></aside>
@@ -54,7 +54,7 @@
       <div id="editor-fields" class="editor-fields"></div>
       <div class="editor-actions"><button class="icon-button" id="undo" aria-label="Undo appearance change" title="Undo"><i data-lucide="undo-2"></i></button><button class="icon-button" id="redo" aria-label="Redo appearance change" title="Redo"><i data-lucide="redo-2"></i></button><button class="primary" id="save-avatar"><i data-lucide="check"></i><span>Save &amp; return</span></button></div>
     </aside>
-    <div class="loading" id="loading" role="status"><span class="loading-mark"><i data-lucide="landmark"></i></span><h1>Career Empire</h1><p id="loading-message">Opening the learning district...</p><progress></progress><button id="avatar-retry" type="button" hidden>Retry avatar download</button><a id="fallback-link" href="../modules/est-prep/index.html" hidden>Continue to EST Prep</a></div>
+    <div class="loading" id="loading" role="status"><span class="loading-mark"><i data-lucide="landmark"></i></span><h1>Career Empire</h1><p id="loading-message">Opening the learning district...</p><progress></progress><button id="avatar-retry" type="button" hidden>Retry avatar download</button><a data-market-fallback href="./?experience=sunday-markets&amp;marketAccess=2d" target="_blank" rel="noopener" hidden>Open Markets without 3D</a><a id="fallback-link" href="../modules/est-prep/index.html" hidden>Continue to EST Prep</a></div>
     <div class="toast" id="toast" role="status" hidden></div>
     <output id="diagnostics" class="sr-only" aria-label="Prototype diagnostics"></output>
   <nav id="est-entry-actions" aria-label="EST entry actions" hidden><button id="est-watch" class="est-watch" type="button">Play EST video</button><button id="est-return" type="button">Return to campus</button></nav>
@@ -66,7 +66,7 @@
   </div></dialog></main>
   <section class="module-overlay" id="module-overlay" aria-label="EST Prep activity" hidden><header><div><i data-lucide="landmark"></i><strong id="module-heading">EST Prep</strong><span id="module-name"></span></div><button id="close-module"><i data-lucide="arrow-left"></i><span>Return to hall</span></button></header><div id="module-loading" role="status" style="position:absolute;inset:64px 0 0;display:grid;place-items:center;background:#081528;color:#eef6ff;z-index:1;pointer-events:none" hidden><p>Preparing your lab. You can return to the hall at any time.</p></div><iframe id="module-frame" title="Existing EST Prep learning module"></iframe></section>
   <dialog id="leave-dialog"><h2>Save your character?</h2><p>You have unsaved appearance changes.</p><div class="dialog-actions"><button id="keep-editing">Keep editing</button><button id="discard-changes">Discard</button><button class="primary" id="save-changes">Save</button></div></dialog>
-<script type="module" src="./guest-shell.mjs?v=market-entry-flow-20261116"></script>
+<script type="module" src="./guest-shell.mjs?v=destination-loading-20261119"></script>
 <dialog id="reflection-dialog" aria-labelledby="reflection-title"><p class="eyebrow">ECC CHAPEL</p><h2 id="reflection-title">A moment of stillness</h2><p>Let your shoulders soften. Notice the light around you.</p><p>Take a gentle breath, at your own pace.</p><p>What is one good thing you can carry into the rest of your day?</p><button id="close-reflection">Return to the Chapel</button></dialog>
 <script src="../config/supabase-config.js"></script>
 <script src="../src/services/supabase-browser.js"></script>

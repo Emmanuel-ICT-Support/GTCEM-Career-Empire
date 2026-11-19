@@ -4,7 +4,7 @@ import * as THREE from 'three';
 // Keep texture identity/UV settings stable for cloned materials. Only the image
 // arrives later; the accepted full-detail artwork is still the final result.
 export function createDeferredTextures({onFailure=()=>{},scheduleHydration=hydrate=>Promise.resolve(hydrate())}={}){
-  const jobs=[];let running,retrying;const active=new Set();
+  const jobs=[];let running,retrying,interest;const active=new Set();
   function defer(loader,url,{normal=false,transparent=false,hdr=false,colour='#ffffff',target,flipY,shareSource=false}={}){
     let texture=target;
     // PMREM derives its cube size from width/4; a 1px HDR creates an invalid
@@ -54,7 +54,7 @@ export function createDeferredTextures({onFailure=()=>{},scheduleHydration=hydra
   async function drain(retryOnly){
     const attempted=new Set();
     async function worker(){
-      for(let job;job=jobs.find(job=>!job.done&&!job.inFlight&&!attempted.has(job)&&(!retryOnly||job.failed));){
+      for(let job;job=jobs.find(job=>!job.done&&!job.inFlight&&!attempted.has(job)&&(!interest||interest(job.url))&&(!retryOnly||job.failed));){
         attempted.add(job);await launch(job);
       }
     }
@@ -71,7 +71,7 @@ export function createDeferredTextures({onFailure=()=>{},scheduleHydration=hydra
     if(retrying)return retrying;
     retrying=drain(true).finally(()=>{retrying=null;});return retrying;
   }
-  return {load,defer,start,retry,startMatching:async matches=>{await Promise.all(jobs.filter(job=>matches(job.url)&&!job.done&&!job.inFlight).map(launch));if(jobs.some(job=>matches(job.url)&&job.failed&&!job.done))throw new Error('Requested campus artwork could not load. Please retry.');},get failed(){return jobs.filter(job=>job.failed&&!job.done).length;},get pending(){return jobs.filter(job=>!job.done).length;}};
+  return {load,defer,start,retry,setInterest:matches=>{interest=matches;},pendingMatching:matches=>jobs.filter(job=>matches(job.url)&&!job.done).length,startMatching:async matches=>{await Promise.all(jobs.filter(job=>matches(job.url)&&!job.done&&!job.inFlight).map(launch));if(jobs.some(job=>matches(job.url)&&job.failed&&!job.done))throw new Error('Requested campus artwork could not load. Please retry.');},get failed(){return jobs.filter(job=>job.failed&&!job.done).length;},get pending(){return jobs.filter(job=>!job.done).length;}};
 }
 
 // Two animation ticks allow the first playable frame to be presented before

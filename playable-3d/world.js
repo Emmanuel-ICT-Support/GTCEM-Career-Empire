@@ -5,7 +5,7 @@ import {buildChapel} from './chapel.js?v=opt2-20260914';
 import {buildExterior} from './ecc-preview/model.js?v=ecc-ba60122';
 import {LEGACY} from './destinations.js?v=ecc1';
 import {findSafeLanding} from './landing.mjs?v=post-photo-tour-20261013';
-import {createDeferredTextures} from './deferred-textures.js?v=ecc-ba60122';
+import {createDeferredTextures} from './deferred-textures.js?v=destination-loading-20261119';
 import {createCampusLandscape,createCampusPaths,createCampusBuildingExteriors} from './campus-landscape.js?v=est-podium-pan-20261113';
 import {arrivalPrecinct} from './arrival-precinct.js?v=ecc-ba60122';
 /**

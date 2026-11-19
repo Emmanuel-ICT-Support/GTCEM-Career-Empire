@@ -1,8 +1,8 @@
 {
-  "release": "market-entry-flow-20261116",
+  "release": "market-destination-loading-candidate-20261119",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "26614fe9b60729261fdc414c7a344a37d5614d98",
-  "scope": "Restore the screenshot-matched Initiative introduction before explicit Mara scenario; complete walk/button entry independently of optional visit lock with visible cancel/retry. Preserve auth/student data,170password removal,168candidate,CI and CEAWA.",
+  "baseCommit": "b647c325ad1700c2f440348b3d2cfe01ff307ab4",
+  "scope": "Unpublished isolated candidate: explicit/credible-destination preparation, Market entry/return independent of optional campus completion, Market-shared original textures admitted while unrelated maps wait, renderer-independent anonymous learning access; no backend/config/rule changes.",
   "files": [
     {
       "path": "../Assets/EST Preparation/communication-portrait.mp4",
@@ -526,7 +526,7 @@
     },
     {
       "path": "app.js",
-      "sha256": "d9b8b3f588c057c90ced1c6e8f1de37f6b76f4019f83a4241cb13a54747fdae6"
+      "sha256": "1aa48a15dc74e85ea106407c7e3c3ca1034bb662de384f732ee420ca67b67e7d"
     },
     {
       "path": "arcade-carnival.js",
@@ -1074,7 +1074,11 @@
     },
     {
       "path": "deferred-textures.js",
-      "sha256": "90dcabc7a59c622d4cba91f095ff3e4a097bc417f10f7ace0bce563a568d1b88"
+      "sha256": "36101e59a4e2890ef31291fac3ea4cb74de66b0bb3da1deb2639fd9f11a4832b"
+    },
+    {
+      "path": "destination-preparation.mjs",
+      "sha256": "1d21811f95ae62bc59fd088d3af3bdb2cf6caafbbd287c11a413cb6d10eb74ef"
     },
     {
       "path": "destinations.js",
@@ -1338,7 +1342,7 @@
     },
     {
       "path": "guest-shell.mjs",
-      "sha256": "7cf476048dfcc56e40ec0b35ae796f764fd1174816a624a14561146e83f68a55"
+      "sha256": "240e1e78c2025700fd9c9c1479bb84c08cfdc71e2bcadddcfbd1645bb04843f8"
     },
     {
       "path": "header-controls.css",
@@ -1362,7 +1366,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "5ca650d8feeb177737f273ac60333834594e6ee1d80ff99686172a7086d0cb3a"
+      "sha256": "380009cec8c7cd667eca1efe9a2cb269b55052e7e23f4e6f92e086f70a87f07c"
     },
     {
       "path": "initiative-field-guide.html",
@@ -1403,6 +1407,18 @@
     {
       "path": "locomotion.js",
       "sha256": "270edfe2f8851eb7d713b85177ada1b6506de53289645fe3085280a688941bb0"
+    },
+    {
+      "path": "market-access-page.mjs",
+      "sha256": "15da44baddf3ce306488d573b94b5cb527cac2a5fbe789eda8dda63ed57144fe"
+    },
+    {
+      "path": "market-access.css",
+      "sha256": "a6810ba4993ee7be2a871b7f8a927e323b59a8b568c08310038a49de20f6459a"
+    },
+    {
+      "path": "market-access.mjs",
+      "sha256": "b09dd62dfbae8e50e566ce5243e86e8f9eff53c2846b4d0d0f8bd07287ff4643"
     },
     {
       "path": "market-archon.mjs",
@@ -1678,7 +1694,7 @@
     },
     {
       "path": "world.js",
-      "sha256": "a813d1222cdfb123d283f10ada4dcac4bdcc3d325b4206e18277a87a99d1c3c7"
+      "sha256": "33bd0f2fe591f519119d7cc0f4244fd0d1e27458685c421ad53068e05db7b81a"
     }
   ],
   "estVideo": {

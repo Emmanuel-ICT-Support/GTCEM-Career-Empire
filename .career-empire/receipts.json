@@ -668,5 +668,31 @@
       "tests/unit/software-navigation.test.mjs": "100644:de5f20e8e839b039c535822bc45366959219e1b5",
       "tests/unit/world-interaction-priority.test.mjs": "100644:c6458f8c804568bd9bbf015751bf5c159ba3b2ec"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261119-172",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "6b663ad53eb780c70d48b8fb8c901f88efbf946970d341e2b8e35dd2cab17148",
+    "recordSha256": "22da485ce7813e35c17c34aa40ffe0cf30b9d4da31023f0e9c3f88888318e4ae",
+    "reviewedAt": "2026-11-19T11:33:09.055Z",
+    "reviewEvidence": "Exact16staged+working mode/blob/SHA source review;438unit96files and14exact-source desktop/phone browser cases;423staged hashes111imports. Supporting Blueprint publication 1ccee452418b2d18b57d873bc79ddf242307ed98 independently verified11servedfiles and actual reader/screenshot;recordSHA 22da485ce7813e35c17c34aa40ffe0cf30b9d4da31023f0e9c3f88888318e4ae. Game live acceptance and original Mac/Safari/physical/classroom checks remain separate.",
+    "files": {
+      "playable-3d/app.js": "100644:b41d604b8b20f5604e37ea781d3942e037241afc",
+      "playable-3d/guest-shell.mjs": "100644:3c9605fb5b294a590354424b37c1d555ee5da1b5",
+      "playable-3d/index.html": "100644:14dacb28dec6dc2c0d1ceb316e160da2714bee85",
+      "playable-3d/release-manifest.json": "100644:28a0e93c513f9e7b3b2f5a028e400bd1a2f66f3b",
+      "playable-3d/destination-preparation.mjs": "100644:188d99d4b455338da50c035a77e138a22bea9e20",
+      "playable-3d/market-access.mjs": "100644:9bb21f1d84ea883aa1daf2a9906ed4bd532e5862",
+      "playable-3d/market-access-page.mjs": "100644:1d44d31159468741ec66f8487d1e32abc41aefb5",
+      "playable-3d/market-access.css": "100644:157b0f0cd69704823bdd976dd961347cd0c9aa9a",
+      "tests/unit/runtime-recovery.test.mjs": "100644:698164661a1bb1865d4abd6e4d7a5a020c668767",
+      "tests/unit/destination-preparation.test.mjs": "100644:608842261857e62eec764933eb61953cc10f4ed0",
+      "tests/e2e/market-destination-loading.spec.js": "100644:2ac59e481b0a1b67fcaa398b0aa51eb594a2786a",
+      "tests/e2e/market-destination-turn.spec.js": "100644:310fde224f92c9cf6a1e1fa602ffdecae3516c95",
+      "playable-3d/deferred-textures.js": "100644:830fe5c38cd8630e1a30eb5243aa66bee03d42ad",
+      "playable-3d/world.js": "100644:a8243624f87ad893b933475493756696057bce75",
+      "tests/unit/deferred-textures.test.mjs": "100644:3062a7711e28dc8bd35eea5828289fc6de5697b2",
+      "tests/unit/est-presentation.test.mjs": "100644:fd35adadda1d424a5b54f99ec047cdb1205ad7b5"
+    }
   }
 ]
