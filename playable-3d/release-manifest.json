@@ -1,8 +1,8 @@
 {
-  "release": "night-markets-portfolio-20261120",
+  "release": "archon-close-layout-20261120",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "ff33d1b1dc9dd3b6662cf3a6b36f993c17061317",
-  "scope": "Fictional Night Markets Portfolio: Initiative-first entry/view and optional multi-capability tags on one reflection; separate four-example teacher demo and PDF. Preserve released Archon and Markets loading/recovery; no authentic accounts, learner records, Skillsville or backend changes.",
+  "baseCommit": "13080c85ee30712001199a03122ece196754e482",
+  "scope": "Archon-only closer shared camera and compact accessible camera rail; preserve standalone art view, restaurant teams/upgrades, match rules, Markets recovery and released Portfolio. No service, auth or learner-record changes.",
   "files": [
     {
       "path": "../Assets/EST Preparation/communication-portrait.mp4",
@@ -414,7 +414,7 @@
     },
     {
       "path": "../modules/archon-careers/hosted/index.html",
-      "sha256": "1b28dba5045680678311ba3904c85d613ca1a3a8017bc152c2c86b0525e3933b"
+      "sha256": "ae9a5e96b59a6cab56ee2c396331f9aed549915d0761a8a9b5227b216c6afa39"
     },
     {
       "path": "../modules/archon-careers/hosted/noodle-rivalry.css",
@@ -426,7 +426,7 @@
     },
     {
       "path": "../modules/archon-careers/hosted/parallel/gameplay/board-camera.mjs",
-      "sha256": "f92c9ad73bdd07098c8d97a22882fa57c345f6b1136ec031efc1311f5762f4c5"
+      "sha256": "39097f605d623d2dd801376bf87755cb69fb33f0598dcd0da547132454d29c4e"
     },
     {
       "path": "../modules/archon-careers/hosted/parallel/gameplay/match-client.mjs",
@@ -434,7 +434,7 @@
     },
     {
       "path": "../modules/archon-careers/hosted/parallel/gameplay/player.css",
-      "sha256": "2461b124e30f1661930bdba14363041025037116ea8969e2985d40cee359486c"
+      "sha256": "95fb08021b7cae813789e1463ae3874393353f69eccd03b378f93b90f89f52a9"
     },
     {
       "path": "../modules/archon-careers/hosted/parallel/gameplay/plaza-doors.mjs",
@@ -446,11 +446,11 @@
     },
     {
       "path": "../modules/archon-careers/hosted/preview.html",
-      "sha256": "0cc9b10457e32e157ca950748421c734dd22a0e8d30cd3c2fc9c6c54646f6201"
+      "sha256": "8a723ea4dd897452f617343bc6db239d63b26116d4f355a5f5e55f98a24ef849"
     },
     {
       "path": "../modules/archon-careers/hosted/preview.js",
-      "sha256": "f530a068fab085d91c04f9b79568c57d4311065e9c712209ab3615c473c07cc2"
+      "sha256": "0731cb128141a8c51dba72f93f885711058952f995e1a4685a2febf083583896"
     },
     {
       "path": "../modules/archon-careers/hosted/restaurant-scene.mjs",

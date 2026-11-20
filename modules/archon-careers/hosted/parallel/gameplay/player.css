@@ -242,6 +242,7 @@ body:not(.seated) #lobby-error { color: #7c2f1d; }
 
 /* Readable match identity and an unobstructed, shared promenade view. */
 body:not(.embedded-board) > main { max-width: 1440px; }
+body.playing:not(.embedded-board) > main { max-width: none; }
 body:not(.embedded-board) nav { padding: 4px 0 14px; color: #d3e6df; line-height: 1.5; }
 body:not(.embedded-board) nav a { color: #b5f0df; text-underline-offset: .2em; }
 body:not(.embedded-board) nav strong { color: #f8d899; }
@@ -268,10 +269,9 @@ body.seated .match-actions { gap: 8px 16px; align-items: center; }
   background: #fff0c9; color: #29423e; font-size: .9rem; font-weight: 750;
 }
 #game-code-value { font-size: clamp(26px, 3vw, 36px); line-height: 1.1; color: #153c39; letter-spacing: .09em; font-variant-numeric: tabular-nums; }
-body.playing #board { height: clamp(400px, calc(100svh - 210px), 920px); border-radius: 18px; overflow: hidden; }
+body.playing #board { height: clamp(400px, calc(100svh - 205px), 1150px); border-radius: 18px; overflow: hidden; }
 body.playing #board-instructions { padding: 8px 12px; border-left: 3px solid #e7c181; background: #193b3f; border-radius: 0 8px 8px 0; font-weight: 650; }
 body.playing #match-help { margin: 0 0 6px; }
-#skip-overview { position: absolute; z-index: 2; top: 14px; right: 14px; padding: 12px 16px; border: 1px solid #e9ca91; border-radius: 12px; background: #fff0cd; color: #153c39; box-shadow: 0 4px 20px #08232b55; }
 @media(max-width: 600px) {
   body.playing main { padding: 0 10px 14px; }
   body.playing #match-bar { gap: 10px; padding: 16px; }
@@ -279,10 +279,21 @@ body.playing #match-help { margin: 0 0 6px; }
   body.playing #game-code { order: -1; width: 100%; justify-content: space-between; padding: 10px 12px; }
   #game-code-value { font-size: 27px; }
   body.playing #board { height: clamp(390px, calc(100svh - 270px), 760px); }
-  #skip-overview { top: 8px; right: 8px; font-size: .85rem; }
 }
 
-/* Keep the Skip control in a real overlay above the WebGL surface. */
 .embedded-board #scene { isolation: isolate; }
 .embedded-board #scene canvas { position: relative; z-index: 0; }
-.embedded-board #skip-overview { z-index: 4; pointer-events: auto; }
+
+/* Camera actions stay outside the playable square hit area. */
+.embedded-board main { grid-template-columns: minmax(0,1fr) 52px; }
+.embedded-board #scene { grid-column: 1; grid-row: 1; }
+.embedded-board .camera-rail { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; }
+.embedded-board .camera-rail button { width: 44px; height: 44px; min-width: 44px; padding: 0; font-size: 24px; }
+.embedded-board .board-footer { grid-column: 1 / -1; grid-row: 2; min-width: 0; }
+@media(max-width: 520px) {
+  .embedded-board main { grid-template-columns: minmax(0,1fr) 136px; }
+  .embedded-board #scene { grid-column: 1 / -1; }
+  .embedded-board .camera-rail { grid-column: 2; grid-row: 2; flex-direction: row; gap: 2px; }
+  .embedded-board .board-footer { grid-column: 1; padding: 0 4px; flex-wrap: wrap; gap: 0 6px; }
+  .embedded-board #controls { width: calc(100vw - 8px); }
+}

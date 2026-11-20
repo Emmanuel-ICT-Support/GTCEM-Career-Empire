@@ -2,7 +2,7 @@ import {loadStaffFaces,attachStaffFace} from './staff-faces.mjs?v=noodle-refit-2
 import {installStaticStaff,staffLandingHeight} from './static-staff.mjs?v=noodle-refit-20261119';
 import {createRestaurantProgress} from './restaurant-scene.mjs?v=noodle-refit-20261119';
 import {restaurants} from './noodle-story.mjs?v=noodle-refit-20261119';
-import {boardView,clampBoardOrbit,boardZoom,overviewPose,shouldOverview} from './parallel/gameplay/board-camera.mjs?v=noodle-refit-20261119';
+import {boardView,artBoardView,clampBoardOrbit,boardZoom} from './parallel/gameplay/board-camera.mjs?v=board-close-20261120';
 import {addShowcaseBase,attachShowcaseDetails,updateStaffClothing} from './staff-pieces.mjs?v=noodle-refit-20261119';
 import { buildPlazaDoors, plazaDoorLayout, posePlazaDoors } from './parallel/gameplay/plaza-doors.mjs';
 import * as T from './vendor/three.module.js';
@@ -21,19 +21,13 @@ let finaleStart=0;
 const cameraGoal=new T.Vector3();
 const cameraFocus=new T.Vector3();
 let boardOrbit=null;
-let overviewStart=null,overviewElapsed=0,pendingOverview=false;
-const overviewButton=document.createElement('button');
-overviewButton.id='skip-overview';overviewButton.textContent='Skip overview · Play now';overviewButton.hidden=true;
-sceneHost.append(overviewButton);
-function finishOverview(){overviewStart=null;pendingOverview=false;overviewButton.hidden=true;}
-overviewButton.onclick=finishOverview;
-function startOverview(){if(reduce){finishOverview();return;}pendingOverview=false;overviewElapsed=0;overviewStart=performance.now();boardOrbit=null;overviewButton.hidden=false;}
-matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{reduce=event.matches;if(reduce)finishOverview();});
+const cameraRail=document.createElement('div');
+cameraRail.className='camera-rail';cameraRail.setAttribute('role','group');cameraRail.setAttribute('aria-label','Board camera');
+matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{reduce=event.matches;});
 const orbitTarget=new T.Vector3();
 
 function zoomBoard(factor) {
   if(!open||motion)return;
-  finishOverview();
   const target=shared?new T.Vector3(0,.2,0):active ? active.root.position.clone().add(new T.Vector3(0,.48,0)) : new T.Vector3();
   if(!boardOrbit||!orbitTarget.equals(target)) {
     orbitTarget.copy(target);
@@ -1380,7 +1374,6 @@ function create() {
   },{passive:false});
   canvas.addEventListener('pointerdown',event=>{
     if(!open||motion||!event.isPrimary||event.button!==0)return;
-    finishOverview();
     drag={id:event.pointerId,x:event.clientX,y:event.clientY};
     dragged=false;
     canvas.setPointerCapture(event.pointerId);
@@ -1498,7 +1491,6 @@ function reset() {
   el('unlock').hidden=shared;el('roster').hidden=true;
   status.textContent=shared?'Select on the board or use Board tools.':'Unlock the Market Arcade shutters.';
   if(shared) {
-    if(pendingOverview)startOverview();
     controls.hidden=false;
     el('board-tools').hidden=false;
     updateControls();
@@ -1577,13 +1569,19 @@ function inspectTerritory(tile) {
 }
 function updateControls() {
   const focused=document.activeElement;
-  const focusLabel=controls.contains(focused)
+  const focusLabel=(controls.contains(focused)||cameraRail.contains(focused))
     ? focused.getAttribute('aria-label')||focused.textContent : null;
-  controls.replaceChildren();
+  controls.replaceChildren();cameraRail.replaceChildren();
   syncTerritoryBadges();
-  button(controls,'Zoom in',()=>zoomBoard(.78)).disabled=!!motion;
-  button(controls,'Zoom out',()=>zoomBoard(1/.78)).disabled=!!motion;
-  button(controls,'Reset board view',()=>{finishOverview();boardOrbit=null;active=null;artView='board';updateControls();}).disabled=!!motion;
+  const cameraControls=shared?cameraRail:controls;
+  for(const [label,glyph,action] of [
+    ['Zoom in','+',()=>zoomBoard(.78)],
+    ['Zoom out','−',()=>zoomBoard(1/.78)],
+    ['Reset board view','↺',()=>{boardOrbit=null;active=null;artView='board';updateControls();}]
+  ]) {
+    const control=button(cameraControls,shared?glyph:label,action);
+    control.setAttribute('aria-label',label);control.title=label;control.disabled=!!motion;
+  }
   const moves=destinations();
   if(shared) {
     const options=selectablePieces();
@@ -1594,7 +1592,7 @@ function updateControls() {
       for(const piece of options)picker.add(new Option(labels[piece.code]+' · '+squareName(piece.col,piece.row),piece.id));
       picker.value=active?.id??'';
       picker.disabled=!!motion;
-      picker.onchange=()=>{finishOverview();active=options.find(item=>item.id===picker.value);updateControls();};
+      picker.onchange=()=>{active=options.find(item=>item.id===picker.value);updateControls();};
       controls.append(picker);
     }
   } else {
@@ -1626,7 +1624,7 @@ function updateControls() {
   for(const {col,row,target} of moves)
     button(controls,(target?'Challenge ':'Walk to ')+squareName(col,row),()=>walk(col,row)).disabled=!!motion;
   if(focusLabel) {
-    const replacement=[...controls.querySelectorAll('button:not(:disabled), select:not(:disabled)')]
+    const replacement=[...controls.querySelectorAll('button:not(:disabled), select:not(:disabled)'),...cameraRail.querySelectorAll('button:not(:disabled)')]
       .find(control=>(control.getAttribute('aria-label')||control.textContent)===focusLabel);
     (replacement ?? (shared ? el('board-tools').querySelector('summary') : null))?.focus({preventScroll:true});
   }
@@ -1716,16 +1714,12 @@ function draw(now) {
     const narrow=Math.max(0,2.25-camera.aspect);
     cameraGoal.set(-.28,2.85,9.9+Math.max(1,narrow*4.65));
     focusGoal.set(.47,.85,-2.85);
-  } else if(shared&&overviewStart!==null) {
-    overviewElapsed+=Math.max(0,Math.min(50,now-overviewStart));overviewStart=now;
-    const progress=overviewElapsed/3600,pose=overviewPose(progress);
-    cameraGoal.set(pose.x,pose.y,pose.z);focusGoal.set(0,.2,0);
-    if(progress>=1)finishOverview();
   } else if(open&&boardOrbit&&!motion) {
     cameraGoal.setFromSpherical(boardOrbit).add(orbitTarget);
     focusGoal.copy(orbitTarget);
   } else if(open&&perthScene) {
-    cameraGoal.set(boardView.x,boardView.y,boardView.z);
+    const view=shared?boardView:artBoardView;
+    cameraGoal.set(view.x,view.y,view.z);
     focusGoal.set(0,.20,0);
   } else if(!reduce&&motion) {
     const {x,z}=motion.piece.root.position;
@@ -1797,7 +1791,6 @@ function syncBoard(state) {
   const previous=sharedState;
   sharedState=state;
   for(const restaurant of restaurantViews)restaurant.sync(state.tiles);
-  if(shouldOverview(previous,state,reduce))pendingOverview=true;
   if(!renderer)return;
   if(state.phase!=='ended'&&finale) {
     scene.remove(finale);
@@ -1831,7 +1824,6 @@ function syncBoard(state) {
   }
   if(!selectablePieces().includes(active))active=null;
   updateControls();
-  if(pendingOverview)startOverview();
 }
 el('back').onclick=()=>menu();
 el('unlock').onclick=()=>{
@@ -1851,7 +1843,7 @@ if(shared) {
   summary.textContent='Board tools';
   tools.append(summary,controls);
   footer.append(status,tools);
-  sceneHost.after(footer);
+  sceneHost.after(cameraRail,footer);
   window.addEventListener('message',event=>{
     if(event.origin===location.origin&&event.source===parent&&event.data?.type==='city-state')syncBoard(event.data.state);
   });

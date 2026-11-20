@@ -747,5 +747,22 @@
       "tests/e2e/market-portfolio-demo.spec.js": "100644:ef070b255eb6ee3edd2c1eb8a37f04b92e9725cf",
       "playable-3d/release-manifest.json": "100644:96bc6c442ca65eb04c772c67d9d7452f2b7e0115"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261120-176",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "7df0d1341c49450512a831242d22fabbc9e7d808758fa3660a66d7d22df52aa4",
+    "recordSha256": "7a38df59190206dfc7322284d3777fd387ac0da1ed0c48380b1d375720224f98",
+    "reviewedAt": "2026-11-20T02:28:14.990Z",
+    "reviewEvidence": "Exact7index+working mode/blob/SHA review on13080c8;4projection units/10aspects;6synthetic background cases(2baseline4candidate),12seat views and2movement/focus followups;443staged hashes111imports. Supporting Blueprint 439fdaec7b8f811b1f4eeafd241d54ba17586ea3 independently verified5servedfiles and actual sanitized reader;recordSHA 7a38df59190206dfc7322284d3777fd387ac0da1ed0c48380b1d375720224f98;docSHA e2c06762e88c38b771c42be7db2a9bfca5be441629b14facc18fb7d1ffffef3d. No new full sourcecheck/suite/CI or live-room/production/physical/classroom/performance acceptance.",
+    "files": {
+      "modules/archon-careers/hosted/index.html": "100644:5c0b6f45959f739a2d590f327eae0e0bcb225719",
+      "modules/archon-careers/hosted/parallel/gameplay/board-camera.mjs": "100644:e633335789624898f692256f4d2ead43467ab14d",
+      "modules/archon-careers/hosted/parallel/gameplay/player.css": "100644:53163f78070682a85a80709f142ce65f2a476974",
+      "modules/archon-careers/hosted/preview.html": "100644:1d4e71433923a02a662a9e3247ea524089462a08",
+      "modules/archon-careers/hosted/preview.js": "100644:6b58c380e1bc183b0ab97e240a2029b1f3f61221",
+      "playable-3d/release-manifest.json": "100644:5ed5dea7cbd89cb37dd46a468d1a785b08c4caee",
+      "tests/unit/archon-camera.test.mjs": "100644:b71f9f6509a9939073162283493e7873864a06b7"
+    }
   }
 ]
