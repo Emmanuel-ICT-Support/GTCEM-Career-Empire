@@ -43,12 +43,12 @@ label.card{display:block;white-space:normal;cursor:pointer}label.card:has(input:
 <div id="restaurant-score" class="restaurant-score" aria-label="Noodle bar progress"></div>
 <details id="match-help"><summary>How to play</summary><ol>
 <li>The adjudicator reserves a Game ID. Two players join with that code.</li>
-<li>On your turn, select one of your pieces and choose a highlighted square. Drag the board to change your view.</li>
+<li>On your turn, select one of your pieces and choose a highlighted square. Drag to orbit. Scroll to look around; Shift+drag or Look around changes your aim. Pinch, Ctrl/Cmd+scroll or +/− zoom; Reset recentres.</li>
 <li>Challenge an opposing piece to start an Initiative duel. Both players answer privately, then discuss the revealed answers using the Initiative guide.</li>
 <li>The adjudicator records the verdict and explains why. After a decisive duel, the winner chooses an available territory effect when prompted. Select a marked square to read its rule.</li>
 <li>A side wins when its opponent has no legal moves. If neither side can move, the match is drawn.</li>
 <li>Both teams start with the same staff and moves. Territory effects add to or restrict those moves.</li>
-</ol><div id="staff-guide"></div><p>Upgrades follow confirmed territory ownership, persist when you resume and reset for Play again. A tie earns no new territory. A square’s original owner and effect remain fixed.</p></details><iframe id="board" src="./preview.html?match&v=board-close-20261120" title="Careers Archon board"></iframe></section><section id="stage-area"><a class="board-link" href="#board-area" hidden>Back to board</a><div id="stage" tabindex="-1"></div><p id="error" role="status"></p></section></div></main>
+</ol><div id="staff-guide"></div><p>Upgrades follow confirmed territory ownership, persist when you resume and reset for Play again. A tie earns no new territory. A square’s original owner and effect remain fixed.</p></details><iframe id="board" src="./preview.html?match&v=board-look-20261120" title="Careers Archon board"></iframe></section><section id="stage-area"><a class="board-link" href="#board-area" hidden>Back to board</a><div id="stage" tabindex="-1"></div><p id="error" role="status"></p></section></div></main>
 <script type="module">
 import {restaurants,staff,restaurantProgress,cardForMatch} from './noodle-story.mjs?v=noodle-refit-20261119';
 import {squareName,territoryEffects,territoryChoices} from './board-rules.mjs?v=noodle-refit-20261119';

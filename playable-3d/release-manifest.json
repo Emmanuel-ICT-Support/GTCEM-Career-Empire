@@ -1,8 +1,8 @@
 {
-  "release": "teacher-capability-matrix-20261120",
+  "release": "archon-free-look-20261120",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "08da8f9d1e9692c41b0a87cb3f3536d04f1cebc0",
-  "scope": "Shared teacher Students x Capabilities matrix and no-login static fictional teacher demo with draggable columns and arrow/reset alternatives. Student Portfolio, Archon, Markets recovery, auth/backend and real data unchanged.",
+  "baseCommit": "97c8ac00cb8eb6dafe9a0454a89eedb83004e9d0",
+  "scope": "Archon-only camera free look, broader safe orbit and dual-touch pinch; retain shared close/reset view, camera rail, click-to-play, standalone art inputs, restaurant state/rules and released Market/teacher matrix. No backend/auth or real learner-data changes.",
   "files": [
     {
       "path": "../Assets/EST Preparation/communication-portrait.mp4",
@@ -414,7 +414,7 @@
     },
     {
       "path": "../modules/archon-careers/hosted/index.html",
-      "sha256": "ae9a5e96b59a6cab56ee2c396331f9aed549915d0761a8a9b5227b216c6afa39"
+      "sha256": "f822fe8e10a854650a45aff4a40959a5dc5ce7817279e8a87222617f55386637"
     },
     {
       "path": "../modules/archon-careers/hosted/noodle-rivalry.css",
@@ -426,7 +426,7 @@
     },
     {
       "path": "../modules/archon-careers/hosted/parallel/gameplay/board-camera.mjs",
-      "sha256": "39097f605d623d2dd801376bf87755cb69fb33f0598dcd0da547132454d29c4e"
+      "sha256": "dbffbe3951775a9b6148d8dbf266dbcb21cbc5a52aff8bcd5dbdedee47099ea9"
     },
     {
       "path": "../modules/archon-careers/hosted/parallel/gameplay/match-client.mjs",
@@ -446,11 +446,11 @@
     },
     {
       "path": "../modules/archon-careers/hosted/preview.html",
-      "sha256": "8a723ea4dd897452f617343bc6db239d63b26116d4f355a5f5e55f98a24ef849"
+      "sha256": "eb614147e0def1561f7c34bc34c551dce97c28cce933b487c05ca9d931071e89"
     },
     {
       "path": "../modules/archon-careers/hosted/preview.js",
-      "sha256": "0731cb128141a8c51dba72f93f885711058952f995e1a4685a2febf083583896"
+      "sha256": "652dfa97b03a081f60a6a784b9e808dea4474be7266aadcf362f43b1276b52e6"
     },
     {
       "path": "../modules/archon-careers/hosted/restaurant-scene.mjs",

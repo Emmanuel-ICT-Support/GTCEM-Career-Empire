@@ -2,7 +2,7 @@ import {loadStaffFaces,attachStaffFace} from './staff-faces.mjs?v=noodle-refit-2
 import {installStaticStaff,staffLandingHeight} from './static-staff.mjs?v=noodle-refit-20261119';
 import {createRestaurantProgress} from './restaurant-scene.mjs?v=noodle-refit-20261119';
 import {restaurants} from './noodle-story.mjs?v=noodle-refit-20261119';
-import {boardView,artBoardView,clampBoardOrbit,boardZoom} from './parallel/gameplay/board-camera.mjs?v=board-close-20261120';
+import {boardView,artBoardView,clampBoardOrbit,boardZoom,boardAim,moveBoardLook,boardWheelInput} from './parallel/gameplay/board-camera.mjs?v=board-look-20261120';
 import {addShowcaseBase,attachShowcaseDetails,updateStaffClothing} from './staff-pieces.mjs?v=noodle-refit-20261119';
 import { buildPlazaDoors, plazaDoorLayout, posePlazaDoors } from './parallel/gameplay/plaza-doors.mjs';
 import * as T from './vendor/three.module.js';
@@ -21,6 +21,12 @@ let finaleStart=0;
 const cameraGoal=new T.Vector3();
 const cameraFocus=new T.Vector3();
 let boardOrbit=null;
+let boardLook=null,lookMode=false;
+function lookBoard(dx,dy){
+  if(!shared||!open||motion)return;
+  if(!boardLook){const direction=cameraFocus.clone().sub(camera.position);boardLook={yaw:Math.atan2(direction.x,-direction.z),pitch:Math.atan2(direction.y,Math.hypot(direction.x,direction.z))};if(!boardOrbit){orbitTarget.set(0,.2,0);boardOrbit=new T.Spherical().setFromVector3(camera.position.clone().sub(orbitTarget));}}
+  boardLook=moveBoardLook(boardLook,dx,dy);
+}
 const cameraRail=document.createElement('div');
 cameraRail.className='camera-rail';cameraRail.setAttribute('role','group');cameraRail.setAttribute('aria-label','Board camera');
 matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{reduce=event.matches;});
@@ -1365,39 +1371,60 @@ function create() {
   const canvas=renderer.domElement;
   let drag=null;
   let dragged=false;
+  const touches=new Map();
+  let pinchDistance=null;
   canvas.style.touchAction='none';
   canvas.style.cursor='grab';
+  const distance=()=>{const [a,b]=[...touches.values()];return a&&b?Math.hypot(a.x-b.x,a.y-b.y):null;};
   canvas.addEventListener('wheel',event=>{
     if(!open||motion)return;
     event.preventDefault();
-    zoomBoard(Math.exp(T.MathUtils.clamp(event.deltaY,-150,150)*.003));
+    if(!shared){zoomBoard(Math.exp(T.MathUtils.clamp(event.deltaY,-150,150)*.003));return;}
+    const input=boardWheelInput(event);
+    if(input.type==='zoom')zoomBoard(input.factor);else lookBoard(input.dx,input.dy);
   },{passive:false});
   canvas.addEventListener('pointerdown',event=>{
-    if(!open||motion||!event.isPrimary||event.button!==0)return;
+    if(!open||motion||event.button!==0||(!shared&&!event.isPrimary))return;
+    if(event.pointerType==='touch'&&shared){
+      if(!touches.size)dragged=false;
+      touches.set(event.pointerId,{x:event.clientX,y:event.clientY});
+      if(touches.size>1){pinchDistance=distance();dragged=true;drag=null;canvas.setPointerCapture(event.pointerId);return;}
+    }else dragged=false;
     drag={id:event.pointerId,x:event.clientX,y:event.clientY};
-    dragged=false;
     canvas.setPointerCapture(event.pointerId);
   });
   canvas.addEventListener('pointermove',event=>{
-    if(drag?.id!==event.pointerId||!open||motion)return;
+    if(!open||motion)return;
+    if(touches.has(event.pointerId)){
+      touches.set(event.pointerId,{x:event.clientX,y:event.clientY});
+      if(touches.size>1){const next=distance();if(pinchDistance&&next>0)zoomBoard(pinchDistance/next);pinchDistance=next;dragged=true;return;}
+    }
+    if(drag?.id!==event.pointerId)return;
     const dx=event.clientX-drag.x,dy=event.clientY-drag.y;
     if(!dragged&&Math.hypot(dx,dy)<5)return;
-    if(!boardOrbit){
-      orbitTarget.set(0,shared ? .2 : 0,0);
-      boardOrbit=new T.Spherical().setFromVector3(camera.position.clone().sub(orbitTarget));
-    }
     dragged=true;
     canvas.style.cursor='grabbing';
-    boardOrbit.theta-=dx*.008;
-    boardOrbit.phi=T.MathUtils.clamp(boardOrbit.phi-dy*.008,.035,1.49);
-    if(shared)clampBoardOrbit(boardOrbit);
-    drag.x=event.clientX;
-    drag.y=event.clientY;
+    if(shared&&(event.shiftKey||lookMode))lookBoard(dx,-dy);
+    else {
+      boardLook=null;
+      if(!boardOrbit){
+        orbitTarget.set(0,shared ? .2 : 0,0);
+        boardOrbit=new T.Spherical().setFromVector3(camera.position.clone().sub(orbitTarget));
+      }
+      boardOrbit.theta-=dx*.008;
+      boardOrbit.phi=T.MathUtils.clamp(boardOrbit.phi-dy*.008,.035,1.49);
+      if(shared)clampBoardOrbit(boardOrbit);
+    }
+    drag.x=event.clientX;drag.y=event.clientY;
   });
-  canvas.addEventListener('lostpointercapture',()=>{
-    drag=null;
+  const endPointer=event=>{
+    touches.delete(event.pointerId);pinchDistance=touches.size>1?distance():null;
+    if(drag?.id===event.pointerId)drag=null;
     canvas.style.cursor='grab';
-  });
+  };
+  canvas.addEventListener('pointerup',endPointer);
+  canvas.addEventListener('pointercancel',event=>{dragged=true;endPointer(event);});
+  canvas.addEventListener('lostpointercapture',endPointer);
   canvas.addEventListener('click', event => {
     if(dragged){dragged=false;return;}
     if (!open || motion) return;
@@ -1465,7 +1492,7 @@ function create() {
   }).observe(sceneHost);
 }
 function reset() {
-  boardOrbit=null;
+  boardOrbit=null;boardLook=null;lookMode=false;
   cancelAnimationFrame(frame);
   open=shared;opening=null;motion=null;active=null;artTile=null;artView='board';
   el('art-stage').hidden=true;
@@ -1577,13 +1604,17 @@ function updateControls() {
   for(const [label,glyph,action] of [
     ['Zoom in','+',()=>zoomBoard(.78)],
     ['Zoom out','−',()=>zoomBoard(1/.78)],
-    ['Reset board view','↺',()=>{boardOrbit=null;active=null;artView='board';updateControls();}]
+    ['Reset board view','↺',()=>{boardOrbit=null;boardLook=null;lookMode=false;active=null;artView='board';updateControls();}]
   ]) {
     const control=button(cameraControls,shared?glyph:label,action);
     control.setAttribute('aria-label',label);control.title=label;control.disabled=!!motion;
   }
   const moves=destinations();
   if(shared) {
+    const look=button(controls,'Look around',()=>{if(motion)return;lookMode=!lookMode;updateControls();});
+    look.setAttribute('aria-pressed',String(lookMode));look.setAttribute('aria-label','Look around');look.title='Toggle look mode; arrow keys look, Escape returns to orbit';look.disabled=!!motion;
+    look.onkeydown=event=>{const keys={ArrowLeft:[32,0],ArrowRight:[-32,0],ArrowUp:[0,-32],ArrowDown:[0,32]};if(keys[event.key]){event.preventDefault();lookBoard(...keys[event.key]);}else if(event.key==='Escape'){event.preventDefault();lookMode=false;updateControls();}};
+    const hint=document.createElement('p');hint.textContent='Scroll to look. Drag to orbit; Shift+drag or Look around changes aim. Pinch, Ctrl/Cmd+scroll or +/− zoom. Reset recentres.';hint.style.margin='4px 0';controls.append(hint);
     const options=selectablePieces();
     if(options.length) {
       const picker=document.createElement('select');
@@ -1707,7 +1738,9 @@ function draw(now) {
       updateControls();
     }
   }
-  if(artReview&&open&&artView==='bridge'&&!boardOrbit&&!motion){
+  if(shared&&motion){
+    cameraGoal.copy(camera.position);focusGoal.copy(cameraFocus);
+  } else if(artReview&&open&&artView==='bridge'&&!boardOrbit&&!motion){
     cameraGoal.set(26.0,29.0,-8.0);
     focusGoal.set(9.2,0,-12.8);
   } else if(artReview&&open&&artView==='entrance'&&!boardOrbit&&!motion) {
@@ -1738,7 +1771,8 @@ function draw(now) {
   }
   const blend=reduce||!open||motion||boardOrbit?1:.18;
   camera.position.lerp(cameraGoal,blend);
-  cameraFocus.lerp(focusGoal,blend);
+  if(shared&&boardLook&&open&&!motion){const aim=boardAim(camera.position,boardLook);focusGoal.set(aim.x,aim.y,aim.z);}
+  cameraFocus.lerp(focusGoal,shared&&boardLook&&!motion?1:blend);
   camera.lookAt(cameraFocus);
   if(artReview)scene.fog.near=artView==='bridge'?46:17;
   if(artReview)scene.fog.far=artView==='bridge'?78:46;
@@ -1804,7 +1838,7 @@ function syncBoard(state) {
     finaleStart=performance.now();
   }
   if(previous?.round!==state.round) {
-    boardOrbit=null;
+    boardOrbit=null;boardLook=null;lookMode=false;
     status.textContent='Select on the board or use Board tools.';
     for(const piece of pieces)scene.remove(piece.root);
     pieces=state.pieces.map(figure);active=null;motion=null;

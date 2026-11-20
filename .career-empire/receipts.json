@@ -783,5 +783,21 @@
       "tests/e2e/market-portfolio-demo.spec.js": "100644:d719125d660ec843374c1c5709e4a030aff01a40",
       "playable-3d/release-manifest.json": "100644:606214797d5ad718f289d32eac48cbdd37159c2f"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261120-180",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "27df52230eff0dde354e9392978f44476a325a040d018070a1a5d14af2796edf",
+    "recordSha256": "31d2d3d1e78181bfe6c1278dbb04d031094ab4845a5238073f5bb392e26847a4",
+    "reviewedAt": "2026-11-20T03:49:11.341Z",
+    "reviewEvidence": "Exact6index+working mode/blob/SHA independently matched on97c8ac0. Reviewed6focusedunits/10aspectfrustum and syntheticnativeWebGL1280/390/320bothseats,56legalperimetertargets,look/orbit/zoom/reset,keyboardfocus,touchpinch/cancel/tapmove,motionguard/standaloneart;446stagedhash111imports pass. Supporting Blueprint d17a5642678540635aaca7eaa885d2c960f16e9f;recordSHA 31d2d3d1e78181bfe6c1278dbb04d031094ab4845a5238073f5bb392e26847a4;docSHA f5c551be5575bff3da3f5fd76939845d8def53e55df65a378d62e759d0d6150b;manifestSHA 6216bf28ed6139c0f0ce29374bb206047c142c8bc2a09fcddceac57799d3e8e7;actualreader and5servedfilesverified,allpriorrecords preserved. No fullsuite/sourcecheck/CI/productionrooms/backend/physical/classroom/generalperformance acceptance.",
+    "files": {
+      "modules/archon-careers/hosted/index.html": "100644:f19daf1c0a15764231947663565d9fce0ba8a5a9",
+      "modules/archon-careers/hosted/parallel/gameplay/board-camera.mjs": "100644:03218e1f2dcbc45991c57366129e575217ed4b0f",
+      "modules/archon-careers/hosted/preview.html": "100644:6434f4fd83b09b6cedeed1b11bc52ce765d692aa",
+      "modules/archon-careers/hosted/preview.js": "100644:ca9ae13f7163c626ec350c6504e08886c97a4037",
+      "playable-3d/release-manifest.json": "100644:710bb5e8934db31fea8b7a8e7fd22b5ab87b3d74",
+      "tests/unit/archon-camera.test.mjs": "100644:29bea0371a9a87ca8cdadebb3a920e8267750d06"
+    }
   }
 ]
