@@ -1,6 +1,6 @@
 import {buildPublicMarketPortfolioUrl} from '../modules/initiative/parallel/learning/portfolio/initiative-portfolio.mjs';
 import {createInitiativeNotes,initiativeMarketChoices} from './initiative-market.mjs?v=notes-worksheet-20261112';
-import {createMarketArchon} from './market-archon.mjs?v=archon-testing-20261112';
+import {createMarketArchon} from './market-archon.mjs?v=archon-wide-20261119';
 import {validateLibrary,mountLesson} from '../modules/initiative/parallel/learning/lesson.mjs?v=notes-worksheet-20261112';
 import {createMarketLearningHost,createNotesPersistenceBridge} from '../modules/initiative/parallel/integration/market-learning-host.mjs';
 export function createMarketLearningRoutes({dialog,show,storage,currentLearner,lobbyUrl=new URL('../modules/archon-careers/hosted/',import.meta.url).href}){

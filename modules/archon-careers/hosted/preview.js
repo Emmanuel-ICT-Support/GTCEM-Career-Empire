@@ -1,8 +1,12 @@
-import {boardView,clampBoardOrbit,boardZoom,overviewPose,shouldOverview} from './parallel/gameplay/board-camera.mjs?v=readable-board-20261112';
-import {addShowcaseBase,attachShowcaseDetails} from './parallel/pieces/showcase-pieces.mjs';
+import {loadStaffFaces,attachStaffFace} from './staff-faces.mjs?v=noodle-refit-20261119';
+import {installStaticStaff,staffLandingHeight} from './static-staff.mjs?v=noodle-refit-20261119';
+import {createRestaurantProgress} from './restaurant-scene.mjs?v=noodle-refit-20261119';
+import {restaurants} from './noodle-story.mjs?v=noodle-refit-20261119';
+import {boardView,clampBoardOrbit,boardZoom,overviewPose,shouldOverview} from './parallel/gameplay/board-camera.mjs?v=noodle-refit-20261119';
+import {addShowcaseBase,attachShowcaseDetails,updateStaffClothing} from './staff-pieces.mjs?v=noodle-refit-20261119';
 import { buildPlazaDoors, plazaDoorLayout, posePlazaDoors } from './parallel/gameplay/plaza-doors.mjs';
 import * as T from './vendor/three.module.js';
-import { labels, startingPieces, legalMoves, squareName, territoryEffects } from './board-rules.mjs';
+import { labels, startingPieces, legalMoves, squareName, territoryEffects } from './board-rules.mjs?v=noodle-refit-20261119';
 
 const el = id => document.getElementById(id);
 const status = el('status');
@@ -53,6 +57,7 @@ const shared = new URLSearchParams(location.search).has('match') && parent!==win
 const perthScene=artReview||shared;
 const gateLayout=plazaDoorLayout(perthScene);
 let sharedState;
+const restaurantViews=[];
 const materials = new Map();
 const territoryBadges = new Map();
 const territoryTextures = new Map();
@@ -81,11 +86,7 @@ function addJobPlaques(root,code,team) {
     canvas.width=512;canvas.height=128;
     const context=canvas.getContext('2d');
     const title=labels[code];
-    const lines={
-      SD:['Software','Developer'],
-      RE:['Renewable Energy','Technician'],
-      EC:['Early Childhood','Educator'],
-    }[code]??[title];
+    const lines=title==='Kitchen Hand'?['Kitchen','Hand']:[title];
     context.fillStyle=team==='A'?'#14413e':'#674020';
     context.fillRect(0,0,512,128);
     context.strokeStyle='#f4ce83';
@@ -110,6 +111,7 @@ function addJobPlaques(root,code,team) {
   }
 }
 async function loadArt() {
+  await loadStaffFaces();
   const [{GLTFLoader},{clone}]=await Promise.all([
     import('./vendor/loaders/GLTFLoader.js'),import('./vendor/utils/SkeletonUtils.js')
   ]);
@@ -126,18 +128,18 @@ async function loadArt() {
   shopAtlas.colorSpace=T.SRGBColorSpace;
   shopAtlas.anisotropy=8;
   await Promise.all([
-    ['CP','occupational-top-work','occupational-pants-tradie',0x897254,0x3e5058,'shoes-boots','hair-sweep'],
-    ['NS','hospital-scrub-top','occupational-pants-scrubs',0x61aab9,0x477f8d,'shoes-clogs','hair-bob'],
-    ['EL','occupational-top-work','occupational-pants-tradie',0x247886,0x283f48,'shoes-boots','hair-bob'],
-    ['SD','occupational-top-work','occupational-pants-tradie',0x7774a9,0x303d52,'shoes-clogs','hair-sweep'],
-    ['RE','occupational-top-work','occupational-pants-tradie',0xb3bb45,0x334352,'shoes-boots','hair-sweep'],
-    ['EC','occupational-top-work','occupational-pants-tradie',0xb85578,0x434465,'shoes-clogs','hair-bob'],
+    ['CP','occupational-top-work','occupational-pants-tradie',0xf2e5cf,0x364649,'shoes-boots','hair-sweep'],
+    ['NS','occupational-top-work','occupational-pants-tradie',0xf0d9ad,0x3b4449,'shoes-clogs','hair-bob'],
+    ['EL','occupational-top-work','occupational-pants-tradie',0x456a60,0x283f48,'shoes-boots','hair-bob'],
+    ['SD','occupational-top-work','occupational-pants-tradie',0xd8ccae,0x303d52,'shoes-clogs','hair-sweep'],
+    ['RE','occupational-top-work','occupational-pants-tradie',0x8798b0,0x334352,'shoes-boots','hair-sweep'],
+    ['EC','occupational-top-work','occupational-pants-tradie',0x7cadb8,0x434465,'shoes-clogs','hair-bob'],
   ].map(async ([code,top,bottom,topColour,bottomColour,shoes,hair])=>{
     const model=clone(base.scene);
     const bones=new Map();
     model.traverse(node=>{if(node.isBone)bones.set(node.name,node);});
     model.updateMatrixWorld(true);
-    const garments=await Promise.all([load(top),load(bottom),load('neckline-skin'),load(shoes),load(hair)]);
+    const garments=await Promise.all([load(top),load(bottom),load('neckline-skin'),load(shoes)]);
     for(const [i,garment] of garments.entries()) {
       garment.scene.updateMatrixWorld(true);
       const meshes=[];
@@ -157,6 +159,8 @@ async function loadArt() {
           return m;
         };
         mesh.material=Array.isArray(mesh.material)?mesh.material.map(tint):tint(mesh.material);
+        if(i===1)mesh.userData.staffLowerGarment=true;
+        if(i===0)mesh.userData.staffUpperGarment=true;
       }
     }
     const source=base.animations[0];
@@ -183,6 +187,8 @@ function installRig(body,code,equipment) {
   model.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
   body.clear();
   body.add(model);
+  body.updateMatrixWorld(true);
+  attachStaffFace(body,model,code);
   if(!attachShowcaseDetails(body,model,code)) {
     const rightHand=model.getObjectByName('R_Hand');
     const leftHand=model.getObjectByName('L_Hand');
@@ -247,6 +253,7 @@ function animateRig(piece,moving,dt) {
     rig.playing=next;
   }
   rig.mixer.update(dt);
+  updateStaffClothing(piece.body);
 }
 function figure({id,code,team,col,row}) {
   const root=new T.Group();
@@ -339,7 +346,9 @@ function figure({id,code,team,col,row}) {
   root.position.set(col-3.5,.025,row-3.5);
   body.rotation.y=team==='A'?Math.PI:0;
   scene.add(root);
-  return {id,root,body,limbs,code,team,col,row,rig};
+  const piece={id,root,body,limbs,code,team,col,row,rig};
+  if(code!=='SD')void installStaticStaff(piece);
+  return piece;
 }
 function sign(value,width,height,arcade=false,style={}) {
   const canvas=document.createElement('canvas');
@@ -709,7 +718,7 @@ function buildWaterfront() {
   scene.add(shopRow);
   const names=[
     {x:-4.7,w:2.55,h:2.12,name:'JUNIPER KITCHEN',wall:0xb88758,trim:0x566342},
-    {x:-1.95,w:2.60,h:2.16,name:'TECH STUDIO',wall:0x586e75,trim:0x1c3d4b},
+    {x:-1.95,w:2.60,h:2.16,name:'LANTERN NOODLES',wall:0xb98961,trim:0x69432b},
     {x:.93,w:2.90,h:2.53,name:'Cockburn Gateway',wall:0x586461,trim:0x96a34e},
     {x:3.65,w:2.43,h:1.82,name:'SAN CHURRO',wall:0x935c48,trim:0x623934},
   ];
@@ -748,6 +757,7 @@ function buildWaterfront() {
     const opening=[.54,.61,.53,.54][index];
     const upperFacade=index===0?.708:opening;
     for(const [start,fraction,depth] of [[0,opening,-5.826],[upperFacade,1-upperFacade,-5.016]]) {
+      if(index===1)continue; // New restaurant has dimensional fittings, not the old technology atlas.
       const atlas=shopAtlas.clone();
       atlas.repeat.set(.248,fraction);atlas.offset.set(index*.25+.001,start);
       atlas.needsUpdate=true;
@@ -767,6 +777,7 @@ function buildWaterfront() {
     }
     const interiorLight=new T.PointLight(0xffb064,1.55,2.4,2);
     interiorLight.position.set(x,header-.14,-5.09);
+    if(index<2)interiorLight.userData.restaurantMinTier=2;
     storefront.add(interiorLight);
     box(storefront,0xc99960,[w-.09,.05,1.03],[x,-.39,-5.35]);
     box(storefront,wall,[w-.09,.055,.86],[x,header,-5.39]);
@@ -778,21 +789,18 @@ function buildWaterfront() {
       shape(storefront,cylinder,dark,[.009,.17,.009],[px,header-.08,-5.33]);
       const lamp=ball(storefront,0xffc477,[.09,.046,.08],[px,header-.19,-5.33]);
       lamp.material=illuminated;
+      if(index<2)lamp.userData.restaurantMinTier=2;
       if(index===1) {
-        const deskTop=box(storefront,0xa36a39,[.65,.058,.34],[px,.02,-5.29]);
-        deskTop.receiveShadow=true;
-        for(const leg of [-1,1])
-          box(storefront,0x34454a,[.031,.39,.26],[px+leg*.27,-.19,-5.30]);
-        box(storefront,0x283c4a,[.30,.195,.036],[px,.185,-5.34]);
-        box(storefront,0x32424b,[.035,.085,.031],[px,.077,-5.34]);
-        const screen=box(storefront,0x43aeca,[.263,.157,.008],[px,.187,-5.317]);
-        screen.material=new T.MeshStandardMaterial({color:0x43aeca,emissive:0x176698,emissiveIntensity:.8});
-        for(let bar=0;bar<4;bar++)
-          box(storefront,0xb5eee6,[.022,.030+bar*.019,.004],[px+(bar-1.5)*.041,.131+bar*.0095,-5.312]);
-        box(storefront,0x30414b,[.23,.018,.082],[px,.06,-5.19]);
-        shape(storefront,cylinder,0x313941,[.019,.23,.019],[px,-.25,-5.05]);
-        box(storefront,0x3b5459,[.23,.04,.21],[px,-.135,-5.05]);
-        box(storefront,0x3b5459,[.23,.22,.028],[px,-.035,-4.958]);
+        box(storefront,0x74432c,[.68,.38,.37],[px,-.18,-5.25]);
+        box(storefront,0xd4ae75,[.73,.05,.43],[px,.035,-5.23]);
+        for(let bowl=0;bowl<3;bowl++) {
+          shape(storefront,new T.CylinderGeometry(1,.55,1,20),0xf6e3bd,[.075,.075,.075],[px+(bowl-1)*.17,.10,-5.20]);
+          shape(storefront,cylinder,0xe6ba6f,[.064,.01,.064],[px+(bowl-1)*.17,.143,-5.20]);
+        }
+        for(const hook of [-.18,.18]) {
+          shape(storefront,cylinder,0x534637,[.009,.28,.009],[px+hook,header-.18,-5.38]);
+          ball(storefront,0xc46836,[.075,.10,.075],[px+hook,header-.36,-5.38]);
+        }
       } else if(index===2) {
         shape(storefront,cylinder,0xb18b62,[.105,.21,.105],[px,-.25,-5.23]);
         for(let leaf=0;leaf<8;leaf++) {
@@ -820,15 +828,18 @@ function buildWaterfront() {
     for(const edge of [-1,1]){
       const pier=box(storefront,trim,[.094,h,.37],[x+edge*w*.481,h/2-.42,-4.81]);
       pier.castShadow=true;
+      if(index<2)pier.userData.restaurantTeamTrim=true;
     }
     const cornice=box(storefront,trim,[w+.03,.085,.37],[x,h-.43,-4.81]);
     cornice.castShadow=true;
+    if(index<2)cornice.userData.restaurantTeamTrim=true;
     box(storefront,0xb39b77,[w-.04,.07,.39],[x,-.36,-4.80]);
     const lampMaterial=new T.MeshStandardMaterial({color:0xffd19a,emissive:0xffad53,emissiveIntensity:1.4});
     const canopyY=.62;
     for(const offset of [-.33,.33]) {
       const lamp=ball(storefront,0xffcb86,[.066,.029,.055],[x+offset*w,canopyY,-4.82]);
       lamp.material=lampMaterial;
+      if(index<2)lamp.userData.restaurantMinTier=2;
     }
     if(name==='Cockburn Gateway') {
       for(const offset of [-.44,-.37,.37,.44]) {
@@ -865,34 +876,20 @@ function buildWaterfront() {
       for(const offset of [-.36,.36])
         box(storefront,0x8d4f2f,[.034,.39,.10],[x+w*offset,h-.22,-4.82]);
     }
-    if(name==='TECH STUDIO'||name==='Cockburn Gateway') {
-      const height=name==='TECH STUDIO'?.64:.59;
+    if(name==='LANTERN NOODLES'||name==='Cockburn Gateway') {
+      const height=name==='LANTERN NOODLES'?.64:.59;
       box(storefront,trim,[w-.18,.051,.31],[x,height,-4.82]);
       for(const offset of [-.31,-.14,.14,.31])
         box(storefront,trim,[.028,.84,.16],[x+offset*w,height-.44,-4.86]);
     }
-    if(name==='JUNIPER KITCHEN'){
-      const lintel=upperFacade*h-.42;
-      const valanceTop=.93;
-      const projection=.81;
-      const drop=lintel-valanceTop;
-      const clothWidth=w+.13;
-      const canopy=box(storefront,0x747846,[clothWidth,.048,Math.hypot(projection,drop)],
-        [x,(lintel+valanceTop)/2,-4.96+projection/2]);
-      canopy.rotation.x=Math.atan2(drop,projection);
-      canopy.castShadow=true;
-      const valanceHeight=valanceTop-header;
-      const fascia=sign('Juniper Kitchen',clothWidth-.025,valanceHeight,false,
-        {background:'#4c522d',font:'bold 62px Georgia'});
-      fascia.position.set(x,(valanceTop+header)/2,-4.96+projection+.027);
-      storefront.add(fascia);
-      box(storefront,0x9b9054,[clothWidth,.027,.056],[x,header,-4.96+projection]);
-      box(storefront,0x625c3b,[w-.02,valanceHeight,.032],[x,(valanceTop+header)/2,-5.01]);
-      for(const offset of [-.32,.32]){
-        const lamp=ball(storefront,0xffc06e,[.068,.045,.066],[x+w*offset,header-.075,-4.45]);
-        lamp.material=illuminated;
-      }
+    if(index===1) {
+      box(storefront,0x613b29,[w-.02,.51,.10],[x,1.02,-4.75]);
+      const title=sign('LANTERN NOODLES',w-.12,.33,false,{background:'#8a5c1f',font:'bold 62px Georgia'});
+      title.position.set(x,1.06,-4.69);storefront.add(title);
+      const sub=sign('FRESH BOWLS · BRIGHT IDEAS',w-.16,.13,false,{background:'#613b29',font:'bold 44px system-ui'});
+      sub.position.set(x,.81,-4.688);storefront.add(sub);
     }
+    if(index<2)restaurantViews.push(createRestaurantProgress(storefront,{team:index===0?'A':'B',x,width:w,header,sign,box,ball,cylinder,world:scene}));
   }
   // Tie the angled shopfronts together with a sandstone pier and continuous trim.
   const [juniperEdge,techEdge]=leftCornerEdges;
@@ -929,7 +926,7 @@ function buildWaterfront() {
     shape(shopRow,new T.ConeGeometry(.47,.22,10),0xf29330,[1,1,1],[x,.53,-4.14]);
     shape(shopRow,cylinder,0xa97546,[.27,.05,.27],[x,-.07,-4.14]);
   }
-  for(const [x,z,w,d] of [[-5.78,-1.51,1.58,2.18],[3.94,-4.00,2.08,.66]]) {
+  for(const [x,z,w,d] of [[3.94,-4.00,2.08,.66]]) {
     box(scene,0x8d6447,[w,.065,d],[x,-.34,z]);
     const slats=Math.ceil(w/.18);
     for(let i=0;i<slats;i++)
@@ -937,7 +934,7 @@ function buildWaterfront() {
         [x+w*((i+.5)/slats-.5),-.30,z]);
   }
   // Café furniture and planted quay frame the view without intruding on the grid.
-  for(const [x,z] of [[-6.03,-2.13],[-5.55,-1.24],[3.19,-4.14],[4.46,-4.14]]) {
+  for(const [x,z] of [[3.19,-4.14],[4.46,-4.14]]) {
     shape(scene,cylinder,0xbd8750,[.22,.052,.22],[x,.08,z]);
     if(x<0){
       shape(scene,cylinder,0xf1dfbf,[.040,.068,.040],[x-.057,.14,z+.018]);
@@ -954,35 +951,6 @@ function buildWaterfront() {
         box(scene,dark,[.018,.23,.02],[chair+side*.045,-.25,z+foot*.064]);
     }
   }
-  const cafeMenu=new T.Group();
-  cafeMenu.position.set(-6.33,-.34,-.43);
-  cafeMenu.rotation.y=.58;
-  scene.add(cafeMenu);
-  const menuCanvas=document.createElement('canvas');
-  menuCanvas.width=192;menuCanvas.height=256;
-  const menuContext=menuCanvas.getContext('2d');
-  menuContext.fillStyle='#33382e';
-  menuContext.fillRect(0,0,192,256);
-  menuContext.fillStyle='#f3dfb7';
-  menuContext.textAlign='center';
-  menuContext.font='italic 27px Georgia';
-  for(const [index,label] of ['Juniper Kitchen','Seasonal lunch','Coffee','Local produce'].entries())
-    menuContext.fillText(label,96,49+index*52,171);
-  const menuTexture=new T.CanvasTexture(menuCanvas);
-  menuTexture.colorSpace=T.SRGBColorSpace;
-  const menuFace=new T.Mesh(new T.PlaneGeometry(.35,.47),
-    new T.MeshStandardMaterial({map:menuTexture,roughness:.92}));
-  menuFace.position.set(0,.33,.08);
-  menuFace.rotation.x=-.13;
-  cafeMenu.add(menuFace);
-  for(const side of [-1,1]){
-    const frontLeg=box(cafeMenu,0xa77448,[.038,.62,.042],[side*.184,.305,.072]);
-    frontLeg.rotation.x=-.13;
-    const backLeg=box(cafeMenu,0x805739,[.036,.62,.043],[side*.184,.305,-.10]);
-    backLeg.rotation.x=.27;
-  }
-  box(cafeMenu,0xc99962,[.40,.035,.045],[0,.568,.044]);
-  box(cafeMenu,0xc99962,[.40,.035,.045],[0,.087,.109]);
   // Mixed strap leaves and red flower spikes echo the planting at the Perth quay.
   for(const [x,z] of [[-6.1,2.25],[6.45,shoreZ(6.45)+.46],[9.45,shoreZ(9.45)+.49]]) {
     box(scene,0xb28760,[1.15,.27,.68],[x,-.235,z]);
@@ -1535,9 +1503,11 @@ function reset() {
     el('board-tools').hidden=false;
     updateControls();
   }
+  for(const restaurant of restaurantViews)restaurant.sync(sharedState?.tiles??{});
   frame=requestAnimationFrame(draw);
 }
 function pose(piece,swing) {
+  if(piece.staticStaff)return;
   for(const limb of piece.limbs) {
     limb.leg.rotation.x=swing*limb.side;
     limb.arm.rotation.x=-swing*limb.side*.65;
@@ -1628,8 +1598,8 @@ function updateControls() {
       controls.append(picker);
     }
   } else {
-    button(controls,'Select Carpenter',()=>select('CP')).disabled=!!motion;
-    button(controls,'Select Nurse',()=>select('NS')).disabled=!!motion;
+    button(controls,'Select Cook',()=>select('CP')).disabled=!!motion;
+    button(controls,'Select Waiter',()=>select('NS')).disabled=!!motion;
     button(controls,'Replay gate',reset);
     if(artReview) {
       button(controls,artView==='entrance'?'Overhead shot':'Arcade entrance view',()=>{
@@ -1728,7 +1698,8 @@ function draw(now) {
   if(motion) {
     const {start,piece,col,row}=motion;
     const t=reduce?1:Math.min(1,(now-start)/(artReview?1600:760));
-    piece.root.position.set(T.MathUtils.lerp(piece.col,col,t)-3.5,.025+Math.sin(t*Math.PI*4)**2*.025,T.MathUtils.lerp(piece.row,row,t)-3.5);
+    const height=piece.staticStaff?staffLandingHeight(t,reduce):.025+Math.sin(t*Math.PI*4)**2*.025;
+    piece.root.position.set(T.MathUtils.lerp(piece.col,col,t)-3.5,height,T.MathUtils.lerp(piece.row,row,t)-3.5);
     pose(piece,Math.sin(t*Math.PI*4)*.62);
     if(t===1) {
       piece.col=col;piece.row=row;pose(piece,0);motion=null;
@@ -1788,6 +1759,7 @@ function draw(now) {
       chip.rotation.set(elapsed*3+i,elapsed*2,elapsed*4);
     }
   }
+  for(const restaurant of restaurantViews)restaurant.update(dt,{time:now*.001,reducedMotion:reduce});
   if(waterMaterial&&!reduce)waterMaterial.uniforms.time.value=now*.001;
   if(!reduce) for(const {car,direction,offset} of traffic)
     car.position.x=direction*((now*.0009+offset)%24-12);
@@ -1810,11 +1782,11 @@ function menu(arcade=false) {
 }
 async function launch() {
   el('menu').replaceChildren();sceneHost.hidden=false;
-  el('heading').textContent='Archon Engine · City Plaza';
+  el('heading').textContent='Careers Archon · Noodle Rivalry';
   el('back').hidden=false;
   try {
     if(perthScene&&!rigAssets.size) {
-      status.textContent='Loading rigged occupation pieces…';
+      status.textContent='Loading both restaurant teams…';
       await loadArt();
     }
     if(!renderer)create();reset();
@@ -1824,6 +1796,7 @@ async function launch() {
 function syncBoard(state) {
   const previous=sharedState;
   sharedState=state;
+  for(const restaurant of restaurantViews)restaurant.sync(state.tiles);
   if(shouldOverview(previous,state,reduce))pendingOverview=true;
   if(!renderer)return;
   if(state.phase!=='ended'&&finale) {
@@ -1839,6 +1812,7 @@ function syncBoard(state) {
   }
   if(previous?.round!==state.round) {
     boardOrbit=null;
+    status.textContent='Select on the board or use Board tools.';
     for(const piece of pieces)scene.remove(piece.root);
     pieces=state.pieces.map(figure);active=null;motion=null;
   } else {

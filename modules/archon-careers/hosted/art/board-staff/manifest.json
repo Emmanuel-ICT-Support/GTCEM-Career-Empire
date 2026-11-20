@@ -1,0 +1,62 @@
+{
+  "juniper-cashier": {
+    "widthBefore": 0.9580482244491577,
+    "widthAfter": 0.6505122184753418,
+    "bytes": 2485940,
+    "sha256": "1b0f4a199c72474b2ec7bba0a53da0eaedcf0402e7b1c73151c898858d387f2d"
+  },
+  "juniper-chef": {
+    "widthBefore": 0.9785177707672119,
+    "widthAfter": 0.6656320095062256,
+    "bytes": 1960108,
+    "sha256": "8751b0f4c90dc8f75ce1167494003dec0ba029cc1b9d6d72c576e61d176a147a"
+  },
+  "juniper-cleaner": {
+    "widthBefore": 0.8953088521957397,
+    "widthAfter": 0.6619445085525513,
+    "bytes": 1987536,
+    "sha256": "6b325788be59d0a111babeb3299aa53edd79715edae5f2be73659436eeacc259"
+  },
+  "juniper-owner": {
+    "widthBefore": 0.8928878307342529,
+    "widthAfter": 0.6073068380355835,
+    "bytes": 2470516,
+    "sha256": "c10de1f6f01de398901e8afdc616a60d755462f3d825686166f76ac249988f4e"
+  },
+  "juniper-waiter": {
+    "widthBefore": 0.8980786800384521,
+    "widthAfter": 0.6083340048789978,
+    "bytes": 1999944,
+    "sha256": "6c5983234095b720b9de7d504cb9a2e7fdb5f6d20038d47b77b2b4d9320f12cb"
+  },
+  "lantern-cashier": {
+    "widthBefore": 0.9682775139808655,
+    "widthAfter": 0.6469641923904419,
+    "bytes": 2489116,
+    "sha256": "35816bbff63fa5f73495971cef820f804750b39faab3cecc93b24ef1a78743ad"
+  },
+  "lantern-chef": {
+    "widthBefore": 0.9827619194984436,
+    "widthAfter": 0.6649447679519653,
+    "bytes": 2529880,
+    "sha256": "d31c54b3ae1381c54c34fc24f62a5eced1d30c36b08d76f1a8e45b310e8a5311"
+  },
+  "lantern-cleaner": {
+    "widthBefore": 0.9794589281082153,
+    "widthAfter": 0.7045577764511108,
+    "bytes": 2427496,
+    "sha256": "6ef00885c8bb3bab2dd83303351827f7f205bbc39945c06d690743b4a0aeefca"
+  },
+  "lantern-owner": {
+    "widthBefore": 0.9832726716995239,
+    "widthAfter": 0.6634360551834106,
+    "bytes": 2510292,
+    "sha256": "9e149d82eb17a144ea5a9fb244d1f3766a911209a73e934b23741c9e48d4355e"
+  },
+  "lantern-waiter": {
+    "widthBefore": 0.9127858877182007,
+    "widthAfter": 0.5984642505645752,
+    "bytes": 2428608,
+    "sha256": "9279796c6cf4179c2cc94eeb9f822f0b57e385af6ffbd0e68b19277a43e3b0a7"
+  }
+}

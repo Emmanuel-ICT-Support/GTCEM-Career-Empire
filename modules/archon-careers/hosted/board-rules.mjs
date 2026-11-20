@@ -1,4 +1,6 @@
-export const labels = {EL:'Electrician', CP:'Carpenter', NS:'Nurse', SD:'Software Developer', RE:'Renewable Energy Technician', EC:'Early Childhood Educator'};
+export {staff};
+import {staff} from './noodle-story.mjs?v=noodle-refit-20261119';
+export const labels=Object.fromEntries(Object.entries(staff).map(([code,role])=>[code,role.name]));
 const formation = [['EL',1,0],['CP',2,1],['NS',3,1],['SD',4,1],['RE',5,1],['EC',6,1],['CP',6,0],['SD',7,0]];
 export const startingPieces = () => ['A','B'].flatMap(team=>formation.map(([code,col,row],index)=>({
   id:team+index,team,code,col,row:team==='A'?7-row:row,

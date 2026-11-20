@@ -1,0 +1,16 @@
+.rivalry-intro{background:linear-gradient(140deg,#fff5d9,#f4e3b6);color:#253c34;margin:0 0 22px;border-color:#d6b477;padding:clamp(20px,4vw,38px)}
+.rivalry-intro h2{font:700 clamp(28px,4.5vw,52px) Georgia,serif;max-width:700px;line-height:1.08}.rivalry-intro>.tag{color:#536543}.rivalry-intro>p{max-width:870px;line-height:1.6}
+.rivalry-shops{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0}.rivalry-shops>div{border:2px solid #d8b674;border-radius:14px;padding:22px;background:#184f48;color:#fff2ce;position:relative;overflow:hidden;box-shadow:0 8px 0 #b29a64}
+.rivalry-shops>div:before{content:'';display:block;height:12px;background:repeating-linear-gradient(90deg,#f5d185 0 24px,transparent 24px 48px);margin:-22px -22px 20px}.rivalry-shops>[data-team=B]{background:#794325}.rivalry-shops span{float:right;font-size:42px;color:#f3cc75}.rivalry-shops h3{font:700 clamp(20px,2.5vw,30px) Georgia,serif;margin:0 0 10px}.rivalry-shops p{font-size:15px;margin:0;line-height:1.5}
+.restaurant-score{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.restaurant-score>div{display:grid;gap:5px;padding:12px 15px;background:#dceee4;color:#17483f;border-left:5px solid #249e8d;border-radius:8px}.restaurant-score>[data-team=B]{background:#f5e0b4;color:#674020;border-color:#ce8e36}.restaurant-score span{font-size:13px}.restaurant-score meter{width:100%;height:12px;accent-color:#249e8d}.restaurant-score>[data-team=B] meter{accent-color:#ce8e36}
+#staff-guide{display:grid;grid-template-columns:1fr 1fr;gap:8px}#staff-guide p{padding:10px;background:#ffffff0e;border-radius:7px;margin:0;font-size:14px}.final-verdict{padding:14px;background:#fff8e3;border-radius:8px;color:#354b40}.result p{line-height:1.55}
+@media(max-width:540px){.rivalry-shops{grid-template-columns:1fr}.restaurant-score{gap:6px}.restaurant-score>div{padding:9px}.restaurant-score strong{font-size:14px}.restaurant-score span{font-size:11px}#staff-guide{grid-template-columns:1fr}.rivalry-intro{padding:20px}.rivalry-shops span{font-size:32px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+/* Keep the match's long identity and return labels within narrow viewports. */
+html,body{max-width:100%;overflow-x:clip}body>main,.layout,#board-area,#stage-area,#match-bar,.match-actions,.restaurant-score,.restaurant-score>div{min-width:0;max-width:100%}#market-return{white-space:normal;overflow-wrap:anywhere}#match-bar h1,.match-actions{overflow-wrap:anywhere}#board{display:block;max-width:100%;width:100%}
+@media(max-width:600px){body.playing #match-bar,body.seated #match-bar{display:flex;flex-wrap:wrap}body.playing #match-bar h1,body.seated #match-bar h1{width:100%;font-size:24px}.match-actions{width:100%;flex-wrap:wrap}#game-code{max-width:100%;white-space:normal}#game-code-value{font-size:24px!important}.layout{grid-template-columns:minmax(0,1fr)}.territory-choices{grid-template-columns:minmax(0,1fr)}.restaurant-score{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* On the phone result screen, scroll the identity away so the medal stays clear. */
+@media(max-width:600px){
+  body.playing:has(#stage[data-phase="ended"]) #match-bar{position:static}
+  body.playing #stage[data-phase="ended"]{scroll-margin-top:16px}
+}

@@ -694,5 +694,41 @@
       "tests/unit/deferred-textures.test.mjs": "100644:3062a7711e28dc8bd35eea5828289fc6de5697b2",
       "tests/unit/est-presentation.test.mjs": "100644:fd35adadda1d424a5b54f99ec047cdb1205ad7b5"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261120-173",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "26344b221f158f36ec1be2a7a2eb9df6c8093e57fea5085963166dd32b012283",
+    "recordSha256": "98bd5c836985a78bf8893de308b5f6cf832cb42e4a6f4fa1521d5e99aabb0457",
+    "reviewedAt": "2026-11-20T00:17:01.480Z",
+    "reviewEvidence": "Exact26mode/blob/SHA review on e84667e;438unit19targeted tests and442asset111module checks; actual-campus desktop/phone open-return restores state/focus/movement; unchanged-source narrow timing follow-up. Supporting Blueprint 15ef0ce56c7d7787275e1e3e331bd9a905f45cd2 independently verified5servedfiles and actual sanitized reader; recordSHA 98bd5c836985a78bf8893de308b5f6cf832cb42e4a6f4fa1521d5e99aabb0457; docSHA 2f9e15e38957f18d45a4334dff4356669635a69f6a76417f50845034c9001cf8. No general performance/physical-device/service/signed-in/classroom acceptance.",
+    "files": {
+      "modules/archon-careers/hosted/art/board-staff/juniper-cashier.glb": "100644:680fc42c5835a4e490897cb340f343b134168c6a",
+      "modules/archon-careers/hosted/art/board-staff/juniper-chef.glb": "100644:509e17db3dc165aea89056152306ce8dae4736dc",
+      "modules/archon-careers/hosted/art/board-staff/juniper-cleaner.glb": "100644:b746f7aae2eea9e6e520f9cf7b16ed9bf2948e3c",
+      "modules/archon-careers/hosted/art/board-staff/juniper-owner.glb": "100644:2444cff6ade83c3d6448397bc0a79244df801518",
+      "modules/archon-careers/hosted/art/board-staff/juniper-waiter.glb": "100644:1cadb8841218d8efe9b7930cf348d0fa5bc956d2",
+      "modules/archon-careers/hosted/art/board-staff/lantern-cashier.glb": "100644:64262f07e129a2d8b760652e7bb48a59ab5f5a80",
+      "modules/archon-careers/hosted/art/board-staff/lantern-chef.glb": "100644:c31ccc7f280b460a4e2857323ed0a8d54443918d",
+      "modules/archon-careers/hosted/art/board-staff/lantern-cleaner.glb": "100644:2f96f0f1714efe43c6b63d15e3203005f0b399b7",
+      "modules/archon-careers/hosted/art/board-staff/lantern-owner.glb": "100644:5cc1202d36dc7db21e68c2c8b52714f7210b8c0f",
+      "modules/archon-careers/hosted/art/board-staff/lantern-waiter.glb": "100644:5652318b124a9e8f459472023f03d953dab50021",
+      "modules/archon-careers/hosted/art/board-staff/manifest.json": "100644:cb19683638c96a6ae3122a4c2a2b0d55921fba0a",
+      "modules/archon-careers/hosted/art/staff-reference-boy.glb": "100644:6501b5796b16d906e825f5211ad04ef9340d9ae5",
+      "modules/archon-careers/hosted/art/staff-reference-girl.glb": "100644:427b5c9e1ce55951cf767562cac1b57b52b3a3e8",
+      "modules/archon-careers/hosted/board-rules.mjs": "100644:ab3c8a952afaef3e1d00089ffd2cf9d959386df6",
+      "modules/archon-careers/hosted/index.html": "100644:7bfc2e0e4426d828d4895a4fef2bb3451d4eaa46",
+      "modules/archon-careers/hosted/noodle-rivalry.css": "100644:3109ae3e740bf967263ac5d4ee250578e6feaf76",
+      "modules/archon-careers/hosted/noodle-story.mjs": "100644:ff722f0648f611d422fd0eaf00ae1f27ff2266f8",
+      "modules/archon-careers/hosted/preview.html": "100644:4b0eb2588205bc6e909afa773c6074fcc6df0f84",
+      "modules/archon-careers/hosted/preview.js": "100644:2b9a5c08fb5c4a550b2b37aa4570f91f90fbdb21",
+      "modules/archon-careers/hosted/restaurant-scene.mjs": "100644:97c9dcd84676a51305eacfd9483611b35ad74ac4",
+      "modules/archon-careers/hosted/staff-faces.mjs": "100644:b210d31f610f7b44711642e451cf04251067ecf8",
+      "modules/archon-careers/hosted/staff-pieces.mjs": "100644:576f2b879bfd486a48b970258a89403095f8cb79",
+      "modules/archon-careers/hosted/static-staff.mjs": "100644:71a04cdffb3c0b2fd4a4c1f91335f2aba0346d2a",
+      "playable-3d/market-archon.mjs": "100644:a0d35600b7d9f96ed2f50705de1cde9ebedfdc6d",
+      "playable-3d/market-learning-routes.mjs": "100644:8f8ffd3c3f836665169bb5a07d11f27d9d287107",
+      "playable-3d/release-manifest.json": "100644:7b91cddabedcd8d273c054d8d9d5730efd1a4219"
+    }
   }
 ]
