@@ -1,5 +1,6 @@
-var publicInitiativePortfolioMode = Boolean(document.getElementById("student-hero-title")) && new URLSearchParams(window.location.search).get("publicInitiative") === "1";
-var portfolioDemoMode = Boolean(document.getElementById("student-hero-title")) && new URLSearchParams(window.location.search).get("portfolioDemo") === "1";
+var marketPortfolioDemo = Boolean(document.getElementById("student-hero-title")) && new URLSearchParams(location.search).get("from") === "markets" && new URLSearchParams(location.search).get("publicInitiative") === "1";
+var publicInitiativePortfolioMode = !marketPortfolioDemo && Boolean(document.getElementById("student-hero-title")) && new URLSearchParams(window.location.search).get("publicInitiative") === "1";
+var portfolioDemoMode = Boolean(document.getElementById("student-hero-title")) && new URLSearchParams(window.location.search).get("portfolioDemo") === "1" || marketPortfolioDemo;
 var isolatedPortfolioMode = publicInitiativePortfolioMode || portfolioDemoMode;
 var portfolioDemoEntries = [], portfolioDemoApi = null, portfolioDemoSkills = null;
 var portfolioGlobalView = "skills";
@@ -3980,7 +3981,7 @@ function getStarBuilderSelectedSubskillTags() {
 }
 
 function renderStarBuilderSkillPicker() {
-  const categories = employabilitySkillCategoriesCache;
+  const categories = marketPortfolioDemo ? portfolioCapabilityOrder(employabilitySkillCategoriesCache) : employabilitySkillCategoriesCache;
   if (!categories.length || !starBuilderState) return "";
   const selectedSkillIds = starBuilderState.selectedSkillIds || [starBuilderState.skillId];
   const selectedSubskillTags = getStarBuilderSelectedSubskillTags();
@@ -3991,7 +3992,7 @@ function renderStarBuilderSkillPicker() {
     <div class="skill-star-builder-tags">
       <div class="skill-star-builder-tag-header">
         <strong>Portfolio tags</strong>
-        <span>${publicInitiativePortfolioMode ? "This Market route focuses on Initiative. Choose the behaviours your own actions show." : "Tag every employability skill this example demonstrates."}</span>
+        <span>${marketPortfolioDemo ? "Start with Initiative. Add optional secondary capability and sub-skill tags only when the same experience shows them. This stays one reflection." : publicInitiativePortfolioMode ? "This Market route focuses on Initiative. Choose the behaviours your own actions show." : "Tag every employability skill this example demonstrates."}</span>
       </div>
       <div class="skill-star-builder-chip-row">
         ${categories.map(category => {
@@ -4118,7 +4119,7 @@ function renderSkills(skillsData, targetId, progressMap, skillEvidenceMap = {}) 
       ...subskill,
       logoPath: category.id === "initiative" ? subskill.logoPath || "" : getEmployabilityLogoPath(category.id, subskill.id)
     }));
-    return `${isStudentGrid ? `<details class="portfolio-capability" data-capability-group="${escapeHtml(category.id)}"><summary>${renderPortfolioCapabilitySummary(category, studentEvidenceEntries.length)}</summary>` : ""}
+    return `${isStudentGrid ? `<details class="portfolio-capability" data-capability-group="${escapeHtml(category.id)}"${marketPortfolioDemo && category.id === "initiative" ? " open" : ""}><summary>${renderPortfolioCapabilitySummary(category, studentEvidenceEntries.length)}</summary>` : ""}
       <article class="skill-card skill-card-modern ${isStudentGrid ? "skill-card-has-star" : ""}" style="--skill-accent: ${meta.accent}; --skill-accent-soft: ${meta.accentSoft}; --skill-accent-strong: ${meta.accentStrong}; --skill-progress-angle: ${progress * 3.6}deg;">
         ${isStudentGrid ? '<div class="portfolio-capability-left">' : ''}
         <div class="skill-card-top">
@@ -4467,7 +4468,7 @@ function renderStudentPortfolio() {
   const skillMarkup = portfolioCapabilityOrder(categories).map(category => {
     const skillEntries = entries.filter(entry => getStarEntrySkillIds(entry).includes(category.id));
     return `
-      <details class="student-portfolio-skill-group" data-capability-group="${escapeHtml(category.id)}" style="--skill-accent: ${(EMPLOYABILITY_SKILL_META[category.id] || EMPLOYABILITY_SKILL_META.communication).accent};">
+      <details class="student-portfolio-skill-group" data-capability-group="${escapeHtml(category.id)}"${marketPortfolioDemo && category.id === "initiative" ? " open" : ""} style="--skill-accent: ${(EMPLOYABILITY_SKILL_META[category.id] || EMPLOYABILITY_SKILL_META.communication).accent};">
         <summary class="student-portfolio-skill-header">${renderPortfolioCapabilitySummary(category, skillEntries.length)}</summary>
         ${skillEntries.length
           ? skillEntries.map(entry => renderStudentPortfolioEntry(entry, category.id)).join("")
@@ -4481,8 +4482,8 @@ function renderStudentPortfolio() {
     <div class="student-portfolio-dialog" role="dialog" aria-modal="true" aria-labelledby="student-portfolio-title">
       <button class="student-portfolio-close" type="button" data-student-portfolio-close aria-label="Close portfolio">Close</button>
       <div class="student-portfolio-heading">
-        <span>Employability Portfolio</span>
-        <h2 id="student-portfolio-title">${portfolioDemoMode ? "Fictional demonstration portfolio" : "Your STAR reflection log"}</h2>
+        <span>${marketPortfolioDemo ? "Sunday Markets / Initiative" : "Employability Portfolio"}</span>
+        <h2 id="student-portfolio-title">${marketPortfolioDemo ? "Initiative portfolio" : portfolioDemoMode ? "Fictional demonstration portfolio" : "Your STAR reflection log"}</h2>
         <p>${portfolioDemoMode ? "Fictional examples and anonymous demo practice stay separate from learner records." : "Only your verified saved reflections appear here. Older work that cannot be matched to your current account stays untouched."} Multi-skill reflections appear under every skill they are tagged to.</p>
       </div>
       <div class="student-portfolio-stats">
@@ -7222,6 +7223,80 @@ async function initFictionalPortfolioDemo() {
     const response = await fetch('../data/employability-skills.json');if (!response.ok) throw Error('Capability content unavailable');
     portfolioDemoSkills = await response.json();employabilitySkillCategoriesCache = portfolioDemoSkills.categories;
     portfolioDemoEntries = portfolioDemoApi.createFictionalPortfolioEntries(employabilitySkillCategoriesCache);
+    const portfolioButton = root.querySelector("#student-hub-portfolio-button");
+    const start = document.createElement("button");
+    start.type = "button";
+    start.className = "module-link";
+    start.textContent = "Start Initiative entry";
+    start.onclick = () => openSkillStarBuilder("initiative", "Initiative", "gameplay");
+    portfolioButton.before(start);
+    const teacher = document.createElement("a");
+    teacher.href = "./teacher-portfolio-demo.html";
+    teacher.target = "_blank";
+    teacher.rel = "noopener";
+    teacher.className = "module-link";
+    teacher.style.color = "#fffdf2";
+    teacher.textContent = "Teacher view (demo with sample data only)";
+    portfolioButton.after(teacher);
+    const printButton = document.createElement("button");
+    printButton.type = "button";
+    printButton.className = "module-link";
+    printButton.textContent = "Create PDF of my portfolio";
+    teacher.after(printButton);
+    printButton.onclick = () => {
+      const paper = document.createElement("main");
+      const title = document.createElement("h1");
+      title.textContent = marketPortfolioDemo ? "Initiative portfolio — demonstration" : "Employability portfolio — demonstration";
+      paper.append(title);
+      for (const entry of portfolioDemoEntries) {
+        const section = document.createElement("section");
+        section.className = "portfolio-print-entry";
+        const heading = document.createElement("h2");
+        heading.textContent = entry.skillTitle + " · " + entry.experienceDate;
+        const source = document.createElement("p");
+        source.textContent = entry.fictionalSeed ? "Preloaded fictional example" : "Anonymous practice entry";
+        section.append(heading, source);
+        const tags = document.createElement("p");
+        tags.textContent = "Capabilities: " + getStarEntrySkillTitles(entry).join(", ");
+        const subskills = getStarEntrySubskillTags(entry);
+        if (subskills.length) tags.textContent += ". Sub-skills: " + subskills.map(tag => tag.subskillTitle).join(", ");
+        section.append(tags);
+        for (const [key, label] of Object.entries({situation:"Situation",task:"Task",actions:"Actions",results:"Results",nextSteps:"Goal and review"})) {
+          const row = document.createElement("p");
+          row.textContent = label + " — " + entry.responses[key];
+          section.append(row);
+        }
+        paper.append(section);
+      }
+      paper.className = "portfolio-print-copy";
+      const style = document.createElement("style");
+      style.textContent = ".portfolio-print-copy{display:none}@page{size:A4;margin:16mm}@media print{body>*:not(.portfolio-print-copy){display:none!important}body>.portfolio-print-copy{display:block!important;color:#193d35;background:white;font:11pt/1.45 Arial,sans-serif;overflow-wrap:anywhere}.portfolio-print-copy h1{font-size:22pt;margin:0 0 7mm}.portfolio-print-copy h2{font-size:14pt;margin:0 0 3mm;break-after:avoid}.portfolio-print-copy p{margin:0 0 3mm}.portfolio-print-entry{break-inside:avoid;margin-bottom:7mm}body{height:auto!important;overflow:visible!important;margin:0!important;background:white!important;background-image:none!important}}";
+      document.head.append(style);
+      document.body.append(paper);
+      window.addEventListener("afterprint", () => { paper.remove(); style.remove(); }, {once:true});
+      window.print();
+    };
+    if (marketPortfolioDemo) {
+      document.title = "Sunday Markets / Initiative portfolio - demonstration";
+      root.querySelector(".kicker").textContent = "Sunday Markets / Initiative";
+      root.querySelector("h1").textContent = "Initiative portfolio";
+      root.querySelector("#capabilities > p").textContent = "Begin with Initiative in the Market. Optional secondary capability and sub-skill tags can describe the same experience; the chronological view lists each reflection once.";
+      const back = root.querySelector('a[href="../playable-3d/"]');
+      back.href = publicInitiativeApi.getPublicMarketReturnUrl(location.href);
+      back.textContent = "Return to Markets";
+      back.addEventListener("click", event => {
+        let resumed = publicInitiativeApi.resumeOpenMarket(window);
+        // The renderer-free Market has no 3D navigation callback. Resume only
+        // its validated same-origin Market tab, without starting a new run.
+        if (!resumed) try {
+          const opener = window.opener;
+          const target = opener && !opener.closed ? new URL(opener.location.href) : null;
+          const market = new URL("../playable-3d/", location.href);
+          if (target && target.origin === market.origin && target.pathname === market.pathname && target.searchParams.get("experience") === "sunday-markets" && target.searchParams.get("marketAccess") === "2d") { opener.focus(); resumed = true; }
+        } catch (_) {}
+        if (resumed) { event.preventDefault(); window.close(); }
+      });
+    }
     renderFictionalPortfolioDemo();
   } catch (_) { document.getElementById('student-skill-grid').textContent = 'The fictional demonstration could not load. No student records were opened. Reload to try again.'; }
 }

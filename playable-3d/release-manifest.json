@@ -1,8 +1,8 @@
 {
-  "release": "archon-integrated-check-20261119",
+  "release": "night-markets-portfolio-20261120",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "e84667e04d8f2d4842b54b0f19c5c554a6954ee0",
-  "scope": "Unpublished Archon integration check on verified Markets-first baseline. Preserve all Markets manifest entries and source, exclude Portfolio and separate diagonal/bridge request; no service/auth/storage changes.",
+  "baseCommit": "ff33d1b1dc9dd3b6662cf3a6b36f993c17061317",
+  "scope": "Fictional Night Markets Portfolio: Initiative-first entry/view and optional multi-capability tags on one reflection; separate four-example teacher demo and PDF. Preserve released Archon and Markets loading/recovery; no authentic accounts, learner records, Skillsville or backend changes.",
   "files": [
     {
       "path": "../Assets/EST Preparation/communication-portrait.mp4",
@@ -106,7 +106,7 @@
     },
     {
       "path": "../dashboards/dashboard.js",
-      "sha256": "c79852962d751a94b30c78597f2201d186f4664a3307e2a8d0b8abbbb2834247"
+      "sha256": "f70385fe9c31d36c43ec2c289a98c8cd6744306e09d0e2f934da658def4e69ef"
     },
     {
       "path": "../dashboards/initiative-portfolio.css",
@@ -226,11 +226,15 @@
     },
     {
       "path": "../dashboards/student.html",
-      "sha256": "c898a3aa968c78ea9bde863e1df96eec0f48888ec10e0eee1894df24af93d9fe"
+      "sha256": "2934be29983ba5f8142099fc9d93694b3ba7632a3430b84eb5ee5473809968e8"
     },
     {
       "path": "../dashboards/teacher-game-theme.css",
       "sha256": "a470bc6e757529cb38d9ebe85f112d758ff108b8fc3505dd5aeb55a1efc9c98d"
+    },
+    {
+      "path": "../dashboards/teacher-portfolio-demo.html",
+      "sha256": "fc46ab9fdbb77509cc0efbe9843642f430fe890f5aaf662ff97a4ecbcf4f1ac2"
     },
     {
       "path": "../dashboards/teacher.html",
@@ -1442,7 +1446,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "380009cec8c7cd667eca1efe9a2cb269b55052e7e23f4e6f92e086f70a87f07c"
+      "sha256": "528060ed34cfff6626c0d3d5864749bf6cb64f70c3573f55a8573b8657baf11e"
     },
     {
       "path": "initiative-field-guide.html",

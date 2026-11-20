@@ -730,5 +730,22 @@
       "playable-3d/market-learning-routes.mjs": "100644:8f8ffd3c3f836665169bb5a07d11f27d9d287107",
       "playable-3d/release-manifest.json": "100644:7b91cddabedcd8d273c054d8d9d5730efd1a4219"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261120-174",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "cfa054b55d770d2150897fec9e4912389efd81d8e38b7be783bccadefb3a5249",
+    "recordSha256": "70cdad64918e053afc29895a26f64716c5a9226863770b7c2115ba7921a74afa",
+    "reviewedAt": "2026-11-20T01:51:52.612Z",
+    "reviewEvidence": "Exact7index/working/frozen mode/blob/SHA review on ff33d1b;6focused desktop/phone cases,26focused units,441standard units,443asset111import checks. Broad browser13pass7fail277not-run retained. Supporting Blueprint 1383d37fa54d659f016ae09da0380d3079566412 verified5servedfiles and actual sanitized public reader;recordSHA 70cdad64918e053afc29895a26f64716c5a9226863770b7c2115ba7921a74afa;docSHA cc4a68ee0c86f2104ffb9a8fb1c9d37f07cf44090133c55e2ab495cc5d5f2f99. No real learner/authenticated saving/Safari/physical/classroom acceptance.",
+    "files": {
+      "dashboards/dashboard.js": "100644:312233b879e9c17618f756246ccb2244b162ddca",
+      "dashboards/student.html": "100644:2c5c5583eae517936d7a650bf85398c90409f601",
+      "playable-3d/index.html": "100644:b9ab48c1e060b802210c7f86e2d166e42be81007",
+      "dashboards/teacher-portfolio-demo.html": "100644:28b121e1814038c34a0bbb902c8a2d9f1b956511",
+      "tests/unit/market-portfolio-demo.test.mjs": "100644:7c120e6c6c41c4358da4713eb151395ab695c066",
+      "tests/e2e/market-portfolio-demo.spec.js": "100644:ef070b255eb6ee3edd2c1eb8a37f04b92e9725cf",
+      "playable-3d/release-manifest.json": "100644:96bc6c442ca65eb04c772c67d9d7452f2b7e0115"
+    }
   }
 ]

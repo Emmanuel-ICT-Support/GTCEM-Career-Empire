@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en-AU">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teacher portfolio demo | Career Empire</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5eddf;color:#302d25;font:1rem/1.55 system-ui,sans-serif}main{max-width:58rem;margin:auto;padding:clamp(1rem,5vw,3rem)}header,article{background:#fffbf3;border:1px solid #d3c5a9;border-radius:1rem;padding:clamp(1rem,3vw,2rem);margin-bottom:1rem}h1,h2{font-family:Georgia,serif;line-height:1.15;color:#24473c}h1{font-size:clamp(2rem,6vw,3.5rem);margin:.4rem 0}summary,select{cursor:pointer}select{font:inherit;padding:.5rem;background:#fffaf0;border-radius:.4rem}summary,dt{font-weight:650}dt{margin-top:.8rem}dd{margin:0}a{color:#255341}label{display:block;margin:1rem 0}.meta{color:#615742}
+</style>
+<main><header><span>Night Markets · Teacher view</span><h1>Initiative portfolio review</h1><p>Demo with sample data only. Start with Initiative from the Market. Each fictional reflection can also show other capabilities across school, work, community and gameplay.</p><a href="./student.html?portfolio=initiative&amp;context=gameplay&amp;from=markets&amp;publicInitiative=1">Open student portfolio demo</a></header>
+<h2>Sample learner · Alex</h2><label>Capability <select id="skill"></select></label><p id="status" role="status">Loading examples…</p><section id="entries" aria-label="Sample reflections"></section></main>
+<script type="module">
+import {createFictionalPortfolioEntries} from './portfolio-demo.mjs';
+const select = document.querySelector('#skill');
+const status = document.querySelector('#status');
+function element(tag, text) {
+  const node = document.createElement(tag);
+  node.textContent = text;
+  return node;
+}
+try {
+  const response = await fetch('../data/employability-skills.json');
+  if (!response.ok) throw Error();
+  const {categories} = await response.json();
+  const examples = createFictionalPortfolioEntries(categories);
+  const ordered = [...categories.filter(category => category.id === "initiative"), ...categories.filter(category => category.id !== "initiative")];
+  for (const category of ordered) select.add(new Option(category.title, category.id));
+  select.add(new Option("All capabilities", ""));
+  select.value = "initiative";
+  function render() {
+    const match = examples.filter(entry => !select.value || entry.skillIds.includes(select.value));
+    status.textContent = match.length + ' sample reflections';
+    const list = document.querySelector('#entries');
+    list.replaceChildren();
+    for (const entry of match) {
+      const card = document.createElement('article');
+      const meta = element('p', entry.experienceDate + ' · ' + entry.contextId + ' · ' + entry.skillTitles.join(', '));
+      meta.className = 'meta';
+      const detail = document.createElement('details');
+      detail.append(element('summary', 'Read reflection'));
+      const rows = document.createElement('dl');
+      for (const [key,label] of Object.entries({situation:'Situation',task:'Task',actions:'Actions',results:'Results',nextSteps:'Goal and review'})) {
+        rows.append(element('dt',label),element('dd',entry.responses[key]));
+      }
+      detail.append(rows);
+      card.append(element('h2',entry.responses.situation),meta,detail);
+      list.append(card);
+    }
+  }
+  select.addEventListener('change',render);
+  render();
+} catch {
+  status.textContent = 'Sample reflections could not load. Refresh to try again.';
+}
+</script></html>
