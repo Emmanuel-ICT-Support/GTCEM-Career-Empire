@@ -1,53 +1,12 @@
 <!doctype html>
-<html lang="en-AU">
+<html lang="en-AU"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
 <title>Teacher portfolio demo | Career Empire</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#f5eddf;color:#302d25;font:1rem/1.55 system-ui,sans-serif}main{max-width:58rem;margin:auto;padding:clamp(1rem,5vw,3rem)}header,article{background:#fffbf3;border:1px solid #d3c5a9;border-radius:1rem;padding:clamp(1rem,3vw,2rem);margin-bottom:1rem}h1,h2{font-family:Georgia,serif;line-height:1.15;color:#24473c}h1{font-size:clamp(2rem,6vw,3.5rem);margin:.4rem 0}summary,select{cursor:pointer}select{font:inherit;padding:.5rem;background:#fffaf0;border-radius:.4rem}summary,dt{font-weight:650}dt{margin-top:.8rem}dd{margin:0}a{color:#255341}label{display:block;margin:1rem 0}.meta{color:#615742}
-</style>
-<main><header><span>Night Markets · Teacher view</span><h1>Initiative portfolio review</h1><p>Demo with sample data only. Start with Initiative from the Market. Each fictional reflection can also show other capabilities across school, work, community and gameplay.</p><a href="./student.html?portfolio=initiative&amp;context=gameplay&amp;from=markets&amp;publicInitiative=1">Open student portfolio demo</a></header>
-<h2>Sample learner · Alex</h2><label>Capability <select id="skill"></select></label><p id="status" role="status">Loading examples…</p><section id="entries" aria-label="Sample reflections"></section></main>
-<script type="module">
-import {createFictionalPortfolioEntries} from './portfolio-demo.mjs';
-const select = document.querySelector('#skill');
-const status = document.querySelector('#status');
-function element(tag, text) {
-  const node = document.createElement(tag);
-  node.textContent = text;
-  return node;
-}
-try {
-  const response = await fetch('../data/employability-skills.json');
-  if (!response.ok) throw Error();
-  const {categories} = await response.json();
-  const examples = createFictionalPortfolioEntries(categories);
-  const ordered = [...categories.filter(category => category.id === "initiative"), ...categories.filter(category => category.id !== "initiative")];
-  for (const category of ordered) select.add(new Option(category.title, category.id));
-  select.add(new Option("All capabilities", ""));
-  select.value = "initiative";
-  function render() {
-    const match = examples.filter(entry => !select.value || entry.skillIds.includes(select.value));
-    status.textContent = match.length + ' sample reflections';
-    const list = document.querySelector('#entries');
-    list.replaceChildren();
-    for (const entry of match) {
-      const card = document.createElement('article');
-      const meta = element('p', entry.experienceDate + ' · ' + entry.contextId + ' · ' + entry.skillTitles.join(', '));
-      meta.className = 'meta';
-      const detail = document.createElement('details');
-      detail.append(element('summary', 'Read reflection'));
-      const rows = document.createElement('dl');
-      for (const [key,label] of Object.entries({situation:'Situation',task:'Task',actions:'Actions',results:'Results',nextSteps:'Goal and review'})) {
-        rows.append(element('dt',label),element('dd',entry.responses[key]));
-      }
-      detail.append(rows);
-      card.append(element('h2',entry.responses.situation),meta,detail);
-      list.append(card);
-    }
-  }
-  select.addEventListener('change',render);
-  render();
-} catch {
-  status.textContent = 'Sample reflections could not load. Refresh to try again.';
-}
-</script></html>
+<link rel="stylesheet" href="./dashboard.css?v=capability-entry-20261112">
+<link rel="stylesheet" href="./teacher-game-theme.css?v=capability-entry-20261112">
+<link rel="stylesheet" href="./teacher-capability-matrix.css?v=matrix-reorder-20261120">
+</head><body class="teacher-dashboard-page teacher-capability-demo-page"><main class="teacher-capability-demo-main">
+<header class="panel"><p>Night Markets · Teacher view</p><h1>Capability Evidence &amp; Portfolio View</h1><p>Fictional demonstration only — no learner data, login or submission. Four fictional learners and eight synthetic reflections show the same Students × Capabilities matrix as the teacher dashboard.</p><p>A reflection appears in each capability it demonstrates, and counts once overall. Drag a capability heading or use its left/right buttons. Only this demo’s column order can be remembered on this browser.</p><a href="./student.html?portfolio=initiative&amp;context=gameplay&amp;from=markets&amp;publicInitiative=1">Open student portfolio demo</a> · <a href="../playable-3d/?view=market">Return to Markets</a></header>
+<details class="panel dashboard-dropdown teacher-capability-evidence-panel" open><summary class="section-title dashboard-dropdown-summary"><div><h2>Capability Evidence &amp; Portfolio View</h2><p>Students by capability, with scrollable evidence for each cell</p></div><span class="dashboard-dropdown-action"><span class="dashboard-action-open">Open</span><span class="dashboard-action-close">Close</span></span></summary><div class="dashboard-dropdown-content"><div id="teacher-capability-portfolio" class="capability-portfolio-grid"></div></div></details>
+</main><script src="./teacher-capability-matrix.js?v=matrix-reorder-20261120"></script><script src="./teacher-capability-demo.js?v=matrix-reorder-20261120"></script></body></html>

@@ -3757,111 +3757,15 @@ function renderTeacherCapabilityBoardEntry(entry) {
   `;
 }
 
-function studentMatchesCapabilityEntry(student, entry) {
-  return entry.studentId
-    ? entry.studentId === student.id
-    : entry.studentName === getStudentDisplayName(student);
-}
-
-function renderCapabilityPortfolioCell(entries = [], category) {
-  const categoryEntries = entries.filter(entry => entry.capabilityIds.includes(category.id));
-  if (!categoryEntries.length) {
-    return `
-      <div class="portfolio-evidence-cell portfolio-evidence-cell--empty">
-        <strong>No entries yet</strong>
-        <span>No STAR reflections tagged to this capability yet.</span>
-      </div>
-    `;
-  }
-
-  return `
-    <div class="portfolio-evidence-cell">
-      <div class="portfolio-evidence-cell-summary">
-        <strong>${categoryEntries.length} entr${categoryEntries.length === 1 ? "y" : "ies"}</strong>
-        <span>${escapeHtml(getCapabilityProgressionLabel(categoryEntries))}</span>
-      </div>
-      <div class="portfolio-evidence-entry-list" tabindex="0" role="region" aria-label="Evidence entries for ${escapeHtml(category.title)}">
-        ${categoryEntries.map(entry => `
-          <article class="portfolio-evidence-entry">
-            <div>
-              <strong>${escapeHtml(entry.taskLabel || "Journal evidence")}</strong>
-              <small>${escapeHtml(entry.moduleLabel)} - ${escapeHtml(formatExperienceDate(entry.experienceDate || entry.createdAt))}${typeof entry.score === "number" ? ` - ${entry.score}%` : ""}</small>
-            </div>
-            <p>${escapeHtml(entry.response)}</p>
-            <div class="portfolio-evidence-tags">
-              <span>${entry.wordCount} words</span>
-              <span>quality ${entry.quality}/12</span>
-              ${(entry.markerLabels || []).slice(0, 2).map(label => `<span>${escapeHtml(label)}</span>`).join("")}
-            </div>
-          </article>
-        `).join("")}
-      </div>
-    </div>
-  `;
-}
-
 function renderTeacherCapabilityPortfolio({ skillCategories = [], parsedEvidenceRows = [], reviewRows = [], students = [], selectedStudent = null, evidenceEntries = null }) {
   const container = document.getElementById("teacher-capability-portfolio");
   if (!container) return;
-
   const portfolioEvidenceEntries = Array.isArray(evidenceEntries)
     ? evidenceEntries
     : buildCapabilityEvidenceEntries(parsedEvidenceRows, reviewRows, skillCategories);
-  const studentScope = selectedStudent ? [selectedStudent] : students;
-  const scopedStudentIds = new Set(studentScope.map(student => student.id).filter(Boolean));
-  const scopedEntries = selectedStudent
-    ? portfolioEvidenceEntries.filter(entry => entry.studentId === selectedStudent.id)
-    : portfolioEvidenceEntries.filter(entry => !scopedStudentIds.size || scopedStudentIds.has(entry.studentId));
-
-  if (!studentScope.length) {
-    container.innerHTML = `
-      <div class="timeline-item">
-        <strong>No students in this focus yet</strong>
-        <p>Change the class or student status filters to choose which students appear in this portfolio matrix.</p>
-      </div>
-    `;
-    return;
-  }
-
-  const portfolioStudents = studentScope.map(student => ({
-    student,
-    entries: scopedEntries.filter(entry => studentMatchesCapabilityEntry(student, entry))
-  }));
-
-  container.innerHTML = `
-    <section class="capability-breakdown-panel capability-matrix-panel">
-      <div class="section-title">
-        <h3>Students x Capabilities</h3>
-        <p>${scopedEntries.length} STAR reflection${scopedEntries.length === 1 ? "" : "s"} in this focus. Scroll inside a cell to review every entry for that student and capability.</p>
-      </div>
-      <div class="teacher-matrix-scroll capability-matrix-scroll" role="region" aria-label="Capability portfolio matrix" tabindex="0">
-        <table class="teacher-matrix capability-evidence-matrix">
-          <thead>
-            <tr>
-              <th scope="col" class="teacher-matrix-student-col">Student</th>
-              ${skillCategories.map(category => `
-                <th scope="col">
-                  <span>${category.logoPath ? `<img loading="lazy" decoding="async" class="capability-matrix-logo" src="${escapeHtml(category.logoPath)}" alt="">` : ""}${escapeHtml(category.title)}</span>
-                  <small>scroll evidence entries</small>
-                </th>
-              `).join("")}
-            </tr>
-          </thead>
-          <tbody>
-            ${portfolioStudents.map(row => `
-              <tr>
-                <th scope="row" class="teacher-matrix-student-col">
-                  <strong>${escapeHtml(getStudentDisplayName(row.student))}</strong>
-                  <small>${row.entries.length} STAR reflection${row.entries.length === 1 ? "" : "s"}${row.student.last_login_at ? ` - last login ${escapeHtml(formatDateTime(row.student.last_login_at))}` : ""}</small>
-                </th>
-                ${skillCategories.map(category => `<td>${renderCapabilityPortfolioCell(row.entries, category)}</td>`).join("")}
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>
-    </section>
-  `;
+  window.TeacherCapabilityMatrix.mount(container, {skillCategories, students, selectedStudent, evidenceEntries:portfolioEvidenceEntries}, {
+    helpers:{escapeHtml, getStudentDisplayName, getCapabilityProgressionLabel, formatExperienceDate, formatDateTime}
+  });
 }
 
 function getSkillCategoryById(skillsData, skillId) {

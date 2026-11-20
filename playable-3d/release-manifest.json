@@ -1,8 +1,8 @@
 {
-  "release": "archon-close-layout-20261120",
+  "release": "teacher-capability-matrix-20261120",
   "gameUrl": "/playable-3d/",
-  "baseCommit": "13080c85ee30712001199a03122ece196754e482",
-  "scope": "Archon-only closer shared camera and compact accessible camera rail; preserve standalone art view, restaurant teams/upgrades, match rules, Markets recovery and released Portfolio. No service, auth or learner-record changes.",
+  "baseCommit": "08da8f9d1e9692c41b0a87cb3f3536d04f1cebc0",
+  "scope": "Shared teacher Students x Capabilities matrix and no-login static fictional teacher demo with draggable columns and arrow/reset alternatives. Student Portfolio, Archon, Markets recovery, auth/backend and real data unchanged.",
   "files": [
     {
       "path": "../Assets/EST Preparation/communication-portrait.mp4",
@@ -106,7 +106,7 @@
     },
     {
       "path": "../dashboards/dashboard.js",
-      "sha256": "f70385fe9c31d36c43ec2c289a98c8cd6744306e09d0e2f934da658def4e69ef"
+      "sha256": "6702fe92e4ba7c1a52703fd723155ab2b24c8f85dada1cd32d8538a5a6ae5b03"
     },
     {
       "path": "../dashboards/initiative-portfolio.css",
@@ -234,11 +234,11 @@
     },
     {
       "path": "../dashboards/teacher-portfolio-demo.html",
-      "sha256": "fc46ab9fdbb77509cc0efbe9843642f430fe890f5aaf662ff97a4ecbcf4f1ac2"
+      "sha256": "c3e3938562ee3ba43112c74d6fd5fd17d4e5bb698a5c3334688a1dcc1454aff9"
     },
     {
       "path": "../dashboards/teacher.html",
-      "sha256": "761bbb5e09f023c80958e958f9bf1a42e8425826f7a98a4223a5fcb0adee3b75"
+      "sha256": "1f118c80ace834661aedd97e637421be1b0714a2bd07fd56a8fb7ff92feb704c"
     },
     {
       "path": "../data/employability-skills.json",
@@ -1775,6 +1775,18 @@
     {
       "path": "world.js",
       "sha256": "33bd0f2fe591f519119d7cc0f4244fd0d1e27458685c421ad53068e05db7b81a"
+    },
+    {
+      "path": "../dashboards/teacher-capability-matrix.js",
+      "sha256": "df93d5f2a3a76a4fc09f7c464a2b90c2dc331fde0d82dbe10e686566c4f1ec5f"
+    },
+    {
+      "path": "../dashboards/teacher-capability-matrix.css",
+      "sha256": "39f6f0d9a80b2229be42cce46e727e13f4e989b965093b3c969017736064fa41"
+    },
+    {
+      "path": "../dashboards/teacher-capability-demo.js",
+      "sha256": "6390496f20f611846fa323290609f189f97f689877a258a1d69eeb4aef884a4d"
     }
   ],
   "estVideo": {

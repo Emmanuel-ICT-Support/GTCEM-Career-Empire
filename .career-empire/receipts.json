@@ -764,5 +764,24 @@
       "playable-3d/release-manifest.json": "100644:5ed5dea7cbd89cb37dd46a468d1a785b08c4caee",
       "tests/unit/archon-camera.test.mjs": "100644:b71f9f6509a9939073162283493e7873864a06b7"
     }
+  },
+  {
+    "changeId": "CE-CHANGE-20261120-177",
+    "project": "game-initiative-release-20261111",
+    "integrationSha256": "c3770238e9229dfcaef70c3df6fbd9dc8af20bdcb442536cda7dba7e8cf7b4d7",
+    "recordSha256": "485735fc9377af2b5993754095fabf8dcd382cfd623efcfbb60ce8c58e96eb06",
+    "reviewedAt": "2026-11-20T02:57:35.771Z",
+    "reviewEvidence": "Exact9index+working+frozen modes/blobs/SHA independently reviewed on08da8f9; four-viewports matrix/native drag/edge-scroll/touch/button/keyboard/sticky/nested-scroll/isolation and synthetic auth wrapper checks pass. Source+446units98files/coverage and446assethashes111imports pass. Final6student Market/PDF/return cases pass; initial5pass1downloadfailure retained, unchanged code passes6alone. Broad1inheritedAdminfailure1interrupted295notrun retained. Supporting Blueprint ace5448a4ec91244312ec0b13efe53ac0240858b verified5servedfiles and actual reader;recordSHA 485735fc9377af2b5993754095fabf8dcd382cfd623efcfbb60ce8c58e96eb06;docSHA 0e051aa1107e332d12648ff3e244dbe9535a6b392b6eac50300fd69b1c8e6f52;manifestSHA 2d708bbdb7bddd69968795017813d868825c9b6b45f13066a8fa6707d665782f. No allCIgreen/realaccounts/backend/physical/classroom/real authenticated saving/security-certification acceptance.",
+    "files": {
+      "dashboards/dashboard.js": "100644:73b4f92c7a92a6c97bea3fe860a6517ed976e424",
+      "dashboards/teacher.html": "100644:8a12bb39b853a448a2011483130d69f70cc7354e",
+      "dashboards/teacher-portfolio-demo.html": "100644:32bd380c0f5fd86054c68a0ffddd6400cbe8ae10",
+      "dashboards/teacher-capability-matrix.js": "100644:3dc767a633b7560187e07f9bfd9b9595a6d905e0",
+      "dashboards/teacher-capability-matrix.css": "100644:8a38a7a722fd5d214683726a867c8e7bc3099dd6",
+      "dashboards/teacher-capability-demo.js": "100644:e95d1f75dbdfc8910e3eaa8fd52bb3ce36270795",
+      "tests/unit/teacher-capability-matrix.test.mjs": "100644:452166c5bea6004ef19673c5f6a8cfdcf1bab7ef",
+      "tests/e2e/market-portfolio-demo.spec.js": "100644:d719125d660ec843374c1c5709e4a030aff01a40",
+      "playable-3d/release-manifest.json": "100644:606214797d5ad718f289d32eac48cbdd37159c2f"
+    }
   }
 ]
